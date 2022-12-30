@@ -1,0 +1,210 @@
+.w_full {
+  width: 100vw;
+}
+
+.h_full {
+  height: 100vh;
+}
+
+.w_100 {
+  width: 100%;
+}
+
+.h_100 {
+  height: 100%;
+}
+
+.h_90 {
+  height: 90%;
+}
+.h_85 {
+  height: 85%;
+}
+.h_80 {
+  height: 80%;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex_wrap {
+  flex-wrap: wrap;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.flex_col {
+  display: flex;
+  flex-direction: column;
+}
+
+.center {
+  align-items: center;
+  justify-content: center;
+}
+
+.cross_center {
+  align-items: center;
+}
+
+.cross_end {
+  align-items: flex-end;
+}
+
+.main_center {
+  justify-content: center;
+}
+
+.main_end {
+  justify-content: flex-end;
+}
+
+.main_around {
+  justify-content: space-around;
+}
+.main_between {
+  justify-content: space-between;
+}
+
+.border_box {
+  box-sizing: border-box;
+}
+
+.pd_1 {
+  padding: 10px;
+}
+
+.pd_2 {
+  padding: 20px;
+}
+
+.pl_1 {
+  padding-left: 10px;
+}
+
+.pl_2 {
+  padding-left: 20px;
+}
+
+.pr_0 {
+  padding-right: 0;
+}
+
+.pr_1 {
+  padding-right: 10px;
+}
+
+.pr_2 {
+  padding-right: 20px;
+}
+
+.pt_0 {
+  padding-top: 0;
+}
+
+.pt_1 {
+  padding-top: 10px;
+}
+
+.pt_2 {
+  padding-top: 20px;
+}
+
+.pb_0 {
+  padding-bottom: 0;
+}
+
+.pb_1 {
+  padding-bottom: 10px;
+}
+
+.pb_2 {
+  padding-bottom: 20px;
+}
+
+.mg_1 {
+  margin: 10px;
+}
+
+.mg_2 {
+  margin: 20px;
+}
+
+.ml_1 {
+  margin-left: 10px;
+}
+
+.ml_2 {
+  margin-left: 20px;
+}
+
+.mr_1 {
+  margin-right: 10px;
+}
+
+.mr_2 {
+  margin-right: 20px;
+}
+
+.mt_1 {
+  margin-top: 10px;
+}
+
+.mt_2 {
+  margin-top: 20px;
+}
+
+.mb_1 {
+  margin-bottom: 10px;
+}
+
+.mb_2 {
+  margin-bottom: 20px;
+}
+
+.pos_re {
+  position: relative;
+}
+
+.pos_center_x {
+  position: absolute !important;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.pos_center_y {
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.pos_center {
+  position: absolute !important;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pos_sticky {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.over_hide {
+  overflow: hidden;
+}
+
+.over_scroll_x {
+  overflow-x: auto;
+}
+
+.over_scroll_y {
+  overflow-y: auto !important;
+}
+
+.tc {
+  text-align: center;
+}

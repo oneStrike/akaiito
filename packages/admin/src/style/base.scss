@@ -1,0 +1,110 @@
+@use './variable.scss' as *;
+
+body {
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Arial, sans-serif;
+}
+
+.primary_color {
+  color: $primary_color !important;
+}
+.primary_color_danger {
+  color: $primary_color_danger !important;
+}
+
+.primary_bg {
+  background: $primary_color;
+}
+
+.fs12 {
+  font-size: var(--el-font-size-extra-small);
+}
+.fs14 {
+  font-size: var(--el-font-size-base);
+}
+.fs16 {
+  font-size: var(--el-font-size-medium);
+}
+.fs18 {
+  font-size: var(--el-font-size-large);
+}
+.fs20 {
+  font-size: var(--el-font-size-extra-large);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.cursor_move {
+  cursor: move;
+}
+
+.fw_b {
+  font-weight: bold;
+}
+
+.fw_n {
+  font-weight: normal;
+}
+
+.cursor_pointer {
+  cursor: pointer;
+}
+
+.tt_w {
+  transition: width 0.3s linear;
+}
+
+.tt_h {
+  transition: height 0.3s linear;
+}
+
+.tt_tf {
+  transition: transform 0.3s linear;
+}
+.tt_all {
+  transition: all 0.3s linear;
+}
+
+.border_radius_base {
+  border-radius: var(--el-border-radius-base);
+}
+
+.border_dashed {
+  border: 1px dashed $border_color;
+}
+
+.border_solid {
+  border: 1px solid $border_color;
+}
+
+.border_left {
+  border-left: 1px solid $border_color;
+}
+
+.border_right {
+  border-right: 1px solid $border_color;
+}
+
+.border_top {
+  border-top: 1px solid $border_color;
+}
+
+.border_bottom {
+  border-bottom: 1px solid $border_color;
+}
+
+.bg_box {
+  background: $primary_bg_color;
+}
+
+.bg_main {
+  background: $primary_fill_color;
+}
+
+.text_cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

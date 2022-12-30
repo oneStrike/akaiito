@@ -1,0 +1,4 @@
+whitelist:
+  - '/admin/user/login'
+  - '/admin/user/create'
+  - 'app'

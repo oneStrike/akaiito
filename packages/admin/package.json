@@ -7,7 +7,7 @@
 		"clean:cache": "rimraf node_modules/.cache/ && rimraf node_modules/.vite",
 		"preview": "vite preview --port 5050",
 		"typecheck": "vue-tsc --noEmit",
-		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .eslintignore",
 		"prettier": "prettier --write \"(src|demo)/**/*.(vue|js)\""
 	},
 	"dependencies": {

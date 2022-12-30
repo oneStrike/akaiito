@@ -1,0 +1,14 @@
+{
+  "extends": ["./node_modules/mwts/", "eslint-config-prettier"],
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "test",
+    "jest.config.js",
+    "typings",
+    "*.ipdb"
+  ],
+  "env": {
+    "jest": true
+  }
+}
