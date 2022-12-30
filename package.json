@@ -5,6 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "pnpm -C ./packages/admin lint & pnpm -C ./packages/server lint & pnpm -C ./packages/client lint",
 		"prepare": "husky install",
 		"preinstall": "npx only-allow pnpm"
 	},
@@ -30,7 +31,8 @@
 	},
 	"lint-staged": {
 		"*.{js,vue,ts,jsx,tsx}": [
-			"prettier --write"
+			"prettier --write",
+			"pnpm run lint"
 		],
 		"*.{html,css,less,scss,md}": [
 			"prettier --write"
