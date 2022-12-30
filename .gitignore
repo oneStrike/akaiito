@@ -10,5 +10,8 @@ node_modules
 
 !/packages/client/src/typings/components.d.ts
 
-
 !/packages/typings/src/httpTypes/
+
+!/packages/server/logs/
+
+!/packages/server/public/
