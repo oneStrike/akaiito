@@ -1,0 +1,15 @@
+{
+  "keep": {
+    "days": true,
+    "amount": 31
+  },
+  "auditLog": "D:\\Akaiito\\packages\\server\\logs\\.audit\\.7c14516abb1009cffa14f3f12bad6fef184b61ed-audit.json",
+  "files": [
+    {
+      "date": 1672366776129,
+      "name": "D:\\Akaiito\\packages\\server\\logs\\midway-core.log.2022-12-30",
+      "hash": "7ce289913c3924586f20aab3135f33ed"
+    }
+  ],
+  "hashType": "md5"
+}

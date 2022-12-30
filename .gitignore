@@ -2,8 +2,6 @@
 .vscode
 .history
 node_modules
-log
-logs
 !/packages/admin/src/typings/auto-import.d.ts
 
 !/packages/admin/src/typings/components.d.ts
@@ -13,3 +11,4 @@ logs
 !/packages/client/src/typings/components.d.ts
 
 
+!/packages/typings/src/httpTypes/

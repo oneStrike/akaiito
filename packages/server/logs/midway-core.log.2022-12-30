@@ -1,0 +1,9 @@
+2022-12-30 10:19:36,513 INFO 18852 [midway:sequelize] connecting and start
+2022-12-30 10:20:06,291 INFO 18852 [midway:static] starting static serve /public -> D:\Akaiito\packages\server\public
+2022-12-30 10:20:53,032 INFO 19484 [midway:sequelize] connecting and start
+2022-12-30 10:24:40,841 INFO 8060 [midway:sequelize] connecting and start
+2022-12-30 10:25:05,844 INFO 16316 [midway:sequelize] connecting and start
+2022-12-30 10:25:39,515 INFO 12600 [midway:sequelize] connecting and start
+2022-12-30 10:37:59,178 INFO 2512 [midway:sequelize] connecting and start
+2022-12-30 10:38:26,092 INFO 2512 [midway:static] starting static serve /public -> D:\Akaiito\packages\server\public
+2022-12-30 10:45:48,223 INFO 20080 [midway:sequelize] connecting and start
