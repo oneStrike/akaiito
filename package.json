@@ -8,8 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": " concurrently \"pnpm -C ./packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
     "prepare": "husky install",
-    "preinstall": "npx only-allow pnpm"
-  },
+    "preinstall": "npx only-allow pnpm",
+		"clean": "rimraf node_modules **/*/node_modules"
+	},
   "keywords": [],
   "author": "",
   "license": "ISC",

@@ -6,9 +6,13 @@ node_modules
 
 !/packages/admin/src/typings/components.d.ts
 
+!/packages/admin/.eslintrc-auto-import.json
+
 !/packages/client/src/typings/auto-import.d.ts
 
 !/packages/client/src/typings/components.d.ts
+
+!/packages/client/.eslintrc-auto-import.json
 
 !/packages/typings/src/httpTypes/
 

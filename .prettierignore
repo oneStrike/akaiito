@@ -9,4 +9,4 @@
 
 /public/*
 
-/packages/typings/src/httpTypes/
+!/packages/typings/src/httpTypes/
