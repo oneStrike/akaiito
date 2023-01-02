@@ -1,5 +1,5 @@
 export enum WhiteListEnum {
   LOGIN = '/admin/user/login',
-  CAPTCHA = '/admin/open/captcha',
+  CAPTCHA = '/open/captcha/getCaptcha',
   REFRESH_TOKEN = '/admin/user/refreshToken'
 }

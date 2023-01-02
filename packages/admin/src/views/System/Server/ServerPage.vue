@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { getSystemInfo } from '@/api/common/common'
-import type { SystemInfoResponse } from '@/typings/httpTypes/system/info'
 import dayjs from 'dayjs'
-
+import type { AdminSystemInfoRes } from '~@/apiTypes/system'
 const loading = ref(false)
 const timer = ref()
-const serverInfo = ref<SystemInfoResponse>()
+const serverInfo = ref<AdminSystemInfoRes>()
 const renderList = reactive([
   {
     title: '基本信息',

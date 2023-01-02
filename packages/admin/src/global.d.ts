@@ -4,14 +4,14 @@ import dayjs from 'dayjs'
 import type { Directive } from 'vue'
 import debounce from '@/directives/debounce'
 import type { IBinding } from '@/directives/debounce'
-import type { TIconName } from '@/typings/components/svgicon'
-import type { SystemUploadResponse } from '@/typings/httpTypes/system/upload'
+import type { TIconName } from '~@/svgicon'
+import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
 
 declare module 'vue-router' {
   interface RouteMeta {
     hideParent?: boolean
     hideAllMenu?: boolean
-    hideMenuhideMenu?: boolean
+    hideMenuHideMenu?: boolean
     title?: string
     icon?: TIconName
     roles?: string[]
@@ -32,7 +32,7 @@ declare module '@vue/runtime-core' {
 
 declare module '@element-plus' {
   interface UploadUserFile {
-    response?: { data: SystemUploadResponse }
+    response?: { data: CommonUploadRes }
   }
 }
 declare module 'vuedraggable'

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
+import type { AdminGetClientPageRes } from '~@/apiTypes/clientManage'
+import type { IRibbonFormItem, IRibbonItem } from '~@/diyPage'
 import { clientPageApi } from '@/api/client/client'
 import { findFormItem } from '@/utils'
 import { options } from '@/views/App/Devise/PageDiy/modules/components/shared'
-import type { ClientClientPageResponse } from '@/typings/httpTypes/client/clientPage'
 import config from '@/config'
-import type { IRibbonFormItem, IRibbonItem } from '@/typings/components/diyPage'
 
 interface IRibbonOp {
   placeholder?: string
@@ -79,7 +79,7 @@ const showRibbonDrawer = (index?: number) => {
 }
 
 //格式化功能选择项
-const pageList = ref<ClientClientPageResponse>()
+const pageList = ref<AdminGetClientPageRes>()
 const getClientPage = async () => {
   pageList.value = pageList.value || (await clientPageApi())
   const selectPageListData: { label: string; value: number | string }[] =

@@ -105,7 +105,7 @@ const rules = reactive<FormRules>({
 })
 // //获取验证码
 const getCaptcha = async function () {
-  captchaSrc.value = await getCaptchaAPI()
+  captchaSrc.value = (await getCaptchaAPI()).data
 }
 getCaptcha()
 const login = (formEl: FormInstance | undefined) => {

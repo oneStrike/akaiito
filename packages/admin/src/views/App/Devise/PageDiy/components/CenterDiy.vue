@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
-import type { IDiyModule } from '@/typings/components/diyPage'
+import type { IDiyModule } from '~@/diyPage'
 import DiySearch from '@/views/App/Devise/PageDiy/modules/DiySearch.vue'
 import DiyNavMenu from '@/views/App/Devise/PageDiy/modules/DiyNavMenu.vue'
 import DiySwiper from '@/views/App/Devise/PageDiy/modules/DiySwiper.vue'

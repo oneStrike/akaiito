@@ -2,7 +2,7 @@
 import {
   createUserApi,
   deleteUserApi,
-  modifyUserInfoApi,
+  updateUserInfoApi,
   statusSwitchApi,
   userListApi
 } from '@/api/user/user'
@@ -10,7 +10,7 @@ import { search, column, form, pwdForm } from '@/views/System/Role/shared'
 import { Hint } from '@/utils/hint'
 import { useMessage } from '@/hooks/useMessage'
 import { useUserStore } from '@/stores'
-import type { TUserInfo } from '@/typings/user/user'
+import type { TUserInfo } from '~@/user/user'
 import { findFormItem } from '@/utils'
 import config from '@/config'
 
@@ -37,7 +37,7 @@ const handlerDialog = async (val: any) => {
   if (Array.isArray(val.avatar)) val.avatar = val.avatar[0].path
   if (userForm.value.id) {
     //编辑用户
-    await modifyUserInfoApi(val)
+    await updateUserInfoApi(val)
     useMessage('success', Hint.UPD_SUC)
   } else {
     //添加新用户

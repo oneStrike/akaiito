@@ -10,12 +10,14 @@
   ],
   "baseUrl": ".",
   "paths": {
-    "@/*": ["src/*"]
+    "@/*": ["src/*"],
+    "~@/*": ["node_modules/@akaiito/typings/src/admin/*"]
   },
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+			"~@/*": ["./node_modules/@akaiito/typings/src/admin/*"]
     },
     "types": ["element-plus/global", "vite/client"]
   },

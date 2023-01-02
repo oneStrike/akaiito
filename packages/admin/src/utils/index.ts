@@ -1,5 +1,4 @@
 import type { IFormItem } from '@/typings/components/basicForm'
-import type { SystemUploadResponse } from '@/typings/httpTypes/system/upload'
 
 export const findFormItem = <T extends IFormItem[]>(
   form: T,

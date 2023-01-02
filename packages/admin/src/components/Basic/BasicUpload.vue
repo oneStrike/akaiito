@@ -9,22 +9,22 @@ import type {
 } from 'element-plus'
 import { useUserStore } from '@/stores'
 import { useMessage } from '@/hooks/useMessage'
-import type { SystemUploadResponse } from '@/typings/httpTypes/system/upload'
+import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
 import { Hint } from '@/utils/hint'
-import type { MaterialLibraryGetMaterialResponse } from '@/typings/httpTypes/materialLibrary/getMaterial'
+import type { AdminGetMaterialRes } from '~@/apiTypes/materialLibrary'
 
-const { BASE_URL, REQUEST_PREFIX, FILE_PATH } = config
+const { FILE_PATH, UPLOAD_URL } = config
 const userStore = useUserStore()
 const uploadRef = ref()
 
 const emits = defineEmits<{
-  (event: 'success', data: SystemUploadResponse): void
+  (event: 'success', data: CommonUploadRes): void
   (event: 'error', data: UploadFile): void
   (event: 'update:uploadFile', data: any): void
-  (event: 'clear', data: SystemUploadResponse): void
+  (event: 'clear', data: CommonUploadRes): void
 }>()
 
-const uploadUrl = ref(BASE_URL + REQUEST_PREFIX + '/system/upload')
+const uploadUrl = ref(UPLOAD_URL)
 const headers: Record<string, any> = {
   Authorization: userStore.auth.token
 }
@@ -44,7 +44,7 @@ interface IUploadProps {
   iconStyle?: Record<string, any>
   isLoading?: boolean
   isClear?: boolean
-  uploadFile?: SystemUploadResponse | string[] | string
+  uploadFile?: CommonUploadRes | string[] | string
   uploadMethod?: boolean
 }
 
@@ -73,7 +73,7 @@ const extraData = computed(() => {
 const formatUploadFile = (): UploadUserFile[] => {
   if (Array.isArray(props.uploadFile)) {
     return [...props.uploadFile].map(
-      (item: string | SystemUploadResponse[number], index: number) => {
+      (item: string | CommonUploadRes[number], index: number) => {
         return {
           name: index.toString(),
           url:
@@ -101,7 +101,7 @@ watch(
 //格式化素材库数据
 const materialExitsList = computed(() => {
   return fileList.value.map((item) => {
-    const response = item.response as { data: SystemUploadResponse }
+    const response = item.response as { data: CommonUploadRes }
     if (response && Array.isArray(response.data)) {
       return response?.data[0].path
     }
@@ -145,7 +145,7 @@ const formatEmitData = (other: UploadUserFile[] = []) => {
   return fileList.value
     .concat(other)
     .map((item) => {
-      const response = item.response as { data: SystemUploadResponse }
+      const response = item.response as { data: CommonUploadRes }
       return response?.data
     })
     .flat()
@@ -267,7 +267,7 @@ const showStockLibrary = () => {
 }
 
 //素材库选择
-const materialSelection = (val: MaterialLibraryGetMaterialResponse['list']) => {
+const materialSelection = (val: AdminGetMaterialRes['list']) => {
   const formatData: UploadUserFile[] = val.map((item) => {
     return {
       name: item.materialName,

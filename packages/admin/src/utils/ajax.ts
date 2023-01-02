@@ -2,7 +2,7 @@ import type {
   errorResponse,
   IInterceptor,
   IRequestConfig
-} from '@/typings/utils/ajax'
+} from '@//typings/utils/ajax'
 import type { AxiosInstance } from 'axios'
 import type { LoadingInstance } from 'element-plus/es/components/loading/src/loading'
 

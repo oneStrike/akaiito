@@ -65,9 +65,9 @@ export const search: ISearchProps['options'] = reactive([
 export const column: TTableColumn = [
   {
     prop: 'userAccount',
-    label: '账号账号',
+    label: '账号',
     formatter: (row, column, cellValue) =>
-      cellValue ? cellValue : JSON.parse(row.params).account
+      cellValue ? cellValue : JSON.parse(row.params)?.account
   },
   {
     prop: 'username',

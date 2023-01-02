@@ -6,7 +6,7 @@ import {
   switchDiyDataApi
 } from '@/api/diy/diy'
 import type { TTableColumn } from '@/typings/components/basicTable'
-import type { DiyGetDiyResponse } from '@/typings/httpTypes/diy/getDiy'
+import type { AdminGetDiyPageRes } from '~@/apiTypes/diyClientPage'
 import { Hint } from '@/utils/hint'
 import { useMessage } from '@/hooks/useMessage'
 import { useDiyStore } from '@/stores'
@@ -42,7 +42,7 @@ const closedEdit = (isReset?: boolean) => {
 }
 
 //编辑diy数据
-const editDiy = (row: DiyGetDiyResponse[number]) => {
+const editDiy = (row: AdminGetDiyPageRes[number]) => {
   const parseDiyData = JSON.parse(row.diyData)
   diyStore.layoutData = parseDiyData.modules
   diyStore.overallPage = parseDiyData.page
@@ -51,7 +51,7 @@ const editDiy = (row: DiyGetDiyResponse[number]) => {
 }
 
 //删除diy数据
-const deleteDiyData = async (row: DiyGetDiyResponse[number]) => {
+const deleteDiyData = async (row: AdminGetDiyPageRes[number]) => {
   if (row.use === 1) {
     useMessage('warning', '您无法删除已经启用的模板')
     return
@@ -62,7 +62,7 @@ const deleteDiyData = async (row: DiyGetDiyResponse[number]) => {
 }
 
 //切换diy数据使用状态
-const switchDiy = async (row: DiyGetDiyResponse[number], use: 0 | 1) => {
+const switchDiy = async (row: AdminGetDiyPageRes[number], use: 0 | 1) => {
   if (row.use === use) return
   const params = {
     id: row.id,

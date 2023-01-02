@@ -1,4 +1,5 @@
 whitelist:
   - '/admin/user/login'
-  - '/admin/user/create'
+  - '/admin/user/createUser'
+  - '/open/captcha/getCaptcha'
   - 'app'

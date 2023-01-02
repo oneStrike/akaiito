@@ -1,7 +1,6 @@
-import type { IDivider } from '@/typings/components/diyPage'
 //通用配置
 import type { IBasicForm } from '@/typings/components/basicForm'
-import type { IBasicDiy } from '@/typings/components/diyPage'
+import type { IBasicDiy, IDivider } from '~@/diyPage'
 
 //通用配置
 export const basicConfig = (): IBasicDiy => {

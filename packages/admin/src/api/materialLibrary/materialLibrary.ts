@@ -1,89 +1,73 @@
 import kRequest from '../index'
 import config from '@/config'
 import type {
-  MaterialLibraryCreateMaterialLibraryRequest,
-  MaterialLibraryCreateMaterialLibraryResponse
-} from '@/typings/httpTypes/materialLibrary/createMaterialLibrary'
-import type {
-  MaterialLibraryModifyMaterialLibraryRequest,
-  MaterialLibraryModifyMaterialLibraryResponse
-} from '@/typings/httpTypes/materialLibrary/modifyMaterialLibrary'
-
-import type {
-  MaterialLibraryDeleteMaterialLibraryRequest,
-  MaterialLibraryDeleteMaterialLibraryResponse
-} from '@/typings/httpTypes/materialLibrary/deleteMaterialLibrary'
-import type {
-  MaterialLibraryCreateMaterialRequest,
-  MaterialLibraryCreateMaterialResponse
-} from '@/typings/httpTypes/materialLibrary/createMaterial'
-import type {
-  MaterialLibraryDeleteMaterialRequest,
-  MaterialLibraryDeleteMaterialResponse
-} from '@/typings/httpTypes/materialLibrary/deleteMaterial'
-import type {
-  MaterialLibraryGetMaterialRequest,
-  MaterialLibraryGetMaterialResponse
-} from '@/typings/httpTypes/materialLibrary/getMaterial'
-import type {
-  MaterialLibraryGetMaterialLibraryRequest,
-  MaterialLibraryGetMaterialLibraryResponse
-} from '@/typings/httpTypes/materialLibrary/getMaterialLibrary'
-
+  AdminCreateMaterialGroupReq,
+  AdminCreateMaterialGroupRes,
+  AdminCreateMaterialReq,
+  AdminCreateMaterialRes,
+  AdminDeleteMaterialGroupReq,
+  AdminDeleteMaterialGroupRes,
+  AdminDeleteMaterialReq,
+  AdminDeleteMaterialRes,
+  AdminGetMaterialGroupRes,
+  AdminGetMaterialReq,
+  AdminGetMaterialRes,
+  AdminUpdateMaterialGroupReq,
+  AdminUpdateMaterialGroupRes
+} from '~@/apiTypes/materialLibrary'
 const context = config.REQUEST_PREFIX + '/materialLibrary'
 
 const api = {
-  getMaterialLibrary: `${context}/getMaterialLibrary`,
-  createMaterialLibrary: `${context}/createMaterialLibrary`,
-  modifyMaterialLibrary: `${context}/modifyMaterialLibrary`,
-  deleteMaterialLibrary: `${context}/deleteMaterialLibrary`,
+  getMaterialGroup: `${context}/getMaterialGroup`,
+  createMaterialGroup: `${context}/createMaterialGroup`,
+  updateMaterialGroup: `${context}/updateMaterialGroup`,
+  deleteMaterialGroup: `${context}/deleteMaterialGroup`,
   createMaterial: `${context}/createMaterial`,
   deleteMaterial: `${context}/deleteMaterial`,
   getMaterial: `${context}/getMaterial`
 }
 
 //获取素材库分组
-export const getMaterialLibraryApi =
-  (): Promise<MaterialLibraryGetMaterialLibraryResponse> => {
-    return kRequest.get({
-      url: api.getMaterialLibrary
-    })
-  }
+export const getMaterialLibraryApi = (): Promise<AdminGetMaterialGroupRes> => {
+  return kRequest.get({
+    url: api.getMaterialGroup
+  })
+}
 
 //创建素材库分组
 export const createMaterialLibraryApi = (
-  params: MaterialLibraryCreateMaterialLibraryRequest
-): Promise<MaterialLibraryCreateMaterialLibraryResponse> => {
+  params: AdminCreateMaterialGroupReq
+): Promise<AdminCreateMaterialGroupRes> => {
   return kRequest.post({
-    url: api.createMaterialLibrary,
+    url: api.createMaterialGroup,
     data: params
   })
 }
 
 //修改素材库分组
 export const modifyMaterialLibraryApi = (
-  params: MaterialLibraryModifyMaterialLibraryRequest
-): Promise<MaterialLibraryModifyMaterialLibraryResponse> => {
+  params: AdminUpdateMaterialGroupReq
+): Promise<AdminUpdateMaterialGroupRes> => {
   return kRequest.post({
-    url: api.modifyMaterialLibrary,
+    url: api.updateMaterialGroup,
     data: params
   })
 }
 
 //删除素材库分组
 export const deleteMaterialLibraryApi = (
-  params: MaterialLibraryDeleteMaterialLibraryRequest
-): Promise<MaterialLibraryDeleteMaterialLibraryResponse> => {
+  params: AdminDeleteMaterialGroupReq
+): Promise<AdminDeleteMaterialGroupRes> => {
   return kRequest.post({
-    url: api.deleteMaterialLibrary,
+    url: api.deleteMaterialGroup,
     data: params
   })
 }
 
 //添加素材
 export const createMaterialApi = (
-  params: MaterialLibraryCreateMaterialRequest
-): Promise<MaterialLibraryCreateMaterialResponse> => {
+  params: AdminCreateMaterialReq
+): Promise<AdminCreateMaterialRes> => {
   return kRequest.post({
     url: api.createMaterial,
     data: params
@@ -92,8 +76,8 @@ export const createMaterialApi = (
 
 //删除素材
 export const deleteMaterialApi = (
-  params: MaterialLibraryDeleteMaterialRequest
-): Promise<MaterialLibraryDeleteMaterialResponse> => {
+  params: AdminDeleteMaterialReq
+): Promise<AdminDeleteMaterialRes> => {
   return kRequest.post({
     url: api.deleteMaterial,
     data: params
@@ -102,8 +86,8 @@ export const deleteMaterialApi = (
 
 //获取素材
 export const getMaterialApi = (
-  params: MaterialLibraryGetMaterialRequest
-): Promise<MaterialLibraryGetMaterialResponse> => {
+  params: AdminGetMaterialReq
+): Promise<AdminGetMaterialRes> => {
   return kRequest.get({
     url: api.getMaterial,
     params

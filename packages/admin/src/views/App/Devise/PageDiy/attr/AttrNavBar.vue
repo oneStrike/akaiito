@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IBasicForm } from '@/typings/components/basicForm'
+import type { IBasicForm } from '@//typings/components/basicForm'
 import Ribbon from '@/views/App/Devise/PageDiy/modules/components/Ribbon.vue'
 import { requiredRule } from '@/hooks/useValidator'
 import { useDiyStore } from '@/stores'

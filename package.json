@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"pnpm -C ./packages/server dev pnpm -C\" \"./packages/client dev:h5\"  \"pnpm -C ./packages/admin dev\"",
+    "dev": "concurrently \"pnpm -C ./packages/server dev\" \" pnpm -C ./packages/client dev:h5\"  \"pnpm -C ./packages/admin dev\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": " concurrently \"pnpm -C ./packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
+    "lint": "concurrently \"pnpm -C packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
-		"clean": "rimraf node_modules **/*/node_modules"
-	},
+    "clean": "rimraf node_modules **/*/node_modules",
+		"ytt": "concurrently \"pnpm -C packages/typings ytt\""
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

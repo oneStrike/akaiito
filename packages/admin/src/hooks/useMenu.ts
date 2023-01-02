@@ -2,7 +2,6 @@
 import routes from '@/router/routes'
 import type { RouteRecordRaw, RouteMeta } from 'vue-router'
 import router from '@/router'
-import useTabs from '@/hooks/useTabs'
 class UseMenu {
   // private readonly role = useUserStore().userInfo.isRoot
   private readonly role = 'admin'

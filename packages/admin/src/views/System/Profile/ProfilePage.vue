@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores'
 import { modifyPwdForm, modifyInfoForm } from './shared'
-import { modifyPasswordApi, modifyUserInfoApi } from '@/api/user/user'
+import { updatePasswordApi, updateUserInfoApi } from '@/api/user/user'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
-import type { SystemUploadResponse } from '@/typings/httpTypes/system/upload'
-import type { UserModifyPasswordRequest } from '@/typings/httpTypes/user/modifyPassword'
+import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
+import type { AdminUpdatePasswordReq } from '~@/apiTypes/user'
 const activeTab = ref('1')
 const loading = ref(false)
 const userStore = useUserStore()
@@ -22,7 +22,7 @@ userStore.getUserInfo()
 const modifyInfoSubmit = async (val: typeof userInfo.value) => {
   try {
     loading.value = true
-    await modifyUserInfoApi(val)
+    await updateUserInfoApi(val)
     await userStore.getUserInfo()
     loading.value = false
     useMessage('success', Hint.UPD_SUC)
@@ -34,8 +34,8 @@ const modifyInfoSubmit = async (val: typeof userInfo.value) => {
 /**
  * 修改密码
  */
-const modifyPwdSubmit = async (val: UserModifyPasswordRequest) => {
-  await modifyPasswordApi(val)
+const modifyPwdSubmit = async (val: AdminUpdatePasswordReq) => {
+  await updatePasswordApi(val)
   await userStore.refreshToken()
   useMessage('success', Hint.UPD_SUC)
 }
@@ -43,7 +43,7 @@ const modifyPwdSubmit = async (val: UserModifyPasswordRequest) => {
 /**
  * 修改用户头像
  */
-const modifyAvatarSuccess = async (data: SystemUploadResponse) => {
+const modifyAvatarSuccess = async (data: CommonUploadRes) => {
   userInfo.value.avatar = data[0].path
   await modifyInfoSubmit(userInfo.value)
 }
@@ -58,7 +58,7 @@ const modifyAvatarSuccess = async (data: SystemUploadResponse) => {
             ref="uploadRef"
             :is-clear="true"
             :is-loading="true"
-            :data="{ classify: 'avatar' }"
+            :data="{ fileType: 'avatar' }"
             list-type="text"
             :uploadMethod="false"
             :show-file-list="false"

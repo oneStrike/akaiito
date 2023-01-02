@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay } from 'swiper'
-import type { IDiyModule } from '@/typings/components/diyPage'
+import type { IDiyModule } from '~@/diyPage'
 import { useDiyCommonStyleToString } from '@/hooks/useDiyCommonStyleToString'
 
 const props = withDefaults(

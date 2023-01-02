@@ -1,4 +1,4 @@
-import type { IDiyModule } from '@/typings/components/diyPage'
+import type { IDiyModule } from '~@/diyPage'
 import { DiyModuleEnum } from '@/enum/diyModuleEnum'
 import {
   basicConfig,

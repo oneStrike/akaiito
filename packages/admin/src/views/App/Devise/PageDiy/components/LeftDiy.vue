@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { baseModule } from '@/views/App/Devise/PageDiy/modules/modules'
 import { useDiyStore } from '@/stores'
-import type { IDiyModule } from '@/typings/components/diyPage'
+import type { IDiyModule } from '~@/diyPage'
 import { createDiyApi, modifyDiyApi } from '@/api/diy/diy'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'

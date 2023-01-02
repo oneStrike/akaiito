@@ -1,4 +1,4 @@
-import type { TIconFontName } from '@/typings/components/shared/iconfont'
+import type { TIconFontName } from '~@/iconfont'
 
 export const iconfonts: TIconFontName[] = [
   'bluetooth_off',

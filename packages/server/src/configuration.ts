@@ -10,6 +10,7 @@ import * as sequlize from '@midwayjs/sequelize'
 import * as upload from '@midwayjs/upload'
 import * as staticFile from '@midwayjs/static-file'
 import * as crossDomain from '@midwayjs/cross-domain'
+
 import { join } from 'path'
 import { ExceptionFilter } from './filter/exception.filter'
 import { ResponseMiddleware } from './middleware/response.middleware'
@@ -19,14 +20,14 @@ import { SerializeMiddleware } from './middleware/serialize.middleware'
 
 @Configuration({
   imports: [
+    jwt,
     koa,
+    cache,
+    upload,
+    captcha,
     validate,
     passport,
-    jwt,
-    cache,
-    captcha,
     sequlize,
-    upload,
     staticFile,
     crossDomain,
     {

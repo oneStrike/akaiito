@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { SystemUploadResponse } from '@/typings/httpTypes/system/upload'
 import config from '@/config'
+import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
 
 interface IModalImage {
   visible: boolean
-  imageList: string[] | SystemUploadResponse
+  imageList: string[] | CommonUploadRes
   initIndex?: number
 }
 

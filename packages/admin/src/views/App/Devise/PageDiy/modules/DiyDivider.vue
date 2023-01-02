@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IDiyModule } from '@/typings/components/diyPage'
+import type { IDiyModule } from '~@/diyPage'
 
 const props = withDefaults(
   defineProps<{

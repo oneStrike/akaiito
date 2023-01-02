@@ -1,70 +1,64 @@
 import kRequest from '../index'
 import config from '@/config'
 import type {
-  DiyCreateDiyRequest,
-  DiyCreateDiyResponse
-} from '@/typings/httpTypes/diy/createDiy'
-import type {
-  DiyModifyDiyRequest,
-  DiyModifyDiyResponse
-} from '@/typings/httpTypes/diy/modifyDiy'
-import type { DiyGetDiyResponse } from '@/typings/httpTypes/diy/getDiy'
-import type {
-  DiyDeleteDiyRequest,
-  DiyDeleteDiyResponse
-} from '@/typings/httpTypes/diy/deleteDiy'
-import type {
-  DiySwitchDiyRequest,
-  DiySwitchDiyResponse
-} from '@/typings/httpTypes/diy/switchDiy'
-const context = config.REQUEST_PREFIX + '/diy'
+  AdminCreateDiyPageReq,
+  AdminCreateDiyPageRes,
+  AdminDeleteDiyPageReq,
+  AdminDeleteDiyPageRes,
+  AdminGetDiyPageRes,
+  AdminSwitchPageStatusReq,
+  AdminSwitchPageStatusRes,
+  AdminUpdateDiyPageReq,
+  AdminUpdateDiyPageRes
+} from '~@/apiTypes/diyClientPage'
+const context = config.REQUEST_PREFIX + '/diyClientPage'
 
 const api = {
-  createDiy: `${context}/createDiy`,
-  modifyDiy: `${context}/modifyDiy`,
-  getDiy: `${context}/getDiy`,
-  deleteDiy: `${context}/deleteDiy`,
-  switchDiy: `${context}/switchDiy`
+  createDiyPage: `${context}/createDiyPage`,
+  updateDiyPage: `${context}/updateDiyPage`,
+  getDiyPage: `${context}/getDiyPage`,
+  deleteDiyPage: `${context}/deleteDiyPage`,
+  switchPageStatus: `${context}/switchPageStatus`
 }
 
 export const createDiyApi = (
-  params: DiyCreateDiyRequest
-): Promise<DiyCreateDiyResponse> => {
+  params: AdminCreateDiyPageReq
+): Promise<AdminCreateDiyPageRes> => {
   return kRequest.post({
-    url: api.createDiy,
+    url: api.createDiyPage,
     data: params
   })
 }
 
 export const modifyDiyApi = (
-  params: DiyModifyDiyRequest
-): Promise<DiyModifyDiyResponse> => {
+  params: AdminUpdateDiyPageReq
+): Promise<AdminUpdateDiyPageRes> => {
   return kRequest.post({
-    url: api.modifyDiy,
+    url: api.updateDiyPage,
     data: params
   })
 }
 
-export const getDiyDataApi = (): Promise<DiyGetDiyResponse> => {
+export const getDiyDataApi = (): Promise<AdminGetDiyPageRes> => {
   return kRequest.get({
-    url: api.getDiy
+    url: api.getDiyPage
   })
 }
 
 export const deleteDiyDataApi = (
-  params: DiyDeleteDiyRequest
-): Promise<DiyDeleteDiyResponse> => {
+  params: AdminDeleteDiyPageReq
+): Promise<AdminDeleteDiyPageRes> => {
   return kRequest.post({
-    url: api.deleteDiy,
+    url: api.deleteDiyPage,
     data: params
   })
 }
 
 export const switchDiyDataApi = (
-  params: DiySwitchDiyRequest
-): Promise<DiySwitchDiyResponse> => {
+  params: AdminSwitchPageStatusReq
+): Promise<AdminSwitchPageStatusRes> => {
   return kRequest.post({
-    url: api.switchDiy,
+    url: api.switchPageStatus,
     data: params
   })
 }

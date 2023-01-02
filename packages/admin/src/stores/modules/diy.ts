@@ -1,10 +1,6 @@
 import { DiyModuleEnum } from '@/enum/diyModuleEnum'
-import type {
-  IDiyModule,
-  IOverallPage,
-  TDiyLayoutData
-} from '@/typings/components/diyPage'
-import type { DiyGetDiyResponse } from '@/typings/httpTypes/diy/getDiy'
+import type { IDiyModule, IOverallPage, TDiyLayoutData } from '~@/diyPage'
+import type { AdminGetDiyPageRes } from '~@/apiTypes/diyClientPage'
 import { useMessage } from '@/hooks/useMessage'
 
 const diyStore = defineStore('diy', {
@@ -33,7 +29,7 @@ const diyStore = defineStore('diy', {
       //是否显示手机状态栏，显示的时候会影响最顶部的操作
       phoneStatusBar: true,
       //重新编辑的diy数据，和新建调用的接口不一样
-      reEditDiyData: null as null | DiyGetDiyResponse[number]
+      reEditDiyData: null as null | AdminGetDiyPageRes[number]
     }
   },
 

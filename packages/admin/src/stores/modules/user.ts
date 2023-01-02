@@ -1,6 +1,6 @@
-import type { UserLoginRequest } from '@/typings/httpTypes/user/login'
+import type { AdminLoginReq } from '~@/apiTypes/user'
 import { getUserInfoApi, loginApi, refreshTokenApi } from '@/api/user/user'
-import type { ITokenInfo, TUserInfo } from '@/typings/user/user'
+import type { ITokenInfo, TUserInfo } from '@//typings/user/user'
 import { useAuth } from '@/hooks/useAuth'
 import router from '@/router'
 
@@ -19,7 +19,7 @@ const userStore = defineStore('user', {
      * 登录
      * @param param
      */
-    async login(param: UserLoginRequest) {
+    async login(param: AdminLoginReq) {
       const { token, refreshToken, user } = await loginApi(param)
       this.userInfo = user
       useAuth.set('token', token)

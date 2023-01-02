@@ -1,4 +1,4 @@
-import type { IBasicDiy } from '@/typings/components/diyPage'
+import type { IBasicDiy } from '~@/diyPage'
 import config from '@/config'
 
 export const useDiyCommonStyleToString = (commonStyle: IBasicDiy) => {

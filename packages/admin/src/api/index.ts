@@ -12,7 +12,6 @@ import type { IInterceptor } from '@/typings/utils/ajax'
 const requestInterceptor: IInterceptor['request'] = async (config) => {
   const tokenStatus = useAuth.status('token')
   const refreshTokenStatus = useAuth.status('refreshToken')
-
   const whiteList = []
   for (const key in WhiteListEnum) {
     whiteList.push(WhiteListEnum[key as keyof typeof WhiteListEnum])

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TIconName } from '@/typings/components/svgicon'
+import type { TIconName } from '~@/svgicon'
 
 interface SvgIcon {
   iconName: TIconName

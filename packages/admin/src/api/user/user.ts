@@ -1,35 +1,25 @@
 import kRequest from '../index'
 import config from '@/config'
 import type {
-  UserDeleteRequest,
-  UserDeleteResponse
-} from '@/typings/httpTypes/user/delete'
-import type {
-  UserLoginRequest,
-  UserLoginResponse
-} from '@/typings/httpTypes/user/login'
-import type { UserRefreshTokenResponse } from '@/typings/httpTypes/user/refreshToken'
-import type {
-  UserUserInfoRequest,
-  UserUserInfoResponse
-} from '@/typings/httpTypes/user/userInfo'
-import type {
-  UserModifyPasswordRequest,
-  UserModifyPasswordResponse
-} from '@/typings/httpTypes/user/modifyPassword'
-import type {
-  UserUserListRequest,
-  UserUserListResponse
-} from '@/typings/httpTypes/user/userList'
-import type {
-  LogLoginLogRequest,
-  LogLoginLogResponse
-} from '@/typings/httpTypes/log/loginLog'
-import type { UserStatusSwitchRequest } from '@/typings/httpTypes/user/statusSwitch'
-import type {
-  UserCreateRequest,
-  UserCreateResponse
-} from '@/typings/httpTypes/user/create'
+  AdminCreateUserReq,
+  AdminCreateUserRes,
+  AdminDeleteUserReq,
+  AdminDeleteUserRes,
+  AdminLoginReq,
+  AdminLoginRes,
+  AdminRefreshTokenRes,
+  AdminSwitchUserStatusReq,
+  AdminSwitchUserStatusRes,
+  AdminUpdatePasswordReq,
+  AdminUpdatePasswordRes,
+  AdminUpdateUserInfoReq,
+  AdminUpdateUserInfoRes,
+  AdminUserInfoRes,
+  AdminUserListReq,
+  AdminUserListRes
+} from '~@/apiTypes/user'
+
+import type { AdminLoginLogReq, AdminLoginLogRes } from '~@/apiTypes/log'
 
 const context = config.REQUEST_PREFIX + '/user'
 const logContext = config.REQUEST_PREFIX + '/log'
@@ -37,17 +27,17 @@ const api = {
   login: `${context}/login`,
   refreshTokenApi: `${context}/refreshToken`,
   userInfo: `${context}/userInfo`,
-  modifyUserInfo: `${context}/updateUserInfo`,
-  modifyPassword: `${context}/modifyPassword`,
+  updateUserInfo: `${context}/updateUserInfo`,
+  updatePassword: `${context}/updatePassword`,
   userList: `${context}/userList`,
   loginLog: `${logContext}/loginLog`,
-  statusSwitch: `${context}/statusSwitch`,
-  delete: `${context}/delete`,
-  create: `${context}/create`
+  switchUserStatus: `${context}/switchUserStatus`,
+  deleteUser: `${context}/deleteUser`,
+  createUser: `${context}/createUser`
 }
 
 //登录
-export function loginApi(params: UserLoginRequest): Promise<UserLoginResponse> {
+export function loginApi(params: AdminLoginReq): Promise<AdminLoginRes> {
   return kRequest.post({
     url: api.login,
     data: params,
@@ -56,43 +46,43 @@ export function loginApi(params: UserLoginRequest): Promise<UserLoginResponse> {
 }
 
 //刷新token
-export function refreshTokenApi(): Promise<UserRefreshTokenResponse> {
+export function refreshTokenApi(): Promise<AdminRefreshTokenRes> {
   return kRequest.post({
     url: api.refreshTokenApi
   })
 }
 
 //获取用户信息
-export function getUserInfoApi(): Promise<UserUserInfoResponse> {
+export function getUserInfoApi(): Promise<AdminUserInfoRes> {
   return kRequest.get({
     url: api.userInfo
   })
 }
 
 //修改用户信息
-export function modifyUserInfoApi(
-  params: UserUserInfoRequest
-): Promise<UserUserInfoResponse> {
+export function updateUserInfoApi(
+  params: AdminUpdateUserInfoReq
+): Promise<AdminUpdateUserInfoRes> {
   return kRequest.post({
-    url: api.modifyUserInfo,
+    url: api.updateUserInfo,
     data: params
   })
 }
 
 //修改密码
-export function modifyPasswordApi(
-  params: UserModifyPasswordRequest
-): Promise<UserModifyPasswordResponse> {
+export function updatePasswordApi(
+  params: AdminUpdatePasswordReq
+): Promise<AdminUpdatePasswordRes> {
   return kRequest.post({
-    url: api.modifyPassword,
+    url: api.updatePassword,
     data: params
   })
 }
 
 //获取用户列表
 export function userListApi(
-  params: UserUserListRequest
-): Promise<UserUserListResponse> {
+  params: AdminUserListReq
+): Promise<AdminUserListRes> {
   return kRequest.get({
     url: api.userList,
     params
@@ -101,8 +91,8 @@ export function userListApi(
 
 //获取登录日志
 export function loginLogApi(
-  params: LogLoginLogRequest
-): Promise<LogLoginLogResponse> {
+  params: AdminLoginLogReq
+): Promise<AdminLoginLogRes> {
   return kRequest.get({
     url: api.loginLog,
     params
@@ -111,30 +101,30 @@ export function loginLogApi(
 
 //启用或禁用
 export function statusSwitchApi(
-  params: UserStatusSwitchRequest
-): Promise<UserStatusSwitchRequest> {
+  params: AdminSwitchUserStatusReq
+): Promise<AdminSwitchUserStatusRes> {
   return kRequest.post({
-    url: api.statusSwitch,
+    url: api.switchUserStatus,
     data: params
   })
 }
 
 //删除
 export function deleteUserApi(
-  params: UserDeleteRequest
-): Promise<UserDeleteResponse> {
+  params: AdminDeleteUserReq
+): Promise<AdminDeleteUserRes> {
   return kRequest.post({
-    url: api.delete,
+    url: api.deleteUser,
     data: params
   })
 }
 
 //创建新用户
 export function createUserApi(
-  params: UserCreateRequest
-): Promise<UserCreateResponse> {
+  params: AdminCreateUserReq
+): Promise<AdminCreateUserRes> {
   return kRequest.post({
-    url: api.create,
+    url: api.createUser,
     data: params
   })
 }
