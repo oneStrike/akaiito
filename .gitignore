@@ -3,16 +3,12 @@
 .history
 node_modules
 
-**/*/auto-import.d.ts
-**/*/.eslintrc-auto-import.json
-**/*/components.d.ts
+**/components.d.ts
+**/.eslintrc-auto-import.json
+**/auto-import.d.ts
 
+**/apiTypes
+**/dist
 
-!/packages/server/public
-!/packages/typings/src/admin/apiTypes
-!/packages/typings/src/app/apiTypes
-!/packages/typings/src/common/apiTypes
-!/packages/typings/src/open/apiTypes
+/packages/server/public
 /packages/server/logs
-!/packages/admin/dist
-!/packages/server/public/
