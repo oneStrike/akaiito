@@ -8,14 +8,17 @@ import {
   getMaterialLibraryApi,
   modifyMaterialLibraryApi
 } from '@/api/materialLibrary/materialLibrary'
-import type { MaterialLibraryGetMaterialLibraryResponse } from '@/typings/httpTypes/materialLibrary/getMaterialLibrary'
+
+import type {
+  AdminGetMaterialGroupRes,
+  AdminGetMaterialRes
+} from '~@/apiTypes/materialLibrary'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
-import type { SystemUploadResponse } from '@/typings/httpTypes/system/upload'
-import type { MaterialLibraryGetMaterialResponse } from '@/typings/httpTypes/materialLibrary/getMaterial'
+import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
 import { useAlert } from '@/hooks/useAlert'
 import { iconfonts } from '@/components/MaterialLibrary/iconfont'
-type TGroup = MaterialLibraryGetMaterialLibraryResponse['list'][number]
+type TGroup = AdminGetMaterialGroupRes['list'][number]
 
 interface IMaterialLibrary {
   visible: boolean
@@ -23,9 +26,9 @@ interface IMaterialLibrary {
   defaultPath?: (string | undefined)[]
 }
 
-type TMaterialItem = MaterialLibraryGetMaterialResponse['list'][number]
+type TMaterialItem = AdminGetMaterialRes['list'][number]
 
-type TSelectItem = MaterialLibraryGetMaterialResponse['list']
+type TSelectItem = AdminGetMaterialRes['list']
 
 const props = withDefaults(defineProps<IMaterialLibrary>(), {
   visible: false,
@@ -76,7 +79,7 @@ const listParams = reactive({
   pageIndex: 1
 })
 
-const material = ref<MaterialLibraryGetMaterialResponse>()
+const material = ref<AdminGetMaterialRes>()
 const getMaterial = async () => {
   if (currentGroup.value?.id === iconfontGroupId) {
     return
@@ -163,15 +166,17 @@ watch(
     const groupId = currentGroup.value?.id
     if (groupId) {
       uploadedMaterial.value = val
-      const params = val.map((item: SystemUploadResponse[number]) => {
+      const params = val.map((item: CommonUploadRes[number]) => {
         return {
-          groupId,
           path: item.path,
           materialName: item.filename,
           materialType: 'image'
         }
       })
-      await createMaterialApi(params)
+      await createMaterialApi({
+        groupId,
+        material: params
+      })
       await getMaterial()
     }
   },
@@ -238,10 +243,10 @@ const selectItem = (val: TMaterialItem | string) => {
     let pushValue: TSelectItem[number] | null
     if (typeof val === 'string') {
       pushValue = {
-        id: selectionList.value.length.toString(),
+        id: selectionList.value.length,
         materialName: val,
         materialType: 'icon',
-        groupId: iconfontGroupId.toString(),
+        groupId: iconfontGroupId,
         path: val
       }
     } else {

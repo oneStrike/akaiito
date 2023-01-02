@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/createDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminCreateDiyPageReq {
   /**
@@ -32,7 +32,7 @@ export interface AdminCreateDiyPageReq {
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/createDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export type AdminCreateDiyPageRes = number
 
@@ -42,7 +42,7 @@ export type AdminCreateDiyPageRes = number
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/updateDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminUpdateDiyPageReq {
   /**
@@ -65,7 +65,7 @@ export interface AdminUpdateDiyPageReq {
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/updateDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export type AdminUpdateDiyPageRes = number
 
@@ -75,7 +75,7 @@ export type AdminUpdateDiyPageRes = number
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `GET /admin/diyClientPage/getDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:50`
  */
 export interface AdminGetDiyPageReq {}
 
@@ -85,7 +85,7 @@ export interface AdminGetDiyPageReq {}
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `GET /admin/diyClientPage/getDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:50`
  */
 export type AdminGetDiyPageRes = {
   /**
@@ -104,6 +104,14 @@ export type AdminGetDiyPageRes = {
    * 是否使用1使用0未使用
    */
   use: number
+  /**
+   * 创建日期
+   */
+  createdAt?: string
+  /**
+   * 更新日期
+   */
+  updatedAt?: string
 }[]
 
 /**
@@ -112,7 +120,7 @@ export type AdminGetDiyPageRes = {
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/switchPageStatus`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:50`
  */
 export interface AdminSwitchPageStatusReq {
   /**
@@ -131,7 +139,7 @@ export interface AdminSwitchPageStatusReq {
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/switchPageStatus`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:50`
  */
 export type AdminSwitchPageStatusRes = number
 
@@ -141,7 +149,7 @@ export type AdminSwitchPageStatusRes = number
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/deleteDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:50`
  */
 export interface AdminDeleteDiyPageReq {
   /**
@@ -156,7 +164,7 @@ export interface AdminDeleteDiyPageReq {
  * @分类 [管理端/diy客户端首页↗](https://yapi.pro/project/11787/interface/api/cat_112868)
  * @标签 `管理端/diy客户端首页`
  * @请求头 `POST /admin/diyClientPage/deleteDiyPage`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:50`
  */
 export type AdminDeleteDiyPageRes = number
 

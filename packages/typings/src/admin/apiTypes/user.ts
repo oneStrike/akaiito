@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/createUser`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminCreateUserReq {
   /**
@@ -60,7 +60,7 @@ export interface AdminCreateUserReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/createUser`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export type AdminCreateUserRes = number
 
@@ -70,7 +70,7 @@ export type AdminCreateUserRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updateUserInfo`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminUpdateUserInfoReq {
   /**
@@ -113,7 +113,7 @@ export interface AdminUpdateUserInfoReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updateUserInfo`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminUpdateUserInfoRes {}
 
@@ -123,7 +123,7 @@ export interface AdminUpdateUserInfoRes {}
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/login`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminLoginReq {
   /**
@@ -150,7 +150,7 @@ export interface AdminLoginReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/login`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminLoginRes {
   /**
@@ -197,6 +197,14 @@ export interface AdminLoginRes {
      * 状态，1启用，0禁用
      */
     status: number
+    /**
+     * 创建日期
+     */
+    createdAt?: string
+    /**
+     * 更新日期
+     */
+    updatedAt?: string
   }
 }
 
@@ -206,7 +214,7 @@ export interface AdminLoginRes {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/UserInfo`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminUserInfoReq {}
 
@@ -216,7 +224,7 @@ export interface AdminUserInfoReq {}
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/UserInfo`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminUserInfoRes {
   /**
@@ -251,6 +259,14 @@ export interface AdminUserInfoRes {
    * 状态，1启用，0禁用
    */
   status: number
+  /**
+   * 创建日期
+   */
+  createdAt?: string
+  /**
+   * 更新日期
+   */
+  updatedAt?: string
 }
 
 /**
@@ -259,7 +275,7 @@ export interface AdminUserInfoRes {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/refreshToken`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminRefreshTokenReq {}
 
@@ -269,7 +285,7 @@ export interface AdminRefreshTokenReq {}
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/refreshToken`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export type AdminRefreshTokenRes = string
 
@@ -279,7 +295,7 @@ export type AdminRefreshTokenRes = string
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/deleteUser`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminDeleteUserReq {
   /**
@@ -294,7 +310,7 @@ export interface AdminDeleteUserReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/deleteUser`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export type AdminDeleteUserRes = number
 
@@ -304,7 +320,7 @@ export type AdminDeleteUserRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/switchUserStatus`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminSwitchUserStatusReq {
   /**
@@ -323,7 +339,7 @@ export interface AdminSwitchUserStatusReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/switchUserStatus`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export type AdminSwitchUserStatusRes = number
 
@@ -333,7 +349,7 @@ export type AdminSwitchUserStatusRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updatePassword`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export interface AdminUpdatePasswordReq {
   /**
@@ -356,7 +372,7 @@ export interface AdminUpdatePasswordReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updatePassword`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:48`
  */
 export type AdminUpdatePasswordRes = number
 
@@ -366,7 +382,7 @@ export type AdminUpdatePasswordRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/userList`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminUserListReq {
   /**
@@ -393,7 +409,7 @@ export interface AdminUserListReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/userList`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminUserListRes {
   list: {
@@ -429,6 +445,14 @@ export interface AdminUserListRes {
      * 状态，1启用，0禁用
      */
     status: number
+    /**
+     * 创建日期
+     */
+    createdAt?: string
+    /**
+     * 更新日期
+     */
+    updatedAt?: string
   }[]
   /**
    * 总数据数量

@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `GET /admin/materialLibrary/getMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminGetMaterialGroupReq {}
 
@@ -23,7 +23,7 @@ export interface AdminGetMaterialGroupReq {}
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `GET /admin/materialLibrary/getMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminGetMaterialGroupRes {
   list: {
@@ -39,6 +39,14 @@ export interface AdminGetMaterialGroupRes {
      * 排序
      */
     sort: number
+    /**
+     * 创建日期
+     */
+    createdAt?: string
+    /**
+     * 更新日期
+     */
+    updatedAt?: string
   }[]
   /**
    * 总数据数量
@@ -72,7 +80,7 @@ export interface AdminGetMaterialGroupRes {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/createMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminCreateMaterialGroupReq {
   /**
@@ -87,7 +95,7 @@ export interface AdminCreateMaterialGroupReq {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/createMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export type AdminCreateMaterialGroupRes = number
 
@@ -97,7 +105,7 @@ export type AdminCreateMaterialGroupRes = number
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/deleteMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminDeleteMaterialGroupReq {
   /**
@@ -112,7 +120,7 @@ export interface AdminDeleteMaterialGroupReq {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/deleteMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export type AdminDeleteMaterialGroupRes = number
 
@@ -122,7 +130,7 @@ export type AdminDeleteMaterialGroupRes = number
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/createMaterial`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminCreateMaterialReq {
   /**
@@ -154,7 +162,7 @@ export interface AdminCreateMaterialReq {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/createMaterial`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export type AdminCreateMaterialRes = number[]
 
@@ -164,7 +172,7 @@ export type AdminCreateMaterialRes = number[]
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `GET /admin/materialLibrary/getMaterial`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminGetMaterialReq {
   /**
@@ -203,7 +211,7 @@ export interface AdminGetMaterialReq {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `GET /admin/materialLibrary/getMaterial`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminGetMaterialRes {
   list: {
@@ -227,6 +235,14 @@ export interface AdminGetMaterialRes {
      * 素材类型
      */
     materialType: string
+    /**
+     * 创建日期
+     */
+    createdAt?: string
+    /**
+     * 更新日期
+     */
+    updatedAt?: string
   }[]
   /**
    * 总数据数量
@@ -260,7 +276,7 @@ export interface AdminGetMaterialRes {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/deleteMaterial`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminDeleteMaterialReq {
   /**
@@ -275,7 +291,7 @@ export interface AdminDeleteMaterialReq {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/deleteMaterial`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export type AdminDeleteMaterialRes = string
 
@@ -285,7 +301,7 @@ export type AdminDeleteMaterialRes = string
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/updateMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminUpdateMaterialGroupReq {
   /**
@@ -304,7 +320,7 @@ export interface AdminUpdateMaterialGroupReq {
  * @分类 [管理端/素材库↗](https://yapi.pro/project/11787/interface/api/cat_112860)
  * @标签 `管理端/素材库`
  * @请求头 `POST /admin/materialLibrary/updateMaterialGroup`
- * @更新时间 `2023-01-02 20:35:50`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export type AdminUpdateMaterialGroupRes = number
 

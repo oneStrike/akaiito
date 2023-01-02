@@ -10,7 +10,7 @@ import { search, column, form, pwdForm } from '@/views/System/Role/shared'
 import { Hint } from '@/utils/hint'
 import { useMessage } from '@/hooks/useMessage'
 import { useUserStore } from '@/stores'
-import type { TUserInfo } from '~@/user/user'
+import type { TUserInfo } from '@/typings/user/user'
 import { findFormItem } from '@/utils'
 import config from '@/config'
 

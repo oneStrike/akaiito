@@ -150,8 +150,11 @@ const formatFormOptions = () => {
     }
   }
 
-  const iconType = formIcon?.split('.').pop()
-  iconColor.hide = !iconType || config.ALLOW_IMAGE_TYPE.includes(iconType || '')
+  if (Array.isArray(formIcon) && formIcon.length) {
+    const iconType = formIcon[0].filename?.split('.').pop()
+    iconColor.hide =
+      !iconType || config.ALLOW_IMAGE_TYPE.includes(iconType || '')
+  }
   //字体图标样式
   if (
     currentFormRibbon.value?.icon &&

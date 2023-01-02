@@ -2,22 +2,17 @@
 .vscode
 .history
 node_modules
-!/packages/admin/src/typings/auto-import.d.ts
 
-!/packages/admin/src/typings/components.d.ts
+**/*/auto-import.d.ts
+**/*/.eslintrc-auto-import.json
+**/*/components.d.ts
 
-!/packages/admin/.eslintrc-auto-import.json
-
-!/packages/client/src/typings/auto-import.d.ts
-
-!/packages/client/src/typings/components.d.ts
-
-!/packages/client/.eslintrc-auto-import.json
 
 !/packages/server/public
 !/packages/typings/src/admin/apiTypes
 !/packages/typings/src/app/apiTypes
 !/packages/typings/src/common/apiTypes
 !/packages/typings/src/open/apiTypes
-!/packages/admin/.eslintrc-auto-import.json
 /packages/server/logs
+!/packages/admin/dist
+!/packages/server/public/

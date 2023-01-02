@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/系统↗](https://yapi.pro/project/11787/interface/api/cat_112852)
  * @标签 `管理端/系统`
  * @请求头 `GET /admin/system/systemInfo`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminSystemInfoReq {}
 
@@ -23,7 +23,7 @@ export interface AdminSystemInfoReq {}
  * @分类 [管理端/系统↗](https://yapi.pro/project/11787/interface/api/cat_112852)
  * @标签 `管理端/系统`
  * @请求头 `GET /admin/system/systemInfo`
- * @更新时间 `2023-01-02 20:35:49`
+ * @更新时间 `2023-01-02 22:30:49`
  */
 export interface AdminSystemInfoRes {
   /**

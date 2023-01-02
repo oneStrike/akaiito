@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TIconFontName } from '@/typings/components/shared/iconfont'
+import type { TIconFontName } from '~@/iconfont'
 
 interface IProps {
   type: TIconFontName

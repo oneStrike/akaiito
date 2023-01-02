@@ -6,7 +6,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "./components.d.ts",
-    "./auto-import.d.ts"
+    "./auto-import.d.ts",
+    "src/global.d.ts"
   ],
   "baseUrl": ".",
   "paths": {
@@ -17,7 +18,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-			"~@/*": ["./node_modules/@akaiito/typings/src/admin/*"]
+      "~@/*": ["./node_modules/@akaiito/typings/src/admin/*"]
     },
     "types": ["element-plus/global", "vite/client"]
   },

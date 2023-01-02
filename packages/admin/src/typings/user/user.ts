@@ -1,17 +1,16 @@
-import type { UserUserInfoResponse } from '@/typings/httpTypes/user/userInfo'
-import type { UserLoginResponse } from '@/typings/httpTypes/user/login'
+import type { AdminUserInfoRes, AdminLoginRes } from '~@/apiTypes/user'
 
 /**
  * 用户信息
  */
-export type TUserInfo = UserUserInfoResponse
+export type TUserInfo = AdminUserInfoRes
 
 /**
  * token信息
  */
 export interface ITokenInfo {
-  token: UserLoginResponse['token']
-  refreshToken: UserLoginResponse['refreshToken']
+  token: AdminLoginRes['token']
+  refreshToken: AdminLoginRes['refreshToken']
   tokenExpiredAt: number | null
   refreshTokenExpiredAt: number | null
 }

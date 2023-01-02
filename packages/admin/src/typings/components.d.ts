@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BasicForm: typeof import('./../components/Basic/BasicForm.vue')['default']
-    BasicPagination: typeof import('./../components/Basic/BasicPagination.vue')['default']
     BasicSearch: typeof import('./../components/Basic/BasicSearch.vue')['default']
     BasicTable: typeof import('./../components/Basic/BasicTable.vue')['default']
     BasicUpload: typeof import('./../components/Basic/BasicUpload.vue')['default']
@@ -52,7 +51,6 @@ declare module '@vue/runtime-core' {
     ElProgress: typeof import('element-plus/es')['ElProgress']
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
-    ElResult: typeof import('element-plus/es')['ElResult']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElSpace: typeof import('element-plus/es')['ElSpace']
