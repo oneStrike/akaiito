@@ -1,7 +1,7 @@
 import { IMiddleware, Middleware } from '@midwayjs/core'
 import { NextFunction, Context } from '@midwayjs/koa'
-import { LogService } from '../admin/log/log.service'
 import { IResponseData } from '../types/dto/list'
+import { LogService } from '../modules/admin/log/log.service'
 
 @Middleware()
 export class ResponseMiddleware implements IMiddleware<Context, NextFunction> {

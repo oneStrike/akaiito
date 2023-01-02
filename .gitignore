@@ -14,11 +14,10 @@ node_modules
 
 !/packages/client/.eslintrc-auto-import.json
 
-!/packages/server/logs/
-
-!/packages/server/public/
-!/packages/typings/src/admin/apiTypes/
-!/packages/typings/src/app/apiTypes/
-!/packages/typings/src/common/apiTypes/
-!/packages/typings/src/open/apiTypes/
+!/packages/server/public
+!/packages/typings/src/admin/apiTypes
+!/packages/typings/src/app/apiTypes
+!/packages/typings/src/common/apiTypes
+!/packages/typings/src/open/apiTypes
 !/packages/admin/.eslintrc-auto-import.json
+/packages/server/logs

@@ -2,6 +2,8 @@
 export {}
 declare global {
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElLoading: typeof import('element-plus/es')['ElLoading']
+  const ElMessage: typeof import('element-plus/es')['ElMessage']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const axios: typeof import('axios')['default']
   const computed: typeof import('vue')['computed']
@@ -81,6 +83,8 @@ import { UnwrapRef } from 'vue'
 declare module 'vue' {
   interface ComponentCustomProperties {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElLoading: UnwrapRef<typeof import('element-plus/es')['ElLoading']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly acceptHMRUpdate: UnwrapRef<
       typeof import('pinia')['acceptHMRUpdate']
     >

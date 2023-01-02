@@ -1,6 +1,8 @@
 {
   "globals": {
     "EffectScope": "readonly",
+    "ElLoading": "readonly",
+    "ElMessage": "readonly",
     "acceptHMRUpdate": "readonly",
     "axios": "readonly",
     "computed": "readonly",
