@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getHomeLayout } from '@/api/common/common'
-import { configEnum } from '@/config'
+import config from '@/config'
 import { IDiyLayoutData, IOverallPage } from '@/typings/pages/home/home'
 
 const pageStyle = ref<string>('')
@@ -19,7 +19,7 @@ const formatPageStyle = (pageData: IOverallPage) => {
     pageStyle.value = `background-color: ${backgroundColor}`
   } else if (Array.isArray(backgroundImage) && backgroundImage[0]?.path) {
     pageStyle.value = `background-image: url('${
-      configEnum.FILE_PATH + backgroundImage[0].path
+      config.FILE_PATH + backgroundImage[0].path
     }');background-size: cover`
   }
 }

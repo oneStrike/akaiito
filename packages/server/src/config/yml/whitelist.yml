@@ -2,4 +2,4 @@ whitelist:
   - '/admin/user/login'
   - '/admin/user/createUser'
   - '/open/captcha/getCaptcha'
-  - 'app'
+  - 'client'

@@ -7,6 +7,7 @@ export class LayoutService extends BaseService {
   mapping: DiyMapping
 
   async getLayout() {
-    return await this.findOne({ use: 1 })
+    const layout = await this.findOne({ use: 1 })
+    return layout
   }
 }

@@ -6,7 +6,7 @@ export class LayoutController extends BaseController {
   @Inject()
   layoutService: LayoutService
 
-  @Get('/layout')
+  @Get('/homeLayout')
   async getLayout() {
     return await this.layoutService.getLayout()
   }

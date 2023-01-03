@@ -27,7 +27,7 @@ export class JwtGuard implements IGuard<Context> {
 
   ignoreUrl(context: Context) {
     const { url } = context
-    const openUrlReg = new RegExp('^/?.*open|app/').test(url)
+    const openUrlReg = new RegExp('^/?.*open|client/').test(url)
     return openUrlReg || this.routerWhitelist.includes(url)
   }
 }

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ESNext",
     "useDefineForClassFields": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
@@ -13,8 +13,13 @@
     "lib": ["esnext", "dom"],
     "types": ["@dcloudio/types", "miniprogram-api-typings", "mini-types"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "~@/*": ["node_modules/@akaiito/typings/src/client/*"]
     }
+  },
+  "paths": {
+    "@/*": ["src/*"],
+    "~@/*": ["node_modules/@akaiito/typings/src/client/*"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

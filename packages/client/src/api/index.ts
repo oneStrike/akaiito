@@ -1,6 +1,6 @@
 import { KRequest } from '@/utils/request'
-import { configEnum } from '@/config'
+import config from '@/config'
 
 export const ajax = new KRequest({
-  baseUrl: configEnum.BASE_URL
+  baseUrl: config.BASE_URL
 })

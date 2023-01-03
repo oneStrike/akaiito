@@ -37,7 +37,7 @@ const isSwiperPlaceholder = (ribbon: Record<string, any>) => {
 }
 const searchPlaceholder = (ribbon: Record<string, any>) => {
   const placeholder = ribbon.searchPlaceholderValue
-  return placeholder.length ? placeholder : ['请输入搜索内容']
+  return placeholder?.length ? placeholder : ['请输入搜索内容']
 }
 </script>
 

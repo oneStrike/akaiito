@@ -1,5 +1,5 @@
 import { IBasicDiy } from '@/typings/pages/home/home'
-import { configEnum } from '@/config'
+import config from '@/config'
 
 export const formatCommonStyle = (commonStyle: IBasicDiy): string => {
   const {
@@ -21,7 +21,7 @@ export const formatCommonStyle = (commonStyle: IBasicDiy): string => {
             ? backgroundImage[0].path
             : backgroundImage
           commonStyleString += `background: url('${
-            configEnum.FILE_PATH + backgroundUrl
+            config.FILE_PATH + backgroundUrl
           }') no-repeat center center / cover; `
         }
 

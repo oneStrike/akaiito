@@ -1,4 +1,6 @@
-import { devEnum } from './dev.config'
-import { prodEnum } from './prod.config'
+import devConfig from './dev.config'
+import prodConfig from './prod.config'
 
-export const configEnum = import.meta.env.PROD ? prodEnum : devEnum
+const config = import.meta.env.PROD ? prodConfig : devConfig
+
+export default { ...config }
