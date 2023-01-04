@@ -1,7 +1,7 @@
 import '@vue/runtime-core'
 import 'vue'
-import config from '@/config'
 import dayjs from 'dayjs'
+import * as config from '@/config'
 export {}
 declare global {
   interface Uni extends UniNamespace.Uni {
@@ -11,8 +11,8 @@ declare global {
 
 declare module 'vue' {
   interface ComponentCustomProperties {
-    $FILE_PATH: config.FILE_PATH
-    $BASE_URL: config.BASE_URL
+    $FILE_PATH: typeof config.default.FILE_PATH
+    $BASE_URL: typeof config.default.BASE_URL
     $dayjs: typeof dayjs
   }
 }
