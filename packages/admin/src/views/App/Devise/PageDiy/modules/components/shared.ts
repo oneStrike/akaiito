@@ -32,6 +32,18 @@ export const options = (): IBasicForm['options'] =>
       }
     },
     {
+      field: 'autoWidth',
+      component: 'Switch',
+      hide: true,
+      bind: {
+        label: '自适应宽度'
+      },
+      componentProps: {
+        tips: '开启后，将铺满剩余宽度',
+        bind: {}
+      }
+    },
+    {
       field: 'iconColor',
       component: 'ColorPicker',
       hide: true,

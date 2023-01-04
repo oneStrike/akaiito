@@ -1,8 +1,9 @@
-import { fileURLToPath, URL } from 'url'
 import type { AliasOptions, ResolveOptions } from 'vite'
+import * as path from 'path'
 export const viteResolve: ResolveOptions & { alias: AliasOptions } = {
   alias: {
-    '@': fileURLToPath(new URL('./src', import.meta.url)),
-    '@@': './src/static/images'
+    '@': path.resolve(__dirname, '../src'),
+    '@@': path.resolve(__dirname, '../src/static/images'),
+    '~@': '@akaiito/typings/src/client'
   }
 }

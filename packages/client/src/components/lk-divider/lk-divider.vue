@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { IDivider } from '@/typings/pages/home/home'
-
+import type { IDivider } from '@akaiito/typings/src/admin/diyPage'
 interface IRenderData {
   renderData: IDivider
 }

@@ -16,6 +16,7 @@ export interface IBasicDiy {
   divider: boolean
 }
 
+//模块之间的间隙
 export interface IDivider {
   backgroundColor: string
   height: number
@@ -28,7 +29,7 @@ export interface IDiyModule {
   type: string
   module: string
   icon: TIconName
-  attr: Record<string, any>
+  attr: IRibbonItem
   commonAttr: IBasicDiy
   divider: IDivider
   attrComponent: DiyModuleEnum
@@ -57,6 +58,7 @@ export interface IRibbonItem {
   iconColor?: string
   ribbonName: string
   size: number
+  autoWidth?: boolean
   ribbon: {
     type: string
     searchPlaceholderValue?: string[] | string
@@ -74,4 +76,13 @@ export interface IRibbonFormItem extends Omit<IRibbonItem['ribbon'], 'type'> {
   ribbonName?: string
   size?: number
   ribbon?: string | number
+  autoWidth?: boolean
+}
+
+export interface IDiyData {
+  diyName: string
+  diyData: {
+    page: IOverallPage
+    modules: TDiyLayoutData
+  }
 }

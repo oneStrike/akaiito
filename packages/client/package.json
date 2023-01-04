@@ -64,7 +64,6 @@
 		"@dcloudio/vite-plugin-uni": "3.0.0-3061520221228001",
 		"@typescript-eslint/eslint-plugin": "^5.47.1",
 		"@typescript-eslint/parser": "^5.47.1",
-		"eslint": "^8.30.0",
 		"eslint-plugin-vue": "^9.8.0",
 		"mini-types": "^0.1.7",
 		"miniprogram-api-typings": "^3.8.1",

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { getHomeLayout } from '@/api/common/common'
 import config from '@/config'
-import { IDiyLayoutData, IOverallPage } from '@/typings/pages/home/home'
+import {
+  IOverallPage,
+  TDiyLayoutData
+} from '@akaiito/typings/src/admin/diyPage'
+import { IDiyData } from '@akaiito/typings/src/admin/diyPage'
 
 const pageStyle = ref<string>('')
-const layouts = ref<IDiyLayoutData[]>()
+const layouts = ref<TDiyLayoutData>()
 getHomeLayout().then((res) => {
-  const layoutData = JSON.parse(res.diyData)
+  const layoutData: IDiyData['diyData'] = JSON.parse(res.diyData)
   layouts.value = layoutData.modules
   formatPageStyle(layoutData.page)
 })

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay } from 'swiper'
-import type { IDiyModule } from '~@/diyPage'
+import type { IDiyModule, IRibbonItem } from '~@/diyPage'
 import { useDiyCommonStyleToString } from '@/hooks/useDiyCommonStyleToString'
 
 const props = withDefaults(
@@ -19,6 +19,11 @@ const navBarStyle = computed(() => {
 const commonStyleString = computed(() =>
   useDiyCommonStyleToString(props.layout.commonAttr)
 )
+const searchBoxStyle = (style: IRibbonItem) => {
+  const { size, ribbon, autoWidth } = style
+  const widthStyle = autoWidth ? 'flex: 1' : `width:${size}px`
+  return `border-radius: ${ribbon.searchRadius}px;` + widthStyle
+}
 </script>
 
 <template>
@@ -55,10 +60,7 @@ const commonStyleString = computed(() =>
         <div
           v-else
           class="dummy_input flex cross_center main_between pl_1 pr_1 swiper-no-swiping"
-          :style="{
-            borderRadius: item.ribbon.searchRadius + 'px',
-            width: item.size + 'px'
-          }"
+          :style="searchBoxStyle(item)"
         >
           <swiper
             v-if="

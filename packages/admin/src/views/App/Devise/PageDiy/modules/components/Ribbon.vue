@@ -62,6 +62,7 @@ const antiRibbonData = (val: IRibbonItem): IRibbonFormItem => {
     ribbon.ribbon = val.ribbon.id
   }
   ribbon.size = val.size
+  ribbon.autoWidth = !!val.autoWidth
   ribbon.ribbonName = val.ribbonName
   ribbon.icon = val.icon
   ribbon.iconColor = val.iconColor || '#333333'
@@ -115,8 +116,10 @@ const formatFormOptions = () => {
   const ribbonType = currentFormRibbon.value?.ribbon
   if (!ribbonType) return
   const formIcon = currentFormRibbon.value?.icon
+  const formAutoWidth = currentFormRibbon.value?.autoWidth
   const ribbonDetail = pageList.value?.find((item) => item.id === ribbonType)
   const icon = findFormItem(formOptions, 'icon')
+  const autoWidth = findFormItem(formOptions, 'autoWidth')
   const iconColor = findFormItem(formOptions, 'iconColor')
   const size = findFormItem(formOptions, 'size')
   const appletName = findFormItem(formOptions, 'appletName')
@@ -128,6 +131,7 @@ const formatFormOptions = () => {
   )
   const searchRadius = findFormItem(formOptions, 'searchRadius')
   icon.hide = false
+  autoWidth.hide = true
   iconColor.hide = true
   size.componentProps.bind!.max = 60
   appletName.hide = true
@@ -145,17 +149,18 @@ const formatFormOptions = () => {
       size.componentProps.bind!.max = 260
       searchRadius.hide = false
       searchPlaceholderValue.hide = false
+      autoWidth.hide = false
     } else if (ribbonDetail && ribbonDetail.pageName === 'H5') {
       webviewUrl.hide = false
     }
   }
 
+  //字体图标样式
   if (Array.isArray(formIcon) && formIcon.length) {
     const iconType = formIcon[0].filename?.split('.').pop()
     iconColor.hide =
       !iconType || config.ALLOW_IMAGE_TYPE.includes(iconType || '')
   }
-  //字体图标样式
   if (
     currentFormRibbon.value?.icon &&
     !iconColor.hide &&
@@ -170,6 +175,9 @@ const formatFormOptions = () => {
       }
     }
   }
+
+  //自适应宽度
+  size.componentProps.bind!.disabled = formAutoWidth
 }
 
 //currentRibbon改变时处理表单项

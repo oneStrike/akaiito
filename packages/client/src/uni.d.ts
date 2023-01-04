@@ -1,18 +1,18 @@
 import '@vue/runtime-core'
-import { configEnum } from '@/config'
+import 'vue'
+import config from '@/config'
 import dayjs from 'dayjs'
-
+export {}
 declare global {
   interface Uni extends UniNamespace.Uni {
     $u: Record<string, any>
   }
 }
 
-declare module '@vue/runtime-core' {
+declare module 'vue' {
   interface ComponentCustomProperties {
-    // @ts-ignore
-    $FILE_PATH: configEnum.FILE_PATH
+    $FILE_PATH: config.FILE_PATH
+    $BASE_URL: config.BASE_URL
     $dayjs: typeof dayjs
-    $u: any
   }
 }

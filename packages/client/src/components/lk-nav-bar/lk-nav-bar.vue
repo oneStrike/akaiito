@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { IDiyLayoutData } from '@/typings/pages/home/home'
+import type { IDiyLayoutData } from '@/typings/pages/home/home'
+import type { IRibbonItem } from '@akaiito/typings/src/admin/diyPage'
 import { formatCommonStyle } from '@/utils/method'
 
 interface IRenderData {
@@ -24,18 +25,21 @@ watch(
   { immediate: true, deep: true }
 )
 
-const searchBoxStyle = (style: Record<string, any>) => {
-  return `border-radius: ${style.ribbon.searchRadius}px;width:${style.size}px`
+const searchBoxStyle = (style: IRibbonItem) => {
+  const { size, ribbon, autoWidth } = style
+  const widthStyle = autoWidth ? '' : `width:${size}px`
+  return `border-radius: ${ribbon.searchRadius}px;` + widthStyle
 }
 
 //搜索框placeholder
 const getHotSearch = async () => {
   return ['我是搜索内容', '我也是搜索内容', '我还是搜索内容']
 }
-const isSwiperPlaceholder = (ribbon: Record<string, any>) => {
-  return ribbon.searchPlaceholderValue?.length > 1
+const isSwiperPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
+  const searchPlaceholderCount = ribbon.searchPlaceholderValue?.length || 0
+  return searchPlaceholderCount > 1
 }
-const searchPlaceholder = (ribbon: Record<string, any>) => {
+const searchPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
   const placeholder = ribbon.searchPlaceholderValue
   return placeholder?.length ? placeholder : ['请输入搜索内容']
 }
@@ -56,8 +60,14 @@ const searchPlaceholder = (ribbon: Record<string, any>) => {
       v-else
       class="ribbons w_100 flex cross_center main_between pl_16 pr_16"
     >
-      <view v-for="item in renderData.attr.ribbonConfig" :key="item.id">
-        <view v-if="item.ribbon.type === 'search'" class="search-box">
+      <view
+        v-for="item in renderData.attr.ribbonConfig"
+        :key="item.id"
+        class="flex"
+        :class="item.autoWidth ? 'pl_16 pr_16' : ''"
+        :style="item.autoWidth ? 'flex: 1' : ''"
+      >
+        <view v-if="item.ribbon.type === 'search'" class="search-box flex1">
           <u--input
             :style="searchBoxStyle(item)"
             :placeholder="

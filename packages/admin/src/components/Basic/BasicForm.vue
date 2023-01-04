@@ -183,6 +183,7 @@ const resetFields = (formEl: FormInstance | undefined) => {
         <el-switch
           v-if="item.component === 'Switch'"
           v-model="formData[item.field]"
+          v-bind="item.componentProps.bind || {}"
         ></el-switch>
 
         <div class="flex" v-if="item.component === 'ColorPicker'">
