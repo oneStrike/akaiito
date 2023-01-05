@@ -5,6 +5,7 @@ import { autoRegistryComponent } from './component'
 import { importStyle } from './importStyle'
 import { compression } from './compression'
 import { icons } from './icons'
+
 export function createVitePlugins() {
   const vitePlugins: (Plugin | Plugin[])[] = [vue()]
   //自动导入

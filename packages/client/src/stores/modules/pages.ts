@@ -1,7 +1,9 @@
+import { ClientGetPagesRes } from '~@/apiTypes/manage'
+
 const pagesStore = defineStore('pages', {
   state() {
     return {
-      pages: []
+      pages: [] as ClientGetPagesRes
     }
   }
 })

@@ -12,5 +12,8 @@ export default defineConfig({
   esbuild: {
     pure: ['console.log']
   },
-  build: viteBuild
+  build: viteBuild,
+  optimizeDeps: {
+    include: ['element-plus']
+  }
 })
