@@ -1,4 +1,5 @@
 import * as randomstring from 'randomstring'
+import { ServiceVersionEnum } from '../shared/enum/service-version.enum'
 
 /**
  * 字节数单位转换
@@ -28,4 +29,22 @@ export const getRandom = (length = 15, charset = 'alphabetic') => {
     length,
     charset
   })
+}
+
+/**
+ * 获取路由类型,管理端还是客户端
+ * @param path 请求地址
+ */
+export const serviceVersionType = (path: string): ServiceVersionEnum => {
+  const prefix = path.split('/')[1]
+  switch (prefix) {
+    case 'admin':
+      return ServiceVersionEnum.ADMIN
+    case 'client':
+      return ServiceVersionEnum.CLIENT
+    case 'open':
+      return ServiceVersionEnum.OPEN
+    case 'common':
+      return ServiceVersionEnum.COMMON
+  }
 }

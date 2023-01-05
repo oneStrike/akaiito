@@ -7,5 +7,7 @@ export default defineConfig({
   plugins: createVitePlugins(),
   resolve: viteResolve,
   server: viteServer,
-  optimizeDeps: ['@dcloudio/uni-ui']
+  optimizeDeps: {
+    includes: ['@dcloudio/uni-ui']
+  }
 })

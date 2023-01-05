@@ -5,6 +5,7 @@ import { Context } from '@midwayjs/koa'
 import { AdminUserEntity } from '../user/entities/user.entity'
 import { IResponseData } from '../../../types/dto/list'
 import { LoginLogDto } from './dto/loginLog.dto'
+import { ServiceVersionEnum } from '../../../shared/enum/service-version.enum'
 
 @Provide()
 export class LogService extends BaseService {
@@ -20,6 +21,11 @@ export class LogService extends BaseService {
    */
   async record(ctx: Context) {
     const { path, method, header } = ctx
+    if (
+      this.utils.commonUtil.serviceVersionType(path) ===
+      ServiceVersionEnum.CLIENT
+    )
+      return
     let username = null,
       userAccount = null,
       userId = null,
