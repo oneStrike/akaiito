@@ -10,7 +10,7 @@
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
     "clean": "rimraf node_modules **/*/node_modules",
-		"ytt": "concurrently \"pnpm -C packages/typings ytt\""
+    "ytt": "concurrently \"pnpm -C packages/typings ytt\""
   },
   "keywords": [],
   "author": "",

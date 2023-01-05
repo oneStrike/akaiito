@@ -14,5 +14,8 @@ module.exports = {
     '@vue/eslint-config-prettier',
     './.eslintrc-auto-import.json'
   ],
-  rules: { 'vue/multi-word-component-names': 1 }
+  rules: {
+    'vue/multi-word-component-names': 1,
+    '@typescript-eslint/no-non-null-assertion': 'warn'
+  }
 }

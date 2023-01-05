@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { IDiyLayoutData } from '@/typings/pages/home/home'
-import type { IRibbonItem } from '@akaiito/typings/src/admin/diyPage'
+import type {
+  IRibbonItem,
+  TDiyLayoutData
+} from '@akaiito/typings/src/admin/diyPage'
 import { formatCommonStyle } from '@/utils/method'
 
 interface IRenderData {
-  renderData: IDiyLayoutData
+  renderData: TDiyLayoutData
 }
 
 const props = withDefaults(defineProps<IRenderData>(), {})
@@ -14,21 +16,28 @@ const commonStyle = ref('')
 const hotSearch: string[] = reactive([])
 watch(
   () => props.renderData,
-  (val: IDiyLayoutData) => {
+  (val: TDiyLayoutData) => {
     commonStyle.value = formatCommonStyle(val.commonAttr)
     navBarStyle.value =
       `height: ${props.renderData.attr.navBarHeight}px;` + commonStyle.value
-    val.attr.ribbonConfig.forEach((item: any) => {
-      if (item.type === 'search') getHotSearch()
-    })
+    if (val.attr.ribbon) {
+      val.attr.ribbonConfig?.forEach((item: any) => {
+        if (item.type === 'search') getHotSearch()
+      })
+    }
   },
   { immediate: true, deep: true }
 )
 
 const searchBoxStyle = (style: IRibbonItem) => {
   const { size, ribbon, autoWidth } = style
-  const widthStyle = autoWidth ? '' : `width:${size}px`
-  return `border-radius: ${ribbon.searchRadius}px;` + widthStyle
+  const styles: any = {
+    borderRadius: `${ribbon.searchRadius}px`,
+    width: `${size}px`
+  }
+  if (autoWidth) delete styles.width
+
+  return styles
 }
 
 //搜索框placeholder
@@ -42,6 +51,18 @@ const isSwiperPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
 const searchPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
   const placeholder = ribbon.searchPlaceholderValue
   return placeholder?.length ? placeholder : ['请输入搜索内容']
+}
+
+const inputFocusStatus = ref(false)
+const inputFocus = () => {
+  inputFocusStatus.value = true
+}
+
+const searchValue = ref('')
+
+const goSearch = () => {
+  inputFocusStatus.value = false
+  if (searchValue.value) return
 }
 </script>
 
@@ -67,22 +88,40 @@ const searchPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
         :class="item.autoWidth ? 'pl_16 pr_16' : ''"
         :style="item.autoWidth ? 'flex: 1' : ''"
       >
-        <view v-if="item.ribbon.type === 'search'" class="search-box flex1">
-          <u--input
+        <view
+          @click="inputFocus"
+          v-if="item.ribbon.type === 'search'"
+          class="search-box flex1"
+        >
+          <input
+            ref="uInput"
+            v-model="searchValue"
+            class="border_base input_pd"
+            :focus="inputFocusStatus"
             :style="searchBoxStyle(item)"
             :placeholder="
-              !isSwiperPlaceholder(item.ribbon) &&
-              searchPlaceholder(item.ribbon)[0]
+              !isSwiperPlaceholder(item.ribbon)
+                ? searchPlaceholder(item.ribbon)[0]
+                : ''
             "
-            border="surround"
-            suffixIcon="search"
-            :suffixIconStyle="{ fontSize: '26px', color: '#e4e7ed' }"
-          >
-          </u--input>
-          <!--          <lk-swiper-->
-          <!--            mode="text"-->
-          <!--            :render-data="item.ribbon.searchPlaceholderValue"-->
-          <!--          ></lk-swiper>-->
+            confirm-type="search"
+            @blur="inputFocusStatus = false"
+            @confirm="goSearch"
+          />
+          <view class="w_100 h_100 swiper_placeholder input_pd">
+            <lk-swiper
+              v-if="
+                isSwiperPlaceholder(item.ribbon) &&
+                !inputFocusStatus &&
+                !searchValue
+              "
+              mode="text"
+              :render-data="item.ribbon.searchPlaceholderValue"
+            ></lk-swiper>
+          </view>
+          <view class="search_icon" @click.stop="goSearch">
+            <uni-icons color="#999" type="search" :size="22"></uni-icons>
+          </view>
         </view>
         <view v-if="item.ribbon.type === 'page'">
           <lk-icon
@@ -97,7 +136,27 @@ const searchPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
 </template>
 
 <style scoped lang="scss">
-:deep(.u-input) {
-  padding: 3px 6px !important;
+.search-box {
+  position: relative;
+  overflow: hidden;
+
+  .input_pd {
+    padding: 4px 10px;
+  }
+
+  .swiper_placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    padding-right: 40px;
+  }
+
+  .search_icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 </style>

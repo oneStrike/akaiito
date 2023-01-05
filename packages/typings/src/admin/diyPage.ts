@@ -23,18 +23,6 @@ export interface IDivider {
   bothSideMargin: number
 }
 
-//编辑中的布局信息
-export interface IDiyModule {
-  name: string
-  type: string
-  module: string
-  icon: TIconName
-  attr: IRibbonItem
-  commonAttr: IBasicDiy
-  divider: IDivider
-  attrComponent: DiyModuleEnum
-}
-
 //最终的布局信息
 export type TDiyLayoutData = Pick<
   IDiyModule,
@@ -48,6 +36,23 @@ export interface IOverallPage {
   backgroundStyle: 'color' | 'image'
   backgroundColor: string
   backgroundImage: CommonUploadRes
+}
+
+//编辑中的布局信息
+export interface IDiyModule {
+  name: string
+  type: string
+  attr: IRibbon
+  module: string
+  icon: TIconName
+  divider: IDivider
+  attrComponent: DiyModuleEnum
+  commonAttr: IBasicDiy
+}
+//通用模块配置
+export interface IRibbon extends Record<string, any> {
+  ribbon?: boolean
+  ribbonConfig?: IRibbonItem[]
 }
 
 //功能区标准结构
@@ -77,12 +82,13 @@ export interface IRibbonFormItem extends Omit<IRibbonItem['ribbon'], 'type'> {
   size?: number
   ribbon?: string | number
   autoWidth?: boolean
+  navBarHeight?: number
 }
 
 export interface IDiyData {
   diyName: string
   diyData: {
     page: IOverallPage
-    modules: TDiyLayoutData
+    modules: TDiyLayoutData[]
   }
 }

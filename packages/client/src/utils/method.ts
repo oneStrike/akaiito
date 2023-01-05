@@ -1,4 +1,4 @@
-import { IBasicDiy } from '@/typings/pages/home/home'
+import { IBasicDiy } from '@akaiito/typings/src/admin/diyPage'
 import config from '@/config'
 
 export const formatCommonStyle = (commonStyle: IBasicDiy): string => {

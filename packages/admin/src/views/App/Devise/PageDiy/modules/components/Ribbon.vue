@@ -156,11 +156,14 @@ const formatFormOptions = () => {
   }
 
   //字体图标样式
+  console.log(formIcon)
+  let iconType
   if (Array.isArray(formIcon) && formIcon.length) {
-    const iconType = formIcon[0].filename?.split('.').pop()
-    iconColor.hide =
-      !iconType || config.ALLOW_IMAGE_TYPE.includes(iconType || '')
+    iconType = formIcon[0].filename?.split('.').pop()
+  } else if (formIcon) {
+    iconType = formIcon
   }
+  iconColor.hide = !iconType || config.ALLOW_IMAGE_TYPE.includes(iconType || '')
   if (
     currentFormRibbon.value?.icon &&
     !iconColor.hide &&

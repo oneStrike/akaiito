@@ -11,7 +11,6 @@ onHide(() => {
 })
 </script>
 <style lang="scss">
-@import 'uview-plus/index.scss';
 @import './static/iconfont/font.scss';
 @import './static/styles/variable.scss';
 @import './static/styles/layout.scss';

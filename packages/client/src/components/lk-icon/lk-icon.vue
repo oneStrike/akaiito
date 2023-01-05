@@ -27,13 +27,13 @@ const imageHeight = Array.isArray(props.size) ? props.size[1] : props.size
       :class="'iconfont icon-' + name"
       :style="'font-size: ' + size + 'px; ' + 'color: ' + color"
     ></text>
-    <u-image
+    <image
       v-else
       :width="imageWidth"
       :height="imageHeight"
       :src="$FILE_PATH + name"
       :mode="mode"
       :shape="shape"
-    ></u-image>
+    ></image>
   </view>
 </template>

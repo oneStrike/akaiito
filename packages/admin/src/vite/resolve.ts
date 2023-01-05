@@ -5,5 +5,6 @@ export const viteResolve: ResolveOptions & { alias: AliasOptions } = {
     '@': path.resolve(__dirname, '../../src'),
     '@@': path.resolve(__dirname, '../../src/assets/images'),
     '~@': '@akaiito/typings/src/admin'
-  }
+  },
+  dedupe: ['@akaiito/typings']
 }

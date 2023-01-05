@@ -6,5 +6,6 @@ import { viteServer } from './vite/server'
 export default defineConfig({
   plugins: createVitePlugins(),
   resolve: viteResolve,
-  server: viteServer
+  server: viteServer,
+  optimizeDeps: ['@dcloudio/uni-ui']
 })

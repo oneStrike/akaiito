@@ -13,19 +13,27 @@ const props = withDefaults(defineProps<ISwiperProps>(), {
   autoplay: true,
   duration: 500
 })
-console.log('🚀 ~ file:lk-swiper method: line:16 -----', props)
+
+const emits = defineEmits<{
+  (event: 'click', index: number): void
+}>()
+
+const textClick = (index: number) => {
+  emits('click', index)
+}
 </script>
 
 <template>
   <!--	文本 -->
-  <swiper class="text_swiper" :autoplay="autoplay" vertical>
-    <swiper-item v-for="(text, index) in renderData" :key="index">
-      <text :style="textStyle" class="u-line-1">{{ text }}</text>
+  <swiper class="text_swiper h_100" :autoplay="autoplay" vertical circular>
+    <swiper-item
+      v-for="(text, index) in renderData"
+      :key="index"
+      class="flex cross_center"
+      @click="textClick(index)"
+    >
+      <view :style="textStyle" class="u-line-1 fs_14 fc_3">{{ text }}</view>
     </swiper-item>
   </swiper>
 </template>
-<style scoped lang="scss">
-.text_swiper {
-  height: 40px;
-}
-</style>
+<style scoped lang="scss"></style>

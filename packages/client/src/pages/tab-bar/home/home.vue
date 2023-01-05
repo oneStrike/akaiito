@@ -8,7 +8,7 @@ import {
 import { IDiyData } from '@akaiito/typings/src/admin/diyPage'
 
 const pageStyle = ref<string>('')
-const layouts = ref<TDiyLayoutData>()
+const layouts = ref<TDiyLayoutData[]>()
 getHomeLayout().then((res) => {
   const layoutData: IDiyData['diyData'] = JSON.parse(res.diyData)
   layouts.value = layoutData.modules
