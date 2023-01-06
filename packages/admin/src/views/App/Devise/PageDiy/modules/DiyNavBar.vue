@@ -37,13 +37,7 @@ const searchBoxStyle = (style: IRibbonItem) => {
         <div
           v-if="item.ribbon.type !== 'search'"
           class="flex"
-          :class="
-            index === 0
-              ? 'mr_2'
-              : index === ribbon.length - 1
-              ? 'ml_2'
-              : ' mr-2 ml_2'
-          "
+          :class="index !== ribbon.length - 1 ? 'mr_2' : ''"
         >
           <el-avatar
             v-if="item.iconType === 'image'"
@@ -100,12 +94,12 @@ const searchBoxStyle = (style: IRibbonItem) => {
 
 <style scoped lang="scss">
 .dummy_input {
-  height: 28px;
+  height: 30px;
   border: 1px solid #e4e7ed;
   overflow: hidden;
 
   .swiper {
-    height: 28px;
+    height: 30px;
   }
 
   .placeholder {

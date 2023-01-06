@@ -82,10 +82,12 @@ const goSearch = () => {
       class="ribbons w_100 flex cross_center main_between pl_16 pr_16"
     >
       <view
-        v-for="item in renderData.attr.ribbonConfig"
+        v-for="(item, index) in renderData.attr.ribbonConfig"
         :key="item.id"
         class="flex"
-        :class="item.autoWidth ? 'pl_16 pr_16' : ''"
+        :class="
+          index !== renderData.attr.ribbonConfig.length - 1 ? 'pr_16' : ''
+        "
         :style="item.autoWidth ? 'flex: 1' : ''"
       >
         <view
@@ -108,13 +110,15 @@ const goSearch = () => {
             @blur="inputFocusStatus = false"
             @confirm="goSearch"
           />
-          <view class="w_100 h_100 swiper_placeholder input_pd">
+          <view
+            class="w_100 h_100 swiper_placeholder input_pd"
+            v-if="
+              isSwiperPlaceholder(item.ribbon) &&
+              !inputFocusStatus &&
+              !searchValue
+            "
+          >
             <lk-swiper
-              v-if="
-                isSwiperPlaceholder(item.ribbon) &&
-                !inputFocusStatus &&
-                !searchValue
-              "
               mode="text"
               :render-data="item.ribbon.searchPlaceholderValue"
             ></lk-swiper>

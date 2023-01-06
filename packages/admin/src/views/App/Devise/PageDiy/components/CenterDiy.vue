@@ -180,7 +180,7 @@ const disposition = (item: IDiyModule, index: number) => {
   position: relative;
 
   .status_bar {
-    height: 22px;
+    height: 18px;
     background: white;
   }
 
