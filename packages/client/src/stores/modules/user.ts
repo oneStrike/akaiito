@@ -1,7 +1,8 @@
+import { ClientLoginRes } from '~@/apiTypes/user'
 const userStore = defineStore('user', {
   state() {
     return {
-      userInfo: {}
+      userInfo: {} as ClientLoginRes
     }
   }
 })

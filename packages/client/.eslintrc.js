@@ -7,7 +7,8 @@ module.exports = {
   },
   globals: {
     uni: true,
-    wx: true
+    wx: true,
+    plus: true
   },
   extends: [
     'eslint:recommended',

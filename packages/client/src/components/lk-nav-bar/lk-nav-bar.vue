@@ -4,7 +4,8 @@ import type {
   TDiyLayoutData
 } from '@akaiito/typings/src/admin/diyPage'
 import { formatCommonStyle } from '@/utils/method'
-
+import { useRouter } from '@/hooks/useRouter'
+import { useModal } from '@/hooks/useModal'
 interface IRenderData {
   renderData: TDiyLayoutData
 }
@@ -63,6 +64,13 @@ const searchValue = ref('')
 const goSearch = () => {
   inputFocusStatus.value = false
   if (searchValue.value) return
+}
+
+const ribbonClick = (ribbon: IRibbonItem['ribbon']) => {
+  useModal.show({ content: 'foo', maskClick: true })
+  useRouter.navigateTo({
+    path: '/pages/tab-bar/home/home'
+  })
 }
 </script>
 
@@ -127,7 +135,7 @@ const goSearch = () => {
             <uni-icons color="#999" type="search" :size="22"></uni-icons>
           </view>
         </view>
-        <view v-if="item.ribbon.type === 'page'">
+        <view v-else @click="ribbonClick(item)">
           <lk-icon
             :name="item.icon"
             :color="item.iconColor"

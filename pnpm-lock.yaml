@@ -129,6 +129,7 @@ importers:
   packages/client:
     specifiers:
       '@akaiito/typings': workspace:*
+      '@akaiito/utils': workspace:^1.0.0
       '@dcloudio/types': ^3.0.17
       '@dcloudio/uni-app': 3.0.0-3061520221228001
       '@dcloudio/uni-app-plus': 3.0.0-3061520221228001
@@ -162,6 +163,7 @@ importers:
       vue: ^3.2.45
       vue-i18n: ^9.1.9
     dependencies:
+      '@akaiito/utils': link:../utils
       '@dcloudio/uni-app': registry.npmjs.org/@dcloudio/uni-app/3.0.0-3061520221228001_b75fu4brmuon3mkjw5m6vdeec4
       '@dcloudio/uni-app-plus': registry.npmjs.org/@dcloudio/uni-app-plus/3.0.0-3061520221228001_vite@3.2.4+vue@3.2.45
       '@dcloudio/uni-components': registry.npmjs.org/@dcloudio/uni-components/3.0.0-3061520221228001

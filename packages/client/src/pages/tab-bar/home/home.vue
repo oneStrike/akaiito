@@ -6,7 +6,6 @@ import {
   TDiyLayoutData
 } from '@akaiito/typings/src/admin/diyPage'
 import { IDiyData } from '@akaiito/typings/src/admin/diyPage'
-
 const pageStyle = ref<string>('')
 const layouts = ref<TDiyLayoutData[]>()
 getHomeLayout().then((res) => {

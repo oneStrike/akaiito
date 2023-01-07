@@ -1,9 +1,13 @@
-import { Controller, Get, Redirect } from '@midwayjs/core'
+import { Controller, Get, Inject } from '@midwayjs/core'
 import { BaseController } from '../../../shared/controller/base.controller'
-
+import { TransitService } from '../../../service/transit.service'
 @Controller('/client/manage')
 export class ManageController extends BaseController {
-  @Get('/getPages', { summary: '获取客户端页面配置信息' })
-  @Redirect('/admin/clientManage/getClientPage', 200)
-  async getPage() {}
+  @Inject()
+  transitService: TransitService
+
+  @Get('/getPages', { summary: '获取客户端页面列表' })
+  async getPage() {
+    return this.transitService.clientPages()
+  }
 }

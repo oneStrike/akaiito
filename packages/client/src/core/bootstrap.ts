@@ -1,6 +1,7 @@
 import dayjs from 'dayjs'
 import config from '@/config'
 import { Plugin } from 'vue'
+import { queryApi } from '@/core/query'
 
 export const bootstrap: Plugin = {
   install: (app) => {
@@ -10,5 +11,7 @@ export const bootstrap: Plugin = {
       app.config.globalProperties['$' + iterator] =
         config[iterator as keyof typeof config]
     }
+    //启动时就请求的接口
+    // queryApi()
   }
 }
