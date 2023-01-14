@@ -4,7 +4,7 @@
  */
 export default (str: string) => {
   const query = str.split('?')
-  if (query.length === 1) return str
+  if (query.length === 1) return ''
   let queryStr = ''
   if (query.length > 2) {
     query.forEach((item, index) => {
@@ -14,7 +14,7 @@ export default (str: string) => {
   } else {
     queryStr = query[1]
   }
-  const queryObj = {}
+  const queryObj: Record<string, any> = {}
   queryStr.split('&').forEach((item) => {
     const parseStr = item.split('=')
     queryObj[parseStr[0]] = parseStr[1]

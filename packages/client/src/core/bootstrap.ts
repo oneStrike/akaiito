@@ -12,6 +12,6 @@ export const bootstrap: Plugin = {
         config[iterator as keyof typeof config]
     }
     //启动时就请求的接口
-    // queryApi()
+    queryApi()
   }
 }

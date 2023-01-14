@@ -16,7 +16,7 @@ class Router {
     params = params ? Object.assign(params, parseQuery(path)) : parseQuery(path)
     path = this.fullPath(path)
     const isAuth = this.isAuth(path)
-    if (!isAuth) {
+    if (isAuth) {
       useModal.show({
         content: '暂无浏览权限'
       })
@@ -27,11 +27,11 @@ class Router {
       if (this.isTabBarPage(path) && method !== RouterJumpMethodEnum.RELAUNCH) {
         method = RouterJumpMethodEnum.SWITCH_TAB
       }
+      path = params
+        ? path + '?params=' + encodeURIComponent(JSON.stringify(params))
+        : path
       uni[method]({
-        url: path,
-        complete: (res) => {
-          console.log('🚀 ~ file:useRouter method:complete line:25 -----', res)
-        }
+        url: path
       })
     }
   }

@@ -67,9 +67,9 @@ const goSearch = () => {
 }
 
 const ribbonClick = (ribbon: IRibbonItem['ribbon']) => {
-  useModal.show({ content: 'foo', maskClick: true })
   useRouter.navigateTo({
-    path: '/pages/tab-bar/home/home'
+    path: '/foo/foo',
+    params: ribbon
   })
 }
 </script>
