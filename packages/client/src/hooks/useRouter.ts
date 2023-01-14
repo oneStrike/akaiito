@@ -16,7 +16,7 @@ class Router {
     params = params ? Object.assign(params, parseQuery(path)) : parseQuery(path)
     path = this.fullPath(path)
     const isAuth = this.isAuth(path)
-    if (isAuth) {
+    if (!isAuth) {
       useModal.show({
         content: '暂无浏览权限'
       })

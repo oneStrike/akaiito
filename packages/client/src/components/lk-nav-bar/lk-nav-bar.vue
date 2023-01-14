@@ -68,8 +68,7 @@ const goSearch = () => {
 
 const ribbonClick = (ribbon: IRibbonItem['ribbon']) => {
   useRouter.navigateTo({
-    path: '/foo/foo',
-    params: ribbon
+    path: '/foo/foo'
   })
 }
 </script>
