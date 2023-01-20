@@ -23,6 +23,7 @@ type TGroup = AdminGetMaterialGroupRes['list'][number]
 interface IMaterialLibrary {
   visible: boolean
   limit?: number
+  onlyFontIcon?: boolean
   defaultPath?: (string | undefined)[]
 }
 
@@ -32,6 +33,7 @@ type TSelectItem = AdminGetMaterialRes['list']
 
 const props = withDefaults(defineProps<IMaterialLibrary>(), {
   visible: false,
+  onlyFontIcon: false,
   limit: 1
 })
 const emits = defineEmits<{
@@ -62,6 +64,11 @@ const currentGroup = ref<TGroup | null>()
 //获取素材分组列表
 const materialLibraryGroup = ref()
 const getMaterialLibraryGroup = async () => {
+  if (props.onlyFontIcon) {
+    materialLibraryGroup.value = [otherGroup[1]]
+    await selectionGroup(otherGroup[1])
+    return
+  }
   const groups = (await getMaterialLibraryApi()).list
   groups.unshift(...otherGroup)
   materialLibraryGroup.value = groups
@@ -81,7 +88,7 @@ const listParams = reactive({
 
 const material = ref<AdminGetMaterialRes>()
 const getMaterial = async () => {
-  if (currentGroup.value?.id === iconfontGroupId) {
+  if (currentGroup.value?.id === iconfontGroupId || props.onlyFontIcon) {
     return
   }
   vLoading.value = true
@@ -295,7 +302,10 @@ const closePreviewImage = () => {
     @closed="closed"
   >
     <div class="w_100 content border_solid border_radius_base flex">
-      <div class="grouping h_100 border_right pd_1 flex_col border_box">
+      <div
+        v-if="!onlyFontIcon"
+        class="grouping h_100 border_right pd_1 flex_col border_box"
+      >
         <el-button
           type="primary"
           @click=";(modalInputShow = true), (isEditGroup = false)"

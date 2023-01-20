@@ -5,7 +5,6 @@ import type {
 } from '@akaiito/typings/src/admin/diyPage'
 import { formatCommonStyle } from '@/utils/method'
 import { useRouter } from '@/hooks/useRouter'
-import { useModal } from '@/hooks/useModal'
 interface IRenderData {
   renderData: TDiyLayoutData
 }
@@ -14,62 +13,30 @@ const props = withDefaults(defineProps<IRenderData>(), {})
 
 const navBarStyle = ref('')
 const commonStyle = ref('')
-const hotSearch: string[] = reactive([])
 watch(
   () => props.renderData,
   (val: TDiyLayoutData) => {
     commonStyle.value = formatCommonStyle(val.commonAttr)
     navBarStyle.value =
       `height: ${props.renderData.attr.navBarHeight}px;` + commonStyle.value
-    if (val.attr.ribbon) {
-      val.attr.ribbonConfig?.forEach((item: any) => {
-        if (item.type === 'search') getHotSearch()
-      })
-    }
   },
   { immediate: true, deep: true }
 )
 
-const searchBoxStyle = (style: IRibbonItem) => {
-  const { size, ribbon, autoWidth } = style
-  const styles: any = {
-    borderRadius: `${ribbon.searchRadius}px`,
-    width: `${size}px`
-  }
-  if (autoWidth) delete styles.width
-
-  return styles
-}
-
-//搜索框placeholder
-const getHotSearch = async () => {
-  return ['我是搜索内容', '我也是搜索内容', '我还是搜索内容']
-}
-const isSwiperPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
-  const searchPlaceholderCount = ribbon.searchPlaceholderValue?.length || 0
-  return searchPlaceholderCount > 1
-}
-const searchPlaceholder = (ribbon: IRibbonItem['ribbon']) => {
-  const placeholder = ribbon.searchPlaceholderValue
-  return placeholder?.length ? placeholder : ['请输入搜索内容']
-}
-
-const inputFocusStatus = ref(false)
-const inputFocus = () => {
-  inputFocusStatus.value = true
-}
-
-const searchValue = ref('')
-
-const goSearch = () => {
-  inputFocusStatus.value = false
-  if (searchValue.value) return
-}
-
 const ribbonClick = (ribbon: IRibbonItem['ribbon']) => {
-  useRouter.navigateTo({
-    path: '/foo/foo'
-  })
+  if (ribbon.type === 'page') {
+    useRouter.navigateTo({
+      path: '/foo/foo'
+    })
+  }
+}
+
+const baseSearchConfig = ({ ribbon }: IRibbonItem): TDiyLayoutData => {
+  return {
+    ribbon,
+    id: 99,
+    ribbonName: 'search'
+  }
 }
 </script>
 
@@ -97,44 +64,11 @@ const ribbonClick = (ribbon: IRibbonItem['ribbon']) => {
         "
         :style="item.autoWidth ? 'flex: 1' : ''"
       >
-        <view
-          @click="inputFocus"
+        <lk-search
           v-if="item.ribbon.type === 'search'"
-          class="search-box flex1"
-        >
-          <input
-            ref="uInput"
-            v-model="searchValue"
-            class="border_base input_pd"
-            :focus="inputFocusStatus"
-            :style="searchBoxStyle(item)"
-            :placeholder="
-              !isSwiperPlaceholder(item.ribbon)
-                ? searchPlaceholder(item.ribbon)[0]
-                : ''
-            "
-            confirm-type="search"
-            @blur="inputFocusStatus = false"
-            @confirm="goSearch"
-          />
-          <view
-            class="w_100 h_100 swiper_placeholder input_pd"
-            v-if="
-              isSwiperPlaceholder(item.ribbon) &&
-              !inputFocusStatus &&
-              !searchValue
-            "
-          >
-            <lk-swiper
-              mode="text"
-              :render-data="item.ribbon.searchPlaceholderValue"
-            ></lk-swiper>
-          </view>
-          <view class="search_icon" @click.stop="goSearch">
-            <uni-icons color="#999" type="search" :size="22"></uni-icons>
-          </view>
-        </view>
-        <view v-else @click="ribbonClick(item)">
+          :render-data="baseSearchConfig(item)"
+        ></lk-search>
+        <view v-else @click="ribbonClick(item.ribbon)">
           <lk-icon
             :name="item.icon"
             :color="item.iconColor"

@@ -42,6 +42,7 @@ interface IUploadProps {
   beforeUpload?: UploadProps['beforeUpload']
   listType?: UploadProps['listType']
   iconStyle?: Record<string, any>
+  onlyFontIcon?: boolean
   isLoading?: boolean
   isClear?: boolean
   uploadFile?: CommonUploadRes | string[] | string
@@ -61,7 +62,8 @@ const props = withDefaults(defineProps<IUploadProps>(), {
   uploadFile: () => [],
   iconStyle: () => ({}),
   uploadMethod: true,
-  disabled: false
+  disabled: false,
+  onlyFontIcon: false
 })
 const extraData = computed(() => {
   if (props.data && props.data.fileType) return props.data
@@ -353,7 +355,7 @@ const isImage = (file: UploadFile) => {
       </div>
     </template>
     <el-popconfirm
-      v-if="uploadMethod"
+      v-if="uploadMethod && !onlyFontIcon"
       title="上传方式"
       confirm-button-text="素材库"
       cancel-button-text="本地"
@@ -365,12 +367,18 @@ const isImage = (file: UploadFile) => {
         <div class="w_100 h_100 prevent_box" @click.stop></div>
       </template>
     </el-popconfirm>
+    <div
+      class="w_100 h_100 prevent_box"
+      v-if="onlyFontIcon"
+      @click.stop="showStockLibrary"
+    ></div>
   </el-upload>
 
   <material-library
     :visible="materialShow"
     :limit="limit"
     :default-path="materialExitsList"
+    :only-font-icon="onlyFontIcon"
     @selection="materialSelection"
     @closed="materialShow = false"
   ></material-library>

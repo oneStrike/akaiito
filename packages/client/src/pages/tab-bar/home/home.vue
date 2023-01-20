@@ -11,6 +11,7 @@ const layouts = ref<TDiyLayoutData[]>()
 getHomeLayout().then((res) => {
   const layoutData: IDiyData['diyData'] = JSON.parse(res.diyData)
   layouts.value = layoutData.modules
+  console.log('🚀 ~ file:home method: line:14 -----', layoutData)
   formatPageStyle(layoutData.page)
 })
 
@@ -38,6 +39,10 @@ const formatPageStyle = (pageData: IOverallPage) => {
         v-if="item.module === 'DiyNavBar'"
         :render-data="item"
       ></lk-nav-bar>
+      <lk-search
+        v-if="item.module === 'DiySearch'"
+        :render-data="item"
+      ></lk-search>
       <lk-divider
         v-if="item.commonAttr.divider"
         :render-data="item.divider"

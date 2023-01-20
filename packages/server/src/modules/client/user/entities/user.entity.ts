@@ -20,7 +20,7 @@ export class ClientUserEntity extends Model {
 
   @Column({
     type: DataType.TINYINT,
-    comment: 'vip状态，1是，0否',
+    comment: 'vip状态，0否，1是，2临时，3年费',
     defaultValue: 0
   })
   vipStatus: number

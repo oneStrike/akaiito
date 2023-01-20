@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useDiyStore } from '@/stores'
 import type { IBasicForm } from '@/typings/components/basicForm'
+import { requiredRule } from '@/hooks/useValidator'
+import { findFormItem } from '@/utils'
 
 const diyStore = useDiyStore()
 
@@ -10,14 +12,6 @@ const formOptions: IBasicForm['options'] = reactive([
     component: 'ColorPicker',
     bind: {
       label: '搜索框颜色'
-    },
-    componentProps: {}
-  },
-  {
-    field: 'background',
-    component: 'ColorPicker',
-    bind: {
-      label: '背景颜色'
     },
     componentProps: {}
   },
@@ -45,8 +39,9 @@ const formOptions: IBasicForm['options'] = reactive([
     },
     componentProps: {
       bind: {
-        placeholder: '请输入提示文字',
-        maxLength: 15
+        type: 'textarea',
+        placeholder: '若置空则自动展示前5条热门搜索\n多条提示语请使用，分割。',
+        autosize: { minRows: 4 }
       }
     }
   },
@@ -80,8 +75,46 @@ const formOptions: IBasicForm['options'] = reactive([
         }
       ]
     }
+  },
+  {
+    field: 'icon',
+    component: 'Upload',
+    bind: {
+      label: '图标',
+      required: true,
+      rules: requiredRule('图标')
+    },
+    componentProps: {
+      bind: {}
+    }
+  },
+  {
+    field: 'iconColor',
+    component: 'ColorPicker',
+    bind: {
+      label: '图标颜色'
+    },
+    componentProps: {
+      bind: {
+        placeholder: '请输入图标颜色'
+      }
+    }
   }
 ])
+
+watch(
+  () => diyStore.currentModule?.attr,
+  (val) => {
+    console.log('🚀 ~ file:AttrSearch method: line:107 -----', val)
+    if (!val) return
+    if (val.icon && Array.isArray(val.icon) && val.icon[0]) {
+      const icon = val.icon[0]
+      const iconColor = findFormItem(formOptions, 'iconColor')
+      iconColor.hide = icon.type === 'icon'
+    }
+  },
+  { deep: true }
+)
 </script>
 
 <template>
