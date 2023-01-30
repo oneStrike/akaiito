@@ -128,7 +128,7 @@ function formatCpuSpeed() {
   return []
 }
 
-function formatValue(val: typeof renderList[number]['info'][number]) {
+function formatValue(val: (typeof renderList)[number]['info'][number]) {
   const field = val.field as keyof typeof serverInfo.value
   if (serverInfo.value) {
     switch (val.field) {

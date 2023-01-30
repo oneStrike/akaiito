@@ -16,10 +16,6 @@ watch(
   () => diyStore.currentModule?.attr as IDiyPageSearch,
   (val) => {
     if (!val) return
-    console.log(
-      '🚀 ~ file:AttrSearch method: line:19 -----',
-      JSON.parse(JSON.stringify(val))
-    )
     val.searchPlaceholderType = handlerPlaceholder(
       val.searchPlaceholder as string
     )
@@ -27,7 +23,6 @@ watch(
       const icon = val.searchIcon[0]
       const iconColor = findFormItem(searchFormOptions, 'searchIconColor')
       iconColor.hide = icon.mimeType !== 'icon'
-      // val.searchIcon = val.searchIcon[0].filename
     }
   },
   { deep: true }

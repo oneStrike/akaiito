@@ -112,6 +112,7 @@ const saveLayoutData = async (isBack = false) => {
       </el-collapse>
     </div>
     <div class="btns w_100 flex main_around">
+      <el-button @click="emits('closed')">取消</el-button>
       <el-button type="primary" @click="saveLayoutData(true)">保存</el-button>
       <el-button @click="modelInputShow = true">另存为</el-button>
     </div>
@@ -131,9 +132,6 @@ const saveLayoutData = async (isBack = false) => {
 <style scoped lang="scss">
 @use '@/style/variable.scss' as *;
 .content_box {
-  max-height: 380px;
-  min-height: 380px;
-
   .module_box {
     .module_item {
       height: 87px;

@@ -101,12 +101,12 @@ const switchSearchOptions = (flag: boolean) => {
   options.forEach((item) => {
     findFormItem(formOptions, item).hide = flag
   })
-  if (flag) {
-    currentFormRibbon.value = Object.assign(
-      defaultAttrSearch(),
-      currentFormRibbon.value
-    )
-  }
+  // if (flag) {
+  //   currentFormRibbon.value = Object.assign(
+  //     defaultAttrSearch(),
+  //     currentFormRibbon.value
+  //   )
+  // }
 }
 
 //显示或者隐藏小程序的配置项
@@ -148,7 +148,6 @@ const handlerFontIconOptions = (type: string) => {
 //处理不同功能区的表单项
 const formatFormOptions = () => {
   const ribbonType = currentFormRibbon.value?.type
-  if (!ribbonType) return
   const formIcon = currentFormRibbon.value?.icon
   const formAutoWidth = currentFormRibbon.value?.autoWidth
   const ribbonDetail = pageList.value?.find(
@@ -163,7 +162,6 @@ const formatFormOptions = () => {
   switchWebviewOptions(true)
   switchAppletOptions(true)
   switchSearchOptions(true)
-
   if (ribbonType) {
     if (ribbonType === 'applet') {
       switchAppletOptions(false)
@@ -207,7 +205,7 @@ const submitRibbon = () => {
       currentFormRibbon.value.type = DiyRibbonEnum.PAGE
     if (Array.isArray(currentFormRibbon.value.icon)) {
       const iconConfig = currentFormRibbon.value.icon[0]
-      currentFormRibbon.value.icon = iconConfig.filename
+      // currentFormRibbon.value.icon = iconConfig.filename
       currentFormRibbon.value.iconType =
         iconConfig.mimeType === 'icon' ? 'font' : 'image'
     }

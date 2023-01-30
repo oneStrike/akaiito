@@ -36,6 +36,7 @@ export class MaterialService extends BaseService {
         [Op.substring]: materialName
       }
     }
+
     return this.materialMapping.findMultiple(where, listParams)
   }
 

@@ -8,8 +8,8 @@ const emits = defineEmits<{
 </script>
 
 <template>
-  <div class="flex main_between h_100">
-    <el-card class="flex1 h_100">
+  <div class="flex main_between h_100 w_100">
+    <el-card class="flex1 flex w_100">
       <left-diy @closed="(isBack) => emits('closed', isBack)"></left-diy>
     </el-card>
     <center-diy></center-diy>
@@ -19,4 +19,8 @@ const emits = defineEmits<{
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+//:deep(.el-card__body) {
+//  width: 100%;
+//}
+</style>

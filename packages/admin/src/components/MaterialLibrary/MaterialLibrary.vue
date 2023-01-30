@@ -82,7 +82,7 @@ const searchStart = async () => {
 
 // 获取素材
 const listParams = reactive({
-  pageSize: 100,
+  pageSize: 21,
   pageIndex: 1
 })
 
@@ -105,13 +105,7 @@ const getMaterial = async () => {
   vLoading.value = false
 }
 
-watch(
-  listParams,
-  () => {
-    getMaterial()
-  },
-  { deep: true }
-)
+watch(listParams, getMaterial, { deep: true })
 
 //选择分组，获取对应而分组的数据
 const selectionGroup = async (val: TGroup) => {

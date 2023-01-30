@@ -6,6 +6,7 @@ import {
   validateNumber,
   validateString
 } from '../../../../utils/validate/base.validate'
+import { ListDto } from '../../../../shared/dto/list.dto'
 
 //素材库
 export class MaterialLibraryDto {
@@ -42,7 +43,12 @@ export class CreateMaterialDto {
 }
 
 //查找素材
-export class FindMaterialDto {
+export class FindMaterialDto extends PickDto(ListDto, [
+  'pageIndex',
+  'pageSize',
+  'sort',
+  'sortField'
+]) {
   @Rule(validateNumber)
   groupId?: number
 

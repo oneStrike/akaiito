@@ -11,7 +11,6 @@ const props = withDefaults(
   }>(),
   {}
 )
-
 const ribbon = computed(() => props.layout.attr.ribbon || [])
 const navBarStyle = computed(() => {
   const { height, textColor } = props.layout.attr
@@ -49,7 +48,7 @@ const formatSearchAttr = (val: IDiyPageSearch) => {
           <el-avatar
             v-if="item.iconType === 'image'"
             :size="item?.size || 30"
-            :src="$FILE_PATH + item?.icon"
+            :src="$FILE_PATH + item?.icon[0].path"
           ></el-avatar>
           <icon-font
             v-else
@@ -58,11 +57,12 @@ const formatSearchAttr = (val: IDiyPageSearch) => {
             :size="item.size || 24"
           ></icon-font>
         </div>
-        <diy-search
-          v-else
-          :space="false"
-          :layout="formatSearchAttr(item)"
-        ></diy-search>
+        <div v-else :class="index !== ribbon.length - 1 ? 'mr_2' : ''">
+          <diy-search
+            :space="false"
+            :layout="formatSearchAttr(item)"
+          ></diy-search>
+        </div>
       </template>
     </div>
   </div>

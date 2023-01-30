@@ -9,7 +9,7 @@ import IconFont from '@/components/IconFont.vue'
 
 interface ISearchProps {
   layout: IDiyModule<IDiyPageSearch>
-  space: boolean
+  space?: boolean
 }
 
 const props = withDefaults(defineProps<ISearchProps>(), {})
@@ -55,7 +55,6 @@ const handlerIcon = (): { type: string; icon: string } | undefined => {
   const { searchIcon } = props.layout.attr
   if (Array.isArray(searchIcon) && searchIcon.length) {
     const icon = searchIcon[0]
-    console.log('🚀 ~ file:DiySearch method:handlerIcon line:55 -----', icon)
     return {
       type: icon.mimeType,
       icon: icon.path

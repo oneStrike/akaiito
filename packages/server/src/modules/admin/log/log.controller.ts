@@ -15,7 +15,7 @@ export class LogController extends BaseController {
   @Get('/loginLog', { summary: '获取登录日志' })
   @Validate()
   @Serialize('list')
-  async loginLog(@Query() param: LoginLogDto) {
-    return await this.logService.findLoginLog(param)
+  async loginLog(@Query() query: LoginLogDto) {
+    return await this.logService.findLoginLog(query)
   }
 }
