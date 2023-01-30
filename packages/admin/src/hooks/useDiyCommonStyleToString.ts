@@ -1,8 +1,9 @@
-import type { IBasicDiy } from '~@/diyPage'
 import config from '@/config'
+import { defaultAttrCommon } from '@/views/App/Devise/PageDiy/attr/default'
+import type { IDiyBaseConfig } from '~@/diyPage'
 
-export const useDiyCommonStyleToString = (commonStyle: IBasicDiy) => {
-  if (!commonStyle) return
+export const useDiyCommonStyleToString = (commonStyle: IDiyBaseConfig) => {
+  if (!commonStyle) return defaultAttrCommon()
   const {
     backgroundColor,
     backgroundImage,
@@ -12,7 +13,7 @@ export const useDiyCommonStyleToString = (commonStyle: IBasicDiy) => {
   } = commonStyle
   let commonStyleString = ''
   for (const attrKey in commonStyle) {
-    const item = commonStyle[attrKey as keyof IBasicDiy]
+    const item = commonStyle[attrKey as keyof IDiyBaseConfig]
     switch (attrKey) {
       case 'backgroundType':
         if (item === 'color') {

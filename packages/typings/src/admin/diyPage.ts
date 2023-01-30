@@ -2,9 +2,11 @@ import type { TIconName } from './svgicon'
 import type { CommonUploadRes } from '../common/apiTypes/upload'
 import type { DiyModuleEnum } from './enum/diyModuleEnum'
 import type { AdminGetClientPageRes } from './apiTypes/clientManage'
+import type { TDiyModuleItem } from './diyPageModule'
+import type { DiyRibbonEnum } from './enum/diyModuleEnum'
 
 //每个模块通用的配置
-export interface IBasicDiy {
+export interface IDiyBaseConfig {
   backgroundType: 'color' | 'image'
   backgroundColor: string
   backgroundImage: string | CommonUploadRes
@@ -17,7 +19,7 @@ export interface IBasicDiy {
 }
 
 //模块之间的间隙
-export interface IDivider {
+export interface IDiyDivider {
   backgroundColor: string
   height: number
   bothSideMargin: number
@@ -39,27 +41,21 @@ export interface IOverallPage {
 }
 
 //编辑中的布局信息
-export interface IDiyModule {
+export interface IDiyModule<T = TDiyModuleItem> {
   name: string
   type: string
-  attr: IRibbon
+  attr: T
   module: string
   icon: TIconName
-  divider: IDivider
+  divider: IDiyDivider
   attrComponent: DiyModuleEnum
-  commonAttr: IBasicDiy
-}
-//通用模块配置
-export interface IRibbon extends Record<string, any> {
-  ribbon?: boolean
-  ribbonConfig?: IRibbonItem[]
+  commonAttr: IDiyBaseConfig
 }
 
 //功能区标准结构
 export interface IRibbonItem {
   id: number
   icon?: string
-  iconType?: 'font' | 'image' | ''
   iconColor?: string
   ribbonName: string
   size: number
@@ -80,7 +76,7 @@ export interface IRibbonFormItem extends Omit<IRibbonItem['ribbon'], 'type'> {
   iconColor?: string
   ribbonName?: string
   size?: number
-  ribbon?: string | number
+  type?: DiyRibbonEnum
   autoWidth?: boolean
   navBarHeight?: number
 }

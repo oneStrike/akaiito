@@ -1,9 +1,11 @@
 import type { IDiyModule } from '~@/diyPage'
 import { DiyModuleEnum } from '@/enum/diyModuleEnum'
 import {
-  basicConfig,
-  basicDivider
-} from '@/views/App/Devise/PageDiy/attr/shared'
+  defaultAttrCommon,
+  defaultAttrDivider,
+  defaultAttrNavBar,
+  defaultAttrSearch
+} from '@/views/App/Devise/PageDiy/attr/default'
 
 export const baseModule: IDiyModule[] = [
   {
@@ -12,16 +14,9 @@ export const baseModule: IDiyModule[] = [
     module: 'base',
     icon: 'airplane',
     attrComponent: DiyModuleEnum.AttrNavBar,
-    commonAttr: { ...basicConfig(), bothSideMargin: 0 },
-    divider: basicDivider(),
-    attr: {
-      //默认配置
-      navBarHeight: 42,
-      text: '我是导航栏',
-      textColor: '#333333',
-      ribbon: false,
-      ribbonConfig: []
-    }
+    commonAttr: { ...defaultAttrCommon(), bothSideMargin: 0 },
+    divider: defaultAttrDivider(),
+    attr: defaultAttrNavBar()
   },
   {
     name: '搜索',
@@ -29,15 +24,9 @@ export const baseModule: IDiyModule[] = [
     module: 'base',
     icon: 'search',
     attrComponent: DiyModuleEnum.AttrSearch,
-    divider: basicDivider(),
-    commonAttr: basicConfig(),
-    attr: {
-      searchBoxColor: '#f5f5f5',
-      searchBoxRadius: 30,
-      searchBoxPlaceholder: '请输入搜索内容',
-      textColor: '#a8abb2',
-      iconPosition: 'left'
-    }
+    divider: defaultAttrDivider(),
+    commonAttr: { ...defaultAttrCommon(), bothSideMargin: 0 },
+    attr: defaultAttrSearch()
   },
   {
     name: '菜单',
@@ -45,8 +34,8 @@ export const baseModule: IDiyModule[] = [
     module: 'base',
     icon: 'navMenu',
     attrComponent: DiyModuleEnum.DiyNavMenu,
-    divider: basicDivider(),
-    commonAttr: basicConfig(),
+    divider: defaultAttrDivider(),
+    commonAttr: defaultAttrCommon(),
     attr: {}
   },
   {
@@ -54,8 +43,8 @@ export const baseModule: IDiyModule[] = [
     type: 'DiySwiper',
     module: 'base',
     icon: 'swatch',
-    divider: basicDivider(),
-    commonAttr: basicConfig(),
+    divider: defaultAttrDivider(),
+    commonAttr: defaultAttrCommon(),
     attr: {},
     attrComponent: DiyModuleEnum.DiySwiper
   },
@@ -64,8 +53,8 @@ export const baseModule: IDiyModule[] = [
     type: 'DiyNotice',
     module: 'base',
     icon: 'megaphone',
-    divider: basicDivider(),
-    commonAttr: basicConfig(),
+    divider: defaultAttrDivider(),
+    commonAttr: defaultAttrCommon(),
     attr: {},
     attrComponent: DiyModuleEnum.DiyNotice
   }

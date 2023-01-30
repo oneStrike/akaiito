@@ -49,7 +49,7 @@ const diyStore = defineStore('diy', {
 
     //删除一个模块
     deleteLayoutModule(index: number) {
-      //如果删除的是正在编辑的模块，接切换到页面编辑项
+      //如果删除的是正在编辑的模块，切换到页面编辑项
       if (index === this.currentModuleIndex) {
         this.setCurrentModuleIndex(null)
       }

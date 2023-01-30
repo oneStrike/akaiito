@@ -6,3 +6,11 @@ export enum DiyModuleEnum {
   DiySwiper = 'DiySwiper',
   DiyNotice = 'DiyNotice'
 }
+
+export enum DiyRibbonEnum {
+  NAVBAR = 'navbar',
+  SEARCH = 'search',
+  WEBVIEW = 'webview',
+  APPLET = 'applet',
+  PAGE = 'page'
+}

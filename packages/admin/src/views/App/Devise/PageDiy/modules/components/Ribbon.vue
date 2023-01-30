@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import draggable from 'vuedraggable'
 import type { AdminGetClientPageRes } from '~@/apiTypes/clientManage'
-import type { IRibbonFormItem, IRibbonItem } from '~@/diyPage'
 import { clientPageApi } from '@/api/client/client'
 import { findFormItem } from '@/utils'
 import { options } from '@/views/App/Devise/PageDiy/modules/components/shared'
 import config from '@/config'
+import type { IDiyPageCommon, TDiyModuleItem } from '~@/diyPageModule'
+import { DiyRibbonEnum } from '~@/enum/diyModuleEnum'
+import * as _ from 'lodash'
+import { defaultAttrSearch } from '@/views/App/Devise/PageDiy/attr/default'
 
 interface IRibbonOp {
   placeholder?: string
   searchBox?: boolean
   maxRibbon?: number
-  modelValue: IRibbonItem[] | []
+  modelValue: TDiyModuleItem[] | []
 }
 
 const props = withDefaults(defineProps<IRibbonOp>(), {
@@ -22,60 +25,33 @@ const props = withDefaults(defineProps<IRibbonOp>(), {
 })
 
 const emits = defineEmits<{
-  (event: 'update:modelValue', data: IRibbonItem[]): void
-  (event: 'complete', data: IRibbonItem[]): void
+  (event: 'update:modelValue', data: TDiyModuleItem[]): void
+  (event: 'complete', data: TDiyModuleItem[]): void
 }>()
 
 let formOptions = options()
 
-const ribbonData = ref<IRibbonItem[]>(props.modelValue || [])
-const currentRibbon = ref<IRibbonItem>()
-const currentFormRibbon = ref<IRibbonFormItem>()
+const ribbonData = ref<TDiyModuleItem[]>(props.modelValue || [])
+const currentFormRibbon = ref<TDiyModuleItem>()
 const currentRibbonIndex = ref<number>()
 const showRibbon = ref(false)
 
-const defaultRibbon: IRibbonItem = {
+const defaultRibbon: Partial<IDiyPageCommon> = {
   id: ribbonData.value.length + 1,
-  ribbonName: '',
+  name: '',
   size: 30,
-  ribbon: {
-    type: ''
-  }
-}
-
-//将标准格式转换成表单编辑的格式
-const antiRibbonData = (val: IRibbonItem): IRibbonFormItem => {
-  val = JSON.parse(JSON.stringify(val))
-  const ribbon: IRibbonFormItem = {}
-  if (val.ribbon.type === 'applet') {
-    ribbon.appletName = val.ribbon.appletName
-    ribbon.appId = val.ribbon.appId
-    ribbon.ribbon = 'applet'
-  } else if (val.ribbon.type === 'search') {
-    ribbon.searchPlaceholderValue = val.ribbon.searchPlaceholderValue
-    ribbon.searchRadius = val.ribbon.searchRadius
-    ribbon.ribbon = 'search'
-  } else {
-    if (val.ribbon.webviewUrl) {
-      ribbon.webviewUrl = val.ribbon.webviewUrl
-    }
-    ribbon.ribbon = val.ribbon.id
-  }
-  ribbon.size = val.size
-  ribbon.autoWidth = !!val.autoWidth
-  ribbon.ribbonName = val.ribbonName
-  ribbon.icon = val.icon
-  ribbon.iconColor = val.iconColor || '#333333'
-  return ribbon
+  icon: '',
+  iconColor: '#333333'
 }
 
 //展示编辑drawer
 const showRibbonDrawer = (index?: number) => {
   currentRibbonIndex.value = index
-  const ribbon = ribbonData.value[index || 0] || defaultRibbon
-  currentFormRibbon.value = antiRibbonData(ribbon)
+  currentFormRibbon.value =
+    ribbonData.value[index || 0] || _.cloneDeep(defaultRibbon)
   formOptions = options()
   getClientPage()
+  formatFormOptions()
   showRibbon.value = true
 }
 
@@ -93,77 +69,66 @@ const getClientPage = async () => {
   const otherRibbon = [
     {
       label: '跳转小程序',
-      value: 'applet'
+      value: DiyRibbonEnum.APPLET
     },
     {
       label: '搜索框',
-      value: 'search'
+      value: DiyRibbonEnum.SEARCH
     }
   ]
   if (!props.searchBox) otherRibbon.pop()
   selectPageListData.unshift(...otherRibbon)
-  findFormItem(formOptions, 'ribbon').componentProps.options =
-    selectPageListData
+  findFormItem(formOptions, 'type').componentProps.options = selectPageListData
 }
 
 const closed = () => {
   showRibbon.value = false
-  currentRibbon.value = defaultRibbon
 }
 
-//处理不同功能区的表单项
-const formatFormOptions = () => {
-  const ribbonType = currentFormRibbon.value?.ribbon
-  if (!ribbonType) return
-  const formIcon = currentFormRibbon.value?.icon
-  const formAutoWidth = currentFormRibbon.value?.autoWidth
-  const ribbonDetail = pageList.value?.find((item) => item.id === ribbonType)
+//显示或者隐藏搜索框的配置项
+const switchSearchOptions = (flag: boolean) => {
+  const options = [
+    'searchBoxColor',
+    'searchBorderColor',
+    'searchBoxRadius',
+    'searchPlaceholder',
+    'searchPlaceholderColor',
+    'searchIconPosition',
+    'searchIcon',
+    'searchIconColor'
+  ]
+
+  options.forEach((item) => {
+    findFormItem(formOptions, item).hide = flag
+  })
+  if (flag) {
+    currentFormRibbon.value = Object.assign(
+      defaultAttrSearch(),
+      currentFormRibbon.value
+    )
+  }
+}
+
+//显示或者隐藏小程序的配置项
+const switchAppletOptions = (flag: boolean) => {
+  const options = ['appletName', 'appId']
+  options.forEach((item) => {
+    findFormItem(formOptions, item).hide = flag
+  })
+}
+//显示或者隐藏webview的配置项
+const switchWebviewOptions = (flag: boolean) => {
+  const options = ['webviewUrl']
+  options.forEach((item) => {
+    findFormItem(formOptions, item).hide = flag
+  })
+}
+//处理表单编辑时字体图标的配置
+const handlerFontIconOptions = (type: string) => {
   const icon = findFormItem(formOptions, 'icon')
-  const autoWidth = findFormItem(formOptions, 'autoWidth')
   const iconColor = findFormItem(formOptions, 'iconColor')
   const size = findFormItem(formOptions, 'size')
-  const appletName = findFormItem(formOptions, 'appletName')
-  const appId = findFormItem(formOptions, 'appId')
-  const webviewUrl = findFormItem(formOptions, 'webviewUrl')
-  const searchPlaceholderValue = findFormItem(
-    formOptions,
-    'searchPlaceholderValue'
-  )
-  const searchRadius = findFormItem(formOptions, 'searchRadius')
-  icon.hide = false
-  autoWidth.hide = true
-  iconColor.hide = true
-  size.componentProps.bind!.max = 60
-  appletName.hide = true
-  appId.hide = true
-  webviewUrl.hide = true
-  searchRadius.hide = true
-  searchPlaceholderValue.hide = true
-
-  if (ribbonType) {
-    if (ribbonType === 'applet') {
-      appletName.hide = false
-      appId.hide = false
-    } else if (ribbonType === 'search') {
-      icon.hide = true
-      size.componentProps.bind!.max = 260
-      searchRadius.hide = false
-      searchPlaceholderValue.hide = false
-      autoWidth.hide = false
-    } else if (ribbonDetail && ribbonDetail.pageName === 'H5') {
-      webviewUrl.hide = false
-    }
-  }
-
-  //字体图标样式
-  console.log(formIcon)
-  let iconType
-  if (Array.isArray(formIcon) && formIcon.length) {
-    iconType = formIcon[0].filename?.split('.').pop()
-  } else if (formIcon) {
-    iconType = formIcon
-  }
-  iconColor.hide = !iconType || config.ALLOW_IMAGE_TYPE.includes(iconType || '')
+  iconColor.hide = !type || config.ALLOW_IMAGE_TYPE.includes(type || '')
   if (
     currentFormRibbon.value?.icon &&
     !iconColor.hide &&
@@ -172,12 +137,53 @@ const formatFormOptions = () => {
     size.componentProps.bind!.max = 38
     size.componentProps.bind!.min = 20
     icon.componentProps.bind.iconStyle = {
-      [currentFormRibbon.value.icon.toString()]: {
-        color: currentFormRibbon.value.iconColor,
+      [type]: {
+        color: currentFormRibbon.value.iconColor || '#333333',
         size: currentFormRibbon.value.size
       }
     }
   }
+}
+
+//处理不同功能区的表单项
+const formatFormOptions = () => {
+  const ribbonType = currentFormRibbon.value?.type
+  if (!ribbonType) return
+  const formIcon = currentFormRibbon.value?.icon
+  const formAutoWidth = currentFormRibbon.value?.autoWidth
+  const ribbonDetail = pageList.value?.find(
+    (item) => item.id === currentFormRibbon.value?.id
+  )
+  const icon = findFormItem(formOptions, 'icon')
+  const autoWidth = findFormItem(formOptions, 'autoWidth')
+  const size = findFormItem(formOptions, 'size')
+  icon.hide = false
+  autoWidth.hide = true
+  size.componentProps.bind!.max = 60
+  switchWebviewOptions(true)
+  switchAppletOptions(true)
+  switchSearchOptions(true)
+
+  if (ribbonType) {
+    if (ribbonType === 'applet') {
+      switchAppletOptions(false)
+    } else if (ribbonType === 'search') {
+      icon.hide = true
+      autoWidth.hide = false
+      switchSearchOptions(false)
+      size.componentProps.bind!.max = 260
+    } else if (ribbonDetail && ribbonDetail.pageName === 'H5') {
+      switchWebviewOptions(false)
+    }
+  }
+  //字体图标样式
+  let iconType
+  if (Array.isArray(formIcon) && formIcon.length) {
+    iconType = formIcon[0].filename?.split('.').pop()
+  } else if (formIcon) {
+    iconType = formIcon
+  }
+  handlerFontIconOptions(iconType)
 
   //自适应宽度
   size.componentProps.bind!.disabled = formAutoWidth
@@ -186,68 +192,31 @@ const formatFormOptions = () => {
 //currentRibbon改变时处理表单项
 watch(currentFormRibbon, formatFormOptions, { deep: true })
 
-//是否是图片类型，用于区分图片和字体图标
-const iconType = (file?: string) => {
-  if (!file) return ''
-  const fileType = file.split('.').pop()
-  return config.ALLOW_IMAGE_TYPE.includes(fileType || '') ? 'image' : 'font'
-}
-
-//将表单格式转换成标准格式
-const formatRibbonConfig = (): IRibbonItem => {
-  const ribbon: IRibbonFormItem = JSON.parse(
-    JSON.stringify(currentFormRibbon.value)
-  )
-  const ribbonRes = {} as IRibbonItem
-  const ribbonDetail = pageList.value?.find((item) => item.id === ribbon.ribbon)
-  if (ribbon.ribbon === 'applet') {
-    ribbonRes.ribbon = {
-      type: 'applet',
-      appletName: ribbon.appletName,
-      appId: ribbon.appId
-    }
-  } else if (ribbon.ribbon === 'search') {
-    let searchPlaceholderValue = ribbon.searchPlaceholderValue
-    if (typeof searchPlaceholderValue === 'string' && searchPlaceholderValue) {
-      const separator = searchPlaceholderValue.includes(',') ? ',' : '，'
-      searchPlaceholderValue = searchPlaceholderValue
-        .split(separator)
-        .filter((item) => item)
-    }
-
-    ribbonRes.ribbon = {
-      type: 'search',
-      searchPlaceholderValue: searchPlaceholderValue,
-      searchRadius: ribbon.searchRadius
-    }
-  } else if (ribbonDetail) {
-    ribbonRes.ribbon = { ...ribbonDetail, type: 'page' }
-    if (ribbon.webviewUrl) {
-      ribbonRes.ribbon.webviewUrl = ribbon.webviewUrl
-    }
-  }
-  ribbon.icon = Array.isArray(ribbon.icon) ? ribbon.icon[0].path : ribbon.icon
-  ribbonRes.iconType = iconType(ribbon.icon)
-  delete ribbon.appletName
-  delete ribbon.appId
-  delete ribbon.webviewUrl
-  delete ribbon.searchRadius
-  delete ribbon.searchPlaceholderValue
-  ribbonRes.id = ribbonData.value.length + 1
-  Object.assign(ribbon, ribbonRes)
-  return ribbon as unknown as IRibbonItem
-}
-
 //添加一个新的功能
 const submitRibbon = () => {
   showRibbon.value = false
   if (currentFormRibbon.value) {
-    const ribbon = formatRibbonConfig()
-    if (currentRibbonIndex.value || currentRibbonIndex.value === 0) {
-      ribbonData.value[currentRibbonIndex.value] = ribbon
-    } else {
-      ribbonData.value.push(ribbon)
+    if (!currentFormRibbon.value.type) {
+      const ribbonDetail = pageList.value?.find(
+        (item) => item.id === currentFormRibbon.value?.id
+      )
+      Object.assign(currentFormRibbon.value || {}, ribbonDetail)
     }
+
+    if (typeof currentFormRibbon.value.type === 'number')
+      currentFormRibbon.value.type = DiyRibbonEnum.PAGE
+    if (Array.isArray(currentFormRibbon.value.icon)) {
+      const iconConfig = currentFormRibbon.value.icon[0]
+      currentFormRibbon.value.icon = iconConfig.filename
+      currentFormRibbon.value.iconType =
+        iconConfig.mimeType === 'icon' ? 'font' : 'image'
+    }
+    if (currentRibbonIndex.value || currentRibbonIndex.value === 0) {
+      ribbonData.value[currentRibbonIndex.value] = currentFormRibbon.value
+    } else {
+      ribbonData.value.push(currentFormRibbon.value)
+    }
+    emits('update:modelValue', ribbonData.value)
   }
 }
 
@@ -278,6 +247,7 @@ const draggableEnd = () => {
       v-model="ribbonData"
       group="ribbon"
       item-key="id"
+      animation="300"
       @end="draggableEnd"
     >
       <template #item="{ element, index }">
@@ -285,7 +255,7 @@ const draggableEnd = () => {
           <el-input
             readonly
             :placeholder="placeholder"
-            :model-value="element?.ribbonName"
+            :model-value="element?.name"
           >
             <template #append>
               <el-button @click="showRibbonDrawer(index)" class="cursor_pointer"
@@ -296,7 +266,7 @@ const draggableEnd = () => {
           <el-popconfirm
             width="220"
             confirm-button-text="删除"
-            :title="`确定删除【${element.ribbonName}】？`"
+            :title="`确定删除【${element.name}】？`"
             @confirm="deleteRibbon(index)"
           >
             <template #reference>

@@ -1,6 +1,6 @@
 import type { IBasicForm } from '@/typings/components/basicForm'
 import { requiredRule } from '@/hooks/useValidator'
-
+import { searchForm } from '@/views/App/Devise/PageDiy/attr/shared'
 export const options = (): IBasicForm['options'] =>
   reactive([
     {
@@ -57,7 +57,7 @@ export const options = (): IBasicForm['options'] =>
       }
     },
     {
-      field: 'ribbonName',
+      field: 'name',
       component: 'Input',
       bind: {
         label: '功能名称',
@@ -71,7 +71,7 @@ export const options = (): IBasicForm['options'] =>
       }
     },
     {
-      field: 'ribbon',
+      field: 'type',
       component: 'Select',
       bind: {
         label: '功能',
@@ -146,37 +146,8 @@ export const options = (): IBasicForm['options'] =>
         }
       }
     },
-    // {
-    //   field: 'searchPlaceholderType',
-    //   component: 'Radio',
-    //   hide: true,
-    //   bind: {
-    //     label: '提示语类型',
-    //     required: true,
-    //     rules: requiredRule('提示语')
-    //   },
-    //   componentProps: {
-    //     options: [
-    //       { label: '热门搜索', value: 'hotSearch' },
-    //       { label: '自定义', value: 'custom' }
-    //     ]
-    //   }
-    // },
-    {
-      field: 'searchPlaceholderValue',
-      component: 'Input',
-      hide: true,
-      bind: {
-        label: '提示语',
-        required: false
-      },
-      componentProps: {
-        bind: {
-          type: 'textarea',
-          placeholder:
-            '若置空则自动展示前5条热门搜索\n多条提示语请使用，分割。',
-          autosize: { minRows: 4 }
-        }
-      }
-    }
+    ...searchForm().map((item) => {
+      item.hide = true
+      return item
+    })
   ])

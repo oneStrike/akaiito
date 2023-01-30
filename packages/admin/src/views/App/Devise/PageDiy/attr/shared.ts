@@ -1,30 +1,6 @@
 //通用配置
 import type { IBasicForm } from '@/typings/components/basicForm'
-import type { IBasicDiy, IDivider } from '~@/diyPage'
-
-//通用配置
-export const basicConfig = (): IBasicDiy => {
-  return {
-    borderRadius: 'close',
-    aroundRadius: 8,
-    topRadius: 8,
-    bottomRadius: 8,
-    bothSideMargin: 16,
-    backgroundType: 'color',
-    backgroundColor: '#ffffff',
-    backgroundImage: '',
-    divider: true
-  }
-}
-
-//通用间距配置
-export const basicDivider = (): IDivider => {
-  return {
-    backgroundColor: '#f5f5f5',
-    bothSideMargin: 0,
-    height: 16
-  }
-}
+import { requiredRule } from '@/hooks/useValidator'
 
 //通用配置表单项
 export const basicOptions = (): IBasicForm['options'] => {
@@ -209,6 +185,191 @@ export const basicDividerOptions = (): IBasicForm['options'] => {
         bind: {
           placeholder: '请选择背景颜色',
           showAlpha: true
+        }
+      }
+    }
+  ])
+}
+
+//导航栏
+export const navBarForm = (): IBasicForm['options'] => {
+  return reactive([
+    {
+      field: 'height',
+      component: 'InputNumber',
+      bind: {
+        required: true,
+        label: '导航栏高度',
+        rules: requiredRule('导航栏高度')
+      },
+      componentProps: {
+        bind: {
+          placeholder: '请输入导航栏高度',
+          min: 38,
+          max: 68,
+          controlsPosition: 'right'
+        }
+      }
+    },
+    {
+      field: 'text',
+      component: 'Input',
+      bind: {
+        label: '导航栏文字',
+        required: true,
+        rules: requiredRule('导航栏文字')
+      },
+      componentProps: {
+        bind: {
+          placeholder: '请输入导航栏文字',
+          disabled: false
+        }
+      }
+    },
+    {
+      field: 'textColor',
+      component: 'ColorPicker',
+      bind: {
+        label: '文字颜色'
+      },
+      componentProps: {
+        bind: {
+          disabled: false
+        }
+      }
+    },
+
+    {
+      field: 'enableRibbon',
+      component: 'Switch',
+      bind: {
+        label: '功能区'
+      },
+      componentProps: {
+        tips: '将覆盖默认样式，如果需要小程序，请注意胶囊按钮位置'
+      }
+    }
+  ])
+}
+
+//搜索
+export const searchForm = (): IBasicForm['options'] => {
+  return reactive([
+    {
+      field: 'searchBoxColor',
+      component: 'ColorPicker',
+      bind: {
+        label: '搜索框颜色'
+      },
+      componentProps: {}
+    },
+    {
+      field: 'searchBorderColor',
+      component: 'ColorPicker',
+      bind: {
+        label: '边框框颜色'
+      },
+      componentProps: {}
+    },
+    {
+      field: 'searchBoxHeight',
+      component: 'InputNumber',
+      bind: {
+        required: true,
+        label: '高度'
+      },
+      componentProps: {
+        bind: {
+          placeholder: '请输入搜索框高度',
+          min: 20,
+          max: 100,
+          controlsPosition: 'right'
+        }
+      }
+    },
+    {
+      field: 'searchBoxRadius',
+      component: 'InputNumber',
+      bind: {
+        required: true,
+        label: '圆角'
+      },
+      componentProps: {
+        bind: {
+          placeholder: '请输入搜索框圆角',
+          min: 4,
+          max: 50,
+          controlsPosition: 'right'
+        }
+      }
+    },
+    {
+      field: 'searchPlaceholder',
+      component: 'Input',
+      bind: {
+        label: '提示文字'
+      },
+      componentProps: {
+        bind: {
+          type: 'textarea',
+          placeholder:
+            '若置空则自动展示前5条热门搜索\n多条提示语请使用，分割。',
+          autosize: { minRows: 4 }
+        }
+      }
+    },
+    {
+      field: 'searchPlaceholderColor',
+      component: 'ColorPicker',
+      bind: {
+        label: '文字颜色'
+      },
+      componentProps: {
+        bind: {
+          placeholder: '请选择文字颜色'
+        }
+      }
+    },
+    {
+      field: 'searchIconPosition',
+      component: 'Radio',
+      bind: {
+        label: '图标位置'
+      },
+      componentProps: {
+        options: [
+          {
+            label: '左侧',
+            value: 'left'
+          },
+          {
+            label: '右侧',
+            value: 'right'
+          }
+        ]
+      }
+    },
+    {
+      field: 'searchIcon',
+      component: 'Upload',
+      bind: {
+        label: '图标',
+        required: true,
+        rules: requiredRule('图标')
+      },
+      componentProps: {
+        bind: {}
+      }
+    },
+    {
+      field: 'searchIconColor',
+      component: 'ColorPicker',
+      bind: {
+        label: '图标颜色'
+      },
+      componentProps: {
+        bind: {
+          placeholder: '请输入图标颜色'
         }
       }
     }
