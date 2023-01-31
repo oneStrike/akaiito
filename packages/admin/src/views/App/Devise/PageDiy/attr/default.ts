@@ -1,5 +1,5 @@
-import type { IDiyPageNavBar, IDiyPageSearch } from '~@/diyPageModule'
-import type { IDiyBaseConfig, IDiyDivider } from '~@/diyPage'
+import type { IDiyPageNavBar, IDiyPageSearch } from '~@/modules/diy'
+import type { IDiyBaseConfig, IDiyDivider } from '~@/modules/diy'
 
 //通用默认配置
 export const defaultAttrCommon = (): IDiyBaseConfig => ({

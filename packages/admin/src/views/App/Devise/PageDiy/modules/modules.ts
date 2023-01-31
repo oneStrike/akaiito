@@ -1,4 +1,4 @@
-import type { IDiyModule } from '~@/diyPage'
+import type { IDiyModule } from '~@/modules/diy'
 import { DiyModuleEnum } from '@/enum/diyModuleEnum'
 import {
   defaultAttrCommon,

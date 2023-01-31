@@ -5,10 +5,9 @@ import { clientPageApi } from '@/api/client/client'
 import { findFormItem } from '@/utils'
 import { options } from '@/views/App/Devise/PageDiy/modules/components/shared'
 import config from '@/config'
-import type { IDiyPageCommon, TDiyModuleItem } from '~@/diyPageModule'
+import type { IDiyPageCommon, TDiyModuleItem } from '~@/modules/diy'
 import { DiyRibbonEnum } from '~@/enum/diyModuleEnum'
 import * as _ from 'lodash'
-import { defaultAttrSearch } from '@/views/App/Devise/PageDiy/attr/default'
 
 interface IRibbonOp {
   placeholder?: string

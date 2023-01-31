@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import type { IDiyPageSearch } from '@akaiito/typings/src/admin/diyPageModule'
+import type {
+  IDiyPageSearch,
+  IDiyModule
+} from '@akaiito/typings/src/admin/modules/diy'
 import { formatCommonStyle } from '@/utils/method'
-import type { IDiyModule } from '@akaiito/typings/src/admin/diyPage'
 import LkSwiper from '@/components/lk-swiper/lk-swiper.vue'
 interface IRenderData {
   renderData: IDiyModule<IDiyPageSearch>

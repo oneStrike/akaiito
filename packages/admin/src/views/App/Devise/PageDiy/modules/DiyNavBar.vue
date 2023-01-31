@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type { IDiyModule } from '~@/diyPage'
+import type { IDiyModule, IDiyPageNavBar, IDiyPageSearch } from '~@/modules/diy'
 import { useDiyCommonStyleToString } from '@/hooks/useDiyCommonStyleToString'
 import DiySearch from '@/views/App/Devise/PageDiy/modules/DiySearch.vue'
-import type { IDiyPageNavBar, IDiyPageSearch } from '~@/diyPageModule'
 import { DiyRibbonEnum } from '~@/enum/diyModuleEnum'
 import { defaultAttrCommon } from '@/views/App/Devise/PageDiy/attr/default'
 const props = withDefaults(

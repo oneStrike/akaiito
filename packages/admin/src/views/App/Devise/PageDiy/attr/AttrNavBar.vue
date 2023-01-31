@@ -3,7 +3,7 @@ import Ribbon from '@/views/App/Devise/PageDiy/modules/components/Ribbon.vue'
 import { useDiyStore } from '@/stores'
 import { findFormItem } from '@/utils'
 import { navBarForm } from '@/views/App/Devise/PageDiy/attr/shared'
-import type { IDiyPageNavBar } from '~@/diyPageModule'
+import type { IDiyPageNavBar } from '~@/modules/diy'
 const navBarFormOptions = navBarForm()
 const diyStore = useDiyStore()
 

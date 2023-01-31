@@ -2,7 +2,7 @@
 import { useDiyStore } from '@/stores'
 import { findFormItem } from '@/utils'
 import { searchForm } from '@/views/App/Devise/PageDiy/attr/shared'
-import type { IDiyPageSearch } from '~@/diyPageModule'
+import type { IDiyPageSearch } from '~@/modules/diy'
 const searchFormOptions = searchForm()
 const diyStore = useDiyStore()
 

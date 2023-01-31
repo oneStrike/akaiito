@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { IDivider } from '@akaiito/typings/src/admin/diyPage'
+import type { IDiyDivider } from '@akaiito/typings/src/admin/modules/diy'
 interface IRenderData {
-  renderData: IDivider
+  renderData: IDiyDivider
 }
 
 const props = withDefaults(defineProps<IRenderData>(), {})

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { baseModule } from '@/views/App/Devise/PageDiy/modules/modules'
 import { useDiyStore } from '@/stores'
-import type { IDiyModule } from '~@/diyPage'
 import { createDiyApi, modifyDiyApi } from '@/api/diy/diy'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
+import type { IDiyModule } from '~@/modules/diy'
 
 const emits = defineEmits<{
   (event: 'closed', data?: boolean): void

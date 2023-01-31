@@ -1,4 +1,4 @@
-import { IDiyBaseConfig } from '@akaiito/typings/src/admin/diyPage'
+import { IDiyBaseConfig } from '@akaiito/typings/src/admin/modules/diy'
 import config from '@/config'
 
 export const formatCommonStyle = (commonStyle: IDiyBaseConfig): string => {

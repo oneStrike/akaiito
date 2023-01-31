@@ -1,6 +1,6 @@
 import config from '@/config'
 import { defaultAttrCommon } from '@/views/App/Devise/PageDiy/attr/default'
-import type { IDiyBaseConfig } from '~@/diyPage'
+import type { IDiyBaseConfig } from '~@/modules/diy'
 
 export const useDiyCommonStyleToString = (commonStyle: IDiyBaseConfig) => {
   if (!commonStyle) return defaultAttrCommon()

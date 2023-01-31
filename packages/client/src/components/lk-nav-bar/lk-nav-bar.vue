@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import type { IDiyModule } from '@akaiito/typings/src/admin/diyPage'
-import type { IDiyPageNavBar } from '@akaiito/typings/src/admin/diyPageModule'
+import type {
+  IDiyModule,
+  IDiyPageNavBar,
+  TDiyModuleItem
+} from '@akaiito/typings/src/admin/modules/diy'
 import { DiyRibbonEnum } from '@akaiito/typings/src/admin/enum/diyModuleEnum'
 import { formatCommonStyle } from '@/utils/method'
 import { useRouter } from '@/hooks/useRouter'
-import { TDiyModuleItem } from '@akaiito/typings/src/admin/diyPageModule'
 interface IRenderData {
   renderData: IDiyModule<IDiyPageNavBar>
 }

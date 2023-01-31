@@ -1,5 +1,5 @@
 import { DiyModuleEnum } from '@/enum/diyModuleEnum'
-import type { IDiyModule, IOverallPage, TDiyLayoutData } from '~@/diyPage'
+import type { IDiyModule, IOverallPage, TDiyLayoutData } from '~@/modules/diy'
 import type { AdminGetDiyPageRes } from '~@/apiTypes/diyClientPage'
 import { useMessage } from '@/hooks/useMessage'
 

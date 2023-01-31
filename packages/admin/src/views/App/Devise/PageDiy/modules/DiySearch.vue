@@ -3,8 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Autoplay } from 'swiper'
 import { useDiyCommonStyleToString } from '@/hooks/useDiyCommonStyleToString'
 
-import type { IDiyModule } from '~@/diyPage'
-import type { IDiyPageSearch } from '~@/diyPageModule'
+import type { IDiyModule, IDiyPageSearch } from '~@/modules/diy'
 import IconFont from '@/components/IconFont.vue'
 
 interface ISearchProps {

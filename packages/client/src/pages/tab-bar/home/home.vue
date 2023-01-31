@@ -4,15 +4,16 @@ import config from '@/config'
 import {
   IOverallPage,
   TDiyLayoutData
-} from '@akaiito/typings/src/admin/diyPage'
-import { IDiyData } from '@akaiito/typings/src/admin/diyPage'
+} from '@akaiito/typings/src/admin/modules/diy'
+
+import type { IDiyData } from '@akaiito/typings/src/admin/modules/diy'
+
 const pageStyle = ref<string>('')
 const layouts = ref<TDiyLayoutData[]>()
 getHomeLayout().then((res) => {
   const layoutData: IDiyData['diyData'] = JSON.parse(res.diyData)
   layouts.value = layoutData.modules
   formatPageStyle(layoutData.page)
-  console.log('🚀 ~ file:home method: line:15 -----', layoutData)
 })
 
 const adaptiveStatusBar = ref(false)
