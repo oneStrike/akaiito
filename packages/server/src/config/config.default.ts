@@ -2,7 +2,7 @@ import { MidwayConfig } from '@midwayjs/core'
 import { join } from 'path'
 const rootPath = join(__dirname, '../../')
 export default {
-  keys: '1666615400096_4541',
+  keys: '1661312321096_4541',
   koa: {
     port: 7001
   },

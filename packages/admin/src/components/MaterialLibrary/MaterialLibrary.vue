@@ -298,7 +298,7 @@ const closePreviewImage = () => {
     <div class="w_100 content border_solid border_radius_base flex">
       <div
         v-if="!onlyFontIcon"
-        class="grouping h_100 border_right pd_1 flex_col border_box"
+        class="grouping h_100 border_right pd_12 flex_col border_box"
       >
         <el-button
           type="primary"
@@ -346,7 +346,7 @@ const closePreviewImage = () => {
         </el-tree>
       </div>
       <div class="material w_100">
-        <div class="flex w_100 pd_1 pb_0">
+        <div class="flex w_100 pd_12 pb_0">
           <el-input
             class="search_input mr_2"
             v-model="searchValue"
@@ -377,7 +377,7 @@ const closePreviewImage = () => {
           </div>
         </div>
 
-        <div class="h_85 over_scroll_y pd_1 pr_0">
+        <div class="h_85 over_scroll_y pd_12 pr_0">
           <el-space
             wrap
             v-show="

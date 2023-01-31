@@ -11,8 +11,8 @@ const layouts = ref<TDiyLayoutData[]>()
 getHomeLayout().then((res) => {
   const layoutData: IDiyData['diyData'] = JSON.parse(res.diyData)
   layouts.value = layoutData.modules
-  console.log('🚀 ~ file:home method: line:14 -----', layoutData)
   formatPageStyle(layoutData.page)
+  console.log('🚀 ~ file:home method: line:15 -----', layoutData)
 })
 
 const adaptiveStatusBar = ref(false)

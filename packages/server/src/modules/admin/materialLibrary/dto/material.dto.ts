@@ -43,12 +43,7 @@ export class CreateMaterialDto {
 }
 
 //查找素材
-export class FindMaterialDto extends PickDto(ListDto, [
-  'pageIndex',
-  'pageSize',
-  'sort',
-  'sortField'
-]) {
+export class FindMaterialDto extends ListDto {
   @Rule(validateNumber)
   groupId?: number
 

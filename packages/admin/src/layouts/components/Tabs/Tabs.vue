@@ -56,7 +56,7 @@ const tabOptions = reactive([
 </script>
 
 <template>
-  <div class="flex main_between cross_center nav_tab pl_2 pr_2 bg_box">
+  <div class="flex main_between cross_center nav_tab pl_16 pr_16 bg_box">
     <div class="tabs pr_2 flex over_scroll_x">
       <transition-group appear name="el-zoom-in-center">
         <div

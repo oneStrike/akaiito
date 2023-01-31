@@ -40,7 +40,7 @@ watch(
     :show-btn="false"
     :options="formOptions"
   >
-    <div class="pl_2" v-if="currentModule.commonAttr.divider">
+    <div class="pl_16" v-if="currentModule.commonAttr.divider">
       <basic-form
         v-model="currentModule.divider"
         :options="dividerOptions"

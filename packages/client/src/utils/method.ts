@@ -1,7 +1,8 @@
-import { IBasicDiy } from '@akaiito/typings/src/admin/diyPage'
+import { IDiyBaseConfig } from '@akaiito/typings/src/admin/diyPage'
 import config from '@/config'
 
-export const formatCommonStyle = (commonStyle: IBasicDiy): string => {
+export const formatCommonStyle = (commonStyle: IDiyBaseConfig): string => {
+  if (!commonStyle) return ''
   const {
     backgroundColor,
     backgroundImage,
@@ -11,7 +12,7 @@ export const formatCommonStyle = (commonStyle: IBasicDiy): string => {
   } = commonStyle
   let commonStyleString = ''
   for (const attrKey in commonStyle) {
-    const item = commonStyle[attrKey as keyof IBasicDiy]
+    const item = commonStyle[attrKey as keyof IDiyBaseConfig]
     switch (attrKey) {
       case 'backgroundType':
         if (item === 'color') {

@@ -109,9 +109,9 @@ watch(
 </script>
 
 <template>
-  <div class="dummy_input pd_1" :style="commonStyle + searchContainerStyle">
+  <div class="dummy_input pd_12" :style="commonStyle + searchContainerStyle">
     <div
-      class="swiper-no-swiping flex cross_center main_between h_100 pl_1 pr_1 over_hide"
+      class="swiper-no-swiping flex cross_center main_between h_100 pl_12 pr_12 over_hide"
       :style="searchBoxStyle"
     >
       <swiper

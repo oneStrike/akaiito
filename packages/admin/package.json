@@ -11,6 +11,8 @@
     "prettier": "prettier --write \"(src|demo)/**/*.(vue|js)\""
   },
   "dependencies": {
+    "@akaiito/stylesheets": "workspace:*",
+    "@akaiito/utils": "workspace:*",
     "@element-plus/icons-vue": "^2.0.10",
     "@vueuse/core": "^9.10.0",
     "animate.css": "^4.1.1",

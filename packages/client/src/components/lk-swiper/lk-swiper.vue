@@ -25,14 +25,20 @@ const textClick = (index: number) => {
 
 <template>
   <!--	文本 -->
-  <swiper class="text_swiper h_100" :autoplay="autoplay" vertical circular>
+  <swiper
+    v-if="mode === 'text'"
+    class="text_swiper h_100 w_100"
+    :autoplay="autoplay"
+    vertical
+    circular
+  >
     <swiper-item
       v-for="(text, index) in renderData"
       :key="index"
       class="flex cross_center"
       @click="textClick(index)"
     >
-      <view :style="textStyle" class="u-line-1 fs_14 fc_3">{{ text }}</view>
+      <view :style="textStyle" class="fs_14 fc_3">{{ text }}</view>
     </swiper-item>
   </swiper>
 </template>

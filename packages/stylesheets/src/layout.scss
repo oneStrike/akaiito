@@ -1,3 +1,4 @@
+@use 'variable.scss' as *;
 .fs_12 {
   font-size: $font-size-ssm;
 }
@@ -78,6 +79,18 @@
   height: 100%;
 }
 
+.h_90 {
+  height: 90%;
+}
+
+.h_85 {
+  height: 85%;
+}
+
+.h_80 {
+  height: 80%;
+}
+
 .min_h_100 {
   min-height: 100%;
 }
@@ -139,6 +152,10 @@
   padding: $spacing-base;
 }
 
+.pd_12 {
+  padding: $spacing-medium;
+}
+
 .pd_16 {
   padding: $spacing-lg;
 }
@@ -153,6 +170,10 @@
 
 .pl_8 {
   padding-left: $spacing-base;
+}
+
+.pl_12 {
+  padding-left: $spacing-medium;
 }
 
 .pl_16 {
@@ -171,6 +192,10 @@
   padding-right: $spacing-base;
 }
 
+.pr_12 {
+  padding-right: $spacing-medium;
+}
+
 .pr_16 {
   padding-right: $spacing-lg;
 }
@@ -185,6 +210,10 @@
 
 .pt_8 {
   padding-top: $spacing-base;
+}
+
+.pt_12 {
+  padding-top: $spacing-medium;
 }
 
 .pt_16 {
@@ -203,6 +232,10 @@
   padding-bottom: $spacing-base;
 }
 
+.pb_12 {
+  padding-bottom: $spacing-medium;
+}
+
 .pb_16 {
   padding-bottom: $spacing-lg;
 }
@@ -213,6 +246,10 @@
 
 .mn_8 {
   margin: $spacing-base;
+}
+
+.mn_12 {
+  margin: $spacing-medium;
 }
 
 .mn_16 {
@@ -231,6 +268,10 @@
   margin-left: $spacing-base;
 }
 
+.ml_12 {
+  margin-left: $spacing-medium;
+}
+
 .ml_16 {
   margin-left: $spacing-lg;
 }
@@ -245,6 +286,10 @@
 
 .mr_8 {
   margin-right: $spacing-base;
+}
+
+.mr_12 {
+  margin-right: $spacing-medium;
 }
 
 .mr_16 {
@@ -263,6 +308,10 @@
   margin-top: $spacing-base;
 }
 
+.mt_12 {
+  margin-top: $spacing-medium;
+}
+
 .mt_16 {
   margin-top: $spacing-lg;
 }
@@ -277,6 +326,10 @@
 
 .mb_8 {
   margin-bottom: $spacing-base;
+}
+
+.mb_12 {
+  margin-bottom: $spacing-medium;
 }
 
 .mb_16 {

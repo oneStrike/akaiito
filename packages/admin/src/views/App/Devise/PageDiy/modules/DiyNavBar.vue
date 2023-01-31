@@ -37,7 +37,7 @@ const formatSearchAttr = (val: IDiyPageSearch) => {
     <span v-if="!layout.attr.enableRibbon">{{ layout.attr.text }}</span>
     <div
       v-else-if="ribbon.length"
-      class="h_100 w_100 flex cross_center pl_2 pr_2"
+      class="h_100 w_100 flex cross_center pl_16 pr_16"
     >
       <template v-for="(item, index) in ribbon" :key="index">
         <div

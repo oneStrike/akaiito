@@ -16,12 +16,25 @@ const props = withDefaults(defineProps<IIconProps>(), {
   mode: 'aspectFill'
 })
 const isImage = computed(() => props.name.includes('.'))
-const imageWidth = Array.isArray(props.size) ? props.size[0] : props.size
-const imageHeight = Array.isArray(props.size) ? props.size[1] : props.size
+//图片样式
+const imageStyle = computed(() => {
+  let styleStr = ''
+  const imageWidth = Array.isArray(props.size) ? props.size[0] : props.size
+  const imageHeight = Array.isArray(props.size) ? props.size[1] : props.size
+  styleStr = `width: ${imageWidth}px;height:${imageHeight}px;`
+  if (props.radius) {
+    styleStr += `border-radius: ${props.radius}px;`
+  } else if (props.shape === 'circle') {
+    styleStr += 'border-radius: 50%;'
+  } else {
+    styleStr += 'border-radius: 4px;'
+  }
+  return styleStr
+})
 </script>
 
 <template>
-  <view>
+  <view class="flex center">
     <text
       v-if="!isImage"
       :class="'iconfont icon-' + name"
@@ -29,8 +42,7 @@ const imageHeight = Array.isArray(props.size) ? props.size[1] : props.size
     ></text>
     <image
       v-else
-      :width="imageWidth"
-      :height="imageHeight"
+      :style="imageStyle"
       :src="$FILE_PATH + name"
       :mode="mode"
       :shape="shape"

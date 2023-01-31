@@ -15,7 +15,7 @@ export class LogEntity extends BasicEntity {
   @Column({
     type: DataType.STRING(50),
     allowNull: true,
-    comment: '操作账号哦'
+    comment: '操作账号'
   })
   userAccount?: string
 

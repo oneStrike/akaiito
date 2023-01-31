@@ -1,48 +1,49 @@
 <script setup lang="ts">
-import type {
-  IRibbonItem,
-  TDiyLayoutData
-} from '@akaiito/typings/src/admin/diyPage'
+import type { IDiyModule } from '@akaiito/typings/src/admin/diyPage'
+import type { IDiyPageNavBar } from '@akaiito/typings/src/admin/diyPageModule'
+import { DiyRibbonEnum } from '@akaiito/typings/src/admin/enum/diyModuleEnum'
 import { formatCommonStyle } from '@/utils/method'
 import { useRouter } from '@/hooks/useRouter'
+import { TDiyModuleItem } from '@akaiito/typings/src/admin/diyPageModule'
 interface IRenderData {
-  renderData: TDiyLayoutData
+  renderData: IDiyModule<IDiyPageNavBar>
 }
 
 const props = withDefaults(defineProps<IRenderData>(), {})
-
+console.log('🚀 ~ file:lk-nav-bar method: line:13 -----', props)
 const navBarStyle = ref('')
 const commonStyle = ref('')
 watch(
   () => props.renderData,
-  (val: TDiyLayoutData) => {
+  (val) => {
     commonStyle.value = formatCommonStyle(val.commonAttr)
     navBarStyle.value =
-      `height: ${props.renderData.attr.navBarHeight}px;` + commonStyle.value
+      `height: ${props.renderData.attr.height}px;` + commonStyle.value
   },
   { immediate: true, deep: true }
 )
 
-const ribbonClick = (ribbon: IRibbonItem['ribbon']) => {
-  if (ribbon.type === 'page') {
+const ribbonClick = (ribbon: TDiyModuleItem) => {
+  if (ribbon.type === DiyRibbonEnum.NAVBAR) {
     useRouter.navigateTo({
       path: '/foo/foo'
     })
   }
 }
 
-const baseSearchConfig = ({ ribbon }: IRibbonItem): TDiyLayoutData => {
+const baseSearchConfig = (ribbon: IDiyPageNavBar) => {
   return {
-    ribbon,
+    attr: ribbon,
     id: 99,
-    ribbonName: 'search'
+    ribbonName: 'search',
+    commonStyle: {}
   }
 }
 </script>
 
 <template>
   <view
-    :style="navBarStyle"
+    :style="navBarStyle + commonStyle"
     class="flex cross_center pl3 pr3"
     :class="!renderData.attr.ribbon && ['center']"
   >
@@ -56,19 +57,17 @@ const baseSearchConfig = ({ ribbon }: IRibbonItem): TDiyLayoutData => {
       class="ribbons w_100 flex cross_center main_between pl_16 pr_16"
     >
       <view
-        v-for="(item, index) in renderData.attr.ribbonConfig"
+        v-for="(item, index) in renderData.attr.ribbon"
         :key="item.id"
         class="flex"
-        :class="
-          index !== renderData.attr.ribbonConfig.length - 1 ? 'pr_16' : ''
-        "
+        :class="index !== renderData.attr.ribbon.length - 1 ? 'pr_16' : ''"
         :style="item.autoWidth ? 'flex: 1' : ''"
       >
         <lk-search
-          v-if="item.ribbon.type === 'search'"
+          v-if="item.type === 'search'"
           :render-data="baseSearchConfig(item)"
         ></lk-search>
-        <view v-else @click="ribbonClick(item.ribbon)">
+        <view v-else @click="ribbonClick(item)">
           <lk-icon
             :name="item.icon"
             :color="item.iconColor"
