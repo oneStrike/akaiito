@@ -8,6 +8,7 @@ body {
 .primary_color {
   color: $primary_color !important;
 }
+
 .primary_color_danger {
   color: $primary_color_danger !important;
 }
@@ -19,37 +20,21 @@ body {
 .fs12 {
   font-size: var(--el-font-size-extra-small);
 }
+
 .fs14 {
   font-size: var(--el-font-size-base);
 }
+
 .fs16 {
   font-size: var(--el-font-size-medium);
 }
+
 .fs18 {
   font-size: var(--el-font-size-large);
 }
+
 .fs20 {
   font-size: var(--el-font-size-extra-large);
-}
-
-.pointer {
-  cursor: pointer;
-}
-
-.cursor_move {
-  cursor: move;
-}
-
-.fw_b {
-  font-weight: bold;
-}
-
-.fw_n {
-  font-weight: normal;
-}
-
-.cursor_pointer {
-  cursor: pointer;
 }
 
 .tt_w {
@@ -101,10 +86,4 @@ body {
 
 .bg_main {
   background: $primary_fill_color;
-}
-
-.text_cut {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }

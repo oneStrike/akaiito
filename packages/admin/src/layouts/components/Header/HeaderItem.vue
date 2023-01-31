@@ -16,7 +16,7 @@ const menuIconRotate = computed(() =>
   <div class="h_100 flex cross_center main_between">
     <div class="flex center">
       <svg-icon
-        class="menu_status tt_tf mr_2"
+        class="menu_status tt_tf mr_16"
         icon-name="menu"
         @click="useLayoutStore.changeMenuStatus"
       />

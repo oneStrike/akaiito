@@ -217,7 +217,7 @@ defineExpose({
         </template>
       </el-table-column>
     </el-table>
-    <div id="basic_pagination" class="mt_1 flex main_end">
+    <div id="basic_pagination" class="mt_12 flex main_end">
       <el-pagination
         v-if="tableData.total"
         background

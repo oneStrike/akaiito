@@ -1,4 +1,13 @@
 @use 'variable.scss' as *;
+
+.fw_b {
+  font-weight: 700;
+}
+
+.fw_n {
+  font-weight: 400;
+}
+
 .fs_12 {
   font-size: $font-size-ssm;
 }
@@ -399,4 +408,22 @@
 
 .border_base {
   border: 1px solid $border-color;
+}
+
+.text_cut {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.cursor_move {
+  cursor: move;
+}
+
+.cursor_pointer {
+  cursor: pointer;
 }

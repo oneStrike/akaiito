@@ -68,7 +68,7 @@ const resetFields = () => {
 </script>
 <template>
   <div id="basic_search" class="container flex main_between">
-    <div class="mr_2">
+    <div class="mr_16">
       <slot> </slot>
     </div>
     <basic-form

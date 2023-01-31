@@ -101,7 +101,7 @@ const resetFields = (formEl: FormInstance | undefined) => {
               placement="top"
             >
               <svg-icon
-                class="ml_1"
+                class="ml_12"
                 size="16"
                 @click.prevent
                 icon-name="question"
@@ -188,7 +188,7 @@ const resetFields = (formEl: FormInstance | undefined) => {
 
         <div class="flex" v-if="item.component === 'ColorPicker'">
           <el-input
-            class="mr_2"
+            class="mr_16"
             v-model="formData[item.field]"
             :disabled="item.componentProps?.bind?.disabled"
           ></el-input>

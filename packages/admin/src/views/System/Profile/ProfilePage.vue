@@ -70,9 +70,9 @@ const modifyAvatarSuccess = async (data: CommonUploadRes) => {
               :src="$FILE_PATH + userInfo.avatar"
             />
           </basic-upload>
-          <span class="fw_b fs20 mt_2">{{ userInfo.username }}</span>
+          <span class="fw_b fs20 mt_16">{{ userInfo.username }}</span>
         </div>
-        <div class="mt_2">
+        <div class="mt_16">
           <el-descriptions border :column="1" direction="horizontal">
             <el-descriptions-item label="账号">{{
               userInfo.account

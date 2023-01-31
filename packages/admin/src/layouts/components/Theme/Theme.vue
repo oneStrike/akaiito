@@ -6,7 +6,7 @@ const layoutStore = useLayout()
 <template>
   <svg-icon
     @click="layoutStore.changeThemeStatus()"
-    class="pr_2"
+    class="pr_16"
     :icon-name="layoutStore.theme"
   />
 </template>

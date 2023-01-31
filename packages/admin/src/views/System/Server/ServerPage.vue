@@ -8,7 +8,7 @@ const serverInfo = ref<AdminSystemInfoRes>()
 const renderList = reactive([
   {
     title: '基本信息',
-    className: 'mb_2',
+    className: 'mb_16',
     info: [
       {
         label: 'OS',
@@ -34,7 +34,7 @@ const renderList = reactive([
   },
   {
     title: '内存信息',
-    className: 'mb_2',
+    className: 'mb_16',
     flag: 'memory',
     info: [
       {
@@ -180,7 +180,7 @@ onUnmounted(() => {
             <div>{{ item.title }}</div>
           </template>
           <el-row
-            class="pt_1 pb_1"
+            class="pt_12 pb_12"
             :gutter="10"
             v-for="(child, i) in item.info"
             :key="i"
@@ -206,7 +206,7 @@ onUnmounted(() => {
           <template v-if="item.flag === 'cpu'">
             <div class="cpu_speed flex1">
               <el-progress
-                class="pt_1 pb_1"
+                class="pt_12 pb_12"
                 v-for="(item, index) in formatCpuSpeed()"
                 :key="index"
                 :percentage="item"

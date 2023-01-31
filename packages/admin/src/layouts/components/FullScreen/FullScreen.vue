@@ -6,7 +6,7 @@ const layoutStore = useLayout()
 <template>
   <svg-icon
     @click="layoutStore.changeFullScreenStatus"
-    class="pr_2"
+    class="pr_16"
     :icon-name="layoutStore.isFullScreen ? 'contraction' : 'expand'"
   />
 </template>

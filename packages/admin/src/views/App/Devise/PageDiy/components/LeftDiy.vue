@@ -86,7 +86,7 @@ const saveLayoutData = async (isBack = false) => {
         <el-switch v-model="diyStore.phoneStatusBar" class="ml-2" />
       </el-form-item>
     </el-form>
-    <div class="flex1 content_box over_scroll_y mb_1 mt_1">
+    <div class="flex1 content_box over_scroll_y mb_12 mt_12">
       <el-collapse model-value="base">
         <el-collapse-item name="base">
           <template #title>

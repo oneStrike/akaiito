@@ -306,7 +306,7 @@ const closePreviewImage = () => {
           >添加分组</el-button
         >
         <el-tree
-          class="mt_1 over_scroll_y flex1"
+          class="mt_12 over_scroll_y flex1"
           :data="materialLibraryGroup"
           highlight-current
           node-key="id"
@@ -315,7 +315,7 @@ const closePreviewImage = () => {
           @node-click="selectionGroup"
         >
           <template #default="{ node, data }">
-            <div class="flex main_between center w_100 pr_1">
+            <div class="flex main_between center w_100 pr_12">
               <span class="flex1">{{ node.label }}</span>
               <div
                 class="flex"
@@ -348,7 +348,7 @@ const closePreviewImage = () => {
       <div class="material w_100">
         <div class="flex w_100 pd_12 pb_0">
           <el-input
-            class="search_input mr_2"
+            class="search_input mr_16"
             v-model="searchValue"
             placeholder="请输入素材名称"
             @keydown.enter="searchStart"
@@ -405,7 +405,7 @@ const closePreviewImage = () => {
                     <div class="icons w_100 flex center">
                       <svg-icon
                         @click="previewImage(item)"
-                        class="mr_2"
+                        class="mr_16"
                         size="16"
                         icon-name="search2"
                       ></svg-icon>

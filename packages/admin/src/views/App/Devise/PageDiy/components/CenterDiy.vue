@@ -75,7 +75,7 @@ const disposition = (item: IDiyModule, index: number) => {
 <template>
   <div
     :style="backgroundStyle"
-    class="center_box h_100 el-card is-always-shadow ml_2 mr_2"
+    class="center_box h_100 el-card is-always-shadow ml_16 mr_16"
   >
     <div
       class="status_bar w_100"

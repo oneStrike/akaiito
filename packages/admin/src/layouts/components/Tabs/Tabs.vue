@@ -57,7 +57,7 @@ const tabOptions = reactive([
 
 <template>
   <div class="flex main_between cross_center nav_tab pl_16 pr_16 bg_box">
-    <div class="tabs pr_2 flex over_scroll_x">
+    <div class="tabs pr_16 flex over_scroll_x">
       <transition-group appear name="el-zoom-in-center">
         <div
           class="el-button el-button--small el-button--primary"
@@ -73,7 +73,7 @@ const tabOptions = reactive([
             @click.stop="useTabs.close(item)"
             icon-name="close"
             size="14"
-            class="ml_1"
+            class="ml_12"
           />
         </div>
       </transition-group>

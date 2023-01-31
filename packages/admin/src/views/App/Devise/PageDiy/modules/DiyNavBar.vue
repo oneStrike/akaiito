@@ -43,7 +43,7 @@ const formatSearchAttr = (val: IDiyPageSearch) => {
         <div
           v-if="item.type !== DiyRibbonEnum.SEARCH"
           class="flex"
-          :class="index !== ribbon.length - 1 ? 'mr_2' : ''"
+          :class="index !== ribbon.length - 1 ? 'mr_16' : ''"
         >
           <el-avatar
             v-if="item.iconType === 'image'"
@@ -57,7 +57,7 @@ const formatSearchAttr = (val: IDiyPageSearch) => {
             :size="item.size || 24"
           ></icon-font>
         </div>
-        <div v-else :class="index !== ribbon.length - 1 ? 'mr_2' : ''">
+        <div v-else :class="index !== ribbon.length - 1 ? 'mr_16' : ''">
           <diy-search
             :space="false"
             :layout="formatSearchAttr(item)"

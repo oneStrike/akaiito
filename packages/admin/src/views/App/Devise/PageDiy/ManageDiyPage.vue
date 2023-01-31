@@ -90,21 +90,21 @@ const switchDiy = async (row: AdminGetDiyPageRes[number], use: 0 | 1) => {
         <el-tooltip effect="dark" content="设为首页" placement="top">
           <svg-icon
             :type="row.use === 1 ? 'primary' : ''"
-            class="mr_2"
+            class="mr_16"
             icon-name="home"
             @click="switchDiy(row, 1)"
           ></svg-icon>
         </el-tooltip>
         <el-tooltip effect="dark" content="停用" placement="top">
           <svg-icon
-            class="mr_2"
+            class="mr_16"
             icon-name="ban"
             @click="switchDiy(row, 0)"
           ></svg-icon>
         </el-tooltip>
         <el-tooltip effect="dark" content="编辑" placement="top">
           <svg-icon
-            class="mr_2"
+            class="mr_16"
             icon-name="edit"
             @click="editDiy(row)"
           ></svg-icon>

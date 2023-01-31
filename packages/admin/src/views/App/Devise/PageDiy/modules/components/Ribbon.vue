@@ -231,9 +231,9 @@ const draggableEnd = () => {
 
 <template>
   <div>
-    <div class="mb_2">
+    <div class="mb_16">
       <el-alert
-        class="mb_2"
+        class="mb_16"
         title="支持拖动排序"
         type="info"
         center
@@ -249,7 +249,7 @@ const draggableEnd = () => {
       @end="draggableEnd"
     >
       <template #item="{ element, index }">
-        <div class="w_100 flex center mb_2">
+        <div class="w_100 flex center mb_16">
           <el-input
             readonly
             :placeholder="placeholder"
@@ -269,7 +269,7 @@ const draggableEnd = () => {
           >
             <template #reference>
               <svg-icon
-                class="ml_2"
+                class="ml_16"
                 icon-name="delete"
                 color="#f56c6c"
               ></svg-icon>
