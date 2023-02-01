@@ -1,0 +1,5 @@
+staticFile:
+  dirs:
+    default:
+      prefix: '/'
+      dir: 'D:/temp/lczk-service-midway/public/upload/files'

@@ -25,6 +25,8 @@
 	},
 	"devDependencies": {
 		"@akaiito/typings": "workspace:*",
+		"@iconify-json/line-md": "^1.1.22",
+		"@iconify-json/majesticons": "^1.1.6",
 		"@rushstack/eslint-patch": "^1.2.0",
 		"@types/node": "^18.11.18",
 		"@types/nprogress": "^0.2.0",

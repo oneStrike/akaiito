@@ -1,0 +1,27 @@
+upload:
+  #  midway配置
+  mode: 'file'
+  fileSize: '10mb'
+  tmpdir: '/public/upload/files'
+  cleanTimeout: '1d'
+
+  # 使用的上传模式
+  use: 'local'
+
+  # 本地上传模式
+
+  # 微软云存储
+  azure:
+
+  # 阿里云存储
+  oss:
+
+  #腾讯云存储
+  cos:
+
+  #七牛
+  qiniu:
+    accessKey: 'av6a4k_7P47RT8_XYshPqqV3fT7DgbrrtATr3WC9'
+    secretKey: 'i06WriVfSwdPMxxPPwXuRto779R3NTIbvT6K_5yY'
+    expires: 7200
+    scope: 'akaiito'

@@ -1,29 +1,34 @@
 import { useModal } from '@/hooks/useModal'
 
-interface IBasicConfig {
+interface BasicConfig {
   baseUrl: string
   timeout?: number
   loading?: boolean
   showError?: boolean
   deepData?: boolean
   interceptor?: {
-    request: (config: IConfig) => IConfig
-    response: (data: any) => any
+    request?: (config: IConfig) => IConfig
+    response?: (data: any) => any
   }
 }
 
-type IConfig = Omit<IBasicConfig, 'baseUrl'> & UniNamespace.RequestOptions
+interface ErrorInfo extends UniApp.RequestSuccessCallbackResult {
+  error?: boolean
+  desc?: string
+}
+
+type IConfig = Omit<BasicConfig, 'baseUrl'> & UniNamespace.RequestOptions
 
 export class KRequest {
-  baseUrl: IBasicConfig['baseUrl']
-  timeout: IBasicConfig['timeout']
-  loading: IBasicConfig['loading']
-  showError: IBasicConfig['showError']
-  deepData: IBasicConfig['deepData']
-  interceptor: IBasicConfig['interceptor']
+  baseUrl: BasicConfig['baseUrl']
+  timeout: BasicConfig['timeout']
+  loading: BasicConfig['loading']
+  showError: BasicConfig['showError']
+  deepData: BasicConfig['deepData']
+  interceptor: BasicConfig['interceptor']
   loadingStatus: boolean
 
-  constructor(config: IBasicConfig) {
+  constructor(config: BasicConfig) {
     this.baseUrl = config.baseUrl
     this.timeout = config.timeout || 5000
     this.loading = config.loading ?? true
@@ -53,12 +58,23 @@ export class KRequest {
         header: config.header,
         timeout: config.timeout || this.timeout,
         responseType: config.responseType,
-        success: (res) => {
+        success: (res: ErrorInfo) => {
           if (this.interceptor?.response) {
             res = this.interceptor.response(res)
           }
           if (config.interceptor?.response) {
             res = config.interceptor.response(res)
+          }
+          //接口报错
+          if (res.error && (this.showError || config.showError)) {
+            useModal.show({
+              title: '错误',
+              content: res.desc || '未知错误',
+              showCancel: false,
+              success: () => {
+                reject(res.data)
+              }
+            })
           }
           if (config.deepData || this.deepData) {
             const data = res.data as unknown as { data: T }

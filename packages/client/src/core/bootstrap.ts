@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import config from '@/config'
 import { Plugin } from 'vue'
-import { queryApi } from '@/core/query'
+import { queryApi, querySystemInfo } from '@/core/query'
 
 export const bootstrap: Plugin = {
   install: (app) => {
@@ -11,7 +11,10 @@ export const bootstrap: Plugin = {
       app.config.globalProperties['$' + iterator] =
         config[iterator as keyof typeof config]
     }
-    //启动时就请求的接口
-    queryApi()
+
+    queryApi.getPages()
+    queryApi.systemInfo()
+    //查询是否为首次进入，判断是否展示引导页
+    console.log('🚀 ~ file:bootstrap method:install line:16 -----')
   }
 }

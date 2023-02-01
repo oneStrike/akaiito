@@ -1,0 +1,6 @@
+jwt:
+  sso: false
+  secret: 'Akaiito'
+  token:
+    expire: '2h'
+    refreshExpire: '7d'
