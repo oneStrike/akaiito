@@ -1,0 +1,11 @@
+packages: # 所有在 packages/ 子目录下的 package
+  - 'packages/server'
+  - 'packages/admin'
+  - 'packages/client'
+  - 'packages/stylesheets'
+  - 'packages/typings'
+  - 'packages/utils'
+  - 'packages/clientComponents'
+  - 'packages/adminComponents'
+  # 不包括在 test 文件夹下的 package
+  - '!**/test/**'

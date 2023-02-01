@@ -1,0 +1,32 @@
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite'
+export const autoImport = () => {
+  return AutoImport({
+    include: [
+      /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+      /\.vue$/,
+      /\.vue\?vue/ // .vue
+    ],
+    imports: [
+      'vue',
+      'vue-router',
+      'pinia',
+      {
+        axios: [['default', 'axios']]
+      },
+      {
+        vue: ['defineProps', 'defineEmits', 'defineExpose', 'withDefaults'],
+        '@vueuse/core': []
+      }
+    ],
+    eslintrc: {
+      enabled: true,
+      filepath: './.eslintrc-auto-import.json',
+      globalsPropValue: 'readonly'
+    },
+    resolvers: [ElementPlusResolver()],
+    dts: './src/typings/auto-import.d.ts',
+    dirs: ['src/components'],
+    vueTemplate: true
+  })
+}
