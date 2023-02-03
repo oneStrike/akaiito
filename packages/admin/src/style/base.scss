@@ -87,3 +87,7 @@ body {
 .bg_main {
   background: $primary_fill_color;
 }
+
+.box_shadow {
+  box-shadow: var(--el-box-shadow-light);
+}

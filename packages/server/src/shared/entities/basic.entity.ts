@@ -1,7 +1,7 @@
 import { AfterFind, Model, Table } from 'sequelize-typescript'
 
 @Table
-export class BasicEntity extends Model {
+export class BaseEntity extends Model {
   // @Column({
   //   type: DataType.TINYINT,
   //   comment: '删除标识',

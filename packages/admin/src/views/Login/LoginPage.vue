@@ -34,11 +34,7 @@
             <img
               v-if="captchaSrc"
               :src="captchaSrc"
-              v-debounce="{
-                type: 'click',
-                delay: 200,
-                fn: getCaptcha
-              }"
+              @click="getCaptcha"
               class="captcha_img"
             />
           </el-form-item>
@@ -48,12 +44,7 @@
           <el-form-item>
             <el-button
               v-if="ruleFormRef"
-              v-debounce="{
-                type: 'click',
-                delay: 200,
-                fn: login,
-                params: ruleFormRef
-              }"
+              @click="login(ruleFormRef)"
               class="login_btn"
               :loading="btnLoading"
               round
@@ -74,6 +65,7 @@ import { getCaptchaAPI } from '@/api/common/common'
 import { useUserStore } from '@/stores'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
+import { useDebounceFn } from '@vueuse/core'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -104,11 +96,12 @@ const rules = reactive<FormRules>({
   ]
 })
 // //获取验证码
-const getCaptcha = async function () {
+const getCaptcha = useDebounceFn(async () => {
   captchaSrc.value = (await getCaptchaAPI()).data
-}
+})
 getCaptcha()
-const login = (formEl: FormInstance | undefined) => {
+
+const login = useDebounceFn((formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate(async (valid) => {
     if (!valid) return
@@ -123,7 +116,7 @@ const login = (formEl: FormInstance | undefined) => {
       btnLoading.value = false
     }
   })
-}
+})
 </script>
 
 <style scoped lang="scss">

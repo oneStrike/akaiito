@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
 import config from '@/config'
 import { Plugin } from 'vue'
-import { queryApi, querySystemInfo } from '@/core/query'
+import { useSystem } from '@/hooks/useSystem'
+import { useRouter } from '@/hooks/useRouter'
 
 export const bootstrap: Plugin = {
   install: (app) => {
@@ -12,9 +13,13 @@ export const bootstrap: Plugin = {
         config[iterator as keyof typeof config]
     }
 
-    queryApi.getPages()
-    queryApi.systemInfo()
-    //查询是否为首次进入，判断是否展示引导页
-    console.log('🚀 ~ file:bootstrap method:install line:16 -----')
+    useSystem.getPages()
+    useSystem.getConfigInfo().then((res) => {
+      if (useSystem.configInfo().guide && useSystem.firstEntering()) {
+        useRouter.reLaunch({
+          path: '/guide/guide'
+        })
+      }
+    })
   }
 }

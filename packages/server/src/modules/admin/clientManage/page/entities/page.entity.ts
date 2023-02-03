@@ -1,10 +1,10 @@
 import { Column, DataType, Table } from 'sequelize-typescript'
-import { BasicEntity } from '../../../../../shared/entities/basic.entity'
+import { BaseEntity } from '../../../../../shared/entities/basic.entity'
 
 @Table({
   tableName: 'client_manage_page'
 })
-export class ClientPageEntity extends BasicEntity {
+export class ClientPageEntity extends BaseEntity {
   @Column({
     type: DataType.STRING(50),
     allowNull: false,

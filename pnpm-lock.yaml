@@ -11,6 +11,8 @@ importers:
       concurrently: ^7.6.0
       cz-conventional-changelog: ^3.3.0
       dayjs: ^1.11.7
+      eslint-config-prettier: ^8.6.0
+      eslint-plugin-prettier: ^4.2.1
       husky: ^8.0.3
       lint-staged: ^13.1.0
       lodash: ^4.17.21
@@ -26,6 +28,8 @@ importers:
       commitizen: 4.3.0
       concurrently: 7.6.0
       cz-conventional-changelog: 3.3.0
+      eslint-config-prettier: 8.6.0
+      eslint-plugin-prettier: 4.2.1_sf22gp4h4llr342kfjdanueldy
       husky: 8.0.3
       lint-staged: 13.1.0
       prettier: 2.8.3
@@ -5305,6 +5309,13 @@ packages:
     optionalDependencies:
       source-map: 0.6.1
 
+  /eslint-config-prettier/8.6.0:
+    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dev: true
+
   /eslint-config-prettier/8.6.0_eslint@7.32.0:
     resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
     hasBin: true
@@ -5379,6 +5390,22 @@ packages:
     dependencies:
       eslint: 8.33.0
       eslint-config-prettier: 8.6.0_eslint@8.33.0
+      prettier-linter-helpers: 1.0.0
+    dev: true
+
+  /eslint-plugin-prettier/4.2.1_sf22gp4h4llr342kfjdanueldy:
+    resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      eslint: '>=7.28.0'
+      eslint-config-prettier: '*'
+      prettier: '>=2.0.0'
+    peerDependenciesMeta:
+      eslint-config-prettier:
+        optional: true
+    dependencies:
+      eslint-config-prettier: 8.6.0
+      prettier: 2.8.3
       prettier-linter-helpers: 1.0.0
     dev: true
 

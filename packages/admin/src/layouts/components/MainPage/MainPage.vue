@@ -7,7 +7,7 @@ const isActive = computed(() => useTabs.isRouterAlive.value)
   <el-main
     v-if="isActive"
     id="basic_main"
-    class="bg_box mg_12 border_radius_base"
+    class="bg_box mg_12 border_radius_base box_shadow"
   >
     <router-view v-slot="{ Component, route }">
       <empty-block>

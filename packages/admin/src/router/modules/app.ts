@@ -1,8 +1,8 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 export default {
-  name: 'App',
-  path: '/App',
+  name: 'app',
+  path: '/app',
   component: () => import('@/layouts/CommonPage.vue'),
   meta: { title: 'APP管理', roles: [], icon: 'applications', sort: 1 },
   children: [
@@ -26,6 +26,12 @@ export default {
           meta: { roles: ['admin'], title: '用户中心', icon: 'userGroup' }
         }
       ]
+    },
+    {
+      path: 'bootstrapManage',
+      name: 'bootstrapManage',
+      meta: { roles: ['admin'], title: '启动管理', icon: 'pinwheel' },
+      component: () => import('@/views/App/BootstrapManage/BootstrapManage.vue')
     }
   ]
 } as RouteRecordRaw

@@ -4,10 +4,10 @@ import { IListQueryParam, IListResponseRes } from '../../types/dto/list'
 import Utils from '../../utils'
 import { MakeNullishOptional } from 'sequelize/types/utils'
 import { Attributes, FindOptions, WhereOptions } from 'sequelize'
-import { BasicEntity } from '../entities/basic.entity'
+import { BaseEntity } from '../entities/basic.entity'
 
 @Provide()
-export abstract class BaseMapping<T extends BasicEntity = Model> {
+export abstract class BaseMapping<T extends BaseEntity = Model> {
   @Inject()
   utils: Utils
 

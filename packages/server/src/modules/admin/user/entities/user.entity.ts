@@ -1,10 +1,10 @@
 import { Table, Column, DataType } from 'sequelize-typescript'
-import { BasicEntity } from '../../../../shared/entities/basic.entity'
+import { BaseEntity } from '../../../../shared/entities/basic.entity'
 
 @Table({
   tableName: 'admin_user'
 })
-export class AdminUserEntity extends BasicEntity {
+export class AdminUserEntity extends BaseEntity {
   @Column({
     comment: '昵称',
     type: DataType.STRING(50),

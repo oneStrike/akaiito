@@ -1,10 +1,10 @@
 import { Table, Column, DataType } from 'sequelize-typescript'
-import { BasicEntity } from '../../../../../shared/entities/basic.entity'
+import { BaseEntity } from '../../../../../shared/entities/basic.entity'
 
 @Table({
   tableName: 'client_manage_system'
 })
-export class SystemEntity extends BasicEntity {
+export class SystemEntity extends BaseEntity {
   @Column({
     type: DataType.INTEGER,
     defaultValue: 0,

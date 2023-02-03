@@ -1,5 +1,5 @@
 import { Column, DataType, ForeignKey, Table } from 'sequelize-typescript'
-import { BasicEntity } from '../../../../shared/entities/basic.entity'
+import { BaseEntity } from '../../../../shared/entities/basic.entity'
 
 /**
  * 素材分组表
@@ -7,7 +7,7 @@ import { BasicEntity } from '../../../../shared/entities/basic.entity'
 @Table({
   tableName: 'material_group'
 })
-export class MaterialGroupEntity extends BasicEntity {
+export class MaterialGroupEntity extends BaseEntity {
   @Column({
     type: DataType.STRING(50),
     allowNull: false,
@@ -31,7 +31,7 @@ export class MaterialGroupEntity extends BasicEntity {
 @Table({
   tableName: 'material'
 })
-export class MaterialEntity extends BasicEntity {
+export class MaterialEntity extends BaseEntity {
   @ForeignKey(() => MaterialGroupEntity)
   @Column({
     type: DataType.INTEGER,

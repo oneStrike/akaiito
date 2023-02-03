@@ -8,6 +8,6 @@ onLoad((options) => {
 <template>
   <view class="profile">
     <text>用户中心</text>
-    <button @click="useRoute.back()">返回</button>
+    <button @click="useRouter.back()">返回</button>
   </view>
 </template>

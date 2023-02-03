@@ -26,6 +26,8 @@
     "commitizen": "^4.3.0",
     "concurrently": "^7.6.0",
     "cz-conventional-changelog": "^3.3.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.3",
@@ -42,9 +44,11 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,css,scss,vue,md}": [
+    "*.{js,ts,css,vue,md}": [
       "pnpm run prettier",
-      "pnpm run lint:fix"
+      "pnpm -C packages/admin lint",
+      "pnpm -C ./packages/server lint:fix",
+      "pnpm -C ./packages/client lint"
     ]
   }
 }

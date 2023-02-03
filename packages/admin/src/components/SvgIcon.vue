@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { TIconName } from '~@/svgicon'
+import type { IconName } from '@/typings/components/svgicon'
 
 interface SvgIcon {
-  iconName: TIconName
+  iconName: IconName
   color?: string
   size?: number | string
   type?: 'primary' | 'error' | ''
@@ -86,5 +86,8 @@ const iconTypeClass = computed(() => {
     <icon-majest-home-analytics-line v-if="iconName === 'home'" />
     <icon-majest-ban-line v-if="iconName === 'ban'" />
     <icon-majest-check-line v-if="iconName === 'check'" />
+    <icon-majest-ferris-wheel-line v-if="iconName === 'ferrisWheel'" />
+    <icon-majest-pinwheel-line v-if="iconName === 'pinwheel'" />
+    <icon-majest-planet-rocket-line v-if="iconName === 'planetRocket'" />
   </el-icon>
 </template>
