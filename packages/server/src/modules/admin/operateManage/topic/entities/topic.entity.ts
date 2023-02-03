@@ -14,11 +14,18 @@ export class TopicEntity extends BaseEntity {
   topicName: string
 
   @Column({
-    type: DataType.STRING(10),
+    type: DataType.STRING,
     allowNull: false,
     comment: '副标题'
   })
-  subTitle: string
+  desc: string
+
+  @Column({
+    type: DataType.TINYINT,
+    allowNull: false,
+    comment: '创建方式，1管理员 2用户'
+  })
+  creationMethod: number
 
   @Column({
     type: DataType.STRING(5),
@@ -61,4 +68,18 @@ export class TopicEntity extends BaseEntity {
     comment: '禁止规则'
   })
   forbidRules: string
+
+  @Column({
+    type: DataType.TINYINT,
+    defaultValue: 1,
+    comment: '状态 1正常 0拉黑'
+  })
+  status: number
+
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue: 0,
+    comment: '成员数量'
+  })
+  memberCount: number
 }
