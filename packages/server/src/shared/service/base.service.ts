@@ -83,6 +83,23 @@ export abstract class BaseService {
     return params.id
   }
 
+  //批量更新
+  async updateMultiple<T extends { ids: number[] }>(
+    params: T
+  ): Promise<number[]> {
+    const ids = this.utils.lodash.cloneDeep(params.ids)
+    delete params.ids
+    const updateData = []
+    ids.forEach((item) => {
+      updateData.push({
+        id: item,
+        ...params
+      })
+    })
+    await this.mapping.bulkCreate(updateData)
+    return params.ids
+  }
+
   //删除
   async destroy(id: number): Promise<number> {
     await this.mapping.destroy({ id })

@@ -89,5 +89,6 @@ const iconTypeClass = computed(() => {
     <icon-majest-ferris-wheel-line v-if="iconName === 'ferrisWheel'" />
     <icon-majest-pinwheel-line v-if="iconName === 'pinwheel'" />
     <icon-majest-planet-rocket-line v-if="iconName === 'planetRocket'" />
+    <icon-majest-exclamation-line v-if="iconName === 'exclamation'" />
   </el-icon>
 </template>

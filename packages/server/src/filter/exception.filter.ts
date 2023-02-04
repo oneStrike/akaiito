@@ -1,7 +1,7 @@
 import { Catch, Logger, MidwayHttpError } from '@midwayjs/core'
 import { Context } from '@midwayjs/koa'
 import { IDtoErrorDetails, IResponseData } from '../types/dto/list'
-import { LogService } from '../modules/admin/log/log.service'
+import { LogService } from '../service/admin/log/log.service'
 
 @Catch()
 export class ExceptionFilter {

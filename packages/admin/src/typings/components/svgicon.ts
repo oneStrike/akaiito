@@ -44,3 +44,4 @@ export type IconName =
   | 'check'
   | 'ferrisWheel'
   | 'pinwheel'
+  | 'exclamation'

@@ -10,7 +10,7 @@ import {
   SerializeHandle
 } from '../decorator/serialize.decorator'
 import { ConfigCore } from './config.core'
-import { PageService } from '../modules/admin/clientManage/page/page.service'
+import { PageService } from '../service/clientManage/page/page.service'
 
 @Autoload()
 @Provide()

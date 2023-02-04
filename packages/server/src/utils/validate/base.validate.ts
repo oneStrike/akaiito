@@ -89,3 +89,10 @@ export const validateDate = RuleType.date()
  * 限定为必穿日期类型
  */
 export const requiredDate = validateDate.required()
+
+/**
+ * 限定为数字类型的数组
+ */
+export const requiredNumberArray = RuleType.array()
+  .items(requiredNumber)
+  .required()

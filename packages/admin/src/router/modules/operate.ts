@@ -11,6 +11,12 @@ export default {
       name: 'topic',
       component: () => import('@/views/Operate/Topic/Topic.vue'),
       meta: { roles: ['admin'], title: '话题', icon: 'planetRocket' }
+    },
+    {
+      path: 'privacy',
+      name: 'privacy',
+      component: () => import('@/views/Operate/Privacy/Privacy.vue'),
+      meta: { roles: ['admin'], title: '隐私协议', icon: 'exclamation' }
     }
   ]
 } as RouteRecordRaw
