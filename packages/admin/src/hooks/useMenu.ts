@@ -111,7 +111,6 @@ class UseMenu {
       try {
         await router.push({ name: route.path })
       } catch (e) {
-        console.log('🚀 ~ file:useMenu method:linkPage line:115 -----', routes)
         await router.replace({ name: '404' })
       }
     } else if (route.meta?.url) {

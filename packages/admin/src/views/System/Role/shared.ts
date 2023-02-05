@@ -9,6 +9,18 @@ import type { SearchProps } from '@/typings/components/basicSearch'
 import type { TableColumn } from '@/typings/components/basicTable'
 export const search: SearchProps['options'] = reactive([
   {
+    field: 'dateTime',
+    component: 'DateTime',
+    bind: {
+      label: '创建时间'
+    },
+    componentProps: {
+      bind: {
+        type: 'daterange'
+      }
+    }
+  },
+  {
     field: 'status',
     component: 'Select',
     fillAll: true,
@@ -41,18 +53,6 @@ export const search: SearchProps['options'] = reactive([
       bind: {
         placeholder: '请选择账号角色',
         rules: passwordRule
-      }
-    }
-  },
-  {
-    field: 'dateTime',
-    component: 'DateTime',
-    bind: {
-      label: '创建时间'
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请选择创建时间'
       }
     }
   }

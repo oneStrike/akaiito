@@ -7,7 +7,7 @@ import {
   getMaterialApi,
   getMaterialLibraryApi,
   modifyMaterialLibraryApi
-} from '@/api/materialLibrary/materialLibrary'
+} from '@/api/materialLibrary'
 
 import type {
   AdminGetMaterialGroupRes,

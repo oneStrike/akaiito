@@ -1,7 +1,7 @@
-import kRequest from '../index'
+import kRequest from './index'
 import config from '@/config'
-import type { AdminSystemInfoRes } from '~@/apiTypes/system'
-import type { OpenGetCaptchaRes } from '@akaiito/typings/src/open/apiTypes/captcha'
+import type { AdminSystemInfoRes } from '~@/../../../typings/src/admin/apiTypes/system'
+import type { OpenGetCaptchaRes } from 'packages/typings/src/open/apiTypes/captcha'
 const context = '/open'
 const context2 = config.REQUEST_PREFIX + '/system'
 

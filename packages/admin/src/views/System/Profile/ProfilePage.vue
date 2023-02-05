@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useUserStore } from '@/stores'
 import { modifyPwdForm, modifyInfoForm } from './shared'
-import { updatePasswordApi, updateUserInfoApi } from '@/api/user/user'
+import { updatePasswordApi, updateUserInfoApi } from '@/api/user'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
 import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'

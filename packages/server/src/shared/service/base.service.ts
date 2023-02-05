@@ -13,13 +13,14 @@ import { Op, WhereOptions } from 'sequelize'
 import { ConfigService } from '../../service/config.service'
 import { BaseMapping } from '../mapping/base.mapping'
 import { Model } from 'sequelize-typescript'
+import { FindAttributeOptions } from 'sequelize/types/model'
 
 export abstract class BaseService {
   //列表查询初始参数
   pageIndex = 0 //默认页偏移量
   pageSize = 15 //默认页大小
   maxPageSize = 500 //默认最大页大小
-  sort: IListQueryParam['sort'] = 'asc' //默认排序方式
+  sort: IListQueryParam['sort'] = '' //默认排序方式
 
   @App()
   protected app: Application
@@ -64,10 +65,14 @@ export abstract class BaseService {
   }
 
   //查找多个
-  async findMultiple(params, destroy = false) {
+  async findMultiple(
+    params: IListQueryParam & { attributes?: FindAttributeOptions }
+  ) {
     const { where, listParams } = this.getWhere(params)
-    if (destroy) where[Op.not] = { deletedAt: null }
-    return await this.mapping.findMultiple(where, listParams, destroy)
+    return await this.mapping.findMultiple(
+      { where, attributes: params.attributes },
+      listParams
+    )
   }
 
   /**
@@ -162,7 +167,10 @@ export abstract class BaseService {
     //生成列表查询参数
     const listParams = this.formatListQueryParams(where)
     //过滤掉列表查询参数
-    const prueWhere = this.utils.lodash.omit(trueWhere, listParamsKeys)
+    const prueWhere = this.utils.lodash.omit(trueWhere, [
+      ...listParamsKeys,
+      'attributes'
+    ])
 
     return {
       where: this.handleDate(prueWhere),
@@ -196,7 +204,7 @@ export abstract class BaseService {
       sort: param?.sort || this.sort,
       pageIndex: Number(param?.pageIndex) || this.pageIndex,
       pageSize: Number(pageSize > 100 ? this.maxPageSize : pageSize),
-      sortField: param?.sortField ?? ''
+      sortField: param?.sort ? param?.sortField ?? '' : ''
     }
   }
 

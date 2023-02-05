@@ -11,7 +11,7 @@ import {
 import { Serialize } from '../../decorator/serialize.decorator'
 import { UserDto } from '../../service/admin/user/dto/user.dto'
 import { AdminUserEntity } from '../../service/admin/user/entities/user.entity'
-import { IdDto, ListDto, ToggleStatusDto } from '../../shared/dto/base.dto'
+import { IdDto, ToggleStatusDto } from '../../shared/dto/base.dto'
 
 @Controller('/admin/user', { tagName: '用户' })
 export class UserController extends BaseController {
@@ -48,12 +48,6 @@ export class UserController extends BaseController {
   @Serialize('list')
   async getUserList(@Query() param: getUserListDto) {
     return await this.userService.findMultiple(param)
-  }
-
-  @Get('/deleteUserList', { summary: '获取已删除用户列表' })
-  @Serialize('list')
-  async deleteUserList(@Query() param: ListDto) {
-    return this.userService.findMultiple(param, true)
   }
 
   @Post('/switchUserStatus', { summary: '启用或禁用用户' })

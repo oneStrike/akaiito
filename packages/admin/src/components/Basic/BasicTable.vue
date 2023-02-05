@@ -7,7 +7,7 @@ import * as _ from 'lodash'
 interface IListParams {
   pageSize: number
   pageIndex: number
-  sort: 'asc' | 'desc'
+  sort: 'asc' | 'desc' | ''
   sortField: string
 }
 interface IBasicTableOp {
@@ -19,6 +19,7 @@ interface IBasicTableOp {
   requestApi: IBasicTable['requestApi']
   searchOptions?: SearchProps['options']
   showSearch?: IBasicTable['showSearch']
+  batchBtn?: SearchProps['batchBtn']
 }
 
 const props = withDefaults(defineProps<IBasicTableOp>(), {
@@ -31,6 +32,7 @@ const emits = defineEmits<{
   (event: 'update:modelValue', data: any): void
   (event: 'update:filters', data: any): void
   (event: 'update:listParams', data: IListParams): void
+  (event: 'batch', data: any): void
 }>()
 
 //计算table应得高度
@@ -140,6 +142,13 @@ const searchEvent = async () => {
   }
   interiorListParams.value.pageIndex = 1
 }
+const handlerSearchDropdown = async (val: any) => {
+  if (interiorListParams.value.pageIndex === 1) {
+    await runRequestApi()
+    return
+  }
+  interiorListParams.value.pageIndex = 1
+}
 
 watch(
   interiorListParams,
@@ -159,8 +168,17 @@ const sortChange = async ({
   order: string | null
 }) => {
   interiorListParams.value.sortField = prop
-  interiorListParams.value.sort =
-    order == 'descending' ? 'desc' : order === null ? 'asc' : 'asc'
+  switch (order) {
+    case 'descending':
+      interiorListParams.value.sort = 'desc'
+      break
+    case 'ascending':
+      interiorListParams.value.sort = 'asc'
+      break
+    case null:
+      interiorListParams.value.sort = ''
+      break
+  }
 }
 
 const resetTable = async () => {
@@ -181,7 +199,9 @@ defineExpose({
           v-if="showSearch"
           v-model="searchData"
           :options="searchOptions"
+          :batch-btn="batchBtn"
           @search="searchEvent"
+          @dropdown="(val) => emits('batch', val)"
         >
           <slot name="searchHeader"></slot>
         </basic-search>

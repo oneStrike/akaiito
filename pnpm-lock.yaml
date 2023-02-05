@@ -44,6 +44,7 @@ importers:
       '@iconify-json/line-md': ^1.1.22
       '@iconify-json/majesticons': ^1.1.6
       '@rushstack/eslint-patch': ^1.2.0
+      '@tinymce/tinymce-vue': ^5.0.0
       '@types/node': ^18.11.18
       '@types/nprogress': ^0.2.0
       '@vitejs/plugin-vue': ^4.0.0
@@ -54,12 +55,14 @@ importers:
       element-plus: ^2.2.28
       eslint: ^8.33.0
       eslint-plugin-vue: ^9.9.0
+      lodash: ^4.17.21
       normalize.css: ^8.0.1
       npm-run-all: ^4.1.5
       nprogress: ^0.2.0
       pinia: ^2.0.29
       pinia-plugin-persistedstate: ^3.0.2
       sass: ^1.58.0
+      tinymce: ^5.10.7
       unplugin-auto-import: ^0.13.0
       unplugin-element-plus: ^0.5.0
       unplugin-icons: ^0.15.2
@@ -74,12 +77,15 @@ importers:
       '@akaiito/stylesheets': link:../stylesheets
       '@akaiito/utils': link:../utils
       '@element-plus/icons-vue': 2.0.10_vue@3.2.45
+      '@tinymce/tinymce-vue': 5.0.0_vue@3.2.45
       '@vueuse/core': 9.12.0_vue@3.2.45
       element-plus: 2.2.28_vue@3.2.45
+      lodash: 4.17.21
       normalize.css: 8.0.1
       nprogress: 0.2.0
       pinia: 2.0.29_vue@3.2.45
       pinia-plugin-persistedstate: 3.0.2_pinia@2.0.29
+      tinymce: 5.10.7
       vue: 3.2.45
       vue-router: 4.1.6_vue@3.2.45
     devDependencies:
@@ -2543,6 +2549,15 @@ packages:
     dependencies:
       defer-to-connect: 1.1.3
     dev: true
+
+  /@tinymce/tinymce-vue/5.0.0_vue@3.2.45:
+    resolution: {integrity: sha512-1HRCNa2eGdztOKShYAiHIry50LTU6YJG//qSP9AJElrXhb3BIBN0Bef6E56nZObVgwCgSmI4cnX35VU9D49aow==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      tinymce: 6.3.1
+      vue: 3.2.45
+    dev: false
 
   /@tootallnate/once/1.1.2:
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
@@ -10594,6 +10609,14 @@ packages:
 
   /tiny-inflate/1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
+    dev: false
+
+  /tinymce/5.10.7:
+    resolution: {integrity: sha512-9UUjaO0R7FxcFo0oxnd1lMs7H+D0Eh+dDVo5hKbVe1a+VB0nit97vOqlinj+YwgoBDt6/DSCUoWqAYlLI8BLYA==}
+    dev: false
+
+  /tinymce/6.3.1:
+    resolution: {integrity: sha512-+oCwXuTxAdJXVJ0130OxQz0JDNsqg3deuzgeUo8X5Vb27EzCJgXwO5eWvCxvkxpQo4oiHMVlM4tUIpTUHufHGQ==}
     dev: false
 
   /title-case/2.1.1:

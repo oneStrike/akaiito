@@ -14,12 +14,12 @@ export default defineConfig([
     projects: [
       {
         token:
-          '78a71dccabd725fa1e39e3a62acd56082b43df6fa557047dab599551949d9770',
+          '2d44db9ad41cf8c08cce231db299bd5932a2bfa74f81d2c7fee36cae11b2704c',
         categories: [
           {
             id: [
               112836, 112844, 112852, 112860, 112868, 112876, 112884, 112892,
-              112988, 114804, 114820, 117060
+              112988, 114804, 114820, 117060, 127878
             ]
           }
         ]

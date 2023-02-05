@@ -2,6 +2,7 @@
 import type { BasicForm } from '@/typings/components/basicForm'
 import { useDebounceFn } from '@vueuse/core'
 import type { FormInstance } from 'element-plus'
+import Editor from '@/components/Editor/Editor.vue'
 
 interface IFromOp {
   removeAutoFillInput?: boolean
@@ -116,6 +117,7 @@ const resetFields = (formEl: FormInstance | undefined) => {
           v-bind="item.componentProps.bind"
           v-on="item.componentProps.on || {}"
           :validate-event="false"
+          :rows="item.componentProps.bind?.rows ?? 3"
           @change="(val) => (formData[item.field] = val)"
         >
           <template #suffix>
@@ -143,11 +145,33 @@ const resetFields = (formEl: FormInstance | undefined) => {
           >
         </el-radio-group>
 
+        <el-checkbox-group
+          v-if="item.component === 'Check'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps.bind"
+        >
+          <el-checkbox
+            v-for="op in item.componentProps.options"
+            :key="op.value"
+            :label="op.value"
+            >{{ op.label }}</el-checkbox
+          >
+        </el-checkbox-group>
+
+        <Editor
+          v-if="item.component === 'Editor'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps.bind"
+        ></Editor>
+
         <el-select
           v-if="item.component === 'Select'"
           class="w_100"
           v-model="formData[item.field]"
+          :clearable="true"
           v-bind="item.componentProps.bind"
+          collapse-tags
+          collapse-tags-tooltip
         >
           <el-option
             v-for="child in item.componentProps.options"
@@ -161,7 +185,6 @@ const resetFields = (formEl: FormInstance | undefined) => {
           v-if="item.component === 'DateTime'"
           v-model="formData[item.field]"
           type="datetimerange"
-          :default-time="item.componentProps.bind?.defaultTime || new Date()"
           :start-placeholder="
             item.componentProps.bind?.startPlaceholder || '起始时间'
           "
@@ -200,7 +223,7 @@ const resetFields = (formEl: FormInstance | undefined) => {
         </div>
       </el-form-item>
     </template>
-    <el-form-item v-if="showBtn" class="w_100">
+    <el-form-item v-if="showBtn" class="">
       <div
         class="w_100 flex"
         :class="

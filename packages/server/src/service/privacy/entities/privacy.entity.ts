@@ -20,9 +20,9 @@ export class PrivacyEntity extends BaseEntity {
   content: string
 
   @Column({
-    type: DataType.STRING(20),
+    type: DataType.STRING(10),
     allowNull: false,
-    comment: '协议内容'
+    comment: '平台，可多选 1>APP 2>web 3>小程序'
   })
   platform: string
 

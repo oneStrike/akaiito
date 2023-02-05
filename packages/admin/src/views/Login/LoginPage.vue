@@ -61,7 +61,7 @@
 
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus'
-import { getCaptchaAPI } from '@/api/common/common'
+import { getCaptchaAPI } from '@/api/common'
 import { useUserStore } from '@/stores'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { loginLogApi, userListApi } from '@/api/user/user'
+import { loginLogApi, userListApi } from '@/api/user'
 import type { AdminLoginLogRes } from '~@/apiTypes/log'
 import type { AdminUserListRes } from '~@/apiTypes/user'
 

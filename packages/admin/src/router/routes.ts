@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+import router from '@/router/index'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',

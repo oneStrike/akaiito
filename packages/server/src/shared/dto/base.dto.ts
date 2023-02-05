@@ -29,7 +29,7 @@ export class ListDto {
   pageSize?: number
 
   @Rule(givenValue(['desc', 'asc'], false))
-  sort?: string
+  sort?: 'desc' | 'asc'
 
   @Rule(validateString)
   sortField?: string

@@ -1,4 +1,4 @@
-import kRequest from '../index'
+import kRequest from './index'
 import config from '@/config'
 import type {
   AdminCreateUserReq,
@@ -17,9 +17,12 @@ import type {
   AdminUserInfoRes,
   AdminUserListReq,
   AdminUserListRes
-} from '~@/apiTypes/user'
+} from '~@/../../../typings/src/admin/apiTypes/user'
 
-import type { AdminLoginLogReq, AdminLoginLogRes } from '~@/apiTypes/log'
+import type {
+  AdminLoginLogReq,
+  AdminLoginLogRes
+} from '~@/../../../typings/src/admin/apiTypes/log'
 
 const context = config.REQUEST_PREFIX + '/user'
 const logContext = config.REQUEST_PREFIX + '/log'

@@ -3,12 +3,13 @@ type components =
   | 'Textarea'
   | 'InputNumber'
   | 'Radio'
+  | 'Check'
   | 'Select'
-  | 'Date'
   | 'DateTime'
   | 'Upload'
   | 'ColorPicker'
   | 'Switch'
+  | 'Editor'
 
 type selectOptions = { label: string; value: number | string }
 

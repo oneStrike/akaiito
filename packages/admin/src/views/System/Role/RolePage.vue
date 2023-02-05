@@ -5,7 +5,7 @@ import {
   updateUserInfoApi,
   statusSwitchApi,
   userListApi
-} from '@/api/user/user'
+} from '@/api/user'
 import { search, column, form, pwdForm } from '@/views/System/Role/shared'
 import { Hint } from '@/utils/hint'
 import { useMessage } from '@/hooks/useMessage'

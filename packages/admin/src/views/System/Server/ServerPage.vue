@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getSystemInfo } from '@/api/common/common'
+import { getSystemInfo } from '@/api/common'
 import dayjs from 'dayjs'
 import type { AdminSystemInfoRes } from '~@/apiTypes/system'
 const loading = ref(false)

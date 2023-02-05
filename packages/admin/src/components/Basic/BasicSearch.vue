@@ -3,6 +3,7 @@ import type { SearchProps } from '@/typings/components/basicSearch'
 export interface ISearchOp {
   options: SearchProps['options']
   modelValue: Record<string, any>
+  batchBtn?: SearchProps['batchBtn']
 }
 const props = withDefaults(defineProps<ISearchOp>(), {
   options: () => [],
@@ -12,19 +13,10 @@ const props = withDefaults(defineProps<ISearchOp>(), {
 const emits = defineEmits<{
   (event: 'update:modelValue', data: any): void
   (event: 'search', data: any): void
+  (event: 'dropdown', data: any): void
 }>()
 
 const searchData = ref(props.modelValue || {})
-
-const fillAllSelect = (item: SearchProps['options'][number]) => {
-  if (item.fillAll) {
-    const options = item.componentProps.options
-    if (options && !options.find((item) => item.label === '全部')) {
-      options.unshift({ label: '全部', value: '' })
-    }
-  }
-  return item
-}
 
 //搜索选项的默认宽度
 const finalSearchOption = ref<SearchProps['options']>()
@@ -34,14 +26,14 @@ watch(
     finalSearchOption.value = val.map((item) => {
       switch (item.component) {
         case 'Input':
-          item.width = 100
+          item.width = 200
           break
         case 'Select':
           item.width = 200
-          item = fillAllSelect(item)
           break
         case 'DateTime':
-          item.width = 460
+          item.width =
+            item.componentProps.bind!.type === 'daterange' ? 320 : 460
       }
       return item
     })
@@ -67,9 +59,25 @@ const resetFields = () => {
 }
 </script>
 <template>
-  <div id="basic_search" class="container flex main_between">
-    <div class="mr_16">
+  <div id="basic_search" class="container flex main_between flex1">
+    <div class="mr_16 left_btn">
       <slot> </slot>
+      <el-dropdown
+        v-if="batchBtn"
+        class="ml_12"
+        @command="(command) => emits('dropdown', command)"
+      >
+        <el-button>
+          批量操作<el-icon class="el-icon--right"><arrow-down /></el-icon>
+        </el-button>
+        <template #dropdown>
+          <el-dropdown-menu v-for="(item, index) in batchBtn" :key="index">
+            <el-dropdown-item :command="item.value">{{
+              item.label
+            }}</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
     <basic-form
       v-model="searchData"
@@ -102,5 +110,9 @@ const resetFields = () => {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+.left_btn {
+  white-space: nowrap;
 }
 </style>

@@ -44,7 +44,10 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,css,vue,md}": [
+    "*.{css,scss}": [
+      "pnpm run prettier"
+    ],
+    "*.{ts,vue,md}": [
       "pnpm run prettier",
       "pnpm -C packages/admin lint",
       "pnpm -C ./packages/server lint:fix",

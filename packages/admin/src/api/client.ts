@@ -1,6 +1,6 @@
-import kRequest from '@/api'
+import kRequest from '@/api/index'
 import config from '@/config'
-import type { AdminGetClientPageRes } from '~@/apiTypes/clientManage'
+import type { AdminGetClientPageRes } from '~@/../../../typings/src/admin/apiTypes/clientManage'
 const context = config.REQUEST_PREFIX + '/clientManage'
 
 const api = {

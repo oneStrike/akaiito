@@ -31,7 +31,7 @@ export interface IDtoErrorDetails {
 export interface IListQueryParam {
   pageIndex?: number
   pageSize?: number
-  sort?: 'asc' | 'desc'
+  sort?: 'asc' | 'desc' | ''
   sortField?: string
 }
 

@@ -5,6 +5,7 @@ import Utils from '../../utils'
 import { MakeNullishOptional } from 'sequelize/types/utils'
 import { Attributes, FindOptions, WhereOptions } from 'sequelize'
 import { BaseEntity } from '../entities/basic.entity'
+import { findMultipleQuery } from '../../types/service/base'
 
 @Provide()
 export abstract class BaseMapping<T extends BaseEntity = Model> {
@@ -37,14 +38,12 @@ export abstract class BaseMapping<T extends BaseEntity = Model> {
 
   /**
    * 查到多条数据
-   * @param where 查询条件
+   * @param queryParams
    * @param options 附属查询条件
-   * @param withDeleted 是否查询软删除的数据
    */
   async findMultiple(
-    where: WhereOptions,
-    options: IListQueryParam = {},
-    withDeleted = false
+    queryParams: findMultipleQuery,
+    options: IListQueryParam = {}
   ): Promise<IListResponseRes<T>> {
     let order
     if (options.sortField) {
@@ -55,8 +54,8 @@ export abstract class BaseMapping<T extends BaseEntity = Model> {
     delete options.sort
     delete options.sortField
     const listData = await this.repository.findAndCountAll({
-      where,
-      paranoid: !withDeleted,
+      ...queryParams,
+      paranoid: !queryParams.withDeleted,
       order: order ? [order] : [],
       offset: options.pageIndex * options.pageSize,
       limit: options.pageSize,

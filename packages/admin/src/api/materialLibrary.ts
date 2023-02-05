@@ -1,4 +1,4 @@
-import kRequest from '../index'
+import kRequest from './index'
 import config from '@/config'
 import type {
   AdminCreateMaterialGroupReq,
@@ -14,7 +14,7 @@ import type {
   AdminGetMaterialRes,
   AdminUpdateMaterialGroupReq,
   AdminUpdateMaterialGroupRes
-} from '~@/apiTypes/materialLibrary'
+} from '~@/../../../typings/src/admin/apiTypes/materialLibrary'
 const context = config.REQUEST_PREFIX + '/materialLibrary'
 
 const api = {

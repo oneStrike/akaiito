@@ -27,10 +27,17 @@ class Tab {
 
   reload() {
     return () => {
-      this.isRouterAlive.value = false
-      nextTick(() => {
-        this.isRouterAlive.value = true
+      router.replace({
+        name: 'redirect',
+        query: {
+          path: router.currentRoute.value.fullPath
+        }
       })
+      // nextTick(() => {
+      //   router.replace({
+      //     name: 'privacy'
+      //   })
+      // })
     }
   }
 
@@ -43,7 +50,7 @@ class Tab {
 
   addTab(route: RouteLocationNormalizedLoaded) {
     this.route.value = route
-    if (route.name) {
+    if (route.name && route.name !== 'redirect') {
       if (this.getTabIndex() === -1) {
         this.history.value.push(this.formatRouteToTab())
       }
