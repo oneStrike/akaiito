@@ -1,8 +1,11 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { BaseController } from '../../../shared/controller/base.controller'
 import { PrivacyService } from '../../../service/privacy/privacy.service'
-import { AddPrivacyDto } from '../../../service/privacy/dto/privacy.dto'
-import { ListDto, IdDto, ToggleStatusDto } from '../../../shared/dto/base.dto'
+import {
+  AddPrivacyDto,
+  GetPrivacyDto
+} from '../../../service/privacy/dto/privacy.dto'
+import { IdDto, ToggleStatusDto } from '../../../shared/dto/base.dto'
 
 @Controller('/admin/privacy')
 export class PrivacyController extends BaseController {
@@ -10,9 +13,8 @@ export class PrivacyController extends BaseController {
   privacyService: PrivacyService
 
   @Get('/getPrivacyPage', { summary: '获取隐私申明列表' })
-  async getPrivacyPage(@Query() params: ListDto) {
-    const attributes = { exclude: ['content', 'remark'] }
-    return this.privacyService.findMultiple({ ...params, attributes })
+  async getPrivacyPage(@Query() params: GetPrivacyDto) {
+    return this.privacyService.getPrivacyPage(params)
   }
 
   @Get('/getPrivacyDetail', { summary: '获取隐私声明详情' })
@@ -30,7 +32,7 @@ export class PrivacyController extends BaseController {
     return this.privacyService.updateMultiple(body)
   }
 
-  @Post('/deleteStatus', { summary: '删除隐私声明' })
+  @Post('/deletePrivacy', { summary: '删除隐私声明' })
   async deleteStatus(@Body() body: IdDto) {
     return this.privacyService.destroy(body.id)
   }

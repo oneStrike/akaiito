@@ -51,7 +51,8 @@ export const search: SearchProps['options'] = reactive([
       bind: {
         placeholder: '请选择使用平台',
         rules: passwordRule,
-        multiple: true
+        multiple: true,
+        conversion: true
       }
     }
   },
@@ -72,7 +73,8 @@ export const search: SearchProps['options'] = reactive([
 export const column: TableColumn = [
   {
     prop: 'name',
-    label: '标题'
+    label: '标题',
+    type: 'link'
   },
   {
     prop: 'platform',
@@ -80,25 +82,21 @@ export const column: TableColumn = [
     formatter: (row, column, cellValue) => {
       const platform = cellValue.split(',')
       let platformText = ''
-      platform.forEach((item: number) => {
+      platform.forEach((item: string) => {
         switch (item) {
-          case 1:
+          case '1':
             platformText += 'APP，'
             break
-          case 2:
+          case '2':
             platformText += 'WEB，'
             break
-          case 3:
-            platformText += '小程序'
+          case '3':
+            platformText += '小程序，'
             break
         }
       })
-      return platformText
+      return platformText.slice(0, platformText.length - 1)
     }
-  },
-  {
-    prop: 'remark',
-    label: '备注'
   },
   {
     prop: 'createdAt',
@@ -111,10 +109,32 @@ export const column: TableColumn = [
     scoped: 'status'
   },
   {
+    prop: 'remark',
+    label: '备注',
+    formatter: (row, column, cellValue) => cellValue || '-'
+  },
+  {
     prop: 'action',
     label: '操作',
+    type: 'action',
     width: 140,
-    scoped: 'action'
+    operateBtn: [
+      {
+        label: '编辑',
+        key: 'edit',
+        btn: {
+          type: 'primary'
+        }
+      },
+      {
+        label: '删除',
+        key: 'delete',
+        tipsField: 'name',
+        btn: {
+          type: 'danger'
+        }
+      }
+    ]
   }
 ]
 

@@ -1,5 +1,5 @@
 import { ElMessageBox } from 'element-plus'
-interface IUseAlert {
+interface UseConfirm {
   content?: string
   title?: string
   confirm?: () => unknown
@@ -9,7 +9,7 @@ interface IUseAlert {
   cancelButtonText?: string
 }
 
-export const useAlert = (config: IUseAlert) => {
+export const useConfirm = (config: UseConfirm) => {
   ElMessageBox.confirm(config.content, config.title || '提示', {
     confirmButtonText: config.confirmButtonText || '确认',
     cancelButtonText: config.cancelButtonText || '取消',

@@ -14,9 +14,17 @@ const emits = defineEmits<{
   (event: 'update:modelValue', data: any): void
   (event: 'search', data: any): void
   (event: 'dropdown', data: any): void
+  (event: 'reset'): void
 }>()
 
-const searchData = ref(props.modelValue || {})
+const searchData = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emits('update:modelValue', val)
+  }
+})
 
 //搜索选项的默认宽度
 const finalSearchOption = ref<SearchProps['options']>()
@@ -41,20 +49,13 @@ watch(
   { immediate: true, deep: true }
 )
 
-watch(
-  searchData,
-  () => {
-    emits('update:modelValue', searchData.value)
-  },
-  { deep: true }
-)
-
 const search = () => {
   emits('search', searchData.value)
 }
 
 const resetFields = () => {
   emits('update:modelValue', {})
+  emits('reset')
   searchData.value = {}
 }
 </script>

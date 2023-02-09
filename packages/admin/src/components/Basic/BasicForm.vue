@@ -3,6 +3,8 @@ import type { BasicForm } from '@/typings/components/basicForm'
 import { useDebounceFn } from '@vueuse/core'
 import type { FormInstance } from 'element-plus'
 import Editor from '@/components/Editor/Editor.vue'
+import Checkbox from '@/components/Form/Checkbox/Checkbox.vue'
+import Select from '@/components/Form/Select/Select.vue'
 
 interface IFromOp {
   removeAutoFillInput?: boolean
@@ -34,25 +36,15 @@ const props = withDefaults(defineProps<IFromOp>(), {
 
 const formRef = ref<FormInstance>()
 const submitBtnRef = ref<HTMLButtonElement>()
-const formData = ref(props.modelValue || {})
+const formData = ref()
+//lazy修饰符不求作用，用dummyInputValue接收input的值，change事件给真正的字段复制，避免重复触发双向绑定
+const dummyInputValue = ref<Record<string, any>>({})
 
 const emits = defineEmits<{
   (event: 'submit', data: any): void
   (event: 'update:modelValue', data: any): void
   (event: 'resetFields'): void
 }>()
-
-//lazy修饰符不求作用，用dummyInputValue接收input的值，change事件给真正的字段复制，避免重复触发双向绑定
-const dummyInputValue = ref<Record<string, any>>({})
-
-watch(
-  () => props.modelValue,
-  (val) => {
-    formData.value = val
-    dummyInputValue.value = val
-  },
-  { immediate: true, deep: true }
-)
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl || props.btnLoading) return
@@ -61,7 +53,22 @@ const submitForm = (formEl: FormInstance | undefined) => {
     emits('submit', formData.value)
   })
 }
+watch(
+  () => props.modelValue,
+  (val) => {
+    dummyInputValue.value = val
+    formData.value = val
+  },
+  { deep: true, immediate: true }
+)
 
+watch(
+  formData,
+  () => {
+    emits('update:modelValue', formData.value)
+  },
+  { deep: true }
+)
 const submitFormDe = useDebounceFn(submitForm, 200)
 
 const resetFields = (formEl: FormInstance | undefined) => {
@@ -145,18 +152,13 @@ const resetFields = (formEl: FormInstance | undefined) => {
           >
         </el-radio-group>
 
-        <el-checkbox-group
+        <Checkbox
           v-if="item.component === 'Check'"
           v-model="formData[item.field]"
-          v-bind="item.componentProps.bind"
-        >
-          <el-checkbox
-            v-for="op in item.componentProps.options"
-            :key="op.value"
-            :label="op.value"
-            >{{ op.label }}</el-checkbox
-          >
-        </el-checkbox-group>
+          :options="item.componentProps.options"
+          :number-value="item.componentProps.bind.numberValue ?? true"
+          :conversion="item.componentProps.bind.conversion ?? true"
+        ></Checkbox>
 
         <Editor
           v-if="item.component === 'Editor'"
@@ -164,22 +166,12 @@ const resetFields = (formEl: FormInstance | undefined) => {
           v-bind="item.componentProps.bind"
         ></Editor>
 
-        <el-select
+        <Select
           v-if="item.component === 'Select'"
-          class="w_100"
           v-model="formData[item.field]"
-          :clearable="true"
+          :options="item.componentProps.options"
           v-bind="item.componentProps.bind"
-          collapse-tags
-          collapse-tags-tooltip
-        >
-          <el-option
-            v-for="child in item.componentProps.options"
-            :key="child.value"
-            :label="child.label"
-            :value="child.value"
-          />
-        </el-select>
+        ></Select>
 
         <el-date-picker
           v-if="item.component === 'DateTime'"

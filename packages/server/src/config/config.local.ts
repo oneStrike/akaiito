@@ -14,7 +14,7 @@ export default {
         sync: true,
         entities: ['**/entities/**'],
         timezone: '+08:00',
-        logging: false,
+        logging: true,
 
         define: {
           timestamps: true,

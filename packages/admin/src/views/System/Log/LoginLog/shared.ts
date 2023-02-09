@@ -67,7 +67,7 @@ export const column: TableColumn = [
     prop: 'userAccount',
     label: '账号',
     formatter: (row, column, cellValue) =>
-      cellValue ? cellValue : JSON.parse(row.params)?.account
+      cellValue ? cellValue : JSON.parse(row.params)?.account || '-'
   },
   {
     prop: 'username',

@@ -78,6 +78,7 @@ export const tinymceConfig = {
   language_url: `${import.meta.env.BASE_URL}tinymce/langs/zh-cn.js`,
   skin_url: `${import.meta.env.BASE_URL}tinymce/skins/ui/oxide`,
   menubar: true,
+  content_css: '',
   font_formats:
     'Arial=arial,helvetica,sans-serif; 宋体=SimSun; 微软雅黑=Microsoft Yahei; Impact=impact,chicago;', //字体
   fontsize_formats: '11px 12px 14px 16px 18px 24px 36px 48px 64px 72px', //文字大小

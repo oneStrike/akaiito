@@ -1,19 +1,25 @@
+<script lang="ts">
+import type { ListParams } from '@/typings/components/basicTable'
+
+const defaultListParams: Partial<ListParams> = {
+  pageSize: 15,
+  pageIndex: 1,
+  sort: '',
+  sortField: ''
+}
+</script>
 <script setup lang="ts">
 import { userDateField } from '@/hooks/useDateField'
 import type { SearchProps } from '@/typings/components/basicSearch'
 import type { IBasicTable } from '@/typings/components/basicTable'
 import { useResizeObserver } from '@vueuse/core'
 import * as _ from 'lodash'
-interface IListParams {
-  pageSize: number
-  pageIndex: number
-  sort: 'asc' | 'desc' | ''
-  sortField: string
-}
+import { ElTable } from 'element-plus'
+
 interface IBasicTableOp {
-  modelValue?: any
+  modelValue?: any[]
   filters?: any
-  listParams?: Partial<IListParams>
+  listParams?: Partial<ListParams>
   options?: IBasicTable['options']
   columnOptions: IBasicTable['columnOptions']
   requestApi: IBasicTable['requestApi']
@@ -24,16 +30,51 @@ interface IBasicTableOp {
 
 const props = withDefaults(defineProps<IBasicTableOp>(), {
   columnOptions: () => [],
-  options: () => ({}),
-  showSearch: true
+  options: () => ({
+    highlightCurrentRow: true,
+    emptyText: '暂无数据'
+  }),
+  showSearch: true,
+  listParams: () => _.cloneDeep(defaultListParams)
 })
 
 const emits = defineEmits<{
   (event: 'update:modelValue', data: any): void
   (event: 'update:filters', data: any): void
-  (event: 'update:listParams', data: IListParams): void
+  (event: 'update:listParams', data: ListParams): void
   (event: 'batch', data: any): void
+  (event: 'handlerLink', data: any): void
 }>()
+
+const tableRef = ref<InstanceType<typeof ElTable>>()
+const interTableData = ref({})
+const tableData = computed({
+  get(val) {
+    return props.modelValue || {}
+  },
+  set(val) {
+    interTableData.value = val
+    emits('update:modelValue', val)
+  }
+})
+
+const searchData = computed({
+  get() {
+    return props.filters || {}
+  },
+  set(val) {
+    emits('update:filters', val)
+  }
+})
+
+const listParams = computed({
+  get() {
+    return props.listParams
+  },
+  set(val) {
+    emits('update:listParams', val as ListParams)
+  }
+})
 
 //计算table应得高度
 const paginationHeight = ref(0)
@@ -56,47 +97,6 @@ const tableHeight = computed(
 
 const tableLoading = ref(false)
 
-const formatListParams = (): IListParams => {
-  if (props.listParams) {
-    const { pageSize, pageIndex, sort, sortField } = props.listParams
-    return {
-      pageSize: pageSize || 15,
-      pageIndex: pageIndex || 1,
-      sort: sort || 'asc',
-      sortField: sortField || ''
-    }
-  } else {
-    return {
-      pageSize: 15,
-      pageIndex: 1,
-      sort: 'asc',
-      sortField: ''
-    }
-  }
-}
-const interiorListParams = ref<IListParams>({
-  pageSize: 15,
-  pageIndex: 1,
-  sort: 'asc',
-  sortField: ''
-})
-
-watch(
-  () => props.listParams,
-  (val) => {
-    if (!_.isEqual(val, interiorListParams.value)) {
-      interiorListParams.value = formatListParams()
-    }
-  },
-  { immediate: true, deep: true }
-)
-
-//表格的默认值
-const defaultTableOptions = reactive({
-  highlightCurrentRow: true,
-  emptyText: '暂无数据'
-})
-
 //列选项的默认值
 const defaultColumnOptions = reactive({
   showOverflowTooltip: true,
@@ -104,62 +104,37 @@ const defaultColumnOptions = reactive({
   headerAlign: 'center'
 })
 
-const searchData = ref(props.filters || {})
-const tableData = computed(() => props.modelValue || interiorTableData.value)
-const finalTableOptions = computed(() =>
-  Object.assign(defaultTableOptions, props.options)
-)
 const finalColumnOptions = computed(() => {
   if (props.columnOptions.length) {
     return props.columnOptions.map((item) =>
-      Object.assign(JSON.parse(JSON.stringify(defaultColumnOptions)), item)
+      Object.assign(_.cloneDeep(defaultColumnOptions), item)
     )
   }
   return []
 })
-
-const interiorTableData = ref({})
 const runRequestApi = async () => {
   tableLoading.value = true
   const apiRes = await props.requestApi(
     userDateField({
-      ...interiorListParams.value,
+      ...listParams.value,
       ...searchData.value,
-      pageIndex: interiorListParams.value.pageIndex - 1
+      pageIndex: listParams.value.pageIndex! - 1
     })
   )
-  interiorTableData.value = Array.isArray(apiRes)
+  tableData.value = Array.isArray(apiRes)
     ? { list: apiRes, total: apiRes.length }
     : apiRes
-  emits('update:modelValue', apiRes)
   tableLoading.value = false
 }
-
+runRequestApi()
 const searchEvent = async () => {
-  if (interiorListParams.value.pageIndex === 1) {
+  if (listParams.value.pageIndex === 1) {
     await runRequestApi()
     return
   }
-  interiorListParams.value.pageIndex = 1
-}
-const handlerSearchDropdown = async (val: any) => {
-  if (interiorListParams.value.pageIndex === 1) {
-    await runRequestApi()
-    return
-  }
-  interiorListParams.value.pageIndex = 1
+  listParams.value.pageIndex = 1
 }
 
-watch(
-  interiorListParams,
-  () => {
-    if (!tableLoading.value) {
-      runRequestApi()
-      emits('update:listParams', interiorListParams.value)
-    }
-  },
-  { immediate: true, deep: true }
-)
 const sortChange = async ({
   prop,
   order
@@ -167,16 +142,16 @@ const sortChange = async ({
   prop: string
   order: string | null
 }) => {
-  interiorListParams.value.sortField = prop
+  listParams.value.sortField = prop
   switch (order) {
     case 'descending':
-      interiorListParams.value.sort = 'desc'
+      listParams.value.sort = 'desc'
       break
     case 'ascending':
-      interiorListParams.value.sort = 'asc'
+      listParams.value.sort = 'asc'
       break
     case null:
-      interiorListParams.value.sort = ''
+      listParams.value.sort = ''
       break
   }
 }
@@ -185,9 +160,25 @@ const resetTable = async () => {
   await searchEvent()
 }
 
+//重置搜索条件
+const resetSearch = () => {
+  listParams.value = _.cloneDeep(defaultListParams)
+  runRequestApi()
+}
+
+//获取已经选择row
+const getSelectionRowsAndIds = () => {
+  const rows = tableRef.value?.getSelectionRows()
+  const ids = rows.map((item: any) => item.id)
+  return {
+    rows,
+    ids
+  }
+}
+
 defineExpose({
   resetTable,
-  tableData
+  getSelectionRowsAndIds
 })
 </script>
 
@@ -201,6 +192,7 @@ defineExpose({
           :options="searchOptions"
           :batch-btn="batchBtn"
           @search="searchEvent"
+          @reset="resetSearch"
           @dropdown="(val) => emits('batch', val)"
         >
           <slot name="searchHeader"></slot>
@@ -208,12 +200,14 @@ defineExpose({
       </slot>
     </div>
     <el-table
+      ref="tableRef"
       v-loading="tableLoading"
       :height="tableHeight"
-      :data="tableData.list"
-      v-bind="finalTableOptions"
+      :data="interTableData.list"
+      v-bind="options"
       @sort-change="sortChange"
     >
+      <el-table-column type="selection" width="30" />
       <el-table-column
         type="index"
         label="序号"
@@ -227,13 +221,51 @@ defineExpose({
         v-for="item in finalColumnOptions"
         :key="item.prop"
       >
-        <template v-if="item.scoped" #default="scope">
+        <template v-if="item.scoped || item.type" #default="scope">
           <slot
             :name="item.scoped"
             :value="scope.row[item.prop]"
             :row="scope.row"
             :scope="scope"
-          ></slot>
+          >
+            <el-link
+              v-if="item.type === 'link'"
+              type="primary"
+              :underline="false"
+              @click="emits('handlerLink', scope.row)"
+              >{{ scope.row[item.prop] }}</el-link
+            >
+
+            <template v-if="item.type === 'action'">
+              <template v-for="(opera, index) in item.operateBtn" :key="index">
+                <el-popconfirm
+                  v-if="opera.tipsField"
+                  :width="opera.popConfirm?.width || 200"
+                  :title="`确定${opera.label}${scope.row[opera.tipsField]}？`"
+                  v-bind="opera.popConfirm"
+                >
+                  <template #reference>
+                    <el-button
+                      :size="opera.btn?.size || 'small'"
+                      :type="opera.btn?.size || 'primary'"
+                      :plain="opera.btn?.plain || true"
+                      v-bind="opera.btn"
+                    >
+                      {{ opera.label }}
+                    </el-button>
+                  </template>
+                </el-popconfirm>
+                <el-button
+                  v-else
+                  :size="opera.btn?.size || 'small'"
+                  :type="opera.btn?.size || 'primary'"
+                  :plain="opera.btn?.plain || true"
+                  v-bind="opera.btn"
+                  >{{ opera.label }}</el-button
+                >
+              </template>
+            </template>
+          </slot>
         </template>
       </el-table-column>
     </el-table>
@@ -241,11 +273,11 @@ defineExpose({
       <el-pagination
         v-if="tableData.total"
         background
-        :hide-on-single-page="tableData.total < interiorListParams.pageSize"
+        :hide-on-single-page="tableData.total < listParams.pageSize"
         layout="total, jumper, prev, pager, next"
-        v-model:page-size="interiorListParams.pageSize"
+        v-model:page-size="listParams.pageSize"
         :total="tableData.total"
-        v-model:current-page="interiorListParams.pageIndex"
+        v-model:current-page="listParams.pageIndex"
       />
     </div>
   </div>

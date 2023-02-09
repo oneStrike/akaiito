@@ -12,7 +12,7 @@ export default class Utils {
   @Inject()
   baseDir: any
 
-  lodash: typeof _ = _
+  lodash = _
 
   dayjs = dayjs
 

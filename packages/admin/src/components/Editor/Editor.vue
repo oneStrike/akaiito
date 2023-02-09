@@ -24,15 +24,14 @@ const emits = defineEmits<{
   (event: 'update:modelValue', data: string): void
 }>()
 
-const editorData = ref(props.modelValue)
-
-watch(
-  editorData,
-  () => {
-    emits('update:modelValue', editorData.value)
+const editorData = computed({
+  get() {
+    return props.modelValue
   },
-  { immediate: true }
-)
+  set(val) {
+    emits('update:modelValue', val)
+  }
+})
 
 const defaultId =
   'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')

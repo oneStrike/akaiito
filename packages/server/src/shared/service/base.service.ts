@@ -66,9 +66,12 @@ export abstract class BaseService {
 
   //查找多个
   async findMultiple(
-    params: IListQueryParam & { attributes?: FindAttributeOptions }
+    params: IListQueryParam & {
+      attributes?: FindAttributeOptions
+    }
   ) {
     const { where, listParams } = this.getWhere(params)
+    //生成like查询参数
     return await this.mapping.findMultiple(
       { where, attributes: params.attributes },
       listParams
@@ -90,18 +93,13 @@ export abstract class BaseService {
 
   //批量更新
   async updateMultiple<T extends { ids: number[] }>(
-    params: T
+    params: Partial<T>
   ): Promise<number[]> {
     const ids = this.utils.lodash.cloneDeep(params.ids)
     delete params.ids
-    const updateData = []
-    ids.forEach((item) => {
-      updateData.push({
-        id: item,
-        ...params
-      })
+    await this.mapping.updateOne(this.utils.lodash.omit(params, 'ids'), {
+      id: ids
     })
-    await this.mapping.bulkCreate(updateData)
     return params.ids
   }
 
@@ -157,7 +155,7 @@ export abstract class BaseService {
    * 生成where查询接口
    * @param where
    */
-  getWhere(where: object) {
+  getWhere(where: Record<string, any>) {
     const listParamsKeys = ['pageSize', 'pageIndex', 'sort', 'sortField']
     //过滤空值
     const trueWhere = this.utils.lodash.pickBy(
@@ -172,6 +170,7 @@ export abstract class BaseService {
       'attributes'
     ])
 
+    //生成时间查询参数
     return {
       where: this.handleDate(prueWhere),
       listParams
@@ -225,5 +224,24 @@ export abstract class BaseService {
       })
     }
     return { [Op.or]: whereStatement }
+  }
+
+  /**
+   * 生成立刻查询参数
+   * @param likeKeys
+   * @param params
+   */
+  generateLikeSql(likeKeys: string[], params: Record<string, any>) {
+    const likeObj = this.utils.lodash.pick(params, likeKeys)
+    const likeRes = {}
+    this.utils.lodash.forOwn(likeObj, (value: string, key) => {
+      likeRes[key] = {
+        [Op.regexp]: `[${value.replaceAll(',', '|')}]`
+      }
+    })
+    return {
+      ...this.utils.lodash.omit(params, likeKeys),
+      ...likeRes
+    }
   }
 }

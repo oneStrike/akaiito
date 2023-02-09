@@ -16,7 +16,7 @@ import type {
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
 import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
-import { useAlert } from '@/hooks/useAlert'
+import { useConfirm } from '@/hooks/useConfirm'
 import { iconfonts } from '@/components/MaterialLibrary/iconfont'
 type TGroup = AdminGetMaterialGroupRes['list'][number]
 
@@ -186,7 +186,7 @@ watch(
 
 //删除素材
 const deleteMaterial = (val: TMaterialItem) => {
-  useAlert({
+  useConfirm({
     content: `确定删除${val.materialName}？`,
     confirm: async () => {
       await deleteMaterialApi({ id: Number(val.id) })

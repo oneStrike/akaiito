@@ -11,7 +11,7 @@ type components =
   | 'Switch'
   | 'Editor'
 
-type selectOptions = { label: string; value: number | string }
+export type selectOptions = { label: string; value: number | string }
 
 export interface FormComponent {
   tips?: string

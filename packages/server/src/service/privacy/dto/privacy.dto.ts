@@ -4,6 +4,7 @@ import {
   requiredString,
   validateString
 } from '../../../utils/validate/base.validate'
+import { ListDto } from '../../../shared/dto/base.dto'
 
 export class PrivacyDto {
   @Rule(requiredString)
@@ -22,9 +23,15 @@ export class PrivacyDto {
   remark?: string
 }
 
-export class AddPrivacyDto extends PrivacyDto {}
+export class GetPrivacyDto extends ListDto {
+  @Rule(validateString)
+  name?: string
 
-export class SwitchStatusDto {
-  @Rule(givenValue([0, 1]))
+  @Rule(validateString)
+  platform?: string
+
+  @Rule(givenValue([0, 1], false))
   status?: number
 }
+
+export class AddPrivacyDto extends PrivacyDto {}

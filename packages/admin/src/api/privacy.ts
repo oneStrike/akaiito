@@ -3,8 +3,8 @@ import config from '@/config'
 import type {
   AdminAddPrivacyReq,
   AdminAddPrivacyRes,
-  AdminDeletePrivacyStatusReq,
-  AdminDeletePrivacyStatusRes,
+  AdminDeletePrivacyReq,
+  AdminDeletePrivacyRes,
   AdminGetPrivacyDetailReq,
   AdminGetPrivacyDetailRes,
   AdminGetPrivacyPageReq,
@@ -19,7 +19,7 @@ const api = {
   getPrivacyPage: `${context}/getPrivacyPage`,
   getPrivacyDetail: `${context}/getPrivacyDetail`,
   addPrivacy: `${context}/addPrivacy`,
-  switchStatus: `${context}/switchPrivacyStatus`,
+  switchPrivacyStatus: `${context}/switchPrivacyStatus`,
   deletePrivacy: `${context}/deletePrivacy`
 }
 
@@ -44,25 +44,25 @@ export function getPrivacyDetailApi(
 export function addPrivacyApi(
   params: AdminAddPrivacyReq
 ): Promise<AdminAddPrivacyRes> {
-  return kRequest.get({
-    url: api.getPrivacyDetail,
+  return kRequest.post({
+    url: api.addPrivacy,
     data: params
   })
 }
 
-export function switchStatusApi(
+export function switchPrivacyStatusApi(
   params: AdminSwitchPrivacyStatusReq
 ): Promise<AdminSwitchPrivacyStatusRes> {
-  return kRequest.get({
-    url: api.switchStatus,
+  return kRequest.post({
+    url: api.switchPrivacyStatus,
     data: params
   })
 }
 
 export function deletePrivacyApi(
-  params: AdminDeletePrivacyStatusReq
-): Promise<AdminDeletePrivacyStatusRes> {
-  return kRequest.get({
+  params: AdminDeletePrivacyReq
+): Promise<AdminDeletePrivacyRes> {
+  return kRequest.post({
     url: api.deletePrivacy,
     data: params
   })
