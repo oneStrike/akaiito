@@ -1,58 +1,58 @@
 <template>
-  <div class="login flex center">
+  <div class="login flex center w_full h_full">
     <div class="content flex main_end">
       <div class="login_card cross_center flex flex_col main_around">
         <div class="login_title fs28">登录</div>
-        <el-form
-          ref="ruleFormRef"
-          :model="ruleForm"
-          :rules="rules"
-          style="max-width: 460px"
-        >
-          <el-form-item prop="account">
-            <el-input
-              @keyup.enter="login(ruleFormRef)"
+        <a-form ref="formRef" :model="ruleForm" :rules="rules" @finish="login">
+          <a-form-item name="account">
+            <a-input
+              @keyup.enter="login"
               placeholder="请输入用户名"
-              v-model.trim="ruleForm.account"
+              v-model:value="ruleForm.account"
             />
-          </el-form-item>
-          <el-form-item prop="password">
-            <el-input
-              @keyup.enter="login(ruleFormRef)"
+          </a-form-item>
+          <a-form-item name="password">
+            <a-input
+              @keyup.enter="login"
               type="password"
               placeholder="请输入密码"
-              v-model.trim="ruleForm.password"
+              v-model:value="ruleForm.password"
             />
-          </el-form-item>
-          <el-form-item prop="captcha">
-            <el-input
-              placeholder="验证码"
-              @keyup.enter="login(ruleFormRef)"
-              style="width: 140px"
-              v-model.trim="ruleForm.captcha"
-            ></el-input>
-            <img
-              v-if="captchaSrc"
-              :src="captchaSrc"
-              @click="getCaptcha"
-              class="captcha_img"
-            />
-          </el-form-item>
-          <el-form-item>
-            <el-checkbox>记住我，以后自动登录</el-checkbox>
-          </el-form-item>
-          <el-form-item>
-            <el-button
-              v-if="ruleFormRef"
-              @click="login(ruleFormRef)"
+          </a-form-item>
+          <a-form-item name="captcha">
+            <div class="flex cross_center">
+              <a-input
+                placeholder="验证码"
+                @keyup.enter="login"
+                style="width: 140px"
+                v-model:value="ruleForm.captcha"
+              ></a-input>
+              <div class="captcha_img">
+                <img
+                  v-if="captchaSrc"
+                  :src="captchaSrc"
+                  @click="getCaptcha"
+                  class="w_100 h_100"
+                />
+              </div>
+            </div>
+          </a-form-item>
+          <a-form-item>
+            <a-checkbox>记住我，以后自动登录</a-checkbox>
+          </a-form-item>
+          <a-form-item>
+            <a-button
+              v-if="formRef"
+              @click="login"
               class="login_btn"
               :loading="btnLoading"
-              round
+              shape="round"
+              html-type="submit"
               type="primary"
               >登录
-            </el-button>
-          </el-form-item>
-        </el-form>
+            </a-button>
+          </a-form-item>
+        </a-form>
         <div class="fs14 fc_link pointer">忘记密码？</div>
       </div>
     </div>
@@ -60,16 +60,19 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormInstance, FormRules } from 'element-plus'
 import { getCaptchaAPI } from '@/api/common'
 import { useUserStore } from '@/stores'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
 import { useDebounceFn } from '@vueuse/core'
 
+import type { Rule } from 'ant-design-vue/es/form'
+import type { FormInstance } from 'ant-design-vue'
+import { useValidate } from '@/hooks/useValidator'
+
 const router = useRouter()
 const userStore = useUserStore()
-const ruleFormRef = ref<FormInstance>()
+const formRef = ref<FormInstance>()
 const btnLoading = ref<boolean>(false) //表单数据
 const ruleForm = reactive({
   account: '',
@@ -79,50 +82,38 @@ const ruleForm = reactive({
 document.documentElement.style.setProperty('--foo', '#808080')
 // //验证码svg代码
 const captchaSrc = ref('')
-//
+
 //表单验证规则
-const rules = reactive<FormRules>({
-  account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    {
-      min: 8,
-      message: '密码最少8位',
-      trigger: 'blur'
-    }
-  ],
-  captcha: [
-    { required: true, message: '请输入右侧图片上的文字', trigger: 'blur' }
-  ]
-})
+const rules = {
+  account: useValidate.normal('用户名'),
+  password: useValidate.pwd,
+  captcha: useValidate.normal('验证码')
+}
 // //获取验证码
 const getCaptcha = useDebounceFn(async () => {
   captchaSrc.value = (await getCaptchaAPI()).data
 })
 getCaptcha()
 
-const login = useDebounceFn((formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.validate(async (valid) => {
-    if (!valid) return
-    btnLoading.value = true
-    try {
-      await userStore.login(ruleForm)
-      btnLoading.value = false
-      await router.replace('/')
-      useMessage('success', Hint.LOGIN_SUC)
-    } catch (e) {
-      await getCaptcha()
-      btnLoading.value = false
-    }
+const login = useDebounceFn(async () => {
+  formRef.value?.validate(Object.keys(ruleForm)).then((res) => {
+    console.log('🚀 ~ file:LoginPage method: line:102 -----', res)
   })
+  btnLoading.value = true
+  try {
+    await userStore.login(ruleForm)
+    btnLoading.value = false
+    await router.replace('/')
+    useMessage.success(Hint.LOGIN_SUC)
+  } catch (e) {
+    await getCaptcha()
+    btnLoading.value = false
+  }
 })
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="less">
 .login {
-  width: 100vw;
-  height: 100vh;
   background-image: url('../../assets/images/login-bg.jpg');
   background-size: cover;
 }
@@ -155,7 +146,7 @@ const login = useDebounceFn((formEl: FormInstance | undefined) => {
   cursor: pointer;
 }
 
-:deep(.el-input__wrapper) {
+:deep(.ant-input) {
   height: 36px;
   border-radius: 18px;
   background-color: #f7f5fb;

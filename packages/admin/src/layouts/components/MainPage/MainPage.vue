@@ -4,7 +4,7 @@ const isActive = computed(() => useTabs.isRouterAlive.value)
 </script>
 
 <template>
-  <el-main
+  <a-layout-content
     v-if="isActive"
     id="basic_main"
     class="bg_box mg_12 border_radius_base box_shadow"
@@ -29,7 +29,7 @@ const isActive = computed(() => useTabs.isRouterAlive.value)
         </Transition>
       </empty-block>
     </router-view>
-  </el-main>
+  </a-layout-content>
 </template>
 
 <style scoped lang="scss">

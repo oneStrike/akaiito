@@ -12,9 +12,8 @@ const defaultListParams: Partial<ListParams> = {
 import { userDateField } from '@/hooks/useDateField'
 import type { SearchProps } from '@/typings/components/basicSearch'
 import type { IBasicTable } from '@/typings/components/basicTable'
-import { useResizeObserver } from '@vueuse/core'
+import { useDebounceFn, useResizeObserver } from '@vueuse/core'
 import * as _ from 'lodash'
-import { ElTable } from 'element-plus'
 
 interface IBasicTableOp {
   modelValue?: any[]
@@ -44,9 +43,12 @@ const emits = defineEmits<{
   (event: 'update:listParams', data: ListParams): void
   (event: 'batch', data: any): void
   (event: 'handlerLink', data: any): void
+  (event: 'handlerOpera', data: any): void
+  (event: 'operaConfirm', data: any): void
+  (event: 'operaCancel', data: any): void
 }>()
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref()
 const interTableData = ref({})
 const tableData = computed({
   get(val) {
@@ -175,6 +177,15 @@ const getSelectionRowsAndIds = () => {
     ids
   }
 }
+type emitType =
+  | 'handlerLink'
+  | 'handlerOpera'
+  | 'operaConfirm'
+  | 'operaCancel'
+  | 'batch'
+const handlerEmits = useDebounceFn((event: emitType, data: any) => {
+  emits(event, data)
+})
 
 defineExpose({
   resetTable,
@@ -193,7 +204,7 @@ defineExpose({
           :batch-btn="batchBtn"
           @search="searchEvent"
           @reset="resetSearch"
-          @dropdown="(val) => emits('batch', val)"
+          @dropdown="(val) => handlerEmits('batch', val)"
         >
           <slot name="searchHeader"></slot>
         </basic-search>
@@ -232,7 +243,7 @@ defineExpose({
               v-if="item.type === 'link'"
               type="primary"
               :underline="false"
-              @click="emits('handlerLink', scope.row)"
+              @click="handlerEmits('handlerLink', scope.row)"
               >{{ scope.row[item.prop] }}</el-link
             >
 
@@ -261,6 +272,7 @@ defineExpose({
                   :type="opera.btn?.size || 'primary'"
                   :plain="opera.btn?.plain || true"
                   v-bind="opera.btn"
+                  @click="handlerEmits('handlerOpera', { opera, index })"
                   >{{ opera.label }}</el-button
                 >
               </template>

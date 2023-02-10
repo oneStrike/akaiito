@@ -18,14 +18,14 @@ watch(
 </script>
 
 <template>
-  <el-container class="w_full h_full bg_main">
+  <a-layout class="w_full h_full bg_main">
     <aside-menu />
-    <el-container direction="vertical">
+    <a-layout>
       <Header />
       <Tabs />
       <main-page />
-    </el-container>
-  </el-container>
+    </a-layout>
+  </a-layout>
 </template>
 
 <style lang="scss" scoped></style>

@@ -5,7 +5,7 @@ interface SvgIcon {
   iconName: IconName
   color?: string
   size?: number | string
-  type?: 'primary' | 'error' | ''
+  type?: 'primary' | 'error' | 'warning'
 }
 
 const props = withDefaults(defineProps<SvgIcon>(), {
@@ -28,16 +28,17 @@ const iconTypeClass = computed(() => {
       return 'primary_color'
     case 'error':
       return 'primary_color_danger'
+    case 'warning':
+      return 'primary_color_warning'
   }
 })
 </script>
 
 <template>
-  <el-icon
-    class="cursor_pointer"
+  <a-icon
+    class="cursor_pointer flex center"
     :class="iconTypeClass"
-    :color="iconColor"
-    :size="props.size"
+    :style="{ color, fontSize: size, verticalAlign: 'sub' }"
   >
     <!--    自定义图标集-->
     <icon-lczk-403 v-if="iconName === '403'" />
@@ -90,5 +91,6 @@ const iconTypeClass = computed(() => {
     <icon-majest-pinwheel-line v-if="iconName === 'pinwheel'" />
     <icon-majest-planet-rocket-line v-if="iconName === 'planetRocket'" />
     <icon-majest-exclamation-line v-if="iconName === 'exclamation'" />
-  </el-icon>
+    <icon-majest-question-mark-circle-line v-if="iconName === 'questionMark'" />
+  </a-icon>
 </template>

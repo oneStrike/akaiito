@@ -1,6 +1,6 @@
 import type {
   ButtonProps,
-  PopconfirmProps,
+  PopoverProps,
   TableColumnInstance,
   TableInstance
 } from 'element-plus'
@@ -10,7 +10,7 @@ export interface TableOperateBtn {
   key?: string | number
   tipsField?: string
   btn?: Partial<ButtonProps>
-  popConfirm?: Partial<PopconfirmProps>
+  popConfirm?: Partial<PopoverProps>
 }
 export type TableColumn = (TableColumnInstance['$props'] & {
   scoped?: string //插槽名

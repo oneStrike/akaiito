@@ -79,23 +79,23 @@ const tabOptions = reactive([
       </transition-group>
     </div>
 
-    <el-dropdown class="options">
+    <a-dropdown class="options">
       <svg-icon icon-name="arrowDown" />
-      <template #dropdown>
-        <el-dropdown-menu>
+      <template #overlay>
+        <a-menu>
           <template v-for="(item, index) in tabOptions" :key="item.value">
-            <el-dropdown-item
+            <a-menu-item
               @click="item.event"
               :divided="index !== 0 && index % 2 === 0"
               :icon="item.icon"
               :disabled="item.disabled ? item.disabled() : false"
             >
               <span>{{ item.label }}</span>
-            </el-dropdown-item>
+            </a-menu-item>
           </template>
-        </el-dropdown-menu>
+        </a-menu>
       </template>
-    </el-dropdown>
+    </a-dropdown>
   </div>
 </template>
 

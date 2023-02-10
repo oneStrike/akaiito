@@ -8,17 +8,15 @@ const viewProfile = () => {
 }
 </script>
 <template>
-  <el-dropdown :hide-on-click="false">
-    <el-avatar :src="$FILE_PATH + userStore.userInfo.avatar" />
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item @click="viewProfile">个人信息</el-dropdown-item>
-        <el-dropdown-item @click="userStore.logout()"
-          >退出登录</el-dropdown-item
-        >
-      </el-dropdown-menu>
+  <a-dropdown :hide-on-click="false">
+    <a-avatar :src="$FILE_PATH + userStore.userInfo.avatar" />
+    <template #overlay>
+      <a-menu>
+        <a-menu-item @click="viewProfile">个人信息</a-menu-item>
+        <a-menu-item @click="userStore.logout()">退出登录</a-menu-item>
+      </a-menu>
     </template>
-  </el-dropdown>
+  </a-dropdown>
 </template>
 
 <style scoped lang="scss"></style>

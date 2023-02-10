@@ -6,7 +6,7 @@ const headerHeight = computed(() => useLayoutStore.headerHeight)
 </script>
 
 <template>
-  <el-header :height="headerHeight" class="bg_box">
+  <a-layout-header :height="headerHeight" class="bg_box">
     <header-item />
-  </el-header>
+  </a-layout-header>
 </template>

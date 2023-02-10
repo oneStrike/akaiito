@@ -1,45 +1,48 @@
-import { validEmail, validPhone, validPsw } from '@/utils/validate'
+import { validEmail, validPhone, validPsw } from '@/utils/regexp'
+import type { Rule } from 'ant-design-vue/es/form'
+import type { ValidatorRule } from 'ant-design-vue/es/form/interface'
 
-export const requiredRule = (tips: string) => [
-  { required: true, message: tips + '不能为空' }
+const normal = (tips: string, trigger: 'blur' | 'change' = 'blur'): Rule[] => [
+  { required: true, message: tips + '不能为空', trigger }
 ]
 
-export const passwordRule = [
-  {
-    validator: (rule: any, value: any, callback: any) => {
-      if (!value) {
-        callback(new Error('请输入密码'))
-      } else if (!validPsw.test(value)) {
-        callback(new Error('密码规则不符合'))
-      } else {
-        callback()
-      }
-    }
+const validator = (
+  validator: ValidatorRule['validator'],
+  trigger: 'blur' | 'change' = 'blur'
+): Rule[] => [{ required: true, validator, trigger }]
+
+const passwordRule = (rule: any, value: any) => {
+  if (!value) {
+    return Promise.reject('密码不能为空')
+  } else if (!validPsw.test(value)) {
+    return Promise.reject('密码规则不符合')
+  } else {
+    return Promise.resolve()
   }
-]
+}
 
-export const mobileRule = [
-  requiredRule('手机号')[0],
-  {
-    validator: (rule: any, value: any, callback: any) => {
-      if (!validPhone.test(value)) {
-        callback(new Error('请输入正确的手机号'))
-      } else {
-        callback()
-      }
-    }
+const mobileRule = (rule: any, value: any) => {
+  if (!value) {
+    return Promise.reject('手机号不能为空')
+  } else if (!validPhone.test(value)) {
+    return Promise.reject('请输入正确的手机号')
+  } else {
+    return Promise.reject()
   }
-]
+}
 
-export const emailRule = [
-  requiredRule('邮箱')[0],
-  {
-    validator: (rule: any, value: any, callback: any) => {
-      if (!validEmail.test(value)) {
-        callback(new Error('请输入正确的邮箱'))
-      } else {
-        callback()
-      }
-    }
+const emailRule = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return Promise.reject('邮箱不能为空')
+  } else if (!validEmail.test(value)) {
+    callback(new Error('请输入正确的邮箱'))
+  } else {
+    callback()
   }
-]
+}
+export const useValidate = {
+  normal,
+  pwd: validator(passwordRule),
+  mobile: validator(mobileRule),
+  email: validator(emailRule)
+}

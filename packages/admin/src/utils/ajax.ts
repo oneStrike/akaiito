@@ -4,18 +4,17 @@ import type {
   IRequestConfig
 } from '@//typings/utils/ajax'
 import type { AxiosInstance } from 'axios'
-import type { LoadingInstance } from 'element-plus/es/components/loading/src/loading'
-
+import { useLoadingStore } from '@/stores'
+import { useMessage } from '@/hooks/useMessage'
 const SHOW_LOADING = true
 const SHOW_ERROR = true
-
 export class Ajax {
   instance: AxiosInstance
   interceptor?: Interceptor
   parseResponse?: IRequestConfig['parseResponse']
   showLoading?: IRequestConfig['showLoading']
-  loading?: LoadingInstance | null
   showError?: IRequestConfig['showError']
+  loading: boolean
 
   constructor(config: IRequestConfig) {
     this.instance = axios.create(config)
@@ -23,15 +22,15 @@ export class Ajax {
     this.parseResponse = config.parseResponse
     this.showLoading = config.showLoading ?? SHOW_LOADING
     this.showError = config.showError ?? SHOW_ERROR
+    this.loading = false
   }
 
   private async request<T>(config: IRequestConfig): Promise<T> {
     const { interceptor, showError, showLoading } = config
     if (showLoading !== false && this.showLoading && !this.loading) {
-      this.loading = ElLoading.service({
-        text: 'Loading...',
-        lock: true,
-        background: 'rgba(0,0,0,0.5)'
+      this.loading = true
+      useLoadingStore().show({
+        tip: 'loading...'
       })
     }
 
@@ -65,31 +64,26 @@ export class Ajax {
             (showError !== false || typeof showError !== 'undefined') &&
             this.showError
           ) {
-            ElMessage({
-              message: result.desc,
-              type: 'error'
-            })
+            useMessage.error(result.desc || '未知错误')
+
             if (this.loading) {
-              this.loading.close()
-              this.loading = null
+              useLoadingStore().hide()
+              this.loading = false
             }
             reject(result.data)
             return
           }
           if (this.loading) {
-            this.loading.close()
-            this.loading = null
+            useLoadingStore().hide()
+            this.loading = false
           }
           resolve(result.data)
         })
         .catch((err) => {
-          ElMessage({
-            message: err.message,
-            type: 'error'
-          })
+          useMessage.error(err.message)
           if (this.loading) {
-            this.loading.close()
-            this.loading = null
+            useLoadingStore().hide()
+            this.loading = false
           }
           reject(err)
         })

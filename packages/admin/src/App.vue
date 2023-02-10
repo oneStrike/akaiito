@@ -1,13 +1,16 @@
 <template>
   <div class="app">
-    <el-config-provider :locale="zhCn">
-      <router-view></router-view>
-    </el-config-provider>
+    <a-spin v-bind="useLoadingStore().config">
+      <a-config-provider :locale="zhCN">
+        <router-view></router-view>
+      </a-config-provider>
+    </a-spin>
   </div>
 </template>
 
 <script setup lang="ts">
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import { useLoadingStore } from '@/stores'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
 </script>
 
 <style scoped lang="scss"></style>

@@ -1,19 +1,10 @@
 import {
   createStyleImportPlugin,
-  ElementPlusResolve
+  AndDesignVueResolve
 } from 'vite-plugin-style-import'
 export const importStyle = () => {
   return (() =>
     createStyleImportPlugin({
-      resolves: [ElementPlusResolve()],
-      libs: [
-        {
-          libraryName: 'element-plus',
-          esModule: true,
-          resolveStyle: (name: string) => {
-            return `element-plus/theme-chalk/${name}.css`
-          }
-        }
-      ]
+      resolves: [AndDesignVueResolve()]
     }))()
 }

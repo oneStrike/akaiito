@@ -9,39 +9,38 @@ defineProps<{
 
 <template>
   <template v-for="menu in menus" :key="menu.name">
-    <el-sub-menu
+    <a-sub-menu
       v-if="menu.children && menu.meta && menu.name"
-      :index="menu.name.toString()"
+      :key="menu.name.toString()"
+      :title="menu.meta.title"
     >
-      <template #title>
+      <template #icon>
         <svg-icon v-if="menu.meta.icon" :icon-name="menu.meta.icon" />
-        <span>{{ menu.meta.title }}</span>
       </template>
       <template v-for="item in menu.children" :key="item.path">
         <menu-item v-if="item.children" :menus="[item]" />
-        <el-menu-item
+        <a-menu-item
           v-else
-          :index="item.name?.toString()"
+          :key="item.name?.toString()"
           @click="menuService.linkPage(item)"
         >
-          <template #title>
-            <svg-icon
-              v-if="item.meta && item.meta.icon"
-              :icon-name="item.meta.icon"
-            />
-            <span v-if="item.meta">{{ item.meta.title }}</span>
+          <template #icon>
+            <svg-icon v-if="item.meta.icon" :icon-name="item.meta.icon" />
           </template>
-        </el-menu-item>
+          <span>{{ item.meta.title }}</span>
+        </a-menu-item>
       </template>
-    </el-sub-menu>
+    </a-sub-menu>
 
-    <el-menu-item
-      :index="menu.name?.toString()"
+    <a-menu-item
+      :key="menu.name?.toString()"
       v-else-if="menu.meta"
       @click="menuService.linkPage(menu)"
     >
-      <svg-icon v-if="menu.meta.icon" :icon-name="menu.meta.icon" />
+      <template #icon>
+        <svg-icon v-if="menu.meta.icon" :icon-name="menu.meta.icon" />
+      </template>
       <span>{{ menu.meta.title }}</span>
-    </el-menu-item>
+    </a-menu-item>
   </template>
 </template>
