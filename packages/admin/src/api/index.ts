@@ -19,7 +19,7 @@ const requestInterceptor: Interceptor['request'] = async (config) => {
   const requestUrl: any = config.url
   if (requestUrl && !whiteList.includes(requestUrl)) {
     if (!tokenStatus && !refreshTokenStatus) {
-      useMessage('error', Hint.LOGIN_ERR)
+      useMessage.error(Hint.LOGIN_ERR)
       await router.replace('/login')
       throw new Error(Hint.LOGIN_ERR)
     }

@@ -1,149 +1,124 @@
-import type { Tabs } from '@/typings/layout/tabs'
 import type {
   RouteLocationNormalized,
   RouteLocationNormalizedLoaded,
   RouteRecordName
 } from 'vue-router'
-import { useStorage } from '@vueuse/core'
+import type { Tabs } from '@/typings/layout'
+
+import { useSessionStorage } from '@vueuse/core'
 import { CacheEnum } from '@/enum/cacheEnum'
 import router from '@/router'
 import config from '@/config'
 
-/**
- * this是个很大的问题，但是目前还没有比较好地解决方案
- */
-
 class Tab {
-  public history = useStorage<Tabs[]>(CacheEnum.HISTORY_TABS, [
+  public history = useSessionStorage<Tabs[]>(CacheEnum.HISTORY_TABS, [
     config.HOME_PAGE
   ])
-  public route = ref<RouteLocationNormalized>()
-  public isRouterAlive = ref<boolean>(true)
   public fixedTab = config.HOME_PAGE
+  public activeTab: Tabs = config.HOME_PAGE
 
   toggleTab(tab: Tabs) {
     router.replace({ name: tab.pathName })
+    this.activeTab = tab
   }
 
   reload() {
-    return () => {
-      router.replace({
-        name: 'redirect',
-        query: {
-          path: router.currentRoute.value.fullPath
-        }
-      })
-      // nextTick(() => {
-      //   router.replace({
-      //     name: 'privacy'
-      //   })
-      // })
-    }
+    router.replace({
+      name: 'redirect',
+      query: {
+        path: router.currentRoute.value.fullPath
+      }
+    })
   }
 
   clear() {
-    return () => {
-      this.history.value = [this.fixedTab]
-      router.replace({ name: this.fixedTab.pathName })
-    }
+    this.history.value = [this.fixedTab]
+    router.replace({ name: this.fixedTab.pathName })
   }
 
   addTab(route: RouteLocationNormalizedLoaded) {
-    this.route.value = route
+    const pushData = this.formatRouteToTab(route)
+    this.activeTab = pushData
     if (route.name && route.name !== 'redirect') {
-      if (this.getTabIndex() === -1) {
-        this.history.value.push(this.formatRouteToTab())
+      if (this.getTabIndex(route.name) === -1) {
+        this.history.value.push(pushData)
       }
     }
   }
 
   getTabIndex(pathName?: RouteRecordName) {
-    if (this.route.value) {
-      const path = pathName || this.route.value.name
-      return this.history.value.findIndex((item) => item.pathName === path)
-    }
-    return 0
+    const path = pathName || this.activeTab.pathName
+    return this.history.value.findIndex((item) => item.pathName === path)
   }
 
   close(tab: Tabs) {
-    const route = this.route.value
-    if (route && route.name === tab.pathName) {
-      this.closeCurrent()()
+    if (this.activeTab.pathName === tab.pathName) {
+      this.closeCurrent()
       return
     }
     const tabIndex = this.getTabIndex(tab.pathName)
+    console.log('🚀 ~ file:useTabs method:close line:60 -----', tabIndex)
     this.history.value.splice(tabIndex, 1)
   }
 
   closeCurrent() {
-    return () => {
-      if (this.route.value) {
-        if (this.route.value.name === this.fixedTab.pathName) {
-          this.reload()
-          return
-        }
-        const currentIndex = this.getTabIndex()
-        if (currentIndex !== -1) {
-          this.history.value.splice(currentIndex, 1)
-          const leftTab = this.history.value[currentIndex - 1]
-          const rightTab = this.history.value[currentIndex]
-          const nextPathName = rightTab?.pathName || leftTab?.pathName
-          router.replace({ name: nextPathName })
-        }
-      }
+    if (this.activeTab.pathName === this.fixedTab.pathName) {
+      this.reload()
+      return
+    }
+
+    const currentIndex = this.getTabIndex()
+
+    if (currentIndex !== -1) {
+      this.history.value.splice(currentIndex, 1)
+      const leftTab = this.history.value[currentIndex - 1]
+      const rightTab = this.history.value[currentIndex]
+      const nextPathName = rightTab?.pathName || leftTab?.pathName
+      router.replace({ name: nextPathName })
     }
   }
 
   closeLeft() {
-    return () => {
-      if (this.route.value) {
-        const currentIndex = this.getTabIndex()
-        const remaining = this.history.value.splice(currentIndex)
-        this.history.value = [this.fixedTab, ...remaining]
-      }
-    }
+    const currentIndex = this.getTabIndex()
+    const remaining = this.history.value.splice(currentIndex)
+    this.history.value = [this.fixedTab, ...remaining]
   }
   closeRight() {
-    return () => {
-      if (this.route.value) {
-        const currentIndex = this.getTabIndex()
-        this.history.value.splice(currentIndex + 1)
-      }
-    }
+    const currentIndex = this.getTabIndex()
+    this.history.value.splice(currentIndex + 1)
   }
 
   closeOther() {
-    return () => {
-      const result = this.formatRouteToTab()
-      if (result.pathName === this.fixedTab.pathName) {
-        this.history.value = [this.fixedTab]
-        return
-      }
-      this.history.value = [this.fixedTab, result]
+    const result = this.formatRouteToTab()
+    if (result.pathName === this.fixedTab.pathName) {
+      this.history.value = [this.fixedTab]
+      return
     }
+    this.history.value = [this.fixedTab, result]
   }
 
   isLeft() {
-    return () => this.getTabIndex() === 1 || this.getTabIndex() === 0
+    return this.getTabIndex() === 1 || this.getTabIndex() === 0
   }
   isRight() {
-    return () => this.getTabIndex() === this.history.value.length - 1
+    return this.getTabIndex() === this.history.value.length - 1
   }
   isFixedTab() {
-    return () => this.getTabIndex() === 0
+    return this.getTabIndex() === 0
   }
 
   isCloseOther() {
-    return () =>
+    return (
       this.getTabIndex() === 0 ||
       (this.history.value.length === 2 && this.getTabIndex() === 1)
+    )
   }
 
-  formatRouteToTab() {
-    if (this.route.value) {
+  formatRouteToTab(route?: RouteLocationNormalized) {
+    if (route) {
       return {
-        pathName: this.route.value.name,
-        title: this.route.value.meta.title || '未知'
+        pathName: route.name,
+        title: route.meta.title || '未知'
       } as Tabs
     }
     return this.fixedTab

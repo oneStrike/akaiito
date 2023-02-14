@@ -2,9 +2,9 @@ import type { Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { autoImport } from './autoImport'
 import { autoRegistryComponent } from './component'
-import { importStyle } from './importStyle'
+import { importStyle } from './style'
 import { compression } from './compression'
-import { icons } from './icons'
+import { icons } from './icon'
 
 export function createVitePlugins() {
   const vitePlugins: (Plugin | Plugin[])[] = [vue()]

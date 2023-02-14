@@ -1,19 +1,15 @@
-import type { BasicForm } from '@/typings/components/basicForm'
-import {
-  emailRule,
-  mobileRule,
-  passwordRule,
-  requiredRule
-} from '@/hooks/useValidator'
+import { useValidate } from '@/hooks/useValidator'
+import type { BaseFormOptions } from '@/typings/components/base/baseForm'
+import { BaseFormEnum } from '@/enum/baseFormEnum'
 
-export const modifyPwdForm: BasicForm['options'] = [
+export const modifyPwdForm: BaseFormOptions[] = [
   {
     field: 'originPassword',
-    component: 'Input',
+    component: BaseFormEnum.INPUT,
     bind: {
       label: '原密码',
       required: true,
-      rules: passwordRule
+      rules: useValidate.pwd
     },
     componentProps: {
       bind: {
@@ -24,11 +20,11 @@ export const modifyPwdForm: BasicForm['options'] = [
   },
   {
     field: 'password',
-    component: 'Input',
+    component: BaseFormEnum.INPUT,
     bind: {
       label: '新密码',
       required: true,
-      rules: passwordRule
+      rules: useValidate.pwd
     },
     componentProps: {
       bind: {
@@ -39,11 +35,11 @@ export const modifyPwdForm: BasicForm['options'] = [
   },
   {
     field: 'confirmPassword',
-    component: 'Input',
+    component: BaseFormEnum.INPUT,
     bind: {
       label: '确认密码',
       required: true,
-      rules: passwordRule
+      rules: useValidate.pwd
     },
     componentProps: {
       bind: {
@@ -54,26 +50,27 @@ export const modifyPwdForm: BasicForm['options'] = [
   }
 ]
 
-export const modifyInfoForm: BasicForm['options'] = [
+export const modifyInfoForm: BaseFormOptions[] = [
   {
     field: 'username',
-    component: 'Input',
+    component: BaseFormEnum.INPUT,
     bind: {
       label: '用户名',
-      rules: requiredRule('用户名')
+      rules: useValidate.normal('用户名')
     },
     componentProps: {
       bind: {
-        placeholder: '请输入用户名'
+        placeholder: '请输入用户名',
+        maxlength: 20
       }
     }
   },
   {
     field: 'mobile',
-    component: 'Input',
+    component: BaseFormEnum.INPUT,
     bind: {
       label: '手机号',
-      rules: mobileRule
+      rules: useValidate.mobile
     },
     componentProps: {
       bind: {
@@ -84,10 +81,10 @@ export const modifyInfoForm: BasicForm['options'] = [
   },
   {
     field: 'email',
-    component: 'Input',
+    component: BaseFormEnum.INPUT,
     bind: {
       label: '邮箱',
-      rules: emailRule
+      rules: useValidate.email
     },
     componentProps: {
       bind: {
@@ -97,7 +94,7 @@ export const modifyInfoForm: BasicForm['options'] = [
   },
   {
     field: 'isRoot',
-    component: 'Radio',
+    component: BaseFormEnum.RADIO,
     bind: {
       label: '角色',
       required: true

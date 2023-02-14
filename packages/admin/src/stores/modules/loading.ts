@@ -8,8 +8,8 @@ const loadingStore = defineStore('loading', {
     }
   },
   actions: {
-    show(config: SpinProps) {
-      this.config = config
+    show(config?: SpinProps) {
+      this.config = config || {}
       this.config.spinning = true
     },
     hide() {

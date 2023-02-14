@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import type { Plugin } from 'vue'
-import { useLayout } from '@/stores'
 import config from '@/config'
+import { useLayoutStore } from '@/stores'
 
 export const bootstrap: Plugin = {
   install: (app) => {
@@ -13,9 +13,7 @@ export const bootstrap: Plugin = {
     }
 
     document.addEventListener('fullscreenchange', () => {
-      useLayout().isFullScreen = document.fullscreenElement !== null
+      useLayoutStore().fullScreen = document.fullscreenElement !== null
     })
-
-    useLayout().toggleDark()
   }
 }

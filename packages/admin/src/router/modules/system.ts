@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 export default {
   name: 'system',
   path: '/system',
-  component: () => import('@/layouts/CommonPage.vue'),
+  component: () => import('@/layouts/main.vue'),
   meta: { title: '系统管理', roles: [], icon: 'laptop', sort: 1 },
   children: [
     {

@@ -1,18 +1,50 @@
-// import { useUserStore } from '@/stores'
-import routes from '@/router/routes'
-import type { RouteRecordRaw, RouteMeta } from 'vue-router'
 import router from '@/router'
+import routes from '@/router/routes'
+import type { RouteMeta, RouteRecordName, RouteRecordRaw } from 'vue-router'
+import type { MenuInfo } from 'ant-design-vue/es/menu/src/interface'
+import { CacheEnum } from '@/enum/cacheEnum'
+import { useSessionStorage } from '@vueuse/core'
+
 class UseMenu {
-  // private readonly role = useUserStore().userInfo.isRoot
-  private readonly role = 'admin'
-  menus: RouteRecordRaw[]
+  private readonly identity = 'admin'
+  routers = routes
+  menus: RouteRecordRaw[] | undefined
+  openKeys = useSessionStorage<string[]>(CacheEnum.OPEN_MENU_KEYS, [
+    'dashboard'
+  ])
+  rootSubmenuKeys = routes.map((item) => item.name)
 
   constructor() {
-    this.menus = this.getMenu()
+    this.menus = this.getMenus()
   }
 
-  getMenu() {
+  getMenus() {
     return this.pureRoutes()
+  }
+
+  getMenuOpenKeys() {
+    this.openKeys.value = router.currentRoute.value.matched.map(
+      (item) => item.name as string
+    )
+  }
+
+  menuOpenChange(keys: string[]) {
+    if (!keys.length) return
+
+    if (keys.length === 1) {
+      this.openKeys.value = keys
+      return
+    }
+
+    const latestOpenKey = keys.find(
+      (key) => this.openKeys.value.indexOf(key) === -1
+    )
+
+    if (this.rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
+      this.openKeys.value = keys
+    } else {
+      this.openKeys.value = latestOpenKey ? [latestOpenKey] : []
+    }
   }
 
   /**
@@ -20,11 +52,13 @@ class UseMenu {
    * @returns
    */
   pureRoutes(menu?: RouteRecordRaw[]) {
-    menu = menu || routes
+    menu = menu || this.routers
+    const filterMenu = this.isMenuRouter(menu)
+    const sortMenu = this.sortMenu(filterMenu)
     const menus: RouteRecordRaw[] = []
-    menu.forEach((item) => {
-      const meta = item.meta
-      if (meta && this.isValid(meta) && !meta.hideAllMenu) {
+    sortMenu.forEach((item) => {
+      const meta = item.meta!
+      if (this.isValid(meta)) {
         const loadData = meta.hideParent ? item.children : item
         if (loadData) {
           if (Array.isArray(loadData)) {
@@ -49,12 +83,13 @@ class UseMenu {
    */
   pureChildrenRoutes(route: RouteRecordRaw[]) {
     const bottle: RouteRecordRaw[] = []
-    this.sortMenu(route).forEach((item) => {
-      const meta = item.meta
+    const routes = this.isMenuRouter(this.sortMenu(route))
+    routes.forEach((item) => {
+      const meta = item.meta!
       if (item.children && item.children.length) {
         item.children = this.pureChildrenRoutes(item.children)
       }
-      if (meta && this.isValid(meta) && !meta.hideMenu) {
+      if (this.isValid(meta)) {
         bottle.push(item)
       }
     })
@@ -73,50 +108,38 @@ class UseMenu {
   }
 
   /**
+   * 判断路由是否显示在菜单中
+   * @param routes
+   */
+  isMenuRouter(routes: RouteRecordRaw[]) {
+    return routes.filter((item) => {
+      const meta = item.meta
+      return !(!meta || !meta.icon || meta.hideAllMenu)
+    })
+  }
+
+  /**
    * 检验是否拥有权限
    * @param meta
    * @returns
    */
   isValid(meta: RouteMeta) {
-    return !meta.roles || !meta.roles.length || meta.roles.includes(this.role)
-  }
-
-  /**
-   * 获取当前活跃的路由
-   * @param menu
-   * @param child
-   * @param joinKey
-   */
-  getActiveKey(
-    menu: RouteRecordRaw,
-    child?: RouteRecordRaw,
-    joinKey?: string
-  ): string {
-    if (child) {
-      const key = menu.path + '/' + child.path
-
-      return joinKey ? joinKey + key : key
-    } else {
-      const key = '/' + menu.path
-      return joinKey ? joinKey + key : key
-    }
+    return (
+      !meta.roles || !meta.roles.length || meta.roles.includes(this.identity)
+    )
   }
 
   /**
    * 路由跳转
-   * @param route
+   * @param menuInfo
    */
-  async linkPage(route: RouteRecordRaw) {
-    if (route.path) {
-      try {
-        await router.push({ name: route.path })
-      } catch (e) {
-        await router.replace({ name: '404' })
-      }
-    } else if (route.meta?.url) {
-      window.open(route.meta.url)
+  linkPage(menuInfo: MenuInfo) {
+    try {
+      router.push({ name: menuInfo.key as RouteRecordName })
+    } catch (e) {
+      router.replace({ name: '404' })
     }
   }
 }
 
-export default new UseMenu()
+export const useMenu = new UseMenu()

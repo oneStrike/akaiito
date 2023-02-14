@@ -27,17 +27,17 @@ const mobileRule = (rule: any, value: any) => {
   } else if (!validPhone.test(value)) {
     return Promise.reject('请输入正确的手机号')
   } else {
-    return Promise.reject()
+    return Promise.resolve()
   }
 }
 
-const emailRule = (rule: any, value: any, callback: any) => {
+const emailRule = (rule: any, value: any) => {
   if (!value) {
     return Promise.reject('邮箱不能为空')
   } else if (!validEmail.test(value)) {
-    callback(new Error('请输入正确的邮箱'))
+    return Promise.reject('请输入正确的邮箱')
   } else {
-    callback()
+    return Promise.resolve()
   }
 }
 export const useValidate = {

@@ -1,13 +1,14 @@
-import userStore from '@/stores/modules/user'
-import layoutStore from '@/stores/modules/layout'
 import loadingStore from '@/stores/modules/loading'
 
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-//布局配置
-export const useLayout = () => layoutStore()
+import userStore from '@/stores/modules/user'
+import layoutStore from '@/stores/modules/layout'
 
 //用户
 export const useUserStore = () => userStore()
+
+//用户
+export const useLayoutStore = () => layoutStore()
 
 //loading
 export const useLoadingStore = () => loadingStore()

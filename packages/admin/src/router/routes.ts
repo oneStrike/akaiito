@@ -1,10 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router'
-import router from '@/router/index'
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'admin',
-    component: () => import('@/layouts/CommonPage.vue'),
+    component: () => import('@/layouts/main.vue'),
     meta: { title: '工作台', icon: 'support', hideParent: true },
     redirect: '/dashboard',
     children: [
@@ -24,7 +23,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import('@/views/Exception/404.vue'),
+    component: () => import('@/views/Exception/404Page.vue'),
     meta: { title: '404', hideAllMenu: true }
   }
 ]

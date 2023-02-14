@@ -1,4 +1,4 @@
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 export const autoImport = () => {
   return AutoImport({
@@ -11,12 +11,9 @@ export const autoImport = () => {
       'vue',
       'vue-router',
       'pinia',
+      '@vueuse/core',
       {
         axios: [['default', 'axios']]
-      },
-      {
-        vue: ['defineProps', 'defineEmits', 'defineExpose', 'withDefaults'],
-        '@vueuse/core': []
       }
     ],
     eslintrc: {
@@ -24,7 +21,7 @@ export const autoImport = () => {
       filepath: './.eslintrc-auto-import.json',
       globalsPropValue: 'readonly'
     },
-    resolvers: [ElementPlusResolver()],
+    resolvers: [AntDesignVueResolver()],
     dts: './src/typings/auto-import.d.ts',
     dirs: ['src/components'],
     vueTemplate: true

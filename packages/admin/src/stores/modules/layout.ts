@@ -1,49 +1,52 @@
-import type { LayoutConfig } from '@/typings/layout/config'
-import { useDark, useToggle } from '@vueuse/core'
-const layoutStore = defineStore('layoutConfig', {
-  persist: true,
+import type { Layout } from '@/typings/layout'
+
+import darkThemeCss from 'ant-design-vue/dist/antd.dark.css?raw'
+import { useColorMode, useMutationObserver } from '@vueuse/core'
+
+const styleDom = document.createElement('style')
+styleDom.dataset.type = 'theme-dark'
+styleDom.textContent = darkThemeCss
+document.head.appendChild(styleDom)
+
+useMutationObserver(
+  document.head,
+  (mutations) => {
+    const hasCustomStyleEl = mutations.some((n) =>
+      Array.from(n.addedNodes).includes(styleDom)
+    )
+    if (!hasCustomStyleEl) {
+      document.head.appendChild(styleDom)
+      styleDom.disabled = !document.documentElement.classList.contains('dark')
+    }
+  },
+  {
+    childList: true
+  }
+)
+
+const layoutStore = defineStore('layout', {
   state: () => {
     return {
-      theme: 'light',
-      layoutMode: 'default',
-      menuWidth: '260px',
-      menuStatus: 'open',
-      headerHeight: '50px',
-      menuUniqueOpened: false,
-      isFullScreen: false,
-      isTabs: true
-    } as LayoutConfig
+      theme: useColorMode() as unknown as Layout['theme'],
+      fullScreen: false as Layout['fullScreen'],
+      menuCollapsed: false as Layout['menuCollapsed'],
+      primaryColor: 'rgb(24, 144, 255)' as Layout['primaryColor']
+    }
   },
-
   actions: {
-    changeMenuStatus() {
-      if (this.menuStatus === 'close') {
-        this.menuStatus = 'open'
-        this.menuWidth = '260px'
-      } else {
-        this.menuStatus = 'close'
-        this.menuWidth = '64px'
-      }
-    },
-
     changeFullScreenStatus() {
-      this.isFullScreen = !this.isFullScreen
-      this.isFullScreen
+      this.fullScreen = !this.fullScreen
+      this.fullScreen
         ? document.documentElement.requestFullscreen()
         : document.exitFullscreen()
     },
-
-    changeThemeStatus() {
-      this.theme = this.theme === 'light' ? 'dark' : 'light'
-      this.toggleDark()
+    changeMenuCollapsed() {
+      this.menuCollapsed = !this.menuCollapsed
     },
-
-    toggleDark() {
-      const isDark = useDark()
-      isDark.value = this.theme === 'dark'
-      useToggle(isDark)
+    changeTheme() {
+      this.theme = this.theme === 'light' ? 'dark' : 'light'
+      styleDom.disabled = this.theme !== 'dark'
     }
   }
 })
-
 export default layoutStore

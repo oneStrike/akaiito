@@ -66,7 +66,6 @@ import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
 import { useDebounceFn } from '@vueuse/core'
 
-import type { Rule } from 'ant-design-vue/es/form'
 import type { FormInstance } from 'ant-design-vue'
 import { useValidate } from '@/hooks/useValidator'
 
@@ -79,7 +78,6 @@ const ruleForm = reactive({
   password: '',
   captcha: ''
 })
-document.documentElement.style.setProperty('--foo', '#808080')
 // //验证码svg代码
 const captchaSrc = ref('')
 
@@ -96,19 +94,18 @@ const getCaptcha = useDebounceFn(async () => {
 getCaptcha()
 
 const login = useDebounceFn(async () => {
-  formRef.value?.validate(Object.keys(ruleForm)).then((res) => {
-    console.log('🚀 ~ file:LoginPage method: line:102 -----', res)
+  formRef.value?.validate(Object.keys(ruleForm)).then(async () => {
+    btnLoading.value = true
+    try {
+      await userStore.login(ruleForm)
+      btnLoading.value = false
+      await router.replace('/')
+      useMessage.success(Hint.LOGIN_SUC)
+    } catch (e) {
+      await getCaptcha()
+      btnLoading.value = false
+    }
   })
-  btnLoading.value = true
-  try {
-    await userStore.login(ruleForm)
-    btnLoading.value = false
-    await router.replace('/')
-    useMessage.success(Hint.LOGIN_SUC)
-  } catch (e) {
-    await getCaptcha()
-    btnLoading.value = false
-  }
 })
 </script>
 

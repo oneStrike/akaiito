@@ -1,0 +1,11 @@
+html.dark {
+  color-scheme: dark;
+  --bg-color: #1f1f1f;
+  --border-color: #303030;
+}
+
+html.light {
+  color-scheme: light;
+  --bg-color: #ffffff;
+  --border-color: #f0f0f0;
+}

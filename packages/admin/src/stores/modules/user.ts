@@ -1,6 +1,6 @@
 import type { AdminLoginReq } from '~@/apiTypes/user'
 import { getUserInfoApi, loginApi, refreshTokenApi } from '@/api/user'
-import type { TokenInfo, UserInfo } from '@//typings/user/user'
+import type { TokenInfo, UserInfo } from '@/typings/user'
 import { useAuth } from '@/hooks/useAuth'
 import router from '@/router'
 

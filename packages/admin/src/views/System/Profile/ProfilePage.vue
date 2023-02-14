@@ -6,6 +6,7 @@ import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
 import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
 import type { AdminUpdatePasswordReq } from '~@/apiTypes/user'
+import { FileTypeEnum } from '@/enum/fileTypeEnum'
 const activeTab = ref('1')
 const loading = ref(false)
 const userStore = useUserStore()
@@ -25,7 +26,7 @@ const modifyInfoSubmit = async (val: typeof userInfo.value) => {
     await updateUserInfoApi(val)
     await userStore.getUserInfo()
     loading.value = false
-    useMessage('success', Hint.UPD_SUC)
+    useMessage.success(Hint.UPD_SUC)
   } catch (e) {
     loading.value = false
   }
@@ -37,7 +38,7 @@ const modifyInfoSubmit = async (val: typeof userInfo.value) => {
 const modifyPwdSubmit = async (val: AdminUpdatePasswordReq) => {
   await updatePasswordApi(val)
   await userStore.refreshToken()
-  useMessage('success', Hint.UPD_SUC)
+  useMessage.success(Hint.UPD_SUC)
 }
 
 /**
@@ -50,71 +51,74 @@ const modifyAvatarSuccess = async (data: CommonUploadRes) => {
 </script>
 
 <template>
-  <el-row class="h_100" :gutter="10">
-    <el-col :span="10" class="info">
-      <el-card class="flex flex_col h_100">
+  <a-row class="h_100" :gutter="10">
+    <a-col :span="10" class="info">
+      <a-card class="flex flex_col h_100">
         <div class="flex flex_col center w_100">
-          <basic-upload
-            ref="uploadRef"
-            :is-clear="true"
-            :is-loading="true"
-            :data="{ fileType: 'avatar' }"
-            list-type="text"
-            :uploadMethod="false"
-            :show-file-list="false"
-            @success="modifyAvatarSuccess"
-          >
-            <el-avatar
-              class="cursor_pointer"
-              :size="100"
-              :src="$FILE_PATH + userInfo.avatar"
-            />
-          </basic-upload>
-          <span class="fw_b fs20 mt_16">{{ userInfo.username }}</span>
+          <div class="user_avatar">
+            <base-upload
+              ref="uploadRef"
+              v-model="userInfo.avatar"
+              :file-type="FileTypeEnum.SHARED"
+              list-type="avatar"
+            >
+              <a-avatar
+                class="cursor_pointer"
+                :size="100"
+                :src="$FILE_PATH + userInfo.avatar"
+              />
+            </base-upload>
+          </div>
+          <span class="fw_b fs_22 mt_16">{{ userInfo.username }}</span>
         </div>
         <div class="mt_16">
-          <el-descriptions border :column="1" direction="horizontal">
-            <el-descriptions-item label="账号">{{
+          <a-descriptions bordered :column="1" direction="horizontal">
+            <a-descriptions-item label="账号">{{
               userInfo.account
-            }}</el-descriptions-item>
-            <el-descriptions-item label="手机号">{{
+            }}</a-descriptions-item>
+            <a-descriptions-item label="手机号">{{
               userInfo.mobile
-            }}</el-descriptions-item>
-            <el-descriptions-item label="邮箱">{{
+            }}</a-descriptions-item>
+            <a-descriptions-item label="邮箱">{{
               userInfo.email
-            }}</el-descriptions-item>
-            <el-descriptions-item label="角色">{{
+            }}</a-descriptions-item>
+            <a-descriptions-item label="角色">{{
               userInfo.isRoot === 1 ? '超级管理员' : '管理员'
-            }}</el-descriptions-item>
-            <el-descriptions-item label="创建日期">{{
+            }}</a-descriptions-item>
+            <a-descriptions-item label="创建日期">{{
               userInfo.createdAt
-            }}</el-descriptions-item>
-          </el-descriptions>
+            }}</a-descriptions-item>
+          </a-descriptions>
         </div>
-      </el-card>
-    </el-col>
-    <el-col :span="14" class="modify">
-      <el-card class="h_100">
-        <el-tabs v-model="activeTab" class="demo-tabs">
-          <el-tab-pane label="基础信息" name="1">
-            <basic-form
+      </a-card>
+    </a-col>
+    <a-col :span="14" class="modify">
+      <a-card class="h_100">
+        <a-tabs v-model="activeTab" class="demo-tabs">
+          <a-tab-pane tab="基础信息" key="1">
+            <base-form
               :btn-loading="loading"
               v-model="userInfo"
               @submit="modifyInfoSubmit"
               :options="modifyInfoForm"
-            ></basic-form>
-          </el-tab-pane>
-          <el-tab-pane label="修改密码" name="2">
-            <basic-form
+            ></base-form>
+          </a-tab-pane>
+          <a-tab-pane tab="修改密码" key="2">
+            <base-form
               v-model="pwdForm"
               @submit="modifyPwdSubmit"
               :options="modifyPwdForm"
-            ></basic-form>
-          </el-tab-pane>
-        </el-tabs>
-      </el-card>
-    </el-col>
-  </el-row>
+            ></base-form>
+          </a-tab-pane>
+        </a-tabs>
+      </a-card>
+    </a-col>
+  </a-row>
 </template>
 
-<style scoped></style>
+<style scoped lang="less">
+.user_avatar {
+  width: 100px;
+  height: 100px;
+}
+</style>

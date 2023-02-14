@@ -1,6 +1,6 @@
 import { useUserStore } from '@/stores'
 import dayjs from 'dayjs'
-import type { TokenType } from '@/typings/user/user'
+import type { TokenType } from '@/typings/user'
 import { UserEnum } from '@/enum/userEnum'
 
 function status(type: TokenType): boolean {

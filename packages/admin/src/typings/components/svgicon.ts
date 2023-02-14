@@ -46,3 +46,8 @@ export type IconName =
   | 'pinwheel'
   | 'exclamation'
   | 'questionMark'
+  | 'refresh'
+  | 'chevronLeft'
+  | 'chevronRight'
+  | 'code'
+  | 'closeCircle'

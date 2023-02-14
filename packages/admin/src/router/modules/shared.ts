@@ -4,7 +4,7 @@ import router from '@/router'
 export default {
   name: 'redirect',
   path: '/redirect',
-  component: () => import('@/layouts/CommonPage.vue'),
+  component: () => import('@/layouts/main.vue'),
   meta: { hideAllMenu: true },
   beforeEnter: (to) => {
     const { query } = to

@@ -3,13 +3,13 @@ import type { RouteRecordRaw } from 'vue-router'
 export default {
   name: 'error',
   path: '/error',
-  component: () => import('@/layouts/CommonPage.vue'),
+  component: () => import('@/layouts/main.vue'),
   meta: { hideAllMenu: true },
   children: [
     {
       name: '404',
       path: '404',
-      component: () => import('@/views/Exception/404.vue'),
+      component: () => import('@/views/Exception/404Page.vue'),
       meta: { title: '404' }
     }
   ]

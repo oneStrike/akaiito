@@ -5,17 +5,17 @@ import dayjs from 'dayjs'
 import type { Directive } from 'vue'
 import debounce from '@/directives/debounce'
 import type { IBinding } from '@/directives/debounce'
-import type { TIconName } from '~@/svgicon'
 import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
+import type { IconName } from '@/typings/components/svgicon'
 
 export {}
 declare module 'vue-router' {
   interface RouteMeta {
     hideParent?: boolean
     hideAllMenu?: boolean
-    hideMenuHideMenu?: boolean
+    hideMenu?: boolean
     title?: string
-    icon?: TIconName
+    icon?: IconName
     roles?: string[]
     cache?: boolean
     sort?: number

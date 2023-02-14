@@ -12,6 +12,10 @@ export const guard = function (router: Router) {
     minimum: 0.3
   })
   router.beforeEach(async (to) => {
+    if (to.meta.url) {
+      window.open(to.meta.url)
+      return false
+    }
     NProgress.start()
     const isValid = useAuth.status('token')
     const refreshTokenStatus = useAuth.status('refreshToken')
@@ -22,16 +26,17 @@ export const guard = function (router: Router) {
           await useUserStore().refreshToken()
           return true
         } catch (e) {
-          return '/login'
+          return { path: '/login', replace: true }
         }
       } else {
-        return '/login'
+        return { path: '/login', replace: true }
       }
     }
+
     return true
   })
-  router.afterEach((form) => {
-    document.title = form.meta.title || ''
+  router.afterEach((to) => {
+    document.title = to.meta.title || ''
     NProgress.done()
   })
 }

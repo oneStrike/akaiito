@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 export default {
   name: 'app',
   path: '/app',
-  component: () => import('@/layouts/CommonPage.vue'),
+  component: () => import('@/layouts/main.vue'),
   meta: { title: 'APP管理', roles: [], icon: 'applications', sort: 1 },
   children: [
     {
