@@ -26,7 +26,7 @@ export class Ajax {
   }
 
   private async request<T>(config: IRequestConfig): Promise<T> {
-    const { interceptor, showError, showLoading } = config
+    const { interceptor, showError, showLoading, headers } = config
     if (showLoading !== false && this.showLoading && !this.loading) {
       this.loading = true
       useLoadingStore().show({

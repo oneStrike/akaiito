@@ -1,10 +1,15 @@
-import {
-  createStyleImportPlugin,
-  AndDesignVueResolve
-} from 'vite-plugin-style-import'
+import { createStyleImportPlugin } from 'vite-plugin-style-import'
 export const importStyle = () => {
   return (() =>
     createStyleImportPlugin({
-      resolves: [AndDesignVueResolve()]
+      resolves: [
+        {
+          libraryName: '@arco-design/web-vue',
+          esModule: true,
+          resolveStyle: (name) => {
+            return `@arco-design/web-vue/es/${name}/style/index.js`
+          }
+        }
+      ]
     }))()
 }

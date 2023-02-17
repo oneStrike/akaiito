@@ -15,8 +15,8 @@ export class LoginLogDto extends PickDto(ListDto, [
   @Rule(validateString)
   path?: string
 
-  @Rule(validateString)
-  username?: string
+  @Rule(validateNumber)
+  userId?: string
 
   @Rule(validateNumber)
   receipt?: number

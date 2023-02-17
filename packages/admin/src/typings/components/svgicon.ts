@@ -51,3 +51,4 @@ export type IconName =
   | 'chevronRight'
   | 'code'
   | 'closeCircle'
+  | 'loading'

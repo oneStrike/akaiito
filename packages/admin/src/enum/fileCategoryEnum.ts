@@ -1,4 +1,4 @@
-export enum FileTypeEnum {
+export enum FileCategoryEnum {
   SHARED = 'shared',
   MATERIAL = 'material'
 }

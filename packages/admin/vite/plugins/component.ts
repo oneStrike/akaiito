@@ -1,5 +1,5 @@
 import Components from 'unplugin-vue-components/vite'
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 import IconsResolver from 'unplugin-icons/resolver'
 export const autoRegistryComponent = () => {
   return Components({
@@ -7,7 +7,9 @@ export const autoRegistryComponent = () => {
     dirs: ['src/components'],
     directoryAsNamespace: false,
     resolvers: [
-      AntDesignVueResolver(),
+      ArcoResolver({
+        sideEffect: true
+      }),
       IconsResolver({
         prefix: 'icon',
         alias: {

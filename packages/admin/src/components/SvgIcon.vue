@@ -56,6 +56,7 @@ const iconTypeClass = computed(() => {
         <icon-md-menu-fold-right v-if="iconName === 'menu'" />
         <icon-md-reddit-loop v-if="iconName === 'reddit'" />
         <icon-md-uploading-loop v-if="iconName === 'uploading'" />
+        <icon-md-loading-twotone-loop v-if="iconName === 'loading'" />
         <!--    majesticons-->
         <icon-majest-users-line v-if="iconName === 'users'" />
         <icon-majest-user-line v-if="iconName === 'user'" />

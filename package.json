@@ -12,7 +12,7 @@
     "lint:fix": "concurrently \"pnpm -C packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
     "prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/**/*.{js,css,vue,ts,scss}",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "purge": "rimraf node_modules **/*/node_modules",
+    "reinstall": "rimraf node_modules **/*/node_modules && pnpm install",
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "ytt": "concurrently \"pnpm -C packages/typings ytt\""

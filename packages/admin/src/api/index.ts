@@ -32,9 +32,9 @@ const requestInterceptor: Interceptor['request'] = async (config) => {
     requestUrl === WhiteListEnum.REFRESH_TOKEN
       ? useAuth.get('refreshToken')
       : useAuth.get('token')
-  config.headers = {
-    ['Authorization']: headerToken
-  }
+
+  if (!config.headers) config.headers = {}
+  config.headers['Authorization'] = headerToken
   return config
 }
 

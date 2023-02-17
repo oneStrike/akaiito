@@ -12,7 +12,7 @@ export function createVitePlugins() {
   vitePlugins.push(autoImport())
   //自动注册组件
   vitePlugins.push(autoRegistryComponent())
-  //自动导入组件样式
+  // //自动导入组件样式
   vitePlugins.push(importStyle())
   //压缩配置
   vitePlugins.push(compression())

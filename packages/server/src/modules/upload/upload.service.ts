@@ -22,7 +22,7 @@ export class UploadService extends BaseService {
    * 静态资源的存储方式
    */
   async publicFileStorageMethod(files: IUploadFile[], fields) {
-    if (!fields.fileType) {
+    if (!fields.fileCategory) {
       for await (const file of files) {
         await this.utils.fs.remove(file.data)
       }
@@ -44,7 +44,7 @@ export class UploadService extends BaseService {
 
   async formatLocal(files: IUploadFile[], fields: Record<string, any>) {
     const { tmpdir } = this.uploadConfig
-    const storagePath = tmpdir + '/' + fields.fileType
+    const storagePath = tmpdir + '/' + fields.fileCategory
     await this.utils.fs.ensureDir(storagePath)
     const result = []
     for await (const file of files) {
@@ -54,7 +54,7 @@ export class UploadService extends BaseService {
       await this.utils.fs.move(file.data, storagePath + '/' + fileName)
       result.push({
         filename: file.filename,
-        path: fields.fileType + '/' + fileName,
+        path: fields.fileCategory + '/' + fileName,
         mimeType: file.mimeType,
         _ext: file._ext
       })

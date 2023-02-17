@@ -94,18 +94,17 @@ const getCaptcha = useDebounceFn(async () => {
 getCaptcha()
 
 const login = useDebounceFn(async () => {
-  formRef.value?.validate(Object.keys(ruleForm)).then(async () => {
+  try {
+    await formRef.value?.validateFields()
     btnLoading.value = true
-    try {
-      await userStore.login(ruleForm)
-      btnLoading.value = false
-      await router.replace('/')
-      useMessage.success(Hint.LOGIN_SUC)
-    } catch (e) {
-      await getCaptcha()
-      btnLoading.value = false
-    }
-  })
+    await userStore.login(ruleForm)
+    btnLoading.value = false
+    await router.replace('/')
+    useMessage.success(Hint.LOGIN_SUC)
+  } catch (e) {
+    await getCaptcha()
+    btnLoading.value = false
+  }
 })
 </script>
 

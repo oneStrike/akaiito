@@ -1,4 +1,4 @@
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import { ArcoResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 export const autoImport = () => {
   return AutoImport({
@@ -21,7 +21,7 @@ export const autoImport = () => {
       filepath: './.eslintrc-auto-import.json',
       globalsPropValue: 'readonly'
     },
-    resolvers: [AntDesignVueResolver()],
+    resolvers: [ArcoResolver()],
     dts: './src/typings/auto-import.d.ts',
     dirs: ['src/components'],
     vueTemplate: true
