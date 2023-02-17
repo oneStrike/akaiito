@@ -6,7 +6,8 @@ import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
 import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
 import type { AdminUpdatePasswordReq } from '~@/apiTypes/user'
-import { FileTypeEnum } from '@/enum/fileTypeEnum'
+import { FileCategoryEnum } from '@/enum/fileCategoryEnum'
+import type { UserInfo } from '@/typings/user'
 const activeTab = ref('1')
 const loading = ref(false)
 const userStore = useUserStore()
@@ -20,10 +21,10 @@ userStore.getUserInfo()
  * 修改用户信息
  * @param val
  */
-const modifyInfoSubmit = async (val: typeof userInfo.value) => {
+const modifyInfoSubmit = async (val: Partial<UserInfo>) => {
   try {
     loading.value = true
-    await updateUserInfoApi(val)
+    await updateUserInfoApi(Object.assign(userInfo.value, val))
     await userStore.getUserInfo()
     loading.value = false
     useMessage.success(Hint.UPD_SUC)
@@ -44,10 +45,11 @@ const modifyPwdSubmit = async (val: AdminUpdatePasswordReq) => {
 /**
  * 修改用户头像
  */
-const modifyAvatarSuccess = async (data: CommonUploadRes) => {
+const modifyAvatar = async (data: CommonUploadRes) => {
   userInfo.value.avatar = data[0].path
   await modifyInfoSubmit(userInfo.value)
 }
+
 </script>
 
 <template>
@@ -58,9 +60,10 @@ const modifyAvatarSuccess = async (data: CommonUploadRes) => {
           <div class="user_avatar">
             <base-upload
               ref="uploadRef"
-              v-model="userInfo.avatar"
-              :file-type="FileTypeEnum.SHARED"
-              list-type="avatar"
+              :value="userInfo.avatar"
+              :file-category="FileCategoryEnum.SHARED"
+              :options="{ showUploadList: false }"
+              @update:value="modifyAvatar"
             >
               <a-avatar
                 class="cursor_pointer"
@@ -98,16 +101,16 @@ const modifyAvatarSuccess = async (data: CommonUploadRes) => {
           <a-tab-pane tab="基础信息" key="1">
             <base-form
               :btn-loading="loading"
-              v-model="userInfo"
-              @submit="modifyInfoSubmit"
+              :value="userInfo"
               :options="modifyInfoForm"
+              @submit="modifyInfoSubmit"
             ></base-form>
           </a-tab-pane>
           <a-tab-pane tab="修改密码" key="2">
             <base-form
-              v-model="pwdForm"
-              @submit="modifyPwdSubmit"
+              :value="pwdForm"
               :options="modifyPwdForm"
+              @submit="modifyPwdSubmit"
             ></base-form>
           </a-tab-pane>
         </a-tabs>
@@ -117,6 +120,11 @@ const modifyAvatarSuccess = async (data: CommonUploadRes) => {
 </template>
 
 <style scoped lang="less">
+::v-deep(.ant-upload-select-picture-card) {
+  border: 0 !important;
+  background: transparent !important;
+}
+
 .user_avatar {
   width: 100px;
   height: 100px;

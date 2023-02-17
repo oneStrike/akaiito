@@ -9,14 +9,14 @@ const { menuCollapsed } = storeToRefs(useLayoutStore())
 </script>
 
 <template>
-  <a-layout style="min-height: 100vh">
+  <a-layout style="height: 100vh; overflow: hidden">
     <a-layout-sider v-model:collapsed="menuCollapsed">
       <layout-menu />
     </a-layout-sider>
     <a-layout>
       <layout-header />
       <layout-tabs />
-      <a-layout-content class='h_100 pd_12'>
+      <a-layout-content class="h_100 pd_16">
         <layout-content />
       </a-layout-content>
     </a-layout>
