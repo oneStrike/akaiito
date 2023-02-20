@@ -1,3 +1,1 @@
-export interface BaseUpload {
-
-}
+export interface BaseUpload {}
