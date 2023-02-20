@@ -15,12 +15,12 @@ const layoutStore = useLayoutStore()
     >
       <Menu />
     </a-layout-sider>
-    <a-layout>
+    <a-layout class="h_full">
       <a-layout-header>
         <Header />
       </a-layout-header>
       <Tabs />
-      <a-layout-content>
+      <a-layout-content style="overflow: hidden">
         <Content />
       </a-layout-content>
     </a-layout>
