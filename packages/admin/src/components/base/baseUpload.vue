@@ -203,6 +203,16 @@ const uploadSuccess = useDebounceFn(() => {
   awaitFiles.splice(0)
   emits('success', formatEmitFile(innerFileList.value))
 }, 200)
+
+//展示素材库
+const viewMaterialLibrary = () => {}
+
+//手动弹出文件选择框
+const uploadBtn = ref()
+const manualStartUpload = () => {
+  const fileInput = uploadBtn.value.parentNode.previousElementSibling
+	fileInput.click()
+}
 </script>
 
 <template>
@@ -225,9 +235,22 @@ const uploadSuccess = useDebounceFn(() => {
   >
     <template #upload-button>
       <slot>
-        <div style="margin: auto" class="arco-upload-picture-card">
-          <svg-icon icon-name="uploading" />
-        </div>
+        <a-popconfirm
+          content="请选择上传方式？"
+          ok-text="素材库"
+          cancel-text="本地"
+          @ok="viewMaterialLibrary"
+          @cancel="manualStartUpload"
+        >
+          <div
+            ref="uploadBtn"
+            style="margin: auto"
+            class="arco-upload-picture-card"
+            @click.stop
+          >
+            <svg-icon icon-name="uploading" />
+          </div>
+        </a-popconfirm>
       </slot>
     </template>
   </a-upload>

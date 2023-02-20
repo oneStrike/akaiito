@@ -43,6 +43,7 @@ watchThrottled(
 
 //提交表单
 const submit = useDebounceFn(async () => {
+  if (props.loading) return
   const validateRes = await formRef.value?.validate()
   !validateRes && emits('submit', formData.value)
 }, 200)

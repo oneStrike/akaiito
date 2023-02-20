@@ -1,7 +1,6 @@
 import type { BaseFormOptions } from '@/typings/components/base/baseForm'
-import { BaseFormEnum } from '@/enum/baseFormEnum'
-import type { TableProps } from 'ant-design-vue'
 
+/*
 export const search: BaseFormOptions[] = reactive([
   {
     field: 'userId',
@@ -48,18 +47,24 @@ export const search: BaseFormOptions[] = reactive([
     }
   }
 ])
+*/
 
-export const columns: TableProps['columns'] = [
+export const columns = [
   {
     dataIndex: 'userAccount',
     title: '账号',
-    customRender: ({ text, record }) =>
-      text ? text : JSON.parse(record.params)?.account
+    render: ({ record, column, rowIndex }) =>
+      record.userAccount
+        ? record.userAccount
+        : JSON.parse(record.params)?.account
   },
   {
     dataIndex: 'username',
     title: '昵称',
-    customRender: ({ text }) => text || '-'
+    render: ({ record }) => {
+      console.log('🚀 ~ file:shared method:render line:65 -----', 123)
+      return record.username || '-'
+    }
   },
   {
     dataIndex: 'createdAt',
@@ -78,7 +83,7 @@ export const columns: TableProps['columns'] = [
   {
     dataIndex: 'receipt',
     title: '结果',
-    customRender: ({ text }) => (text === 1 ? '成功' : '失败')
+    render: ({ record }) => (record.receipt === 1 ? '成功' : '失败')
   },
   {
     dataIndex: 'receiptDesc',

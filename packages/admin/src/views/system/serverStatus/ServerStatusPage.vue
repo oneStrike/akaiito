@@ -241,12 +241,17 @@ const diskProgress = computed(() => {
   margin-bottom: 0;
 }
 
-.card_item {
-  height: 288px;
+.box {
+  position: absolute;
+  top: 0;
+  left: 0;
 
-  .cpu_speed {
-    height: 160px;
-    overflow-y: scroll;
+  .card_item {
+    height: 288px;
+    .cpu_speed {
+      height: 160px;
+      overflow-y: scroll;
+    }
   }
 }
 </style>

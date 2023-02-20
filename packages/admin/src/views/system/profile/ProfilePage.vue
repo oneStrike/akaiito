@@ -51,7 +51,7 @@ const modifyAvatarSuccess = async (data: CommonUploadRes) => {
 </script>
 
 <template>
-  <a-row class="h_100 pd_16" :gutter="14">
+  <a-row class="h_100" :gutter="14">
     <a-col :span="10" class="h_100">
       <a-card class="h_100">
         <div class="flex_col cross_center">
