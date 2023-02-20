@@ -1,144 +1,234 @@
 <script setup lang="ts">
-import type { UploadProps } from 'ant-design-vue'
 import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
-import config from '@/config'
-import type { FileCategoryEnum } from '@/enum/fileCategoryEnum'
+import type { FileItem, UploadInstance } from '@arco-design/web-vue'
 import dayjs from 'dayjs'
+import config from '@/config'
 import { useMessage } from '@/hooks/useMessage'
-import { uploadFile } from '@/api/common'
-import { Hint } from '@/utils/hint'
-
-const imageType = ['image/png', 'image/jpg', 'image/jpeg']
-const videoType = ['video/mp4', 'video/mkv', 'video/flv']
+import SvgIcon from '@/components/SvgIcon.vue'
+import { watchThrottled } from '@vueuse/core'
+import { useUserStore } from '@/stores'
+type UploadProps = UploadInstance['$props']
 
 interface BaseUploadProps {
-  value?: string | string[] | CommonUploadRes
-  options?: UploadProps
-  fileCategory: FileCategoryEnum
-  maxSize?: number
-  fileType?: 'image' | 'video'
+  fileList?: string | string[] | CommonUploadRes
+  accept?: string
+  acceptType?: 'image' | 'video'
+  multiple?: boolean
+  directory?: boolean
+  tip?: string
+  name?: UploadProps['name']
+  limit?: number
+  size?: number
+  fileCategory?: 'shared' | 'material'
+  listType?: UploadProps['listType'] | 'avatar'
+  showFileList?: UploadProps['showFileList']
 }
+const baseFileUrl = config.FILE_PATH
 
 const props = withDefaults(defineProps<BaseUploadProps>(), {
-  fileType: 'image',
-  maxSize: 1
+  name: 'filename',
+  acceptType: 'image',
+  multiple: true,
+  directory: false,
+  limit: 1, // 取消使用a-upload自带的数量校验
+  fileCategory: 'shared',
+  listType: 'picture-card',
+  showFileList: true
 })
+
 const emits = defineEmits<{
-  (event: 'update:value', data: any): void
+  (event: 'upload:fileList', data: CommonUploadRes): void
+  (event: 'success', data: CommonUploadRes): void
 }>()
 
-//处理接收的文件类型
-const handlerAcceptFile = computed(() => {
-  if (props.options?.accept) return props.options?.accept
-  if (props.fileType === 'image') return imageType.join(',')
-  if (props.fileType === 'video') return videoType.join(',')
+//将传递的文件列表转换为a-upload支持的文件列表
+const formatFileItem = (file: CommonUploadRes[number] | string): FileItem => {
+  let url, name
+  if (typeof file !== 'string') {
+    url = file.path
+    name = file.filename
+  } else {
+    url = file
+    name = file.split(',').pop()
+  }
+
+  return {
+    uid: dayjs().unix().toString(),
+    status: 'done',
+    url: baseFileUrl + url,
+    name
+  }
+}
+const formatFileList = (fileList: BaseUploadProps['fileList']) => {
+  const returnRes: FileItem[] = []
+  //字符串格式
+  if (typeof fileList === 'string') {
+    const fileListArr = fileList.split(',')
+    fileListArr.forEach((item) => {
+      returnRes.push(formatFileItem(item))
+    })
+  } else if (Array.isArray(fileList)) {
+    fileList.forEach((item) => {
+      if (typeof item === 'string') {
+        returnRes.push(formatFileItem(item))
+      } else if (item._ext) {
+        returnRes.push(formatFileItem(item))
+      }
+    })
+  }
+  return returnRes
+}
+const formatEmitFile = (fileList: FileItem[]): CommonUploadRes => {
+  const fileRes: CommonUploadRes = []
+  fileList.forEach((item) => {
+    if (item.response) {
+      const response = JSON.parse(item.response)
+      fileRes.push(response.data[0])
+    } else {
+      fileRes.push(item as unknown as CommonUploadRes[number])
+    }
+  })
+  return fileRes
+}
+const showUploadButton = ref(true)
+const innerFileList = ref<FileItem[]>([])
+watchThrottled(
+  () => props.fileList,
+  (val) => {
+    const fileListRes = formatFileList(val)
+    showUploadButton.value = fileListRes.length < props.limit
+    innerFileList.value = fileListRes
+  },
+  {
+    deep: true,
+    throttle: 100,
+    immediate: true
+  }
+)
+
+watchThrottled(
+  innerFileList,
+  (val) => {
+    showUploadButton.value = val.length < props.limit
+    emits('upload:fileList', formatEmitFile(val))
+  },
+  {
+    deep: true,
+    throttle: 100,
+    immediate: true
+  }
+)
+
+//允许的文件类型
+const innerAccept = computed(() => {
+  if (props.accept) return props.accept
+  if (props.acceptType === 'image') return config.ALLOW_IMAGE_TYPE.join(',')
+  if (props.acceptType === 'video') return config.ALLOW_VIDEO_TYPE.join(',')
+  return config.ALLOW_IMAGE_TYPE.join(',')
 })
 
-//默认的上传配置
-const defaultOptions = {
-  action: config.UPLOAD_URL,
-  listType: 'picture-card',
-  maxCount: 1,
-  accept: handlerAcceptFile.value,
-  multiple: false
-}
-
-//上传配置
-const uploadOptions = Object.assign(defaultOptions, props.options)
-
-//处理modelValue的类型，以兼容upload的fileList格式
-const handlerModelValueType = (
-  val: typeof props.value
-): UploadProps['fileList'] => {
-  const { cloned } = useCloned(val)
-  if (typeof cloned.value === 'string') {
-    return [
-      {
-        uid: dayjs().unix().toString(),
-        name: cloned.value.split('/').pop() || 'temp',
-        status: 'done',
-        url: config.FILE_PATH + cloned.value
-      }
-    ]
-  } else if (Array.isArray(cloned.value)) {
-    const fileList: UploadProps['fileList'] = []
-    cloned.value.forEach((item: any) => {
-      const res = handlerModelValueType(item.path || item)
-      if (res) fileList.push(res[0])
-    })
-    return fileList
-  }
-  return []
-}
-
-const fileList = ref(handlerModelValueType(props.value))
-
-//取消自动上传，开启手动上传
-const beforeUpload: UploadProps['beforeUpload'] = () => false
-
-const awaitUploadFile: UploadProps['fileList'] = []
-let overflowFileCount = 0
-let timer: number
-const uploadChange: UploadProps['onChange'] = ({ file }) => {
-  if (!file.type || !imageType.includes(file.type)) {
-    useMessage.error(file.name + '格式不支持')
+const awaitFiles: File[] = []
+const beforeUpload = (file: File) => {
+  if (!innerAccept.value.includes(file.type)) {
+    useMessage.error(`【${file.name}】文件类型不符合`)
     return
   }
-  if (awaitUploadFile.length >= uploadOptions.maxCount) {
-    overflowFileCount++
+  if (props.size && file.size / 1024 / 1024 > props.size) {
+    useMessage.error(`【${file.name}】超出文件大小限制`)
     return
   }
-  awaitUploadFile.push(file)
-  if (timer) clearTimeout(timer)
-  timer = window.setTimeout(() => {
-    handleUpload(awaitUploadFile)
-  }, 150)
+  if (awaitFiles.length + innerFileList.value.length > props.limit) {
+    useMessage.error(`【${file.name}】超出文件数量限制`)
+    return
+  }
+  awaitFiles.push(file)
+  return true
 }
-//手动上传文件
-const handleUpload = async (files: UploadProps['fileList']) => {
-  if (!files?.length) return
-  try {
-    const formData = new FormData()
-    files.forEach((file) => {
-      formData.append('filename', file as any)
-    })
-    formData.append('fileCategory', props.fileCategory)
-    const uploadFiles = await uploadFile(formData)
-    if (overflowFileCount) {
-      useMessage.error(overflowFileCount + '份文件超出最大数量限制')
+
+//自定义上传函数
+const customRequest: UploadProps['customRequest'] = (option) => {
+  const { onProgress, onError, onSuccess, fileItem, name } = option
+  const xhr = new XMLHttpRequest()
+  if (xhr.upload) {
+    xhr.upload.onprogress = function (event) {
+      let percent
+      if (event.total > 0) percent = event.loaded / event.total
+      onProgress(percent || 1, event)
     }
-    const formatList = handlerModelValueType(uploadFiles)!
-    if (uploadOptions.maxCount === 1) {
-      fileList.value = uploadOptions.showUploadList === false ? [] : formatList
-      emits('update:value', uploadFiles)
+  }
+  xhr.onerror = (e) => onError(e)
+  xhr.onload = () => {
+    if (xhr.status < 200 || xhr.status >= 300) {
+      return onError(xhr.responseText)
+    }
+    const response = JSON.parse(xhr.response)
+    if (response.code !== 1) {
+      onError(xhr.response)
     } else {
-      fileList.value?.push(...formatList)
-      if (props.value && Array.isArray(props.value)) {
-        emits('update:value', [...uploadFiles, ...props.value])
-      } else if (props.value) {
-        emits('update:value', [...uploadFiles, props.value])
-      } else {
-        emits('update:value', uploadFiles)
-      }
+      onSuccess(xhr.response)
     }
-    awaitUploadFile.splice(0, awaitUploadFile.length)
-    overflowFileCount = 0
-    useMessage.success(Hint.UPL_SUC)
-  } catch (e) {}
+  }
+
+  const formData = new FormData()
+  formData.append(name as string, fileItem.file as Blob)
+  formData.append('fileCategory', props.fileCategory)
+  xhr.open('post', config.UPLOAD_URL, true)
+  xhr.setRequestHeader('Authorization', useUserStore().auth.token)
+  xhr.send(formData)
+  return {
+    abort() {
+      xhr.abort()
+    }
+  }
 }
+
+//移除图片
+const beforeRemove = (file: FileItem) => {
+  if (awaitFiles.length) {
+    const removeIndex = awaitFiles.findIndex((item) => item.name === file.name)
+    awaitFiles.splice(removeIndex, 1)
+  }
+  return true
+}
+
+//上传错误
+const uploadError = (file: FileItem) => {
+  const errorResponse = JSON.parse(file.response)
+  useMessage.error(`【${file.name}】文件${errorResponse.desc}`)
+}
+
+//上传成功
+const uploadSuccess = useDebounceFn(() => {
+  useMessage.success(`${awaitFiles.length}份文件上传成功`)
+  awaitFiles.splice(0)
+  emits('success', formatEmitFile(innerFileList.value))
+}, 200)
 </script>
 
 <template>
   <a-upload
-    v-bind="uploadOptions"
-    :file-list="fileList"
-    :before-upload="beforeUpload"
-    @change="uploadChange"
+    v-model:file-list="innerFileList"
+    :multiple="multiple"
+    :accept="innerAccept"
+    :limit="99999"
+    :name="name"
+    :tip="tip"
+    :list-type="listType"
+    :show-upload-button="showUploadButton || listType === 'avatar'"
+    :show-file-list="showFileList"
+    :custom-request="customRequest"
+    :image-preview="true"
+    :on-before-remove="beforeRemove"
+    :on-before-upload="beforeUpload"
+    @error="uploadError"
+    @success="uploadSuccess"
   >
-    <slot>
-      <svg-icon icon-name="uploading" />
-    </slot>
+    <template #upload-button>
+      <slot>
+        <div style="margin: auto" class="arco-upload-picture-card">
+          <svg-icon icon-name="uploading" />
+        </div>
+      </slot>
+    </template>
   </a-upload>
 </template>
-
-<style scoped lang="less"></style>

@@ -1,51 +1,55 @@
 import type { Layout } from '@/typings/layout'
-
-import darkThemeCss from 'ant-design-vue/dist/antd.dark.css?raw'
-import { useColorMode, useMutationObserver } from '@vueuse/core'
-
-const styleDom = document.createElement('style')
-styleDom.dataset.type = 'theme-dark'
-styleDom.textContent = darkThemeCss
-document.head.appendChild(styleDom)
-
-useMutationObserver(
-  document.head,
-  (mutations) => {
-    const hasCustomStyleEl = mutations.some((n) =>
-      Array.from(n.addedNodes).includes(styleDom)
-    )
-    if (!hasCustomStyleEl) {
-      document.head.appendChild(styleDom)
-      styleDom.disabled = !document.documentElement.classList.contains('dark')
-    }
-  },
-  {
-    childList: true
-  }
-)
+import { useMessage } from '@/hooks/useMessage'
 
 const layoutStore = defineStore('layout', {
+  persist: {
+    storage: sessionStorage
+  },
   state: () => {
     return {
-      theme: useColorMode() as unknown as Layout['theme'],
-      fullScreen: false as Layout['fullScreen'],
-      menuCollapsed: false as Layout['menuCollapsed'],
-      primaryColor: 'rgb(24, 144, 255)' as Layout['primaryColor']
-    }
+      theme: 'light',
+      fullScreen: false,
+      menu: {
+        theme: 'light',
+        mode: 'vertical',
+        accordion: true,
+        collapsed: false
+      }
+    } as Layout
   },
   actions: {
-    changeFullScreenStatus() {
-      this.fullScreen = !this.fullScreen
-      this.fullScreen
-        ? document.documentElement.requestFullscreen()
-        : document.exitFullscreen()
+    //切换菜单折叠状态
+    toggleMenuCollapsed(status?: boolean) {
+      this.menu.collapsed =
+        typeof status === 'boolean' ? status : !this.menu.collapsed
     },
-    changeMenuCollapsed() {
-      this.menuCollapsed = !this.menuCollapsed
+    //切换菜单手风琴
+    toggleMenuAccordion() {
+      this.menu.accordion = !this.menu.accordion
     },
-    changeTheme() {
-      this.theme = this.theme === 'light' ? 'dark' : 'light'
-      styleDom.disabled = this.theme !== 'dark'
+    //切换菜单展示模式
+    toggleMenuMode(mode: Layout['menu']['mode']) {
+      this.menu.mode = mode
+    },
+    //切换菜单主题色
+    toggleMenuTheme(theme: Layout['menu']['theme']) {
+      this.menu.theme = theme
+    },
+    //切换全屏状态
+    toggleFullScreen(status?: boolean) {
+      const { isSupported, enter, exit, isFullscreen } = useFullscreen()
+      if (!isSupported.value) {
+        useMessage.error('当前浏览器暂不支持全屏浏览')
+        return
+      }
+      this.fullScreen =
+        typeof status === 'boolean' ? status : !isFullscreen.value
+      this.fullScreen ? enter() : exit()
+    },
+    //切换暗黑和明亮模式
+    toggleTheme(theme?: Layout['theme']) {
+      this.theme = theme ? theme : this.theme === 'light' ? 'dark' : 'light'
+      document.body.setAttribute('arco-theme', this.theme)
     }
   }
 })

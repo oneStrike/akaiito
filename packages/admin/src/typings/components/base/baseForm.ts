@@ -1,5 +1,28 @@
-import type { Rule } from 'ant-design-vue/es/form'
-import type { BaseFormEnum } from '@/enum/baseFormEnum'
+import type {
+  CheckboxInstance,
+  DatePickerInstance,
+  FormItemInstance,
+  InputInstance,
+  InputNumberInstance,
+  RadioInstance,
+  SelectInstance
+} from '@arco-design/web-vue'
+
+export type BaseFormComponentType =
+  | 'Input'
+  | 'Radio'
+  | 'Check'
+  | 'Date'
+  | 'Select'
+  | 'Upload'
+
+export type BaseFormComponentProps =
+  | InputInstance['$props']
+  | InputNumberInstance['$props']
+  | RadioInstance['$props']
+  | CheckboxInstance['$props']
+  | SelectInstance['$props']
+  | DatePickerInstance['$props']
 
 export interface BaseFromFilterOptions {
   label: string
@@ -8,20 +31,10 @@ export interface BaseFromFilterOptions {
 }
 
 export interface BaseFormOptions {
-  field: string
-  component: BaseFormEnum
-  bind: {
-    label?: string
-    required?: boolean
-    rules?: Rule[]
-    width?: number | string
-  }
+  component: BaseFormComponentType
+  bind: FormItemInstance['$props']
   componentProps: {
-    bind?: Record<string, any>
+    bind?: BaseFormComponentProps
     options?: BaseFromFilterOptions[]
   }
-}
-
-export interface BaseForm {
-  options: BaseFormOptions[]
 }

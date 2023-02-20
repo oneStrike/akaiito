@@ -1,7 +1,7 @@
 import { useUserStore } from '@/stores'
 import dayjs from 'dayjs'
 import type { TokenType } from '@/typings/user'
-import { UserEnum } from '@/enum/userEnum'
+import { TokenEnum } from '@/enum/token'
 
 function status(type: TokenType): boolean {
   const { token, refreshToken, tokenExpiredAt, refreshTokenExpiredAt } =
@@ -35,10 +35,10 @@ function clear() {
     tokenExpiredAt: null,
     refreshTokenExpiredAt: null
   }
-  sessionStorage.removeItem(UserEnum.TOKEN)
-  sessionStorage.removeItem(UserEnum.REFRESH_TOKEN)
-  sessionStorage.removeItem(UserEnum.TOKEN_EXPIRED_AT)
-  sessionStorage.removeItem(UserEnum.REFRESH_TOKEN_EXPIRED_AT)
+  sessionStorage.removeItem(TokenEnum.TOKEN)
+  sessionStorage.removeItem(TokenEnum.REFRESH_TOKEN)
+  sessionStorage.removeItem(TokenEnum.TOKEN_EXPIRED_AT)
+  sessionStorage.removeItem(TokenEnum.REFRESH_TOKEN_EXPIRED_AT)
 }
 
 export const useAuth = {

@@ -1,10 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router'
 import router from '@/router'
+import Layout from '@/layouts/Main.vue'
 
 export default {
   name: 'redirect',
   path: '/redirect',
-  component: () => import('@/layouts/main.vue'),
+  component: Layout,
   meta: { hideAllMenu: true },
   beforeEnter: (to) => {
     const { query } = to

@@ -11,9 +11,7 @@ export const bootstrap: Plugin = {
       app.config.globalProperties['$' + iterator] =
         config[iterator as unknown as keyof typeof config]
     }
-
-    document.addEventListener('fullscreenchange', () => {
-      useLayoutStore().fullScreen = document.fullscreenElement !== null
-    })
+    const layoutStore = useLayoutStore()
+    layoutStore.toggleTheme(layoutStore.theme)
   }
 }

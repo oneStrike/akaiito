@@ -30,7 +30,7 @@ export function getSystemInfo(): Promise<AdminSystemInfoRes> {
 }
 
 //上传文件
-export function uploadFile(data: CommonUploadReq): Promise<CommonUploadRes> {
+export function uploadFileApi(data: CommonUploadReq): Promise<CommonUploadRes> {
   return kRequest.post({
     url: api.uploadFile.replace('foo', ''),
     headers: { 'Content-Type': 'multipart/form-data' },

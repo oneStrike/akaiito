@@ -1,15 +1,15 @@
 import type { RouteRecordRaw } from 'vue-router'
-
+import Layout from '@/layouts/Main.vue'
 export default {
   name: 'system',
   path: '/system',
-  component: () => import('@/layouts/main.vue'),
+  component: Layout,
   meta: { title: '系统管理', roles: [], icon: 'laptop', sort: 1 },
   children: [
     {
       path: 'role',
       name: 'role',
-      component: () => import('@/views/System/Role/RolePage.vue'),
+      component: () => import('@/views/system/role/RolePage.vue'),
       meta: {
         roles: ['admin'],
         title: '访问控制',
@@ -21,7 +21,7 @@ export default {
     {
       path: 'profile',
       name: 'profile',
-      component: () => import('@/views/System/Profile/ProfilePage.vue'),
+      component: () => import('@/views/system/profile/ProfilePage.vue'),
       meta: {
         roles: [],
         title: '个人中心',
@@ -33,7 +33,8 @@ export default {
     {
       path: 'server',
       name: 'server',
-      component: () => import('@/views/System/Server/ServerPage.vue'),
+      component: () =>
+        import('@/views/system/serverStatus/ServerStatusPage.vue'),
       meta: {
         roles: [],
         title: '系统状态',
@@ -45,7 +46,7 @@ export default {
     {
       path: 'log',
       name: 'log',
-      component: () => import('@/views/System/Log/LoginLog/LoginLogPage.vue'),
+      component: () => import('@/views/system/log/loginLog/LoginLogPage.vue'),
       meta: {
         roles: [],
         title: '操作日志',

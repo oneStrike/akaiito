@@ -1,13 +1,9 @@
-import { message } from 'ant-design-vue'
-import type { NoticeType } from 'ant-design-vue/es/message'
-
-const showMessage = (type: NoticeType, text: string) => {
-  message[type](text)
-}
+import { Message, type MessageConfig } from '@arco-design/web-vue'
 
 export const useMessage = {
-  info: (text: string) => showMessage('info', text),
-  success: (text: string) => showMessage('success', text),
-  warning: (text: string) => showMessage('warning', text),
-  error: (text: string) => showMessage('error', text)
+  normal: (msg: string | MessageConfig) => Message.normal(msg),
+  info: (msg: string | MessageConfig) => Message.info(msg),
+  success: (msg: string | MessageConfig) => Message.success(msg),
+  warning: (msg: string | MessageConfig) => Message.warning(msg),
+  error: (msg: string | MessageConfig) => Message.error(msg)
 }

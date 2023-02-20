@@ -3,27 +3,27 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'admin',
-    component: () => import('@/layouts/main.vue'),
+    component: () => import('@/layouts/Main.vue'),
     meta: { title: '工作台', icon: 'support', hideParent: true },
     redirect: '/dashboard',
     children: [
       {
         path: 'dashboard',
         name: 'dashboard',
-        component: () => import('@/views/Dashboard/DashboardPage.vue'),
+        component: () => import('@/views/dashboard/DashboardPage.vue'),
         meta: { roles: [], title: '工作台', icon: 'support' }
       }
     ]
   },
   {
     path: '/login',
-    component: () => import('@/views/Login/LoginPage.vue'),
+    component: () => import('@/views/login/LoginPage.vue'),
     meta: { roles: [], title: '登录', hideAllMenu: true }
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import('@/views/Exception/404Page.vue'),
+    component: () => import('@/views/exception/404Page.vue'),
     meta: { title: '404', hideAllMenu: true }
   }
 ]

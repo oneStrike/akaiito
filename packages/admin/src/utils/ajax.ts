@@ -4,7 +4,6 @@ import type {
   IRequestConfig
 } from '@//typings/utils/ajax'
 import type { AxiosInstance } from 'axios'
-import { useLoadingStore } from '@/stores'
 import { useMessage } from '@/hooks/useMessage'
 const SHOW_LOADING = true
 const SHOW_ERROR = true
@@ -26,12 +25,9 @@ export class Ajax {
   }
 
   private async request<T>(config: IRequestConfig): Promise<T> {
-    const { interceptor, showError, showLoading, headers } = config
+    const { interceptor, showError, showLoading } = config
     if (showLoading !== false && this.showLoading && !this.loading) {
       this.loading = true
-      useLoadingStore().show({
-        tip: 'loading...'
-      })
     }
 
     if (this.interceptor?.request) {
@@ -67,14 +63,12 @@ export class Ajax {
             useMessage.error(result.desc || '未知错误')
 
             if (this.loading) {
-              useLoadingStore().hide()
               this.loading = false
             }
             reject(result.data)
             return
           }
           if (this.loading) {
-            useLoadingStore().hide()
             this.loading = false
           }
           resolve(result.data)
@@ -82,7 +76,6 @@ export class Ajax {
         .catch((err) => {
           useMessage.error(err.message)
           if (this.loading) {
-            useLoadingStore().hide()
             this.loading = false
           }
           reject(err)

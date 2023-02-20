@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useMessage } from '@/hooks/useMessage'
 import { Hint } from '@/utils/hint'
 import { useUserStore } from '@/stores'
-import { WhiteListEnum } from '@/enum/whiteListEnum'
+import { WhiteListEnum } from '@/enum/whiteList'
 import { Ajax } from '@/utils/ajax'
 import type { Interceptor } from '@/typings/utils/ajax'
 
