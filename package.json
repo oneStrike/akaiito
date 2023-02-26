@@ -12,7 +12,7 @@
     "lint:fix": "concurrently \"pnpm -C packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
     "prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/**/*.{js,css,vue,ts,scss}",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "purge": "rimraf node_modules **/*/node_modules",
+    "reinstall": "rimraf node_modules **/*/node_modules && pnpm install",
     "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "ytt": "concurrently \"pnpm -C packages/typings ytt\""
@@ -21,20 +21,20 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@commitlint/cli": "^17.4.2",
-    "@commitlint/config-conventional": "^17.4.2",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
     "commitizen": "^4.3.0",
     "concurrently": "^7.6.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.3",
-    "lint-staged": "^13.1.0",
-    "prettier": "^2.8.3",
+    "lint-staged": "^13.1.2",
+    "prettier": "^2.8.4",
     "typescript": "~4.8.4"
   },
   "dependencies": {
-    "axios": "^1.3.0",
+    "axios": "^1.3.3",
     "dayjs": "^1.11.7",
     "lodash": "^4.17.21"
   },

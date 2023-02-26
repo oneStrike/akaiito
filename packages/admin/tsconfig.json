@@ -1,13 +1,12 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.ts", "src/**/*.vue", "vite/**/*"],
+  "include": ["env.d.ts", "src/**/*.ts", "src/**/*.vue"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "~@/*": ["./node_modules/@akaiito/typings/src/admin/*"]
-    },
-    "types": ["element-plus/global", "vite/client"]
+      "~@/*": ["node_modules/@akaiito/typings/src/admin/*"]
+    }
   },
 
   "references": [

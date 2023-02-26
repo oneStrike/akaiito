@@ -37,7 +37,6 @@
     "lint": "eslint . --ext .vue,.js,.ts --fix --ignore-path .eslintignore"
   },
   "dependencies": {
-    "@akaiito/stylesheets": "workspace:*",
     "@akaiito/utils": "workspace:*",
     "@dcloudio/uni-app": "3.0.0-3061820230117001",
     "@dcloudio/uni-app-plus": "3.0.0-3061820230117001",

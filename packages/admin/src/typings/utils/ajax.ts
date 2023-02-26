@@ -1,19 +1,23 @@
-import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  InternalAxiosRequestConfig
+} from 'axios'
 
-export interface Interceptor {
-  request?: (config: AxiosRequestConfig) => Promise<IRequestConfig>
-  response?: (response: AxiosResponse) => AxiosResponse
+export interface Transform {
+  requestHook?: (config: AxiosRequestConfig) => InternalAxiosRequestConfig
+  tokenType?: 'token' | 'refreshToken'
 }
 
-export interface IRequestConfig extends AxiosRequestConfig {
-  interceptor?: Interceptor
-  showLoading?: boolean
-  showError?: boolean
-  parseResponse?: <T>(response: AxiosResponse) => errorResponse<T>
+export interface Interceptot {
+  request?: (config: RequestConf & Transform) => InternalAxiosRequestConfig
+  response?: (data: AxiosResponse) => any
+  requestError?: (error: AxiosError) => void
+  responseError?: (error: AxiosError | Error) => void
 }
 
-export interface errorResponse<T> {
-  error?: boolean
-  desc?: string
-  data: T
+export interface RequestConf extends AxiosRequestConfig {
+  interceptor?: Interceptot
+  urlPrefix?: string
 }

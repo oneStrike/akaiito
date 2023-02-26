@@ -1,19 +1,19 @@
 import kRequest from './index'
 import config from '@/config'
-import type { AdminSystemInfoRes } from '~@/../../../typings/src/admin/apiTypes/system'
-import type { OpenGetCaptchaRes } from 'packages/typings/src/open/apiTypes/captcha'
-const context = '/open'
-const context2 = config.REQUEST_PREFIX + '/system'
+import type { AdminSystemInfoRes } from '~@/apiTypes/system'
+import type { OpenGetCaptchaRes } from '@akaiito/typings/src/open/apiTypes/captcha'
+const context = '/system'
 
 const api = {
-  captcha: `${context}/captcha/getCaptcha`,
-  systemInfo: `${context2}/systemInfo`
+  captcha: `/captcha/getCaptcha`,
+  systemInfo: `${context}/systemInfo`
 }
 
 //获取验证码
 export function getCaptchaAPI(): Promise<OpenGetCaptchaRes> {
   return kRequest.get({
-    url: api.captcha
+    url: api.captcha,
+    urlPrefix: 'open'
   })
 }
 

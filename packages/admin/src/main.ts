@@ -1,12 +1,16 @@
+import { createApp } from 'vue'
+import { stores } from '@/stores'
+import { router } from '@/router'
 import App from './App.vue'
-import routes from './router'
-import store from './stores'
+
+import { bootstrap } from '@/core/bootstrap'
+
 import 'normalize.css'
 import '@/style/index.scss'
-import { bootstrap } from '@/core/bootstrap'
+
 const app = createApp(App)
 
-app.use(store)
-app.use(routes)
+app.use(stores)
+app.use(router)
 app.use(bootstrap)
 app.mount('#app')

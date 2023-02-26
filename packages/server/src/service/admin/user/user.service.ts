@@ -125,8 +125,8 @@ export class UserService extends BaseService {
     })
 
     where[Op.not] = { id }
-
     const user = await this.mapping.findOne(where, true)
+
     if (user) {
       this.normalError('信息已经存在')
     }

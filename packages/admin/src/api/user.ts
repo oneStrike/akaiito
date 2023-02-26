@@ -17,15 +17,12 @@ import type {
   AdminUserInfoRes,
   AdminUserListReq,
   AdminUserListRes
-} from '~@/../../../typings/src/admin/apiTypes/user'
+} from '~@/apiTypes/user'
 
-import type {
-  AdminLoginLogReq,
-  AdminLoginLogRes
-} from '~@/../../../typings/src/admin/apiTypes/log'
+import type { AdminLoginLogReq, AdminLoginLogRes } from '~@/apiTypes/log'
 
-const context = config.REQUEST_PREFIX + '/user'
-const logContext = config.REQUEST_PREFIX + '/log'
+const context = '/user'
+const logContext = '/log'
 const api = {
   login: `${context}/login`,
   refreshTokenApi: `${context}/refreshToken`,
@@ -43,8 +40,7 @@ const api = {
 export function loginApi(params: AdminLoginReq): Promise<AdminLoginRes> {
   return kRequest.post({
     url: api.login,
-    data: params,
-    showLoading: true
+    data: params
   })
 }
 

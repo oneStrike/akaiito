@@ -1,49 +1,47 @@
-import type { LayoutConfig } from '@/typings/layout/config'
-import { useDark, useToggle } from '@vueuse/core'
-const layoutStore = defineStore('layoutConfig', {
-  persist: true,
-  state: () => {
+import { useMessage } from '@/hook/naviaDiscreteApi'
+import type { Layout } from '@/typings/stores/layout'
+
+export const layoutStore = defineStore('layout', {
+  persist: {
+    storage: sessionStorage
+  },
+  state() {
     return {
       theme: 'light',
-      layoutMode: 'default',
-      menuWidth: '260px',
-      menuStatus: 'open',
-      headerHeight: '50px',
-      menuUniqueOpened: false,
-      isFullScreen: false,
-      isTabs: true
-    } as LayoutConfig
+      accordion: true,
+      collapsed: false,
+      fullScreen: false,
+      pageAnim: 'scale'
+    } as Layout
   },
 
   actions: {
-    changeMenuStatus() {
-      if (this.menuStatus === 'close') {
-        this.menuStatus = 'open'
-        this.menuWidth = '260px'
-      } else {
-        this.menuStatus = 'close'
-        this.menuWidth = '64px'
+    //切换主题色
+    toggleTheme(theme?: Layout['theme']) {
+      this.theme = theme ? theme : this.theme === 'light' ? 'dark' : 'light'
+    },
+
+    //切换菜单折叠状态
+    toggleMenuCollapsed() {
+      this.collapsed = !this.collapsed
+    },
+
+    //切换全屏状态
+    toggleFullScreen() {
+      const { isSupported, enter, exit } = useFullscreen()
+      if (!isSupported.value) {
+        useMessage.error('当前浏览器暂不支持全屏浏览')
+        return
       }
+
+      this.fullScreen = !this.fullScreen
+      this.fullScreen ? enter() : exit()
     },
 
-    changeFullScreenStatus() {
-      this.isFullScreen = !this.isFullScreen
-      this.isFullScreen
-        ? document.documentElement.requestFullscreen()
-        : document.exitFullscreen()
-    },
-
-    changeThemeStatus() {
-      this.theme = this.theme === 'light' ? 'dark' : 'light'
-      this.toggleDark()
-    },
-
-    toggleDark() {
-      const isDark = useDark()
-      isDark.value = this.theme === 'dark'
-      useToggle(isDark)
+    //切换暗黑或者明亮模式
+    toggleThemeMode(mode?: Layout['theme']) {
+      mode = mode || this.theme === 'dark' ? 'light' : 'dark'
+      this.theme = mode
     }
   }
 })
-
-export default layoutStore

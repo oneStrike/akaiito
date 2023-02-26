@@ -1,37 +1,48 @@
-import type { AdminLoginReq } from '~@/apiTypes/user'
 import { getUserInfoApi, loginApi, refreshTokenApi } from '@/api/user'
-import type { TokenInfo, UserInfo } from '@//typings/user/user'
-import { useAuth } from '@/hooks/useAuth'
-import router from '@/router'
+import type { UserStore } from '@/typings/stores/user'
+import type { AdminLoginReq } from '~@/apiTypes/user'
+import dayjs from 'dayjs'
+import { useIntervalFn } from '@vueuse/core'
+import { router } from '@/router'
 
-const userStore = defineStore('user', {
+export const userStore = defineStore('usre', {
   persist: {
     storage: sessionStorage
   },
-  state: () => {
+  state() {
     return {
-      userInfo: {} as UserInfo,
-      auth: {} as TokenInfo
+      userInfo: {},
+      token: '',
+      role: 'admin',
+      refreshToken: '',
+      tokenExpiredAt: 0,
+      pauseRenewalToken: null
+    } as UserStore
+  },
+
+  getters: {
+    tokenStatus(): boolean {
+      const timestamp = dayjs().unix()
+      return !!(
+        this.token && timestamp - this.tokenExpiredAt < 60 * 60 * 2 * 1000
+      )
     }
   },
+
   actions: {
-    /**
-     * 登录
-     * @param param
-     */
     async login(param: AdminLoginReq) {
       const { token, refreshToken, user } = await loginApi(param)
       this.userInfo = user
-      useAuth.set('token', token)
-      useAuth.set('refreshToken', refreshToken)
+      this.token = token
+      this.refreshToken = refreshToken
+      this.tokenExpiredAt = dayjs().unix()
     },
     /**
      * 刷新token
      */
-
-    async refreshToken() {
-      const token = await refreshTokenApi()
-      useAuth.set('token', token)
+    async refreshTokenFn() {
+      this.token = await refreshTokenApi()
+      this.tokenExpiredAt = dayjs().unix()
     },
 
     /**
@@ -45,9 +56,16 @@ const userStore = defineStore('user', {
      * 退出登录
      */
     logout() {
-      useAuth.clear()
       router.replace('/login')
+      this.$reset()
+      this.pauseRenewalToken && this.pauseRenewalToken()
+    },
+
+    //自动续期token
+    renewalToken() {
+      this.pauseRenewalToken = useIntervalFn(() => {
+        this.refreshTokenFn()
+      }, 60 * 60 * 1.8 * 1000).pause
     }
   }
 })
-export default userStore

@@ -12,6 +12,4 @@ onHide(() => {
 </script>
 <style lang="scss">
 @import './static/iconfont/font.scss';
-@import '@akaiito/stylesheets/src/common/variable.scss';
-@import '@akaiito/stylesheets/src/common/layout.scss';
 </style>

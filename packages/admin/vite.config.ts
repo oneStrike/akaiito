@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
-import { createVitePlugins } from './vite/plugins'
-import { viteResolve } from './vite/resolve'
-import { viteServer } from './vite/server'
-import { viteBuild } from './vite/build'
+import { createVitePlugins } from './src/vite/plugins'
+import { viteResolve } from './src/vite/resolve'
+import { viteServer } from './src/vite/server'
+import { viteBuild } from './src/vite/build'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './',
@@ -14,6 +14,6 @@ export default defineConfig({
   },
   build: viteBuild,
   optimizeDeps: {
-    include: ['element-plus']
+    include: ['naive-ui']
   }
 })

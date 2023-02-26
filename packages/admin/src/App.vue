@@ -1,13 +1,17 @@
-<template>
-  <div class="app">
-    <el-config-provider :locale="zhCn">
-      <router-view></router-view>
-    </el-config-provider>
-  </div>
-</template>
-
 <script setup lang="ts">
-import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+import { darkTheme, zhCN, dateZhCN } from 'naive-ui'
+
+import { layoutStore } from '@/stores'
+const useLayoutStore = layoutStore()
 </script>
 
-<style scoped lang="scss"></style>
+<template>
+  <n-config-provider
+    :locale="zhCN"
+    :date-locale="dateZhCN"
+    :theme="useLayoutStore.theme === 'light' ? null : darkTheme"
+    inline-theme-disabled
+  >
+    <router-view></router-view>
+  </n-config-provider>
+</template>

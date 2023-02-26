@@ -2,24 +2,26 @@ import config from '@/config'
 import 'vue-router'
 import 'vue'
 import dayjs from 'dayjs'
-import type { Directive } from 'vue'
-import debounce from '@/directives/debounce'
-import type { IBinding } from '@/directives/debounce'
 import type { TIconName } from '~@/svgicon'
-import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
+import type { LoadingBarInst } from 'naive-ui/es/loading-bar/src/LoadingBarProvider'
+import type { DialogApiInjection } from 'naive-ui/es/dialog/src/DialogProvider'
+import type { NotificationApiInjection } from 'naive-ui/es/notification/src/NotificationProvider'
 
 export {}
 declare module 'vue-router' {
   interface RouteMeta {
     hideParent?: boolean
     hideAllMenu?: boolean
-    hideMenuHideMenu?: boolean
+    hideMenu?: boolean
     title?: string
     icon?: TIconName
     roles?: string[]
     cache?: boolean
     sort?: number
     url?: string
+  }
+  interface _RouteRecordBase {
+    label?: string
   }
 }
 
@@ -28,13 +30,14 @@ declare module 'vue' {
     $FILE_PATH: config.FILE_PATH
     $BASE_URL: config.BASE_URL
     $dayjs: typeof dayjs
-    vDebounce: Directive<typeof debounce, IBinding['value']>
   }
 }
 
-declare module '@element-plus' {
-  interface UploadUserFile {
-    response?: { data: CommonUploadRes }
-  }
+declare interface Window {
+  $message: LoadingBarInst
+  $dialog: DialogApiInjection
+  $loadingBar: LoadingBarInst
+  $notification: NotificationApiInjection
 }
+
 declare module 'vuedraggable'

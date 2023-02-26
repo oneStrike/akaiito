@@ -14,8 +14,8 @@ import type {
   AdminGetMaterialRes,
   AdminUpdateMaterialGroupReq,
   AdminUpdateMaterialGroupRes
-} from '~@/../../../typings/src/admin/apiTypes/materialLibrary'
-const context = config.REQUEST_PREFIX + '/materialLibrary'
+} from '~@/apiTypes/materialLibrary'
+const context = '/materialLibrary'
 
 const api = {
   getMaterialGroup: `${context}/getMaterialGroup`,
