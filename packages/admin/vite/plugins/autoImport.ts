@@ -1,4 +1,4 @@
-import { ArcoResolver } from 'unplugin-vue-components/resolvers'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 export const autoImport = () => {
   return AutoImport({
@@ -21,9 +21,9 @@ export const autoImport = () => {
       filepath: './.eslintrc-auto-import.json',
       globalsPropValue: 'readonly'
     },
-    resolvers: [ArcoResolver()],
+    resolvers: [ElementPlusResolver()],
     dts: './src/typings/auto-import.d.ts',
-    dirs: ['src/components'],
+    dirs: ['src/hooks', 'src/enum'],
     vueTemplate: true
   })
 }

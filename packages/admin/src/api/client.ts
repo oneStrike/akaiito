@@ -1,14 +1,13 @@
 import kRequest from '@/api/index'
-import config from '@/config'
-import type { AdminGetClientPageRes } from '~@/../../../typings/src/admin/apiTypes/clientManage'
-const context = config.REQUEST_PREFIX + '/clientManage'
+import type { AdminGetClientPageRes } from '~@/apiTypes/clientManage'
+const context = '/clientManage'
 
 const api = {
-  getClientPage: `${context}/getClientPage`
+	getClientPage: `${context}/getClientPage`
 }
 
 export function clientPageApi(): Promise<AdminGetClientPageRes> {
-  return kRequest.get({
-    url: api.getClientPage
-  })
+	return kRequest.get({
+		url: api.getClientPage
+	})
 }

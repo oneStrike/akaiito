@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import type { Plugin } from 'vue'
 import config from '@/config'
-import { useLayoutStore } from '@/stores'
 
 export const bootstrap: Plugin = {
   install: (app) => {
@@ -12,8 +12,8 @@ export const bootstrap: Plugin = {
         config[iterator as unknown as keyof typeof config]
     }
 
-    document.addEventListener('fullscreenchange', () => {
-      useLayoutStore().fullScreen = document.fullscreenElement !== null
-    })
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      app.component(key, component)
+    }
   }
 }

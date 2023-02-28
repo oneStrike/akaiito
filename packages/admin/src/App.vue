@@ -1,20 +1,13 @@
 <template>
-  <div class="app">
-    <a-spin v-bind="useLoadingStore().config">
-      <a-config-provider :locale="zhCN">
-        <router-view></router-view>
-      </a-config-provider>
-    </a-spin>
-  </div>
+	<div class="app">
+		<el-config-provider :locale="zhCn">
+			<router-view></router-view>
+		</el-config-provider>
+	</div>
 </template>
 
 <script setup lang="ts">
-import { useLoadingStore } from '@/stores'
-import zhCN from 'ant-design-vue/es/locale/zh_CN'
-import dayjs from 'dayjs'
-import 'dayjs/locale/zh-cn'
-import { ConfigProvider } from 'ant-design-vue'
-dayjs.locale('zh-cn')
+import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="scss"></style>

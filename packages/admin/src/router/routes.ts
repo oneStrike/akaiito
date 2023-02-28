@@ -1,30 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router'
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    name: 'admin',
-    component: () => import('@/layouts/main.vue'),
-    meta: { title: '工作台', icon: 'support', hideParent: true },
-    redirect: '/dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        name: 'dashboard',
-        component: () => import('@/views/Dashboard/DashboardPage.vue'),
-        meta: { roles: [], title: '工作台', icon: 'support' }
-      }
-    ]
-  },
-  {
     path: '/login',
-    component: () => import('@/views/Login/LoginPage.vue'),
-    meta: { roles: [], title: '登录', hideAllMenu: true }
-  },
-  {
-    path: '/:pathMatch(.*)*',
-    name: 'notFound',
-    component: () => import('@/views/Exception/404Page.vue'),
-    meta: { title: '404', hideAllMenu: true }
+    component: () => import('@/views/login/LoginPage.vue'),
+    meta: { roles: [], title: '登录', hide: true }
   }
 ]
 

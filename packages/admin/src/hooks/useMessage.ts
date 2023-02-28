@@ -1,13 +1,8 @@
-import { message } from 'ant-design-vue'
-import type { NoticeType } from 'ant-design-vue/es/message'
-
-const showMessage = (type: NoticeType, text: string) => {
-  message[type](text)
-}
+import { ElMessage, type ElMessageBoxOptions } from 'element-plus'
 
 export const useMessage = {
-  info: (text: string) => showMessage('info', text),
-  success: (text: string) => showMessage('success', text),
-  warning: (text: string) => showMessage('warning', text),
-  error: (text: string) => showMessage('error', text)
+  success: (config: ElMessageBoxOptions | string) => ElMessage.success(config),
+  error: (config: ElMessageBoxOptions | string) => ElMessage.error(config),
+  warning: (config: ElMessageBoxOptions | string) => ElMessage.warning(config),
+  info: (config: ElMessageBoxOptions | string) => ElMessage.info(config)
 }

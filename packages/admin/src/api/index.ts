@@ -1,60 +1,57 @@
 import config from '@/config'
 
-import router from '@/router'
-import { useAuth } from '@/hooks/useAuth'
-import { useMessage } from '@/hooks/useMessage'
-import { Hint } from '@/utils/hint'
-import { useUserStore } from '@/stores'
-import { WhiteListEnum } from '@/enum/whiteListEnum'
-import { Ajax } from '@/utils/ajax'
-import type { Interceptor } from '@/typings/utils/ajax'
+import { router } from '@/router'
+import { KAxios } from '@/utils/axios'
+import { userStore } from '@/stores'
+import type { Interceptor } from '@/typings/utils/axios'
+import type { InternalAxiosRequestConfig } from 'axios'
 
-const requestInterceptor: Interceptor['request'] = async (config) => {
-  const tokenStatus = useAuth.status('token')
-  const refreshTokenStatus = useAuth.status('refreshToken')
-  const whiteList = []
-  for (const key in WhiteListEnum) {
-    whiteList.push(WhiteListEnum[key as keyof typeof WhiteListEnum])
-  }
+const requestInterceptor: Interceptor['request'] = (config) => {
+  const useUserStore = userStore()
+  const tokenStatus = useUserStore.tokenStatus
   const requestUrl: any = config.url
-  if (requestUrl && !whiteList.includes(requestUrl)) {
-    if (!tokenStatus && !refreshTokenStatus) {
-      useMessage.error(Hint.LOGIN_ERR)
-      await router.replace('/login')
-      throw new Error(Hint.LOGIN_ERR)
+  if (!(requestUrl in WhiteListEnum)) {
+    config.tokenType = config.tokenType || 'token'
+    config.headers = {
+      ['Authorization']: useUserStore[config.tokenType]
     }
+  } else {
     if (!tokenStatus) {
-      await useUserStore().refreshToken()
+      router.replace({ name: 'login' })
+      useMessage.error('登录超时，请重新登录')
+      window.location.reload()
     }
   }
-
-  const headerToken =
-    requestUrl === WhiteListEnum.REFRESH_TOKEN
-      ? useAuth.get('refreshToken')
-      : useAuth.get('token')
-
-  if (!config.headers) config.headers = {}
-  config.headers['Authorization'] = headerToken
-  return config
+  return config as InternalAxiosRequestConfig
 }
 
-const kRequest = new Ajax({
+const responseInterceptor: Interceptor['response'] = (res) => {
+  if (res.data.code === 1) return res.data
+  if (res.data.code === 403) {
+    useMessage.error('登录失效，等重新登录')
+    router.replace({ name: 'login' })
+    return
+  }
+  throw new Error(res.data.desc)
+}
+
+const responseErrorInterceptor: Interceptor['responseError'] = (error) => {
+  useMessage.error(error.message)
+  throw new Error(error.message)
+}
+
+const kRequest = new KAxios({
   baseURL: config.BASE_URL,
   timeout: config.TIMEOUT,
-  showLoading: false,
+  urlPrefix: config.REQUEST_PREFIX,
   withCredentials: true,
   headers: {
     ['Content-Type']: 'application/json'
   },
   interceptor: {
-    request: requestInterceptor
-  },
-  parseResponse: ({ data }) => {
-    return {
-      error: data.code !== 1,
-      desc: data.code !== 1 ? data.desc : '',
-      data: data.data
-    }
+    request: requestInterceptor,
+    response: responseInterceptor,
+    responseError: responseErrorInterceptor
   }
 })
 
