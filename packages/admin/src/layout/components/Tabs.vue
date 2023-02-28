@@ -8,7 +8,8 @@ import type {
   RouteRecordName,
   RouteRecordRaw
 } from 'vue-router'
-import { useSvgIconFn } from '@/hook/useVNode'
+import { useSvgIconFn } from '@/hook/useTsx'
+import config from '@/config'
 
 interface HistoryRouter {
   name: RouteRecordName
@@ -103,7 +104,7 @@ const reload = useDebounceFn(() => {
   timer = window.setTimeout(() => {
     reloadFlag.value = false
   }, 1000)
-}, 200)
+}, config.DEBOUNCE)
 
 const dropdownOptions = ref<DropdownOption[]>()
 const serializeDropdownOptions = () => {

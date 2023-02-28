@@ -6,14 +6,14 @@ import type {
 
 export const useListData: UseListData = (options) => {
   const api = options.api
-  const defaultListParams = Object.assign(
+  const defaultListParams: ListParamsData = Object.assign(
     {
       pageIndex: 0,
       pageSize: 15,
       sort: '',
       sortField: ''
     },
-    JSON.parse(JSON.stringify(unref(options.params))) as ListParamsData
+    options.params ? JSON.parse(JSON.stringify(unref(options.params))) : {}
   )
 
   const listParams = useCloned(defaultListParams).cloned
@@ -28,14 +28,18 @@ export const useListData: UseListData = (options) => {
     let pageIndex = listParams.value.pageIndex || 0
     const res = await api({
       ...listParams.value,
-      pageIndex: pageIndex++
+      pageIndex: pageIndex++,
+      ...useFormatDate(listParams.value.createdAt)
     })
     listData.value = res.list
     total.value = res.total
     loading.value = false
   }
 
-  watch(listParams, runApi, { deep: true, immediate: true })
+  watch(listParams, runApi, {
+    deep: true,
+    immediate: true
+  })
 
   //重置
   const reset = async () => {
@@ -46,13 +50,15 @@ export const useListData: UseListData = (options) => {
   const sort: Sort = async (key, order) => {
     listParams.value.sortField = key
     let defaultSort = ''
-    if (key === defaultListParams.sortField)
-      defaultSort = defaultListParams.sort
+    if (key === defaultListParams.sortField) {
+      defaultSort = defaultListParams.sort ?? ''
+    }
     listParams.value.sort = order
       ? order === 'ascend'
         ? 'asc'
         : 'desc'
       : defaultSort
+
     listParams.value.pageIndex = 0
   }
 

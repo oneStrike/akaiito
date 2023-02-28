@@ -52,7 +52,9 @@ export class UserController extends BaseController {
 
   @Post('/switchUserStatus', { summary: '启用或禁用用户' })
   async switchUserStatus(@Body() params: ToggleStatusDto) {
-    return this.userService.updateMultiple(params)
+    return this.userService.updateMultiple(params, {
+      updateOnDuplicate: ['status']
+    })
   }
 
   @Post('/updatePassword', { summary: '修改密码' })

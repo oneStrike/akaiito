@@ -6,6 +6,7 @@ import { MakeNullishOptional } from 'sequelize/types/utils'
 import { Attributes, FindOptions, WhereOptions } from 'sequelize'
 import { BaseEntity } from '../entities/basic.entity'
 import { findMultipleQuery } from '../../types/service/base'
+import { BulkCreateOptions } from 'sequelize/types/model'
 
 @Provide()
 export abstract class BaseMapping<T extends BaseEntity = Model> {
@@ -90,8 +91,11 @@ export abstract class BaseMapping<T extends BaseEntity = Model> {
   /**
    * 批量插入数据
    */
-  async bulkCreate(params: MakeNullishOptional<T>[]): Promise<T[]> {
-    return await this.repository.bulkCreate(params)
+  async bulkCreate(
+    params: MakeNullishOptional<T>[],
+    options?: BulkCreateOptions<Attributes<T>>
+  ): Promise<T[]> {
+    return await this.repository.bulkCreate(params, options)
   }
 
   /**

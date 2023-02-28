@@ -4,12 +4,11 @@ import type { UploadInst, UploadProps, UploadFileInfo } from 'naive-ui'
 import config from '@/config'
 import { useMessage } from '@/hook/naviaDiscreteApi'
 import { userStore } from '@/stores'
-import { HintEnum } from '@/enum/hint'
 import dayjs from 'dayjs'
-import { ref } from 'vue'
+
 const useUserStore = userStore()
 export interface BasicUploadProps {
-  fileList?: string | CommonUploadRes
+  fileList?: CommonUploadRes[number][] | string
   fileClassify: 'shared' | 'material'
   accept?: 'image' | 'video'
   listType: UploadProps['listType']
@@ -27,11 +26,11 @@ const props = withDefaults(defineProps<BasicUploadProps>(), {
   size: 3,
   multiple: false,
   showFileList: true,
-  retainFileList: true
+  retainFileList: false
 })
 
 const emits = defineEmits<{
-  (event: 'update:modelValue', data: BasicUploadProps['fileList']): void
+  (event: 'update:fileList', data: BasicUploadProps['fileList']): void
   (event: 'success', data: BasicUploadProps['fileList']): void
 }>()
 
@@ -72,13 +71,13 @@ const transformFileList = (
 }
 let emitFileList: BasicUploadProps['fileList'] = []
 const innerFileList = ref<UploadFileInfo[]>([])
-watchDebounced(
+watch(
   () => props.fileList,
   (val) => {
     innerFileList.value = transformFileList(val)
     emitFileList = val || []
   },
-  { deep: true, immediate: true, maxWait: 200 }
+  { deep: true, immediate: true }
 )
 
 //限制文件的数量、大小、类型
@@ -130,7 +129,7 @@ const uploadFinish: UploadProps['onFinish'] = ({ event }) => {
   }
 
   emitFileList = emitFileList?.concat(response.data)
-  emits('update:modelValue', emitFileList)
+  emits('update:fileList', emitFileList)
   emits('success', emitFileList)
   useMessage.success(HintEnum.UPL_SUC)
 }
@@ -173,7 +172,7 @@ const showMaterial = () => {}
     ref="uploadRef"
     v-model:file-list="innerFileList"
     :action="config.UPLOAD_URL"
-    :headers="{ Authorization: useUserStore.token, response: 'json' }"
+    :headers="{ Authorization: useUserStore.token }"
     :data="{ fileClassify }"
     :accept="innerAccept"
     :multiple="multiple"
@@ -181,6 +180,7 @@ const showMaterial = () => {}
     :disabled="disabled"
     :show-file-list="showFileList"
     :is-error-state="isErrorState"
+    :max="max"
     @before-upload="beforeUpload"
     @error="uploadError"
     @finish="uploadFinish"
@@ -194,7 +194,12 @@ const showMaterial = () => {}
           @negative-click="uploadRef.openOpenFileDialog()"
         >
           <template #trigger>
-            <svg-icon v-if="listType === 'image-card'" icon-name="uploading" />
+            <div
+              class="w_100 h_100 flex_center"
+              v-if="listType === 'image-card'"
+            >
+              <svg-icon icon-name="uploading" />
+            </div>
             <n-button v-else>上传文件</n-button>
           </template>
           上传方式

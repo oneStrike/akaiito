@@ -242,3 +242,7 @@
 .border_bottom {
   border-bottom: solid 1px var(--n-border-color);
 }
+
+.over_scroll_y {
+  overflow-x: hidden;
+}

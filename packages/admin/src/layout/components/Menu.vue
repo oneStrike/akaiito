@@ -3,7 +3,7 @@ import type { RouteMeta, RouteRecordRaw } from 'vue-router'
 import type { MenuInst } from 'naive-ui'
 import routes from '@/router/routes'
 import { layoutStore, userStore } from '@/stores'
-import { useSvgIcon } from '@/hook/useVNode'
+import { useSvgIcon } from '@/hook/useTsx'
 
 const router = useRouter()
 const useUserStore = userStore()

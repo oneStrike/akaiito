@@ -13,7 +13,7 @@ import { Op, WhereOptions } from 'sequelize'
 import { ConfigService } from '../../service/config.service'
 import { BaseMapping } from '../mapping/base.mapping'
 import { Model } from 'sequelize-typescript'
-import { FindAttributeOptions } from 'sequelize/types/model'
+import { BulkCreateOptions, FindAttributeOptions } from 'sequelize/types/model'
 
 export abstract class BaseService {
   //列表查询初始参数
@@ -90,7 +90,8 @@ export abstract class BaseService {
 
   //批量更新
   async updateMultiple<T extends { ids: number[] }>(
-    params: T
+    params: T,
+    options?: BulkCreateOptions<T>
   ): Promise<number[]> {
     const ids = this.utils.lodash.cloneDeep(params.ids)
     delete params.ids
@@ -101,7 +102,7 @@ export abstract class BaseService {
         ...params
       })
     })
-    await this.mapping.bulkCreate(updateData)
+    await this.mapping.bulkCreate(updateData, options)
     return params.ids
   }
 

@@ -73,12 +73,10 @@
 
 <script lang="ts" setup>
 import { getCaptchaAPI } from '@/api/common'
-import { HintEnum } from '@/enum/hint'
 import { userStore } from '@/stores'
-import { useDebounceFn } from '@vueuse/core'
 import type { FormInst, FormRules } from 'naive-ui'
-import { useValidate } from '@/hook/useValidate'
 import { useMessage } from '@/hook/naviaDiscreteApi'
+import config from '@/config'
 
 const router = useRouter()
 const useUserStore = userStore()
@@ -101,7 +99,7 @@ const rules = reactive<FormRules>({
 const captchaSrc = ref('')
 const getCaptcha = useDebounceFn(async function () {
   captchaSrc.value = (await getCaptchaAPI()).data
-})
+},config.DEBOUNCE)
 getCaptcha()
 
 const login = useDebounceFn(() => {
@@ -119,7 +117,7 @@ const login = useDebounceFn(() => {
       btnLoading.value = false
     }
   })
-})
+},config.DEBOUNCE)
 
 const showMessage = (message: string) => {
   useMessage.success(message)

@@ -42,10 +42,25 @@ export interface SelectOptions {
 }
 
 export interface BasicFormOptions {
-  bind: FormItemProps
+  bind: FormItemProps & { width?: number }
   component: BasicFormComponent
   componentProps: {
     bind: BasicFormComponentPropsBind
     options?: SelectOptions[]
   }
+}
+
+export type BasicFormValidateRes = {
+  values: any
+  errors:
+    | null
+    | {
+        message?: string
+        fieldValue?: any
+        field?: string
+      }[][]
+}
+export interface BasicFormInst {
+  validate: () => Promise<BasicFormValidateRes>
+  reset: () => void
 }

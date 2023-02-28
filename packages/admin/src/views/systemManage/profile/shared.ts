@@ -95,7 +95,7 @@ export const pwdForm: BasicFormOptions[] = [
     },
     componentProps: {
       bind: {
-        placeholder: '请输入原密码',
+        placeholder: '请输入新密码',
         type: 'password'
       }
     }
@@ -110,7 +110,7 @@ export const pwdForm: BasicFormOptions[] = [
     },
     componentProps: {
       bind: {
-        placeholder: '请输入原密码',
+        placeholder: '请输入确认密码',
         type: 'password'
       }
     }

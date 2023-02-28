@@ -14,10 +14,12 @@ export interface UseListDataParams {
 }
 
 export type RunApi = () => Promise<void>
+
 export type Sort = (
   key: string,
   order: 'ascend' | 'descend' | false
 ) => Promise<void>
+
 export type UseListData = (options: UseListDataParams) => {
   runApi: RunApi
   reset: () => Promise<void>
