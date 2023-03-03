@@ -1,6 +1,6 @@
 import { usePageStore, useUserStore } from '@/stores'
 import { RouterJumpMethodEnum } from '@/enum/router'
-import parseQuery from '@akaiito/utils/src/parseQuery'
+import { parseQuery } from '@akaiito/utils/src/parseQuery'
 import { useModal } from '@/hooks/useModal'
 export interface IRouter {
   path: string

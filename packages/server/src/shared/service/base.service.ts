@@ -8,19 +8,19 @@ import {
 } from '@midwayjs/core'
 import { Application, Context } from '@midwayjs/koa'
 import Util from '../../utils'
-import type { IListQueryParam } from '../../types/dto/list'
+import type { ListQueryOptions } from '../../types/dto/list'
 import { Op, WhereOptions } from 'sequelize'
 import { ConfigService } from '../../service/config.service'
 import { BaseMapping } from '../mapping/base.mapping'
 import { Model } from 'sequelize-typescript'
-import { BulkCreateOptions, FindAttributeOptions } from 'sequelize/types/model'
+import type { FindMultipleServiceOptions } from '../../types/service/base'
 
 export abstract class BaseService {
   //列表查询初始参数
   pageIndex = 0 //默认页偏移量
   pageSize = 15 //默认页大小
   maxPageSize = 500 //默认最大页大小
-  sort: IListQueryParam['sort'] = '' //默认排序方式
+  sort: ListQueryOptions['sort'] = '' //默认排序方式
 
   @App()
   protected app: Application
@@ -65,14 +65,16 @@ export abstract class BaseService {
   }
 
   //查找多个
-  async findMultiple(
-    params: IListQueryParam & { attributes?: FindAttributeOptions }
-  ) {
-    const { where, listParams } = this.getWhere(params)
-    return await this.mapping.findMultiple(
-      { where, attributes: params.attributes },
-      listParams
-    )
+  async findMultiple(options: FindMultipleServiceOptions) {
+    let { params, attributes, likeKeys } = options
+    if (likeKeys) {
+      params = this.generateLikeSql(likeKeys, params)
+    }
+    const { where, listOptions } = this.getWhere(params)
+    return await this.mapping.findMultiple({
+      where: { where, attributes },
+      listOptions
+    })
   }
 
   /**
@@ -83,27 +85,21 @@ export abstract class BaseService {
   }
 
   //更新
-  async update<T extends { id: number }>(params: T): Promise<number> {
-    await this.mapping.updateOne(params, { id: params.id })
-    return params.id
+  async update<T>(
+    params: T,
+    id: number | number[]
+  ): Promise<number | number[]> {
+    await this.mapping.updateOne(params, { id })
+    return id
   }
 
   //批量更新
   async updateMultiple<T extends { ids: number[] }>(
-    params: T,
-    options?: BulkCreateOptions<T>
-  ): Promise<number[]> {
+    params: Partial<T>
+  ): Promise<number | number[]> {
     const ids = this.utils.lodash.cloneDeep(params.ids)
     delete params.ids
-    const updateData = []
-    ids.forEach((item) => {
-      updateData.push({
-        id: item,
-        ...params
-      })
-    })
-    await this.mapping.bulkCreate(updateData, options)
-    return params.ids
+    return await this.update(this.utils.lodash.omit(params, 'ids'), ids)
   }
 
   //删除
@@ -158,24 +154,25 @@ export abstract class BaseService {
    * 生成where查询接口
    * @param where
    */
-  getWhere(where: object) {
-    const listParamsKeys = ['pageSize', 'pageIndex', 'sort', 'sortField']
+  getWhere(where: Record<string, any>) {
+    const listOptionsKeys = ['pageSize', 'pageIndex', 'sort', 'sortField']
     //过滤空值
     const trueWhere = this.utils.lodash.pickBy(
       where,
       (val) => !this.utils.lodash.isNil(val)
     )
     //生成列表查询参数
-    const listParams = this.formatListQueryParams(where)
+    const listOptions = this.formatListQueryParams(where)
     //过滤掉列表查询参数
     const prueWhere = this.utils.lodash.omit(trueWhere, [
-      ...listParamsKeys,
+      ...listOptionsKeys,
       'attributes'
     ])
 
+    //生成时间查询参数
     return {
       where: this.handleDate(prueWhere),
-      listParams
+      listOptions
     }
   }
 
@@ -226,5 +223,24 @@ export abstract class BaseService {
       })
     }
     return { [Op.or]: whereStatement }
+  }
+
+  /**
+   * 生成like查询参数
+   * @param likeKeys
+   * @param params
+   */
+  generateLikeSql(likeKeys: string[], params: Record<string, any>) {
+    const likeObj = this.utils.lodash.pick(params, likeKeys)
+    const likeRes = {}
+    this.utils.lodash.forOwn(likeObj, (value: string, key) => {
+      likeRes[key] = {
+        [Op.regexp]: `[${value.replaceAll(',', '|')}]`
+      }
+    })
+    return {
+      ...this.utils.lodash.omit(params, likeKeys),
+      ...likeRes
+    }
   }
 }

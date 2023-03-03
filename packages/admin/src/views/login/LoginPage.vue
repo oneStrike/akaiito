@@ -91,15 +91,17 @@ const loginForm = reactive({
 })
 //表单验证规则
 const rules = reactive<FormRules>({
-  account: useValidate.required('用户名'),
+  account: useValidate.required({
+    message: '用户名'
+  }),
   password: useValidate.password,
-  captcha: useValidate.required('验证码')
+  captcha: useValidate.required({ message: '验证码' })
 })
 // //获取验证码
 const captchaSrc = ref('')
 const getCaptcha = useDebounceFn(async function () {
   captchaSrc.value = (await getCaptchaAPI()).data
-},config.DEBOUNCE)
+}, config.DEBOUNCE)
 getCaptcha()
 
 const login = useDebounceFn(() => {
@@ -117,7 +119,7 @@ const login = useDebounceFn(() => {
       btnLoading.value = false
     }
   })
-},config.DEBOUNCE)
+}, config.DEBOUNCE)
 
 const showMessage = (message: string) => {
   useMessage.success(message)

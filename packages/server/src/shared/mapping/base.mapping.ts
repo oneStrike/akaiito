@@ -1,11 +1,11 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { Model, Repository } from 'sequelize-typescript'
-import { IListQueryParam, IListResponseRes } from '../../types/dto/list'
+import { ListResponseRes } from '../../types/dto/list'
 import Utils from '../../utils'
 import { MakeNullishOptional } from 'sequelize/types/utils'
 import { Attributes, FindOptions, WhereOptions } from 'sequelize'
 import { BaseEntity } from '../entities/basic.entity'
-import { findMultipleQuery } from '../../types/service/base'
+import { FindMultipleMappingOptions } from '../../types/service/base'
 import { BulkCreateOptions } from 'sequelize/types/model'
 
 @Provide()
@@ -43,23 +43,23 @@ export abstract class BaseMapping<T extends BaseEntity = Model> {
    * @param options 附属查询条件
    */
   async findMultiple(
-    queryParams: findMultipleQuery,
-    options: IListQueryParam = {}
-  ): Promise<IListResponseRes<T>> {
+    options: FindMultipleMappingOptions
+  ): Promise<ListResponseRes<T>> {
+    const { where, listOptions, withDeleted } = options
     let order
-    if (options.sortField) {
-      const { sort, sortField } = options
+    if (listOptions.sortField) {
+      const { sort, sortField } = listOptions
       order = [sortField, sort]
     }
 
-    delete options.sort
-    delete options.sortField
+    delete listOptions.sort
+    delete listOptions.sortField
     const listData = await this.repository.findAndCountAll({
-      ...queryParams,
-      paranoid: !queryParams.withDeleted,
+      ...where,
+      paranoid: !withDeleted,
       order: order ? [order] : [],
-      offset: options.pageIndex * options.pageSize,
-      limit: options.pageSize,
+      offset: listOptions.pageIndex * listOptions.pageSize,
+      limit: listOptions.pageSize,
       raw: true
     })
 

@@ -8,7 +8,9 @@ export const infoForm: BasicFormOptions[] = [
       path: 'username',
       label: '用户名',
       required: true,
-      rule: useValidate.required('用户名')
+      rule: useValidate.required({
+        message: '用户名'
+      })
     },
     componentProps: {
       bind: {
@@ -49,7 +51,7 @@ export const infoForm: BasicFormOptions[] = [
     bind: {
       path: 'isRoot',
       label: '角色',
-      required: true
+      rule: useValidate.required({ message: '角色', type: 'number' })
     },
     componentProps: {
       bind: {

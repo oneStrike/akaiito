@@ -15,6 +15,6 @@ export class PageController extends BaseController {
 
   @Post('/updateClientPage', { summary: '修改客户端页面信息' })
   async modifyClientPage(@Body() body: updatePageDto) {
-    return await this.pageService.update(body)
+    return await this.pageService.update(body, body.id)
   }
 }

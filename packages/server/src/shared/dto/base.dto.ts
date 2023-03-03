@@ -33,4 +33,13 @@ export class ListDto {
 
   @Rule(validateString)
   sortField?: string
+
+  @Rule(validateString)
+  name?: string
+
+  @Rule(validateNumber)
+  status?: number
+
+  @Rule(validateString)
+  platform?: string
 }

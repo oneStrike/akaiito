@@ -1,11 +1,8 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*.ts","src/**/*.tsx", "src/**/*.vue"],
+  "include": ["env.d.ts", "src/**/*.*"],
   "compilerOptions": {
     "baseUrl": ".",
-		"jsx": "preserve",
-		"jsxFactory": "h",
-		"jsxFragmentFactory": "Fragment",
     "paths": {
       "@/*": ["./src/*"],
       "~@/*": ["node_modules/@akaiito/typings/src/admin/*"]

@@ -13,7 +13,7 @@ export class PrivacyEntity extends BaseEntity {
   name: string
 
   @Column({
-    type: DataType.TEXT,
+    type: DataType.TEXT('medium'),
     allowNull: false,
     comment: '协议内容'
   })

@@ -15,7 +15,7 @@ interface BasicTableProps {
   requestApi: (params: any) => Promise<any>
   listParams?: ListParamsData
   columns: BasicTableColumn[]
-  filterOptions: BasicFormOptions[]
+  filterOptions?: BasicFormOptions[]
   size?: DataTableProps['size']
   align?: BasicTableColumn['align']
   showIndex?: boolean
@@ -116,6 +116,7 @@ defineExpose({ reset })
 <template>
   <div id="basic_table">
     <basic-search
+      v-if="filterOptions"
       :model-value="params"
       :options="filterOptions"
       @update:model-value="updateFilters"

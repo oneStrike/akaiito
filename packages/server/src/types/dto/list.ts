@@ -28,7 +28,7 @@ export interface IDtoErrorDetails {
 /**
  * 列表通用查询数据
  */
-export interface IListQueryParam {
+export interface ListQueryOptions {
   pageIndex?: number
   pageSize?: number
   sort?: 'asc' | 'desc' | ''
@@ -38,7 +38,7 @@ export interface IListQueryParam {
 /**
  * 通过列表返回数据
  */
-export interface IListResponseRes<T> extends IListQueryParam {
+export interface ListResponseRes<T> extends ListQueryOptions {
   list: T[]
   count: number
   total: number

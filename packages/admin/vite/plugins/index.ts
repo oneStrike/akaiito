@@ -7,10 +7,7 @@ import { compression } from './compression'
 import { icons } from './icons'
 
 export function createVitePlugins() {
-  const vitePlugins: (Plugin | Plugin[])[] = [
-    vue(),
-    vueJsx({ isCustomElement: (tag: string) => true })
-  ]
+  const vitePlugins: (Plugin | Plugin[])[] = [vue(), vueJsx()]
   //自动导入
   vitePlugins.push(autoImport())
   //自动注册组件

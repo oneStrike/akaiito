@@ -1,5 +1,9 @@
-import parseQuery from './parseQuery'
+import { parseQuery } from './parseQuery'
+import { isJson } from './isJson'
+import { validate } from './regexp'
 
 export const utils = {
-  parseQuery
+  parseQuery,
+  isJson,
+  validate
 }

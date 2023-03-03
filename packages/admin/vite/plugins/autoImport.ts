@@ -9,7 +9,8 @@ export const autoImport = () => {
       '@vueuse/core',
       {
         axios: [['default', 'axios']],
-        'naive-ui': []
+        'naive-ui': [],
+        '@vueuse/core': [['useImage', 'useVueUseImage']]
       }
     ],
     eslintrc: {
@@ -18,7 +19,7 @@ export const autoImport = () => {
       globalsPropValue: 'readonly'
     },
     dts: './src/typings/auto-import.d.ts',
-    dirs: ['src/components', 'src/enum', 'src/hook'],
+    dirs: ['src/enum', 'src/hook'],
     vueTemplate: true
   })
 }

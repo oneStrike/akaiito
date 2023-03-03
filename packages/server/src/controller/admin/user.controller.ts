@@ -46,15 +46,13 @@ export class UserController extends BaseController {
 
   @Get('/userList', { summary: '获取用户列表' })
   @Serialize('list')
-  async getUserList(@Query() param: getUserListDto) {
-    return await this.userService.findMultiple(param)
+  async getUserList(@Query() params: getUserListDto) {
+    return await this.userService.findMultiple({ params })
   }
 
   @Post('/switchUserStatus', { summary: '启用或禁用用户' })
   async switchUserStatus(@Body() params: ToggleStatusDto) {
-    return this.userService.updateMultiple(params, {
-      updateOnDuplicate: ['status']
-    })
+    return this.userService.update(params, params.ids)
   }
 
   @Post('/updatePassword', { summary: '修改密码' })

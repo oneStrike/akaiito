@@ -49,7 +49,6 @@ export class AdminUserEntity extends BaseEntity {
     type: DataType.TINYINT,
     comment: '1超管0普通',
     defaultValue: 0,
-    allowNull: true
   })
   isRoot: number
 
@@ -57,7 +56,6 @@ export class AdminUserEntity extends BaseEntity {
     type: DataType.TINYINT,
     defaultValue: 1,
     comment: ' 1启用  0禁用',
-    allowNull: true
   })
   status: number
 }

@@ -72,6 +72,6 @@ export class LogService extends BaseService {
 
   async findLoginLog(params: LoginLogDto) {
     params.path = '/admin/user/login'
-    return await this.findMultiple(params)
+    return await this.findMultiple({params})
   }
 }

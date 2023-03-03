@@ -1,9 +1,15 @@
 import { WhereOptions } from 'sequelize'
 import { FindAttributeOptions } from 'sequelize/types/model'
-import { IListQueryParam } from '../dto/list'
+import { ListQueryOptions } from '../dto/list'
 
-export interface findMultipleQuery extends IListQueryParam {
+export interface FindMultipleMappingOptions {
   where: WhereOptions
-  attributes?: FindAttributeOptions
+  listOptions?: ListQueryOptions
   withDeleted?: boolean
+}
+
+export interface FindMultipleServiceOptions {
+  params: ListQueryOptions & Record<string | symbol, any>
+  attributes?: FindAttributeOptions
+  likeKeys?: string[]
 }

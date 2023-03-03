@@ -16,7 +16,7 @@ export class MaterialController extends BaseController {
 
   @Get('/getMaterialGroup', { summary: '获取素材库分组' })
   async getMaterialLibrary() {
-    return this.materialService.findMultiple({ pageSize: 99 })
+    return this.materialService.findMultiple({ params: { pageSize: 99 } })
   }
 
   @Post('/createMaterialGroup', { summary: '创建素材库分组' })
@@ -31,7 +31,7 @@ export class MaterialController extends BaseController {
 
   @Post('/updateMaterialGroup', { summary: '修改素材库分组' })
   async modify(@Body() body: MaterialLibraryDto) {
-    return this.materialService.update(body)
+    return this.materialService.update(body, body.id)
   }
 
   @Get('/getMaterial', { summary: '获取素材' })

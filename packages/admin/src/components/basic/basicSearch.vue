@@ -18,25 +18,25 @@ const innerOptions = computed(() => {
     return item
   })
 })
-console.log('🚀 ~ file:basicSearch method: line:21 -----', innerOptions)
 const emits = defineEmits<{
   (event: 'update:modelValue', data: any): void
 }>()
 
-const formData = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
+const formData = ref(props.modelValue)
+watch(
+  formData,
+  (val) => {
+		console.log('🚀 ~ file:basicSearch method: line:29 -----', val)
     if (JSON.stringify(val) !== JSON.stringify(props.modelValue)) {
       emits('update:modelValue', val)
     }
-  }
-})
+  },
+  { immediate: true, deep: true }
+)
 </script>
 
 <template>
-  <n-space justify="space-between" size="small" id="basic_search">
+  <div id="basic_search" class="flex main_between">
     <slot name="left">
       <div></div>
     </slot>
@@ -52,7 +52,7 @@ const formData = computed({
         ></basic-form>
       </div>
     </slot>
-  </n-space>
+  </div>
 </template>
 
 <style scoped lang="scss">

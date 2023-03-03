@@ -48,14 +48,7 @@ watch(
 )
 
 const throttledFn = useThrottleFn((val) => emits('update:modelValue', val), 100)
-watch(
-  formData,
-  (val) => () => {
-    console.log('🚀 ~ file:BasicForm method: line:54 -----', val)
-    throttledFn(val)
-  },
-  { deep: true, immediate: true }
-)
+watch(formData, throttledFn, { deep: true })
 
 //提交表单
 const submit = useDebounceFn(() => {
@@ -77,7 +70,6 @@ const reset = () => {
 //抛出的校验方法
 const exposeValidate: BasicFormInst['validate'] = () => {
   return new Promise((resolve) => {
-    console.log('🚀 ~ file:BasicForm method: line:80 -----', formData.value)
     formRef.value?.validate((errors) => {
       resolve({
         errors: errors || null,
@@ -129,7 +121,7 @@ defineExpose({
         <n-radio
           v-for="radio in item.componentProps.options"
           :key="radio.value"
-          :value="radio.value.toString()"
+          :value="radio.value"
           :disabled="radio.disabled"
         >
           {{ radio.label }}

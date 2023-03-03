@@ -2,22 +2,13 @@ import SvgIcon from '@/components/svgIcon/SvgIcon.vue'
 // @ts-ignore
 import type { SvgIconProps } from '@/components/svgIcon/SvgIcon.vue'
 import type {
+  AvatarProps,
   ButtonProps,
-  DropdownProps,
-  PopconfirmProps,
-  SpaceProps,
+  ImageProps,
   SwitchProps,
   TagProps
 } from 'naive-ui'
-import {
-  NButton,
-  NTag,
-  NDatePicker,
-  NSwitch,
-  NDropdown,
-  NPopconfirm,
-  NSpace
-} from 'naive-ui'
+import { NButton, NTag, NSwitch, NPopconfirm, NImage, NAvatar } from 'naive-ui'
 import config from '@/config'
 import type { FunctionArgs } from '@vueuse/core'
 import type { UsePopConfirm } from '@/typings/hook/useTsx'
@@ -50,6 +41,21 @@ export const useSwitch = (props: SwitchProps) => {
     config.DEBOUNCE
   )
   return <NSwitch {...props}></NSwitch>
+}
+
+//图片
+export const useImage = (props: ImageProps) => {
+  props.height = props.height ?? 40
+  props.width = props.width ?? 40
+  props.objectFit = props.objectFit ?? 'cover'
+  return <NImage {...props}></NImage>
+}
+//头像
+export const useAvatar = (props: AvatarProps) => {
+  props.size = props.size ?? 40
+  props.objectFit = props.objectFit ?? 'cover'
+  props.round = props.round ?? true
+  return <NAvatar {...props}></NAvatar>
 }
 
 //确认弹出框

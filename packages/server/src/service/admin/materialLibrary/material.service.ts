@@ -29,7 +29,7 @@ export class MaterialService extends BaseService {
   }
 
   async materialFindMultiple(params: FindMaterialDto) {
-    const { where, listParams } = this.getWhere(params)
+    const { where, listOptions } = this.getWhere(params)
     const materialName = where.materialName
     if (materialName) {
       where.materialName = {
@@ -37,7 +37,7 @@ export class MaterialService extends BaseService {
       }
     }
 
-    return this.materialMapping.findMultiple(where, listParams)
+    return this.materialMapping.findMultiple({ where, listOptions })
   }
 
   async materialBulkCreate(params: CreateMaterialDto) {

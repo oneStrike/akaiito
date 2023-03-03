@@ -2,7 +2,7 @@
  * 解析url参数
  * @param str url
  */
-export default (str: string) => {
+export const parseQuery = (str: string) => {
   const query = str.split('?')
   if (query.length === 1) return ''
   let queryStr = ''

@@ -1,31 +1,30 @@
 <script setup lang="ts">
 import {
-  userListApi,
-  statusSwitchApi,
+  createUserApi,
   deleteUserApi,
+  statusSwitchApi,
   updateUserInfoApi,
-  createUserApi
+  userListApi
 } from '@/api/user'
 import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import type {
   BasicTableColumn,
   BasicTableInst
 } from '@/typings/components/basic/basicTable'
-import type {
-  AdminCreateUserReq,
-  AdminUserInfoRes,
-  AdminUpdateUserInfoReq
-} from '~@/apiTypes/user'
+import type { AdminUserInfoRes } from '~@/apiTypes/user'
 import { useMessage } from '@/hook/naviaDiscreteApi'
 import BasicTable from '@/components/basic/BasicTable.vue'
 import { userStore } from '@/stores'
 import type { JoinLoading } from '@/typings/shared'
+import config from '@/config'
+import { useAvatar } from '@/hook/useTsx'
+import { HintEnum } from '@/enum/hint'
 
 const basicTable = ref<BasicTableInst>()
 const useUserStore = userStore()
 
 const showModal = ref(false)
-const editUser = ref<AdminUserInfoRes>()
+const editUser = ref<AdminUserInfoRes | object>({})
 
 //禁用or启用
 const toggleUserStatus = async (user: JoinLoading<AdminUserInfoRes>) => {
@@ -49,14 +48,21 @@ const deleteUser = async (user: AdminUserInfoRes) => {
 //编辑用户
 const formLoading = ref(false)
 const editUserFn = async (values: any) => {
-  formLoading.value = true
-  if (values.id) {
-    await updateUserInfoApi(values)
-  } else {
-    await createUserApi(values)
+  try {
+    formLoading.value = true
+    values.avatar = uesUploadFile.getPath(values.avatar)
+    if (values.id) {
+      await updateUserInfoApi(values)
+    } else {
+      await createUserApi(values)
+    }
+    useMessage.success(values.id ? HintEnum.UPD_SUC : HintEnum.ADD_SUC)
+    formLoading.value = false
+    showModal.value = false
+    basicTable.value?.reset()
+  } catch (e) {
+    formLoading.value = false
   }
-  useMessage.success(HintEnum.UPD_SUC)
-  formLoading.value = false
 }
 
 const actions = (user: AdminUserInfoRes) => {
@@ -78,6 +84,11 @@ const actions = (user: AdminUserInfoRes) => {
       }
     ]
   })
+}
+
+const showAddForm = () => {
+  editUser.value = {}
+  showModal.value = true
 }
 
 const filterOptions: BasicFormOptions[] = [
@@ -138,12 +149,22 @@ const column: BasicTableColumn[] = [
     title: '昵称'
   },
   {
+    key: 'avatar',
+    title: '头像',
+    align: 'center',
+    width: 60,
+    render: (rowData) => {
+      return useAvatar({ src: config.FILE_PATH + rowData.avatar })
+    }
+  },
+  {
     key: 'account',
     title: '账号'
   },
   {
     key: 'email',
-    title: '邮箱'
+    title: '邮箱',
+    width: 160
   },
   {
     key: 'mobile',
@@ -183,18 +204,18 @@ const column: BasicTableColumn[] = [
   }
 ]
 
-const form: BasicFormOptions[] = [
+const baseForm: BasicFormOptions[] = [
   {
     component: 'Upload',
     bind: {
       path: 'avatar',
       label: '头像',
-      rule: useValidate.required('头像')
+      rule: useValidate.required({ message: '头像', type: 'any' })
     },
     componentProps: {
       bind: {
-        listType: 'image-card',
         max: 1,
+        listType: 'image-card',
         fileClassify: 'shared'
       }
     }
@@ -204,7 +225,9 @@ const form: BasicFormOptions[] = [
     bind: {
       path: 'username',
       label: '用户名',
-      rule: useValidate.required('用户名')
+      rule: useValidate.required({
+        message: '用户名'
+      })
     },
     componentProps: {
       bind: {
@@ -217,7 +240,10 @@ const form: BasicFormOptions[] = [
     bind: {
       path: 'account',
       label: '账号',
-      rule: useValidate.required('账号')
+      rule: useValidate.min({
+        message: '账号',
+        value: 8
+      })
     },
     componentProps: {
       bind: {
@@ -258,7 +284,10 @@ const form: BasicFormOptions[] = [
       path: 'isRoot',
       label: '角色',
       required: true,
-      rule: useValidate.required('角色')
+      rule: useValidate.required({
+        message: '角色',
+        type: 'number'
+      })
     },
     componentProps: {
       bind: {
@@ -277,6 +306,39 @@ const form: BasicFormOptions[] = [
     }
   }
 ]
+const pwdForm: BasicFormOptions[] = [
+  ...baseForm,
+  {
+    component: 'Input',
+    bind: {
+      path: 'password',
+      label: '密码',
+      rule: useValidate.password
+    },
+    componentProps: {
+      bind: {
+        placeholder: '请输入密码',
+        type: 'password',
+        autocomplete: 'new-password'
+      }
+    }
+  },
+  {
+    component: 'Input',
+    bind: {
+      path: 'confirmPassword',
+      label: '确认密码',
+      rule: useValidate.password
+    },
+    componentProps: {
+      bind: {
+        placeholder: '请输入确认密码',
+        type: 'password',
+        autocomplete: 'new-password'
+      }
+    }
+  }
+]
 </script>
 <template>
   <n-card class="main_block">
@@ -287,16 +349,14 @@ const form: BasicFormOptions[] = [
       :filter-options="filterOptions"
     >
       <template #left>
-        <n-button type="primary" @click=";(editUser = {}), (showModal = true)"
-          >添加</n-button
-        >
+        <n-button type="primary" @click="showAddForm">添加</n-button>
       </template>
     </basic-table>
     <form-modal
       v-model:loading="formLoading"
       v-model:model-value="editUser"
       v-model:show="showModal"
-      :options="form"
+      :options="editUser.id ? baseForm : pwdForm"
       @confirm="editUserFn"
     ></form-modal>
   </n-card>
