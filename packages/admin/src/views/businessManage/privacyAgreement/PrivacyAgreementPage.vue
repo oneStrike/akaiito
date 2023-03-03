@@ -137,13 +137,14 @@ const filterOptions: BasicFormOptions[] = [
     bind: {
       label: '平台',
       path: 'platform',
-			width: 200
+      width: 200
     },
     componentProps: {
       bind: {
         placeholder: '状态',
         multiple: true,
-        maxTagCount: 'responsive'
+        maxTagCount: 'responsive',
+        transform: true,
       },
       options: platforms
     }

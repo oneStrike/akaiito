@@ -5,6 +5,8 @@ import type {
   BasicFormOptions
 } from '@/typings/components/basic/basicForm'
 import config from '@/config'
+import SharedSelect from '@/components/shared/SharedMultiple.vue'
+import SharedMultiple from '@/components/shared/SharedMultiple.vue'
 
 interface BasicFormProps {
   modelValue?: Record<string | symbol, any>
@@ -128,11 +130,12 @@ defineExpose({
         </n-radio>
       </n-radio-group>
 
-      <n-select
-        v-if="item.component === 'Select'"
-        v-model:value="formData[item.bind.path]"
+      <shared-multiple
+        v-if="item.component === 'Select' || item.component === 'Checkbox'"
+        :component="item.component"
+        v-model="formData[item.bind.path]"
         :options="item.componentProps.options"
-        v-bind="item.componentProps.bind"
+        :bind="item.componentProps.bind"
       />
 
       <n-date-picker

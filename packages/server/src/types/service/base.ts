@@ -11,5 +11,13 @@ export interface FindMultipleMappingOptions {
 export interface FindMultipleServiceOptions {
   params: ListQueryOptions & Record<string | symbol, any>
   attributes?: FindAttributeOptions
-  likeKeys?: string[]
+  likeKeys?: RegExpMatch
 }
+
+/**
+ * 生成like语句
+ * sporadic 只要出现一个就视为匹配成功
+ * include 不同的是必须同时出现，但是不限顺序
+ *
+ */
+export type RegExpMatch = Record<any, 'sporadic' | 'include'>

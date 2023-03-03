@@ -24,12 +24,20 @@ export type BasicFormComponent =
   | 'Upload'
   | 'Color'
 
+export type CustomMultipleProps = {
+  transform?: boolean
+  valueType: 'number' | 'string'
+}
+
+export type SharedSelectProps = SelectProps & CustomMultipleProps
+export type SharedCheckboxProps = CheckboxProps & CustomMultipleProps
+
 export type BasicFormComponentPropsBind =
   | InputProps
   | InputNumberProps
-  | SelectProps
+  | SharedSelectProps
   | RadioProps
-  | CheckboxProps
+  | SharedCheckboxProps
   | DatePickerProps
   | TimeProps
   | ColorPickerProps

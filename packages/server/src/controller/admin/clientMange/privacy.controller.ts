@@ -14,13 +14,7 @@ export class PrivacyController extends BaseController {
 
   @Get('/getPrivacyPage', { summary: '获取隐私申明列表' })
   async getPrivacyPage(@Query() params: GetPrivacyDto) {
-    const attributes = { exclude: ['content'] }
-    const likeKeys = ['name', 'platform']
-    return this.privacyService.findMultiple({
-      params,
-      attributes,
-      likeKeys
-    })
+    return this.privacyService.getPrivacyList(params)
   }
 
   @Get('/getPrivacyDetail', { summary: '获取隐私声明详情' })

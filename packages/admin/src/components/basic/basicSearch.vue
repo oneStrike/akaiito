@@ -26,7 +26,6 @@ const formData = ref(props.modelValue)
 watch(
   formData,
   (val) => {
-		console.log('🚀 ~ file:basicSearch method: line:29 -----', val)
     if (JSON.stringify(val) !== JSON.stringify(props.modelValue)) {
       emits('update:modelValue', val)
     }

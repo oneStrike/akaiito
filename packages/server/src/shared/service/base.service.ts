@@ -14,6 +14,7 @@ import { ConfigService } from '../../service/config.service'
 import { BaseMapping } from '../mapping/base.mapping'
 import { Model } from 'sequelize-typescript'
 import type { FindMultipleServiceOptions } from '../../types/service/base'
+import { RegExpMatch } from '../../types/service/base'
 
 export abstract class BaseService {
   //列表查询初始参数
@@ -230,16 +231,29 @@ export abstract class BaseService {
    * @param likeKeys
    * @param params
    */
-  generateLikeSql(likeKeys: string[], params: Record<string, any>) {
-    const likeObj = this.utils.lodash.pick(params, likeKeys)
+  generateLikeSql(likeKeys: RegExpMatch, params: Record<string, any>) {
+    const keys = Object.keys(likeKeys)
+    const likeObj = this.utils.lodash.pick(params, keys)
     const likeRes = {}
     this.utils.lodash.forOwn(likeObj, (value: string, key) => {
-      likeRes[key] = {
-        [Op.regexp]: `[${value.replaceAll(',', '|')}]`
+      const mode = likeKeys[key]
+      if (mode === 'sporadic') {
+        likeRes[key] = {
+          [Op.regexp]: `[${value.replaceAll(',', '|')}]`
+        }
+      } else if (mode === 'include') {
+        const valueArr = value.split(',')
+        let reg = ''
+        valueArr.forEach((item) => {
+          reg += `(?=.*${item})`
+        })
+        likeRes[key] = {
+          [Op.regexp]: `^${reg}.*$`
+        }
       }
     })
     return {
-      ...this.utils.lodash.omit(params, likeKeys),
+      ...this.utils.lodash.omit(params, keys),
       ...likeRes
     }
   }
