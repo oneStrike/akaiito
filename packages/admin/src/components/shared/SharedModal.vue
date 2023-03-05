@@ -5,6 +5,8 @@ interface SharedModalProps {
   width?: number
   height?: number
   title?: string
+  cancelBtn?: boolean
+  confirmBtn?: boolean
   confirmText?: string
   cancelText?: string
   maskClosable?: boolean
@@ -14,6 +16,8 @@ const props = withDefaults(defineProps<SharedModalProps>(), {
   width: 660,
   height: 80,
   loading: false,
+	cancelBtn: true,
+  confirmBtn: true,
   confirmText: '确认',
   cancelText: '取消',
   maskClosable: true
@@ -50,10 +54,14 @@ const show = useVModel(props, 'show', emits)
     <template #footer>
       <slot name="footer">
         <n-space justify="end" :size="32">
-          <n-button @click="emits('close')" :disabled="loading">{{
-            cancelText
-          }}</n-button>
           <n-button
+            @click="emits('close')"
+            :disabled="loading"
+            v-if="cancelBtn"
+            >{{ cancelText }}</n-button
+          >
+          <n-button
+            v-if="confirmBtn"
             type="primary"
             @click="emits('confirm')"
             :loading="loading"

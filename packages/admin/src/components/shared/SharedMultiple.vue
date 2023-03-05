@@ -25,6 +25,8 @@ interface ShareSelectProps {
 
 const props = withDefaults(defineProps<ShareSelectProps>(), {})
 
+console.log('🚀 ~ file:SharedMultiple method: line:28 -----', props.modelValue)
+
 const emits = defineEmits<{
   (event: 'update:modelValue', data: ModelValueType): void
 }>()

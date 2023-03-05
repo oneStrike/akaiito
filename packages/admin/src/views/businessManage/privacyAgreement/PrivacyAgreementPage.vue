@@ -1,37 +1,42 @@
 <script setup lang="ts">
-import type { BasicTableColumn } from '@/typings/components/basic/basicTable'
+import type {
+  BasicTableColumn,
+  BasicTableInst
+} from '@/typings/components/basic/basicTable'
 import type {
   AdminAddPrivacyReq,
-  AdminGetPrivacyPageRes
+  AdminGetPrivacyPageRes,
+  AdminGetPrivacyDetailRes
 } from '~@/apiTypes/privacy'
 import type { JoinLoading } from '@/typings/shared'
 import { useMessage } from '@/hook/naviaDiscreteApi'
-import type {
-  BasicFormInst,
-  BasicFormOptions
-} from '@/typings/components/basic/basicForm'
+import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import {
   addPrivacyApi,
   deletePrivacyApi,
+  getPrivacyDetailApi,
   getPrivacyPageApi,
-  switchPrivacyStatusApi
+  switchPrivacyStatusApi,
+  updatePrivacyApi
 } from '@/api/privacy'
 import BasicTable from '@/components/basic/BasicTable.vue'
+import SharedModal from '@/components/shared/SharedModal.vue'
+import FormModal from '@/components/modal/FormModal.vue'
 
 type PrivacyItem = JoinLoading<AdminGetPrivacyPageRes['list'][number]>
 
-const tableRef = ref<BasicFormInst>()
+const tableRef = ref<BasicTableInst>()
 
 const addPrivacy = async (privacy: AdminAddPrivacyReq) => {
   await addPrivacyApi(privacy)
   useMessage.success(HintEnum.ADD_SUC)
-  tableRef.value?.reset()
+  tableRef.value?.refresh()
 }
 
 const deletePrivacy = async (ids: number[]) => {
   await deletePrivacyApi({ ids })
   useMessage.success(HintEnum.DEL_SUC)
-  tableRef.value?.reset()
+  tableRef.value?.refresh()
 }
 
 const toggleStatus = async (privacy: PrivacyItem, status: number) => {
@@ -39,7 +44,7 @@ const toggleStatus = async (privacy: PrivacyItem, status: number) => {
     privacy.loading = true
     await switchPrivacyStatusApi({ ids: [privacy.id], status })
     useMessage.success(HintEnum.OPT_SUC)
-    tableRef.value?.reset()
+    tableRef.value?.refresh()
     privacy.loading = false
   } catch (e) {
     privacy.loading = false
@@ -47,7 +52,12 @@ const toggleStatus = async (privacy: PrivacyItem, status: number) => {
 }
 
 //批量操作
-const batch = async (type: 'enable' | 'delete' | 'disabled', ids: number[]) => {
+const batch = async (type: 'enable' | 'delete' | 'disabled') => {
+  const ids = tableRef.value?.selectKeys as number[]
+  if (!ids || !ids.length) {
+    useMessage.warning('至少选择一项')
+    return
+  }
   if (type === 'enable' || type === 'disabled') {
     const status = type === 'enable' ? 1 : 0
     await switchPrivacyStatusApi({ ids, status })
@@ -55,7 +65,16 @@ const batch = async (type: 'enable' | 'delete' | 'disabled', ids: number[]) => {
     await deletePrivacyApi({ ids })
   }
   useMessage.success(HintEnum.OPT_SUC)
-  tableRef.value?.reset()
+  tableRef.value?.refresh()
+}
+
+const currentPrivacy = ref<AdminGetPrivacyDetailRes | object>({})
+const showDetailModal = ref(false)
+const showEditModal = ref(false)
+//查看详情
+const showDetail = async ({ id }: PrivacyItem) => {
+  currentPrivacy.value = await getPrivacyDetailApi({ id: id.toString() })
+  showDetailModal.value = true
 }
 
 const platforms = [
@@ -81,15 +100,63 @@ const transformPlatform = (platform: string) => {
     .join('，')
 }
 
-const tableColumns: BasicTableColumn[] = [
+const action: BasicTableColumn<PrivacyItem>[number] = {
+  key: 'action',
+  title: '操作',
+  align: 'center',
+  render: (row) =>
+    useTableBasicButtons({
+      source: row,
+      options: [
+        {
+          text: '编辑',
+          event: async ({ id }: PrivacyItem) => {
+            currentPrivacy.value = await getPrivacyDetailApi({
+              id: id.toString()
+            })
+            showEditModal.value = true
+          }
+        },
+        {
+          text: '删除',
+          tipField: 'name',
+          confirm: () => deletePrivacy([row.id])
+        }
+      ]
+    })
+}
+
+//添加或编辑协议
+const operationPrivacy = async (privacy: AdminGetPrivacyDetailRes) => {
+  if (!privacy.id) {
+    await addPrivacyApi(privacy)
+    useMessage.success(HintEnum.ADD_SUC)
+  } else {
+    await updatePrivacyApi(privacy)
+    useMessage.success(HintEnum.UPD_SUC)
+  }
+  showEditModal.value = false
+  tableRef.value?.refresh()
+}
+
+const tableColumns: BasicTableColumn<PrivacyItem> = [
+  {
+    type: 'selection'
+  },
   {
     key: 'name',
-    title: '名称'
+    title: '名称',
+    render: (row) =>
+      useButton(row.name, {
+        text: true,
+        type: 'primary',
+        onClick: () => showDetail(row)
+      })
   },
   {
     key: 'platform',
     title: '平台',
-    render: (rowData) => transformPlatform(rowData.platform as string)
+    render: (rowData) => transformPlatform(rowData.platform)
   },
   {
     key: 'status',
@@ -106,12 +173,13 @@ const tableColumns: BasicTableColumn[] = [
   {
     key: 'remark',
     title: '备注',
-    render: (rowData) => (rowData.remark ? rowData.remark : '-') as string
+    render: (rowData) => (rowData.remark ? rowData.remark : '-')
   },
   {
     key: 'createdAt',
     title: '创建日期'
-  }
+  },
+  action
 ]
 
 const filterOptions: BasicFormOptions[] = [
@@ -144,7 +212,7 @@ const filterOptions: BasicFormOptions[] = [
         placeholder: '状态',
         multiple: true,
         maxTagCount: 'responsive',
-        transform: true,
+        transform: true
       },
       options: platforms
     }
@@ -163,6 +231,65 @@ const filterOptions: BasicFormOptions[] = [
     }
   }
 ]
+
+const formOptions: BasicFormOptions[] = [
+  {
+    component: 'Input',
+    bind: {
+      path: 'name',
+      label: '协议名称',
+      rule: useValidate.required({ message: '协议名称' })
+    },
+    componentProps: {
+      bind: {
+        placeholder: '请输入协议名称'
+      }
+    }
+  },
+  {
+    component: 'Checkbox',
+    bind: {
+      path: 'platform',
+      label: '平台',
+      rule: useValidate.required({ message: '平台' })
+    },
+    componentProps: {
+      bind: {
+        placeholder: '请选择平台',
+        transform: true
+      },
+      options: platforms
+    }
+  },
+  {
+    component: 'Input',
+    bind: {
+      path: 'remark',
+      label: '备注'
+    },
+    componentProps: {
+      bind: {
+        placeholder: '请输入备注',
+        type: 'textarea'
+      }
+    }
+  }
+]
+
+const batchOptions = () => [
+  {
+    label: '批量禁用',
+    key: 'disabled'
+  },
+  {
+    label: '批量启用',
+    key: 'enable'
+  },
+  {
+    label: '批量删除',
+    key: 'delete'
+  }
+]
 </script>
 <template>
   <n-card class="h_100">
@@ -171,6 +298,35 @@ const filterOptions: BasicFormOptions[] = [
       :columns="tableColumns"
       :request-api="getPrivacyPageApi"
       :filter-options="filterOptions"
-    ></basic-table>
+    >
+      <template #left>
+        <n-space>
+          <n-button
+            type="primary"
+            @click=";(showEditModal = true), (currentPrivacy = {})"
+            >新增</n-button
+          >
+          <n-dropdown trigger="hover" :options="batchOptions()" @select="batch">
+            <n-button>批量操作</n-button>
+          </n-dropdown>
+        </n-space>
+      </template>
+    </basic-table>
+
+    <shared-modal
+      v-model:show="showDetailModal"
+      :cancel-btn="false"
+      @confirm="showDetailModal = false"
+    >
+      <div v-html="currentPrivacy.content"></div>
+    </shared-modal>
+
+    <form-modal
+      :options="formOptions"
+      :title="currentPrivacy.id ? '编辑' : '新增'"
+      v-model="currentPrivacy"
+      v-model:show="showEditModal"
+      @confirm="operationPrivacy"
+    ></form-modal>
   </n-card>
 </template>

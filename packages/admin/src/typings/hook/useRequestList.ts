@@ -11,6 +11,7 @@ export type ListParamsData = Record<string | symbol, any> & ListParams
 export interface UseListDataParams {
   params?: ListParamsData
   api: (params: any) => Promise<any>
+  refreshHook: () => Promise<any> | any
 }
 
 export type RunApi = () => Promise<void>
@@ -22,7 +23,7 @@ export type Sort = (
 
 export type UseListData = (options: UseListDataParams) => {
   runApi: RunApi
-  reset: () => Promise<void>
+  refresh: () => Promise<void>
   sort: Sort
   listData: Ref<any[]>
   loading: Ref<boolean>

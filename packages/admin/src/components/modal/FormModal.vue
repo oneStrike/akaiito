@@ -7,6 +7,7 @@ import type {
 interface FormModalProps {
   show: boolean
   loading?: boolean
+  title?: string
   modelValue?: Record<string | symbol, any>
   options: BasicFormOptions[]
 }
@@ -39,7 +40,7 @@ const confirm = async () => {
 <template>
   <shared-modal
     v-model:show="show"
-    title="编辑用户"
+    :title="title"
     :loading="loading"
     @close="show = false"
     @confirm="confirm"

@@ -13,10 +13,12 @@ export class IdDto {
   id: number
 }
 
-export class ToggleStatusDto {
+export class IdsDto {
   @Rule(requiredNumberArray)
   ids: number[]
+}
 
+export class ToggleStatusDto extends IdsDto {
   @Rule(requiredNumber)
   status: number
 }
@@ -33,13 +35,4 @@ export class ListDto {
 
   @Rule(validateString)
   sortField?: string
-
-  @Rule(validateString)
-  name?: string
-
-  @Rule(validateNumber)
-  status?: number
-
-  @Rule(validateString)
-  platform?: string
 }

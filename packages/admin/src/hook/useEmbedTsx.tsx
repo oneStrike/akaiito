@@ -84,7 +84,9 @@ export const useTableBasicButtons: UseTableBasicButtons = ({
                   size={item.btnProps?.size || 'tiny'}
                   type={item.btnProps?.type || 'primary'}
                   disabled={item.disabled ?? disabled}
-                  onClick={() => item.event && item.event(source)}
+                  onClick={useDebounceFn(
+                    () => item.event && item.event(source)
+                  )}
                 >
                   {{ default: () => item.text }}
                 </NButton>

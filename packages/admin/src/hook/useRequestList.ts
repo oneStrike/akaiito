@@ -6,6 +6,7 @@ import type {
 
 export const useListData: UseListData = (options) => {
   const api = options.api
+  const refreshHook = options.refreshHook
   const defaultListParams: ListParamsData = Object.assign(
     {
       pageIndex: 0,
@@ -41,8 +42,9 @@ export const useListData: UseListData = (options) => {
     immediate: true
   })
 
-  //重置
-  const reset = async () => {
+  //重置刷新
+  const refresh = async () => {
+    refreshHook()
     listParams.value = JSON.parse(JSON.stringify(defaultListParams))
   }
 
@@ -64,7 +66,7 @@ export const useListData: UseListData = (options) => {
 
   return {
     runApi,
-    reset,
+    refresh,
     sort,
     listData,
     loading,

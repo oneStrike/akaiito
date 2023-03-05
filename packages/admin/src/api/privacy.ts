@@ -19,7 +19,8 @@ const api = {
   getPrivacyDetail: `${context}/getPrivacyDetail`,
   addPrivacy: `${context}/addPrivacy`,
   switchPrivacyStatus: `${context}/switchPrivacyStatus`,
-  deletePrivacy: `${context}/deletePrivacy`
+  deletePrivacy: `${context}/deletePrivacy`,
+  updatePrivacy: `${context}/updatePrivacy`
 }
 
 export const getPrivacyPageApi = (
@@ -63,6 +64,13 @@ export const switchPrivacyStatusApi = (
 ): Promise<AdminSwitchPrivacyStatusRes> => {
   return kRequest.post({
     url: api.switchPrivacyStatus,
+    data: params
+  })
+}
+
+export const updatePrivacyApi = (params: any): Promise<any> => {
+  return kRequest.post({
+    url: api.updatePrivacy,
     data: params
   })
 }

@@ -16,11 +16,6 @@ export const layoutStore = defineStore('layout', {
   },
 
   actions: {
-    //切换主题色
-    toggleTheme(theme?: Layout['theme']) {
-      this.theme = theme ? theme : this.theme === 'light' ? 'dark' : 'light'
-    },
-
     //切换菜单折叠状态
     toggleMenuCollapsed() {
       this.collapsed = !this.collapsed

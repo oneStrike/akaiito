@@ -68,7 +68,7 @@ export abstract class BaseMapping<T extends BaseEntity = Model> {
       list: rows,
       total: count,
       count: rows.length,
-      ...options
+      ...options.listOptions
     }
   }
 

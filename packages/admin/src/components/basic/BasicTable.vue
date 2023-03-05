@@ -1,29 +1,32 @@
 <script setup lang="ts">
-import type { BasicTableColumn } from '@/typings/components/basic/basicTable'
 import type {
+  DataTableColumns,
+  DataTableFilterState,
   DataTableProps,
-  PaginationProps,
   DataTableSortState,
-  DataTableFilterState
+  PaginationProps,
+  DataTableRowKey
 } from 'naive-ui'
 import type { ListParamsData } from '@/typings/hook/useRequestList'
 import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import config from '@/config'
 
 interface BasicTableProps {
-  modelValue?: Record<string | symbol, any>
+  modelValue?: Record<string | symbol, any>[]
   requestApi: (params: any) => Promise<any>
   listParams?: ListParamsData
-  columns: BasicTableColumn[]
+  columns: DataTableColumns
+  rowKey?: string
   filterOptions?: BasicFormOptions[]
   size?: DataTableProps['size']
-  align?: BasicTableColumn['align']
+  align?: DataTableColumns[number]['align']
   showIndex?: boolean
   container?: 'card'
 }
 
 const props = withDefaults(defineProps<BasicTableProps>(), {
   container: 'card',
+  rowKey: 'id',
   size: 'small',
   showIndex: true,
   align: 'center'
@@ -35,26 +38,41 @@ const innerColumns = computed(() => {
       item.align = item.align ?? props.align
     })
   }
+  //@ts-ignore
   if (props.showIndex && props.columns[0].key !== 'index') {
-    props.columns.unshift({
+    const indexColumn: DataTableColumns[number] = {
       key: 'index',
       title: '序号',
       align: 'center',
       width: 70,
-      render: (rowData, index) => {
+      render: (row, index: number) => {
         return params.value.pageIndex
           ? params.value.pageIndex * params.value.pageSize! + index
           : index + 1
       }
-    })
+    }
+    if (props.columns[0].type === 'selection') {
+      props.columns.splice(1, 0, indexColumn)
+    } else {
+      props.columns.unshift(indexColumn)
+    }
   }
   return props.columns
 })
 
+const selectKeys = ref<DataTableRowKey[]>([])
+const selectRows = ref<typeof props.modelValue>([])
+//重置多选
+const resetSelect = () => {
+  selectKeys.value = []
+  selectRows.value = []
+}
+
 //请求列表数据
-const { sort, listData, total, reset, loading, params } = useListData({
+const { sort, listData, total, refresh, loading, params } = useListData({
   api: props.requestApi,
-  params: props.listParams
+  params: props.listParams,
+  refreshHook: resetSelect
 })
 
 //排序发生变化
@@ -68,6 +86,15 @@ const updateSorter = useDebounceFn(
 //筛选发生变化
 const updateFilters = (val: DataTableFilterState | ListParamsData) => {
   Object.assign(params.value, { ...val, pageIndex: 0 })
+}
+
+//多选发生变化
+const updateCheck = (
+  rowKeys: DataTableRowKey[],
+  rows: typeof props.modelValue
+) => {
+  selectKeys.value = rowKeys
+  selectRows.value = rows
 }
 
 //分页配置
@@ -110,7 +137,12 @@ const tableHeight = computed(
   () => contentHeight.value - searchHeight.value - paginationHeight.value
 )
 
-defineExpose({ reset })
+defineExpose({
+  refresh,
+  selectKeys,
+  selectRows,
+  resetSelect
+})
 </script>
 
 <template>
@@ -127,14 +159,17 @@ defineExpose({ reset })
     </basic-search>
     <n-data-table
       remote
+      :row-key="(row) => row[rowKey]"
       flex-height
       :size="size"
       :data="listData"
       :loading="loading"
       :columns="innerColumns"
       :pagination="pagination"
+      v-model:checked-row-keys="selectKeys"
       @updateSorter="updateSorter"
       @updateFilters="updateFilters"
+      @update:checked-row-keys="updateCheck"
       :style="{ height: `${tableHeight}px` }"
     ></n-data-table>
   </div>

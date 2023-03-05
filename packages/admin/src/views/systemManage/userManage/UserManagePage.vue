@@ -17,8 +17,6 @@ import BasicTable from '@/components/basic/BasicTable.vue'
 import { userStore } from '@/stores'
 import type { JoinLoading } from '@/typings/shared'
 import config from '@/config'
-import { useAvatar } from '@/hook/useTsx'
-import { HintEnum } from '@/enum/hint'
 
 const basicTable = ref<BasicTableInst>()
 const useUserStore = userStore()
@@ -33,7 +31,7 @@ const toggleUserStatus = async (user: JoinLoading<AdminUserInfoRes>) => {
     ids: [user.id],
     status: user.status === 1 ? 0 : 1
   })
-  basicTable.value?.reset()
+  basicTable.value?.refresh()
   useMessage.success(HintEnum.OPT_SUC)
   user.loading = false
 }
@@ -42,7 +40,7 @@ const toggleUserStatus = async (user: JoinLoading<AdminUserInfoRes>) => {
 const deleteUser = async (user: AdminUserInfoRes) => {
   await deleteUserApi({ id: user.id })
   useMessage.success(HintEnum.DEL_SUC)
-  basicTable.value?.reset()
+  basicTable.value?.refresh()
 }
 
 //编辑用户
@@ -59,7 +57,7 @@ const editUserFn = async (values: any) => {
     useMessage.success(values.id ? HintEnum.UPD_SUC : HintEnum.ADD_SUC)
     formLoading.value = false
     showModal.value = false
-    basicTable.value?.reset()
+    basicTable.value?.refresh()
   } catch (e) {
     formLoading.value = false
   }
@@ -143,7 +141,7 @@ const filterOptions: BasicFormOptions[] = [
   }
 ]
 
-const column: BasicTableColumn[] = [
+const column: BasicTableColumn<JoinLoading<AdminUserInfoRes>> = [
   {
     key: 'username',
     title: '昵称'
@@ -187,12 +185,11 @@ const column: BasicTableColumn[] = [
     width: 80,
     renderType: 'switch',
     render: (rowData) => {
-      const row = rowData as unknown as JoinLoading<AdminUserInfoRes>
       return useSwitch({
-        value: row.status,
-        loading: row.loading,
-        disabled: useUserStore.userInfo.id === row.id,
-        onUpdateValue: () => toggleUserStatus(row)
+        value: rowData.status,
+        loading: rowData.loading,
+        disabled: useUserStore.userInfo.id === rowData.id,
+        onUpdateValue: () => toggleUserStatus(rowData)
       })
     }
   },
@@ -200,7 +197,7 @@ const column: BasicTableColumn[] = [
     key: 'action',
     title: '操作',
     align: 'center',
-    render: (rowData) => actions(rowData as unknown as AdminUserInfoRes)
+    render: (rowData) => actions(rowData)
   }
 ]
 
@@ -357,6 +354,7 @@ const pwdForm: BasicFormOptions[] = [
       v-model:model-value="editUser"
       v-model:show="showModal"
       :options="editUser.id ? baseForm : pwdForm"
+      :title="editUser.id ? '编辑用户' : '新增用户'"
       @confirm="editUserFn"
     ></form-modal>
   </n-card>

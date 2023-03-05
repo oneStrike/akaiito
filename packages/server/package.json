@@ -9,6 +9,7 @@
     "@midwayjs/bootstrap": "^3.10.5",
     "@midwayjs/cache": "^3.10.5",
     "@midwayjs/captcha": "^3.10.5",
+    "@midwayjs/code-dye": "^3.10.14",
     "@midwayjs/core": "^3.10.5",
     "@midwayjs/cross-domain": "^3.10.5",
     "@midwayjs/decorator": "^3.10.5",

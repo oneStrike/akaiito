@@ -104,7 +104,7 @@ export abstract class BaseService {
   }
 
   //删除
-  async destroy(id: number): Promise<number> {
+  async destroy(id: number | number[]): Promise<number | number[]> {
     await this.mapping.destroy({ id })
     return id
   }

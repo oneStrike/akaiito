@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { SessionCacheEnum } from '@/enum/cache'
-import { layoutStore } from '@/stores'
 import type { DropdownOption } from 'naive-ui'
 import type {
   RouteLocationNormalizedLoaded,
   RouteMeta,
-  RouteRecordName,
-  RouteRecordRaw
+  RouteRecordName
 } from 'vue-router'
 import { useSvgIconFn } from '@/hook/useTsx'
 import config from '@/config'
@@ -18,7 +16,6 @@ interface HistoryRouter {
 
 const route = useRoute()
 const router = useRouter()
-const useLayoutStore = layoutStore()
 
 const defaultHistory = { name: 'workbench', title: '工作台' }
 
@@ -131,7 +128,7 @@ const serializeDropdownOptions = () => {
       label: '关闭其他',
       key: 'closeOther',
       icon: useSvgIconFn({ iconName: 'code', size: 18 }),
-      disabled: historyRouter.value.length <= 1
+      disabled: historyRouter.value.length <= 2
     },
     {
       label: '关闭全部',

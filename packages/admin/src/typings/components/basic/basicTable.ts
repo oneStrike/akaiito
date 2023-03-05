@@ -1,10 +1,13 @@
-import type { DataTableBaseColumn, SwitchProps } from 'naive-ui'
+import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 
-export type BasicTableColumn = DataTableBaseColumn & {
+export type BasicTableColumn<T = DataTableColumns> = DataTableColumns<T> & {
   renderType?: string
   sortBy?: ('descend' | 'ascend')[]
 }
 
 export interface BasicTableInst {
-  reset: () => Promise<void>
+  refresh: () => Promise<void>
+  resetSelect: () => void
+  selectKeys: DataTableRowKey[]
+  selectRows: Record<string | symbol, any>[] | undefined[]
 }

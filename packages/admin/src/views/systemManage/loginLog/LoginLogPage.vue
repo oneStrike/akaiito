@@ -4,6 +4,7 @@ import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import type { BasicTableColumn } from '@/typings/components/basic/basicTable'
 import { useTag } from '@/hook/useTsx'
 import { useDisablePreviousDate } from '@/hook/useRangDate'
+import type { AdminLoginLogRes } from '~@/apiTypes/log'
 
 const filterOptions = ref<BasicFormOptions[]>([
   {
@@ -68,7 +69,7 @@ const formatColumnFilter = async () => {
 }
 formatColumnFilter()
 
-const column: BasicTableColumn[] = [
+const column: BasicTableColumn<AdminLoginLogRes['list'][number]> = [
   {
     key: 'userAccount',
     title: '账号',

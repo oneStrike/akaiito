@@ -5,7 +5,7 @@ import {
   AddPrivacyDto,
   GetPrivacyDto
 } from '../../../service/privacy/dto/privacy.dto'
-import { IdDto, ToggleStatusDto } from '../../../shared/dto/base.dto'
+import { IdDto, IdsDto, ToggleStatusDto } from '../../../shared/dto/base.dto'
 
 @Controller('/admin/privacy')
 export class PrivacyController extends BaseController {
@@ -33,7 +33,11 @@ export class PrivacyController extends BaseController {
   }
 
   @Post('/deletePrivacy', { summary: '删除隐私声明' })
-  async deleteStatus(@Body() body: IdDto) {
-    return this.privacyService.destroy(body.id)
+  async deletePrivacy(@Body() body: IdsDto) {
+    return this.privacyService.destroy(body.ids)
+  }
+  @Post('/updatePrivacy', { summary: '更新隐私声明' })
+  async updatePrivacy(@Body() body: IdDto & AddPrivacyDto) {
+    return this.privacyService.update(body, body.id)
   }
 }
