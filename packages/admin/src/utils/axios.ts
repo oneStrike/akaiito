@@ -27,8 +27,9 @@ export class KAxios {
       if (conf.urlPrefix) {
         conf.url = conf.urlPrefix + conf.url
       } else if (this.conf.urlPrefix) {
-        conf.url = this.conf.urlPrefix + conf.url
+        conf.url = this.conf.urlPrefix + conf.url!
       }
+
       this.instance
         .request(conf)
         .then((res) => {

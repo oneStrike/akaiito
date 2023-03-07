@@ -7,6 +7,7 @@ import type {
 interface FormModalProps {
   show: boolean
   loading?: boolean
+  width?: number
   title?: string
   modelValue?: Record<string | symbol, any>
   options: BasicFormOptions[]
@@ -14,7 +15,8 @@ interface FormModalProps {
 
 const props = withDefaults(defineProps<FormModalProps>(), {
   show: false,
-  loading: false
+  loading: false,
+  width: 700
 })
 
 const emits = defineEmits<{
@@ -42,6 +44,7 @@ const confirm = async () => {
     v-model:show="show"
     :title="title"
     :loading="loading"
+    :width="width"
     @close="show = false"
     @confirm="confirm"
   >

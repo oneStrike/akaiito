@@ -23,6 +23,7 @@ export type BasicFormComponent =
   | 'Time'
   | 'Upload'
   | 'Color'
+  | 'Editor'
 
 export type CustomMultipleProps = {
   transform?: boolean

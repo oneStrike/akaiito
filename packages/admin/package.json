@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@akaiito/utils": "workspace:*",
+    "@tinymce/tinymce-vue": "^5.0.1",
     "@vueuse/core": "^9.13.0",
     "axios": "^1.3.3",
     "lodash": "^4.17.21",
@@ -21,6 +22,7 @@
     "pinia": "^2.0.32",
     "pinia-plugin-persistedstate": "^3.1.0",
     "tinymce": "^6.3.2",
+    "uuid": "^9.0.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
@@ -31,6 +33,7 @@
     "@iconify-json/majesticons": "^1.1.7",
     "@rushstack/eslint-patch": "^1.2.0",
     "@types/node": "^18.14.0",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/parser": "^5.53.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",

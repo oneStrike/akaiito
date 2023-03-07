@@ -262,6 +262,19 @@ const formOptions: BasicFormOptions[] = [
     }
   },
   {
+    component: 'Editor',
+    bind: {
+      path: 'content',
+      label: '内容',
+      rule: useValidate.required({ message: '内容' })
+    },
+    componentProps: {
+      bind: {
+        placeholder: '请输入内容'
+      }
+    }
+  },
+  {
     component: 'Input',
     bind: {
       path: 'remark',
@@ -316,6 +329,7 @@ const batchOptions = () => [
     <shared-modal
       v-model:show="showDetailModal"
       :cancel-btn="false"
+      :width="880"
       @confirm="showDetailModal = false"
     >
       <div v-html="currentPrivacy.content"></div>
@@ -325,7 +339,8 @@ const batchOptions = () => [
       :options="formOptions"
       :title="currentPrivacy.id ? '编辑' : '新增'"
       v-model="currentPrivacy"
-      v-model:show="showEditModal"
+				v-model:show="showEditModal"
+      :width="880"
       @confirm="operationPrivacy"
     ></form-modal>
   </n-card>
