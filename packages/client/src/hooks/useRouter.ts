@@ -1,7 +1,8 @@
-import { usePageStore, useUserStore } from '@/stores'
+import { pageStore, userStore } from '@/stores'
 import { RouterJumpMethodEnum } from '@/enum/router'
 import { parseQuery } from '@akaiito/utils/src/parseQuery'
 import { useModal } from '@/hooks/useModal'
+import { routerWhiteList } from '@/config/rotuer.config'
 export interface IRouter {
   path: string
   params?: Record<string, any> | string
@@ -38,8 +39,10 @@ class Router {
 
   //判断用户是否拥有浏览权限
   isAuth(path: string) {
-    const { pages } = storeToRefs(usePageStore())
-    const { userInfo } = storeToRefs(useUserStore())
+    if (routerWhiteList.includes(path)) return true
+
+    const { pages } = storeToRefs(pageStore())
+    const { userInfo } = storeToRefs(userStore())
 
     for (let i = 0; i < pages.value.length; i++) {
       const item = pages.value[i]
@@ -54,11 +57,11 @@ class Router {
 
   //拼接完整路由地址
   fullPath(path: string) {
-    const pathPrefix = this.isTabBarPage(path) ? '/pages/tab-bar' : '/pages'
+    const pathPrefix = this.isTabBarPage(path) ? 'pages/tab-bar' : 'pages'
     return pathPrefix + path
   }
 
-  //是否时tabBar页面
+  //是否为tabBar页面
   isTabBarPage(path: string) {
     return path.includes('tab-bar')
       ? true

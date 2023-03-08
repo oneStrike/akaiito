@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 import config from '@/config'
-import { Plugin } from 'vue'
-import { useSystem } from '@/hooks/useSystem'
+import type { Plugin } from 'vue'
 import { useRouter } from '@/hooks/useRouter'
+import { pageStore, systemStore } from '@/stores'
 
 export const bootstrap: Plugin = {
   install: (app) => {
@@ -12,14 +12,19 @@ export const bootstrap: Plugin = {
       app.config.globalProperties['$' + iterator] =
         config[iterator as keyof typeof config]
     }
+  }
+}
 
-    useSystem.getPages()
-    useSystem.getConfigInfo().then((res) => {
-      if (useSystem.configInfo().guide && useSystem.firstEntering()) {
-        useRouter.reLaunch({
-          path: '/guide/guide'
-        })
-      }
+export const bootstrapThing = () => {
+  const usePageStore = pageStore()
+  const useSystemStore = systemStore()
+  //获取程序的所有页面配置
+  usePageStore.getPages()
+
+  //初始页面引导
+  if (useSystemStore.firstEntering) {
+    useRouter.reLaunch({
+      path: '/guide/guide'
     })
   }
 }

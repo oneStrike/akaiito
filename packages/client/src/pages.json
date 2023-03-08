@@ -19,8 +19,10 @@
       }
     },
     {
-      "path": "pages/foo/foo",
-      "style": {}
+      "path": "pages/guide/guide",
+      "style": {
+        "navigationStyle": "custom"
+      }
     }
   ],
   //  "tabBar": {

@@ -1,7 +1,7 @@
 import { ClientGetPagesRes } from '~@/apiTypes/manage'
 import { getPagesApi } from '@/api/manage/manage'
 
-const pagesStore = defineStore('pages', {
+export const pageStore = defineStore('pages', {
   state() {
     return {
       pages: [] as ClientGetPagesRes
@@ -13,5 +13,3 @@ const pagesStore = defineStore('pages', {
     }
   }
 })
-
-export default pagesStore

@@ -13,11 +13,6 @@ const defaultOptions = {
   complete: false
 }
 export class useModal {
-  /**
-   * @author 大雄
-   * @Date 2021年7月1日20:49:58
-   * @description 二次封装showModel
-   */
   static show(options: IGlobalModal) {
     return new Promise((resolve, reject) => {
       options = Object.assign(defaultOptions, options)

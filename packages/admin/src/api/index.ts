@@ -1,17 +1,17 @@
 import config from '@/config'
-
 import { router } from '@/router'
 import { KAxios } from '@/utils/axios'
 import { userStore } from '@/stores'
 import type { Interceptot } from '@/typings/utils/ajax'
 import type { InternalAxiosRequestConfig } from 'axios'
 import { useMessage } from '@/hook/naviaDiscreteApi'
+import { utils } from '@/utils'
 
 const requestInterceptor: Interceptot['request'] = (config) => {
   const useUserStore = userStore()
   const tokenStatus = useUserStore.tokenStatus
   const requestUrl: any = config.url
-  if (!(requestUrl in WhiteListEnum)) {
+  if (!utils.isValueInStringEnum(requestUrl, ApiWhiteListEnum)) {
     config.tokenType = config.tokenType || 'token'
     config.headers = {
       ['Authorization']: useUserStore[config.tokenType]

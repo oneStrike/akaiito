@@ -1,5 +1,5 @@
 import { ClientLoginRes } from '~@/apiTypes/user'
-const userStore = defineStore('user', {
+export const userStore = defineStore('user', {
   state() {
     return {
       userInfo: {
@@ -9,5 +9,3 @@ const userStore = defineStore('user', {
     }
   }
 })
-
-export default userStore

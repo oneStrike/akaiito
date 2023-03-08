@@ -25,6 +25,7 @@ import FormModal from '@/components/modal/FormModal.vue'
 
 type PrivacyItem = JoinLoading<AdminGetPrivacyPageRes['list'][number]>
 
+const route = useRoute()
 const tableRef = ref<BasicTableInst>()
 
 const addPrivacy = async (privacy: AdminAddPrivacyReq) => {
@@ -121,6 +122,15 @@ const action: BasicTableColumn<PrivacyItem>[number] = {
           text: '删除',
           tipField: 'name',
           confirm: () => deletePrivacy([row.id])
+        },
+        {
+          text: '链接',
+          event: () => {
+            useClipboard().copy(
+              window.location.origin + '/#/shared/view-privacy?id=' + row.id
+            )
+            useMessage.success('复制成功')
+          }
         }
       ]
     })
