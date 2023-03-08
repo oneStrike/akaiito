@@ -1,4 +1,5 @@
 import 'tinymce/themes/silver'
+import 'tinymce/themes/silver/theme'
 import 'tinymce/icons/default'
 import 'tinymce/models/dom/model.js'
 
@@ -58,14 +59,14 @@ export const tinymceConfig: RawEditorOptions = {
   elector: '',
   language: 'zh-Hans',
   width: '100%',
-  height: '360px',
+  max_height: 480,
   resize: false,
-  language_url: `${import.meta.env.BASE_URL}resource/tinymce/langs/zh-Hans.js`,
-  skin_url: `${import.meta.env.BASE_URL}resource/tinymce/skins/ui/oxide`,
+  language_url: `${import.meta.env.BASE_URL}tinymce/langs/zh-Hans.js`,
+  skin_url: `${import.meta.env.BASE_URL}tinymce/skins/ui/oxide`,
   menubar: true,
   content_css: `${
     import.meta.env.BASE_URL
-  }resource/tinymce/skins/content/default/content.min.css`,
+  }tinymce/skins/content/default/content.min.css`,
   placeholder: '请输入内容',
   promotion: false,
   branding: false,

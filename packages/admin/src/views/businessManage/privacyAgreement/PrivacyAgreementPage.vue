@@ -128,6 +128,7 @@ const action: BasicTableColumn<PrivacyItem>[number] = {
 
 //添加或编辑协议
 const operationPrivacy = async (privacy: AdminGetPrivacyDetailRes) => {
+  privacy.status = privacy.status || 1
   if (!privacy.id) {
     await addPrivacyApi(privacy)
     useMessage.success(HintEnum.ADD_SUC)
@@ -313,7 +314,7 @@ const batchOptions = () => [
       :filter-options="filterOptions"
     >
       <template #left>
-        <n-space>
+        <n-space :wrap="false">
           <n-button
             type="primary"
             @click=";(showEditModal = true), (currentPrivacy = {})"
@@ -332,14 +333,16 @@ const batchOptions = () => [
       :width="880"
       @confirm="showDetailModal = false"
     >
-      <div v-html="currentPrivacy.content"></div>
+      <div class="pd_16" style="overflow: auto">
+        <div v-html="currentPrivacy.content"></div>
+      </div>
     </shared-modal>
 
     <form-modal
       :options="formOptions"
       :title="currentPrivacy.id ? '编辑' : '新增'"
       v-model="currentPrivacy"
-				v-model:show="showEditModal"
+      v-model:show="showEditModal"
       :width="880"
       @confirm="operationPrivacy"
     ></form-modal>

@@ -6,6 +6,7 @@ interface SharedModalProps {
   height?: number
   title?: string
   cancelBtn?: boolean
+	trapFocus?: boolean
   confirmBtn?: boolean
   confirmText?: string
   cancelText?: string
@@ -16,7 +17,8 @@ const props = withDefaults(defineProps<SharedModalProps>(), {
   width: 660,
   height: 80,
   loading: false,
-	cancelBtn: true,
+  cancelBtn: true,
+  trapFocus: true,
   confirmBtn: true,
   confirmText: '确认',
   cancelText: '取消',
@@ -42,6 +44,7 @@ const show = useVModel(props, 'show', emits)
     :title="title"
     display-directive="if"
     :mask-closable="maskClosable"
+    :trap-focus="trapFocus"
     :segmented="{ content: 'soft', footer: 'soft' }"
     :style="{ width: `${width}px`, height: `${height}vh` }"
     content-style="overflow:auto"

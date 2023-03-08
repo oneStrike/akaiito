@@ -5,22 +5,20 @@ import { tinymceConfig } from '@/components/Editor/tinymce'
 
 interface EditorProps {
   modelValue?: string
-  height?: string | number
+  height?: number
   width?: string | number
-  placeholder?: string | number
+  placeholder?: string
 }
 
 const props = withDefaults(defineProps<EditorProps>(), {
   modelValue: '',
-  height: '480px',
+  height: 480,
   width: '100%'
 })
 
 const emits = defineEmits<{
   (event: 'update:modelValue', data: string): void
 }>()
-
-
 
 const editorData = computed({
   get() {
@@ -31,15 +29,13 @@ const editorData = computed({
   }
 })
 
-
-
 const defaultId =
   'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
 tinymceConfig.elector = `#${defaultId}`
-if (props.height) tinymceConfig.height = props.height as string
+if (props.height) tinymceConfig.max_height = props.height
 
-if (props.width) tinymceConfig.width = props.width as string
-if (props.placeholder) tinymceConfig.placeholder = props.placeholder as string
+if (props.width) tinymceConfig.width = props.width
+if (props.placeholder) tinymceConfig.placeholder = props.placeholder
 </script>
 
 <template>

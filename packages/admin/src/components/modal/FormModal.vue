@@ -45,6 +45,7 @@ const confirm = async () => {
     :title="title"
     :loading="loading"
     :width="width"
+    :trap-focus="false"
     @close="show = false"
     @confirm="confirm"
   >

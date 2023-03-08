@@ -74,7 +74,7 @@ export class LogEntity extends BaseEntity {
   userAgent!: string
 
   @Column({
-    type: DataType.TEXT,
+    type: DataType.TEXT('long'),
     allowNull: true,
     comment: '参数'
   })
