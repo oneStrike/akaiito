@@ -1,10 +1,10 @@
-export interface IGlobalModalCallBackParams {
+export interface GlobalModalCallBackParams {
   confirm: boolean
   cancel: boolean
   mask?: boolean
 }
 
-export interface IGlobalModal {
+export interface GlobalModalOptions {
   title?: string
   content: string
   opacity?: number
@@ -17,7 +17,7 @@ export interface IGlobalModal {
   showCancel?: boolean
   contentWidth?: number
   backButton?: boolean
-  success?: (params: IGlobalModalCallBackParams) => Promise<any> | any
-  fail?: (params: IGlobalModalCallBackParams | any) => Promise<any> | any
+  success?: (params: GlobalModalCallBackParams) => Promise<any> | any
+  fail?: (params: GlobalModalCallBackParams | any) => Promise<any> | any
   complete?: boolean
 }
