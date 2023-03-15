@@ -1,5 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <view></view>
+	<lk-page custom-nav-bar>
+		<text class="fs16">ho2me</text>
+	</lk-page>
 </template>

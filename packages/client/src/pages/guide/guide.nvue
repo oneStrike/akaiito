@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useStorage } from '../../hooks/useStorage'
-import { StorageEnum } from '../../enum/storage'
+import { useStorage } from '@/hooks/useStorage'
+import { StorageEnum } from '@/enum/storage'
 
 useStorage.set(StorageEnum.FIRST_ENTERING,1)
 </script>
 
 <template>
-	<view></view>
+	<view>foo</view>
 </template>

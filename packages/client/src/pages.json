@@ -1,54 +1,54 @@
 {
-  "easycom": {
-    "custom": {
-      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
-      "^lk-(.*)": "@/components/lk-$1/lk-$1.vue"
-    }
-  },
-  "pages": [
-    {
-      "path": "pages/tab-bar/home/home",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/tab-bar/profile/profile",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/guide/guide",
-      "style": {
-        "navigationStyle": "custom"
-      }
-    }
-  ],
-  //  "tabBar": {
-  //    "color": "#7A7E83",
-  //    "selectedColor": "#3cc51f",
-  //    "borderStyle": "black",
-  //    "backgroundColor": "#ffffff",
-  //    "list": [
-  //      {
-  //        "pagePath": "pages/tab-bar/home/home",
-  //        "iconPath": "static/image/icon_component.png",
-  //        "selectedIconPath": "static/image/icon_component_HL.png",
-  //        "text": "组件"
-  //      },
-  //      {
-  //        "pagePath": "pages/tab-bar/profile/profile",
-  //        "iconPath": "static/image/icon_API.png",
-  //        "selectedIconPath": "static/image/icon_API_HL.png",
-  //        "text": "接口"
-  //      }
-  //    ]
-  //  },
-  "globalStyle": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "Akaiito",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
-  }
+	"easycom": {
+		"custom": {
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+			"^lk-(.*)": "@/components/lk-$1/lk-$1.{vue,nvue}"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/tab-bar/home/home",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/tab-bar/profile/profile",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/guide/guide",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	//  "tabBar": {
+	//    "color": "#7A7E83",
+	//    "selectedColor": "#3cc51f",
+	//    "borderStyle": "black",
+	//    "backgroundColor": "#ffffff",
+	//    "list": [
+	//      {
+	//        "pagePath": "pages/tab-bar/home/home",
+	//        "iconPath": "static/image/icon_component.png",
+	//        "selectedIconPath": "static/image/icon_component_HL.png",
+	//        "text": "组件"
+	//      },
+	//      {
+	//        "pagePath": "pages/tab-bar/profile/profile",
+	//        "iconPath": "static/image/icon_API.png",
+	//        "selectedIconPath": "static/image/icon_API_HL.png",
+	//        "text": "接口"
+	//      }
+	//    ]
+	//  },
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "Akaiito",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
 }
