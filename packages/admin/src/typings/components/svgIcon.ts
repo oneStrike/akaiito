@@ -51,3 +51,4 @@ export type IconName =
   | 'closeCircle'
   | 'loading'
   | 'chart'
+  | 'game'

@@ -154,17 +154,19 @@ const memoryProgress = computed(() => {
 
 //磁盘使用进度条
 const diskProgress = computed(() => {
-  if (
-    serverInfo.value &&
-    parseFloat(serverInfo.value.diskTotal) > 0 &&
-    parseFloat(serverInfo.value.diskUsed) >= 0
-  ) {
-    const { diskTotal, diskUsed } = serverInfo.value
-    return parseFloat(
-      ((parseFloat(diskUsed) / parseFloat(diskTotal)) * 100).toFixed(2)
-    )
+  if (serverInfo.value) {
+    const total = parseFloat(serverInfo.value.diskTotal)
+    const used = serverInfo.value.diskUsed.includes('G')
+      ? parseFloat(serverInfo.value.diskUsed)
+      : parseFloat(serverInfo.value.diskUsed) / 1024
+    if (serverInfo.value && total > 0 && used >= 0) {
+      const { diskTotal, diskUsed } = serverInfo.value
+      return parseFloat(
+        ((parseFloat(diskUsed) / parseFloat(diskTotal)) * 100).toFixed(2)
+      )
+    }
+    return 100
   }
-  return 100
 })
 
 onUnmounted(() => {
@@ -181,7 +183,11 @@ onUnmounted(() => {
       :y-gap="12"
       v-if="serverInfo"
     >
-      <n-grid-item v-for="(item, index) in renderList" :key="index">
+      <n-grid-item
+        v-for="(item, index) in renderList"
+        :key="index"
+        class="h_100"
+      >
         <n-card class="h_100">
           <template #header>{{ item.title }}</template>
           <n-space vertical :size="0">
@@ -198,7 +204,7 @@ onUnmounted(() => {
                     formatValue(child)
                   }}</n-ellipsis>
                 </n-space>
-                <n-scrollbar style="max-height: 162px">
+                <n-scrollbar>
                   <n-progress
                     v-for="(item, index) in formatCpuSpeed()"
                     :key="index"
@@ -238,6 +244,10 @@ onUnmounted(() => {
 </template>
 
 <style scoped lang="scss">
+::v-deep(.n-spin-content) {
+  height: 100%;
+}
+
 .dashboard {
   max-width: 100%;
   position: absolute !important;
