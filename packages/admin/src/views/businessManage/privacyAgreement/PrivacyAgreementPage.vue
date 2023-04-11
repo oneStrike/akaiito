@@ -184,6 +184,9 @@ const tableColumns: BasicTableColumn<PrivacyItem> = [
   {
     key: 'remark',
     title: '备注',
+		ellipsis: {
+			lineClamp: 2
+		},
     render: (rowData) => (rowData.remark ? rowData.remark : '-')
   },
   {
