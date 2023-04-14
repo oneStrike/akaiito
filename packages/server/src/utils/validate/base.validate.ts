@@ -50,6 +50,12 @@ export const validatePwd = requiredString.pattern(validPsw)
 export const validatePhone = requiredString.pattern(validPhone)
 
 /**
+/**
+ * 限定为url
+ */
+export const validateUrl = requiredString.uri()
+
+/**
  * 限定为数字类型
  */
 export const validateNumber = RuleType.number()

@@ -2,4 +2,12 @@ staticFile:
   dirs:
     default:
       prefix: '/'
-      dir: 'D:/temp/lczk-service-midway/public/upload/files'
+      dir: '/public/'
+
+    upload:
+      prefix: '/'
+      dir: '/public/upload/files/'
+
+    clientPackage:
+      prefix: '/'
+      dir: '/public/clientPackage'

@@ -1,7 +1,7 @@
 import type { FormItemRule } from 'naive-ui'
 import { utils } from '@/utils/index'
 
-const { validEmail, validPhone, validPsw } = utils.validate
+const { validEmail, validPhone, validPsw, validUrl } = utils.validate
 
 const required = (options: FormItemRule) => {
   const { type, message, trigger } = options
@@ -83,5 +83,6 @@ export const useValidate = {
   between: (options: BetweenRuleOptions) => betweenRule(options),
   password: validator(validPsw, '密码'),
   mobile: validator(validPhone, '手机号'),
-  email: validator(validEmail, '邮箱')
+  email: validator(validEmail, '邮箱'),
+  url: validator(validUrl, '链接')
 }

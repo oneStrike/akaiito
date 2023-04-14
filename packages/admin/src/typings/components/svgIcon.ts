@@ -52,3 +52,4 @@ export type IconName =
   | 'loading'
   | 'chart'
   | 'game'
+  | 'cog'

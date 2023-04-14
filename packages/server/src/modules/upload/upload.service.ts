@@ -22,11 +22,6 @@ export class UploadService extends BaseService {
    * 静态资源的存储方式
    */
   async publicFileStorageMethod(files: IUploadFile[], fields) {
-    console.log(
-      '🚀 ~ file:upload.service method:publicFileStorageMethod line:25 -----',
-      files,
-      fields
-    )
     if (!fields.fileClassify) {
       for await (const file of files) {
         await this.utils.fs.remove(file.data)

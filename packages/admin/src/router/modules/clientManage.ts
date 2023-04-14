@@ -26,6 +26,13 @@ export default {
           meta: { roles: ['admin'], title: '用户中心', icon: 'userGroup' }
         }
       ]
+    },
+    {
+      path: 'program-config',
+      name: 'programConfig',
+      meta: { roles: ['admin'], title: '程序配置', icon: 'cog' },
+      component: () =>
+        import('@/views/clientManage/programConfig/ProgramConfig.vue')
     }
   ]
 } as RouteRecordRaw

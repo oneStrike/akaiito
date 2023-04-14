@@ -18,6 +18,8 @@ interface BasicFormProps {
   loading?: boolean
   showFeedback?: boolean
   showBtn?: boolean
+  resetBtn?: boolean
+  submitText?: string
 }
 
 const formRef = ref<FormInst>()
@@ -25,9 +27,13 @@ const formRef = ref<FormInst>()
 const props = withDefaults(defineProps<BasicFormProps>(), {
   modelValue: () => ({}),
   labelWidth: 'auto',
+  labelPlacement: 'top',
+  size: 'medium',
   loading: false,
   showFeedback: true,
-  showBtn: true
+  showBtn: true,
+  resetBtn: true,
+  submitText: '提交'
 })
 
 const emits = defineEmits<{
@@ -88,19 +94,37 @@ defineExpose({
 
 <template>
   <n-form
-    :size="size"
+    :size="size!"
     class="pd_4"
     ref="formRef"
     :inline="inline"
     :model="formData"
     :show-feedback="showFeedback"
-    :label-placement="labelPlacement"
+    :label-placement="labelPlacement!"
   >
     <n-form-item
       :style="{ width: item.bind.width + 'px' }"
       v-for="item in options"
       v-bind="item.bind"
     >
+      <template #label>
+        <div>
+					<div class="flex_center">
+						<span>{{ item.bind.label }}</span>
+						<n-tooltip trigger="hover" v-if="item.bind.prompt">
+							<template #trigger>
+								<svg-icon
+									icon-name="question"
+									size="16"
+									class="ml_8 mr_8"
+								></svg-icon>
+							</template>
+
+							{{ item.bind.prompt }}
+						</n-tooltip>
+					</div>
+				</div>
+      </template>
       <n-input
         v-if="item.component === 'Input'"
         v-bind="item.componentProps.bind"
@@ -133,7 +157,7 @@ defineExpose({
         v-if="item.component === 'Select' || item.component === 'Checkbox'"
         :component="item.component"
         v-model="formData[item.bind.path]"
-        :options="item.componentProps.options"
+        :options="item.componentProps.options!"
         :bind="item.componentProps.bind"
       />
 
@@ -158,9 +182,9 @@ defineExpose({
     <n-form-item v-if="showBtn">
       <n-space justify="space-around" :wrap="false" class="w_100">
         <n-button type="primary" :loading="loading" @click="submit">
-          提交
+          {{ submitText }}
         </n-button>
-        <n-button @click="reset">重置</n-button>
+        <n-button @click="reset" v-if="resetBtn">重置</n-button>
         <slot name="button"></slot>
       </n-space>
     </n-form-item>

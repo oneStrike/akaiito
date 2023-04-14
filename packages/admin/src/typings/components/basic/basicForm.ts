@@ -51,7 +51,7 @@ export interface SelectOptions {
 }
 
 export interface BasicFormOptions {
-  bind: FormItemProps & { width?: number }
+  bind: FormItemProps & { width?: number; prompt?: string }
   component: BasicFormComponent
   componentProps: {
     bind: BasicFormComponentPropsBind

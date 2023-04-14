@@ -97,6 +97,7 @@ const iconTypeClass = computed(() => {
     <icon-majest-question-mark-circle-line v-if="iconName === 'questionMark'" />
     <icon-majest-code-line v-if="iconName === 'code'" />
     <icon-majest-close-circle-line v-if="iconName === 'closeCircle'" />
+    <icon-majest-cog-line v-if="iconName === 'cog'" />
     <!--BoxIcons		-->
     <icon-bx-pie-chart-alt v-if="iconName === 'chart'" />
     <icon-bx-game v-if="iconName === 'game'" />

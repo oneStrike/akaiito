@@ -4,22 +4,21 @@
     "target": "es2021",
     "module": "commonjs",
     "moduleResolution": "node",
+    "incremental": true,
+    "tsBuildInfoFile": ".tsbuildinfo",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "inlineSourceMap":true,
+    "inlineSourceMap": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "stripInternal": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "pretty": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": [ "./src/typings", "./node_modules/@types"],
+    "typeRoots": ["./src/typings", "./node_modules/@types"],
     "outDir": "dist"
   },
-  "exclude": [
-    "dist",
-    "node_modules",
-    "test"
-  ]
+  "exclude": ["dist", "node_modules", "test"]
 }
