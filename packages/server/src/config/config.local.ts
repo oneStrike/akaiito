@@ -9,7 +9,7 @@ export default {
         benchmark: true,
         port: 3306,
         username: 'root',
-        password: '15839038112',
+        password: '259158',
         database: 'foo',
         sync: true,
         entities: ['**/entities/**'],

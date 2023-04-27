@@ -58,7 +58,8 @@ const uploadSuccess = async (data: CommonUploadRes) => {
               class="cursor_pointer"
               :src="$FILE_PATH + userInfo.avatar"
               :size="100"
-              circle
+							object-fit="cover"
+							circle
             ></n-avatar>
           </basic-upload>
         </n-space>

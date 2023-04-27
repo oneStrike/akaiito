@@ -44,6 +44,7 @@ const dropdownSelected = (key: number) => {
 
       <n-avatar
         :src="$FILE_PATH + useUserStore.userInfo.avatar"
+        object-fit="cover"
         round
       ></n-avatar>
 
