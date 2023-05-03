@@ -105,25 +105,26 @@ defineExpose({
     <n-form-item
       :style="{ width: item.bind.width + 'px' }"
       v-for="item in options"
+      :key="item.bind.path"
       v-bind="item.bind"
     >
       <template #label>
         <div>
-					<div class="flex_center">
-						<span>{{ item.bind.label }}</span>
-						<n-tooltip trigger="hover" v-if="item.bind.prompt">
-							<template #trigger>
-								<svg-icon
-									icon-name="question"
-									size="16"
-									class="ml_8 mr_8"
-								></svg-icon>
-							</template>
+          <div class="flex_center">
+            <span>{{ item.bind.label }}</span>
+            <n-tooltip trigger="hover" v-if="item.bind.prompt">
+              <template #trigger>
+                <svg-icon
+                  icon-name="question"
+                  size="16"
+                  class="ml_8 mr_8"
+                ></svg-icon>
+              </template>
 
-							{{ item.bind.prompt }}
-						</n-tooltip>
-					</div>
-				</div>
+              {{ item.bind.prompt }}
+            </n-tooltip>
+          </div>
+        </div>
       </template>
       <n-input
         v-if="item.component === 'Input'"

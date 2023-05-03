@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import BasicForm from '@/components/basic/BasicForm.vue'
+import type { AdminUpdateClientConfigReq } from '~@/apiTypes/clientManage'
+import { updateClientConfigApi } from '@/api/client'
+//导出代码包
+const exportCodePackage = async (val: AdminUpdateClientConfigReq) => {
+  const res = await updateClientConfigApi(val)
+  console.log(
+    '🚀 ~ file:ProgramConfig method:exportCodePackage line:9 -----',
+    res
+  )
+}
 
 const formOptions: BasicFormOptions[] = [
   {
@@ -42,6 +52,7 @@ const formOptions: BasicFormOptions[] = [
       :options="formOptions"
       :reset-btn="false"
       submit-text="导出代码包"
+      @submit="exportCodePackage"
     ></basic-form>
   </n-card>
 </template>

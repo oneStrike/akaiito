@@ -1,5 +1,4 @@
 import kRequest from './index'
-import config from '@/config'
 import type {
   AdminCreateMaterialGroupReq,
   AdminCreateMaterialGroupRes,

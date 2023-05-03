@@ -48,8 +48,8 @@ const toggleRoute = ({ name }: HistoryRouter) => {
 }
 
 //查找当前所在的所以
-const findIdx = (name: RouteRecordName) => {
-  return historyRouter.value.findIndex((item) => item.name === route.name)
+const findIdx = (name = route.name) => {
+  return historyRouter.value.findIndex((item) => item.name === name)
 }
 
 //是否是最左侧
@@ -64,9 +64,9 @@ const isRight = () => {
 //处理关闭事件
 const handleClose = (key: string) => {
   const idx = findIdx(route.name!)
+  let nextRoute = defaultHistory as HistoryRouter
   switch (key) {
     case 'closeCurrent':
-      let nextRoute: HistoryRouter = defaultHistory
       if (isRight() || !isLeft()) nextRoute = historyRouter.value[idx - 1]
       close(idx)
       toggleRoute(nextRoute)
@@ -78,8 +78,7 @@ const handleClose = (key: string) => {
       historyRouter.value.splice(idx + 1)
       break
     case 'closeOther':
-      const retain = historyRouter.value[idx]
-      historyRouter.value = [defaultHistory, retain]
+      historyRouter.value = [defaultHistory, historyRouter.value[idx]]
       break
     case 'closeAll':
       historyRouter.value = [defaultHistory]

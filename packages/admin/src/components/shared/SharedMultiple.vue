@@ -25,14 +25,12 @@ interface ShareSelectProps {
 
 const props = withDefaults(defineProps<ShareSelectProps>(), {})
 
-console.log('🚀 ~ file:SharedMultiple method: line:28 -----', props.modelValue)
-
 const emits = defineEmits<{
   (event: 'update:modelValue', data: ModelValueType): void
 }>()
 
-const valueType = props.bind.valueType
-const transform = props.bind.transform
+const valueType = computed(() => props.bind.valueType).value
+const transform = computed(() => props.bind.transform).value
 const transformTypeFn = !valueType || valueType === 'number' ? parseInt : String
 
 const transformValue = () => {

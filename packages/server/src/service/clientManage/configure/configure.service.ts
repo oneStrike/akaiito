@@ -11,6 +11,10 @@ export class ConfigureService extends BaseService {
   staticService: Record<string | symbol, any>
 
   async uploadConfigure(configure: ClientConfigureDto) {
-    console.log(this.staticService)
+    const packagePath = this.staticService.staticFile.dirs.clientPackage.dir
+    console.log(
+      '🚀 ~ file:packagePath method:uploadConfigure line:15 -----',
+      packagePath
+    )
   }
 }

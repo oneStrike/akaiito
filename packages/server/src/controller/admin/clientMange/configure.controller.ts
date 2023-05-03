@@ -8,7 +8,7 @@ export class ConfigureController extends BaseController {
   @Inject()
   configureService: ConfigureService
 
-  @Post('/updateConfigure', { summary: '更新客户端配置' })
+  @Post('/updateClientConfig', { summary: '更新客户端配置' })
   async updateConfigure(@Body() body: ClientConfigureDto) {
     return this.configureService.uploadConfigure(body)
   }

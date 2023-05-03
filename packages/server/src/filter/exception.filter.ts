@@ -53,9 +53,10 @@ export class ExceptionFilter {
 
     err.status = 200
     const responseRes = {
+      desc,
       code,
-      status: 'error',
-      desc
+      data: null,
+      status: 'error'
     }
     ctx.setAttr('responseRes', responseRes)
     const baseSysLogService = await ctx.requestContext.getAsync(LogService)

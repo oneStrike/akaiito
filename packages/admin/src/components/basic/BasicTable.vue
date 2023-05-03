@@ -33,13 +33,16 @@ const props = withDefaults(defineProps<BasicTableProps>(), {
 })
 
 const innerColumns = computed(() => {
+  const columns: BasicTableProps['columns'] = JSON.parse(
+    JSON.stringify(props.columns)
+  )
   if (props.align) {
-    props.columns.forEach((item) => {
+    columns.forEach((item) => {
       item.align = item.align ?? props.align
     })
   }
   //@ts-ignore
-  if (props.showIndex && props.columns[0].key !== 'index') {
+  if (props.showIndex && columns[0].key !== 'index') {
     const indexColumn: DataTableColumns[number] = {
       key: 'index',
       title: '序号',
@@ -51,13 +54,13 @@ const innerColumns = computed(() => {
           : index + 1
       }
     }
-    if (props.columns[0].type === 'selection') {
-      props.columns.splice(1, 0, indexColumn)
+    if (columns[0].type === 'selection') {
+      columns.splice(1, 0, indexColumn)
     } else {
-      props.columns.unshift(indexColumn)
+      columns.unshift(indexColumn)
     }
   }
-  return props.columns
+  return columns
 })
 
 const selectKeys = ref<DataTableRowKey[]>([])

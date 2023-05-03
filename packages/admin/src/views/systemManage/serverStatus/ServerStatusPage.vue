@@ -160,10 +160,7 @@ const diskProgress = computed(() => {
       ? parseFloat(serverInfo.value.diskUsed)
       : parseFloat(serverInfo.value.diskUsed) / 1024
     if (serverInfo.value && total > 0 && used >= 0) {
-      const { diskTotal, diskUsed } = serverInfo.value
-      return parseFloat(
-        ((parseFloat(diskUsed) / parseFloat(diskTotal)) * 100).toFixed(2)
-      )
+      return parseFloat(((used / total) * 100).toFixed(2))
     }
     return 100
   }
@@ -175,14 +172,7 @@ onUnmounted(() => {
 </script>
 <template>
   <n-spin size="large" :show="loading" class="h_100">
-    <n-grid
-      x-gap="12"
-      :cols="2"
-      item-responsive
-      class="h_100"
-      :y-gap="12"
-      v-if="serverInfo"
-    >
+    <n-grid x-gap="12" :cols="2" :y-gap="12" v-if="serverInfo" class="h_100">
       <n-grid-item
         v-for="(item, index) in renderList"
         :key="index"

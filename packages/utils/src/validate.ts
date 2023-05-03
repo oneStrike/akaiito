@@ -18,12 +18,11 @@ const validEmail =
 /**
  * 邮箱
  */
-const validUrl =
-  /^((http|https):\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/
+const validUrl = /^(https?):\/\/[^\s\/$.?#].[^\s]*$/
 
 export const validate = {
   validPsw,
   validPhone,
   validEmail,
-	validUrl
+  validUrl
 }

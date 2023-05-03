@@ -33,9 +33,9 @@ const formData = useVModel(props, 'modelValue', emits)
 
 const basicFormRef = ref<BasicFormInst>()
 const confirm = async () => {
-  const { errors, values } = await basicFormRef.value?.validate()!
-  if (errors) return
-  emits('confirm', values)
+  const validateRes = await basicFormRef.value?.validate()
+  if (!validateRes || validateRes.errors) return
+  emits('confirm', validateRes.values)
 }
 </script>
 

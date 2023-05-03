@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import tinymce from 'tinymce/tinymce'
 import Editor from '@tinymce/tinymce-vue'
 import { tinymceConfig } from '@/components/Editor/tinymce'
 
@@ -32,10 +31,11 @@ const editorData = computed({
 const defaultId =
   'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
 tinymceConfig.elector = `#${defaultId}`
-if (props.height) tinymceConfig.max_height = props.height
+if (props.height) tinymceConfig.max_height = computed(() => props.height).value
 
-if (props.width) tinymceConfig.width = props.width
-if (props.placeholder) tinymceConfig.placeholder = props.placeholder
+if (props.width) tinymceConfig.width = computed(() => props.width).value
+if (props.placeholder)
+  tinymceConfig.placeholder = computed(() => props.placeholder).value
 </script>
 
 <template>

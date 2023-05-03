@@ -12,4 +12,5 @@ node_modules
 
 /packages/server/public
 /packages/server/logs
-!/packages/client/.hbuilderx/
+.hbuilderx
+!/packages/admin/public/
