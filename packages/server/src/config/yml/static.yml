@@ -7,7 +7,3 @@ staticFile:
     upload:
       prefix: '/'
       dir: '/public/upload/files/'
-
-    clientPackage:
-      prefix: '/'
-      dir: '/public/clientPackage'
