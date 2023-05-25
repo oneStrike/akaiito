@@ -10,6 +10,7 @@ import type {
 import type { ListParamsData } from '@/typings/hook/useRequestList'
 import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import config from '@/config'
+import { utils } from '@/utils/index'
 
 interface BasicTableProps {
   modelValue?: Record<string | symbol, any>[]
@@ -33,9 +34,7 @@ const props = withDefaults(defineProps<BasicTableProps>(), {
 })
 
 const innerColumns = computed(() => {
-  const columns: BasicTableProps['columns'] = JSON.parse(
-    JSON.stringify(props.columns)
-  )
+  const columns: BasicTableProps['columns'] = utils._.cloneDeep(props.columns)
   if (props.align) {
     columns.forEach((item) => {
       item.align = item.align ?? props.align

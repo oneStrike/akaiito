@@ -76,14 +76,12 @@ const column: BasicTableColumn<AdminLoginLogRes['list'][number]> = [
     render: (rowData) =>
       rowData.userAccount
         ? rowData.userAccount
-        : JSON.parse(rowData.params as string)?.account
+        : JSON.parse(rowData.params)?.account ?? '-'
   },
   {
     key: 'username',
     title: '昵称',
-    render: (rowData) => {
-      return rowData.username ? (rowData.username as string) : '-'
-    }
+    render: (rowData) => (rowData.username ? rowData.username : '-')
   },
   {
     key: 'createdAt',

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import tinymce from 'tinymce'
 import Editor from '@tinymce/tinymce-vue'
 import { tinymceConfig } from '@/components/Editor/tinymce'
 

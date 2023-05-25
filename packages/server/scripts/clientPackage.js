@@ -8,8 +8,8 @@ const fs = require('fs-extra')
 
 module.exports = () => {
   const clientPackagePath = path.join(__dirname, '../../client')
-  const targetPath = path.join(__dirname, '../dist/public/client')
-
+  const targetPath = path.join(__dirname, '../dist/public/clientPackage')
+  console.log('🚀 ~ file:clientPackage method:exports line:12 -----', 12123)
   fs.copy(clientPackagePath, targetPath, {
     filter: (src) => {
       const exclude = ['node_modules', 'dist', '.hbuilderx']

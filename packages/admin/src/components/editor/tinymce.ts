@@ -21,7 +21,6 @@ import 'tinymce/plugins/preview'
 import 'tinymce/plugins/save'
 import 'tinymce/plugins/searchreplace'
 import 'tinymce/plugins/table'
-import 'tinymce/plugins/template'
 import 'tinymce/plugins/visualblocks'
 import 'tinymce/plugins/visualchars'
 import 'tinymce/plugins/wordcount'
@@ -32,7 +31,7 @@ import { useMessage } from '@/hook/naviaDiscreteApi'
 import type { RawEditorOptions } from 'tinymce'
 
 const plugins =
-  'advlist anchor autolink autoresize autosave charmap directionality fullscreen image insertdatetime link lists nonbreaking pagebreak save searchreplace table template visualblocks visualchars preview wordcount'
+  'advlist anchor autolink autoresize autosave charmap directionality fullscreen image insertdatetime link lists nonbreaking pagebreak save searchreplace table visualblocks visualchars preview wordcount'
 
 const toolbar = [
   'searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent blockquote undo redo removeformat subscript superscript code codesample',

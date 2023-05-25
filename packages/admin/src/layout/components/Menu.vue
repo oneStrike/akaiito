@@ -64,6 +64,7 @@ const renderMenuIcon = (val: RouteRecordRaw) => {
   return useSvgIcon({ iconName: val.meta?.icon })
 }
 const menuClick = (key: string, item: RouteRecordRaw) => {
+	console.log("🚀 ~ file:Menu method:menuClick line:67 -----", key);
   if (!item.meta?.url) {
     router.push({ name: key })
   }

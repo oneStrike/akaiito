@@ -1,10 +1,16 @@
 import { Rule } from '@midwayjs/validate'
-import { validateUrl } from '../../../../utils/validate/base.validate'
+import { requiredString } from '../../../../utils/validate/base.validate'
 
 export class ClientConfigureDto {
-  @Rule(validateUrl)
-  service_agreement: string
+  @Rule(requiredString)
+  privacyTitle: string
 
-  @Rule(validateUrl)
-  privacy_agreement: string
+  @Rule(requiredString)
+  privacyMessage: string
+
+  @Rule(requiredString)
+  privacySecondTitle: string
+
+  @Rule(requiredString)
+  privacySecondMessage: string
 }
