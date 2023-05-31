@@ -1,4 +1,5 @@
 @import "variables.scss";
+@import "layout.scss";
 
 .fs12 {
 	font-size: $fs12;
@@ -8,9 +9,6 @@
 	font-size: $fs14;
 }
 
-.fs16 {
-	font-size: $fs16;
-}
 
 .fs18 {
 	font-size: $fs18;
@@ -18,4 +16,113 @@
 
 .fs20 {
 	font-size: $fs20;
+}
+
+.fs24 {
+	font-size: $fs24;
+}
+
+
+.font_weight_bold {
+	font-weight: 700;
+}
+
+.font_weight_normal {
+	font-weight: 500;
+}
+
+.primary_font_color {
+	color: $primaryColor;
+}
+
+
+.fc_white {
+	color: #ffffff
+}
+
+.fc1 {
+	color: $fontColor1;
+}
+
+.fc2 {
+	color: $fontColor2;
+}
+
+.fc3 {
+	color: $fontColor3;
+}
+
+.primary_font_color {
+	color: $primaryColor;
+}
+
+.success_font_color {
+	color: $successColor;
+}
+
+.warning_font_color {
+	color: $warningColor;
+}
+
+.error_font_color {
+	color: $errorColor;
+}
+
+.font_weight_bold {
+	font-weight: 700;
+}
+
+.font_weight_normal {
+	font-weight: 500;
+}
+
+.font_italic {
+	font-style: italic;
+}
+
+.font_underline {
+	text-decoration: underline;
+}
+
+.font_delete {
+	text-decoration: line-through
+}
+
+.tl {
+	text-align: left;
+}
+
+.tc {
+	text-align: center;
+}
+
+.tr {
+	text-align: right;
+}
+
+.bd_radius_small {
+	border-radius: 4px !important;
+}
+
+.clear_btn {
+	padding: 0 !important;
+	margin: 0 !important;
+	background: transparent;
+	border-radius: 0;
+
+	/* #ifndef APP-PLUS-NVUE*/
+	line-height: inherit !important;
+	/* #endif*/
+
+	/* #ifdef APP-PLUS-NVUE*/
+	height: 20px;
+	border-width: 0;
+	/* #endif*/
+
+	&:after {
+		/* #ifndef APP-PLUS-NVUE*/
+		border: none;
+		/* #endif*/
+	}
+
 }

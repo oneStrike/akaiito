@@ -11,8 +11,11 @@ import {
 	updateClientConfigApi
 } from "@/api/client";
 import { utils } from "@/utils/index";
+import type { BasicFormInst } from "@/typings/components/basic/basicForm";
+import { useMessage } from "@/hook/naviaDiscreteApi";
 
 const formData = ref<AdminGetClientConfigRes>();
+const formRef = ref<BasicFormInst>();
 
 const getConfigure = async () => {
 	formData.value = await getClientConfigApi();
@@ -26,8 +29,11 @@ const exportCodePackage = async (val: AdminUpdateClientConfigReq) => {
 	utils.downloadBlob(blob, fileName);
 };
 
-const reset = (val) => {
-	console.log(val);
+const updateClientConfig = async () => {
+	const validateRes = await formRef.value?.validate();
+	if (validateRes?.errors) return;
+	await updateClientConfigApi(validateRes?.values);
+	useMessage.success(HintEnum.UPD_SUC);
 };
 
 const formOptions: BasicFormOptions[] = [
@@ -91,13 +97,14 @@ const formOptions: BasicFormOptions[] = [
 <template>
 	<n-card class="main_block">
 		<basic-form
+			ref="formRef"
 			v-model:model-value="formData"
 			:options="formOptions"
 			submit-text="导出代码包"
 			reset-text="更新配置"
 			:blank-reset="true"
 			@submit="exportCodePackage"
-			@reset="reset"
+			@reset="updateClientConfig"
 		></basic-form>
 	</n-card>
 </template>

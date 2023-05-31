@@ -20,7 +20,7 @@ export const bootstrapThing = () => {
   const useSystemStore = systemStore()
   //获取程序的所有页面配置
   usePageStore.getPages()
-
+	console.log(useSystemStore.firstEntering);
   //初始页面引导
   if (useSystemStore.firstEntering) {
     useRouter.reLaunch({
