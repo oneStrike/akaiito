@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { themeStore } from "@/stores";
 
 export interface ButtonProps {
 	type?: "primary" | "success" | "error" | "warning" | "link";
@@ -8,6 +9,8 @@ export interface ButtonProps {
 	light?: boolean,
 }
 
+const useThemeStore = themeStore();
+
 const props = withDefaults(defineProps<ButtonProps>(), {
 	type: "primary",
 	size: "medium",
@@ -15,6 +18,9 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 	light: false
 });
 
+const emits = defineEmits<{
+	(event: "click"): void
+}>();
 
 const btnClassName = computed(() => {
 	const { type, size } = props;
@@ -30,18 +36,21 @@ const btnClassName = computed(() => {
 			fontSizeClassName = "fs12";
 	}
 	return {
-		btn: [type + "_bg", size + "_btn"],
-		text: [props.type !== "link" ? "fc_white" : "", fontSizeClassName]
+		btn: [size + "_btn"],
+		text: [fontSizeClassName]
 	};
-
 });
 
+const backgroundStyle = computed(() => {
+	const type = props.type === "link" ? "transparent" : props.type;
+	return useThemeStore.getThemeStyle(type);
+});
 
 </script>
 
 <template>
-	<button class="clear_btn bd_radius_small">
-		<view :class="btnClassName.btn.concat(['flex_center', 'bd_radius_small'])">
+	<button class="clear_btn bd_radius_small" @click="emits('click')">
+		<view :class="btnClassName.btn.concat(['flex_center', 'bd_radius_small'])" :style="backgroundStyle">
 			<text :class="btnClassName.text" :style="{color}">
 				{{ text }}
 			</text>
@@ -68,23 +77,6 @@ text {
 
 .large_btn {
 	padding: 12px 32px !important;
-}
-
-
-.primary_bg {
-	background-color: $primaryColor;
-}
-
-.success_bg {
-	background-color: $successColor;
-}
-
-.warning_bg {
-	background-color: $warningColor;
-}
-
-.error_bg {
-	background-color: $errorColor;
 }
 
 .link_bg {

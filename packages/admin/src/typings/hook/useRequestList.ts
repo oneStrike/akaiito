@@ -11,7 +11,7 @@ export type ListParamsData = Record<string | symbol, any> & ListParams
 export interface UseListDataParams {
   params?: ListParamsData
   api: (params: any) => Promise<any>
-  refreshHook: () => Promise<any> | any
+  refreshHook?: () => Promise<any> | any
 }
 
 export type RunApi = () => Promise<void>

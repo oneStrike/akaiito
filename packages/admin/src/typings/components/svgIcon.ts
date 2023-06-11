@@ -53,3 +53,5 @@ export type IconName =
   | 'chart'
   | 'game'
   | 'cog'
+  | 'planetRocket'
+  | 'plusCircle'

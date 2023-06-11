@@ -15,7 +15,6 @@ export default {
         entities: ['**/entities/**'],
         timezone: '+08:00',
         logging: false,
-
         define: {
           timestamps: true,
           charset: 'utf8mb4',

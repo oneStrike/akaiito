@@ -5,16 +5,42 @@ import type {
   AvatarProps,
   ButtonProps,
   ImageProps,
+  SpaceProps,
   SwitchProps,
   TagProps
 } from 'naive-ui'
-import { NButton, NTag, NSwitch, NPopconfirm, NImage, NAvatar } from 'naive-ui'
+import {
+  NButton,
+  NTag,
+  NSwitch,
+  NPopconfirm,
+  NImage,
+  NAvatar,
+  NSpace
+} from 'naive-ui'
 import config from '@/config'
 import type { FunctionArgs } from '@vueuse/core'
 import type { UsePopConfirm } from '@/typings/hook/useTsx'
+
+//间隔
+export const useSpace = (slots: JSX.Element[], props?: SpaceProps) => {
+  return (
+    <NSpace
+      wrap={false}
+      justify={'center'}
+      item-style={{ display: 'flex', alignItems: 'center' }}
+      {...props}
+    >
+      {{ default: () => slots }}
+    </NSpace>
+  )
+}
+
 //图标
-export const useSvgIcon = (props: SvgIconProps) => {
-  return <SvgIcon {...props}></SvgIcon>
+export const useSvgIcon = (
+  props: SvgIconProps & { onClick?: (e: any) => any }
+) => {
+  return <SvgIcon {...props} onClick={props.onClick}></SvgIcon>
 }
 
 //图标fn
@@ -60,7 +86,8 @@ export const useAvatar = (props: AvatarProps) => {
 
 //确认弹出框
 export const usePopConfirm: UsePopConfirm = (options) => {
-  const { props, cancel, confirm, tipField, text, source, btnProps } = options
+  const { props, cancel, confirm, tipField, text, source, btnProps, trigger } =
+    options
   return (
     <NPopconfirm
       {...props}
@@ -68,9 +95,12 @@ export const usePopConfirm: UsePopConfirm = (options) => {
       onNegativeClick={() => cancel && cancel(source)}
     >
       {{
-        trigger: () => (
-          <NButton {...btnProps}>{{ default: () => text }}</NButton>
-        ),
+        trigger: () =>
+          trigger ? (
+            trigger()
+          ) : (
+            <NButton {...btnProps}>{{ default: () => text }}</NButton>
+          ),
         default: () => `是否${text}【${source[tipField]}】？`
       }}
     </NPopconfirm>

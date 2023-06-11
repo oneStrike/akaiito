@@ -8,15 +8,17 @@ interface FormModalProps {
   show: boolean
   loading?: boolean
   width?: number
+  height?: number
   title?: string
-  modelValue?: Record<string | symbol, any>
+  modelValue?: Record<string | symbol, any> | null
   options: BasicFormOptions[]
 }
 
 const props = withDefaults(defineProps<FormModalProps>(), {
   show: false,
   loading: false,
-  width: 700
+  width: 700,
+  height: 80
 })
 
 const emits = defineEmits<{
@@ -37,6 +39,15 @@ const confirm = async () => {
   if (!validateRes || validateRes.errors) return
   emits('confirm', validateRes.values)
 }
+
+const closeModal = () => {
+  show.value = false
+}
+
+watch(show, (value) => !value && emits('close'), {
+  immediate: true,
+  deep: true
+})
 </script>
 
 <template>
@@ -45,8 +56,9 @@ const confirm = async () => {
     :title="title"
     :loading="loading"
     :width="width"
+    :height="height"
     :trap-focus="false"
-    @close="show = false"
+    @close="closeModal"
     @confirm="confirm"
   >
     <basic-form

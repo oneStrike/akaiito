@@ -4,7 +4,6 @@ import type {
   BasicTableInst
 } from '@/typings/components/basic/basicTable'
 import type {
-  AdminAddPrivacyReq,
   AdminGetPrivacyPageRes,
   AdminGetPrivacyDetailRes
 } from '~@/apiTypes/privacy'
@@ -25,14 +24,7 @@ import FormModal from '@/components/modal/FormModal.vue'
 
 type PrivacyItem = JoinLoading<AdminGetPrivacyPageRes['list'][number]>
 
-const route = useRoute()
 const tableRef = ref<BasicTableInst>()
-
-const addPrivacy = async (privacy: AdminAddPrivacyReq) => {
-  await addPrivacyApi(privacy)
-  useMessage.success(HintEnum.ADD_SUC)
-  tableRef.value?.refresh()
-}
 
 const deletePrivacy = async (ids: number[]) => {
   await deletePrivacyApi({ ids })
@@ -69,7 +61,7 @@ const batch = async (type: 'enable' | 'delete' | 'disabled') => {
   tableRef.value?.refresh()
 }
 
-const currentPrivacy = ref<AdminGetPrivacyDetailRes | object>({})
+const currentPrivacy = ref<AdminGetPrivacyDetailRes | null>()
 const showDetailModal = ref(false)
 const showEditModal = ref(false)
 //查看详情
@@ -97,7 +89,7 @@ const transformPlatform = (platform: string) => {
   const platformValueArr = platform.split(',')
   const platformLabelArr = platforms.map((item) => item.label)
   return platformValueArr
-    .map((item, index) => platformLabelArr[parseInt(item) - 1])
+    .map((item) => platformLabelArr[parseInt(item) - 1])
     .join('，')
 }
 
@@ -184,9 +176,9 @@ const tableColumns: BasicTableColumn<PrivacyItem> = [
   {
     key: 'remark',
     title: '备注',
-		ellipsis: {
-			lineClamp: 2
-		},
+    ellipsis: {
+      lineClamp: 2
+    },
     render: (rowData) => (rowData.remark ? rowData.remark : '-')
   },
   {
@@ -330,7 +322,7 @@ const batchOptions = () => [
         <n-space :wrap="false">
           <n-button
             type="primary"
-            @click=";(showEditModal = true), (currentPrivacy = {})"
+            @click=";(showEditModal = true), (currentPrivacy = null)"
             >新增</n-button
           >
           <n-dropdown trigger="hover" :options="batchOptions()" @select="batch">
@@ -347,13 +339,13 @@ const batchOptions = () => [
       @confirm="showDetailModal = false"
     >
       <div class="pd_16" style="overflow: auto">
-        <div v-html="currentPrivacy.content"></div>
+        <div v-html="currentPrivacy && currentPrivacy.content"></div>
       </div>
     </shared-modal>
 
     <form-modal
       :options="formOptions"
-      :title="currentPrivacy.id ? '编辑' : '新增'"
+      :title="currentPrivacy && currentPrivacy.id ? '编辑' : '新增'"
       v-model="currentPrivacy"
       v-model:show="showEditModal"
       :width="880"

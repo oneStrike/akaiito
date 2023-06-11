@@ -5,84 +5,84 @@ import {
   httpError,
   Inject,
   MidwayWebRouterService
-} from '@midwayjs/core'
-import { Application, Context } from '@midwayjs/koa'
-import Util from '../../utils'
-import type { ListQueryOptions } from '../../types/dto/list'
-import { Op, WhereOptions } from 'sequelize'
-import { ConfigService } from '../../service/config.service'
-import { BaseMapping } from '../mapping/base.mapping'
-import { Model } from 'sequelize-typescript'
-import type { FindMultipleServiceOptions } from '../../types/service/base'
-import { RegExpMatch } from '../../types/service/base'
+} from "@midwayjs/core";
+import { Application, Context } from "@midwayjs/koa";
+import Util from "../../utils";
+import type { ListQueryOptions } from "../../types/dto/list";
+import { Op, WhereOptions } from "sequelize";
+import { ConfigService } from "../../service/config.service";
+import { BaseMapping } from "../mapping/base.mapping";
+import { Model } from "sequelize-typescript";
+import type { FindMultipleServiceOptions } from "../../types/service/base";
+import { RegExpMatch } from "../../types/service/base";
 
 export abstract class BaseService {
   //列表查询初始参数
-  pageIndex = 0 //默认页偏移量
-  pageSize = 15 //默认页大小
-  maxPageSize = 500 //默认最大页大小
-  sort: ListQueryOptions['sort'] = '' //默认排序方式
+  pageIndex = 0; //默认页偏移量
+  pageSize = 15; //默认页大小
+  maxPageSize = 500; //默认最大页大小
+  sort: ListQueryOptions["sort"] = ""; //默认排序方式
 
   @App()
-  protected app: Application
+  protected app: Application;
 
   @Inject()
-  webRouterService: MidwayWebRouterService
+  webRouterService: MidwayWebRouterService;
 
-  protected abstract mapping: BaseMapping
+  protected abstract mapping: BaseMapping;
 
   @Inject()
-  configService: ConfigService
+  configService: ConfigService;
 
   @Config(ALL)
-  midwayConfig
+  midwayConfig;
 
   @Inject()
-  protected ctx: Context
+  protected ctx: Context;
 
   @Inject()
-  protected utils: Util
+  protected utils: Util;
 
   normalError(tips: string) {
-    throw new httpError.BadRequestError(tips)
+    throw new httpError.BadRequestError(tips);
   }
 
   //创建
   async create<T>(params: T): Promise<number> {
-    return (await this.mapping.create(params)).id
+    return (await this.mapping.create(params)).id;
   }
 
   //批量创建
   async bulkCreate<T>(params: T[]): Promise<Model[]> {
-    return await this.mapping.bulkCreate(params)
+    return await this.mapping.bulkCreate(params);
   }
 
   async findOne(where: WhereOptions) {
-    return await this.mapping.findOne(where)
+    return await this.mapping.findOne(where);
   }
 
   async findByPk(id: number) {
-    return await this.mapping.findByPk(id)
+    return await this.mapping.findByPk(id);
   }
 
   //查找多个
   async findMultiple(options: FindMultipleServiceOptions) {
-    let { params, attributes, likeKeys } = options
+    let { params, attributes, likeKeys } = options;
     if (likeKeys) {
-      params = this.generateLikeSql(likeKeys, params)
+      params = this.generateLikeSql(likeKeys, params);
     }
-    const { where, listOptions } = this.getWhere(params)
+    const { where, listOptions } = this.getWhere(params);
     return await this.mapping.findMultiple({
       where: { where, attributes },
       listOptions
-    })
+    });
   }
 
   /**
    * 查找所有
    */
   async findAll() {
-    return await this.mapping.findAll()
+    return await this.mapping.findAll();
   }
 
   //更新
@@ -90,65 +90,74 @@ export abstract class BaseService {
     params: T,
     id: number | number[]
   ): Promise<number | number[]> {
-    await this.mapping.updateOne(params, { id })
-    return id
+    await this.mapping.updateOne(params, { id });
+    return id;
   }
 
   //批量更新
   async updateMultiple<T extends { ids: number[] }>(
     params: Partial<T>
   ): Promise<number | number[]> {
-    const ids = this.utils.lodash.cloneDeep(params.ids)
-    delete params.ids
-    return await this.update(this.utils.lodash.omit(params, 'ids'), ids)
+    const ids = this.utils.lodash.cloneDeep(params.ids);
+    delete params.ids;
+    return await this.update(this.utils.lodash.omit(params, "ids"), ids);
   }
 
   //删除
   async destroy(id: number | number[]): Promise<number | number[]> {
-    await this.mapping.destroy({ id })
-    return id
+    await this.mapping.destroy({ id });
+    return id;
   }
 
   /**
    *  获取最大排序值
    */
-  async getMaxSort(field = 'sort') {
-    const maxSortArr = await this.mapping.findAll({
+  async getMaxSort(field = "sort", mapping = this.mapping) {
+    const maxSortArr = await mapping.findAll({
       limit: 1,
-      order: [[field, 'desc']],
+      order: [[field, "desc"]],
       paranoid: false,
       raw: true
-    })
-    let maxSort = 0
+    });
+    let maxSort = 0;
     if (maxSortArr.length) {
-      maxSort = maxSortArr[0][field]
+      maxSort = maxSortArr[0][field];
     }
 
-    return maxSort
+    return maxSort;
+  }
+
+  isUniqueError(err: any, isHandler = true) {
+    if (!err || !err.name) return false;
+    const isError = err.name === "SequelizeUniqueConstraintError";
+    if (isError && isHandler) {
+      return this.normalError("数据重复");
+    }
+    return isError;
   }
 
   /**
    * 判断是否已经存在
    */
   async isExists(where: WhereOptions | number, isPk = false, isError = true) {
-    let result
-    if (isPk && typeof where === 'number') {
-      result = await this.mapping.findByPk(where)
-    } else if (!isPk && typeof where !== 'number') {
-      result = await this.mapping.findOne(where, true)
+    let result;
+    if (isPk && typeof where === "number") {
+      result = await this.mapping.findByPk(where);
+    } else if (!isPk && typeof where !== "number") {
+      result = await this.mapping.findOne(where, true);
     }
 
-    let errMsg = ''
+    let errMsg = "";
     if (isError && result !== null) {
-      if (typeof where === 'number') {
-        errMsg = 'id：' + where
-      } else if (typeof where !== 'number') {
+      if (typeof where === "number") {
+        errMsg = "id：" + where;
+      } else if (typeof where !== "number") {
         for (const whereKey in where) {
-          errMsg = where[whereKey]
+          errMsg = where[whereKey];
         }
       }
     }
-    return errMsg ? this.normalError(`【${errMsg}】已经存在`) : result
+    return errMsg ? this.normalError(`【${errMsg}】已经存在`) : result;
   }
 
   /**
@@ -156,41 +165,41 @@ export abstract class BaseService {
    * @param where
    */
   getWhere(where: Record<string, any>) {
-    const listOptionsKeys = ['pageSize', 'pageIndex', 'sort', 'sortField']
+    const listOptionsKeys = ["pageSize", "pageIndex", "sort", "sortField"];
     //过滤空值
     const trueWhere = this.utils.lodash.pickBy(
       where,
       (val) => !this.utils.lodash.isNil(val)
-    )
+    );
     //生成列表查询参数
-    const listOptions = this.formatListQueryParams(where)
+    const listOptions = this.formatListQueryParams(where);
     //过滤掉列表查询参数
     const prueWhere = this.utils.lodash.omit(trueWhere, [
       ...listOptionsKeys,
-      'attributes'
-    ])
+      "attributes"
+    ]);
 
     //生成时间查询参数
     return {
       where: this.handleDate(prueWhere),
       listOptions
-    }
+    };
   }
 
   /**
    * 处理时间查询
    */
   handleDate(params: any) {
-    const { startDate, endDate } = params
-    if (!startDate && !endDate) return params
-    const start = startDate || '2022-12-03 23:57:32'
-    const end = endDate || this.utils.dayjs().format('YY-MM-DD HH:mm:ss')
+    const { startDate, endDate } = params;
+    if (!startDate && !endDate) return params;
+    const start = startDate || "2022-12-03 23:57:32";
+    const end = endDate || this.utils.dayjs().format("YY-MM-DD HH:mm:ss");
     params.createdAt = {
       [Op.between]: [start, end]
-    }
-    delete params.startDate
-    delete params.endDate
-    return params
+    };
+    delete params.startDate;
+    delete params.endDate;
+    return params;
   }
 
   /**
@@ -198,13 +207,13 @@ export abstract class BaseService {
    * @param param
    */
   formatListQueryParams(param) {
-    const pageSize = param?.pageSize ?? this.pageSize
+    const pageSize = param?.pageSize ?? this.pageSize;
     return {
       sort: param?.sort || this.sort,
       pageIndex: Number(param?.pageIndex) || this.pageIndex,
       pageSize: Number(pageSize > 100 ? this.maxPageSize : pageSize),
-      sortField: param?.sort ? param?.sortField ?? '' : ''
-    }
+      sortField: param?.sort ? param?.sortField ?? "" : ""
+    };
   }
 
   /**
@@ -213,17 +222,17 @@ export abstract class BaseService {
    * @private
    */
   generateORSql(where: WhereOptions): WhereOptions {
-    if (!this.utils.lodash.isObject(where)) return
-    const whereLen = Object.keys(where).length
-    if (whereLen === 1) return where
-    const whereStatement = []
+    if (!this.utils.lodash.isObject(where)) return;
+    const whereLen = Object.keys(where).length;
+    if (whereLen === 1) return where;
+    const whereStatement = [];
     for (const whereKey in where) {
-      const item = where[whereKey]
+      const item = where[whereKey];
       whereStatement.push({
         [whereKey]: item
-      })
+      });
     }
-    return { [Op.or]: whereStatement }
+    return { [Op.or]: whereStatement };
   }
 
   /**
@@ -232,29 +241,29 @@ export abstract class BaseService {
    * @param params
    */
   generateLikeSql(likeKeys: RegExpMatch, params: Record<string, any>) {
-    const keys = Object.keys(likeKeys)
-    const likeObj = this.utils.lodash.pick(params, keys)
-    const likeRes = {}
+    const keys = Object.keys(likeKeys);
+    const likeObj = this.utils.lodash.pick(params, keys);
+    const likeRes = {};
     this.utils.lodash.forOwn(likeObj, (value: string, key) => {
-      const mode = likeKeys[key]
-      if (mode === 'sporadic') {
+      const mode = likeKeys[key];
+      if (mode === "sporadic") {
         likeRes[key] = {
-          [Op.regexp]: `[${value.replaceAll(',', '|')}]`
-        }
-      } else if (mode === 'include') {
-        const valueArr = value.split(',')
-        let reg = ''
+          [Op.regexp]: `[${value.replaceAll(",", "|")}]`
+        };
+      } else if (mode === "include") {
+        const valueArr = value.split(",");
+        let reg = "";
         valueArr.forEach((item) => {
-          reg += `(?=.*${item})`
-        })
+          reg += `(?=.*${item})`;
+        });
         likeRes[key] = {
           [Op.regexp]: `^${reg}.*$`
-        }
+        };
       }
-    })
+    });
     return {
       ...this.utils.lodash.omit(params, keys),
       ...likeRes
-    }
+    };
   }
 }

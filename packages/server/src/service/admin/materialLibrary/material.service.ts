@@ -23,8 +23,8 @@ export class MaterialService extends BaseService {
 
   //删除素材分组，并删除分组下的所有素材
   async destroyMaterialGroup(id: number) {
-    await this.mapping.destroy({ id })
     await this.materialMapping.destroy({ groupId: id })
+    await this.mapping.destroy({ id })
     return id
   }
 

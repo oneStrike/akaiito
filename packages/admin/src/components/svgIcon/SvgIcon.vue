@@ -15,6 +15,11 @@ const props = withDefaults(defineProps<SvgIconProps>(), {
   size: 22,
   rotate: false
 })
+
+const emits = defineEmits<{
+  (event: 'click', data: Event): void
+}>()
+
 const iconColor = ref('')
 watch(
   () => props.color,
@@ -29,7 +34,7 @@ const iconTypeClass = computed(() => {
     case 'primary':
       return 'primary_color'
     case 'error':
-      return 'primary_color_danger'
+      return 'error_color'
   }
 })
 </script>
@@ -40,6 +45,7 @@ const iconTypeClass = computed(() => {
     :class="[iconTypeClass, rotate && 'rotate_animation']"
     :color="iconColor"
     :size="props.size"
+    @click="(e:Event) => emits('click', e)"
   >
     <!--    自定义图标集-->
     <!--    <icon-lczk-403 v-if="iconName === '403'" />-->
@@ -55,6 +61,7 @@ const iconTypeClass = computed(() => {
     <icon-md-reddit-loop v-if="iconName === 'reddit'" />
     <icon-md-uploading-loop v-if="iconName === 'uploading'" />
     <icon-md-loading-twotone-loop v-if="iconName === 'loading'" />
+    <icon-md-plus-circle v-if="iconName === 'plusCircle'" />
     <!--    majesticons-->
     <icon-majest-users-line v-if="iconName === 'users'" />
     <icon-majest-user-line v-if="iconName === 'user'" />

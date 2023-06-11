@@ -6,10 +6,10 @@ export default {
   meta: { title: '运营管理', roles: [], icon: 'ferrisWheel', sort: 1 },
   children: [
     {
-      path: 'subject',
-      name: 'subject',
-      component: () => import('@/views/businessManage/subject/SubjectPage.vue'),
-      meta: { roles: ['admin'], title: '话题', icon: 'planetRocket' }
+      path: 'socialCircle',
+      name: 'socialCircle',
+      component: () => import('@/views/businessManage/socialCircle/SocialCirclePage.vue'),
+      meta: { roles: ['admin'], title: '圈子', icon: 'planetRocket' }
     },
     {
       path: 'privacy-policy',

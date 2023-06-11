@@ -1,12 +1,12 @@
 import { useStorage } from "@/hooks/useStorage";
 import { StorageEnum } from "@/enum/storage";
-import type { AdminSystemConfigRes } from "@akaiito/typings/src/admin/apiTypes/clientManage";
+import { AdminSystemConfigRes } from "@/typings/store/system";
 
 export const systemStore = defineStore("system", {
 	state() {
 		return {
-			systemConfigInfo: {} as AdminSystemConfigRes,
-			themeColor: false
+			systemConfigInfo: {} as AdminSystemConfigRes
+
 		};
 	},
 	getters: {

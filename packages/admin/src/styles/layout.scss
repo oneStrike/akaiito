@@ -7,6 +7,38 @@
   overflow: hidden;
 }
 
+.primary_bg {
+  background-color: $primary_color;
+}
+
+.success_bg {
+  background-color: $success_color;
+}
+
+.warning_bg {
+  background-color: $warning_color;
+}
+
+.error_bg {
+  background-color: $error_color;
+}
+
+.primary_color {
+  color: $primary_color;
+}
+
+.success_color {
+  color: $success_color;
+}
+
+.warning_color {
+  color: $warning_color;
+}
+
+.error_color {
+  color: $error_color;
+}
+
 .w_full {
   width: 100vh;
 }

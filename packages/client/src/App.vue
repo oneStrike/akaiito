@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
 import { bootstrapThing } from "@/core/bootstrap";
+import { themeStore } from "@/stores";
+
+const useThemeStore = themeStore();
+
+const defaultFontColor = computed(() => {
+	return useThemeStore.fontColorScheme.color1;
+});
 
 onLaunch(() => {
 	console.log("App Launch");
@@ -18,10 +25,14 @@ onHide(() => {
 @import './static/iconfont/font.scss';
 
 text, view {
-	color: $fontColor1
+	color: v-bind(defaultFontColor)
 }
 
 view {
 	box-sizing: border-box;
+}
+
+.button-hover {
+	opacity: 0.7;
 }
 </style>
