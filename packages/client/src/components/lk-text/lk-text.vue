@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import { themeStore } from "@/stores";
 
+const alignKeys = ["left", "center", "right"] as const;
+const sizeKeys = ["tiny", "small", "medium", "large", "huge", "utmost"] as const;
+const typeKeys = ["default", "info", "minor", "primary", "success", "warning", "error"] as const;
+
 export interface TextProps {
 	text?: string;
-	type?:
-		| "default"
-		| "info"
-		| "minor"
-		| "primary"
-		| "success"
-		| "warning"
-		| "error";
-	align?: "left" | "center" | "right";
-	size?: "small" | "medium" | "large" | "huge" | "utmost";
+	color?: string;
+	type?: typeof typeKeys[number];
+	align?: typeof alignKeys[number];
+	size?: typeof sizeKeys[number];
 	strong?: boolean;
-	italic?: boolean;
-	underline?: boolean;
-	delete?: boolean;
-	code?: boolean;
 	center?: boolean;
+	icon?: string;
 }
 
 const useThemeStore = themeStore();
@@ -28,82 +23,51 @@ const props = withDefaults(defineProps<TextProps>(), {
 	size: "medium",
 	type: "default",
 	align: "left",
-	strong: false,
-	italic: false,
-	underline: false,
-	delete: false,
-	code: false
+	strong: false
 });
 
 const emits = defineEmits<{
 	(event: "click"): void
 }>();
 
-const fontSize = computed(() => {
-	switch (props.size) {
-		case "small":
-			return "fs12";
-		case "medium":
-			return "fs14";
-		case "large":
-			return "fs18";
-		case "huge":
-			return "fs20";
-		case "utmost":
-			return "fs24";
-	}
+const sizeValue = ref<number>();
+const colorValue = ref("");
+
+const textStyle = computed(() => {
+	sizeValue.value = useThemeStore.sizeScheme[props.size];
+	const colorValues = Object.assign(useThemeStore.fontColorScheme, useThemeStore.colorScheme);
+	colorValue.value = props.color || colorValues[props.type];
+	return {
+		fontSize: `${sizeValue.value}px`,
+		color: colorValue.value,
+		display: "inline-block"
+	};
 });
 
-const fontColor = computed(() => {
-	let color = "";
-	switch (props.type) {
-		case "default":
-			color = useThemeStore.fontColorScheme.color1;
-			break;
-		case "info":
-			color = useThemeStore.fontColorScheme.color2;
-			break;
-		case "minor":
-			color = useThemeStore.fontColorScheme.color3;
-			break;
-		default:
-			color = useThemeStore.colorScheme[props.type];
-	}
-	return { color };
-});
-
-const fontAlign = computed(() => {
+const textClass = computed(() => {
+	const classNames = [];
 	switch (props.align) {
 		case "left":
-			return "tl";
+			classNames.push("tl");
+			break;
 		case "center":
-			return "tc";
+			classNames.push("tc w_100");
+			break;
 		case "right":
-			return "tr";
+			classNames.push("tr");
+			break;
 	}
-});
-
-const textClassName = computed(() => {
-	const classNames = [];
 	if (props.strong) classNames.push("font_weight_bold");
-	if (props.italic) classNames.push("font_italic");
-	if (props.underline) classNames.push("font_underline");
-	if (props.delete) classNames.push("font_delete");
 	return classNames;
 });
 
-const platformClassName = ref("");
-// #ifdef MP
-platformClassName.value = "h_100";
-// #endif
 </script>
 
 <template>
-	<view :class="[platformClassName, fontAlign, center ? 'flex_center' : '']" @click="emits('click')">
-		<text :class="[fontColor, fontSize, ...textClassName]" :style="fontColor">
-			{{ text }}
-		</text>
-	</view>
+	<text :class="textClass" :style="textStyle" v-if="!icon">
+		{{ text }}
+	</text>
+	<uni-icons v-else :size="sizeValue" :type="icon" :color="colorValue"></uni-icons>
 </template>
 
 <style scoped lang="scss"></style>

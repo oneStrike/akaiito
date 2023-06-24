@@ -3,11 +3,11 @@ import { Body, Controller, Get, Inject, Post, Query } from "@midwayjs/core";
 import { SocialCircleService } from "../../service/socialCircle/socialCircle.service";
 import {
   CreateSocialCircleClassifyDto,
-  CreateSocialCircleDto, UpdateSocialCircleClassifyDto,
-  UpdateSocialCircleDto,
-  UpdateSocialCircleStatus
+  CreateSocialCircleDto, getSocialCirclePageDto, UpdateSocialCircleClassifyDto,
+  UpdateSocialCircleDto, UpdateSocialCircleGuideStatusDto,
+  UpdateSocialCircleStatusDto
 } from "../../service/socialCircle/dto/socialCircle.dto";
-import { IdDto, ListDto } from "../../shared/dto/base.dto";
+import { IdDto } from "../../shared/dto/base.dto";
 
 
 @Controller("/admin/socialCircle")
@@ -47,15 +47,29 @@ export class SocialCircleController extends BaseController {
   }
 
   @Post("/updateSocialCircleStatus", { summary: "更新圈子状态" })
-  async updateSocialCircleStatus(@Body() body: UpdateSocialCircleStatus) {
+  async UpdateSocialCircleStatus(@Body() body: UpdateSocialCircleStatusDto) {
+    if (body.status === 1) body.bannedReason = null;
     return await this.socialCircleService.update({
       status: body.status
     }, body.id);
   }
 
+  @Post("/updateSocialCircleGuideStatus", { summary: "更新圈子首页展示状态状态" })
+  async updateSocialCircleGuideStatus(@Body() body: UpdateSocialCircleGuideStatusDto) {
+    return await this.socialCircleService.update({
+      guide: body.guide
+    }, body.id);
+  }
+
   @Get("/getSocialCirclePage", { summary: "获取圈子分页列表" })
-  async getSocialCirclePage(@Query() query: ListDto) {
-    return await this.socialCircleService.findMultiple({ params: query });
+  async getSocialCirclePage(@Query() query: getSocialCirclePageDto) {
+    return await this.socialCircleService.getSocialCirclePage(query);
+  }
+
+
+  @Get("/getSocialCircleDetail", { summary: "获取圈子详情" })
+  async getSocialCircleDetail(@Query() { id }: IdDto) {
+    return await this.socialCircleService.findByPk(id);
   }
 
   @Get("/getSocialCircleClassifyList", { summary: "获取圈子分类列表" })

@@ -8,9 +8,9 @@ import dayjs from "dayjs";
 
 const useUserStore = userStore();
 
-export interface BasicUploadProps {
+interface BasicUploadProps {
 	fileList?: CommonUploadRes[number][] | string;
-	fileClassify: "shared" | "material";
+	fileClassify?: "shared" | "material";
 	accept?: "image" | "video";
 	listType: UploadProps["listType"];
 	max?: number;
@@ -27,7 +27,8 @@ const props = withDefaults(defineProps<BasicUploadProps>(), {
 	size: 300,
 	multiple: false,
 	showFileList: true,
-	retainFileList: false
+	retainFileList: false,
+	fileClassify: "shared"
 });
 
 const emits = defineEmits<{
@@ -194,7 +195,7 @@ const showMaterial = () => {
 					positive-text="素材库"
 					negative-text="本地"
 					@positive-click="showMaterial"
-					@negative-click="uploadRef.openOpenFileDialog()"
+					@negative-click="uploadRef?.openOpenFileDialog()"
 				>
 					<template #trigger>
 						<div

@@ -13,11 +13,21 @@ export const themeStore = defineStore("theme", {
 				white: "#FFFFFF",
 				transparent: "transparent"
 			} as ColorScheme,
+
 			fontColorScheme: {
-				color1: "#18191C",
-				color2: "#61666D",
-				color3: "#9499A0"
-			} as FontColorScheme
+				default: "#18191C",
+				info: "#61666D",
+				minor: "#9499A0"
+			} as FontColorScheme,
+
+			sizeScheme: {
+				tiny: 12,
+				small: 14,
+				medium: 16,
+				large: 18,
+				huge: 20,
+				utmost: 24
+			}
 		};
 	},
 
@@ -32,7 +42,7 @@ export const themeStore = defineStore("theme", {
 		getThemeStyle(type: keyof ColorScheme) {
 			let fontColor = "#ffffff";
 			if (type === "transparent" || type === "gray" || type === "white") {
-				fontColor = this.fontColorScheme.color1;
+				fontColor = this.fontColorScheme.default;
 			}
 			return { color: fontColor, backgroundColor: this.colorScheme[type] };
 		}

@@ -6,7 +6,7 @@ import { ConfigEnum } from '../shared/enum/config.enum'
 @Provide()
 export class ConfigService {
   @Inject()
-  baseDir: any
+  baseDir: string
 
   async getConfig<T>(
     type: ConfigEnum,

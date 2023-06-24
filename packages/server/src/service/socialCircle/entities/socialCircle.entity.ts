@@ -1,4 +1,4 @@
-import { Table, Column, DataType, ForeignKey } from "sequelize-typescript";
+import { Table, Column, DataType } from "sequelize-typescript";
 import { BaseEntity } from "../../../shared/entities/basic.entity";
 
 
@@ -38,15 +38,31 @@ export class SocialCircleEntity extends BaseEntity {
 
   @Column({
     comment: "图标",
-    type: DataType.STRING
+    type: DataType.STRING,
+    allowNull: false
   })
   icon?: string;
 
   @Column({
     comment: "封面",
-    type: DataType.STRING
+    type: DataType.STRING,
+    allowNull: false
   })
   cover?: string;
+
+  @Column({
+    comment: "创建者id",
+    type: DataType.INTEGER
+  })
+  creatorId: number;
+
+  @Column({
+    comment: "创建者名字",
+    type: DataType.STRING(50),
+    allowNull: false
+  })
+  creatorName: number;
+
 
   @Column({
     comment: "分类id",
@@ -55,10 +71,9 @@ export class SocialCircleEntity extends BaseEntity {
   classifyId: number;
 
 
-  @ForeignKey(() => SocialCircleClassifyEntity)
   @Column({
     comment: "分类名字",
-    type: DataType.STRING
+    type: DataType.STRING(50)
   })
   classifyName: number;
 
@@ -71,7 +86,7 @@ export class SocialCircleEntity extends BaseEntity {
 
   @Column({
     comment: "成员称号",
-    type: DataType.STRING,
+    type: DataType.STRING(50),
     allowNull: false
   })
   memberTitle: number;
@@ -93,7 +108,7 @@ export class SocialCircleEntity extends BaseEntity {
   @Column({
     comment: "规则",
     type: DataType.STRING,
-    defaultValue: 0
+    allowNull: false
   })
   rule: string;
 
@@ -105,9 +120,15 @@ export class SocialCircleEntity extends BaseEntity {
   guide: number;
 
   @Column({
-    comment: "状态 0审核中 1正常 2审核失败 3封禁",
+    comment: "状态  1正常 0封禁",
     type: DataType.TINYINT,
     defaultValue: 0
   })
   status: number;
+
+  @Column({
+    comment: "封禁的原因",
+    type: DataType.STRING
+  })
+  bannedReason?: string;
 }

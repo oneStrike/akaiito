@@ -11,9 +11,15 @@ export class ExceptionFilter {
   async catch(err: MidwayHttpError, ctx: Context) {
     //记录日志
     ctx.logger.error(err);
+    // @ts-ignore
+    const errorFields: Record<string | symbol, any> = err.fields;
     let desc = "";
     let code: IResponseData["code"];
-    if (err.cause) {
+    if (errorFields) {
+      //触发MySQL的unique错误
+      const key = Object.keys(errorFields)[0];
+      desc = `【${key}】字段值重复，【${errorFields[key]}】已经存在`;
+    } else if (err.cause) {
       const errorDetails = err?.cause["details"] as IDtoErrorDetails;
       code = 0;
       const { context, type } = errorDetails[0];

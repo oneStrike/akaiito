@@ -6,7 +6,7 @@ import { themeStore } from "@/stores";
 const useThemeStore = themeStore();
 
 const defaultFontColor = computed(() => {
-	return useThemeStore.fontColorScheme.color1;
+	return useThemeStore.fontColorScheme.default;
 });
 
 onLaunch(() => {

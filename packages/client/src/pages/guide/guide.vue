@@ -2,6 +2,8 @@
 import { useStorage } from "@/hooks/useStorage";
 import { StorageEnum } from "@/enum/storage";
 import { useRouter } from "@/hooks/useRouter";
+import { getSocialCirclePageApi } from "@/api/socialCircle/socialCircle";
+import { ClientGetSocialCirclePageRes } from "~@/apiTypes/socialCirlce";
 
 const skipGuide = () => {
 	useRouter.redirectTo({
@@ -9,6 +11,13 @@ const skipGuide = () => {
 	});
 	useStorage.set(StorageEnum.FIRST_ENTERING, 1);
 };
+
+const socialCircle = ref<ClientGetSocialCirclePageRes>();
+const getSocialCircle = async () => {
+	socialCircle.value = await getSocialCirclePageApi({ guide: "1" });
+	console.log(socialCircle.value);
+};
+getSocialCircle();
 </script>
 
 <template>
@@ -20,8 +29,16 @@ const skipGuide = () => {
 			<lk-text text="为你推荐丰富多样的内容" align="center" class="w_100" />
 		</lk-view>
 
-		<lk-view mode="box" class="content h_100" type="primary"> 21</lk-view>
-		<lk-view flex between mode="box" class="btn">
+		<lk-view mode="box" class="content h_100" flex v-if="socialCircle">
+			<lk-view v-for="item in socialCircle.list" :key="item.id" class="mb_16 mr_16 pos_re item" center column>
+				<image :src="$FILE_PATH + item.icon" class="icon border_radius_small mb_8"></image>
+				<lk-text :text="item.name" size="small" align="center" />
+				<view class="check_status pos_ab">
+					<lk-text icon="circle" type="minor" size="huge" />
+				</view>
+			</lk-view>
+		</lk-view>
+		<lk-view between center mode="box" class="btn">
 			<lk-button class="next" text="一键开启推荐"></lk-button>
 			<lk-text center type="minor" size="small" text="直接进入" @click="skipGuide" />
 		</lk-view>
@@ -46,5 +63,20 @@ const skipGuide = () => {
 			width: 380rpx;
 		}
 	}
+
+	.item {
+		width: 110px;
+
+		.icon {
+			width: 80px;
+			height: 80px;
+		}
+
+		.check_status {
+			top: 0;
+			right: 10px;
+		}
+	}
+
 }
 </style>

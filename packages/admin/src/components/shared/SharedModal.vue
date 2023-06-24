@@ -14,7 +14,7 @@ interface SharedModalProps {
 }
 
 const props = withDefaults(defineProps<SharedModalProps>(), {
-  width: 660,
+  width: 980,
   height: 80,
   loading: false,
   cancelBtn: true,

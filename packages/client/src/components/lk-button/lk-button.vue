@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { themeStore } from "@/stores";
 
+const typeKeys = ["primary", "success", "warning", "error"] as const;
+const sizeKeys = ["small", "medium", "large"] as const;
+
 export interface ButtonProps {
-	type?: "primary" | "success" | "error" | "warning" | "link";
-	size?: "small" | "medium" | "large";
+	type?: typeof typeKeys[number];
+	size?: typeof sizeKeys[number];
 	text?: string;
 	color?: string;
 	light?: boolean,
@@ -15,45 +18,25 @@ const props = withDefaults(defineProps<ButtonProps>(), {
 	type: "primary",
 	size: "medium",
 	text: "",
-	light: false
+	light: false,
+	color: "#ffffff"
 });
 
 const emits = defineEmits<{
 	(event: "click"): void
 }>();
 
-const btnClassName = computed(() => {
-	const { type, size } = props;
-	let fontSizeClassName = "";
-	switch (size) {
-		case "large":
-			fontSizeClassName = "fs16";
-			break;
-		case "medium":
-			fontSizeClassName = "fs14";
-			break;
-		case "small":
-			fontSizeClassName = "fs12";
-	}
-	return {
-		btn: [size + "_btn"],
-		text: [fontSizeClassName]
-	};
-});
 
 const backgroundStyle = computed(() => {
-	const type = props.type === "link" ? "transparent" : props.type;
-	return useThemeStore.getThemeStyle(type);
+	return useThemeStore.getThemeStyle(props.type);
 });
 
 </script>
 
 <template>
 	<button class="clear_btn bd_radius_small" @click="emits('click')">
-		<view :class="btnClassName.btn.concat(['flex_center', 'bd_radius_small'])" :style="backgroundStyle">
-			<text :class="btnClassName.text" :style="{color}">
-				{{ text }}
-			</text>
+		<view :class="['flex_center', 'bd_radius_small',size + '_btn']" :style="backgroundStyle">
+			<lk-text :text="text" :size="size" :color="color" />
 		</view>
 	</button>
 
@@ -79,7 +62,4 @@ text {
 	padding: 12px 32px !important;
 }
 
-.link_bg {
-	background-color: transparent;
-}
 </style>

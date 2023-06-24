@@ -12,7 +12,7 @@ if (route.query.id) {
 </script>
 
 <template>
-  <div class="container  w_100 flex_center">
+  <div class="container w_100 flex_center">
     <n-empty v-if="!route.query.id" description="暂无数据" size="large">
     </n-empty>
     <div v-else-if="privacy" v-html="privacy.content"></div>

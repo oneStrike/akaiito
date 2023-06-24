@@ -10,9 +10,6 @@ export class ConfigCore extends BaseService {
   protected mapping: BaseMapping
 
   @Inject()
-  baseDir: any
-
-  @Inject()
   midwayConfigService: MidwayConfigService
 
   @Inject()

@@ -13,7 +13,7 @@ import { Op, WhereOptions } from "sequelize";
 import { ConfigService } from "../../service/config.service";
 import { BaseMapping } from "../mapping/base.mapping";
 import { Model } from "sequelize-typescript";
-import type { FindMultipleServiceOptions } from "../../types/service/base";
+import type { FindMultipleServiceOptions, NullReg } from "../../types/service/base";
 import { RegExpMatch } from "../../types/service/base";
 
 export abstract class BaseService {
@@ -67,11 +67,15 @@ export abstract class BaseService {
 
   //查找多个
   async findMultiple(options: FindMultipleServiceOptions) {
-    let { params, attributes, likeKeys } = options;
+    let { params, attributes, likeKeys, nullKeys } = options;
     if (likeKeys) {
       params = this.generateLikeSql(likeKeys, params);
     }
+    if (nullKeys) {
+      params = this.generateNullSql(nullKeys, params);
+    }
     const { where, listOptions } = this.getWhere(params);
+    console.log(params, 123);
     return await this.mapping.findMultiple({
       where: { where, attributes },
       listOptions
@@ -169,8 +173,11 @@ export abstract class BaseService {
     //过滤空值
     const trueWhere = this.utils.lodash.pickBy(
       where,
-      (val) => !this.utils.lodash.isNil(val)
+      (val) => {
+        return !this.utils.lodash.isNil(val);
+      }
     );
+
     //生成列表查询参数
     const listOptions = this.formatListQueryParams(where);
     //过滤掉列表查询参数
@@ -233,6 +240,22 @@ export abstract class BaseService {
       });
     }
     return { [Op.or]: whereStatement };
+  }
+
+  generateNullSql(nullKeys: NullReg, params: Record<string | symbol, any>) {
+    if (!nullKeys) return;
+    const keys = Object.keys(nullKeys);
+    if (!keys.length) return;
+    const nullRes = {};
+    this.utils.lodash.forOwn(nullKeys, (value, key) => {
+      const mode = nullKeys[key];
+      const flag = mode === "is" ? Op.is : Op.not;
+      nullRes[key] = { [flag]: null };
+    });
+    return {
+      ...this.utils.lodash.omit(params, keys),
+      ...nullRes
+    };
   }
 
   /**

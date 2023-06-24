@@ -1,76 +1,73 @@
 import type {
-  ListParamsData,
-  Sort,
-  UseListData
-} from '@/typings/hook/useRequestList'
+	ListParamsData,
+	UseListData
+} from "@/typings/hook/useRequestList";
+import { utils } from "@/utils";
+import type { Ref } from "vue";
 
 export const useListData: UseListData = (options) => {
-  const api = options.api
-  const refreshHook = options.refreshHook
-  const defaultListParams: ListParamsData = Object.assign(
-    {
-      pageIndex: 0,
-      pageSize: 15,
-      sort: '',
-      sortField: ''
-    },
-    options.params ? JSON.parse(JSON.stringify(unref(options.params))) : {}
-  )
+	const api = options.api;
+	const refreshHook = options.refreshHook;
 
-  const listParams = useCloned(defaultListParams).cloned
+	const basicParams = {
+		pageIndex: 0,
+		pageSize: 15,
+		sort: "",
+		sortField: ""
+	};
 
-  const loading = ref(false)
-  const listData = ref<any[]>([])
-  const total = ref<number>(0)
+	const initialParams = utils._.cloneDeep(options.params);
 
-  //请求接口
-  const runApi = async () => {
-    loading.value = true
-    let pageIndex = listParams.value.pageIndex || 0
-    const res = await api({
-      ...listParams.value,
-      pageIndex: pageIndex++,
-      ...useFormatDate(listParams.value.createdAt)
-    })
-    listData.value = res.list
-    total.value = res.total
-    loading.value = false
-  }
+	const listParams = ref();
 
-  watch(listParams, runApi, {
-    deep: true,
-    immediate: true
-  })
+	const loading = ref(false);
+	const listData = ref<any[]>([]);
+	const total = ref<number>(0);
 
-  //重置刷新
-  const refresh = async () => {
-    refreshHook()
-    listParams.value = JSON.parse(JSON.stringify(defaultListParams))
-  }
+	//请求接口
+	const runApi = async (reset = false) => {
+		loading.value = true;
+		listParams.value = getParams(options.params, reset);
+		const res = await api(listParams.value);
+		options.data.value = res.list;
+		total.value = res.total;
+		loading.value = false;
+	};
 
-  //排序
-  const sort: Sort = async (key, order) => {
-    listParams.value.sortField = key
-    let defaultSort = ''
-    if (key === defaultListParams.sortField) {
-      defaultSort = defaultListParams.sort ?? ''
-    }
-    listParams.value.sort = order
-      ? order === 'ascend'
-        ? 'asc'
-        : 'desc'
-      : defaultSort
+	const getParams = (val?: ListParamsData | Ref<ListParamsData>, reset = false) => {
+		if (!val) return basicParams;
+		if (reset) return initialParams;
+		if (isRef(val)) val = val.value;
+		const dateParams = val.createdAt ? useFormatDate(val.createdAt) : {};
+		delete val.createdAt;
+		const params = { ...dateParams, ...(Object.assign(utils._.cloneDeep(basicParams), val)) };
+		if (params.sort) {
+			params.sort = params.sort === "ascend" ? "asc" : "desc";
+		} else {
+			params.sort = "asc";
+		}
+		return params;
+	};
 
-    listParams.value.pageIndex = 0
-  }
 
-  return {
-    runApi,
-    refresh,
-    sort,
-    listData,
-    loading,
-    total,
-    params: listParams
-  }
-}
+	watch(() => options.params, val => {
+		runApi();
+	}, { deep: true, immediate: true });
+
+
+	//重置刷新
+	const refresh = async () => {
+		refreshHook && refreshHook();
+		await runApi(true);
+	};
+
+
+	return {
+		runApi,
+		refresh,
+		listData,
+		loading,
+		total,
+		params: listParams
+	};
+};

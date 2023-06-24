@@ -1,9 +1,10 @@
 import { BaseService } from "../../shared/service/base.service";
 import { Inject, Provide } from "@midwayjs/core";
 import { SocialCircleMapping } from "./mapping/socialCircle.mapping";
-import { CreateSocialCircleClassifyDto, CreateSocialCircleDto } from "./dto/socialCircle.dto";
+import { CreateSocialCircleClassifyDto, CreateSocialCircleDto, getSocialCirclePageDto } from "./dto/socialCircle.dto";
 import { SocialCircleClassifyMapping } from "./mapping/socialCircleClassify.mapping";
 import { SocialCircleClassifyEntity } from "./entities/socialCircle.entity";
+import { FindMultipleServiceOptions } from "../../types/service/base";
 
 @Provide()
 export class SocialCircleService extends BaseService {
@@ -38,5 +39,20 @@ export class SocialCircleService extends BaseService {
       console.log(e);
       return this.isUniqueError(e);
     }
+  }
+
+  async getSocialCirclePage(params: getSocialCirclePageDto, isClient = false) {
+    const nullKeys: FindMultipleServiceOptions["nullKeys"] = Number(params.orphan) ? { classifyId: "is" } : null;
+    const likeKeys: FindMultipleServiceOptions["likeKeys"] = params.name ? { name: "include" } : null;
+    delete params.orphan;
+    const exclude = ["desc", "rule", "cover"];
+    isClient && exclude.push("vFollowers");
+    return this.findMultiple({
+      params,
+      likeKeys,
+      nullKeys,
+      attributes: { exclude }
+    });
+
   }
 }

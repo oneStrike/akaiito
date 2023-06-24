@@ -10,7 +10,7 @@ export interface ColorScheme {
 }
 
 export interface FontColorScheme {
-	color1: string;
-	color2: string;
-	color3: string;
+	default: string;
+	info: string;
+	minor: string;
 }

@@ -1,62 +1,63 @@
 <script setup lang="ts">
-import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
-import BasicForm from '@/components/basic/BasicForm.vue'
+import type { BasicFormOptions } from "@/typings/components/basic/basicForm";
+import BasicForm from "@/components/basic/BasicForm.vue";
 
 interface BasicSearchProps {
-  modelValue: Record<string | symbol, any>
-  options: BasicFormOptions[]
-  loading?: boolean
+	modelValue: Record<string | symbol, any>;
+	options: BasicFormOptions[];
+	loading?: boolean;
 }
 
 const props = withDefaults(defineProps<BasicSearchProps>(), {
-  loading: false
-})
+	loading: false
+});
 
 const innerOptions = computed(() => {
-  return props.options.map((item) => {
-    item.componentProps.bind.clearable = true
-    return item
-  })
-})
+	return props.options.map((item) => {
+		item.componentProps.bind.clearable = true;
+		return item;
+	});
+});
 const emits = defineEmits<{
-  (event: 'update:modelValue', data: any): void
-}>()
+	(event: "update:modelValue", data: any): void
+}>();
 
-const formData = ref(props.modelValue)
+const formData = ref(props.modelValue);
 watch(
-  formData,
-  (val) => {
-    if (JSON.stringify(val) !== JSON.stringify(props.modelValue)) {
-      emits('update:modelValue', val)
-    }
-  },
-  { immediate: true, deep: true }
-)
+	formData,
+	(val) => {
+		if (JSON.stringify(val) !== JSON.stringify(props.modelValue)) {
+			emits("update:modelValue", val);
+		}
+	},
+	{ immediate: true, deep: true }
+);
 </script>
 
 <template>
-  <div id="basic_search" class="flex main_between">
-    <slot name="left">
-      <div></div>
-    </slot>
-    <slot name="right">
-      <div>
-        <basic-form
-          inline
-          size="small"
-          v-model="formData"
-          :loading="loading"
-          label-placement="left"
-          :options="innerOptions"
-        ></basic-form>
-      </div>
-    </slot>
-  </div>
+	<div id="basic_search" class="flex main_between">
+		<slot name="left">
+			<div></div>
+		</slot>
+		<slot name="right">
+			<div>
+				<basic-form
+					inline
+					size="small"
+					v-model="formData"
+					:loading="loading"
+					label-placement="left"
+					:options="innerOptions"
+					@submit="emits('update:modelValue', formData)"
+				></basic-form>
+			</div>
+		</slot>
+	</div>
 </template>
 
 <style scoped lang="scss">
 :deep(.n-form--inline) {
-  flex-wrap: wrap;
-  justify-content: flex-end;
+	flex-wrap: wrap;
+	justify-content: flex-end;
 }
 </style>
