@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { useRouter } from '@/hooks/useRouter'
-onLoad((options) => {
-  console.log('🚀 ~ file:profile method: line:3 -----', options)
-})
+//隐藏系统tabbar
+uni.hideTabBar()
 </script>
 
 <template>
-  <view class="profile">
-    <text>用户中心</text>
-    <button @click="useRouter.back()">返回</button>
-  </view>
+  <lk-page custom-nav-bar custom-tab-bar>
+    <text class="fs16">我是个人中心</text>
+  </lk-page>
 </template>

@@ -2,6 +2,7 @@ import type { Plugin } from 'vite'
 import { autoImport } from './autoImport'
 import { autoRegistryComponent } from './component'
 import { compression } from './compression'
+import { defineOptions } from './defineOptions'
 import uni from '@dcloudio/vite-plugin-uni'
 
 export function createVitePlugins() {
@@ -14,6 +15,8 @@ export function createVitePlugins() {
 
   //压缩配置src
   vitePlugins.push(compression())
+  //压缩配置src
+  vitePlugins.push(defineOptions())
 
   return vitePlugins
 }

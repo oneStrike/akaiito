@@ -1,8 +1,10 @@
 {
 	"easycom": {
+		"autoscan": true,
 		"custom": {
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
-			"^lk-(.*)": "/components/lk-$1/lk-$1.{vue,nvue}"
+			"^lk-(.*)": "/components/lk-$1/lk-$1.{vue,nvue}",
+			"^tm-(.*)": "@/tmui/components/tm-$1/tm-$1.vue"
 		}
 	},
 	"pages": [
@@ -19,12 +21,58 @@
 			}
 		},
 		{
+			"path": "pages/tab-bar/friend/friend",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/tab-bar/message/message",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/tab-bar/publish/publish",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/guide/guide",
 			"style": {
 				"navigationStyle": "custom"
 			}
 		}
 	],
+	"tabBar": {
+		"color": "#f5f5f5",
+		"selectedColor": "#f5f5f5",
+		"backgroundColor": "#f5f5f5",
+		/* #ifdef MP-WEIXIN*/
+		"borderStyle": "white",
+		/* #endif*/
+		/* #ifndef MP-WEIXIN*/
+		"borderStyle": "#f5f5f5",
+		/* #endif*/
+		"list": [
+			{
+				"pagePath": "pages/tab-bar/home/home"
+			},
+			{
+				"pagePath": "pages/tab-bar/friend/friend"
+			},
+			{
+				"pagePath": "pages/tab-bar/publish/publish"
+			},
+			{
+				"pagePath": "pages/tab-bar/message/message"
+			},
+			{
+				"pagePath": "pages/tab-bar/profile/profile"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "Akaiito",

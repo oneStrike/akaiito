@@ -1,6 +1,5 @@
-import GlobalModal from '@/utils/modal'
-import type { GlobalModalOptions } from '@/typings/utils/globalModal'
-import { useSystem } from '@/hooks/useSystem'
+import GlobalModal from '@/components/libs/utils/modal'
+import type { GlobalModalOptions } from '@/components/libs/typings/globalModal'
 
 const defaultOptions = {
   title: '提示',
@@ -15,20 +14,12 @@ const defaultOptions = {
 }
 
 const showUniModal = (options: GlobalModalOptions) => {
-  let {
-    title,
-    content,
-    showCancel,
-    cancelText,
-    cancelColor,
-    confirmText,
-    confirmColor,
-    success,
-    fail
-  } = options
+  let { cancelText, cancelColor, confirmText, confirmColor } = options
+
+  const { title, content, showCancel, success, fail } = options
 
   // #ifdef APP-PLUS
-  if (useSystem.appPlatform === 'android') {
+  if (uni.$lk.platform === 'android') {
     const tempConfirmText = confirmText
     const tempConfirmColor = confirmColor
     confirmText = cancelText
@@ -62,7 +53,7 @@ const show = (options: GlobalModalOptions) => {
   // #endif
 
   // #ifdef APP-PLUS
-  if (useSystem.appPlatform === 'ios') {
+  if (uni.$lk.platform === 'ios') {
     showUniModal(options)
   } else {
     new GlobalModal(options).show()
@@ -71,5 +62,5 @@ const show = (options: GlobalModalOptions) => {
 }
 
 export const useModal = {
-  show
+  open: show
 }

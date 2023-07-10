@@ -1,1 +1,3 @@
-export const base = {}
+export const base = {
+  tabBarHeight: 50
+}

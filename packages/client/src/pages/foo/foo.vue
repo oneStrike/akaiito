@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRouter } from '@/hooks/useRouter'
+import { useRouter } from '@/components/libs/hooks/useRouter'
 
 onLoad((options) => {
   console.log('🚀 ~ file:foo method: line:5 -----', options?.params)

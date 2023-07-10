@@ -22,6 +22,7 @@ import type {
   AdminCreateSocialCircleClassifyReq,
   AdminCreateSocialCircleReq,
   AdminGetSocialCircleClassifyListRes,
+  AdminGetSocialCircleDetailRes,
   AdminGetSocialCirclePageRes
 } from '~@/apiTypes/socialCircle'
 import { useSpace, useSwitch, useTag } from '@/hook/useTsx'
@@ -30,7 +31,7 @@ import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import { useFormAssist } from '@/hook/useFormAssist'
 import { userStore } from '@/stores'
 import { useTableBasicButtons } from '@/hook/useEmbedTsx'
-import type { TagProps } from 'naive-ui'
+import type { TagProps, TreeProps } from 'naive-ui'
 import SharedModal from '@/components/shared/SharedModal.vue'
 
 type SocialCircleItem = JoinLoading<AdminGetSocialCirclePageRes['list'][number]>
@@ -187,7 +188,7 @@ const formatStatus = (status: number) => {
 
 //展示详情
 const showDetailModal = ref(false)
-const currentDetail = ref<SocialCircleItem>()
+const currentDetail = ref<AdminGetSocialCircleDetailRes | null>()
 const showDetail = async (val: SocialCircleItem) => {
   currentDetail.value = await getSocialCircleDetailApi({
     id: val.id.toString()
@@ -288,7 +289,6 @@ const tableColumns: BasicTableColumn<SocialCircleItem> = [
   {
     key: 'guide',
     title: '引导页展示',
-    renderType: 'switch',
     render: (row) =>
       useSwitch({
         value: row.guide,
@@ -506,7 +506,7 @@ const formOptions: () => BasicFormOptions[] = () => [
 ]
 
 //分类操作按钮
-const renderSuffix = ({ option }: { option: SocialCircleItem }) => {
+const renderSuffix: RenderSuffix<SocialCircleItem> = ({ option }) => {
   if (isNaN(option.id) || option.id === orphanId) return
   return useSpace([
     useSvgIcon({
@@ -525,7 +525,7 @@ const renderSuffix = ({ option }: { option: SocialCircleItem }) => {
       source: option,
       text: '删除',
       tipField: 'classifyName',
-      confirm: () => deleteClassify(option.id),
+      confirm: () => deleteClassify(data.id),
       props: {
         positiveButtonProps: {
           loading: classifyFormAssist.loading
@@ -615,55 +615,57 @@ const renderSuffix = ({ option }: { option: SocialCircleItem }) => {
       @confirm="banned"
     />
 
-    <shared-modal
-      v-model:show="showDetailModal"
-      :width="980"
-      :title="currentDetail?.name"
-      @close=";(showDetailModal = false), (currentDetail = {})"
-    >
-      <n-descriptions label-placement="left" :column="2" :size="'large'">
-        <n-descriptions-item label="名称">
-          {{ currentDetail.name }}
-        </n-descriptions-item>
-        <n-descriptions-item label="分类">
-          {{ currentDetail.classifyName }}
-        </n-descriptions-item>
-        <n-descriptions-item label="成员头衔">
-          {{ currentDetail.memberTitle }}
-        </n-descriptions-item>
-        <n-descriptions-item label="创建人">
-          {{ currentDetail.creatorName }}
-        </n-descriptions-item>
-        <n-descriptions-item label="订阅人数">
-          {{ currentDetail.followers }}
-        </n-descriptions-item>
-        <n-descriptions-item label="虚拟订阅人数">
-          {{ currentDetail.vFollowers }}
-        </n-descriptions-item>
-        <n-descriptions-item label="状态">
-          {{ formatStatus(currentDetail.status)?.text }}
-        </n-descriptions-item>
-        <n-descriptions-item label="展示在引导页">
-          {{ currentDetail.guide ? '是' : '否' }}
-        </n-descriptions-item>
-        <n-descriptions-item label="图标">
-          <n-image :src="$FILE_PATH + currentDetail.icon" :width="100" />
-        </n-descriptions-item>
-        <n-descriptions-item label="封面">
-          <n-image :src="$FILE_PATH + currentDetail.cover" :width="300" />
-        </n-descriptions-item>
-        <n-descriptions-item
-          label="封禁原因"
-          v-if="currentDetail.bannedReason"
-          :span="2"
-        >
-          {{ currentDetail.bannedReason }}
-        </n-descriptions-item>
-        <n-descriptions-item label="注意事项" :content-style="{ margin: 0 }">
-          <div v-html="currentDetail.rule" style="margin: 0"></div>
-        </n-descriptions-item>
-      </n-descriptions>
-    </shared-modal>
+    <template v-if="currentDetail">
+      <shared-modal
+        v-model:show="showDetailModal"
+        :width="980"
+        :title="currentDetail?.name"
+        @close=";(showDetailModal = false), (currentDetail = null)"
+      >
+        <n-descriptions label-placement="left" :column="2" :size="'large'">
+          <n-descriptions-item label="名称">
+            {{ currentDetail.name }}
+          </n-descriptions-item>
+          <n-descriptions-item label="分类">
+            {{ currentDetail.classifyName }}
+          </n-descriptions-item>
+          <n-descriptions-item label="成员头衔">
+            {{ currentDetail.memberTitle }}
+          </n-descriptions-item>
+          <n-descriptions-item label="创建人">
+            {{ currentDetail.creatorName }}
+          </n-descriptions-item>
+          <n-descriptions-item label="订阅人数">
+            {{ currentDetail.followers }}
+          </n-descriptions-item>
+          <n-descriptions-item label="虚拟订阅人数">
+            {{ currentDetail.vFollowers }}
+          </n-descriptions-item>
+          <n-descriptions-item label="状态">
+            {{ formatStatus(currentDetail.status)?.text }}
+          </n-descriptions-item>
+          <n-descriptions-item label="展示在引导页">
+            {{ currentDetail.guide ? '是' : '否' }}
+          </n-descriptions-item>
+          <n-descriptions-item label="图标">
+            <n-image :src="$FILE_PATH + currentDetail.icon" :width="100" />
+          </n-descriptions-item>
+          <n-descriptions-item label="封面">
+            <n-image :src="$FILE_PATH + currentDetail.cover" :width="300" />
+          </n-descriptions-item>
+          <n-descriptions-item
+            label="封禁原因"
+            v-if="currentDetail.bannedReason"
+            :span="2"
+          >
+            {{ currentDetail.bannedReason }}
+          </n-descriptions-item>
+          <n-descriptions-item label="注意事项" :content-style="{ margin: 0 }">
+            <div v-html="currentDetail.rule" style="margin: 0"></div>
+          </n-descriptions-item>
+        </n-descriptions>
+      </shared-modal>
+    </template>
   </div>
 </template>
 

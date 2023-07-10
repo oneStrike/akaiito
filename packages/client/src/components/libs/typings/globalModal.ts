@@ -17,7 +17,7 @@ export interface GlobalModalOptions {
   showCancel?: boolean
   contentWidth?: number
   backButton?: boolean
-  success?: (params: GlobalModalCallBackParams) => Promise<any> | any
-  fail?: (params: GlobalModalCallBackParams | any) => Promise<any> | any
+  success?: (params: GlobalModalCallBackParams) => Promise<any> | void
+  fail?: (params: GlobalModalCallBackParams | unknown) => Promise<any> | void
   complete?: boolean
 }

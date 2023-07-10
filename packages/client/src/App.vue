@@ -1,38 +1,46 @@
 <script setup lang="ts">
-import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
-import { bootstrapThing } from "@/core/bootstrap";
-import { themeStore } from "@/stores";
+import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
+import { bootstrapThing } from '@/core/bootstrap'
+import { themeStore } from '@/stores'
 
-const useThemeStore = themeStore();
+const useThemeStore = themeStore()
 
 const defaultFontColor = computed(() => {
-	return useThemeStore.fontColorScheme.default;
-});
+  return useThemeStore.fontColorScheme.default
+})
 
 onLaunch(() => {
-	console.log("App Launch");
-	bootstrapThing();
-});
+  console.log('App Launch')
+  bootstrapThing()
+})
 onShow(() => {
-	console.log("App Show");
-});
+  console.log('App Show')
+})
 onHide(() => {
-	console.log("App Hide");
-});
+  console.log('App Hide')
+})
 </script>
 <style lang="scss">
-@import "./static/styles/common.scss";
-@import './static/iconfont/font.scss';
+@import './static/styles/common.scss';
+@import './static/iconfont/iconfont.scss';
 
-text, view {
-	color: v-bind(defaultFontColor)
+/* #ifdef H5*/
+uni-page-body {
+  height: 100%;
+}
+
+/* #endif*/
+
+text,
+view {
+  color: v-bind(defaultFontColor);
 }
 
 view {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .button-hover {
-	opacity: 0.7;
+  opacity: 0.7;
 }
 </style>

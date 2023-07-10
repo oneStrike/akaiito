@@ -1,3 +1,5 @@
+import { ObjType } from '@/components/libs/typings'
+
 export type ImageMode =
   | 'scaleToFill'
   | 'aspectFit'
@@ -12,3 +14,10 @@ export type ImageMode =
   | 'top right'
   | 'bottom left'
   | 'bottom right'
+
+export type HttpResponse = {
+  data: ObjType
+  desc?: string
+  code: number
+  status: string
+}

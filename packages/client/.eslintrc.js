@@ -8,7 +8,8 @@ module.exports = {
   globals: {
     uni: true,
     wx: true,
-    plus: true
+    plus: true,
+		ROUTES:true
   },
   extends: [
     'eslint:recommended',

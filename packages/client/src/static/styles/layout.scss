@@ -28,12 +28,20 @@
 	position: absolute;
 }
 
+.over_scroll {
+	overflow: auto;
+}
+
 .flex {
 	display: flex;
 }
 
 .flex_1 {
 	flex: 1;
+}
+
+.flex_wrap {
+	flex-wrap: wrap;
 }
 
 .flex_center {
@@ -164,7 +172,7 @@
 	padding-bottom: 8px;
 }
 
-.pd_16 {
+.pb_16 {
 	padding-bottom: 16px;
 }
 

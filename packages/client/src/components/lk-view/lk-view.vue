@@ -1,64 +1,79 @@
 <script setup lang="ts">
-import { themeStore } from "@/stores";
-import { ColorScheme } from "@/typings/store/theme";
+import { themeStore } from '@/stores'
+import { ColorScheme } from '@/typings/store/theme'
+import { defineOptions } from 'unplugin-vue-define-options/macros'
+
+defineOptions({
+  name: 'LkView',
+  options: {
+    virtualHost: true //虚拟化组件节点,开启后无法再外部设置组件样式
+  }
+})
 
 export interface ViewProps {
-	mode?: "default" | "page" | "box";
-	radius?: "small" | "base" | "circle";
-	type?: keyof ColorScheme;
-	center?: boolean;
-	relative?: boolean;
-	flex?: boolean;
-	between?: boolean;
-	around?: boolean;
-	column?: boolean;
+  mode?: 'default' | 'page' | 'box'
+  radius?: 'small' | 'base' | 'circle'
+  type?: keyof ColorScheme
+  center?: boolean
+  wrap?: boolean
+  scroll?: boolean
+  relative?: boolean
+  flex?: boolean
+  between?: boolean
+  around?: boolean
+  column?: boolean
 }
 
-const useThemeStore = themeStore();
+const useThemeStore = themeStore()
 
 const props = withDefaults(defineProps<ViewProps>(), {
-	mode: "default",
-	type: "white",
-	center: false,
-	column: false,
-	relative: true
-});
+  mode: 'default',
+  type: 'white',
+  center: false,
+  column: false,
+  relative: true
+})
 
 const emits = defineEmits<{
-	(event: "click"): void
-}>();
+  (event: 'click'): void
+}>()
 
 const viewMode = computed(() => {
-	switch (props.mode) {
-		case "page":
-			return "pd_16 m_h_full";
-		case "box":
-			return "pd_16";
-	}
-});
+  switch (props.mode) {
+    case 'page':
+      return 'pd_16 m_h_full'
+    case 'box':
+      return 'pd_16'
+  }
+})
 
-
+//添加class类名
 const viewClassNames = computed(() => {
-	const classNames = [];
-	if (props.center) classNames.push("flex flex_center");
-	if (props.relative) classNames.push("pos_re");
-	if (props.radius) classNames.push("border_radius_" + props.radius);
-	if (props.flex) classNames.push("flex");
-	if (props.between) classNames.push("flex main_between");
-	if (props.around) classNames.push("flex main_around");
-	if (props.column) classNames.push("flex_col");
-	return classNames;
-});
+  const classNames = []
+  if (props.center) classNames.push('flex flex_center')
+  if (props.relative) classNames.push('pos_re')
+  if (props.scroll) classNames.push('over_scroll')
+  if (props.radius) classNames.push('border_radius_' + props.radius)
+  if (props.flex) classNames.push('flex')
+  if (props.between) classNames.push('flex main_between')
+  if (props.around) classNames.push('flex main_around')
+  if (props.column) classNames.push('flex_col')
+  if (props.wrap) classNames.push('flex_wrap')
+  return classNames
+})
 
 const backgroundColor = computed(() => {
-	return useThemeStore.getThemeStyle(props.type);
-
-});
-
+  return useThemeStore.getThemeStyle(props.type)
+})
 </script>
 
 <template>
-	<view :class="[viewMode, ...viewClassNames]" :style="backgroundColor" @click="emits('click')">
-		<slot></slot>
-	</view>
+  <view
+    :class="[viewMode, ...viewClassNames]"
+    :style="backgroundColor"
+    @click="emits('click')"
+  >
+    <slot></slot>
+  </view>
 </template>
+

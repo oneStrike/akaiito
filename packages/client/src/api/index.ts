@@ -1,18 +1,25 @@
-import { KRequest } from '@/utils/request'
 import config from '@/config'
+import type { RequestResponse } from '@/components/libs/typings'
+import { LkRequest } from '@/components/libs/hooks/useRequest'
+import { HttpResponse } from '@/typings'
 
-export const ajax = new KRequest({
+export const ajax = new LkRequest({
   baseUrl: config.BASE_URL,
+  timeout: 10000,
   interceptor: {
-    response(data) {
-      if (data.data.code !== 1) {
-        return {
-          error: true,
-          desc: data.data.desc,
-          data
-        }
+    response(data: HttpResponse): RequestResponse {
+      const error = data?.code !== 1
+      return {
+        error,
+        desc: data.desc || error ? '未知错误' : '',
+        data: data.data
       }
-      return data
     }
+  },
+  handlerError: (data: RequestResponse) => {
+    uni.$lk.modal.open({
+      title: '错误',
+      content: data.desc!
+    })
   }
 })
