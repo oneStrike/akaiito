@@ -1,45 +1,30 @@
 <script setup lang="ts">
-import { themeStore } from '@/stores'
 import { defineOptions } from 'unplugin-vue-define-options/macros'
+import {
+  ColorSchemeKey,
+  SizeSchemeKey
+} from '@/components/libs/typings/components'
+import { useColor, useSize } from '@/components/libs/hooks/useConfig'
 
 defineOptions({
   name: 'LkText',
   options: {
-    virtualHost: true //虚拟化组件节点,开启后无法再外部设置组件样式
+    virtualHost: true //虚拟化组件节点
   }
 })
 
-const alignKeys = ['left', 'center', 'right'] as const
-const sizeKeys = ['tiny', 'small', 'medium', 'large', 'huge', 'utmost'] as const
-const typeKeys = [
-  'default',
-  'info',
-  'minor',
-  'primary',
-  'success',
-  'warning',
-  'error'
-] as const
-
 export interface TextProps {
-  text?: string
-  color?: string
-  type?: (typeof typeKeys)[number]
-  align?: (typeof alignKeys)[number]
-  size?: (typeof sizeKeys)[number]
+  text?: string | number
+  size?: SizeSchemeKey
+  color?: ColorSchemeKey
   strong?: boolean
-  center?: boolean
-  icon?: string
-  iconPrefix?: string
+  block?: boolean
 }
-
-const useThemeStore = themeStore()
 
 const props = withDefaults(defineProps<TextProps>(), {
   text: '',
   size: 'medium',
-  type: 'default',
-  align: 'left',
+  color: 'basis',
   strong: false
 })
 
@@ -47,53 +32,22 @@ const emits = defineEmits<{
   (event: 'click'): void
 }>()
 
-const textStyle = computed(() => {
-  const sizeValue = useThemeStore.sizeScheme[props.size]
-  const colorValues = Object.assign(
-    useThemeStore.fontColorScheme,
-    useThemeStore.colorScheme
-  )
-  const colorValue = props.color || colorValues[props.type]
-  return {
-    fontSize: `${sizeValue}px`,
-    color: colorValue,
-    display: 'inline-block'
-  }
-})
-const textClass = computed(() => {
-  const classNames = []
-  switch (props.align) {
-    case 'left':
-      classNames.push('tl')
-      break
-    case 'center':
-      classNames.push('tc w_100')
-      break
-    case 'right':
-      classNames.push('tr')
-      break
-  }
-  if (props.strong) classNames.push('font_weight_bold')
-  return classNames
-})
+const textSize = computed(() => useSize(props.size, true))
+const textColor = computed(() => useColor(props.color))
+const textStyle = computed(
+  () => `
+					font-size:${textSize.value};
+					color:${textColor.value};
+					font-weight:${props.strong ? 'bold' : 'normal'};
+					display:${props.block ? 'block' : 'inline'};
+					`
+)
 </script>
 
 <template>
-  <text
-    :class="textClass"
-    :style="textStyle"
-    v-if="!icon"
-    @click="emits('click')"
-  >
+  <text :style="textStyle" @click="emits('click')">
     {{ text }}
   </text>
-  <uni-icons
-    v-else
-    :size="parseInt(textStyle.fontSize)"
-    :type="iconPrefix ? 'icon-' + icon : icon"
-    :color="textStyle.color"
-    :custom-prefix="iconPrefix"
-  />
 </template>
 
 <style scoped lang="scss"></style>

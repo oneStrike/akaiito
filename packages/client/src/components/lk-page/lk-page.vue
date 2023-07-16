@@ -1,30 +1,45 @@
 <script setup lang="ts">
-import config from '@/config'
-import type { TabBarItem } from '@/components/lk-tab-bar/lk-tab-bar.vue'
-import { tabBarStore, themeStore } from '@/stores'
+import { defineOptions } from 'unplugin-vue-define-options/macros'
+import { useAddUnit, useColor } from '@/components/libs/hooks/useConfig'
+import type { ColorSchemeKey } from '@/components/libs/typings/components'
 
-const { safeAreaInsets } = uni.getSystemInfoSync()
-const tabBarHeight = ref(config.tabBarHeight + safeAreaInsets!.bottom + 'px')
+defineOptions({
+  name: 'LkPage',
+  options: {
+    virtualHost: true //虚拟化组件节点
+  }
+})
+
+const LK = uni.$lk
+const tabBarHeight = ref(LK.config.tabBarHeight || 0)
+
 const props = withDefaults(
   defineProps<{
     customNavBar?: boolean
     customTabBar?: boolean
+    bg?: ColorSchemeKey
+    pd?: string
   }>(),
   {
-    customNavBar: false
+    customNavBar: false,
+    bg: 'bgColor',
+    pd: ''
   }
 )
-const className = computed(() => {
-  let className = []
-  if (props.customNavBar) className.push('nav_bar')
-  if (props.customTabBar) className.push('tab_bar')
-  return className
+
+const pageStyle = computed(() => {
+  return `
+					background: ${useColor(props.bg)};
+					padding: ${useAddUnit(props.pd)};
+					padding-top: ${props.customNavBar ? LK.systemInfo.statusBarHeight : 0}px;
+	`
 })
 </script>
 
 <template>
-  <view class="container" :class="className">
+  <view class="container" :style="pageStyle">
     <slot></slot>
+    <view v-if="customTabBar" :style="{ height: tabBarHeight + 'px' }"></view>
   </view>
 </template>
 
@@ -32,19 +47,18 @@ const className = computed(() => {
 .container {
   width: 100vw;
   /* #ifndef H5*/
-  height: 100vh;
+  min-height: 100vh;
   /* #endif*/
   /* #ifdef H5*/
-  height: 100%;
+  min-height: 100%;
   /* #endif*/
-  background: #f5f5f5;
+
+  padding-bottom: 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 .nav_bar {
   padding-top: var(--status-bar-height);
-}
-
-.tab_bar {
-  padding-bottom: v-bind(tabBarHeight);
 }
 </style>

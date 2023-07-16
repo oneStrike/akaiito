@@ -1,34 +1,43 @@
 <script setup lang="ts">
-import type { TabBarItem } from '@/components/lk-tab-bar/lk-tab-bar.vue'
-import { tabBarStore, themeStore } from '@/stores'
+import { tabBarStore } from '@/stores'
+import LkButton from '@/components/lk-button/lk-button.vue'
 
 const useRouter = uni.$lk.router
 
 const useTabBarStore = tabBarStore()
-const useThemeStore = themeStore()
 //隐藏系统tabbar
 onMounted(() => {
   uni.hideTabBar()
 })
 
-//tabbar路由导航
-const navigator = (val: TabBarItem) => {
-  useRouter.switchTab({
-    path: val.path
+const changeTheme = () => {
+  console.log(uni.$lk.config.colorScheme.primary)
+  uni.$lk.setConfig({
+    colorScheme: {
+      primary: '#000000'
+    }
   })
+  console.log(uni.$lk.config.colorScheme.primary)
 }
 </script>
 
 <template>
   <lk-page custom-nav-bar custom-tab-bar>
-    <text class="fs16">我是首页</text>
+    <lk-text text="我是首页" />
+
+    <lk-button
+      text="foo"
+      @click="
+        useRouter.navigateTo({ path: 'foo/foo', params: { foo: 1, code: 2 } })
+      "
+    ></lk-button>
+
+    <lk-button text="修改主题色" @click="changeTheme" />
 
     <lk-tab-bar
-      v-if="useRouter.isTabBarPage"
-      :active-color="useThemeStore.colorScheme.primary"
       :list="useTabBarStore.tabBar"
       :value="useTabBarStore.currentTab"
-      @click="navigator"
+      @click="useTabBarStore.toggleTabBar"
     />
   </lk-page>
 </template>

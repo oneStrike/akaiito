@@ -4,10 +4,12 @@ import { Platform } from 'src/components/libs/typings'
 import { useModal } from '@/components/libs/hooks/useModal'
 import { LkRouter } from '@/components/libs/hooks/useRouter'
 import { LkRequest } from '@/components/libs/hooks/useRequest'
+import { setConfig } from '@/components/libs/hooks/useConfig'
 
 export const useLk = {
-  setup: (conf?: Config) => {
+  setup: (conf?: Partial<Config>) => {
     const systemInfo = uni.getSystemInfoSync()
+
     uni.$lk = {
       config: Object.assign(config, conf),
       systemInfo: systemInfo,
@@ -23,7 +25,8 @@ export const useLk = {
         routerEnter: conf?.routerEnter,
         prefix: conf?.prefix
       }),
-      http: LkRequest
+      http: LkRequest,
+      setConfig
     }
   }
 }

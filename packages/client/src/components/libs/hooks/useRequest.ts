@@ -70,7 +70,7 @@ export class LkRequest {
             reject(responseData)
             return
           }
-          resolve(responseData as T)
+          resolve(responseData?.data as T)
         },
         fail: (err) => {
           reject(err)

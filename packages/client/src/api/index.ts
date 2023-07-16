@@ -1,7 +1,7 @@
 import config from '@/config'
-import type { RequestResponse } from '@/components/libs/typings'
 import { LkRequest } from '@/components/libs/hooks/useRequest'
-import { HttpResponse } from '@/typings'
+import type { HttpResponse } from '@/typings'
+import type { RequestResponse } from '@/components/libs/typings/hooks'
 
 export const ajax = new LkRequest({
   baseUrl: config.BASE_URL,

@@ -16,20 +16,17 @@ export class LkRouter {
   }
 
   private async jump({ path, method, params }: IRouter) {
-    let prefix = this.prefix?.normal || ''
-    if (this.isTabBarPage(path) && method !== RouterJumpMethodEnum.RELAUNCH) {
-      method = RouterJumpMethodEnum.SWITCH_TAB
-      prefix = this.prefix?.tabBar || ''
+    const { tabBar = '', normal = '' } = this.prefix || {}
+    let prefix = normal
+    if (method === RouterJumpMethodEnum.RELAUNCH) {
+      prefix = this.isTabBarPage(path) ? tabBar : normal
+    } else if (method === RouterJumpMethodEnum.SWITCH_TAB) {
+      prefix = tabBar
     }
     path = prefix + this.fullPath(path, params)
-    let pass = true
-    if (this.guard) {
-      pass = await this.guard(path)
-    }
-    if (pass && method) {
-      path = params
-        ? path + '?params=' + encodeURIComponent(JSON.stringify(params))
-        : path
+    const pass = this.guard ? await this.guard(path) : true
+    if (pass) {
+      console.log(path)
       // @ts-ignore
       uni[method]({
         url: path,
@@ -58,7 +55,7 @@ export class LkRouter {
 
   //是否为tabBar页面
   isTabBarPage(path: string) {
-    return this.tabBarPage.find((item) => item.path === path)
+    return this.tabBarPage.find((item) => item.path.includes(path))
   }
 
   async switchTab(options: IRouter) {

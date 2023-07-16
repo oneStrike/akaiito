@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import { themeStore } from '@/stores'
-import { ColorScheme } from '@/typings/store/theme'
 import { defineOptions } from 'unplugin-vue-define-options/macros'
+import { useColor, useRadius } from '@/components/libs/hooks/useConfig'
+import type {
+  ColorSchemeKey,
+  RadiusSchemeKey
+} from '@/components/libs/typings/components'
 
 defineOptions({
   name: 'LkView',
@@ -12,8 +15,8 @@ defineOptions({
 
 export interface ViewProps {
   mode?: 'default' | 'page' | 'box'
-  radius?: 'small' | 'base' | 'circle'
-  type?: keyof ColorScheme
+  radius?: RadiusSchemeKey
+  type?: ColorSchemeKey
   center?: boolean
   wrap?: boolean
   scroll?: boolean
@@ -24,14 +27,12 @@ export interface ViewProps {
   column?: boolean
 }
 
-const useThemeStore = themeStore()
-
 const props = withDefaults(defineProps<ViewProps>(), {
   mode: 'default',
   type: 'white',
   center: false,
   column: false,
-  relative: true
+  relative: false
 })
 
 const emits = defineEmits<{
@@ -53,7 +54,6 @@ const viewClassNames = computed(() => {
   if (props.center) classNames.push('flex flex_center')
   if (props.relative) classNames.push('pos_re')
   if (props.scroll) classNames.push('over_scroll')
-  if (props.radius) classNames.push('border_radius_' + props.radius)
   if (props.flex) classNames.push('flex')
   if (props.between) classNames.push('flex main_between')
   if (props.around) classNames.push('flex main_around')
@@ -62,18 +62,18 @@ const viewClassNames = computed(() => {
   return classNames
 })
 
-const backgroundColor = computed(() => {
-  return useThemeStore.getThemeStyle(props.type)
-})
+const viewStyle = computed(() => ({
+  backgroundColor: useColor(props.type),
+  borderRadius: props.radius ? useRadius(props.radius) : ''
+}))
 </script>
 
 <template>
   <view
     :class="[viewMode, ...viewClassNames]"
-    :style="backgroundColor"
+    :style="viewStyle"
     @click="emits('click')"
   >
     <slot></slot>
   </view>
 </template>
-

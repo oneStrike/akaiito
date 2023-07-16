@@ -36,7 +36,7 @@ const goHome = () => {
   if (selected.value.length) {
   } else {
     useRouter.reLaunch({
-      path: '/home/home'
+      path: 'home/home'
     })
   }
 }
@@ -44,13 +44,10 @@ const goHome = () => {
 
 <template>
   <view>
-    <view class="head">
-      <view class="flex_center mb_16">
-        <lk-text text="选择你感兴趣的方向" size="utmost" />
-      </view>
-      <lk-text text="为你推荐丰富多样的内容" align="center" class="w_100" />
+    <view class="head tc">
+      <lk-text text="选择你感兴趣的方向" size="utmost" class="mb_16" block />
+      <lk-text text="为你推荐丰富多样的内容" />
     </view>
-
     <view
       class="pd_16 flex flex_wrap main_between over_scroll content flex_1 mt_16"
       v-if="socialCircle"
@@ -64,12 +61,13 @@ const goHome = () => {
         <image
           :src="$FILE_PATH + item.icon"
           class="icon border_radius_small mb_8 w_100 h_100"
-        ></image>
-        <lk-text :text="item.name" size="small" align="center" />
+          mode="aspectFill"
+        />
+        <lk-text :text="item.name" size="small" />
         <view class="check_status pos_ab flex_center">
-          <lk-text
-            :icon="selected.includes(item.id) ? 'checkbox' : 'circle'"
-            :type="selected.includes(item.id) ? 'primary' : 'minor'"
+          <lk-icon
+            :name="selected.includes(item.id) ? 'checkbox' : 'circle'"
+            :color="selected.includes(item.id) ? 'primary' : 'minor'"
             size="utmost"
           />
         </view>
@@ -109,11 +107,11 @@ const goHome = () => {
 }
 
 .item {
-  width: 215rpx;
+  width: 110px;
   height: fit-content;
 
   .icon {
-    height: 215rpx;
+    height: 110px;
   }
 
   .check_status {
