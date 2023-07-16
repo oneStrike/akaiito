@@ -22,7 +22,7 @@ export const bootstrapThing = () => {
   //初始页面引导
   if (useSystemStore.firstEntering) {
     uni.$lk.router.reLaunch({
-      path: '/guide/guide'
+      path: 'guide/guide'
     })
   }
 }

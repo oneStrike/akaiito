@@ -1,25 +1,27 @@
-import { ColorScheme, FontColorScheme } from '@/typings/store/theme'
-
 export const themeStore = defineStore('theme', {
   state() {
     return {
+      unit: 'px',
+
       colorScheme: {
-        primary: '#ff5844',
+        primary: '#ea6100',
         light: '#f7dee3',
         success: '#18a058',
         warning: '#f0a020',
         error: '#d03050',
         gray: '#f2f3f5',
         white: '#FFFFFF',
-        transparent: 'transparent'
-      } as ColorScheme,
-
-      fontColorScheme: {
-        default: '#18191C',
+        transparent: 'transparent',
+        //字体颜色
+        basis: '#18191C',
         info: '#61666D',
-        minor: '#9499A0'
-      } as FontColorScheme,
+        minor: '#9499A0',
 
+        //背景颜色
+        bgColor: '#f5f5f5'
+      },
+
+      //字体尺寸
       sizeScheme: {
         tiny: 12,
         small: 14,
@@ -27,23 +29,21 @@ export const themeStore = defineStore('theme', {
         large: 18,
         huge: 20,
         utmost: 24
-      }
-    }
-  },
+      },
+      //圆角
+      radius: {
+        basis: 8,
+        medium: 16,
+        large: 32
+      },
 
-  getters: {},
+      //间距
+      spaceScheme: {
+        basis: 16,
+        large: 32
+      },
 
-  actions: {
-    setColorScheme(color: ColorScheme) {
-      this.colorScheme = color
-    },
-
-    getThemeStyle(type: keyof ColorScheme) {
-      let fontColor = '#ffffff'
-      if (type === 'transparent' || type === 'gray' || type === 'white') {
-        fontColor = this.fontColorScheme.default
-      }
-      return { color: fontColor, backgroundColor: this.colorScheme[type] }
+      tabBarHeight: 50
     }
   }
 })

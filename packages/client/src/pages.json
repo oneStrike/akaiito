@@ -43,6 +43,11 @@
 			"style": {
 				"navigationStyle": "custom"
 			}
+		},
+		{
+			"path": "pages/foo/foo",
+			"style": {
+			}
 		}
 	],
 	"tabBar": {

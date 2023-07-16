@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { useRouter } from '@/components/libs/hooks/useRouter'
-
+const useRouter = uni.$lk.router
 onLoad((options) => {
-  console.log('🚀 ~ file:foo method: line:5 -----', options?.params)
+  console.log('🚀 ~ file:foo method: line:5 -----', options)
 })
 const foo = () => {
   console.log('🚀 ~ file:foo method:foo line:11 -----', 5456)

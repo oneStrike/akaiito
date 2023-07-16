@@ -10,41 +10,41 @@ export const tabBarStore = defineStore('tabBar', {
           icon: 'home',
           text: '首页',
           key: 'home',
-          path: '/home/home',
-          dot: true,
-          badge: 3
+          path: 'home/home'
         },
         {
           icon: 'friend',
           text: '友人',
           key: 'friend',
-          path: '/friend/friend',
-          badge: 12
+          path: 'friend/friend'
         },
         {
           icon: 'publish',
           text: '发布',
           key: 'publish',
-          path: '/publish/publish',
+          path: 'publish/publish',
           midButton: true
         },
         {
           icon: 'message',
           text: '消息',
           key: 'message',
-          path: '/message/message',
-          dot: true
+          path: 'message/message'
         },
         {
           icon: 'profile',
           text: '我的',
           key: 'profile',
-          path: '/profile/profile',
-          dot: true
+          path: 'profile/profile'
         }
       ] as TabBarItem[]
     }
   },
   getters: {},
-  actions: {}
+  actions: {
+    toggleTabBar(val: TabBarItem) {
+      this.currentTab = val.key
+      uni.$lk.router.switchTab({ path: val.path })
+    }
+  }
 })

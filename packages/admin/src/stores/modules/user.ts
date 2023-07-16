@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { useIntervalFn } from '@vueuse/core'
 import { router } from '@/router'
 
-export const userStore = defineStore('usre', {
+export const userStore = defineStore('userStore', {
   persist: {
     storage: sessionStorage
   },
@@ -63,9 +63,12 @@ export const userStore = defineStore('usre', {
 
     //自动续期token
     renewalToken() {
-      this.pauseRenewalToken = useIntervalFn(() => {
-        this.refreshTokenFn()
-      }, 60 * 60 * 1.8 * 1000).pause
+      this.pauseRenewalToken = useIntervalFn(
+        () => {
+          this.refreshTokenFn()
+        },
+        60 * 60 * 1.8 * 1000
+      ).pause
     }
   }
 })

@@ -2,6 +2,7 @@ import type { Config } from './config'
 import type { useModal } from '@/components/libs/hooks/useModal'
 import { LkRouter } from '@/components/libs/hooks/useRouter'
 import { LkRequest } from '@/components/libs/hooks/useRequest'
+import { setConfig } from '@/components/libs/hooks/useConfig'
 
 //扩展android和ios类型
 export type Platform =
@@ -37,6 +38,7 @@ declare global {
       modal: typeof useModal
       router: LkRouter
       http: typeof LkRequest
+      setConfig: typeof setConfig
     }
   }
 }
