@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
 import config from '@/config'
 import type { Plugin } from 'vue'
-import { pageStore, systemStore } from '@/stores'
+import { pageStore, systemStore, themeStore } from '@/stores'
+import { StorageEnum } from '@/enum/storage'
 
 export const bootstrap: Plugin = {
   install: (app) => {
@@ -15,6 +16,13 @@ export const bootstrap: Plugin = {
 }
 
 export const bootstrapThing = () => {
+  //主题色相关
+  const useThemeStore = themeStore()
+  const themeConfig = uni.getStorageSync(StorageEnum.THEME_CONFIG)
+  if (themeConfig) {
+    useThemeStore.changeTheme(themeConfig)
+  }
+
   const usePageStore = pageStore()
   const useSystemStore = systemStore()
   //获取程序的所有页面配置

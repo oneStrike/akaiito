@@ -5,9 +5,9 @@ export const config: Config = {
   unit: 'px',
 
   colorScheme: {
-    primary: '#ea6100',
-    light: '#f7dee3',
-    success: '#18a058',
+    primary: '#e87949',
+    light: '#ffbd81',
+    success: '#72c348',
     warning: '#f0a020',
     error: '#d03050',
     gray: '#f2f3f5',

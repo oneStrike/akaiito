@@ -8,7 +8,7 @@
     "dev:server": "",
     "dev:admin": "pnpm -C ./packages/admin dev",
     "dev:client": "",
-    "build": "",
+    "start": "pnpm -C ./packages/server start",
     "lint:fix": "concurrently \"pnpm -C packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
     "prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/**/*.{js,css,vue,ts,scss}",
     "test": "echo \"Error: no test specified\" && exit 1",

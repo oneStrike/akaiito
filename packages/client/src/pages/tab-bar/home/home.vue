@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { tabBarStore } from '@/stores'
+import { tabBarStore, themeStore } from '@/stores'
 import LkButton from '@/components/lk-button/lk-button.vue'
 
 const useRouter = uni.$lk.router
 
 const useTabBarStore = tabBarStore()
+const useThemeStore = themeStore()
 //隐藏系统tabbar
 onMounted(() => {
   uni.hideTabBar()
@@ -12,12 +13,11 @@ onMounted(() => {
 
 const changeTheme = () => {
   console.log(uni.$lk.config.colorScheme.primary)
-  uni.$lk.setConfig({
+  useThemeStore.changeTheme({
     colorScheme: {
-      primary: '#000000'
+      primary: '#003300'
     }
   })
-  console.log(uni.$lk.config.colorScheme.primary)
 }
 </script>
 
@@ -32,7 +32,7 @@ const changeTheme = () => {
       "
     ></lk-button>
 
-    <lk-button text="修改主题色" @click="changeTheme" />
+    <lk-button text="修改主题色" type="light" @click="changeTheme" />
 
     <lk-tab-bar
       :list="useTabBarStore.tabBar"
