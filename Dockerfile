@@ -20,7 +20,3 @@ RUN pnpm -C ./packages/server build
 EXPOSE 7001
 
 CMD ["pnpm", "run", "start"]
-
-FROM nginx:latest
-
-COPY nginx.conf /etc/nginx
