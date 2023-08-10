@@ -1,9 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const route = useRoute()
+</script>
 
 <template>
   <n-breadcrumb>
     <n-breadcrumb-item
-      v-for="(item, idx) in $route.matched"
+      v-for="(item, idx) in route.matched"
       :key="idx"
       :clickable="false"
     >

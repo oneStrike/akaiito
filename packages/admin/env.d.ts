@@ -1,1 +1,1 @@
-/// <reference typings="vite/client" />
+type IteratorObject<T = any> = Record<string | symbol, T>

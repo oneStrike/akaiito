@@ -3,13 +3,15 @@ import type {
   BasicTableColumn,
   BasicTableInst
 } from '@/typings/components/basic/basicTable'
+
 import type {
   AdminGetPrivacyPageRes,
   AdminGetPrivacyDetailRes
 } from '~@/apiTypes/privacy'
+
 import type { JoinLoading } from '@/typings/shared'
 import { useMessage } from '@/hook/naviaDiscreteApi'
-import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
+
 import {
   addPrivacyApi,
   deletePrivacyApi,
@@ -21,17 +23,25 @@ import {
 import BasicTable from '@/components/basic/BasicTable.vue'
 import SharedModal from '@/components/shared/SharedModal.vue'
 import FormModal from '@/components/modal/FormModal.vue'
+import {
+  options,
+  platforms,
+  filterOptions,
+  batchOptions
+} from '@/views/businessManage/privacyAgreement/options'
 
 type PrivacyItem = JoinLoading<AdminGetPrivacyPageRes['list'][number]>
 
 const tableRef = ref<BasicTableInst>()
 
+//删除隐私协议
 const deletePrivacy = async (ids: number[]) => {
   await deletePrivacyApi({ ids })
   useMessage.success(HintEnum.DEL_SUC)
   tableRef.value?.refresh()
 }
 
+//切换隐私协议启用状态
 const toggleStatus = async (privacy: PrivacyItem, status: number) => {
   try {
     privacy.loading = true
@@ -61,29 +71,27 @@ const batch = async (type: 'enable' | 'delete' | 'disabled') => {
   tableRef.value?.refresh()
 }
 
-const currentPrivacy = ref<AdminGetPrivacyDetailRes | null>()
+const currentPrivacy = ref<AdminGetPrivacyDetailRes | IteratorObject>()
 const showDetailModal = ref(false)
-const showEditModal = ref(false)
+const showFormModal = ref(false)
 //查看详情
 const showDetail = async ({ id }: PrivacyItem) => {
   currentPrivacy.value = await getPrivacyDetailApi({ id: id.toString() })
   showDetailModal.value = true
 }
 
-const platforms = [
-  {
-    label: 'APP',
-    value: 1
-  },
-  {
-    label: 'WEB',
-    value: 2
-  },
-  {
-    label: '小程序',
-    value: 3
+//打开表单弹窗
+const openFormModal = async (record?: PrivacyItem) => {
+  if (record) {
+    currentPrivacy.value = await getPrivacyDetailApi({
+      id: record.id.toString()
+    })
+  } else {
+    currentPrivacy.value = {}
   }
-]
+
+  showFormModal.value = true
+}
 
 const transformPlatform = (platform: string) => {
   const platformValueArr = platform.split(',')
@@ -103,12 +111,7 @@ const action: BasicTableColumn<PrivacyItem>[number] = {
       options: [
         {
           text: '编辑',
-          event: async ({ id }: PrivacyItem) => {
-            currentPrivacy.value = await getPrivacyDetailApi({
-              id: id.toString()
-            })
-            showEditModal.value = true
-          }
+          event: openFormModal
         },
         {
           text: '删除',
@@ -138,7 +141,7 @@ const operationPrivacy = async (privacy: AdminGetPrivacyDetailRes) => {
     await updatePrivacyApi(privacy)
     useMessage.success(HintEnum.UPD_SUC)
   }
-  showEditModal.value = false
+  showFormModal.value = false
   tableRef.value?.refresh()
 }
 
@@ -187,128 +190,6 @@ const tableColumns: BasicTableColumn<PrivacyItem> = [
   },
   action
 ]
-
-const filterOptions: BasicFormOptions[] = [
-  {
-    component: 'Select',
-    bind: {
-      label: '状态',
-      path: 'status',
-      width: 140
-    },
-    componentProps: {
-      bind: {
-        placeholder: '状态'
-      },
-      options: [
-        { label: '启用', value: 1 },
-        { label: '禁用', value: 0 }
-      ]
-    }
-  },
-  {
-    component: 'Select',
-    bind: {
-      label: '平台',
-      path: 'platform',
-      width: 200
-    },
-    componentProps: {
-      bind: {
-        placeholder: '状态',
-        multiple: true,
-        maxTagCount: 'responsive',
-        transform: true
-      },
-      options: platforms
-    }
-  },
-  {
-    component: 'Input',
-    bind: {
-      label: '名称',
-      path: 'name',
-      width: 200
-    },
-    componentProps: {
-      bind: {
-        placeholder: '名称'
-      }
-    }
-  }
-]
-
-const formOptions: BasicFormOptions[] = [
-  {
-    component: 'Input',
-    bind: {
-      path: 'name',
-      label: '协议名称',
-      rule: useValidate.required({ message: '协议名称' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入协议名称'
-      }
-    }
-  },
-  {
-    component: 'Checkbox',
-    bind: {
-      path: 'platform',
-      label: '平台',
-      rule: useValidate.required({ message: '平台' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请选择平台',
-        transform: true
-      },
-      options: platforms
-    }
-  },
-  {
-    component: 'Editor',
-    bind: {
-      path: 'content',
-      label: '内容',
-      rule: useValidate.required({ message: '内容' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入内容'
-      }
-    }
-  },
-  {
-    component: 'Input',
-    bind: {
-      path: 'remark',
-      label: '备注'
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入备注',
-        type: 'textarea'
-      }
-    }
-  }
-]
-
-const batchOptions = () => [
-  {
-    label: '批量禁用',
-    key: 'disabled'
-  },
-  {
-    label: '批量启用',
-    key: 'enable'
-  },
-  {
-    label: '批量删除',
-    key: 'delete'
-  }
-]
 </script>
 <template>
   <n-card class="h_100">
@@ -320,11 +201,7 @@ const batchOptions = () => [
     >
       <template #left>
         <n-space :wrap="false">
-          <n-button
-            type="primary"
-            @click=";(showEditModal = true), (currentPrivacy = null)"
-            >新增</n-button
-          >
+          <n-button type="primary" @click="openFormModal()">新增</n-button>
           <n-dropdown trigger="hover" :options="batchOptions()" @select="batch">
             <n-button>批量操作</n-button>
           </n-dropdown>
@@ -339,15 +216,15 @@ const batchOptions = () => [
       @confirm="showDetailModal = false"
     >
       <div class="pd_16" style="overflow: auto">
-        <div v-html="currentPrivacy && currentPrivacy.content"></div>
+        <div v-html="currentPrivacy?.content"></div>
       </div>
     </shared-modal>
 
     <form-modal
-      :options="formOptions"
-      :title="currentPrivacy && currentPrivacy.id ? '编辑' : '新增'"
+      :options="options"
+      :title="currentPrivacy?.id ? '编辑' : '新增'"
       v-model="currentPrivacy"
-      v-model:show="showEditModal"
+      v-model:show="showFormModal"
       :width="880"
       @confirm="operationPrivacy"
     ></form-modal>

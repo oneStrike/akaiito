@@ -17,7 +17,7 @@ import type {
   BasicTableColumn,
   BasicTableInst
 } from '@/typings/components/basic/basicTable'
-import type { JoinLoading } from '@/typings/shared'
+import type { JoinLoading, RenderSuffix } from '@/typings/shared'
 import type {
   AdminCreateSocialCircleClassifyReq,
   AdminCreateSocialCircleReq,

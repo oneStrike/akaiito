@@ -17,6 +17,7 @@ declare module 'vue-router' {
     sort?: number
     url?: string
   }
+
   interface _RouteRecordBase {
     label?: string
   }

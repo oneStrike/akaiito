@@ -61,7 +61,7 @@ const serializeRoutes = (children?: RouteRecordRaw[]) => {
 serializeRoutes()
 
 const renderMenuIcon = (val: RouteRecordRaw) => {
-  return useSvgIcon({ iconName: val.meta?.icon })
+  return useSvgIcon({ iconName: val.meta?.icon! })
 }
 const menuClick = (key: string, item: RouteRecordRaw) => {
   if (!item.meta?.url) {
@@ -90,7 +90,7 @@ watch(
     :collapsed-width="64"
     :collapsed-icon-size="22"
     :render-icon="renderMenuIcon"
-    :value="$route.name"
+    :value="route.name as string"
     @update:value="menuClick"
   />
 </template>

@@ -22,7 +22,7 @@ const basicTable = ref<BasicTableInst>()
 const useUserStore = userStore()
 
 const showModal = ref(false)
-const editUser = ref<AdminUserInfoRes | object>({})
+const editUser = ref<AdminUserInfoRes | IteratorObject>({})
 
 //禁用or启用
 const toggleUserStatus = async (user: JoinLoading<AdminUserInfoRes>) => {
