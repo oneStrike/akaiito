@@ -24,5 +24,3 @@ CMD ["pnpm", "run", "start"]
 FROM nginx:latest
 
 COPY nginx.conf /etc/nginx
-
-COPY --from=builder /app/dist  /usr/share/nginx/html
