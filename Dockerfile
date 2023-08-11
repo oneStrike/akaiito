@@ -3,7 +3,7 @@ LABEL authors="lk259"
 
 ENTRYPOINT ["top", "-b"]
 
-WORKDIR /app
+WORKDIR /akaiito
 
 COPY . .
 
