@@ -2,8 +2,13 @@
 	"extends": "@vue/tsconfig/tsconfig.web.json",
 	"include": [
 		"env.d.ts",
-		"src/**/*.*",
-		"vite/client"
+		"vite/client",
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"src/typings/auto-imports.d.ts",
+		"src/typings/components.d.ts"
 	],
 	"compilerOptions": {
 		"baseUrl": ".",
