@@ -1,6 +1,6 @@
 import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 
-export type BasicTableColumn<T = DataTableColumns> = DataTableColumns<T> & {
+export type BasicTableColumn<T> = DataTableColumns<T> & {
   renderType?: string
   sortBy?: ('descend' | 'ascend')[]
 }

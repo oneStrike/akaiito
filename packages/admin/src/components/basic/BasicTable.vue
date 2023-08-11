@@ -11,7 +11,6 @@ import type { ListParamsData } from '@/typings/hook/useRequestList'
 import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import config from '@/config'
 import { utils } from '@/utils/index'
-import api from '@/api'
 
 type BasicObject = Record<string | symbol, any>
 

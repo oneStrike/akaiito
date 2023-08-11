@@ -13,12 +13,11 @@ import type {
 } from '@/typings/components/basic/basicTable'
 import type { AdminUserInfoRes } from '~@/apiTypes/user'
 import { useMessage } from '@/hook/naviaDiscreteApi'
-import BasicTable from '@/components/basic/BasicTable.vue'
 import { userStore } from '@/stores'
 import type { JoinLoading } from '@/typings/shared'
 import config from '@/config'
 
-const basicTable = ref<BasicTableInst>()
+const basicTableIns = ref<BasicTableInst>()
 const useUserStore = userStore()
 
 const showModal = ref(false)
@@ -31,7 +30,7 @@ const toggleUserStatus = async (user: JoinLoading<AdminUserInfoRes>) => {
     ids: [user.id],
     status: user.status === 1 ? 0 : 1
   })
-  basicTable.value?.refresh()
+  basicTableIns.value?.refresh()
   useMessage.success(HintEnum.OPT_SUC)
   user.loading = false
 }
@@ -40,7 +39,7 @@ const toggleUserStatus = async (user: JoinLoading<AdminUserInfoRes>) => {
 const deleteUser = async (user: AdminUserInfoRes) => {
   await deleteUserApi({ id: user.id })
   useMessage.success(HintEnum.DEL_SUC)
-  basicTable.value?.refresh()
+  basicTableIns.value?.refresh()
 }
 
 //编辑用户
@@ -57,7 +56,7 @@ const editUserFn = async (values: any) => {
     useMessage.success(values.id ? HintEnum.UPD_SUC : HintEnum.ADD_SUC)
     formLoading.value = false
     showModal.value = false
-    basicTable.value?.refresh()
+    basicTableIns.value?.refresh()
   } catch (e) {
     formLoading.value = false
   }
@@ -340,7 +339,7 @@ const pwdForm: BasicFormOptions[] = [
 <template>
   <n-card class="main_block">
     <basic-table
-      ref="basicTable"
+      ref="basicTableIns"
       :columns="column"
       :request-api="userListApi"
       :filter-options="filterOptions"

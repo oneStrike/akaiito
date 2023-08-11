@@ -12,15 +12,8 @@ import type {
 import type { JoinLoading } from '@/typings/shared'
 import { useMessage } from '@/hook/naviaDiscreteApi'
 
-import {
-  addPrivacyApi,
-  deletePrivacyApi,
-  getPrivacyDetailApi,
-  getPrivacyPageApi,
-  switchPrivacyStatusApi,
-  updatePrivacyApi
-} from '@/api/privacy'
-import BasicTable from '@/components/basic/BasicTable.vue'
+import * as privacyApi from '@/api/privacy'
+
 import SharedModal from '@/components/shared/SharedModal.vue'
 import FormModal from '@/components/modal/FormModal.vue'
 import {
@@ -36,7 +29,7 @@ const tableRef = ref<BasicTableInst>()
 
 //删除隐私协议
 const deletePrivacy = async (ids: number[]) => {
-  await deletePrivacyApi({ ids })
+  await privacyApi.deletePrivacyApi({ ids })
   useMessage.success(HintEnum.DEL_SUC)
   tableRef.value?.refresh()
 }
@@ -45,7 +38,7 @@ const deletePrivacy = async (ids: number[]) => {
 const toggleStatus = async (privacy: PrivacyItem, status: number) => {
   try {
     privacy.loading = true
-    await switchPrivacyStatusApi({ ids: [privacy.id], status })
+    await privacyApi.switchPrivacyStatusApi({ ids: [privacy.id], status })
     useMessage.success(HintEnum.OPT_SUC)
     tableRef.value?.refresh()
     privacy.loading = false
@@ -63,9 +56,9 @@ const batch = async (type: 'enable' | 'delete' | 'disabled') => {
   }
   if (type === 'enable' || type === 'disabled') {
     const status = type === 'enable' ? 1 : 0
-    await switchPrivacyStatusApi({ ids, status })
+    await privacyApi.switchPrivacyStatusApi({ ids, status })
   } else {
-    await deletePrivacyApi({ ids })
+    await privacyApi.deletePrivacyApi({ ids })
   }
   useMessage.success(HintEnum.OPT_SUC)
   tableRef.value?.refresh()
@@ -76,14 +69,16 @@ const showDetailModal = ref(false)
 const showFormModal = ref(false)
 //查看详情
 const showDetail = async ({ id }: PrivacyItem) => {
-  currentPrivacy.value = await getPrivacyDetailApi({ id: id.toString() })
+  currentPrivacy.value = await privacyApi.getPrivacyDetailApi({
+    id: id.toString()
+  })
   showDetailModal.value = true
 }
 
 //打开表单弹窗
 const openFormModal = async (record?: PrivacyItem) => {
   if (record) {
-    currentPrivacy.value = await getPrivacyDetailApi({
+    currentPrivacy.value = await privacyApi.getPrivacyDetailApi({
       id: record.id.toString()
     })
   } else {
@@ -135,10 +130,10 @@ const action: BasicTableColumn<PrivacyItem>[number] = {
 const operationPrivacy = async (privacy: AdminGetPrivacyDetailRes) => {
   privacy.status = privacy.status || 1
   if (!privacy.id) {
-    await addPrivacyApi(privacy)
+    await privacyApi.addPrivacyApi(privacy)
     useMessage.success(HintEnum.ADD_SUC)
   } else {
-    await updatePrivacyApi(privacy)
+    await privacyApi.updatePrivacyApi(privacy)
     useMessage.success(HintEnum.UPD_SUC)
   }
   showFormModal.value = false
@@ -146,9 +141,6 @@ const operationPrivacy = async (privacy: AdminGetPrivacyDetailRes) => {
 }
 
 const tableColumns: BasicTableColumn<PrivacyItem> = [
-  {
-    type: 'selection'
-  },
   {
     key: 'name',
     title: '名称',
@@ -184,10 +176,7 @@ const tableColumns: BasicTableColumn<PrivacyItem> = [
     },
     render: (rowData) => (rowData.remark ? rowData.remark : '-')
   },
-  {
-    key: 'createdAt',
-    title: '创建日期'
-  },
+
   action
 ]
 </script>
@@ -196,7 +185,7 @@ const tableColumns: BasicTableColumn<PrivacyItem> = [
     <basic-table
       ref="tableRef"
       :columns="tableColumns"
-      :request-api="getPrivacyPageApi"
+      :request-api="privacyApi.getPrivacyPageApi"
       :filter-options="filterOptions"
     >
       <template #left>

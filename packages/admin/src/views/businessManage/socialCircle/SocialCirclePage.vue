@@ -1,18 +1,7 @@
 <script setup lang="ts">
-import {
-  createSocialCircleApi,
-  createSocialCircleClassifyApi,
-  deleteSocialCircleApi,
-  deleteSocialCircleClassifyApi,
-  getSocialCircleClassifyListApi,
-  getSocialCircleDetailApi,
-  getSocialCirclePageApi,
-  updateSocialCircleApi,
-  updateSocialCircleClassifyApi,
-  updateSocialCircleGuideStatusApi,
-  updateSocialCircleStatusApi
-} from '@/api/socialCircle'
-import BasicTree from '@/components/basic/BasicTree.vue'
+import * as socialCircleApi from '@/api/socialCircle'
+import { utils } from '@/utils'
+
 import type {
   BasicTableColumn,
   BasicTableInst
@@ -27,12 +16,18 @@ import type {
 } from '~@/apiTypes/socialCircle'
 import { useSpace, useSwitch, useTag } from '@/hook/useTsx'
 import { useMessage } from '@/hook/naviaDiscreteApi'
-import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import { useFormAssist } from '@/hook/useFormAssist'
 import { userStore } from '@/stores'
 import { useTableBasicButtons } from '@/hook/useEmbedTsx'
-import type { TagProps, TreeProps } from 'naive-ui'
-import SharedModal from '@/components/shared/SharedModal.vue'
+import type { TagProps } from 'naive-ui'
+
+import {
+  tableFilterOptions,
+  classifyFormOptions,
+  bannedFormOptions,
+  formOptions
+} from '@/views/businessManage/socialCircle/options'
+import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 
 type SocialCircleItem = JoinLoading<AdminGetSocialCirclePageRes['list'][number]>
 type SocialCircleClassifyItem = AdminGetSocialCircleClassifyListRes[number]
@@ -47,7 +42,8 @@ const classifyFormAssist = useFormAssist<Partial<SocialCircleClassifyItem>>()
 
 //获取圈子分类
 const getTreeData = async () => {
-  socialCieCleClassifyList.value = await getSocialCircleClassifyListApi()
+  socialCieCleClassifyList.value =
+    await socialCircleApi.getSocialCircleClassifyListApi()
   socialCieCleClassifyList.value.unshift({
     classifyName: '未分类',
     id: orphanId,
@@ -55,6 +51,17 @@ const getTreeData = async () => {
   })
 }
 getTreeData()
+
+const baseFormOptions: () => BasicFormOptions[] = () => {
+  const filter = socialCieCleClassifyList.value
+    ?.filter((item) => item.id !== orphanId)
+    .map((item) => ({
+      label: item.classifyName,
+      value: item.id
+    }))
+  return utils.fillFormOptions(formOptions, 'classifyId', filter)
+}
+
 //圈子列表请求参数
 const requestTableParams = ref<{
   classifyId: number | string
@@ -69,12 +76,12 @@ const createClassify = async (val: AdminCreateSocialCircleClassifyReq) => {
     classifyFormAssist.loading = true
 
     if (classifyFormAssist.edit) {
-      await updateSocialCircleClassifyApi({
+      await socialCircleApi.updateSocialCircleClassifyApi({
         ...val,
         id: classifyFormAssist.editData?.id!
       })
     } else {
-      await createSocialCircleClassifyApi(val)
+      await socialCircleApi.createSocialCircleClassifyApi(val)
     }
     await getTreeData()
     useMessage.success(
@@ -89,7 +96,7 @@ const createClassify = async (val: AdminCreateSocialCircleClassifyReq) => {
 //删除圈子分类
 const deleteClassify = async (id: number) => {
   classifyFormAssist.loading = true
-  await deleteSocialCircleClassifyApi({ id })
+  await socialCircleApi.deleteSocialCircleClassifyApi({ id })
   await getTreeData()
   useMessage.success(HintEnum.DEL_SUC)
   classifyFormAssist.loading = false
@@ -102,7 +109,11 @@ const updateStatus = async (id: number, status: number, reason?: string) => {
     bannedFormAssist.showModal = true
     return
   }
-  await updateSocialCircleStatusApi({ id, status, bannedReason: reason })
+  await socialCircleApi.updateSocialCircleStatusApi({
+    id,
+    status,
+    bannedReason: reason
+  })
   useMessage.success(HintEnum.UPD_SUC)
   tableRef.value?.refresh()
   bannedFormAssist.clearStatus()
@@ -131,12 +142,12 @@ const createSocialCircle = async (val: AdminCreateSocialCircleReq) => {
   try {
     formAssist.loading = true
     if (formAssist.edit) {
-      await updateSocialCircleApi({
+      await socialCircleApi.updateSocialCircleApi({
         ...val,
         id: formAssist.editData?.id!
       })
     } else {
-      await createSocialCircleApi(val)
+      await socialCircleApi.createSocialCircleApi(val)
     }
     tableRef.value?.refresh()
     useMessage.success(formAssist.edit ? HintEnum.UPD_SUC : HintEnum.ADD_SUC)
@@ -163,7 +174,7 @@ const toggleGuide = async (val: SocialCircleItem) => {
   val.guide = val.guide ? 0 : 1
   formAssist.edit = true
   formAssist.editData = val
-  await updateSocialCircleGuideStatusApi({
+  await socialCircleApi.updateSocialCircleGuideStatusApi({
     id: val.id,
     guide: val.guide
   })
@@ -188,9 +199,9 @@ const formatStatus = (status: number) => {
 
 //展示详情
 const showDetailModal = ref(false)
-const currentDetail = ref<AdminGetSocialCircleDetailRes | null>()
+const currentDetail = ref<AdminGetSocialCircleDetailRes | IteratorObject>()
 const showDetail = async (val: SocialCircleItem) => {
-  currentDetail.value = await getSocialCircleDetailApi({
+  currentDetail.value = await socialCircleApi.getSocialCircleDetailApi({
     id: val.id.toString()
   })
   showDetailModal.value = true
@@ -204,19 +215,21 @@ const actions = (val: SocialCircleItem) => {
       {
         text: '编辑',
         event: (row) => {
-          getSocialCircleDetailApi({ id: row.id.toString() }).then((res) => {
-            formAssist.showModal = true
-            formAssist.edit = true
-            formAssist.editData = res
-            formAssist.formValue = res
-          })
+          socialCircleApi
+            .getSocialCircleDetailApi({ id: row.id.toString() })
+            .then((res) => {
+              formAssist.showModal = true
+              formAssist.edit = true
+              formAssist.editData = res
+              formAssist.formValue = res
+            })
         }
       },
       {
         text: '删除',
         tipField: 'name',
         confirm: async (row) => {
-          await deleteSocialCircleApi({ id: row.id })
+          await socialCircleApi.deleteSocialCircleApi({ id: row.id })
           useMessage.success(HintEnum.DEL_SUC)
           tableRef.value?.refresh()
         }
@@ -304,209 +317,11 @@ const tableColumns: BasicTableColumn<SocialCircleItem> = [
     render: (rowData) => actions(rowData)
   }
 ]
-const tableFilterOptions: BasicFormOptions[] = [
-  {
-    component: 'Select',
-    bind: {
-      label: '状态',
-      path: 'status',
-      width: 180
-    },
-    componentProps: {
-      bind: {
-        placeholder: '状态'
-      },
-      options: [
-        { label: '封禁', value: 0 },
-        { label: '正常', value: 1 }
-      ]
-    }
-  },
-  {
-    component: 'Select',
-    bind: {
-      label: '首页展示',
-      path: 'guide',
-      width: 180
-    },
-    componentProps: {
-      bind: {
-        placeholder: '状态'
-      },
-      options: [
-        { label: '是', value: 1 },
-        { label: '否', value: 0 }
-      ]
-    }
-  },
-  {
-    component: 'Input',
-    bind: {
-      label: '名称',
-      path: 'name',
-      width: 160
-    },
-    componentProps: {
-      bind: {
-        placeholder: '名称'
-      }
-    }
-  }
-]
-
-const classifyFormOptions: BasicFormOptions[] = [
-  {
-    component: 'Input',
-    bind: {
-      label: '分类',
-      path: 'classifyName',
-      rule: useValidate.required({ message: '分类' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入分类'
-      }
-    }
-  }
-]
-const bannedFormOptions: BasicFormOptions[] = [
-  {
-    component: 'Input',
-    bind: {
-      label: '原因',
-      path: 'bannedReason',
-      rule: useValidate.required({ message: '封禁原因' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入封禁的原因'
-      }
-    }
-  }
-]
-
-const formOptions: () => BasicFormOptions[] = () => [
-  {
-    component: 'Input',
-    bind: {
-      label: '名称',
-      path: 'name',
-      rule: useValidate.required({ message: '名称' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入名称'
-      }
-    }
-  },
-  {
-    component: 'Input',
-    bind: {
-      label: '成员头衔',
-      path: 'memberTitle',
-      rule: useValidate.required({ message: '成员头衔' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入成员头衔'
-      }
-    }
-  },
-  {
-    component: 'Select',
-    bind: {
-      label: '分类',
-      path: 'classifyId',
-      rule: useValidate.required({ message: '分类', type: 'any' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请选择所属分类'
-      },
-      options: socialCieCleClassifyList.value
-        ?.filter((item) => item.id !== orphanId)
-        .map((item) => {
-          return {
-            label: item.classifyName,
-            value: item.id
-          }
-        })
-    }
-  },
-  {
-    component: 'Input',
-    bind: {
-      label: '简述',
-      path: 'desc',
-      rule: useValidate.required({ message: '简述' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入简述'
-      }
-    }
-  },
-  {
-    component: 'InputNumber',
-    bind: {
-      label: '初始关注人数',
-      path: 'vFollowers'
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请输入初始关注人数',
-        width: '100%'
-      }
-    }
-  },
-  {
-    component: 'Upload',
-    bind: {
-      label: '图标',
-      path: 'icon',
-      rule: useValidate.required({ message: '图标', type: 'any' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请上传图标',
-        listType: 'image-card',
-        fileClassify: 'shared'
-      }
-    }
-  },
-  {
-    component: 'Upload',
-    bind: {
-      label: '封面',
-      path: 'cover',
-      rule: useValidate.required({ message: '封面', type: 'any' })
-    },
-    componentProps: {
-      bind: {
-        placeholder: '请上传封面',
-        listType: 'image-card',
-        fileClassify: 'shared'
-      }
-    }
-  },
-  {
-    component: 'Editor',
-    bind: {
-      label: '注意事项',
-      path: 'rule',
-      rule: useValidate.required({ message: '注意事项' })
-    },
-    componentProps: {
-      bind: {
-        type: 'textarea',
-        placeholder: '请输入注意事项'
-      }
-    }
-  }
-]
 
 //分类操作按钮
-const renderSuffix: RenderSuffix<SocialCircleItem> = ({ option }) => {
+const renderSuffix: RenderSuffix = (val) => {
+  const option = val.option as SocialCircleItem
+
   if (isNaN(option.id) || option.id === orphanId) return
   return useSpace([
     useSvgIcon({
@@ -525,7 +340,7 @@ const renderSuffix: RenderSuffix<SocialCircleItem> = ({ option }) => {
       source: option,
       text: '删除',
       tipField: 'classifyName',
-      confirm: () => deleteClassify(data.id),
+      confirm: (data) => deleteClassify(data.id),
       props: {
         positiveButtonProps: {
           loading: classifyFormAssist.loading
@@ -539,6 +354,12 @@ const renderSuffix: RenderSuffix<SocialCircleItem> = ({ option }) => {
         })
     })
   ])
+}
+
+//关闭弹窗
+const closeModal = () => {
+  showDetailModal.value = false
+  currentDetail.value = {}
 }
 </script>
 <template>
@@ -569,7 +390,7 @@ const renderSuffix: RenderSuffix<SocialCircleItem> = ({ option }) => {
           <basic-table
             ref="tableRef"
             :columns="tableColumns"
-            :requestApi="getSocialCirclePageApi"
+            :requestApi="socialCircleApi.getSocialCirclePageApi"
             :list-params="requestTableParams"
             :filter-options="tableFilterOptions"
           >
@@ -599,7 +420,7 @@ const renderSuffix: RenderSuffix<SocialCircleItem> = ({ option }) => {
       v-model:show="formAssist.showModal"
       :loading="formAssist.loading"
       v-model="formAssist.formValue"
-      :options="formOptions()"
+      :options="baseFormOptions"
       @close="formAssist.formValue = {}"
       @confirm="createSocialCircle"
     />
@@ -620,7 +441,7 @@ const renderSuffix: RenderSuffix<SocialCircleItem> = ({ option }) => {
         v-model:show="showDetailModal"
         :width="980"
         :title="currentDetail?.name"
-        @close=";(showDetailModal = false), (currentDetail = null)"
+        @close="closeModal()"
       >
         <n-descriptions label-placement="left" :column="2" :size="'large'">
           <n-descriptions-item label="名称">
