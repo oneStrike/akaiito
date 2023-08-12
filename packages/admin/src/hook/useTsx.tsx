@@ -70,7 +70,7 @@ export const useSwitch = (props: SwitchProps) => {
 }
 
 //图片
-export const useImage = (props: ImageProps) => {
+export const useNImage = (props: ImageProps) => {
   props.height = props.height ?? 40
   props.width = props.width ?? 40
   props.objectFit = props.objectFit ?? 'cover'
