@@ -17,10 +17,6 @@ RUN pnpm -C ./packages/client build:h5
 
 RUN pnpm -C ./packages/server build
 
-FROM nginx
-
-EXPOSE 80
-
 COPY /packages/admin/dist /usr/share/nginx/html
 
 EXPOSE 7001
