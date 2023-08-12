@@ -1,13 +1,9 @@
 FROM node:16.18.0-bullseye-slim
 LABEL authors="lk259"
 
-ENTRYPOINT ["top", "-b"]
-
 WORKDIR /akaiito
 
 COPY . .
-
-RUN npm install pnpm -g
 
 RUN pnpm install
 
