@@ -4,9 +4,9 @@ WORKDIR /app
 
 COPY ../.. .
 
-RUN npm install
+RUN pnpm install
 
-RUN npm run build
+RUN pnpm run build
 
 FROM node:18-alpine
 
@@ -22,9 +22,9 @@ RUN apk add --no-cache tzdata
 
 ENV TZ="Asia/Shanghai"
 
-RUN npm install --production
+RUN pnpm install --production
 
 # 如果端口更换，这边可以更新一下
 EXPOSE 7001
 
-CMD ["npm", "run", "start"]
+CMD ["pnpm", "run", "start"]
