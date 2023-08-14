@@ -1,13 +1,3 @@
-FROM node:18 AS build
-
-WORKDIR /app
-
-COPY ../.. .
-
-ARG registry=https://registry.npm.taobao.org
-
-ARG disturl=https://npm.taobao.org/dist
-
 FROM node:18-alpine
 
 WORKDIR /app
