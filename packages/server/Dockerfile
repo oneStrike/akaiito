@@ -12,7 +12,11 @@ RUN npm cache clean --force
 
 RUN npm install pnpm -g
 
+RUN cd ../../
+
 RUN pnpm install
+
+RUN cd packages/server
 
 RUN pnpm run build
 
