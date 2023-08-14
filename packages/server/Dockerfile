@@ -10,7 +10,7 @@ ARG disturl=https://npm.taobao.org/dist
 
 RUN npm cache clean --force
 
-RUN npm install pnpm
+RUN npm install pnpm -g
 
 RUN pnpm install
 
