@@ -8,18 +8,6 @@ ARG registry=https://registry.npm.taobao.org
 
 ARG disturl=https://npm.taobao.org/dist
 
-RUN npm cache clean --force
-
-RUN npm install pnpm -g
-
-RUN cd ../../
-
-RUN pnpm install
-
-RUN cd packages/server
-
-RUN pnpm run build
-
 FROM node:18-alpine
 
 WORKDIR /app
