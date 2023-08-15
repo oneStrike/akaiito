@@ -1,60 +1,61 @@
 {
-  "name": "akaiito",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "concurrently \"pnpm -C ./packages/server dev\" \" pnpm -C ./packages/client dev:h5\"  \"pnpm -C ./packages/admin dev\"",
-    "dev:server": "",
-    "dev:admin": "pnpm -C ./packages/admin dev",
-    "dev:client": "",
-    "start": "pnpm -C ./packages/server start",
-    "lint:fix": "concurrently \"pnpm -C packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
-    "prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/**/*.{js,css,vue,ts,scss}",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "uninstall": "rimraf node_modules packages/admin/node_modules packages/client/node_modules packages/server/node_modules packages/typings/node_modules",
-    "reinstall": "pnpm run uninstall && pnpm install",
-    "preinstall": "npx only-allow pnpm",
-    "prepare": "husky install",
-    "ytt": "concurrently \"pnpm -C packages/typings ytt\""
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@commitlint/cli": "^17.6.6",
-    "@commitlint/config-conventional": "^17.6.6",
-    "@types/lodash": "^4.14.195",
-    "commitizen": "^4.3.0",
-    "concurrently": "^8.2.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
-    "lint-staged": "^13.2.3",
-    "prettier": "^3.0.0",
-    "typescript": "~4.8.4"
-  },
-  "dependencies": {
-    "@types/node": "^20.4.0",
-    "axios": "^1.4.0",
-    "dayjs": "^1.11.9",
-    "lodash": "^4.17.21"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "lint-staged": {
-    "*.{css,scss}": [
-      "pnpm run prettier"
-    ],
-    "*.{ts,vue,md}": [
-      "pnpm run prettier",
-      "pnpm -C packages/admin lint",
-      "pnpm -C ./packages/server lint:fix",
-      "pnpm -C ./packages/client lint"
-    ]
-  }
+	"name": "akaiito",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "concurrently \"pnpm -C ./packages/server dev\" \" pnpm -C ./packages/client dev:h5\"  \"pnpm -C ./packages/admin dev\"",
+		"dev:server": "",
+		"dev:admin": "pnpm -C ./packages/admin dev",
+		"dev:client": "",
+		"build": "pnpm -C ./packages/server build",
+		"start": "pnpm -C ./packages/server start",
+		"lint:fix": "concurrently \"pnpm -C packages/admin lint\"  \"pnpm -C ./packages/server lint:fix\"  \"pnpm -C ./packages/client lint\"",
+		"prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/**/*.{js,css,vue,ts,scss}",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"uninstall": "rimraf node_modules packages/admin/node_modules packages/client/node_modules packages/server/node_modules packages/typings/node_modules",
+		"reinstall": "pnpm run uninstall && pnpm install",
+		"preinstall": "npx only-allow pnpm",
+		"prepare": "husky install",
+		"ytt": "concurrently \"pnpm -C packages/typings ytt\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@commitlint/cli": "^17.6.6",
+		"@commitlint/config-conventional": "^17.6.6",
+		"@types/lodash": "^4.14.195",
+		"commitizen": "^4.3.0",
+		"concurrently": "^8.2.0",
+		"cz-conventional-changelog": "^3.3.0",
+		"eslint-config-prettier": "^8.8.0",
+		"eslint-plugin-prettier": "^4.2.1",
+		"husky": "^8.0.3",
+		"lint-staged": "^13.2.3",
+		"prettier": "^3.0.0",
+		"typescript": "~4.8.4"
+	},
+	"dependencies": {
+		"@types/node": "^20.4.0",
+		"axios": "^1.4.0",
+		"dayjs": "^1.11.9",
+		"lodash": "^4.17.21"
+	},
+	"config": {
+		"commitizen": {
+			"path": "./node_modules/cz-conventional-changelog"
+		}
+	},
+	"lint-staged": {
+		"*.{css,scss}": [
+			"pnpm run prettier"
+		],
+		"*.{ts,vue,md}": [
+			"pnpm run prettier",
+			"pnpm -C packages/admin lint",
+			"pnpm -C ./packages/server lint:fix",
+			"pnpm -C ./packages/client lint"
+		]
+	}
 }

@@ -1,4 +1,4 @@
-import * as randomstring from 'randomstring'
+import * as randomString from 'randomstring'
 import { ServiceVersionEnum } from '../shared/enum/service-version.enum'
 
 /**
@@ -25,7 +25,7 @@ export const deal = (mem: number) => {
  * @param charset
  */
 export const getRandom = (length = 15, charset = 'alphabetic') => {
-  return randomstring.generate({
+  return randomString.generate({
     length,
     charset
   })
