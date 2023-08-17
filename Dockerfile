@@ -4,6 +4,8 @@ WORKDIR ./
 
 RUN npm install pnpm -g
 
+RUN ls
+
 RUN pnpm install
 
 RUN pnpm run build
