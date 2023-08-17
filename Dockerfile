@@ -1,12 +1,16 @@
 FROM node:18 AS build
 
-WORKDIR ./
+WORKDIR /app
+
+ENV TZ="Asia/Shanghai"
+
+COPY . .
 
 RUN npm install pnpm -g
 
 RUN ls
 
-RUN pnpm install
+RUN pnpm install --registry=https://registry.npm.taobao.org
 
 RUN pnpm run build
 
