@@ -1,5 +1,7 @@
 FROM node:18 AS build
 
+WORKDIR ./
+
 RUN npm install pnpm -g
 
 RUN pnpm install

@@ -135,7 +135,7 @@ importers:
         version: 11.0.3(eslint-plugin-vue@9.15.1)(eslint@8.44.0)(typescript@4.7.4)
       '@vue/tsconfig':
         specifier: ^0.1.3
-        version: 0.1.3(@typings/node@18.16.19)
+        version: 0.1.3(@types/node@18.16.19)
       eslint:
         specifier: ^8.44.0
         version: 8.44.0
@@ -162,7 +162,7 @@ importers:
         version: 0.23.0(vue@3.3.4)
       vite:
         specifier: ^4.4.2
-        version: 4.4.2(@typings/node@18.16.19)(sass@1.63.6)
+        version: 4.4.2(@types/node@18.16.19)(sass@1.63.6)
       vite-plugin-compression:
         specifier: ^0.5.1
         version: 0.5.1(vite@4.4.2)
@@ -180,7 +180,7 @@ importers:
         version: link:../utils
       '@dcloudio/uni-app':
         specifier: 3.0.0-3080720230703001
-        version: 3.0.0-3080720230703001(@dcloudio/typings@3.3.3)(postcss@8.4.25)(ts-node@10.9.1)(vue@3.2.47)
+        version: 3.0.0-3080720230703001(@dcloudio/types@3.3.3)(postcss@8.4.25)(ts-node@10.9.1)(vue@3.2.47)
       '@dcloudio/uni-app-plus':
         specifier: 3.0.0-3080720230703001
         version: 3.0.0-3080720230703001(postcss@8.4.25)(ts-node@10.9.1)(vite@4.4.2)(vue@3.2.47)
@@ -271,7 +271,7 @@ importers:
         version: 1.3.9(vue@3.2.47)
       vite:
         specifier: ^4.4.2
-        version: 4.4.2(@typings/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
+        version: 4.4.2(@types/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
       vite-plugin-compression:
         specifier: ^0.5.1
         version: 0.5.1(vite@4.4.2)
@@ -364,11 +364,11 @@ importers:
         version: 6.32.1(mysql2@3.5.0)
       sequelize-typescript:
         specifier: ^2.1.5
-        version: 2.1.5(@typings/node@14.18.53)(@typings/validator@13.7.17)(reflect-metadata@0.1.13)(sequelize@6.32.1)
+        version: 2.1.5(@types/node@14.18.53)(@types/validator@13.7.17)(reflect-metadata@0.1.13)(sequelize@6.32.1)
     devDependencies:
       '@midwayjs/cli':
         specifier: ^2.1.1
-        version: 2.1.1(@midwayjs/mock@3.11.11)(@typings/node@14.18.53)(typescript@4.8.4)
+        version: 2.1.1(@midwayjs/mock@3.11.11)(@types/node@14.18.53)(typescript@4.8.4)
       '@midwayjs/mock':
         specifier: ^3.11.11
         version: 3.11.11
@@ -389,7 +389,7 @@ importers:
         version: 6.0.3
       jest:
         specifier: ^29.6.1
-        version: 29.6.1(@typings/node@14.18.53)(ts-node@10.9.1)
+        version: 29.6.1(@types/node@14.18.53)(ts-node@10.9.1)
       mwts:
         specifier: ^1.3.0
         version: 1.3.0(typescript@4.8.4)
@@ -1822,12 +1822,12 @@ packages:
       '@types/node': 20.4.0
       chalk: 4.1.2
       cosmiconfig: 8.2.0
-      cosmiconfig-typescript-loader: 4.3.0(@typings/node@20.4.0)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@4.8.4)
+      cosmiconfig-typescript-loader: 4.3.0(@types/node@20.4.0)(cosmiconfig@8.2.0)(ts-node@10.9.1)(typescript@4.8.4)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
       resolve-from: 5.0.0
-      ts-node: 10.9.1(@typings/node@20.4.0)(typescript@4.8.4)
+      ts-node: 10.9.1(@types/node@20.4.0)(typescript@4.8.4)
       typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -2469,7 +2469,7 @@ packages:
       magic-string: 0.30.1
       picocolors: 1.0.0
       terser: 5.18.2
-      vite: 4.4.2(@typings/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
+      vite: 4.4.2(@types/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
     transitivePeerDependencies:
       - postcss
       - supports-color
@@ -3166,7 +3166,7 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.11
       jest-changed-files: 29.5.0
-      jest-config: 29.6.1(@typings/node@20.4.0)(ts-node@10.9.1)
+      jest-config: 29.6.1(@types/node@20.4.0)(ts-node@10.9.1)
       jest-haste-map: 29.6.1
       jest-message-util: 29.6.1
       jest-regex-util: 29.4.3
@@ -4029,7 +4029,7 @@ packages:
       md5: 2.3.0
       node-fetch: 2.6.12
       tsconfig-paths: 3.14.2
-      typescript: 4.9.5
+      typescript: 4.8.4
       ws: 7.5.9
     transitivePeerDependencies:
       - bufferutil
@@ -4044,12 +4044,12 @@ packages:
     dependencies:
       '@midwayjs/command-core': 2.1.0
       globby: 10.0.2
-      ts-node: 10.9.1(@typings/node@14.18.53)(typescript@4.9.5)
-      typescript: 4.9.5
+      ts-node: 10.9.1(@types/node@14.18.53)(typescript@4.8.4)
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - '@typings/node'
+      - '@types/node'
     dev: true
 
   /@midwayjs/cli@2.1.1(@midwayjs/mock@3.11.11)(@types/node@14.18.53)(typescript@4.8.4):
@@ -4062,18 +4062,18 @@ packages:
       '@midwayjs/cli-plugin-check': 2.1.0
       '@midwayjs/cli-plugin-clean': 2.1.0
       '@midwayjs/cli-plugin-dev': 2.1.1(@midwayjs/mock@3.11.11)
-      '@midwayjs/cli-plugin-test': 2.1.0(@typings/node@14.18.53)
+      '@midwayjs/cli-plugin-test': 2.1.0(@types/node@14.18.53)
       '@midwayjs/command-core': 2.1.0
       enquirer: 2.3.6
       minimist: 1.2.8
       mod-info: 1.0.2
       source-map-support: 0.5.21
-      ts-node: 10.9.1(@typings/node@14.18.53)(typescript@4.8.4)
+      ts-node: 10.9.1(@types/node@14.18.53)(typescript@4.8.4)
     transitivePeerDependencies:
       - '@midwayjs/mock'
       - '@swc/core'
       - '@swc/wasm'
-      - '@typings/node'
+      - '@types/node'
       - bufferutil
       - encoding
       - supports-color
@@ -5066,7 +5066,7 @@ packages:
       regenerator-runtime: 0.13.11
       systemjs: 6.14.1
       terser: 5.18.2
-      vite: 4.4.2(@typings/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
+      vite: 4.4.2(@types/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -5081,7 +5081,7 @@ packages:
       '@babel/core': 7.22.8
       '@babel/plugin-transform-typescript': 7.22.5(@babel/core@7.22.8)
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.22.8)
-      vite: 4.4.2(@typings/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
+      vite: 4.4.2(@types/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
       vue: 3.2.47
     transitivePeerDependencies:
       - supports-color
@@ -5097,7 +5097,7 @@ packages:
       '@babel/core': 7.22.8
       '@babel/plugin-transform-typescript': 7.22.5(@babel/core@7.22.8)
       '@vue/babel-plugin-jsx': 1.1.5(@babel/core@7.22.8)
-      vite: 4.4.2(@typings/node@18.16.19)(sass@1.63.6)
+      vite: 4.4.2(@types/node@18.16.19)(sass@1.63.6)
       vue: 3.3.4
     transitivePeerDependencies:
       - supports-color
@@ -5110,7 +5110,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.2(@typings/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
+      vite: 4.4.2(@types/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
       vue: 3.2.47
 
   /@vitejs/plugin-vue@4.2.3(vite@4.4.2)(vue@3.3.4):
@@ -5120,7 +5120,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.2(@typings/node@18.16.19)(sass@1.63.6)
+      vite: 4.4.2(@types/node@18.16.19)(sass@1.63.6)
       vue: 3.3.4
     dev: true
 
@@ -6692,7 +6692,7 @@ packages:
     dependencies:
       '@types/node': 20.4.0
       cosmiconfig: 8.2.0
-      ts-node: 10.9.1(@typings/node@20.4.0)(typescript@4.8.4)
+      ts-node: 10.9.1(@types/node@20.4.0)(typescript@4.8.4)
       typescript: 4.8.4
     dev: true
 
@@ -9439,13 +9439,13 @@ packages:
       exit: 0.1.2
       graceful-fs: 4.2.11
       import-local: 3.1.0
-      jest-config: 29.6.1(@typings/node@14.18.53)(ts-node@10.9.1)
+      jest-config: 29.6.1(@types/node@14.18.53)(ts-node@10.9.1)
       jest-util: 29.6.1
       jest-validate: 29.6.1
       prompts: 2.4.2
       yargs: 17.7.2
     transitivePeerDependencies:
-      - '@typings/node'
+      - '@types/node'
       - supports-color
       - ts-node
     dev: true
@@ -9483,7 +9483,7 @@ packages:
       pretty-format: 27.5.1
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@typings/node@20.4.0)(typescript@4.8.4)
+      ts-node: 10.9.1(@types/node@20.4.0)(typescript@4.8.4)
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -9526,7 +9526,7 @@ packages:
       pretty-format: 29.6.1
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@typings/node@20.4.0)(typescript@4.8.4)
+      ts-node: 10.9.1(@types/node@20.4.0)(typescript@4.8.4)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -9566,7 +9566,7 @@ packages:
       pretty-format: 29.6.1
       slash: 3.0.0
       strip-json-comments: 3.1.1
-      ts-node: 10.9.1(@typings/node@20.4.0)(typescript@4.8.4)
+      ts-node: 10.9.1(@types/node@20.4.0)(typescript@4.8.4)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10228,9 +10228,9 @@ packages:
       '@jest/core': 29.6.1(ts-node@10.9.1)
       '@jest/types': 29.6.1
       import-local: 3.1.0
-      jest-cli: 29.6.1(@typings/node@14.18.53)(ts-node@10.9.1)
+      jest-cli: 29.6.1(@types/node@14.18.53)(ts-node@10.9.1)
     transitivePeerDependencies:
-      - '@typings/node'
+      - '@types/node'
       - supports-color
       - ts-node
     dev: true
@@ -12180,7 +12180,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.25
-      ts-node: 10.9.1(@typings/node@20.4.0)(typescript@4.8.4)
+      ts-node: 10.9.1(@types/node@20.4.0)(typescript@4.8.4)
       yaml: 1.10.2
 
   /postcss-modules-extract-imports@3.0.0(postcss@8.4.25):
@@ -13953,7 +13953,7 @@ packages:
       '@babel/core': 7.22.8
       bs-logger: 0.2.6
       fast-json-stable-stringify: 2.1.0
-      jest: 29.6.1(@typings/node@14.18.53)(ts-node@10.9.1)
+      jest: 29.6.1(@types/node@14.18.53)(ts-node@10.9.1)
       jest-util: 29.6.1
       json5: 2.2.3
       lodash.memoize: 4.1.2
@@ -13990,37 +13990,6 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.8.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: true
-
-  /ts-node@10.9.1(@types/node@14.18.53)(typescript@4.9.5):
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 14.18.53
-      acorn: 8.10.0
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
@@ -14205,12 +14174,6 @@ packages:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-
-  /typescript@4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: true
 
   /ufo@1.1.2:
     resolution: {integrity: sha512-TrY6DsjTQQgyS3E3dBaOXf0TpPD8u9FVrVYmKVegJuFw51n/YB9XPt+U6ydzFG5ZIN7+DIjPbNmXoBj9esYhgQ==}
@@ -14664,7 +14627,7 @@ packages:
       chalk: 4.1.2
       debug: 4.3.4
       fs-extra: 10.1.0
-      vite: 4.4.2(@typings/node@20.4.0)(sass@1.63.6)(terser@5.18.2)
+      vite: 4.4.2(@types/node@18.16.19)(sass@1.63.6)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -14681,7 +14644,7 @@ packages:
       fs-extra: 10.1.0
       magic-string: 0.25.9
       pathe: 0.2.0
-      vite: 4.4.2(@typings/node@18.16.19)(sass@1.63.6)
+      vite: 4.4.2(@types/node@18.16.19)(sass@1.63.6)
     dev: true
 
   /vite@4.4.2(@types/node@18.16.19)(sass@1.63.6):
