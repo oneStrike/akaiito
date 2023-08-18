@@ -10,6 +10,8 @@ RUN npm install pnpm -g
 
 RUN pnpm install --registry=https://registry.npm.taobao.org
 
+RUN pnpm run ytt
+
 # 打包h5平台
 RUN pnpm -C ./packages/client build:h5
 
