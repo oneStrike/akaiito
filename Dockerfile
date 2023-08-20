@@ -16,7 +16,7 @@ RUN pnpm run ytt
 RUN pnpm -C ./packages/client build:h5
 
 # 打包管理平台
-RUN pnpm -C ./packages/admin build
+RUN pnpm -C ./packages/admin build-only
 
 # 打包服务端
 RUN pnpm -C ./packages/server build
