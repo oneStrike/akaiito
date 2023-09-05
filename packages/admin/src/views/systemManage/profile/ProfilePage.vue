@@ -2,7 +2,7 @@
 import type { CommonUploadRes } from '@akaiito/typings/src/common/apiTypes/upload'
 import { userStore } from '@/stores'
 import { updateUserInfoApi, updatePasswordApi } from '@/api/user'
-import { useMessage } from '@/hook/naviaDiscreteApi'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
 import type { AdminUpdatePasswordReq, AdminUserInfoRes } from '~@/apiTypes/user'
 import { infoForm, pwdForm } from '@/views/systemManage/profile/shared'
 const useUserStore = userStore()

@@ -75,7 +75,7 @@
 import { getCaptchaAPI } from '@/api/common'
 import { userStore } from '@/stores'
 import type { FormInst, FormRules } from 'naive-ui'
-import { useMessage } from '@/hook/naviaDiscreteApi'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
 import config from '@/config'
 
 const router = useRouter()

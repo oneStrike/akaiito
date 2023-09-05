@@ -1,8 +1,9 @@
 import type { AliasOptions, ResolveOptions } from 'vite'
-import * as path from 'path'
+import { fileURLToPath, URL } from 'url'
+
 export const viteResolve: ResolveOptions & { alias: AliasOptions } = {
   alias: {
-    '@': path.resolve(__dirname, '../src'),
+    '@': fileURLToPath(new URL('./../src', import.meta.url)),
     '~@': '@akaiito/typings/src/admin'
   },
   dedupe: ['@akaiito/typings']

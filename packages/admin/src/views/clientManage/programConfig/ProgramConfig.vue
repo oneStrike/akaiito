@@ -12,7 +12,7 @@ import {
 } from '@/api/client'
 import { utils } from '@/utils/index'
 import type { BasicFormInst } from '@/typings/components/basic/basicForm'
-import { useMessage } from '@/hook/naviaDiscreteApi'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
 
 const formData = ref<AdminGetClientConfigRes>()
 const formRef = ref<BasicFormInst>()

@@ -14,11 +14,11 @@ import type {
   AdminGetSocialCircleDetailRes,
   AdminGetSocialCirclePageRes
 } from '~@/apiTypes/socialCircle'
-import { useSpace, useSwitch, useTag } from '@/hook/useTsx'
-import { useMessage } from '@/hook/naviaDiscreteApi'
-import { useFormAssist } from '@/hook/useFormAssist'
+import { useSpace, useSwitch, useTag } from '@/hooks/useTsx'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
+import { useFormAssist } from '@/hooks/useFormAssist'
 import { userStore } from '@/stores'
-import { useTableBasicButtons } from '@/hook/useEmbedTsx'
+import { useTableBasicButtons } from '@/hooks/useEmbedTsx'
 import type { TagProps } from 'naive-ui'
 
 import {

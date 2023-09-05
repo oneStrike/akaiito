@@ -1,6 +1,6 @@
 import type { Router } from 'vue-router'
 import { userStore } from '@/stores'
-import { useLoadingBar } from '@/hook/naviaDiscreteApi'
+import { useLoadingBar } from '@/hooks/naviaDiscreteApi'
 import { utils } from '@/utils'
 import { RouterWhiteListEnum } from '@/enum/whiteList'
 

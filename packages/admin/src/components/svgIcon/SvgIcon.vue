@@ -45,12 +45,12 @@ const iconTypeClass = computed(() => {
     :class="[iconTypeClass, rotate && 'rotate_animation']"
     :color="iconColor"
     :size="props.size"
-    @click="(e:Event) => emits('click', e)"
+    @click="(e: Event) => emits('click', e)"
   >
     <!--    自定义图标集-->
-    <!--    <icon-lczk-403 v-if="iconName === '403'" />-->
-    <!--    <icon-lczk-404 v-if="iconName === '404'" />-->
-    <!--    <icon-lczk-500 v-if="iconName === '500'" />-->
+    <!--    <icon-akaiito-403 v-if="iconName === '403'" />-->
+    <!--    <icon-akaiito-404 v-if="iconName === '404'" />-->
+    <!--    <icon-akaiito-500 v-if="iconName === '500'" />-->
     <!--    Material line Icons-->
     <icon-md-moon-to-sunny-outline-loop-transition
       v-if="iconName === 'light'"

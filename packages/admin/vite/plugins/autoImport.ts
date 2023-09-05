@@ -1,7 +1,9 @@
 import AutoImport from 'unplugin-auto-import/vite'
-export const autoImport = () => {
-  return AutoImport({
-    include: [/\.[tj]sx?$/, /\.vue$/, /\.vue\?vue/],
+import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+
+export const autoImport = () =>
+  AutoImport({
+    resolvers: [NaiveUiResolver()],
     imports: [
       'vue',
       'vue-router',
@@ -9,7 +11,6 @@ export const autoImport = () => {
       '@vueuse/core',
       {
         axios: [['default', 'axios']],
-        'naive-ui': [],
         '@vueuse/core': [['useImage', 'useVueUseImage']]
       }
     ],
@@ -19,7 +20,6 @@ export const autoImport = () => {
       globalsPropValue: 'readonly'
     },
     dts: './src/typings/auto-import.d.ts',
-    dirs: ['src/enum', 'src/hook'],
+    dirs: ['src/enum', 'src/hooks'],
     vueTemplate: true
   })
-}

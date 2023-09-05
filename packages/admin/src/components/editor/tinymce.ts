@@ -27,7 +27,7 @@ import 'tinymce/plugins/wordcount'
 
 import config from '@/config'
 import { uploadFileApi } from '@/api/common'
-import { useMessage } from '@/hook/naviaDiscreteApi'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
 import type { RawEditorOptions } from 'tinymce'
 
 const plugins =

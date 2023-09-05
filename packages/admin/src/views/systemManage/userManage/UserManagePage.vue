@@ -12,7 +12,7 @@ import type {
   BasicTableInst
 } from '@/typings/components/basic/basicTable'
 import type { AdminUserInfoRes } from '~@/apiTypes/user'
-import { useMessage } from '@/hook/naviaDiscreteApi'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
 import { userStore } from '@/stores'
 import type { JoinLoading } from '@/typings/shared'
 import config from '@/config'

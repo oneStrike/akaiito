@@ -6,7 +6,7 @@ import type {
   RouteMeta,
   RouteRecordName
 } from 'vue-router'
-import { useSvgIconFn } from '@/hook/useTsx'
+import { useSvgIconFn } from '@/hooks/useTsx'
 import config from '@/config'
 
 interface HistoryRouter {

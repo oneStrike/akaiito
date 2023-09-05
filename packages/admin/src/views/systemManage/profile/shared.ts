@@ -1,5 +1,5 @@
 import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
-import { useValidate } from '@/hook/useValidate'
+import { useValidate } from '@/hooks/useValidate'
 
 export const infoForm: BasicFormOptions[] = [
   {

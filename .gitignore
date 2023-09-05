@@ -3,9 +3,7 @@
 .history
 node_modules
 
-**/components.d.ts
 **/.eslintrc-auto-import.json
-**/auto-import.d.ts
 
 **/apiTypes
 **/dist

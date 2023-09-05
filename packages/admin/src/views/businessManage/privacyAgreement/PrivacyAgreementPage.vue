@@ -10,7 +10,7 @@ import type {
 } from '~@/apiTypes/privacy'
 
 import type { JoinLoading } from '@/typings/shared'
-import { useMessage } from '@/hook/naviaDiscreteApi'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
 
 import * as privacyApi from '@/api/privacy'
 

@@ -1,4 +1,4 @@
-import { useMessage } from '@/hook/naviaDiscreteApi'
+import { useMessage } from '@/hooks/naviaDiscreteApi'
 import type { Layout } from '@/typings/stores/layout'
 
 export const layoutStore = defineStore('layout', {

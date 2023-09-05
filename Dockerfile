@@ -23,3 +23,5 @@ RUN pnpm -C ./packages/server build
 
 # 如果端口更换，这边可以更新一下
 EXPOSE 7001
+
+CMD ["npm", "run", "start"]

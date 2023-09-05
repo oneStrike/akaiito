@@ -2,8 +2,8 @@
 import { loginLogApi, userListApi } from '@/api/user'
 import type { BasicFormOptions } from '@/typings/components/basic/basicForm'
 import type { BasicTableColumn } from '@/typings/components/basic/basicTable'
-import { useTag } from '@/hook/useTsx'
-import { useDisablePreviousDate } from '@/hook/useRangDate'
+import { useTag } from '@/hooks/useTsx'
+import { useDisablePreviousDate } from '@/hooks/useRangDate'
 import type { AdminLoginLogRes } from '~@/apiTypes/log'
 
 const filterOptions = ref<BasicFormOptions[]>([

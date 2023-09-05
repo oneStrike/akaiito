@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { layoutStore } from '@/stores'
-
 const useLayoutStore = layoutStore()
 </script>
 
