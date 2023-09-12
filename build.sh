@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-git pull || { echo "git pull error"; exit 1; }
+#git pull || { echo "git pull error"; exit 1; }
 
 command -v node &> /dev/null && command -v npm &> /dev/null || { echo "尚未配置Node.js环境"; exit 1; }
 
@@ -11,23 +11,8 @@ if ! command -v pnpm &> /dev/null; then
   npm install pnpm -g
 fi
 
-echo "安装依赖包"
-pnpm install
+sh ./admin/build.sh
 
-echo "拉取ts类型声明"
-
-pnpm ytt
-
-# 打包客户端
-echo "打包客户端"
-pnpm -C ./packages/client build:h5
-
-# 打包客户端
-echo "打包管理端"
-pnpm -C ./packages/admin build
-
-# 打包管理端
-echo "打包服务端"
-pnpm -C ./packages/server build
+sh ./client/build
 
 exit 0

@@ -20,7 +20,7 @@ export function createVitePlugins() {
   vitePlugins.push(compression())
 
   //拆包
-  vitePlugins.push(chunkSplit())
+  // vitePlugins.push(chunkSplit())
 
   //自动导入图标
   vitePlugins.push(icons())
