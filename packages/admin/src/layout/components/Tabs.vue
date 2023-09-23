@@ -88,7 +88,8 @@ const handleClose = (key: string) => {
 
 //刷新当前路由
 const reloadFlag = ref(false)
-let timer: number
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let timer
 const reload = useDebounceFn(() => {
   reloadFlag.value = true
   router.replace({

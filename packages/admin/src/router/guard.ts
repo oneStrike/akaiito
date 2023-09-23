@@ -5,7 +5,7 @@ import { utils } from '@/utils'
 import { RouterWhiteListEnum } from '@/enum/whiteList'
 
 export const guard = function (router: Router) {
-  router.beforeEach(async (to, form) => {
+  router.beforeEach(async (to) => {
     useLoadingBar.start()
     if (utils.isValueInStringEnum(to.name as string, RouterWhiteListEnum))
       return true

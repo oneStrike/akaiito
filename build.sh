@@ -1,18 +1,27 @@
-#!/usr/bin/env bash
+WORK_PATH=$(dirname "$(readlink -f "$0")")
 
-#git pull || { echo "git pull error"; exit 1; }
+ADMIN_PROJECT_NAME='akaiito_admin'
+CLIENT_PROJECT_NAME='akaiito_client'
 
-command -v node &> /dev/null && command -v npm &> /dev/null || { echo "尚未配置Node.js环境"; exit 1; }
+ADMIN_PATH=${WORK_PATH}/packages/admin
+CLIENT_PATH=${WORK_PATH}/packages/client
 
-command -v docker &> /dev/null || { echo "尚未配置docker环境"; exit 1; }
 
-if ! command -v pnpm &> /dev/null; then
-  echo "配置pnpm环境"
-  npm install pnpm -g
-fi
+docker rmi -f $ADMIN_PROJECT_NAME
 
-sh ./admin/build.sh
+docker rm -f $ADMIN_PROJECT_NAME
 
-sh ./client/build
+docker rmi -f $CLIENT_PROJECT_NAME
 
-exit 0
+docker rm -f $CLIENT_PROJECT_NAME
+
+
+docker build -f "$ADMIN_PATH" -t $ADMIN_PROJECT_NAME .
+
+docker build -f "$CLIENT_PATH" -t $CLIENT_PROJECT_NAME .
+
+
+docker run --name=$ADMIN_PROJECT_NAME -d -p 81:80 $ADMIN_PROJECT_NAME
+
+docker run --name=$CLIENT_PROJECT_NAME -d -p 82:80 $CLIENT_PROJECT_NAME
+

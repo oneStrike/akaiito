@@ -5,7 +5,6 @@ import { autoImport } from './autoImport'
 import { autoRegistryComponent } from './component'
 import { compression } from './compression'
 import { icons } from './icons'
-import { chunkSplit } from './chunk'
 import { progressPlugins } from './progress'
 
 export function createVitePlugins() {
