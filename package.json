@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "packageManager": "pnpm@8.8.0",
   "scripts": {
     "dev": "pnpm run --filter * dev",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +11,8 @@
     "commit": "git add . && git-cz",
     "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install",
     "prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/*.{js,css,vue,ts,scss}",
-    "lint:fix": "pnpm run --filter *  lint:fix"
+    "lint:fix": "pnpm run --filter *  lint:fix",
+    "preinstall": "npx only-allow pnpm"
   },
   "keywords": [],
   "author": "",
