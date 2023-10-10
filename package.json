@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "pnpm run --filter * dev",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "commit": "git add . && git-cz",
     "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install",
     "prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/*.{js,css,vue,ts,scss}",
-    "lint:fix": "pnpm -C packages/admin lint:fix"
+    "lint:fix": "pnpm run --filter *  lint:fix"
   },
   "keywords": [],
   "author": "",
