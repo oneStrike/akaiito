@@ -1,0 +1,16 @@
+/dist/*
+.local
+.history
+.output.js
+/node_modules/**
+
+**/*.svg
+**/*.sh
+
+/public/*
+
+!/packages/typings/src/httpTypes/
+
+.husky
+.idea
+
