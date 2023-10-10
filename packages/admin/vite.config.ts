@@ -1,15 +1,14 @@
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueJsx from '@vitejs/plugin-vue-jsx'
+import { VitePlugins } from './vite/plugins'
+import { ViteResolve } from './vite/resolve'
+import { ViteProxy } from './vite/proxy'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
+  base: './',
+  plugins: VitePlugins(),
+  resolve: ViteResolve,
+  server: ViteProxy
 })

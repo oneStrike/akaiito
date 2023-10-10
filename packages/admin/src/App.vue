@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
@@ -12,6 +11,8 @@ import HelloWorld from './components/HelloWorld.vue'
       width="125"
       height="125"
     />
+
+    <el-button @click="openVn">wo shi an niu</el-button>
 
     <div class="wrapper">
       <HelloWorld msg="You did it!" />
@@ -25,6 +26,23 @@ import HelloWorld from './components/HelloWorld.vue'
 
   <RouterView />
 </template>
+
+<script lang="ts">
+import { ElMessage } from 'element-plus'
+
+const open = () => {
+  ElMessage('this is a message.')
+}
+
+const openVn = () => {
+  ElMessage({
+    message: h('p', null, [
+      h('span', null, 'Message can be '),
+      h('i', { style: 'color: teal' }, 'VNode')
+    ])
+  })
+}
+</script>
 
 <style scoped>
 header {
