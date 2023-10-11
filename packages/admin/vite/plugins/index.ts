@@ -38,7 +38,13 @@ export function VitePlugins() {
   //配置文件变更自动重启服务
   vitePlugins.push(
     ViteRestart({
-      restart: ['vite.config.js', '../**/*/.ts']
+      restart: [
+        'vite.config.js',
+        '../**/*/.ts',
+        '.env',
+        '.env.production',
+        '.env.development'
+      ]
     })
   )
 
