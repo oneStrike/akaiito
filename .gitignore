@@ -2,3 +2,5 @@
 node_modules
 ./**/*/mode_modules
 **/*/dist
+logs
+**/*/*.log

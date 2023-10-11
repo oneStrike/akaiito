@@ -5,7 +5,7 @@ import { ViteProxy } from './vite/proxy'
 import { ViteBuild } from './vite/build'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   return {
     base: './',
     plugins: VitePlugins(),

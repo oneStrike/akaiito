@@ -5,7 +5,7 @@ const BasicRoutes: RouteRecordRaw[] = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/LoginPage.vue'),
-    meta: { roles: [], title: '登录', hideMenu: true }
+    meta: { title: '登录', hideMenu: true }
   }
 ]
 

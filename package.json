@@ -19,6 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "@commitlint/config-conventional": "^17.7.0",
+    "@types/lodash": "^4.14.199",
     "@types/node": "^20.8.4",
     "commitizen": "^4.3.0",
     "commitlint": "^17.7.2",
@@ -37,5 +38,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21"
   }
 }
