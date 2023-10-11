@@ -290,6 +290,17 @@
     "watchThrottled": "readonly",
     "watchTriggerable": "readonly",
     "watchWithFilter": "readonly",
-    "whenever": "readonly"
+    "whenever": "readonly",
+    "createReusableTemplate": "readonly",
+    "createTemplatePromise": "readonly",
+    "injectLocal": "readonly",
+    "provideLocal": "readonly",
+    "useAnimate": "readonly",
+    "useArrayDifference": "readonly",
+    "useArrayIncludes": "readonly",
+    "useParentElement": "readonly",
+    "usePerformanceObserver": "readonly",
+    "watchDeep": "readonly",
+    "watchImmediate": "readonly"
   }
 }

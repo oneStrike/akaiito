@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model AdminLog {
+  id           Int      @id @default(autoincrement())
+  username     String?  @db.VarChar(50)
+  user_account String?  @db.VarChar(50)
+  user_id      Int?
+  action       String?  @db.VarChar(50)
+  ip           String?  @db.VarChar(20)
+  ip_address   String?  @db.VarChar(300)
+  receipt      Int?     @default(1)
+  receipt_desc String?  @db.VarChar(300)
+  path         String?  @db.VarChar(255)
+  user_agent   String?  @db.VarChar(255)
+  params       String?  @db.LongText
+  created_at   DateTime @db.DateTime(0)
+  updated_at   DateTime @db.DateTime(0)
+
+  @@map("admin_log")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model AdminUser {
+  id         Int      @id @default(autoincrement())
+  username   String?  @unique(map: "username") @db.VarChar(50)
+  nickname   String?  @unique(map: "account") @db.VarChar(50)
+  password   String?  @db.VarChar(100)
+  avatar     String?  @db.VarChar(100)
+  mobile     String?  @unique(map: "mobile") @db.VarChar(20)
+  email      String?  @unique(map: "email") @db.VarChar(100)
+  is_root    Int?     @default(0) @db.TinyInt
+  status     Int?     @default(1) @db.TinyInt
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+
+  @@map("admin_user")
+}
+
+model Baseentity {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+
+  @@map("baseentity")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model ClientManagePage {
+  id         Int      @id @default(autoincrement())
+  page_name  String   @db.VarChar(50)
+  page_path  String   @db.VarChar(100)
+  page_title String   @db.VarChar(50)
+  role       String   @default("normal") @db.VarChar(10)
+  vip_level  Int?
+  status     Int?     @default(1)
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+
+  @@map("client_manage_page")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Material {
+  id            Int      @id @default(autoincrement())
+  group_id      Int
+  material_name String   @db.VarChar(50)
+  path          String   @unique(map: "path") @db.VarChar(255)
+  material_type String   @db.VarChar(255)
+  created_at    DateTime @db.DateTime(0)
+  updated_at    DateTime @db.DateTime(0)
+
+  @@map("material")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model MaterialGroup {
+  id         Int      @id @default(autoincrement())
+  group_name String   @unique(map: "group_name") @db.VarChar(50)
+  sort       Int      @unique(map: "sort")
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+
+  @@map("material_group")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model Privacy {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(20)
+  content    String   @db.MediumText
+  platform   String   @db.VarChar(10)
+  status     Int      @default(1) @db.TinyInt
+  remark     String?  @db.VarChar(255)
+  created_at DateTime @db.DateTime(0)
+  updated_at DateTime @db.DateTime(0)
+
+  @@map("privacy")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model SocialCircleClassify {
+  id            Int      @id @default(autoincrement())
+  classify_name String   @unique(map: "classify_name") @db.VarChar(50)
+  sort          Int      @unique(map: "sort")
+  created_at    DateTime @db.DateTime(0)
+  updated_at    DateTime @db.DateTime(0)
+
+  @@map("social_circle_classify")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model SocialCircle {
+  id            Int      @id @default(autoincrement())
+  name          String?  @unique(map: "name") @db.VarChar(50)
+  icon          String   @db.VarChar(255)
+  cover         String   @db.VarChar(255)
+  creator_id    Int?
+  creator_name  String   @db.VarChar(50)
+  classify_id   Int?
+  classify_name String?  @db.VarChar(50)
+  desc          String   @db.VarChar(255)
+  member_title  String   @db.VarChar(50)
+  followers     Int?     @default(0)
+  v_followers   Int?     @default(0)
+  rule          String   @db.VarChar(255)
+  guide         Int?     @default(0) @db.TinyInt
+  status        Int?     @default(0) @db.TinyInt
+  banned_reason String?  @db.VarChar(255)
+  created_at    DateTime @db.DateTime(0)
+  updated_at    DateTime @db.DateTime(0)
+
+  @@map("social_circle")
+}
