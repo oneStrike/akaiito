@@ -6,6 +6,7 @@
   "packageManager": "pnpm@8.8.0",
   "scripts": {
     "dev": "pnpm run --filter * dev",
+    "build": "",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "commit": "git add . && git-cz",
