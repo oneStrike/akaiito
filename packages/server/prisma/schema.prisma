@@ -25,10 +25,9 @@ model AdminLog {
   path        String?   @db.VarChar(255)
   userAgent   String?   @map("user_agent") @db.VarChar(255)
   params      String?   @db.LongText
-  createdAt   DateTime  @default(now()) @map("created_at")
-  deletedAt   DateTime? @map("deleted_at")
-  neckname    String?   @db.VarChar(50)
-  updatedAt   DateTime? @default(now()) @updatedAt @map("updated_at")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt   DateTime? @map("deleted_at") @db.DateTime(0)
 
   @@map("admin_log")
 }
@@ -44,18 +43,18 @@ model AdminUser {
   email     String?   @unique(map: "email") @db.VarChar(100) ///邮箱
   status    Int?      @default(1) @db.TinyInt ///状态 0禁用 1正常
   isRoot    Int?      @default(0) @map("is_root") @db.TinyInt ///是否是超级管理员 1是0否
-  createdAt DateTime? @map("created_at") ///创建时间
-  updatedAt DateTime? @updatedAt @map("updated_at") /// 更新时间
-  deletedAt DateTime? @map("deleted_at") ///软删除时间
+  createdAt DateTime? @default(now()) @map("created_at") @db.DateTime(0) ///创建时间
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0) /// 更新时间
+  deletedAt DateTime? @map("deleted_at") @db.DateTime(0) ///软删除时间
 
   @@map("admin_user")
 }
 
 model Baseentity {
   id        Int       @id @default(autoincrement())
-  createdAt DateTime? @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt DateTime? @map("deleted_at") @db.DateTime(0)
 
   @@map("baseentity")
 }
@@ -69,9 +68,9 @@ model ClientManagePage {
   role      String    @default("normal") @db.VarChar(10)
   vipLevel  Int?      @map("vip_level")
   status    Int?      @default(1)
-  createdAt DateTime? @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt DateTime? @map("deleted_at") @db.DateTime(0)
 
   @@map("client_manage_page")
 }
@@ -82,10 +81,10 @@ model Material {
   materialName String    @map("material_name") @db.VarChar(50)
   path         String    @unique(map: "path") @db.VarChar(255)
   materialType String    @map("material_type") @db.VarChar(255)
-  createdAt    DateTime? @map("created_at")
-  updatedAt    DateTime? @updatedAt @map("updated_at")
-  deletedAt    DateTime? @map("deleted_at")
-  groupId      Int       @map("group_id      Int")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
+  groupId      Int       @map("group_id")
 
   @@map("material")
 }
@@ -95,9 +94,9 @@ model MaterialGroup {
   id        Int       @id @default(autoincrement())
   groupName String    @unique(map: "group_name") @map("group_name") @db.VarChar(50)
   sort      Int       @unique(map: "sort")
-  createdAt DateTime? @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt DateTime? @map("deleted_at") @db.DateTime(0)
 
   @@map("material_group")
 }
@@ -110,9 +109,9 @@ model Privacy {
   platform  String    @db.VarChar(10)
   status    Int       @default(1) @db.TinyInt
   remark    String?   @db.VarChar(255)
-  createdAt DateTime? @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
-  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt DateTime? @map("deleted_at") @db.DateTime(0)
 
   @@map("privacy")
 }
@@ -122,9 +121,9 @@ model SocialCircleClassify {
   id           Int       @id @default(autoincrement())
   classifyName String    @unique(map: "classify_name") @map("classify_name") @db.VarChar(50)
   sort         Int       @unique(map: "sort")
-  createdAt    DateTime? @map("created_at")
-  updatedAt    DateTime? @updatedAt @map("updated_at")
-  deletedAt    DateTime? @map("deleted_at")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
 
   @@map("social_circle_classify")
 }
@@ -147,9 +146,9 @@ model SocialCircle {
   guide        Int?      @default(0) @db.TinyInt
   status       Int?      @default(0) @db.TinyInt
   bannedReason String?   @map("banned_reason") @db.VarChar(255)
-  createdAt    DateTime? @map("created_at")
-  updatedAt    DateTime? @updatedAt @map("updated_at")
-  deletedAt    DateTime? @map("deleted_at")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  deletedAt    DateTime? @map("deleted_at") @db.DateTime(0)
 
   @@map("social_circle")
 }

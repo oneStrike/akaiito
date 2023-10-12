@@ -8,9 +8,7 @@ const main = async () => {
       username: 'admin',
       mobile: '18888888888',
       nickname: '管理员',
-      password: '84bea2653fe3fd44e06e47e8fa419ad6',
-      createdAt: '',
-      updatedAt: ''
+      password: '84bea2653fe3fd44e06e47e8fa419ad6'
     }
   })
   console.log('Seeding finished.')

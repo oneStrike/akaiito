@@ -16,6 +16,10 @@
     "@prisma/client": "^5.4.2",
     "@prisma/generator-helper": "^5.4.2"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts",
+    "schema": "prisma/schema.prisma"
+  },
   "devDependencies": {
     "@midwayjs/mock": "^3.12.0",
     "@types/koa": "^2.13.4",
