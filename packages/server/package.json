@@ -13,7 +13,8 @@
     "@midwayjs/koa": "^3.12.0",
     "@midwayjs/logger": "^2.14.0",
     "@midwayjs/validate": "^3.12.0",
-    "@prisma/client": "^5.4.2"
+    "@prisma/client": "^5.4.2",
+    "@prisma/generator-helper": "^5.4.2"
   },
   "devDependencies": {
     "@midwayjs/mock": "^3.12.0",
@@ -38,7 +39,12 @@
     "lint": "mwts check",
     "lint:fix": "mwts fix",
     "ci": "npm run cov",
-    "build": "cross-env rm -rf dist && tsc"
+    "build": "cross-env rm -rf dist && tsc",
+    "prisma:studio": "npx prisma studio",
+    "prisma:generate": "npx prisma generate",
+    "prisma:generate:watch": "npx prisma generate --watch",
+    "dev:deploy": "prisma migrate deploy",
+    "dev:migrate": "prisma migrate dev && pnpm dev:deploy"
   },
   "repository": {
     "type": "git",

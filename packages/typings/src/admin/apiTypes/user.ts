@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/createUser`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:20`
  */
 export interface AdminCreateUserReq {
   /**
@@ -60,7 +60,7 @@ export interface AdminCreateUserReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/createUser`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:20`
  */
 export type AdminCreateUserRes = number
 
@@ -70,7 +70,7 @@ export type AdminCreateUserRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updateUserInfo`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminUpdateUserInfoReq {
   /**
@@ -113,7 +113,7 @@ export interface AdminUpdateUserInfoReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updateUserInfo`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminUpdateUserInfoRes {}
 
@@ -123,7 +123,7 @@ export interface AdminUpdateUserInfoRes {}
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/login`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminLoginReq {
   /**
@@ -150,7 +150,7 @@ export interface AdminLoginReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/login`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminLoginRes {
   /**
@@ -214,7 +214,7 @@ export interface AdminLoginRes {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/UserInfo`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminUserInfoReq {}
 
@@ -224,7 +224,7 @@ export interface AdminUserInfoReq {}
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/UserInfo`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminUserInfoRes {
   /**
@@ -275,7 +275,7 @@ export interface AdminUserInfoRes {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/refreshToken`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminRefreshTokenReq {}
 
@@ -285,7 +285,7 @@ export interface AdminRefreshTokenReq {}
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/refreshToken`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export type AdminRefreshTokenRes = string
 
@@ -295,7 +295,7 @@ export type AdminRefreshTokenRes = string
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/deleteUser`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminDeleteUserReq {
   /**
@@ -310,7 +310,7 @@ export interface AdminDeleteUserReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/deleteUser`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export type AdminDeleteUserRes = number
 
@@ -320,7 +320,7 @@ export type AdminDeleteUserRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/switchUserStatus`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminSwitchUserStatusReq {
   /**
@@ -339,7 +339,7 @@ export interface AdminSwitchUserStatusReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/switchUserStatus`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export type AdminSwitchUserStatusRes = number
 
@@ -349,7 +349,7 @@ export type AdminSwitchUserStatusRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updatePassword`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminUpdatePasswordReq {
   /**
@@ -372,7 +372,7 @@ export interface AdminUpdatePasswordReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `POST /admin/user/updatePassword`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export type AdminUpdatePasswordRes = number
 
@@ -382,7 +382,7 @@ export type AdminUpdatePasswordRes = number
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/userList`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminUserListReq {
   /**
@@ -409,7 +409,7 @@ export interface AdminUserListReq {
  * @分类 [管理端/用户↗](https://yapi.pro/project/11787/interface/api/cat_112836)
  * @标签 `管理端/用户`
  * @请求头 `GET /admin/user/userList`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminUserListRes {
   list: {

@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [客户端/用户↗](https://yapi.pro/project/11787/interface/api/cat_117060)
  * @标签 `客户端/用户`
  * @请求头 `POST /client/user/login`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface ClientLoginReq {}
 
@@ -23,7 +23,7 @@ export interface ClientLoginReq {}
  * @分类 [客户端/用户↗](https://yapi.pro/project/11787/interface/api/cat_117060)
  * @标签 `客户端/用户`
  * @请求头 `POST /client/user/login`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface ClientLoginRes {
   /**

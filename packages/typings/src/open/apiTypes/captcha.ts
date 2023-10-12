@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [开放接口↗](https://yapi.pro/project/11787/interface/api/cat_112892)
  * @标签 `开放接口`
  * @请求头 `GET /open/captcha/getCaptcha`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:20`
  */
 export interface OpenGetCaptchaReq {}
 
@@ -23,7 +23,7 @@ export interface OpenGetCaptchaReq {}
  * @分类 [开放接口↗](https://yapi.pro/project/11787/interface/api/cat_112892)
  * @标签 `开放接口`
  * @请求头 `GET /open/captcha/getCaptcha`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:20`
  */
 export interface OpenGetCaptchaRes {
   /**

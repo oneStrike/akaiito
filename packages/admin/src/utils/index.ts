@@ -1,5 +1,5 @@
 import { utils as commonUtils } from '@akaiito/utils/src'
-import * as _ from 'lodash'
+import _ from 'lodash-es'
 
 export const utils = {
   ...commonUtils,

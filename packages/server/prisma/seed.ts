@@ -9,8 +9,8 @@ const main = async () => {
       mobile: '18888888888',
       nickname: '管理员',
       password: '84bea2653fe3fd44e06e47e8fa419ad6',
-      created_at: '',
-      updated_at: ''
+      createdAt: '',
+      updatedAt: ''
     }
   })
   console.log('Seeding finished.')

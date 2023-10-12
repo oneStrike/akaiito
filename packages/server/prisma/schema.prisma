@@ -1,5 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+generator comments {
+  provider = "ts-node prisma/generateComments.ts"
 }
 
 datasource db {
@@ -9,133 +14,142 @@ datasource db {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model AdminLog {
-  id           Int      @id @default(autoincrement())
-  username     String?  @db.VarChar(50)
-  user_account String?  @db.VarChar(50)
-  user_id      Int?
-  action       String?  @db.VarChar(50)
-  ip           String?  @db.VarChar(20)
-  ip_address   String?  @db.VarChar(300)
-  receipt      Int?     @default(1)
-  receipt_desc String?  @db.VarChar(300)
-  path         String?  @db.VarChar(255)
-  user_agent   String?  @db.VarChar(255)
-  params       String?  @db.LongText
-  created_at   DateTime @db.DateTime(0)
-  updated_at   DateTime @db.DateTime(0)
+  id          Int       @id @default(autoincrement())
+  username    String?   @db.VarChar(50)
+  userId      Int?      @map("user_id")
+  action      String?   @db.VarChar(50)
+  ip          String?   @db.VarChar(20)
+  ipAddress   String?   @map("ip_address") @db.VarChar(300)
+  receipt     Int?      @default(1)
+  receiptDesc String?   @map("receipt_desc") @db.VarChar(300)
+  path        String?   @db.VarChar(255)
+  userAgent   String?   @map("user_agent") @db.VarChar(255)
+  params      String?   @db.LongText
+  createdAt   DateTime  @default(now()) @map("created_at")
+  deletedAt   DateTime? @map("deleted_at")
+  neckname    String?   @db.VarChar(50)
+  updatedAt   DateTime? @default(now()) @updatedAt @map("updated_at")
 
   @@map("admin_log")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model AdminUser {
-  id         Int      @id @default(autoincrement())
-  username   String?  @unique(map: "username") @db.VarChar(50)
-  nickname   String?  @unique(map: "account") @db.VarChar(50)
-  password   String?  @db.VarChar(100)
-  avatar     String?  @db.VarChar(100)
-  mobile     String?  @unique(map: "mobile") @db.VarChar(20)
-  email      String?  @unique(map: "email") @db.VarChar(100)
-  is_root    Int?     @default(0) @db.TinyInt
-  status     Int?     @default(1) @db.TinyInt
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  id        Int       @id @default(autoincrement()) ///主键id
+  username  String?   @unique(map: "username") @db.VarChar(50) /// 账号
+  nickname  String?   @unique(map: "account") @db.VarChar(50) /// 昵称
+  password  String?   @db.VarChar(100) ///密码
+  avatar    String?   @db.VarChar(100) ///头像
+  mobile    String?   @unique(map: "mobile") @db.VarChar(20) ///手机号
+  email     String?   @unique(map: "email") @db.VarChar(100) ///邮箱
+  status    Int?      @default(1) @db.TinyInt ///状态 0禁用 1正常
+  isRoot    Int?      @default(0) @map("is_root") @db.TinyInt ///是否是超级管理员 1是0否
+  createdAt DateTime? @map("created_at") ///创建时间
+  updatedAt DateTime? @updatedAt @map("updated_at") /// 更新时间
+  deletedAt DateTime? @map("deleted_at") ///软删除时间
 
   @@map("admin_user")
 }
 
 model Baseentity {
-  id         Int      @id @default(autoincrement())
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime? @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
   @@map("baseentity")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model ClientManagePage {
-  id         Int      @id @default(autoincrement())
-  page_name  String   @db.VarChar(50)
-  page_path  String   @db.VarChar(100)
-  page_title String   @db.VarChar(50)
-  role       String   @default("normal") @db.VarChar(10)
-  vip_level  Int?
-  status     Int?     @default(1)
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  id        Int       @id @default(autoincrement())
+  pageName  String    @map("page_name") @db.VarChar(50)
+  pagePath  String    @map("page_path") @db.VarChar(100)
+  pageTitle String    @map("page_title") @db.VarChar(50)
+  role      String    @default("normal") @db.VarChar(10)
+  vipLevel  Int?      @map("vip_level")
+  status    Int?      @default(1)
+  createdAt DateTime? @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
   @@map("client_manage_page")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Material {
-  id            Int      @id @default(autoincrement())
-  group_id      Int
-  material_name String   @db.VarChar(50)
-  path          String   @unique(map: "path") @db.VarChar(255)
-  material_type String   @db.VarChar(255)
-  created_at    DateTime @db.DateTime(0)
-  updated_at    DateTime @db.DateTime(0)
+  id           Int       @id @default(autoincrement())
+  materialName String    @map("material_name") @db.VarChar(50)
+  path         String    @unique(map: "path") @db.VarChar(255)
+  materialType String    @map("material_type") @db.VarChar(255)
+  createdAt    DateTime? @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+  groupId      Int       @map("group_id      Int")
 
   @@map("material")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model MaterialGroup {
-  id         Int      @id @default(autoincrement())
-  group_name String   @unique(map: "group_name") @db.VarChar(50)
-  sort       Int      @unique(map: "sort")
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  id        Int       @id @default(autoincrement())
+  groupName String    @unique(map: "group_name") @map("group_name") @db.VarChar(50)
+  sort      Int       @unique(map: "sort")
+  createdAt DateTime? @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
   @@map("material_group")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model Privacy {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(20)
-  content    String   @db.MediumText
-  platform   String   @db.VarChar(10)
-  status     Int      @default(1) @db.TinyInt
-  remark     String?  @db.VarChar(255)
-  created_at DateTime @db.DateTime(0)
-  updated_at DateTime @db.DateTime(0)
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(20)
+  content   String    @db.MediumText
+  platform  String    @db.VarChar(10)
+  status    Int       @default(1) @db.TinyInt
+  remark    String?   @db.VarChar(255)
+  createdAt DateTime? @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
 
   @@map("privacy")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model SocialCircleClassify {
-  id            Int      @id @default(autoincrement())
-  classify_name String   @unique(map: "classify_name") @db.VarChar(50)
-  sort          Int      @unique(map: "sort")
-  created_at    DateTime @db.DateTime(0)
-  updated_at    DateTime @db.DateTime(0)
+  id           Int       @id @default(autoincrement())
+  classifyName String    @unique(map: "classify_name") @map("classify_name") @db.VarChar(50)
+  sort         Int       @unique(map: "sort")
+  createdAt    DateTime? @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
 
   @@map("social_circle_classify")
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model SocialCircle {
-  id            Int      @id @default(autoincrement())
-  name          String?  @unique(map: "name") @db.VarChar(50)
-  icon          String   @db.VarChar(255)
-  cover         String   @db.VarChar(255)
-  creator_id    Int?
-  creator_name  String   @db.VarChar(50)
-  classify_id   Int?
-  classify_name String?  @db.VarChar(50)
-  desc          String   @db.VarChar(255)
-  member_title  String   @db.VarChar(50)
-  followers     Int?     @default(0)
-  v_followers   Int?     @default(0)
-  rule          String   @db.VarChar(255)
-  guide         Int?     @default(0) @db.TinyInt
-  status        Int?     @default(0) @db.TinyInt
-  banned_reason String?  @db.VarChar(255)
-  created_at    DateTime @db.DateTime(0)
-  updated_at    DateTime @db.DateTime(0)
+  id           Int       @id @default(autoincrement())
+  name         String?   @unique(map: "name") @db.VarChar(50)
+  icon         String    @db.VarChar(255)
+  cover        String    @db.VarChar(255)
+  creatorId    Int?      @map("creator_id")
+  creatorName  String    @map("creator_name") @db.VarChar(50)
+  classifyId   Int?      @map("classify_id")
+  classifyName String?   @map("classify_name") @db.VarChar(50)
+  desc         String    @db.VarChar(255)
+  memberTitle  String    @map("member_title") @db.VarChar(50)
+  followers    Int?      @default(0)
+  vFollowers   Int?      @default(0) @map("v_followers")
+  rule         String    @db.VarChar(255)
+  guide        Int?      @default(0) @db.TinyInt
+  status       Int?      @default(0) @db.TinyInt
+  bannedReason String?   @map("banned_reason") @db.VarChar(255)
+  createdAt    DateTime? @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
 
   @@map("social_circle")
 }

@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `GET /admin/privacy/getPrivacyPage`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminGetPrivacyPageReq {
   /**
@@ -52,7 +52,7 @@ export interface AdminGetPrivacyPageReq {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `GET /admin/privacy/getPrivacyPage`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminGetPrivacyPageRes {
   /**
@@ -109,7 +109,7 @@ export interface AdminGetPrivacyPageRes {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `GET /admin/privacy/getPrivacyDetail`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminGetPrivacyDetailReq {
   /**
@@ -124,7 +124,7 @@ export interface AdminGetPrivacyDetailReq {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `GET /admin/privacy/getPrivacyDetail`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminGetPrivacyDetailRes {
   /**
@@ -159,7 +159,7 @@ export interface AdminGetPrivacyDetailRes {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `POST /admin/privacy/addPrivacy`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminAddPrivacyReq {
   /**
@@ -190,7 +190,7 @@ export interface AdminAddPrivacyReq {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `POST /admin/privacy/addPrivacy`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminAddPrivacyRes {
   /**
@@ -217,7 +217,7 @@ export interface AdminAddPrivacyRes {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `POST /admin/privacy/switchPrivacyStatus`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminSwitchPrivacyStatusReq {
   /**
@@ -236,7 +236,7 @@ export interface AdminSwitchPrivacyStatusReq {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `POST /admin/privacy/switchPrivacyStatus`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export type AdminSwitchPrivacyStatusRes = number[]
 
@@ -246,7 +246,7 @@ export type AdminSwitchPrivacyStatusRes = number[]
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `POST /admin/privacy/deletePrivacy`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface AdminDeletePrivacyReq {
   /**
@@ -261,7 +261,7 @@ export interface AdminDeletePrivacyReq {
  * @分类 [管理端/隐私声明↗](https://yapi.pro/project/11787/interface/api/cat_128796)
  * @标签 `管理端/隐私声明`
  * @请求头 `POST /admin/privacy/deletePrivacy`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export type AdminDeletePrivacyRes = number
 

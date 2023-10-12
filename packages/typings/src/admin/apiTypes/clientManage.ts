@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
  * @标签 `管理端/客户端管理`
  * @请求头 `GET /admin/clientManage/getClientPage`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminGetClientPageReq {}
 
@@ -23,7 +23,7 @@ export interface AdminGetClientPageReq {}
  * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
  * @标签 `管理端/客户端管理`
  * @请求头 `GET /admin/clientManage/getClientPage`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export type AdminGetClientPageRes = {
   /**
@@ -99,7 +99,7 @@ export interface AdminSystemConfigRes {
  * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
  * @标签 `管理端/客户端管理`
  * @请求头 `GET /admin/clientManage/getSystemConfig`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-05-02 16:22:57`
  */
 export interface AdminGetSystemConfigReq {}
 
@@ -109,7 +109,7 @@ export interface AdminGetSystemConfigReq {}
  * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
  * @标签 `管理端/客户端管理`
  * @请求头 `GET /admin/clientManage/getSystemConfig`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-05-02 16:22:57`
  */
 export interface AdminGetSystemConfigRes {
   /**
@@ -121,5 +121,99 @@ export interface AdminGetSystemConfigRes {
    */
   guide: number
 }
+
+/**
+ * 接口 [更新客户端配置信息↗](https://yapi.pro/project/11787/interface/api/798849) 的 **请求类型**
+ *
+ * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
+ * @标签 `管理端/客户端管理`
+ * @请求头 `POST /admin/clientManage/updateClientConfig`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export interface AdminUpdateClientConfigReq {
+  /**
+   * 协议标题
+   */
+  privacyTitle: string
+  /**
+   * 协议内容
+   */
+  privacyMessage: string
+  /**
+   * 二级协议标题
+   */
+  privacySecondTitle: string
+  /**
+   * 二级协议内容
+   */
+  privacySecondMessage: string
+}
+
+/**
+ * 接口 [更新客户端配置信息↗](https://yapi.pro/project/11787/interface/api/798849) 的 **返回类型**
+ *
+ * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
+ * @标签 `管理端/客户端管理`
+ * @请求头 `POST /admin/clientManage/updateClientConfig`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export type AdminUpdateClientConfigRes = null
+
+/**
+ * 接口 [获取客户端配置信息↗](https://yapi.pro/project/11787/interface/api/800365) 的 **请求类型**
+ *
+ * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
+ * @标签 `管理端/客户端管理`
+ * @请求头 `GET /admin/clientManage/getClientConfig`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export interface AdminGetClientConfigReq {}
+
+/**
+ * 接口 [获取客户端配置信息↗](https://yapi.pro/project/11787/interface/api/800365) 的 **返回类型**
+ *
+ * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
+ * @标签 `管理端/客户端管理`
+ * @请求头 `GET /admin/clientManage/getClientConfig`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export interface AdminGetClientConfigRes {
+  /**
+   * 协议标题
+   */
+  privacyTitle: string
+  /**
+   * 协议内容
+   */
+  privacyMessage: string
+  /**
+   * 二级协议标题
+   */
+  privacySecondTitle: string
+  /**
+   * 二级协议内容
+   */
+  privacySecondMessage: string
+}
+
+/**
+ * 接口 [导出客户端代码包↗](https://yapi.pro/project/11787/interface/api/959158) 的 **请求类型**
+ *
+ * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
+ * @标签 `管理端/客户端管理`
+ * @请求头 `GET /admin/clientManage/exportClientPackage`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export interface AdminExportClientPackageReq {}
+
+/**
+ * 接口 [导出客户端代码包↗](https://yapi.pro/project/11787/interface/api/959158) 的 **返回类型**
+ *
+ * @分类 [管理端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114804)
+ * @标签 `管理端/客户端管理`
+ * @请求头 `GET /admin/clientManage/exportClientPackage`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export type AdminExportClientPackageRes = null
 
 /* prettier-ignore-end */

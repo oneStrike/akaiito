@@ -1,0 +1,104 @@
+-- generator-version: 0.0
+
+-- Model admin_log comments
+
+ALTER TABLE admin_log COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';
+
+
+-- Model admin_user comments
+
+ALTER TABLE admin_user COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'id' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN id ', @column_type, ' COMMENT ''主键id''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'username' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN username ', @column_type, ' COMMENT ''账号''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'nickname' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN nickname ', @column_type, ' COMMENT ''昵称''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'password' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN password ', @column_type, ' COMMENT ''密码''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'avatar' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN avatar ', @column_type, ' COMMENT ''头像''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'mobile' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN mobile ', @column_type, ' COMMENT ''手机号''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'email' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN email ', @column_type, ' COMMENT ''邮箱''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'status' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN status ', @column_type, ' COMMENT ''状态 0禁用 1正常''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'is_root' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN is_root ', @column_type, ' COMMENT ''是否是超级管理员 1是0否''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'created_at' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN created_at ', @column_type, ' COMMENT ''创建时间''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'updated_at' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN updated_at ', @column_type, ' COMMENT ''更新时间''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+SET @column_type = ( SELECT column_type FROM information_schema.COLUMNS WHERE table_name = 'admin_user' AND column_name = 'deleted_at' );
+    SET @alter_sql = CONCAT( 'ALTER TABLE admin_user MODIFY COLUMN deleted_at ', @column_type, ' COMMENT ''软删除时间''' );
+    PREPARE alter_statement  FROM @alter_sql;
+    EXECUTE alter_statement;
+    DEALLOCATE PREPARE alter_statement;
+
+
+-- Model baseentity comments
+
+
+
+-- Model client_manage_page comments
+
+ALTER TABLE client_manage_page COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';
+
+
+-- Model material comments
+
+ALTER TABLE material COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';
+
+
+-- Model material_group comments
+
+ALTER TABLE material_group COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';
+
+
+-- Model privacy comments
+
+ALTER TABLE privacy COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';
+
+
+-- Model social_circle_classify comments
+
+ALTER TABLE social_circle_classify COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';
+
+
+-- Model social_circle comments
+
+ALTER TABLE social_circle COMMENT 'This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments';

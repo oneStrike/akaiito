@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [客户端/首页diy↗](https://yapi.pro/project/11787/interface/api/cat_112988)
  * @标签 `客户端/首页diy`
  * @请求头 `GET /client/layout/homeLayout`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface ClientHomeLayoutReq {}
 
@@ -23,7 +23,7 @@ export interface ClientHomeLayoutReq {}
  * @分类 [客户端/首页diy↗](https://yapi.pro/project/11787/interface/api/cat_112988)
  * @标签 `客户端/首页diy`
  * @请求头 `GET /client/layout/homeLayout`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface ClientHomeLayoutRes {
   /**

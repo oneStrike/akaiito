@@ -24,6 +24,10 @@
   "exclude": [
     "dist",
     "node_modules",
-    "test"
-  ]
+    "test",
+    "CommonJS"
+  ],
+  "ts-node": {
+    "esm": true
+  }
 }

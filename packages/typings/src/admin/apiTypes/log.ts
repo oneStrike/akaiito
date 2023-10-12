@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [管理端/日志记录↗](https://yapi.pro/project/11787/interface/api/cat_112844)
  * @标签 `管理端/日志记录`
  * @请求头 `GET /admin/log/loginLog`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminLoginLogReq {
   /**
@@ -56,7 +56,7 @@ export interface AdminLoginLogReq {
  * @分类 [管理端/日志记录↗](https://yapi.pro/project/11787/interface/api/cat_112844)
  * @标签 `管理端/日志记录`
  * @请求头 `GET /admin/log/loginLog`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface AdminLoginLogRes {
   list: {

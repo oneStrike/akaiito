@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [客户端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114820)
  * @标签 `客户端/客户端管理`
  * @请求头 `GET /client/manage/getPages`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export interface ClientGetPagesReq {}
 
@@ -23,7 +23,7 @@ export interface ClientGetPagesReq {}
  * @分类 [客户端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114820)
  * @标签 `客户端/客户端管理`
  * @请求头 `GET /client/manage/getPages`
- * @更新时间 `2023-04-13 23:03:13`
+ * @更新时间 `2023-06-24 16:44:21`
  */
 export type ClientGetPagesRes = {
   /**
@@ -99,7 +99,7 @@ export interface ClientSystemInfoRes {
  * @分类 [客户端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114820)
  * @标签 `客户端/客户端管理`
  * @请求头 `GET /client/manage/getSystemConfig`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface ClientGetSystemConfigReq {}
 
@@ -109,7 +109,7 @@ export interface ClientGetSystemConfigReq {}
  * @分类 [客户端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114820)
  * @标签 `客户端/客户端管理`
  * @请求头 `GET /client/manage/getSystemConfig`
- * @更新时间 `2023-04-13 23:03:14`
+ * @更新时间 `2023-06-24 16:44:22`
  */
 export interface ClientGetSystemConfigRes {
   /**

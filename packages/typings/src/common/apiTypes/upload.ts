@@ -13,7 +13,7 @@ type FileData = File
  * @分类 [公共接口↗](https://yapi.pro/project/11787/interface/api/cat_112884)
  * @标签 `公共接口`
  * @请求头 `POST /common/upload/upload`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:20`
  */
 export interface CommonUploadReq {}
 
@@ -23,7 +23,7 @@ export interface CommonUploadReq {}
  * @分类 [公共接口↗](https://yapi.pro/project/11787/interface/api/cat_112884)
  * @标签 `公共接口`
  * @请求头 `POST /common/upload/upload`
- * @更新时间 `2023-04-13 23:03:12`
+ * @更新时间 `2023-06-24 16:44:20`
  */
 export type CommonUploadRes = {
   /**
