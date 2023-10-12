@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "pnpm run dev:h5",
     "lint:fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .eslintignore",
+    "upgrade:uni": "pnpx @dcloudio/uvm@latest && rimraf node_modules && pnpm install",
     "dev:app": "uni -p app",
     "dev:app-android": "uni -p app-android",
     "dev:app-ios": "uni -p app-ios",
@@ -55,11 +56,11 @@
     "@dcloudio/uni-mp-toutiao": "3.0.0-3081220230817001",
     "@dcloudio/uni-mp-weixin": "3.0.0-3081220230817001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-3081220230817001",
-    "vue": "^3.2.45",
-    "vue-i18n": "^9.1.9"
+    "vue": "^3.3.4",
+    "vue-i18n": "^9.5.0"
   },
   "devDependencies": {
-    "@dcloudio/types": "^3.3.2",
+    "@dcloudio/types": "^3.4.0",
     "@dcloudio/uni-automator": "3.0.0-3081220230817001",
     "@dcloudio/uni-cli-shared": "3.0.0-3081220230817001",
     "@dcloudio/uni-stacktracey": "3.0.0-3081220230817001",
