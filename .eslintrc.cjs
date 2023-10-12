@@ -4,12 +4,8 @@ module.exports = {
     'plugin:node/recommended',
     'prettier'
   ],
-  env: {
-    browser: true,
-    node: true
-  },
 
-  ignorePatterns: ['node_modules', 'dist', 'test', 'typings'],
+  ignorePatterns: ['node_modules', 'dist', 'logs', 'test', 'typings'],
   plugins: [
     'node',
     'prettier'
