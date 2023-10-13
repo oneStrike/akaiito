@@ -3,10 +3,6 @@ generator client {
   binaryTargets = ["native", "linux-musl"]
 }
 
-generator comments {
-  provider = "ts-node prisma/generateComments.ts"
-}
-
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")

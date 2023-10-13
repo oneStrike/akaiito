@@ -5,3 +5,4 @@ node_modules
 logs
 **/*/*.log
 !/packages/server/migrations/
+!/packages/server/dist/

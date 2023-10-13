@@ -1,23 +1,28 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 const main = async () => {
-  console.log('Start seeding ...')
-  await prisma.adminUser.create({
-    data: {
-      username: 'admin',
-      mobile: '18888888888',
-      nickname: '管理员',
-      password: '84bea2653fe3fd44e06e47e8fa419ad6'
-    }
-  })
-  console.log('Seeding finished.')
-}
+  console.log('Start seeding ...');
+  const isExists = await prisma.adminUser.findUnique({
+    where: { username: 'admin' },
+  });
+  if (!isExists) {
+    await prisma.adminUser.create({
+      data: {
+        username: 'admin',
+        mobile: '18888888888',
+        nickname: '管理员',
+        password: '84bea2653fe3fd44e06e47e8fa419ad6',
+      },
+    });
+  }
+  console.log('Seeding finished.');
+};
 main()
-  .catch((e) => {
-    console.error(e)
-    process.exit(1)
+  .catch(e => {
+    console.error(e);
+    process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });

@@ -1,7 +1,0 @@
-node_modules
-/public/
-dist
-.vscode
-.history
-.idea
-/src/typings

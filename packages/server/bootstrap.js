@@ -1,2 +1,2 @@
-import { Bootstrap } from '@midwayjs/bootstrap'
-await Bootstrap.run()
+const { Bootstrap } = require('@midwayjs/bootstrap');
+Bootstrap.run();

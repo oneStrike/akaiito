@@ -1,11 +1,11 @@
-import { Configuration, App } from '@midwayjs/core'
-import * as koa from '@midwayjs/koa'
-import * as validate from '@midwayjs/validate'
-import * as info from '@midwayjs/info'
-
-import { ReportMiddleware } from './middleware/report.middleware.js'
-import DefaultConfig from './config/config.default.js'
-import UnittestConfig from './config/config.unittest.js'
+import { Configuration, App } from '@midwayjs/core';
+import * as koa from '@midwayjs/koa';
+import * as validate from '@midwayjs/validate';
+import * as info from '@midwayjs/info';
+import { join } from 'path';
+// import { DefaultErrorFilter } from './filter/default.filter';
+// import { NotFoundFilter } from './filter/notfound.filter';
+import { ReportMiddleware } from './middleware/report.middleware';
 
 @Configuration({
   imports: [
@@ -13,23 +13,18 @@ import UnittestConfig from './config/config.unittest.js'
     validate,
     {
       component: info,
-      enabledEnvironment: ['local']
-    }
+      enabledEnvironment: ['local'],
+    },
   ],
-  importConfigs: [
-    {
-      default: DefaultConfig,
-      unittest: UnittestConfig
-    }
-  ]
+  importConfigs: [join(__dirname, './config')],
 })
 export class MainConfiguration {
   @App('koa')
-  app: koa.Application
+  app: koa.Application;
 
   async onReady() {
     // add middleware
-    this.app.useMiddleware([ReportMiddleware])
+    this.app.useMiddleware([ReportMiddleware]);
     // add filter
     // this.app.useFilter([NotFoundFilter, DefaultErrorFilter]);
   }
