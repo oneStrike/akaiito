@@ -25,6 +25,7 @@
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
+    "@akaiito/typings": "workspace:*",
     "@rushstack/eslint-patch": "^1.3.3",
     "@tsconfig/node18": "^18.2.2",
     "@types/nprogress": "^0.2.1",

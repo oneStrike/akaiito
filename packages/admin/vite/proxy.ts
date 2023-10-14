@@ -1,12 +1,20 @@
 import type { ServerOptions } from 'vite'
+import { IterateObject } from '@akaiito/typings/src/global'
 
-export const ViteProxy: ServerOptions = {
-  proxy: {
-    '/foo': {
-      target: 'http://127.0.0.1:7001',
+export const ViteProxy = (env: IterateObject<string>): ServerOptions => {
+  const proxyList = JSON.parse(env.VITE_PROXY_LIST)
+  const proxyObj = {}
+  proxyList.forEach((item: string[]) => {
+    const [key, target, rewrite] = item
+    proxyObj[key] = {
+      target,
       changeOrigin: true,
-      rewrite: (path: string) => path.replace(/^\/foo/, '')
+      rewrite: (path: string) => path.replace(key, rewrite)
     }
-  },
-  host: '0.0.0.0'
+  })
+
+  return {
+    proxy: proxyObj,
+    host: '0.0.0.0'
+  }
 }
