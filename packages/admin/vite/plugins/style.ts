@@ -11,7 +11,8 @@ export const CreateStyleImport = () => {
         libraryName: 'element-plus',
         esModule: true,
         resolveStyle: (name: string) => {
-          return `element-plus/theme-chalk/${name}.css`
+          name = name.substring(3, name.length)
+          return `element-plus/es/components/${name}/style/index`
         }
       }
     ]

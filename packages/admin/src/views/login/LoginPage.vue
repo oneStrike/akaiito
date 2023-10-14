@@ -1,7 +1,17 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { getCaptcha } from '@/api/modules/open'
+
+getCaptcha()
+  .then((res) => {
+    console.log(res)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+</script>
 
 <template>
-  <div>我是登陆页面</div>
+  <el-button>我是登陆页面</el-button>
 </template>
 
 <style scoped></style>
