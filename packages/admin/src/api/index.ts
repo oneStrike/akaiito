@@ -1,5 +1,5 @@
 import { HttpClient } from '@/utils/request'
-import type { IterateObject } from '@akaiito/typings/src/global'
+import type { IterateObject } from '@typings/global'
 import { useMessage } from '@/hooks/useFeedback'
 import type { AxiosError } from 'axios'
 

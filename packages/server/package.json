@@ -4,6 +4,7 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "@akaiito/typings": "workspace:*",
     "@midwayjs/bootstrap": "^3.12.0",
     "@midwayjs/captcha": "3",
     "@midwayjs/core": "^3.12.0",

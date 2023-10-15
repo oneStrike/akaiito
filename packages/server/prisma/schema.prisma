@@ -8,22 +8,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// 管理端接口调用记录
 model AdminLog {
-  id          Int       @id @default(autoincrement())
-  username    String?   @db.VarChar(50)
-  userId      Int?      @map("user_id")
-  action      String?   @db.VarChar(50)
-  ip          String?   @db.VarChar(20)
-  ipAddress   String?   @map("ip_address") @db.VarChar(300)
-  receipt     Int?      @default(1)
-  receiptDesc String?   @map("receipt_desc") @db.VarChar(300)
-  path        String?   @db.VarChar(255)
-  userAgent   String?   @map("user_agent") @db.VarChar(255)
-  params      String?   @db.LongText
-  createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
-  deletedAt   DateTime? @map("deleted_at") @db.DateTime(0)
+  id         Int       @id @default(autoincrement()) /// 主键id
+  username   String?   @db.VarChar(50) /// 用户名
+  userId     Int?      @map("user_id") /// 用户主键Id
+  method     String?   @db.VarChar(50) /// 请求类型
+  ip         String?   @db.VarChar(20) /// 调用ip
+  ipAddress  String?   @map("ip_address") @db.VarChar(300) /// ip映射地址
+  statusCode Int?      @default(1) @map("status_code") /// 响应状态码
+  statusDesc String?   @map("receipt_desc") @db.VarChar(300) /// 响应描述
+  path       String?   @db.VarChar(255) /// 请求地址
+  userAgent  String?   @map("user_agent") @db.VarChar(255) /// 浏览器信息标识
+  params     String?   @db.LongText /// 请求参数
+  createdAt  DateTime?  @default(now()) @map("created_at") @db.DateTime(0) /// 创建时间
+  updatedAt  DateTime? @updatedAt @map("updated_at") @db.DateTime(0) /// 更新时间
+  deletedAt  DateTime? @map("deleted_at") @db.DateTime(0) /// 删除时间
 
   @@map("admin_log")
 }

@@ -4,7 +4,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 
 export const AutoRegistryComponent = () => {
   return Components({
-    dts: 'src/typings/components.d.ts',
+    dts: 'src/types/components.d.ts',
     dirs: ['src/components'],
     directoryAsNamespace: false,
     resolvers: [

@@ -9,7 +9,7 @@
 
 /public/*
 
-!/packages/typings/src/httpTypes/
+!/packages/types/src/httpTypes/
 
 .husky
 .idea

@@ -19,6 +19,6 @@ export const autoImport = () =>
       filepath: './.eslintrc-auto-import.json',
       globalsPropValue: 'readonly'
     },
-    dts: './src/typings/auto-import.d.ts',
+    dts: './src/types/auto-import.d.ts',
     vueTemplate: true
   })
