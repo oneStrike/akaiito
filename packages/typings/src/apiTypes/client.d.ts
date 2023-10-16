@@ -8,6 +8,51 @@
 type FileData = File
 
 /**
+ * 接口 [获取首页布局↗](https://yapi.pro/project/11787/interface/api/459394) 的 **请求类型**
+ *
+ * @分类 [客户端/首页diy↗](https://yapi.pro/project/11787/interface/api/cat_112988)
+ * @标签 `客户端/首页diy`
+ * @请求头 `GET /client/layout/homeLayout`
+ * @更新时间 `2023-06-24 16:44:21`
+ */
+export interface ClientHomeLayoutReq {}
+
+/**
+ * 接口 [获取首页布局↗](https://yapi.pro/project/11787/interface/api/459394) 的 **返回类型**
+ *
+ * @分类 [客户端/首页diy↗](https://yapi.pro/project/11787/interface/api/cat_112988)
+ * @标签 `客户端/首页diy`
+ * @请求头 `GET /client/layout/homeLayout`
+ * @更新时间 `2023-06-24 16:44:21`
+ */
+export interface ClientHomeLayoutRes {
+  /**
+   * 主键id
+   */
+  id: number
+  /**
+   * 布局名称
+   */
+  diyName: string
+  /**
+   * 布局数据
+   */
+  diyData: string
+  /**
+   * 是否使用，1使用，0未使用
+   */
+  use: string
+  /**
+   * 创建日期
+   */
+  createdAt?: string
+  /**
+   * 更新日期
+   */
+  updatedAt?: string
+}
+
+/**
  * 接口 [获取客户端页面列表↗](https://yapi.pro/project/11787/interface/api/461972) 的 **请求类型**
  *
  * @分类 [客户端/客户端管理↗](https://yapi.pro/project/11787/interface/api/cat_114820)
@@ -120,6 +165,47 @@ export interface ClientGetSystemConfigRes {
    * 是否引用引导，1是0否
    */
   guide: number
+}
+
+/**
+ * 接口 [登录↗](https://yapi.pro/project/11787/interface/api/465158) 的 **请求类型**
+ *
+ * @分类 [客户端/用户↗](https://yapi.pro/project/11787/interface/api/cat_117060)
+ * @标签 `客户端/用户`
+ * @请求头 `POST /client/user/login`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export interface ClientLoginReq {}
+
+/**
+ * 接口 [登录↗](https://yapi.pro/project/11787/interface/api/465158) 的 **返回类型**
+ *
+ * @分类 [客户端/用户↗](https://yapi.pro/project/11787/interface/api/cat_117060)
+ * @标签 `客户端/用户`
+ * @请求头 `POST /client/user/login`
+ * @更新时间 `2023-06-24 16:44:22`
+ */
+export interface ClientLoginRes {
+  /**
+   * 用户id
+   */
+  id: number
+  /**
+   * 用户昵称
+   */
+  username: string
+  /**
+   * 用户头像
+   */
+  avatar: string
+  /**
+   * vip状态，1是，0否
+   */
+  vipStatus: number
+  /**
+   * vip等级
+   */
+  vipLevel: number
 }
 
 /* prettier-ignore-end */

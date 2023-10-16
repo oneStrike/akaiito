@@ -1,5 +1,5 @@
 import type { ServerOptions } from 'vite'
-import { IterateObject } from '@typings/global.d.ts'
+import type { IterateObject } from '@akaiito/typings'
 
 export const ViteProxy = (env: IterateObject<string>): ServerOptions => {
   const proxyList = JSON.parse(env.VITE_PROXY_LIST)

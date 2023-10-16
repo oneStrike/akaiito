@@ -1,6 +1,7 @@
 import { Middleware, IMiddleware } from '@midwayjs/core'
 import { NextFunction, Context } from '@midwayjs/koa'
 import { LogService } from '../modules/internal/log/log.service'
+import { IterateObject } from '@akaiito/typings'
 
 @Middleware()
 export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
@@ -12,7 +13,7 @@ export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
       // 获取日志服务实例
       const sysLogService = await ctx.requestContext.getAsync(LogService)
 
-      const reportRes = {
+      const reportRes: IterateObject = {
         code: 200,
         status: 'success',
         data: result,

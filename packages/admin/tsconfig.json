@@ -40,8 +40,8 @@
       "@/*": [
         "./src/*"
       ],
-      "@typings/*": [
-        "node_modules/@akaiito/typings/src/*"
+      "@apiTypes/*": [
+        "node_modules/@akaiito/typings/src/apiTypes/*"
       ]
     }
   },

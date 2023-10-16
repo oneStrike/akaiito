@@ -27,7 +27,7 @@ export default defineConfig([
     ],
     outputFilePath: (interfaceInfo, changeCase) => {
       const pathArr = interfaceInfo.path.split('/')
-      return `src/${pathArr[1]}/apiTypes/${pathArr[2]}.ts`
+      return `src/apiTypes/${pathArr[1]}.d.ts`
     },
     getRequestDataTypeName: (interfaceInfo, changeCase) => {
       return `${genApiInterfaceName(interfaceInfo, changeCase)}Req`
