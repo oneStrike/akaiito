@@ -7,7 +7,7 @@ const validPwd =
 /**
  * 手机号，起始位置为1即可
  */
-const validPhone = /^(?:(?:\+|00)86)?1\d{10}$/
+export const validPhone = /^(?:(?:\+|00)86)?1\d{10}$/
 
 /**
  * 邮箱

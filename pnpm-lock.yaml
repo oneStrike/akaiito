@@ -11,7 +11,7 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
-      lodash-es:
+      lodash:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
@@ -19,8 +19,8 @@ importers:
         specifier: ^17.7.0
         version: 17.7.0
       '@types/lodash-es':
-        specifier: ^4.17.9
-        version: 4.17.9
+        specifier: ^4.17.10
+        version: 4.17.10
       '@types/node':
         specifier: ^20.8.4
         version: 20.8.4
@@ -245,6 +245,9 @@ importers:
       '@akaiito/typings':
         specifier: workspace:*
         version: link:../typings
+      '@akaiito/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@midwayjs/bootstrap':
         specifier: ^3.12.0
         version: 3.12.5
@@ -267,11 +270,17 @@ importers:
         specifier: ^2.14.0
         version: 2.18.0
       '@midwayjs/validate':
-        specifier: ^3.12.0
+        specifier: ^3.12.3
         version: 3.12.3
       '@prisma/client':
         specifier: ^5.4.2
         version: 5.4.2(prisma@5.4.2)
+      ip2region:
+        specifier: ^2.3.0
+        version: 2.3.0(@types/node@14.18.63)
+      yaml:
+        specifier: ^2.3.3
+        version: 2.3.3
     devDependencies:
       '@midwayjs/cli':
         specifier: ^2.0.0
@@ -285,6 +294,9 @@ importers:
       '@types/koa':
         specifier: ^2.13.4
         version: 2.13.9
+      '@types/lodash':
+        specifier: ^4.14.200
+        version: 4.14.200
       '@types/node':
         specifier: '14'
         version: 14.18.63
@@ -4555,6 +4567,12 @@ packages:
       '@types/node': 14.18.63
     dev: true
 
+  /@types/lodash-es@4.17.10:
+    resolution: {integrity: sha512-YJP+w/2khSBwbUSFdGsSqmDvmnN3cCKoPOL7Zjle6s30ZtemkkqhjVfFqGwPN7ASil5VyjE2GtyU/yqYY6mC0A==}
+    dependencies:
+      '@types/lodash': 4.14.199
+    dev: true
+
   /@types/lodash-es@4.17.9:
     resolution: {integrity: sha512-ZTcmhiI3NNU7dEvWLZJkzG6ao49zOIjEgIE0RgV7wbPxU0f2xT3VSAHw2gmst8swH6V0YkLRGp4qPlX/6I90MQ==}
     dependencies:
@@ -4562,6 +4580,10 @@ packages:
 
   /@types/lodash@4.14.199:
     resolution: {integrity: sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==}
+
+  /@types/lodash@4.14.200:
+    resolution: {integrity: sha512-YI/M/4HRImtNf3pJgbF+W6FrXovqj+T+/HpENLTooK9PnkacBsDpeP3IpHab40CClUfhNmdM2WTNP2sa2dni5Q==}
+    dev: true
 
   /@types/mime@1.3.3:
     resolution: {integrity: sha512-Ys+/St+2VF4+xuY6+kDIXGxbNRO0mesVg0bbxEfB97Od1Vjpjx9KD1qxs64Gcb3CWPirk9Xe+PT4YiiHQ9T+eg==}
@@ -4585,7 +4607,6 @@ packages:
 
   /@types/node@14.18.63:
     resolution: {integrity: sha512-fAtCfv4jJg+ExtXhvCkCqUKZ+4ok/JQk01qDKhL5BDDoS3AxKXhV5/MAVUZyQnSEd2GT92fkgZl0pz0Q0AzcIQ==}
-    dev: true
 
   /@types/node@20.5.1:
     resolution: {integrity: sha512-4tT2UrL5LBqDwoed9wZ6N3umC4Yhz3W3FloMmiiG4JwmUJWpie0c7lcnUNd4gtMKuDEO4wRVS8B6Xa0uMRsMKg==}
@@ -8557,6 +8578,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /ip2region@2.3.0(@types/node@14.18.63):
+    resolution: {integrity: sha512-zV5Xsadzrx9Ej6heoyhbXMsfGWWQ3C6bAIYStrHhw9kzLpGpVNlnAyRBxxPgxA1GNqr1Ti7oUxcWsMWNN3jZBg==}
+    peerDependencies:
+      '@types/node': '*'
+    dependencies:
+      '@types/node': 14.18.63
+    dev: false
 
   /ip@1.1.8:
     resolution: {integrity: sha512-PuExPYUiu6qMBQb4l06ecm6T6ujzhmh+MeJcW9wa89PoAz5pvd4zPgN5WJV104mb6S2T1AwNIAaB70JNrLQWhg==}
@@ -13971,6 +14000,11 @@ packages:
     resolution: {integrity: sha512-2eHWfjaoXgTBC2jNM1LRef62VQa0umtvRiDSk6HSzW7RvS5YtkabJrwYLLEKWBc8a5U2PTSCs+dJjUTJdlHsWQ==}
     engines: {node: '>= 14'}
     dev: true
+
+  /yaml@2.3.3:
+    resolution: {integrity: sha512-zw0VAJxgeZ6+++/su5AFoqBbZbrEakwu+X0M5HmcwUiBL7AzcuPKjj5we4xfQLp78LkEMpD0cOnUhmgOVy3KdQ==}
+    engines: {node: '>= 14'}
+    dev: false
 
   /yapi-to-typescript@3.37.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-2Sza3EE7NOaP1oKq5L0D1m73F/ZXcD3hZse9GmHYYnzdxe0wfOdTU5mtQyIeVYcvxNv9oV/2/4ymQ009YfJG5w==}
