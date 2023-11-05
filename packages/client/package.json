@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "pnpm run dev:h5",
+    "build": "pnpm run build:h5",
     "lint:fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .eslintignore",
     "upgrade:uni": "pnpx @dcloudio/uvm@latest && rimraf node_modules && pnpm install",
     "dev:app": "uni -p app",
