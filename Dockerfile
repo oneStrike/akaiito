@@ -1,30 +1,24 @@
-FROM node:16.20.0-slim AS base
+FROM node:20-slim AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-COPY . /app
-WORKDIR /app
 
 FROM base AS build
+COPY . /usr/src/app
+WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
+RUN pnpm deploy --filter=app1 --prod /prod/app1
+RUN pnpm deploy --filter=app2 --prod /prod/app2
 
-
-FROM common AS client
-COPY --from=prod-deps /app/packages/client/node_modules/ /app/packages/client/node_modules
-COPY --from=build /app/packages/client/dist/build/h5 app/packages/client/dist
-WORKDIR /app/packages/client
+FROM base AS app1
+COPY --from=build /prod/app1 /prod/app1
+WORKDIR /prod/app1
 EXPOSE 8000
+CMD [ "pnpm", "start" ]
 
-FROM common AS admin
-COPY --from=prod-deps /app/packages/admin/node_modules/ /app/packages/admin/node_modules
-COPY --from=build /app/packages/admin/dist /app/packages/admin/dist
-WORKDIR /app/packages/admin
-EXPOSE 8000
-
-FROM common AS app2
-COPY --from=prod-deps /app/packages/app2/node_modules/ /app/packages/app2/node_modules
-COPY --from=build /app/packages/app2/dist /app/packages/app2/dist
-WORKDIR /app/packages/app2
+FROM base AS app2
+COPY --from=build /prod/app2 /prod/app2
+WORKDIR /prod/app2
 EXPOSE 8001
 CMD [ "pnpm", "start" ]

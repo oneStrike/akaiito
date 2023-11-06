@@ -1,30 +1,19 @@
-stages: # List of stages for jobs, and their order of execution
+stages:
   - build
-  - deploy
+  - docker
 
-build-job: # This job runs in the build stage, which runs first.
+build:
   stage: build
+  image: node:16.20.0
+  before_script:
+    - corepack enable
+    - corepack prepare pnpm@latest-8 --activate
+    - pnpm config set store-dir .pnpm-store
   script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
-
-unit-test-job: # This job runs in the test stage.
-  stage: test # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
-
-lint-test-job: # This job also runs in the test stage.
-  stage: test # It can run at the same time as unit-test-job (in parallel).
-  script:
-    - echo "Linting code... This will take about 10 seconds."
-    - sleep 10
-    - echo "No lint issues found."
-
-deploy-job: # This job runs in the deploy stage.
-  stage: deploy # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - echo "Application successfully deployed."
+    - pnpm install # install dependencies
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store
