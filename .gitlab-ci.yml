@@ -11,7 +11,9 @@ build:
   stage: build
   tags:
     - akaiito
-  image: node:16.20.0
+  image: docker:latest
+  services:
+    - docker:dind
   script:
     - docker build -t --name $akaiito_admin admin -f Dockerfile.admin .
     - docker build -t --name $akaiito_client admin -f Dockerfile.client .
