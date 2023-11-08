@@ -15,5 +15,5 @@ build:
   services:
     - docker:dind
   script:
-    - docker build -t admin --name $akaiito_admin -f Dockerfile.admin .
-    - docker build -t client --name $akaiito_client -f Dockerfile.client .
+    - docker build -t $akaiito_admin -f Dockerfile.admin .
+    - docker build -t $akaiito_client -f Dockerfile.client .
