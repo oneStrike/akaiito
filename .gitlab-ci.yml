@@ -3,7 +3,7 @@ stages:
   - docker
 
 build:
-  stage: build
+  stage: akaiito
   image: node:16.20.0
   before_script:
     - corepack enable
@@ -11,6 +11,7 @@ build:
     - pnpm config set store-dir .pnpm-store
   script:
     - pnpm install
+
   cache:
     key:
       files:
