@@ -2,21 +2,16 @@ stages:
   - build
   - docker
 
+variables:
+  akaiito_admin: 'akaiito-server'
+  akaiito_client: 'akaiito-admin'
+  akaiito_server: 'akaiito-server'
+
 build:
   stage: build
   tags:
     - akaiito
   image: node:16.20.0
-  before_script:
-    - corepack enable
-    - corepack prepare pnpm@latest-8 --activate
-    - pnpm config set store-dir .pnpm-store
   script:
-    - pnpm install
-
-  cache:
-    key:
-      files:
-        - pnpm-lock.yaml
-    paths:
-      - .pnpm-store
+    - docker build -t --name $akaiito_admin admin -f Dockerfile.admin .
+    - docker build -t --name $akaiito_client admin -f Dockerfile.client .
