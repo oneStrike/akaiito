@@ -3,7 +3,9 @@ stages:
   - docker
 
 build:
-  stage: akaiito
+  stage: build
+  tags:
+    - akaiito
   image: node:16.20.0
   before_script:
     - corepack enable
