@@ -4,6 +4,6 @@ import { fileURLToPath, URL } from 'url'
 export const ViteResolve: ResolveOptions & { alias: AliasOptions } = {
   alias: {
     '@': fileURLToPath(new URL('./../src', import.meta.url)),
-    '@apiTypes': '@akaiito/typings/src/apiTypes'
+    '@typings': '@akaiito/typings/src'
   }
 }

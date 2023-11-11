@@ -4,7 +4,7 @@ import type {
   InternalAxiosRequestConfig,
   AxiosError
 } from 'axios'
-import axios, { AxiosResponse } from 'axios'
+import axios, { type AxiosResponse } from 'axios'
 import { ElLoading } from 'element-plus'
 
 export type HttpClientOptions = {

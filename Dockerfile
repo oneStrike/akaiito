@@ -7,6 +7,7 @@ WORKDIR /app
 
 FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN apt-get update -y & apt-get install -y openss
 RUN pnpm run -r build
 
 

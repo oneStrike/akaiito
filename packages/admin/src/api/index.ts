@@ -1,5 +1,5 @@
 import { HttpClient } from '@/utils/request'
-import type { IterateObject } from '@typings/global'
+import type { IterateObject } from '@typings/index'
 import { useMessage } from '@/hooks/useFeedback'
 import type { AxiosError } from 'axios'
 
@@ -29,3 +29,4 @@ export const httpClient = new HttpClient({
   responseInterceptor: response,
   responseInterceptorError: responseError
 })
+q

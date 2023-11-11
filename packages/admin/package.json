@@ -29,6 +29,7 @@
     "@akaiito/typings": "workspace:*",
     "@rushstack/eslint-patch": "^1.3.3",
     "@tsconfig/node18": "^18.2.2",
+    "@types/lodash": "^4.14.200",
     "@types/nprogress": "^0.2.1",
     "@vitejs/plugin-vue": "^4.3.4",
     "@vitejs/plugin-vue-jsx": "^3.0.2",

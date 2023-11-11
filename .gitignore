@@ -4,5 +4,7 @@ node_modules
 **/*/dist
 logs
 **/*/*.log
-!/packages/server/migrations/
-!/packages/server/dist/
+/packages/server/migrations/
+/packages/server/dist/
+/packages/admin/dist/
+/.history/
