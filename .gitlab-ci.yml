@@ -12,5 +12,4 @@ build:
   tags:
     - akaiito
   script:
-    - docker build -t $akaiito_admin -f Dockerfile.admin .
-    - docker build -t $akaiito_client -f Dockerfile.client .
+    - docker build --target build --target admin --target client -t $akaiito_admin .

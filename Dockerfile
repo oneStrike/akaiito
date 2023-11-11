@@ -21,3 +21,4 @@ COPY --from=prod-deps /app/packages/client/node_modules/ /app/packages/client/no
 COPY --from=build /app/packages/client/dist/build/h5 /app/packages/client/dist/build/h5
 WORKDIR /app/packages/client
 EXPOSE 8002
+
