@@ -9,7 +9,7 @@ WORKDIR /app
 ARG proxy=http://mirrors.tuna.tsinghua.edu.cn/debian/
 
 FROM base AS build
-RUN apt-get update -o Acquire::http::Proxy=${proxy} && apt-get install -o Acquire::http::Proxy=${proxy} -y openss
+RUN apt-get update && apt-get install -y openss
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 
