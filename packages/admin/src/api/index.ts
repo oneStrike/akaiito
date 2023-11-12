@@ -29,4 +29,3 @@ export const httpClient = new HttpClient({
   responseInterceptor: response,
   responseInterceptorError: responseError
 })
-q

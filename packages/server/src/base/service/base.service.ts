@@ -2,7 +2,7 @@ import { App, Config, Context, Inject } from '@midwayjs/core'
 import { Application } from '@midwayjs/koa'
 import type { PrismaConfig } from '../../typings/config/prisma'
 import type { FindPageResponse } from '../../typings/service/base.service'
-import type { IterateObject } from '@akaiito/typings'
+import type { IterateObject } from '@akaiito/typings/src'
 import { utils } from '../../utils'
 
 export abstract class BaseService<T> {

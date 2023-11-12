@@ -6,7 +6,7 @@ import { join } from 'path'
 import { PrismaClient } from '@prisma/client'
 import * as captcha from '@midwayjs/captcha'
 import { ReportMiddleware } from './middleware/report.middleware'
-import type { IterateObject } from '@akaiito/typings'
+import type { IterateObject } from '@akaiito/typings/src'
 import { ExceptionFilter } from './filter/exception.filter'
 
 @Configuration({
