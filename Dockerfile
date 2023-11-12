@@ -7,7 +7,7 @@ WORKDIR /app
 
 FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN sudo apt-get update -o Acquire::http::Proxy=http://mirrors.tuna.tsinghua.edu.cn:80 && sudo apt-get install -o Acquire::http::Proxy=http://mirrors.tuna.tsinghua.edu.cn:80 -y openss
+RUN apt-get update -o Acquire::http::Proxy=http://mirrors.tuna.tsinghua.edu.cn:80 && apt-get install -o Acquire::http::Proxy=http://mirrors.tuna.tsinghua.edu.cn:80 -y openss
 RUN pnpm run -r build
 
 
