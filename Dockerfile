@@ -6,7 +6,7 @@ COPY . /app
 WORKDIR /app
 
 
-ARG proxy=https://mirrors.tuna.tsinghua.edu.cn:80
+ARG proxy=https://mirrors.tuna.tsinghua.edu.cn/debian/
 
 FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
