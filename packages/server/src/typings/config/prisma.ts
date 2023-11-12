@@ -1,4 +1,4 @@
-import type { RecordPaginationOptions } from '@akaiito/typings'
+import type { RecordPaginationOptions } from '@akaiito/typings/src'
 
 export interface PrismaConfig {
   pagination: RecordPaginationOptions

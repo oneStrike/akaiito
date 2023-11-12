@@ -3,7 +3,7 @@ import * as yaml from 'yaml'
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { ConfigFilePathEnum } from '../../../enum/configFilePath'
-import { IterateObject } from '@akaiito/typings'
+import { IterateObject } from '@akaiito/typings/src'
 
 @Provide()
 export class ConfigService {

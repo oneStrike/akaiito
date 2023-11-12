@@ -2,7 +2,7 @@ import { Inject, Provide } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { AdminLog } from '@prisma/client'
 
-import { ReportResult } from '@akaiito/typings'
+import { ReportResult } from '@akaiito/typings/src'
 import { BaseService } from '../../../base/service/base.service'
 import { AkaiitoPrisma } from '../../../prisma'
 import { utils } from '../../../utils'

@@ -1,7 +1,7 @@
 import { Middleware, IMiddleware } from '@midwayjs/core'
 import { NextFunction, Context } from '@midwayjs/koa'
 import { LogService } from '../modules/internal/log/log.service'
-import { ReportResult } from '@akaiito/typings'
+import { ReportResult } from '@akaiito/typings/src'
 
 @Middleware()
 export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
