@@ -5,13 +5,15 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
+# 添加一个标签，用于检查是否需要重新安装 OpenSSL
+LABEL openssl_installed="true"
 
-ARG proxy=http://mirrors.tuna.tsinghua.edu.cn/debian/
 
 FROM base AS build
-RUN if ! command -v openssl >/dev/null 2>&1; then \
-        apt-get update && apt-get install -y openssl; \
-    fi
+RUN if [ "$(cat /etc/docker/labels/openssl_installed)" != "true" ]; then \
+    apt-get update && apt-get install -y openssl && \
+    echo "true" > /etc/docker/labels/openssl_installed; \
+fi
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 
