@@ -5,9 +5,12 @@ RUN corepack enable
 COPY . /app
 WORKDIR /app
 
+
+ARG proxy=https://mirrors.tuna.tsinghua.edu.cn:80
+
 FROM base AS build
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN apt-get update -o Acquire::http::Proxy=http://mirrors.tuna.tsinghua.edu.cn:80 && apt-get install -o Acquire::http::Proxy=http://mirrors.tuna.tsinghua.edu.cn:80 -y openss
+RUN apt-get update -o Acquire::http::Proxy=${proxy} && apt-get install -o Acquire::http::Proxy=${proxy} -y openss
 RUN pnpm run -r build
 
 
