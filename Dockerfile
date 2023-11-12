@@ -6,11 +6,11 @@ COPY . /app
 WORKDIR /app
 
 
-ARG proxy=https://mirrors.tuna.tsinghua.edu.cn/debian/
+ARG proxy=http://mirrors.tuna.tsinghua.edu.cn/debian/
 
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN apt-get update -o Acquire::http::Proxy=${proxy} && apt-get install -o Acquire::http::Proxy=${proxy} -y openss
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 
 
