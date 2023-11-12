@@ -26,3 +26,8 @@ COPY --from=build /app/packages/client/dist/build/h5 /app/packages/client/dist/b
 WORKDIR /app/packages/client
 EXPOSE 8002
 
+FROM base AS server
+COPY --from=build /app/packages/server /app/packages/server
+WORKDIR /app/packages/server
+EXPOSE 7001
+
