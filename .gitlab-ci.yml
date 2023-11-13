@@ -13,5 +13,5 @@ build:
     - akaiito
   script:
     - docker build -t $akaiito_admin -f Dockerfile --target=admin .
-    - docker build -t $akaiito_client --target client .
+    - docker build -t $akaiito_client -f Dockerfile --target=client .
     - docker build -t $akaiito_server --target server .
