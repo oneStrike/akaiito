@@ -1,19 +1,13 @@
-FROM node:16-slim AS base
+FROM asherith/node AS base
+
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 COPY . /app
 WORKDIR /app
 
-# 添加一个标签，用于检查是否需要重新安装 OpenSSL
-LABEL openssl_installed="true"
-
 
 FROM base AS build
-RUN if [ "$(cat /etc/docker/labels/openssl_installed)" != "true" ]; then \
-    apt-get update && apt-get install -y openssl && \
-    echo "true" > /etc/docker/labels/openssl_installed; \
-fi
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 
