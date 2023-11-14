@@ -31,6 +31,6 @@ FROM base AS server
 COPY --from=build /app/packages/server /app/packages/server
 WORKDIR /app/packages/server
 EXPOSE 7001
-CMD ["pnpm","start"]
+CMD ["pnpm","run","start"]
 
 
