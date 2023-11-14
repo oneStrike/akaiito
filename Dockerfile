@@ -30,7 +30,7 @@ EXPOSE 80
 FROM base AS server
 COPY --from=build /app/packages/server /app/packages/server
 WORKDIR /app/packages/server
-EXPOSE 80
+EXPOSE 7001
 CMD ["pnpm","start"]
 
 
