@@ -11,7 +11,7 @@ FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run --filter server build
+RUN pnpm run -r build
 
 FROM base AS admin
 COPY --from=build /usr/src/app/packages/admin/dist /app/packages/admin/dist
