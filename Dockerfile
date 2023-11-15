@@ -12,9 +12,9 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
-#RUN pnpm deploy --filter=admin --prod /app/packages/admin
-#RUN pnpm deploy --filter=client --prod /app/packages/client
-#RUN pnpm deploy --filter=server --prod /app/packages/server
+RUN pnpm deploy --filter=admin --prod /app/packages/admin
+RUN pnpm deploy --filter=client --prod /app/packages/client
+RUN pnpm deploy --filter=server --prod /app/packages/server
 
 
 FROM base AS admin
