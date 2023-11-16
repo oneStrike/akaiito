@@ -20,6 +20,8 @@ FROM base AS admin
 COPY --from=build /app/packages/admin /app/packages/admin
 WORKDIR /app/packages/admin
 RUN pnpm run build
+COPY dist /usr/share/nginx/html
+COPY Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM base AS client
