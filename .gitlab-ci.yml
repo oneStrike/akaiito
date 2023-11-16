@@ -13,5 +13,5 @@ build:
     - akaiito
   script:
     - docker build . --target admin --tag $akaiito_admin
-    - docker build . --target client --tag $akaiito_client
-    - docker build . --target server --tag $akaiito_server
+#    - docker build . --target client --tag $akaiito_client
+#    - docker build . --target server --tag $akaiito_server
