@@ -25,9 +25,9 @@ COPY Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM base AS client
-COPY --from=build /app/packages/client/dist/build/h5 /app/packages/client/dist/build/h5
+COPY --from=build /app/packages/client /app/packages/client
 WORKDIR /app/packages/client
-COPY /app/packages/client/dist/build/h5 /usr/share/nginx/html
+COPY dist/build/h5 /usr/share/nginx/html
 COPY Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
