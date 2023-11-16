@@ -27,8 +27,8 @@ EXPOSE 80
 FROM base AS client
 COPY --from=build /app/packages/client /app/packages/client
 WORKDIR /app/packages/client
-COPY dist/build/h5 /usr/share/nginx/html
-COPY Nginx.conf /etc/nginx/nginx.conf
+#COPY dist/build/h5 /usr/share/nginx/html
+#COPY Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM base AS server
