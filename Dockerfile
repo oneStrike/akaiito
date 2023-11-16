@@ -20,7 +20,7 @@ RUN pnpm deploy --filter=@akaiito/server --prod /app/packages/server
 FROM base AS admin
 COPY --from=build /app/packages/admin /app
 WORKDIR /app
-RUN ls -al
+RUN ls -la
 COPY dist /usr/share/nginx/html
 COPY Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
