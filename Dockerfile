@@ -18,7 +18,6 @@ RUN pnpm deploy --filter=@akaiito/client --prod /app/packages/client
 RUN pnpm deploy --filter=@akaiito/server --prod /app/packages/server
 
 FROM base AS admin
-FROM nginx
 COPY --from=build /app/packages/admin /app
 WORKDIR /app
 COPY --from=build /app/packages/admin/dist /usr/share/nginx/html
