@@ -19,8 +19,8 @@ RUN pnpm deploy --filter=@akaiito/server --prod /app/packages/server
 FROM base AS admin
 COPY --from=build /app/packages/admin /app
 WORKDIR /app
-COPY /app/dist /usr/share/nginx/html
-COPY /app/Nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/packages/admin/dist /usr/share/nginx/html
+COPY --from=build /app/packages/admin/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM base AS client
