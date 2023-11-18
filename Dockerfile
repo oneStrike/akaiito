@@ -10,6 +10,7 @@ WORKDIR /app
 FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
+RUN pnpm config set registry https://registry.npmmirror.com
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 RUN pnpm deploy --filter=@akaiito/admin --prod /app/packages/admin
