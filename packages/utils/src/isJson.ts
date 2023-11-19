@@ -5,15 +5,15 @@
  */
 // 判断字符串是否为合法的 JSON 格式
 export const isJson = (str: string) => {
-  try {
-    // 尝试解析字符串为 JSON
-    const res = JSON.parse(str)
-    // 判断解析结果是否为对象且不为 null
-    if (typeof res === 'object' && res) {
-      return res
-    }
-  } catch (e) {
-    // 解析失败，返回 false
-    return false
-  }
+	try {
+		// 尝试解析字符串为 JSON
+		const res = JSON.parse(str)
+		// 判断解析结果是否为对象且不为 null
+		if (typeof res === 'object' && res) {
+			return res
+		}
+	} catch (e) {
+		// 解析失败，返回 false
+		return false
+	}
 }

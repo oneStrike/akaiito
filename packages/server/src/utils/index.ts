@@ -1,6 +1,5 @@
-import { utils as AkaiitoUtils } from '@akaiito/utils/src'
+import { utils as AkaiitoUtils } from '@akaiito/utils/dist/index'
 import * as sysUtils from './system'
-// eslint-disable-next-line node/no-extraneous-import
 import * as _ from 'lodash'
 
 export const utils = {
