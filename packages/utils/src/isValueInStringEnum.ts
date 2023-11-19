@@ -5,8 +5,8 @@
  * @returns 如果值存在于枚举中，则返回true；否则返回false
  */
 export const isValueInStringEnum = <T extends Record<keyof T, string>>(
-  value: any,
-  enumObject: T extends Record<keyof T, string> ? T : never
+	value: any,
+	enumObject: T extends Record<keyof T, string> ? T : never
 ): value is T[keyof T] => {
-  return Object.values(enumObject).includes(value)
+	return Object.values(enumObject).includes(value)
 }
