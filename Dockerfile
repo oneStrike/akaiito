@@ -30,7 +30,7 @@ COPY --from=build /app/packages/client/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM base AS server
-COPY --from=build /app/packages/server /app/packages/server
+COPY --from=build /app/packages/server /app
 WORKDIR /app
 EXPOSE 7001
 CMD ["pnpm","run","start"]
