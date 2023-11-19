@@ -15,7 +15,7 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 RUN pnpm deploy --filter=@akaiito/admin --prod /app/packages/admin
 RUN pnpm deploy --filter=@akaiito/client --prod /app/packages/client
-RUN pnpm deploy --filter=@akaiito/server /app/packages/server
+RUN pnpm deploy --filter=@akaiito/server --prod /app/packages/server
 
 FROM nginx AS admin
 WORKDIR /app
