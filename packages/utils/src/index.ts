@@ -6,10 +6,10 @@ import { downloadBlob } from './downloadBlob'
 import { fillFormOptions } from './fillFormOptions'
 
 export const utils = {
-	parseQuery,
-	isJson,
-	validate,
-	isValueInStringEnum,
-	downloadBlob,
-	fillFormOptions
+  parseQuery,
+  isJson,
+  validate,
+  isValueInStringEnum,
+  downloadBlob,
+  fillFormOptions
 }

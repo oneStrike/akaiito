@@ -6,16 +6,16 @@
  * @returns 填充后的选项数组
  */
 export const fillFormOptions = <T extends any[]>(
-	options: T,
-	field: string,
-	value: any
+  options: T,
+  field: string,
+  value: any
 ): T => {
-	options.forEach((item) => {
-		// 如果选项的绑定路径与字段名相同
-		if (item.bind.path === field) {
-			// 设置选项的组件属性为填充值
-			item.componentProps.options = value
-		}
-	})
-	return options
+  options.forEach((item) => {
+    // 如果选项的绑定路径与字段名相同
+    if (item.bind.path === field) {
+      // 设置选项的组件属性为填充值
+      item.componentProps.options = value
+    }
+  })
+  return options
 }
