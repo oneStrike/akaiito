@@ -24,15 +24,14 @@ COPY --from=build /app/packages/admin/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM nginx AS client
-COPY --from=build /app/packages/client /app/packages/client
-WORKDIR /app/packages/client
-#COPY dist/build/h5 /usr/share/nginx/html
-#COPY Nginx.conf /etc/nginx/nginx.conf
+WORKDIR /app
+COPY --from=build /app/packages/client/dist/build/h5 /usr/share/nginx/html
+COPY --from=build /app/packages/client/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM base AS server
 COPY --from=build /app/packages/server /app/packages/server
-WORKDIR /app/packages/server
+WORKDIR /app
 EXPOSE 7001
 CMD ["pnpm","run","start"]
 
