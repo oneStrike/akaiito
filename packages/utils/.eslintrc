@@ -9,6 +9,9 @@
   ],
   "rules": {
     "indent": ["error", "tab"],
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": "off"
+    }
   }
 }
