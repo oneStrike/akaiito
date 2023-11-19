@@ -3,16 +3,16 @@ stages:
   - docker
 
 variables:
-  akaiito_admin: 'akaiito-admin'
-  akaiito_client: 'akaiito-client'
-  akaiito_server: 'akaiito-server'
+  asherith_admin: 'asherith-admin'
+  asherith_client: 'asherith-client'
+  asherith_server: 'asherith-server'
 
 build:
   stage: build
   tags:
-    - akaiito
+    - asherith
   script:
-    - docker rmi -f $akaiito_server $akaiito_client $akaiito_admin
-    - docker build . --target admin --tag $akaiito_admin
-    - docker build . --target client --tag $akaiito_client
-    - docker build . --target server --tag $akaiito_server
+    - docker rmi -f $asherith_server $asherith_client $asherith_admin
+    - docker build . --target admin --tag $asherith_admin
+    - docker build . --target client --tag $asherith_client
+    - docker build . --target server --tag $asherith_server
