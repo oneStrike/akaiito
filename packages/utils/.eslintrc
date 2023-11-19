@@ -10,8 +10,6 @@
   "rules": {
     "indent": ["error", "tab"],
     "quotes": ["error", "single"],
-    "rules": {
-      "@typescript-eslint/no-explicit-any": "off"
-    }
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
