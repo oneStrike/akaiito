@@ -10,7 +10,7 @@ variables:
 build:
   stage: build
   tags:
-    - asherith
+    - akaiito
   script:
     - docker rmi -f $asherith_server $asherith_client $asherith_admin
     - docker build . --target admin --tag $asherith_admin
