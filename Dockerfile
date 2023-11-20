@@ -38,7 +38,7 @@ COPY --from=build /app/packages/server/src  ./src
 COPY --from=build /app/packages/server/bootstrap.js ./
 COPY --from=build /app/packages/server/package.json  ./
 RUN apk add --no-cache tzdata
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --production --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --production
 COPY --from=build /app/packages/server/node_modules/@akaiito ./node_modules/@akaiito
 EXPOSE 7001
 CMD ["npm","run","start"]
