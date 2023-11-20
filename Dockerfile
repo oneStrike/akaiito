@@ -36,7 +36,7 @@ COPY --from=build /app/packages/server/dist ./dist
 COPY --from=build /app/packages/server/src  ./src
 COPY --from=build /app/packages/server/bootstrap.js ./
 COPY --from=build /app/packages/server/package.json  ./
-RUN apk add --no-cache tzdata
+RUN apk-get add --no-cache tzdata
 RUN pnpm install --production
 COPY --from=build /app/packages/server/node_modules/@akaiito ./node_modules/@akaiito
 EXPOSE 7001
