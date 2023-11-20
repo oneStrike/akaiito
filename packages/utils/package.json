@@ -9,7 +9,7 @@
     "clean:all": "pnpm run clean && (rm -r ./node_modules || true)",
     "cover": "nyc pnpm run test",
     "cover:check": "nyc --check-coverage --reporter=lcov pnpm run test",
-    "lint": "eslint --ext .ts --fix src/**/*.ts test/**/*.ts",
+    "lint": "eslint --ext .ts --fix src/**/*.ts",
     "preversion": "pnpm run build && pnpm run cover:check",
     "postversion": "git push && git push --tags",
     "prepare": "pnpm run build",
@@ -30,7 +30,7 @@
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.1"
   },
-  "dependencies": {
-    "sitka": "^1.1.1"
+  "engines": {
+    "node": ">=14.21.3"
   }
 }
