@@ -11,7 +11,7 @@ FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN pnpm config set registry https://registry.npmmirror.com
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 RUN pnpm deploy --filter=@akaiito/admin --prod /app/packages/admin
 RUN pnpm deploy --filter=@akaiito/client --prod /app/packages/client
@@ -30,8 +30,15 @@ COPY --from=build /app/packages/client/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 FROM base AS server
-COPY --from=build /app/packages/server /app
 WORKDIR /app
+COPY --from=build /app/packages/server/dist ./dist
+# 把源代码复制过去， 以便报错能报对行
+COPY --from=build /app/packages/server/src  ./src
+COPY --from=build /app/packages/server/bootstrap.js ./
+COPY --from=build /app/packages/server/package.json  ./
+RUN apk add --no-cache tzdata
+RUN pnpm install --production
+COPY --from=build /app/packages/server/node_modules/@akaiito ./node_modules/@akaiito
 EXPOSE 7001
 CMD ["npm","run","start"]
 
