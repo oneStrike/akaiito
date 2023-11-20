@@ -29,14 +29,16 @@ COPY --from=build /app/packages/client/dist/build/h5 /usr/share/nginx/html
 COPY --from=build /app/packages/client/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
-FROM base AS server
+FROM node:18-alpine AS server
 WORKDIR /app
+RUN corepack enable
 COPY --from=build /app/packages/server/dist ./dist
 # 把源代码复制过去， 以便报错能报对行
 COPY --from=build /app/packages/server/src  ./src
 COPY --from=build /app/packages/server/bootstrap.js ./
 COPY --from=build /app/packages/server/package.json  ./
-RUN pnpm install --production
+RUN apk add --no-cache tzdata
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --production --frozen-lockfile
 COPY --from=build /app/packages/server/node_modules/@akaiito ./node_modules/@akaiito
 EXPOSE 7001
 CMD ["npm","run","start"]
