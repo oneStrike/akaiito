@@ -32,7 +32,6 @@ EXPOSE 80
 FROM base AS server
 WORKDIR /app/server
 COPY --from=build /app/packages/server/dist ./dist
-# 把源代码复制过去， 以便报错能报对行
 COPY --from=build /app/packages/server/src  ./src
 COPY --from=build /app/packages/server/bootstrap.js ./
 COPY --from=build /app/packages/server/package.json  ./
