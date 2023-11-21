@@ -16,7 +16,7 @@ RUN pnpm run -r build
 RUN pnpm deploy --filter=@akaiito/admin --prod /app/packages/admin
 RUN pnpm deploy --filter=@akaiito/client --prod /app/packages/client
 RUN pnpm deploy --filter=@akaiito/server --prod /app/packages/server
-RUN pnpm deploy --filter=@akaiito/utils --prod /app/packages/utils
+RUN pnpm deploy --filter=@akaiito/utils  /app/packages/utils
 
 FROM nginx AS admin
 WORKDIR /app/admin
@@ -33,6 +33,7 @@ EXPOSE 80
 FROM base AS server
 WORKDIR /app/server
 COPY --from=build /app/packages/server/ .
+COPY --from=build /app/packages/utils/dist ./node_modules/@akaiito/utils
 EXPOSE 7001
 CMD ["npm","run","start"]
 
