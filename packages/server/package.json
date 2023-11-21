@@ -4,6 +4,8 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "@akaiito/typings": "workspace:*",
+    "@akaiito/utils": "workspace:*",
     "@midwayjs/bootstrap": "^3.12.5",
     "@midwayjs/captcha": "3.12.10",
     "@midwayjs/core": "^3.12.3",
@@ -18,8 +20,6 @@
     "yaml": "^2.3.4"
   },
   "devDependencies": {
-    "@akaiito/typings": "workspace:*",
-    "@akaiito/utils": "workspace:*",
     "@midwayjs/cli": "^2.1.1",
     "@midwayjs/mock": "^3.12.10",
     "@types/jest": "^29.5.8",
