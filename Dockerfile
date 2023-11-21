@@ -33,7 +33,7 @@ EXPOSE 80
 FROM base AS server
 WORKDIR /app/server
 COPY --from=build /app/packages/server/ .
-COPY --from=build /app/packages/server/ .
+COPY --from=build /app/packages/utils/dist ./node_modules/@akaiito/utils
 EXPOSE 7001
 CMD ["npm","run","start"]
 
