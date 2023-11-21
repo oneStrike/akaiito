@@ -31,13 +31,7 @@ EXPOSE 80
 
 FROM base AS server
 WORKDIR /app/server
-COPY --from=build /app/packages/server/dist ./dist
-COPY --from=build /app/packages/server/.env  ./.env
-COPY --from=build /app/packages/server/prisma  ./prisma
-COPY --from=build /app/packages/server/src  ./src
-COPY --from=build /app/packages/server/bootstrap.js ./
-COPY --from=build /app/packages/server/package.json  ./
-COPY --from=build /app/packages/server/node_modules ./node_modules
+COPY --from=build /app/packages/server/ .
 EXPOSE 7001
 CMD ["npm","run","start"]
 
