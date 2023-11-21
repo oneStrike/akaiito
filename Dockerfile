@@ -37,7 +37,6 @@ COPY --from=build /app/packages/server/src  ./src
 COPY --from=build /app/packages/server/bootstrap.js ./
 COPY --from=build /app/packages/server/package.json  ./
 COPY --from=build /app/packages/server/node_modules ./node_modules
-RUN apk add --no-cache tzdata
 EXPOSE 7001
 CMD ["npm","run","start"]
 
