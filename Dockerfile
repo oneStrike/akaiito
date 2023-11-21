@@ -11,7 +11,7 @@ FROM base AS build
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN pnpm config set registry https://registry.npmmirror.com
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN pnpm run -r build
 RUN pnpm deploy --filter=@akaiito/admin --prod /app/packages/admin
 RUN pnpm deploy --filter=@akaiito/client --prod /app/packages/client
@@ -32,7 +32,8 @@ EXPOSE 80
 FROM base AS server
 WORKDIR /app/server
 COPY --from=build /app/packages/server/dist ./dist
-COPY --from=build /app/packages/server/.env ./.env
+COPY --from=build /app/packages/server/.env  ./.env
+COPY --from=build /app/packages/server/prisma  ./prisma
 COPY --from=build /app/packages/server/src  ./src
 COPY --from=build /app/packages/server/bootstrap.js ./
 COPY --from=build /app/packages/server/package.json  ./
