@@ -29,7 +29,7 @@ COPY --from=build /app/packages/client/dist/build/h5 /usr/share/nginx/html
 COPY --from=build /app/packages/client/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
-FROM node:18-alpine AS server
+FROM base AS server
 WORKDIR /app
 COPY --from=build /app/packages/server/dist ./dist
 # 把源代码复制过去， 以便报错能报对行
