@@ -41,8 +41,8 @@ docker:
       - Dockerfile
   script:
     - docker build . --target admin --tag $Admin
-    - docker build . --target admin --tag $Client
-    - docker build . --target admin --tag $Server
+    - docker build . --target client --tag $Client
+    - docker build . --target server --tag $Server
 #    - docker login -u $DOCKER_USER -p $DOCKER_PASS
 #    - docker build -t $Admin.
 #    - docker push $Admin
