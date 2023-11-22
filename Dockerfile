@@ -15,10 +15,15 @@ COPY /packages/client/dist/build/h5 /usr/share/nginx/html
 COPY /packages/client/Nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
-FROM node:16-slim AS server
+FROM node:16-alpine AS server
 WORKDIR /app
-COPY /packages/server /app
-COPY /packages/utils /app/node_modules/@akaiito/utils
+COPY /packages/server/dist ./dist
+COPY /packages/server/src ./src
+COPY /packages/server/bootstrap.js ./
+COPY /packages/server/package.json ./
+RUN apk add --no-cache tzdata
+COPY /packages/utils ./node_modules/@akaiito/utils
+RUN corepack enable && pnpm config set registry 'https://registry.npmmirror.com' && pnpm install --frozen-lockfile
 ENV TZ="Asia/Shanghai"
 EXPOSE 7001
 CMD ["npm","run","start"]
