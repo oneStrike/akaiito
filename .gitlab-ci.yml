@@ -9,7 +9,6 @@ variables:
   Client: 'asherith/client'
   Server: 'asherith/server'
   PnpmRegistry: 'https://registry.npmmirror.com'
-  GIT_CLEAN_FLAGS: -fdx -e node_modules/
   LOCKFILE: pnpm-lock.yaml
 
 cache:
