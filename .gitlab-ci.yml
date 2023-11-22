@@ -10,6 +10,12 @@ variables:
   Server: 'asherith/server'
   PnpmRegistry: 'https://registry.npmmirror.com'
   GIT_CLEAN_FLAGS: -fdx -e node_modules/
+  LOCKFILE: pnpm-lock.yaml
+
+cache:
+  key: cache-${CI_COMMIT_REF_NAME}
+  paths:
+    - node_modules/
 
 before_script:
   - corepack enable
