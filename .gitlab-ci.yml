@@ -40,8 +40,8 @@ docker:
       - packages
       - Dockerfile
   script:
-    - docker rmi -f $Admin $Client $Server
-    - docker rm -f $Admin $Client $Server
+    - docker rmi -f $Admin $Client $Server || true
+    - docker rm -f $Admin $Client $Server || true
     - docker build . --target admin --tag $Admin
     - docker build . --target client --tag $Client
     - docker build . --target server --tag $Server
