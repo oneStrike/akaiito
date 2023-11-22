@@ -22,7 +22,7 @@ build:
 
   script:
     - corepack enable
-    - pnpm config set registry https://registry.npmmirror.com
+    - pnpm config set registry $PnpmRegistry
     - pnpm install --frozen-lockfile
     - pnpm run -r build
   artifacts:
@@ -41,6 +41,8 @@ docker:
       - Dockerfile
   script:
     - docker build . --target admin --tag $Admin
+    - docker build . --target admin --tag $Client
+    - docker build . --target admin --tag $Server
 #    - docker login -u $DOCKER_USER -p $DOCKER_PASS
 #    - docker build -t $Admin.
 #    - docker push $Admin
