@@ -23,7 +23,8 @@ COPY /packages/server/bootstrap.js ./
 COPY /packages/server/package.json ./
 RUN #apk add --no-cache tzdata
 COPY /packages/utils ./node_modules/@akaiito/utils
-RUN corepack enable && pnpm config set registry 'https://registry.npmmirror.com' && pnpm install --filter @akaiito/utils --filter @akaiito/typings --reporter=compact
+RUN corepack enable && pnpm config set registry 'https://registry.npmmirror.com'  \
+RUN pnpm install --filter @akaiito/utils --filter @akaiito/typings
 ENV TZ="Asia/Shanghai"
 EXPOSE 7001
 CMD ["npm","run","start"]
