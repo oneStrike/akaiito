@@ -20,4 +20,18 @@ build:
   tags:
     - akaiito
   script:
-    - pnpm install
+    - pnpm install --frozen-lockfile
+    - pnpm run -r build
+#
+#docker:
+#  stage: docker
+#  tags:
+#    - akaiito
+#  script:
+#    - docker login -u $DOCKER_USER -p $DOCKER_PASS
+#    - docker build -t $Admin.
+#    - docker push $Admin
+#    - docker build -t $Client.
+#    - docker push $Client
+#    - docker build -t $Server.
+#    - docker push $Server
