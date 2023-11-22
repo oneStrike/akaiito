@@ -19,7 +19,6 @@ FROM node:16-slim AS server
 WORKDIR /app
 COPY /packages/server /.
 COPY /packages/utils/dist /node_modules/@akaiito/utils
-RUN apk add --no-cache tzdata
 ENV TZ="Asia/Shanghai"
 EXPOSE 7001
 CMD ["npm","run","start"]
