@@ -1,5 +1,3 @@
-image: asherith/node
-
 stages:
   - build
   - docker
@@ -22,18 +20,24 @@ before_script:
 
 build:
   stage: build
+  image: asherith/node
   tags:
     - akaiito
   script:
     - pnpm install --frozen-lockfile
     - pnpm run -r build
-    - docker build -t $Admin.
-#
-#docker:
-#  stage: docker
-#  tags:
-#    - akaiito
-#  script:
+  artifacts:
+    paths:
+      - .
+docker:
+  stage: docker
+  tags:
+    - akaiito
+  artifacts:
+    paths:
+      - .
+  script:
+    - docker build . --target admin --tag $Admin
 #    - docker login -u $DOCKER_USER -p $DOCKER_PASS
 #    - docker build -t $Admin.
 #    - docker push $Admin
