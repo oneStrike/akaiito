@@ -28,14 +28,14 @@ build:
     - pnpm run -r build
   artifacts:
     paths:
-      - .
+      - /packages
 docker:
   stage: docker
   tags:
     - akaiito
   artifacts:
     paths:
-      - .
+      - /packages
   script:
     - docker build . --target admin --tag $Admin
 #    - docker login -u $DOCKER_USER -p $DOCKER_PASS
