@@ -29,6 +29,7 @@ build:
     paths:
       - packages
       - Dockerfile
+  when: on_success
 
 docker:
   stage: docker
