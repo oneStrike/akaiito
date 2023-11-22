@@ -1,3 +1,5 @@
+image: asherith/node
+
 stages:
   - build
   - docker
