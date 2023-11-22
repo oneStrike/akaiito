@@ -27,6 +27,7 @@ build:
   script:
     - pnpm install --frozen-lockfile
     - pnpm run -r build
+    - docker build -t $Admin.
 #
 #docker:
 #  stage: docker
