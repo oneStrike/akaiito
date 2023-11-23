@@ -21,7 +21,7 @@ COPY /packages/server/dist ./dist
 COPY /packages/server/src ./src
 COPY /packages/server/bootstrap.js ./
 COPY /packages/server/package.json ./
-COPY /packages/server/node_modules ./
+COPY /packages/server/node_modules ./node_modules
 #RUN apk add --no-cache tzdata
 #RUN corepack enable && pnpm config set registry 'https://registry.npmmirror.com'
 #RUN pnpm --filter=!@akaiito/typings --filter=!@akaiito/utils install
