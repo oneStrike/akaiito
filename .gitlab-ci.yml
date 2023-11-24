@@ -28,12 +28,8 @@ build:
     - pnpm deploy --filter=@akaiito/server ./packages/server/
   artifacts:
     paths:
-      - packages/admin/dist/
-      - packages/client/dist/
-      - packages/server/
-      - packages/utils/
+      - packages/
       - Dockerfile
-    name: build artefacts
 
 docker:
   stage: docker
@@ -41,10 +37,7 @@ docker:
     - akaiito
   artifacts:
     paths:
-      - packages/admin/dist/
-      - packages/client/dist/
-      - packages/server/
-      - packages/utils/
+      - packages/
       - Dockerfile
   script:
     - docker rmi -f $Admin $Client $Server || true
