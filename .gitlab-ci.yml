@@ -25,11 +25,16 @@ build:
     - pnpm config set registry $PnpmRegistry
     - pnpm install --frozen-lockfile
     - pnpm run -r build
-    - pnpm deploy --filter=@akaiito/server ./packages/server/
+    - pnpm deploy --filter=@akaiito/server packages/server/
+
   artifacts:
     paths:
-      - packages/
+      - packages/admin/dist/
+      - packages/client/dist/
+      - packages/server/
+      - packages/utils/dist
       - Dockerfile
+    name: build artefacts
 
 docker:
   stage: docker
@@ -37,7 +42,10 @@ docker:
     - akaiito
   artifacts:
     paths:
-      - packages/
+      - packages/admin/dist/
+      - packages/client/dist/
+      - packages/server/
+      - packages/utils/dist
       - Dockerfile
   script:
     - docker rmi -f $Admin $Client $Server || true
