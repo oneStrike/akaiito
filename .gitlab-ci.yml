@@ -25,7 +25,7 @@ build:
     - pnpm config set registry $PnpmRegistry
     - pnpm install --frozen-lockfile
     - pnpm run -r build
-    - pnpm deploy --filter=@akaiito/server --prod ./packages/server/
+    - pnpm deploy --filter=@akaiito/server ./packages/server/
   artifacts:
     paths:
       - packages/admin/dist/
