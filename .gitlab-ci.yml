@@ -23,7 +23,7 @@ build:
   script:
     - corepack enable
     - pnpm config set registry $PnpmRegistry
-    - pnpm install --frozen-lockfile
+    - pnpm install --frozen-lockfile --shamefully-hoist
     - pnpm run -r build
   artifacts:
     paths:
