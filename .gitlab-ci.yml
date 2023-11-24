@@ -24,6 +24,7 @@ build:
     - corepack enable
     - pnpm config set registry $PnpmRegistry
     - pnpm install --frozen-lockfile
+    - pnpm run -r build
     - pnpm --filter @akaiito/server --prod deploy pruned
   artifacts:
     paths:
