@@ -21,11 +21,11 @@ COPY /packages/server/dist ./dist
 COPY /packages/server/src ./src
 COPY /packages/server/bootstrap.js ./
 COPY /packages/server/package.json ./
-COPY /packages/server/pnode_modules ./node_modules
+COPY /packages/server/node_modules ./node_modules
 
 #RUN apk add --no-cache tzdata
 #RUN corepack enable && pnpm config set registry 'https://registry.npmmirror.com'
-#RUN pnpm install --filter=!@akaiito/.*
+#RUN pnpm install --ignore-error
 COPY /packages/utils ./node_modules/@akaiito/utils
 ENV TZ="Asia/Shanghai"
 EXPOSE 7001

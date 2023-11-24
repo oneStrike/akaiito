@@ -16,15 +16,14 @@ cache:
 
 build:
   stage: build
-  image: asherith/node
   tags:
     - akaiito
-
   script:
     - corepack enable
     - pnpm config set registry $PnpmRegistry
-    - pnpm install --frozen-lockfile --shamefully-hoist
+    - pnpm install --frozen-lockfile
     - pnpm run -r build
+    - pnpm --filter @akaiito/server --prod deploy pruned
   artifacts:
     paths:
       - packages/admin/dist/
@@ -32,6 +31,8 @@ build:
       - packages/server/
       - packages/utils/
       - Dockerfile
+    exclude:
+      - packages/utils/node_modules
     name: build artefacts
 
 docker:
@@ -40,7 +41,10 @@ docker:
     - akaiito
   artifacts:
     paths:
-      - packages
+      - packages/admin/dist/
+      - packages/client/dist/
+      - packages/server/
+      - packages/utils/
       - Dockerfile
   script:
     - docker rmi -f $Admin $Client $Server || true
