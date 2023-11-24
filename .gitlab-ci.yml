@@ -27,9 +27,12 @@ build:
     - pnpm run -r build
   artifacts:
     paths:
-      - packages
+      - packages/admin/dist/
+      - packages/client/dist/
+      - packages/server/
+      - packages/utils/
       - Dockerfile
-  when: on_success
+    name: build artefacts
 
 docker:
   stage: docker
