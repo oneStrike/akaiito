@@ -15,6 +15,7 @@
     "@midwayjs/logger": "^3.0.2",
     "@midwayjs/validate": "^3.12.10",
     "@prisma/client": "^5.6.0",
+    "fs-extra": "^11.1.1",
     "ip2region": "^2.3.0",
     "lodash": "^4.17.21",
     "yaml": "^2.3.4"
@@ -44,7 +45,7 @@
     "lint": "mwts check",
     "lint:fix": "mwts fix",
     "ci": "npm run cov",
-    "build": "prisma generate && midway-bin build -c",
+    "build": "prisma generate && midway-bin build -c && node ./scripts/index.js",
     "prisma:generate": "prisma generate",
     "prisma:init": "prisma db push && prisma db seed",
     "prisma:pull": "prisma db pull",
