@@ -24,8 +24,10 @@ build:
     - akaiito
   script:
     - corepack enable
-    - pnpm config set registry $PnpmRegistry
-    - pnpm install --frozen-lockfile
+    - f [[ "$CI_COMMIT_FILES" =~ "package.json" ]]; then
+      pnpm config set registry $PnpmRegistry
+      pnpm install --frozen-lockfile
+      fi
     - pnpm run -r build
 
   artifacts:
