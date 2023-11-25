@@ -11,6 +11,7 @@ module.exports = () => {
   const source = path.join(__dirname, '../')
 
   fs.copySync(source + 'src', target + 'src')
+  fs.copySync(source + 'prisma', target + 'prisma')
   fs.copySync(source + 'package.json', target + 'package.json')
   fs.copySync(source + 'bootstrap.js', target + 'bootstrap.js')
   const packageJson = require(path.join(__dirname, '../dist/package.json'))
