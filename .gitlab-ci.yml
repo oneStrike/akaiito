@@ -3,36 +3,30 @@ stages:
   - docker
 
 variables:
-  Admin: 'asherith/admin'
-  Client: 'asherith/client'
-  Server: 'asherith/server'
-  PnpmRegistry: 'https://registry.npmmirror.com'
-  DockerRegistry: 'registry.cn-hangzhou.aliyuncs.com'
+  ADMIN: 'asherith/ADMIN'
+  CLIENT: 'asherith/CLIENT'
+  SERVER: 'asherith/SERVER'
+  PNPM_REGISTRY: 'https://registry.npmmirror.com'
+  DOCKER_REGISTRY: 'registry.cn-hangzhou.aliyuncs.com'
   DOCKER_USER: 'Asherith'
   DOCKER_PASS: 'li259158'
 
-cache:
-  key: cache-${CI_COMMIT_REF_NAME}
-  paths:
-    - node_modules/
-    - pnpm-lock.yaml
-
 build:
   stage: build
-  image: $DockerRegistry/asherith/node:latest
+  image: $DOCKER_REGISTRY/asherith/node:latest
   tags:
     - akaiito
 
   script:
     - corepack enable
-    - pnpm config set registry $PnpmRegistry
+    - pnpm config set registry $PNPM_REGISTRY
     - pnpm install --frozen-lockfile
     - pnpm run -r build
   artifacts:
     paths:
-      - packages/admin/dist/
-      - packages/client/dist/
-      - packages/server/dist
+      - packages/ADMIN/dist/
+      - packages/CLIENT/dist/
+      - packages/SERVER/dist
       - packages/utils/dist
       - Dockerfile
     name: build artefacts
@@ -43,21 +37,21 @@ docker:
     - akaiito
   artifacts:
     paths:
-      - packages/admin/dist/
-      - packages/client/dist/
-      - packages/server/dist
+      - packages/ADMIN/dist/
+      - packages/CLIENT/dist/
+      - packages/SERVER/dist
       - packages/utils/dist
       - Dockerfile
   script:
-    - docker rm -f $Admin $Client $Server || true
-    - docker rmi -f $Admin $Client $Server || true
-    - docker build . --target admin --tag $Admin
-    - docker build . --target client --tag $Client
-    - docker build . --target server --tag $Server
-    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DockerRegistry
-    - docker tag $Admin $DockerRegistry/$Admin:latest
-    - docker push $DockerRegistry/$Admin:latest
-    - docker tag $Client $DockerRegistry/$Client:latest
-    - docker push $DockerRegistry/$Client:latest
-    - docker tag $Server $DockerRegistry/$Server:latest
-    - docker push $DockerRegistry/$Server:latest
+    - docker rm -f $ADMIN $CLIENT $SERVER || true
+    - docker rmi -f $ADMIN $CLIENT $SERVER || true
+    - docker build . --target ADMIN --tag $ADMIN
+    - docker build . --target CLIENT --tag $CLIENT
+    - docker build . --target SERVER --tag $SERVER
+    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
+    - docker tag $ADMIN $DOCKER_REGISTRY/$ADMIN:latest
+    - docker push $DOCKER_REGISTRY/$ADMIN:latest
+    - docker tag $CLIENT $DOCKER_REGISTRY/$CLIENT:latest
+    - docker push $DOCKER_REGISTRY/$CLIENT:latest
+    - docker tag $SERVER $DOCKER_REGISTRY/$SERVER:latest
+    - docker push $DOCKER_REGISTRY/$SERVER:latest
