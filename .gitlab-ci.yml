@@ -24,7 +24,7 @@ build:
     - akaiito
   script:
     - corepack enable
-    - f [[ "$CI_COMMIT_FILES" =~ "package.json" ]]; then
+    - if [[ "$CI_COMMIT_FILES" =~ "package.json" ]]; then
       pnpm config set registry $PnpmRegistry
       pnpm install --frozen-lockfile
       fi
