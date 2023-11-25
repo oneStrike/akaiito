@@ -3,13 +3,19 @@ stages:
   - docker
 
 variables:
-  ADMIN: 'asherith/ADMIN'
-  CLIENT: 'asherith/CLIENT'
-  SERVER: 'asherith/SERVER'
+  ADMIN: 'asherith/admin'
+  CLIENT: 'asherith/client'
+  SERVER: 'asherith/server'
   PNPM_REGISTRY: 'https://registry.npmmirror.com'
   DOCKER_REGISTRY: 'registry.cn-hangzhou.aliyuncs.com'
   DOCKER_USER: 'Asherith'
   DOCKER_PASS: 'li259158'
+
+cache:
+  key: cache-${CI_COMMIT_REF_NAME}
+  paths:
+    - node_modules/
+    - pnpm-lock.yaml
 
 build:
   stage: build
@@ -24,12 +30,11 @@ build:
     - pnpm run -r build
   artifacts:
     paths:
-      - packages/ADMIN/dist/
-      - packages/CLIENT/dist/
-      - packages/SERVER/dist
+      - packages/admin/dist/
+      - packages/client/dist/
+      - packages/server/dist
       - packages/utils/dist
       - Dockerfile
-    name: build artefacts
 
 docker:
   stage: docker
@@ -37,9 +42,9 @@ docker:
     - akaiito
   artifacts:
     paths:
-      - packages/ADMIN/dist/
-      - packages/CLIENT/dist/
-      - packages/SERVER/dist
+      - packages/admin/dist/
+      - packages/client/dist/
+      - packages/server/dist
       - packages/utils/dist
       - Dockerfile
   script:

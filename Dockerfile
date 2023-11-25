@@ -1,8 +1,5 @@
 FROM nginx AS base
 
-COPY . /app
-WORKDIR /app
-
 FROM base AS admin
 WORKDIR /app
 COPY packages/admin/dist /usr/share/nginx/html
@@ -20,7 +17,7 @@ WORKDIR /app
 COPY /packages/server/dist ./
 RUN apk add --no-cache tzdata
 RUN npm config set registry https://registry.npmmirror.com && npm install -P
-COPY /packages/utils ./node_modules/@akaiito/utils
+COPY /packages/utils/dist ./node_modules/@akaiito/utils/dist
 ENV TZ="Asia/Shanghai"
 EXPOSE 7001
 CMD ["npm","run","start"]
