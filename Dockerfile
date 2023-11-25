@@ -19,7 +19,7 @@ FROM asherith/node AS server
 WORKDIR /app
 COPY /packages/server/dist ./
 RUN apk add --no-cache tzdata
-RUN corepack enable && pnpm config set registry https://registry.npmmirror.com && pnpm install -P
+RUN npm config set registry https://registry.npmmirror.com && npm install -P
 COPY /packages/utils ./node_modules/@akaiito/utils
 ENV TZ="Asia/Shanghai"
 EXPOSE 7001
