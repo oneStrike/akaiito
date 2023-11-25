@@ -1,4 +1,4 @@
 const copyClientPackage = require('./clientPackage')
-const compressPackage = require('./compressPackage')
+const auxiliaryPacking = require('./auxiliaryPacking')
 copyClientPackage()
-compressPackage()
+auxiliaryPacking()
