@@ -19,7 +19,6 @@ build:
   image: asherith/node
   tags:
     - akaiito
-
   script:
     - corepack enable
     - pnpm config set registry $PnpmRegistry
