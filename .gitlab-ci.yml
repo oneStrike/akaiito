@@ -19,7 +19,7 @@ cache:
 
 build:
   stage: build
-  image: $DockerRegistry/asherith/node
+  image: $DockerRegistry/asherith/node:latest
   tags:
     - akaiito
 
