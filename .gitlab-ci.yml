@@ -7,6 +7,8 @@ variables:
   Client: 'asherith/client'
   Server: 'asherith/server'
   PnpmRegistry: 'https://registry.npmmirror.com'
+  DOCKER_USER: 'Asherith'
+  DOCKER_PASS: 'li259158'
   LOCKFILE: pnpm-lock.yaml
 
 cache:
@@ -51,10 +53,7 @@ docker:
     - docker build . --target admin --tag $Admin
     - docker build . --target client --tag $Client
     - docker build . --target server --tag $Server
-#    - docker login -u $DOCKER_USER -p $DOCKER_PASS
-#    - docker build -t $Admin.
-#    - docker push $Admin
-#    - docker build -t $Client.
-#    - docker push $Client
-#    - docker build -t $Server.
-#    - docker push $Server
+    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS registry.cn-hangzhou.aliyuncs.com
+    - docker push $Admin
+    - docker push $Client
+    - docker push $Server
