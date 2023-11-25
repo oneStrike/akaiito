@@ -56,8 +56,8 @@ docker:
     - docker build . --target server --tag $Server
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DockerRegistry
     - docker tag $Admin $DockerRegistry/$Admin:latest
-    - docker push $Admin $DockerRegistry/$Admin:latest
+    - docker push $DockerRegistry/$Admin:latest
     - docker tag $Client $DockerRegistry/$Client:latest
-    - docker push $Client $DockerRegistry/$Client:latest
+    - docker push $DockerRegistry/$Client:latest
     - docker tag $Server $DockerRegistry/$Server:latest
-    - docker push $Server $DockerRegistry/$Server:latest
+    - docker push $DockerRegistry/$Server:latest
