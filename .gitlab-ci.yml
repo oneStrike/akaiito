@@ -12,24 +12,20 @@ variables:
   DOCKER_PASS: 'li259158'
   LOCKFILE: pnpm-lock.yaml
 
-cache:
-  key: cache-${CI_COMMIT_REF_NAME}
-  paths:
-    - node_modules/
-
 build:
   stage: build
   image: asherith/node
   tags:
     - akaiito
+  cache:
+    key: cache-${CI_COMMIT_REF_NAME}
+    paths:
+      - node_modules/
   script:
     - corepack enable
-    - if [[ "$CI_COMMIT_FILES" =~ "package.json" ]]; then
-      pnpm config set registry $PnpmRegistry;
-      pnpm install --frozen-lockfile;
-      fi
+    - pnpm config set registry $PnpmRegistry
+    - pnpm install --frozen-lockfile
     - pnpm run -r build
-
   artifacts:
     paths:
       - packages/admin/dist/
