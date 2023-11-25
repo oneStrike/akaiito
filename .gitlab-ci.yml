@@ -31,7 +31,7 @@ build:
     paths:
       - packages/admin/dist/
       - packages/client/dist/
-      - packages/server/
+      - packages/server/dist
       - packages/utils/dist
       - Dockerfile
     name: build artefacts
@@ -44,7 +44,7 @@ docker:
     paths:
       - packages/admin/dist/
       - packages/client/dist/
-      - packages/server/
+      - packages/server/dist
       - packages/utils/dist
       - Dockerfile
   script:
