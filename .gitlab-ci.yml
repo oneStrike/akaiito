@@ -50,8 +50,8 @@ admin_docker:
       - packages/admin/dist/
       - Dockerfile
   script:
-    - docker rm -f $ADMIN|| true
-    - docker rmi -f $ADMIN || true
+    - docker rm -f $DOCKER_REGISTRY/$ADMIN|| true
+    - docker rmi -f $DOCKER_REGISTRY/$ADMIN || true
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker build . --target ADMIN --tag $ADMIN
     - docker tag $ADMIN $DOCKER_REGISTRY/$ADMIN:latest
@@ -91,8 +91,8 @@ client_docker:
       - packages/client/dist/
       - Dockerfile
   script:
-    - docker rm -f $CLIENT|| true
-    - docker rmi -f $CLIENT || true
+    - docker rm -f $DOCKER_REGISTRY/$CLIENT|| true
+    - docker rmi -f $DOCKER_REGISTRY/$CLIENT || true
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker build . --target CLIENT --tag $CLIENT
     - docker tag $CLIENT $DOCKER_REGISTRY/$CLIENT:latest
@@ -134,8 +134,8 @@ server_docker:
       - packages/utils/dist
       - Dockerfile
   script:
-    - docker rm -f $SERVER || true
-    - docker rmi -f $SERVER || true
+    - docker rm -f $DOCKER_REGISTRY/$SERVER || true
+    - docker rmi -f $DOCKER_REGISTRY/$SERVER || true
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker build . --target SERVER --tag $SERVER
     - docker tag $CLIENT $DOCKER_REGISTRY/$SERVER:latest
