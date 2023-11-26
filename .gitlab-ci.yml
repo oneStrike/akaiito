@@ -1,4 +1,5 @@
 stages:
+  - pnpm
   - admin_build
   - client_build
   - server_build
@@ -21,7 +22,7 @@ cache:
     - node_modules/
     - pnpm-lock.yaml
 
-pnpm-install:
+pnpm:
   stage: none
   image: $DOCKER_REGISTRY/node:18-alpine
   script:
@@ -30,7 +31,7 @@ pnpm-install:
 
 admin_build:
   stage: admin_build
-  extends: pnpm-install
+  extends: pnpm
   script:
     - pnpm install -F "@akaiito/admin" --frozen-lockfile
     - pnpm -C packages/admin build
@@ -66,7 +67,7 @@ admin_docker:
 client_build:
   stage: client_build
   image: node:18-alpine
-  extends: pnpm-install
+  extends: pnpm
   script:
     - pnpm install -F "@akaiito/client" --frozen-lockfile
     - pnpm -C packages/client build
@@ -103,7 +104,7 @@ client_docker:
 server_build:
   stage: server_build
   image: $DOCKER_REGISTRY/asherith/node:latest
-  extends: pnpm-install
+  extends: pnpm
   script:
     - pnpm install -F "@akaiito/server" --frozen-lockfile
     - pnpm -C packages/server build
