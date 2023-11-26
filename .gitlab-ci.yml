@@ -1,3 +1,5 @@
+image: node:18-alpine
+
 stages:
   - admin_build
   - client_build
@@ -25,7 +27,6 @@ admin_build:
   stage: admin_build
   tags:
     - akaiito
-  image: node:18-alpine
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/admin" --frozen-lockfile
@@ -59,6 +60,8 @@ admin_docker:
 
 client_build:
   stage: client_build
+  tags:
+    - akaiito
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/client" --frozen-lockfile
@@ -90,6 +93,8 @@ client_docker:
 
 server_build:
   stage: server_build
+  tags:
+    - akaiito
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/server" --frozen-lockfile
