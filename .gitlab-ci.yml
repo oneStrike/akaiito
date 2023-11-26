@@ -27,7 +27,7 @@ before_script:
   - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
 
 admin_build:
-  stage: build
+  stage: admin_build
   image: node:18-alpine
   tags:
     - akaiito
@@ -43,7 +43,7 @@ admin_build:
       - packages/admin/**/*
 
 client_build:
-  stage: build
+  stage: client_build
   image: node:18-alpine
   tags:
     - akaiito
@@ -59,7 +59,7 @@ client_build:
       - packages/client/**/*
 
 server_build:
-  stage: build
+  stage: server_build
   image: $DOCKER_REGISTRY/asherith/node:latest
   tags:
     - akaiito
@@ -75,7 +75,7 @@ server_build:
       - packages/server/**/*
 
 admin_docker:
-  stage: docker
+  stage: admin_docker
   tags:
     - akaiito
   artifacts:
