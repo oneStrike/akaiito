@@ -22,16 +22,18 @@ cache:
     - node_modules/
     - pnpm-lock.yaml
 
-pnpm:
+pnpm_job:
   stage: pnpm
   image: $DOCKER_REGISTRY/node:18-alpine
+  tags:
+    - akaiito
   script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
 
 admin_build:
   stage: admin_build
-  extends: pnpm
+  extends: pnpm_job
   script:
     - pnpm install -F "@akaiito/admin" --frozen-lockfile
     - pnpm -C packages/admin build
@@ -47,6 +49,8 @@ admin_build:
 
 admin_docker:
   stage: admin_docker
+  tags:
+    - akaiito
   artifacts:
     paths:
       - packages/admin/dist/
@@ -66,8 +70,7 @@ admin_docker:
 
 client_build:
   stage: client_build
-  image: node:18-alpine
-  extends: pnpm
+  extends: pnpm_job
   script:
     - pnpm install -F "@akaiito/client" --frozen-lockfile
     - pnpm -C packages/client build
@@ -83,7 +86,6 @@ client_build:
 
 client_docker:
   stage: client_docker
-  image: node:18-alpine
   artifacts:
     paths:
       - packages/client/dist/
@@ -103,8 +105,7 @@ client_docker:
 
 server_build:
   stage: server_build
-  image: $DOCKER_REGISTRY/asherith/node:latest
-  extends: pnpm
+  extends: pnpm_job
   script:
     - pnpm install -F "@akaiito/server" --frozen-lockfile
     - pnpm -C packages/server build
@@ -121,7 +122,6 @@ server_build:
 
 server_docker:
   stage: server_docker
-  image: $DOCKER_REGISTRY/asherith/node:latest
   artifacts:
     paths:
       - packages/server/dist/
