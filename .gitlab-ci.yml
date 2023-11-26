@@ -39,7 +39,6 @@ admin_build:
       - packages/admin/**/*
       - .gitlab-ci.yml
       - Dockerfile
-  needs: ['admin_docker']
 
 admin_docker:
   stage: admin_docker
@@ -56,6 +55,7 @@ admin_docker:
     - docker build . --target ADMIN --tag $ADMIN
     - docker tag $ADMIN $DOCKER_REGISTRY/$ADMIN:latest
     - docker push $DOCKER_REGISTRY/$ADMIN:latest
+  needs: ['admin_docker']
 
 client_build:
   stage: client_build
@@ -72,7 +72,6 @@ client_build:
       - packages/client/**/*
       - .gitlab-ci.yml
       - Dockerfile
-  needs: ['client_docker']
 
 client_docker:
   stage: client_docker
@@ -87,6 +86,7 @@ client_docker:
     - docker build . --target CLIENT --tag $CLIENT
     - docker tag $CLIENT $DOCKER_REGISTRY/$CLIENT:latest
     - docker push $DOCKER_REGISTRY/$CLIENT:latest
+  needs: ['client_docker']
 
 server_build:
   stage: server_build
@@ -104,7 +104,6 @@ server_build:
       - packages/server/**/*
       - .gitlab-ci.yml
       - Dockerfile
-  needs: ['server_docker']
 
 server_docker:
   stage: server_docker
@@ -120,3 +119,4 @@ server_docker:
     - docker build . --target SERVER --tag $SERVER
     - docker tag $CLIENT $DOCKER_REGISTRY/$SERVER:latest
     - docker push $DOCKER_REGISTRY/$SERVER:latest
+  needs: ['server_docker']
