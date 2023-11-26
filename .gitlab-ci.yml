@@ -24,7 +24,7 @@ cache:
 
 pnpm_job:
   stage: pnpm
-  image: $DOCKER_REGISTRY/node:18-alpine
+  image: node:18-alpine
   tags:
     - akaiito
   script:
