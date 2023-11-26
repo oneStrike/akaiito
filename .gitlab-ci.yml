@@ -35,6 +35,7 @@ admin_build:
     paths:
       - packages/admin/dist/
       - Dockerfile
+      - .dockerignore
   only:
     changes:
       - packages/admin/**/*
@@ -78,10 +79,12 @@ client_build:
 
 client_docker:
   stage: client_docker
+  needs: ['client_docker']
   artifacts:
     paths:
       - packages/client/dist/
       - Dockerfile
+      - .dockerignore
   script:
     - docker rm -f $DOCKER_REGISTRY/$CLIENT || true
     - docker rmi -f $DOCKER_REGISTRY/$CLIENT || true
@@ -89,7 +92,7 @@ client_docker:
     - docker build . --target CLIENT --tag $CLIENT
     - docker tag $CLIENT $DOCKER_REGISTRY/$CLIENT:latest
     - docker push $DOCKER_REGISTRY/$CLIENT:latest
-  needs: ['client_docker']
+
 
 server_build:
   stage: server_build
@@ -104,6 +107,7 @@ server_build:
       - packages/server/dist
       - packages/utils/dist
       - Dockerfile
+      - .dockerignore
   only:
     changes:
       - packages/server/**/*
