@@ -21,15 +21,18 @@ cache:
     - node_modules/
     - pnpm-lock.yaml
 
-admin_build:
-  stage: admin_build
-  image: node:18-alpine
-  tags:
-    - akaiito
+.pnpm-install:
+  stage: none
+  image: $DOCKER_REGISTRY/node:18-alpine
   script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F @akaiito/admin --frozen-lockfile
+
+.admin_build:
+  stage: admin_build
+  extends: .pnpm-install
+  script:
+    - pnpm install -F "@akaiito/admin" --frozen-lockfile
     - pnpm -C packages/admin build
   artifacts:
     paths:
@@ -41,16 +44,15 @@ admin_build:
       - .gitlab-ci.yml
       - Dockerfile
 
-admin_docker:
+.admin_docker:
   stage: admin_docker
-  tags:
-    - akaiito
+  extends: .pnpm-install
   artifacts:
     paths:
       - packages/admin/dist/
       - Dockerfile
   script:
-    - docker rm -f $DOCKER_REGISTRY/$ADMIN|| true
+    - docker rm -f $DOCKER_REGISTRY/$ADMIN || true
     - docker rmi -f $DOCKER_REGISTRY/$ADMIN || true
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker build . --target ADMIN --tag $ADMIN
@@ -62,15 +64,12 @@ admin_docker:
       - .gitlab-ci.yml
       - Dockerfile
 
-client_build:
+.client_build:
   stage: client_build
   image: node:18-alpine
-  tags:
-    - akaiito
+  extends: .pnpm-install
   script:
-    - corepack enable
-    - pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F @akaiito/client --frozen-lockfile
+    - pnpm install -F "@akaiito/client" --frozen-lockfile
     - pnpm -C packages/client build
   artifacts:
     paths:
@@ -82,16 +81,16 @@ client_build:
       - .gitlab-ci.yml
       - Dockerfile
 
-client_docker:
+.client_docker:
   stage: client_docker
-  tags:
-    - akaiito
+  image: node:18-alpine
+  extends: .pnpm-install
   artifacts:
     paths:
       - packages/client/dist/
       - Dockerfile
   script:
-    - docker rm -f $DOCKER_REGISTRY/$CLIENT|| true
+    - docker rm -f $DOCKER_REGISTRY/$CLIENT || true
     - docker rmi -f $DOCKER_REGISTRY/$CLIENT || true
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker build . --target CLIENT --tag $CLIENT
@@ -103,15 +102,12 @@ client_docker:
       - .gitlab-ci.yml
       - Dockerfile
 
-server_build:
+.server_build:
   stage: server_build
   image: $DOCKER_REGISTRY/asherith/node:latest
-  tags:
-    - akaiito
+  extends: .pnpm-install
   script:
-    - corepack enable
-    - pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F @akaiito/server --frozen-lockfile
+    - pnpm install -F "@akaiito/server" --frozen-lockfile
     - pnpm -C packages/server build
   artifacts:
     paths:
@@ -124,10 +120,10 @@ server_build:
       - .gitlab-ci.yml
       - Dockerfile
 
-server_docker:
+.server_docker:
   stage: server_docker
-  tags:
-    - akaiito
+  image: $DOCKER_REGISTRY/asherith/node:latest
+  extends: .pnpm-install
   artifacts:
     paths:
       - packages/server/dist/
