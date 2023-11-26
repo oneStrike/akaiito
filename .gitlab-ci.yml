@@ -23,7 +23,7 @@ cache:
     - pnpm-lock.yaml
 
 pnpm:
-  stage: none
+  stage: pnpm
   image: $DOCKER_REGISTRY/node:18-alpine
   script:
     - corepack enable
