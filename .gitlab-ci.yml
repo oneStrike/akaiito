@@ -1,4 +1,3 @@
-image: node:18-alpine
 
 stages:
   - admin_build
@@ -25,6 +24,7 @@ cache:
 
 admin_build:
   stage: admin_build
+  image: node:18-alpine
   tags:
     - akaiito
   script:
@@ -61,6 +61,7 @@ admin_docker:
 
 client_build:
   stage: client_build
+  image: node:18-alpine
   tags:
     - akaiito
   script:
@@ -97,6 +98,7 @@ client_docker:
 
 server_build:
   stage: server_build
+  image: node:18-alpine
   tags:
     - akaiito
   script:
