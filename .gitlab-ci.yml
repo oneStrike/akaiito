@@ -1,7 +1,5 @@
 stages:
-  - admin_build
-  - client_build
-  - server_build
+  - build
   - admin_docker
   - client_docker
   - server_docker
@@ -22,7 +20,7 @@ cache:
     - pnpm-lock.yaml
 
 admin_build:
-  stage: admin_build
+  stage: build
   image: node:18-alpine
   tags:
     - akaiito
@@ -59,7 +57,7 @@ admin_docker:
     - docker push $DOCKER_REGISTRY/$ADMIN:latest
 
 client_build:
-  stage: client_build
+  stage: build
   image: node:18-alpine
   tags:
     - akaiito
@@ -96,7 +94,7 @@ client_docker:
     - docker push $DOCKER_REGISTRY/$CLIENT:latest
 
 server_build:
-  stage: server_build
+  stage: build
   image: node:18-alpine
   tags:
     - akaiito
