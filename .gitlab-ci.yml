@@ -46,7 +46,7 @@ admin_docker:
   stage: admin_docker
   tags:
     - akaiito
-  needs: ['admin_build']
+#  needs: ['admin_build']
   artifacts:
     paths:
       - packages/admin/dist/
