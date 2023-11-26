@@ -88,3 +88,6 @@ admin_docker:
     - docker build . --target ADMIN --tag $ADMIN
     - docker tag $ADMIN $DOCKER_REGISTRY/$ADMIN:latest
     - docker push $DOCKER_REGISTRY/$ADMIN:latest
+  only:
+    changes:
+      - packages/admin/**/*
