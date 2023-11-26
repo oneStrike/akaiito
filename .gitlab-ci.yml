@@ -59,6 +59,8 @@ client_build:
   only:
     changes:
       - packages/client/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
 
 server_build:
   stage: server_build
@@ -76,6 +78,8 @@ server_build:
   only:
     changes:
       - packages/server/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
 
 admin_docker:
   stage: admin_docker
@@ -114,6 +118,8 @@ client_docker:
   only:
     changes:
       - packages/client/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
 
 server_docker:
   stage: server_docker
@@ -133,3 +139,5 @@ server_docker:
   only:
     changes:
       - packages/server/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
