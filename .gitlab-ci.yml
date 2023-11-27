@@ -10,6 +10,7 @@ variables:
   DOCKER_REGISTRY: 'registry.cn-hangzhou.aliyuncs.com'
   DOCKER_USER: 'Asherith'
   DOCKER_PASS: 'li259158'
+  CURRENT_PROJECT: ''
 
 cache:
   key: cache-${CI_COMMIT_REF_NAME}
@@ -17,26 +18,31 @@ cache:
     - node_modules/
     - pnpm-lock.yaml
 
-admin_build:
-  stage: build
+build_job:
   image: node:18-alpine
+  stage:
+    - build
   tags:
     - akaiito
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F "@akaiito/admin" --frozen-lockfile
-    - pnpm -C packages/admin build
-    - gitlab-runner trigger admin_docker
+    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
+    - pnpm -C packages/$CURRENT_PROJECT build
   artifacts:
     paths:
-      - packages/admin/dist/
+      - packages/$CURRENT_PROJECT/dist/
       - Dockerfile
       - .dockerignore
   only:
     changes:
-      - packages/admin/**/*
+      - packages/$CURRENT_PROJECT/**/*
       - .gitlab-ci.yml
       - Dockerfile
+
+admin_build:
+  extends: build_job
+  variables:
+    CURRENY_PROJECT: 'admin'
 
 admin_docker:
   stage: docker
@@ -65,7 +71,6 @@ client_build:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/client" --frozen-lockfile
     - pnpm -C packages/client build
-    - gitlab-runner trigger client_docker
   artifacts:
     paths:
       - packages/client/dist
@@ -103,7 +108,6 @@ server_build:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/server" --frozen-lockfile
     - pnpm -C packages/server build
-    - gitlab-runner trigger server_docker
   artifacts:
     paths:
       - packages/server/dist
