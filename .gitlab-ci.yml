@@ -10,9 +10,11 @@ variables:
   DOCKER_REGISTRY: 'registry.cn-hangzhou.aliyuncs.com'
   DOCKER_USER: 'Asherith'
   DOCKER_PASS: 'li259158'
+  CURRENT_PROJECT: ''
+  CURRENT_IMAGE: ''
 
 cache:
-  key: cache-${CI_COMMIT_REF_NAME}
+  key: cache-$CI_COMMIT_REF_NAME
   paths:
     - node_modules/
     - pnpm-lock.yaml
@@ -27,12 +29,14 @@ default:
 
 .pnpm:
   image: node:18-alpine
-  before_script:
+  after_script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
+    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
+    - pnpm -C packages/$CURRENT_PROJECT build
 
 .docker:
-  before_script:
+  script:
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
 
 .admin:
@@ -70,9 +74,8 @@ admin_build:
   extends:
     - .pnpm
     - .admin
-  script:
-    - pnpm install -F "@akaiito/admin" --frozen-lockfile
-    - pnpm -C packages/admin build
+  variables:
+    CURRENT_PROJECT: 'admin'
 
 admin_docker:
   stage: docker
@@ -91,9 +94,8 @@ client_build:
   extends:
     - .pnpm
     - .client
-  script:
-    - pnpm install -F "@akaiito/client" --frozen-lockfile
-    - pnpm -C packages/client build
+  variables:
+    CURRENT_PROJECT: 'client'
 
 client_docker:
   stage: docker
@@ -112,9 +114,8 @@ server_build:
   extends:
     - .pnpm
     - .server
-  script:
-    - pnpm install -F "@akaiito/server" --frozen-lockfile
-    - pnpm -C packages/server build
+  variables:
+    CURRENT_PROJECT: 'client'
 
 server_docker:
   stage: docker
