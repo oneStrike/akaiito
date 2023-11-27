@@ -43,7 +43,6 @@ admin_build:
 
 admin_docker:
   stage: docker
-  needs: ['admin_build']
   artifacts:
     paths:
       - packages/admin/dist/
@@ -78,7 +77,6 @@ client_build:
 
 client_docker:
   stage: docker
-  needs: ['client_build']
   artifacts:
     paths:
       - packages/client/dist/
@@ -114,7 +112,6 @@ server_build:
 
 server_docker:
   stage: docker
-  needs: ['server_build']
   artifacts:
     paths:
       - packages/server/dist/
