@@ -74,6 +74,8 @@ admin_build:
   extends:
     - .pnpm
     - .admin
+  script:
+    - echo $CURRENT_PROJECT
   variables:
     CURRENT_PROJECT: 'admin'
 
@@ -94,6 +96,8 @@ client_build:
   extends:
     - .pnpm
     - .client
+  script:
+    - echo $CURRENT_PROJECT
   variables:
     CURRENT_PROJECT: 'client'
 
@@ -114,6 +118,8 @@ server_build:
   extends:
     - .pnpm
     - .server
+  script:
+    - echo $CURRENT_PROJECT
   variables:
     CURRENT_PROJECT: 'client'
 
