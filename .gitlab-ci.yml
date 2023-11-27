@@ -39,13 +39,6 @@ default:
     paths:
       - packages/$CURRENT_PROJECT/dist/
       - packages/utils/lib/
-      - Dockerfile
-      - .dockerignore
-  only:
-    changes:
-      - packages/$CURRENT_PROJECT/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 .docker_job:
   after_script:
@@ -56,10 +49,32 @@ default:
     - docker tag $CURRENT_IMAGE $CURRENT_IMAGE:latest
     - docker push $CURRENT_IMAGE:latest
 
+.admin:
+  only:
+    changes:
+      - packages/admin/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
+
+.client:
+  only:
+    changes:
+      - packages/client/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
+
+.server:
+  only:
+    changes:
+      - packages/server/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
+
 admin_build:
   stage: build
   extends:
     - .build_job
+    - .admin
   script:
     - echo $CURRENT_PROJECT
   variables:
@@ -68,6 +83,7 @@ admin_build:
 admin_docker:
   stage: docker
   extends:
+    - .admin
     - .docker_job
   variables:
     CURRENT_IMAGE: $DOCKER_REGISTRY/$ADMIN
@@ -79,6 +95,7 @@ client_build:
   stage: build
   extends:
     - .build_job
+    - .client
   script:
     - echo $CURRENT_PROJECT
   variables:
@@ -87,6 +104,7 @@ client_build:
 client_docker:
   stage: docker
   extends:
+    - .client
     - .docker_job
   script:
     - echo $CURRENT_IMAGE
@@ -98,14 +116,16 @@ server_build:
   stage: build
   extends:
     - .build_job
+    - .server
   script:
     - echo $CURRENT_PROJECT
   variables:
-    CURRENT_PROJECT: 'client'
+    CURRENT_PROJECT: 'server'
 
 server_docker:
   stage: docker
   extends:
+    - .server
     - .docker_job
   script:
     - echo $CURRENT_IMAGE
