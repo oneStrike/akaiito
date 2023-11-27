@@ -1,6 +1,8 @@
 stages:
   - build
-  - docker
+  - admin_docker
+  - client_docker
+  - server_docker
 
 variables:
   ADMIN: 'asherith/admin'
@@ -17,37 +19,31 @@ cache:
     - node_modules/
     - pnpm-lock.yaml
 
-build_job:
+admin_build:
+  stage: admin_build
   image: node:18-alpine
-  stage: build
   tags:
     - akaiito
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
-    - pnpm -C packages/$CURRENT_PROJECT build
+    - pnpm install -F "@akaiito/admin" --frozen-lockfile
+    - pnpm -C packages/admin build
   artifacts:
     paths:
-      - packages/$CURRENT_PROJECT/dist/
+      - packages/admin/dist/
       - Dockerfile
       - .dockerignore
   only:
     changes:
-      - packages/$CURRENT_PROJECT/**/*
+      - packages/admin/**/*
       - .gitlab-ci.yml
       - Dockerfile
 
-admin_build:
-  variables:
-    CURRENY_PROJECT: 'admin'
-  extends: build_job
-
 admin_docker:
-  stage: docker
+  stage: admin_docker
   tags:
     - akaiito
-  #  needs: ['admin_build']
-  when: manual
+  needs: ['admin_build']
   artifacts:
     paths:
       - packages/admin/dist/
@@ -61,7 +57,7 @@ admin_docker:
     - docker push $DOCKER_REGISTRY/$ADMIN:latest
 
 client_build:
-  stage: build
+  stage: client_build
   image: node:18-alpine
   tags:
     - akaiito
@@ -80,10 +76,10 @@ client_build:
       - Dockerfile
 
 client_docker:
-  stage: docker
+  stage: client_docker
   tags:
     - akaiito
-  #  needs: ['client_build']
+  needs: ['client_build']
   artifacts:
     paths:
       - packages/client/dist/
@@ -98,7 +94,7 @@ client_docker:
     - docker push $DOCKER_REGISTRY/$CLIENT:latest
 
 server_build:
-  stage: build
+  stage: server_build
   image: node:18-alpine
   tags:
     - akaiito
@@ -119,10 +115,10 @@ server_build:
       - Dockerfile
 
 server_docker:
-  stage: docker
+  stage: server_docker
   tags:
     - akaiito
-  #  needs: ['server_build']
+  needs: ['server_build']
   artifacts:
     paths:
       - packages/server/dist/
