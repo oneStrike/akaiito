@@ -19,7 +19,6 @@ cache:
 
 build_job:
   image: node:18-alpine
-  stage: build
   tags:
     - akaiito
   script:
@@ -38,6 +37,7 @@ build_job:
       - Dockerfile
 
 admin_build:
+  stage: build
   variables:
     CURRENY_PROJECT: 'admin'
   extends: build_job
