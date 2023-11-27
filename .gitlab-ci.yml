@@ -38,7 +38,7 @@ default:
   artifacts:
     paths:
       - packages/$CURRENT_PROJECT/dist/
-      - packages/utils/lib/
+      - packages/utils/dist/
 
 .docker_job:
   after_script:
