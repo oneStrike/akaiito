@@ -12,6 +12,7 @@ variables:
   DOCKER_PASS: 'li259158'
   CURRENT_PROJECT: ''
   CURRENT_IMAGE: ''
+  CURRENT_IMAGE_STAGE: ''
 
 cache:
   key: cache-$CI_COMMIT_REF_NAME
@@ -27,22 +28,28 @@ default:
       - .gitlab-ci.yml
       - Dockerfile
 
-.pnpm:
+.build_job:
   image: node:18-alpine
   after_script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
     - pnpm -C packages/$CURRENT_PROJECT build
-
-.docker:
-  script:
-    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
-
-.admin:
   artifacts:
     paths:
-      - packages/admin/dist/
+      - packages/$CURRENT_PROJECT/dist/
+      - packages/utils/lib/
+
+.docker_job:
+  after_script:
+    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
+    - docker rm -f $CURRENT_IMAGE || true
+    - docker rmi -f $CURRENT_IMAGE || true
+    - docker build . --target $CURRENT_IMAGE_STAGE --tag $CURRENT_IMAGE
+    - docker tag $CURRENT_IMAGE $CURRENT_IMAGE:latest
+    - docker push $CURRENT_IMAGE:latest
+
+.admin:
   only:
     changes:
       - packages/admin/**/*
@@ -50,19 +57,13 @@ default:
       - Dockerfile
 
 .client:
-  artifacts:
-    paths:
-      - packages/client/dist/
   only:
     changes:
       - packages/client/**/*
       - .gitlab-ci.yml
       - Dockerfile
+
 .server:
-  artifacts:
-    paths:
-      - packages/server/dist/
-      - packages/utils/dist/
   only:
     changes:
       - packages/server/**/*
@@ -72,7 +73,7 @@ default:
 admin_build:
   stage: build
   extends:
-    - .pnpm
+    - .build_job
     - .admin
   script:
     - echo $CURRENT_PROJECT
@@ -83,18 +84,17 @@ admin_docker:
   stage: docker
   extends:
     - .admin
-    - .docker
+    - .docker_job
+  variables:
+    CURRENT_IMAGE: $DOCKER_REGISTRY/$ADMIN
+    CURRENT_IMAGE_STAGE: 'admin'
   script:
-    - docker rm -f $DOCKER_REGISTRY/$ADMIN || true
-    - docker rmi -f $DOCKER_REGISTRY/$ADMIN || true
-    - docker build . --target ADMIN --tag $DOCKER_REGISTRY/$ADMIN
-    - docker tag $ADMIN $DOCKER_REGISTRY/$ADMIN:latest
-    - docker push $DOCKER_REGISTRY/$ADMIN:latest
+    - echo $CURRENT_IMAGE
 
 client_build:
   stage: build
   extends:
-    - .pnpm
+    - .build_job
     - .client
   script:
     - echo $CURRENT_PROJECT
@@ -105,18 +105,17 @@ client_docker:
   stage: docker
   extends:
     - .client
-    - .docker
+    - .docker_job
   script:
-    - docker rm -f $DOCKER_REGISTRY/$CLIENT || true
-    - docker rmi -f $DOCKER_REGISTRY/$CLIENT || true
-    - docker build . --target CLIENT --tag $DOCKER_REGISTRY/$CLIENT
-    - docker tag $CLIENT $DOCKER_REGISTRY/$CLIENT:latest
-    - docker push $DOCKER_REGISTRY/$CLIENT:latest
+    - echo $CURRENT_IMAGE
+  variables:
+    CURRENT_IMAGE: $DOCKER_REGISTRY/$CLIENT
+    CURRENT_IMAGE_STAGE: 'client'
 
 server_build:
   stage: build
   extends:
-    - .pnpm
+    - .build_job
     - .server
   script:
     - echo $CURRENT_PROJECT
@@ -127,10 +126,9 @@ server_docker:
   stage: docker
   extends:
     - .server
-    - .docker
+    - .docker_job
   script:
-    - docker rm -f $DOCKER_REGISTRY/$SERVER || true
-    - docker rmi -f $DOCKER_REGISTRY/$SERVER || true
-    - docker build . --target SERVER --tag $DOCKER_REGISTRY/$SERVER
-    - docker tag $CLIENT $DOCKER_REGISTRY/$SERVER:latest
-    - docker push $DOCKER_REGISTRY/$SERVER:latest
+    - echo $CURRENT_IMAGE
+  variables:
+    CURRENT_IMAGE: $DOCKER_REGISTRY/$SERVER
+    CURRENT_IMAGE_STAGE: 'server'
