@@ -17,7 +17,6 @@ WORKDIR /app
 COPY /packages/server/dist ./
 RUN apk add --no-cache tzdata
 RUN npm config set registry https://registry.npmmirror.com && npm install -P
-COPY /packages/utils/dist ./node_modules/@akaiito/utils/dist
 ENV TZ="Asia/Shanghai"
 EXPOSE 7001
 CMD ["npm","run","start"]
