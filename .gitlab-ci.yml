@@ -26,6 +26,7 @@ admin_build:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/admin" --frozen-lockfile
     - pnpm -C packages/admin build
+    - gitlab-runner trigger admin_docker
   artifacts:
     paths:
       - packages/admin/dist/
@@ -42,6 +43,7 @@ admin_docker:
   tags:
     - akaiito
   #  needs: ['admin_build']
+  when: manual
   artifacts:
     paths:
       - packages/admin/dist/
@@ -63,6 +65,7 @@ client_build:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/client" --frozen-lockfile
     - pnpm -C packages/client build
+    - gitlab-runner trigger client_docker
   artifacts:
     paths:
       - packages/client/dist
@@ -100,6 +103,7 @@ server_build:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/server" --frozen-lockfile
     - pnpm -C packages/server build
+    - gitlab-runner trigger server_docker
   artifacts:
     paths:
       - packages/server/dist
