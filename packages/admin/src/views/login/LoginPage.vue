@@ -11,7 +11,7 @@ getCaptcha()
 </script>
 
 <template>
-  <el-button>我是登陆23页面2123</el-button>
+  <el-button>我是登陆23页面22123</el-button>
 </template>
 
 <style scoped></style>
