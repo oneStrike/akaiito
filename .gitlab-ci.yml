@@ -25,9 +25,17 @@ default:
       - .gitlab-ci.yml
       - Dockerfile
 
+.pnpm:
+  image: node:18-alpine
+  only:
+    changes:
+      - packages/admin/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
+
 admin_build:
   stage: build
-  image: node:18-alpine
+  extends: .pnpm
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/admin" --frozen-lockfile
@@ -35,11 +43,6 @@ admin_build:
   artifacts:
     paths:
       - packages/admin/dist/
-  only:
-    changes:
-      - packages/admin/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 admin_docker:
   stage: docker
