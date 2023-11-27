@@ -17,11 +17,17 @@ cache:
     - node_modules/
     - pnpm-lock.yaml
 
+default:
+  tags:
+    - akaiito
+  artifacts:
+    paths:
+      - .gitlab-ci.yml
+      - Dockerfile
+
 admin_build:
   stage: build
   image: node:18-alpine
-  tags:
-    - akaiito
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/admin" --frozen-lockfile
@@ -29,8 +35,6 @@ admin_build:
   artifacts:
     paths:
       - packages/admin/dist/
-      - Dockerfile
-      - .dockerignore
   only:
     changes:
       - packages/admin/**/*
@@ -39,13 +43,10 @@ admin_build:
 
 admin_docker:
   stage: docker
-  tags:
-    - akaiito
   needs: ['admin_build']
   artifacts:
     paths:
       - packages/admin/dist/
-      - Dockerfile
   script:
     - docker rm -f $DOCKER_REGISTRY/$ADMIN || true
     - docker rmi -f $DOCKER_REGISTRY/$ADMIN || true
@@ -62,8 +63,6 @@ admin_docker:
 client_build:
   stage: build
   image: node:18-alpine
-  tags:
-    - akaiito
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/client" --frozen-lockfile
@@ -71,7 +70,6 @@ client_build:
   artifacts:
     paths:
       - packages/client/dist
-      - Dockerfile
   only:
     changes:
       - packages/client/**/*
@@ -80,14 +78,10 @@ client_build:
 
 client_docker:
   stage: docker
-  tags:
-    - akaiito
   needs: ['client_build']
   artifacts:
     paths:
       - packages/client/dist/
-      - Dockerfile
-      - .dockerignore
   script:
     - docker rm -f $DOCKER_REGISTRY/$CLIENT || true
     - docker rmi -f $DOCKER_REGISTRY/$CLIENT || true
@@ -104,8 +98,6 @@ client_docker:
 server_build:
   stage: build
   image: node:18-alpine
-  tags:
-    - akaiito
   script:
     - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/server" --frozen-lockfile
@@ -114,8 +106,6 @@ server_build:
     paths:
       - packages/server/dist
       - packages/utils/dist
-      - Dockerfile
-      - .dockerignore
   only:
     changes:
       - packages/server/**/*
@@ -124,14 +114,11 @@ server_build:
 
 server_docker:
   stage: docker
-  tags:
-    - akaiito
   needs: ['server_build']
   artifacts:
     paths:
       - packages/server/dist/
       - packages/utils/dist
-      - Dockerfile
   script:
     - docker rm -f $DOCKER_REGISTRY/$SERVER || true
     - docker rmi -f $DOCKER_REGISTRY/$SERVER || true
@@ -139,7 +126,6 @@ server_docker:
     - docker build . --target SERVER --tag $SERVER
     - docker tag $CLIENT $DOCKER_REGISTRY/$SERVER:latest
     - docker push $DOCKER_REGISTRY/$SERVER:latest
-
   only:
     changes:
       - packages/server/**/*
