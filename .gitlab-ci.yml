@@ -1,8 +1,6 @@
 stages:
   - build
-  - admin_docker
-  - client_docker
-  - server_docker
+  - docker
 
 variables:
   ADMIN: 'asherith/admin'
@@ -40,10 +38,10 @@ admin_build:
       - Dockerfile
 
 admin_docker:
-  stage: admin_docker
+  stage: docker
   tags:
     - akaiito
-#  needs: ['admin_build']
+  #  needs: ['admin_build']
   artifacts:
     paths:
       - packages/admin/dist/
@@ -76,10 +74,10 @@ client_build:
       - Dockerfile
 
 client_docker:
-  stage: client_docker
+  stage: docker
   tags:
     - akaiito
-#  needs: ['client_build']
+  #  needs: ['client_build']
   artifacts:
     paths:
       - packages/client/dist/
@@ -115,10 +113,10 @@ server_build:
       - Dockerfile
 
 server_docker:
-  stage: server_docker
+  stage: docker
   tags:
     - akaiito
-#  needs: ['server_build']
+  #  needs: ['server_build']
   artifacts:
     paths:
       - packages/server/dist/
