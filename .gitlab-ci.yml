@@ -27,107 +27,103 @@ default:
 
 .pnpm:
   image: node:18-alpine
+  before_script:
+    - corepack enable
+    - pnpm config set registry $PNPM_REGISTRY
+
+.docker:
+  before_script:
+    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
+
+.admin:
+  artifacts:
+    paths:
+      - packages/admin/dist/
   only:
     changes:
       - packages/admin/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
+
+.client:
+  artifacts:
+    paths:
+      - packages/client/dist/
+  only:
+    changes:
+      - packages/client/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
+.server:
+  artifacts:
+    paths:
+      - packages/server/dist/
+      - packages/utils/dist/
+  only:
+    changes:
+      - packages/server/**/*
       - .gitlab-ci.yml
       - Dockerfile
 
 admin_build:
   stage: build
-  extends: .pnpm
+  extends:
+    - .pnpm
+    - .admin
   script:
-    - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/admin" --frozen-lockfile
     - pnpm -C packages/admin build
-  artifacts:
-    paths:
-      - packages/admin/dist/
 
 admin_docker:
   stage: docker
-  artifacts:
-    paths:
-      - packages/admin/dist/
+  extends:
+    - .admin
+    - .docker
   script:
     - docker rm -f $DOCKER_REGISTRY/$ADMIN || true
     - docker rmi -f $DOCKER_REGISTRY/$ADMIN || true
-    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker build . --target ADMIN --tag $DOCKER_REGISTRY/$ADMIN
     - docker tag $ADMIN $DOCKER_REGISTRY/$ADMIN:latest
     - docker push $DOCKER_REGISTRY/$ADMIN:latest
-  only:
-    changes:
-      - packages/admin/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 client_build:
   stage: build
-  image: node:18-alpine
+  extends:
+    - .pnpm
+    - .client
   script:
-    - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/client" --frozen-lockfile
     - pnpm -C packages/client build
-  artifacts:
-    paths:
-      - packages/client/dist
-  only:
-    changes:
-      - packages/client/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 client_docker:
   stage: docker
-  artifacts:
-    paths:
-      - packages/client/dist/
+  extends:
+    - .client
+    - .docker
   script:
     - docker rm -f $DOCKER_REGISTRY/$CLIENT || true
     - docker rmi -f $DOCKER_REGISTRY/$CLIENT || true
-    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker build . --target CLIENT --tag $DOCKER_REGISTRY/$CLIENT
     - docker tag $CLIENT $DOCKER_REGISTRY/$CLIENT:latest
     - docker push $DOCKER_REGISTRY/$CLIENT:latest
-  only:
-    changes:
-      - packages/client/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 server_build:
   stage: build
-  image: node:18-alpine
+  extends:
+    - .pnpm
+    - .server
   script:
-    - corepack enable && pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F "@akaiito/server" --frozen-lockfile
     - pnpm -C packages/server build
-  artifacts:
-    paths:
-      - packages/server/dist
-      - packages/utils/dist
-  only:
-    changes:
-      - packages/server/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 server_docker:
   stage: docker
-  artifacts:
-    paths:
-      - packages/server/dist/
-      - packages/utils/dist
+  extends:
+    - .server
+    - .docker
   script:
-    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker rm -f $DOCKER_REGISTRY/$SERVER || true
     - docker rmi -f $DOCKER_REGISTRY/$SERVER || true
     - docker build . --target SERVER --tag $DOCKER_REGISTRY/$SERVER
     - docker tag $CLIENT $DOCKER_REGISTRY/$SERVER:latest
     - docker push $DOCKER_REGISTRY/$SERVER:latest
-  only:
-    changes:
-      - packages/server/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
