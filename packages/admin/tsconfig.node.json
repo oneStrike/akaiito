@@ -5,11 +5,22 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "module": "ESNext",
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "baseUrl": "./",
+    "types": ["node", "vite/client"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@typings/*": ["node_modules/@akaiito/typings/src/*"]
+    }
   },
   "include": [
     "vite.config.ts",
     "config/index.ts",
-    "vite/**/*"
+    "vite/**/*",
+    "src/**/*",
+    "src/**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx"
   ]
 }

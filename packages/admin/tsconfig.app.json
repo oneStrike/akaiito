@@ -7,13 +7,12 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue",
     "config/index.ts"
   ],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "types": ["node", "vite/client"],
     "paths": {
       "@/*": ["./src/*"],
