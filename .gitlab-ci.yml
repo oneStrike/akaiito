@@ -39,6 +39,7 @@ default:
     paths:
       - packages/$CURRENT_PROJECT/dist/
       - packages/utils/dist/
+      - .dockerignore
 
 .docker_job:
   after_script:
