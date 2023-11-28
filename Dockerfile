@@ -14,10 +14,9 @@ FROM registry.cn-hangzhou.aliyuncs.com/asherith/node AS server
 WORKDIR /app
 COPY /packages/server/dist ./
 RUN apk add --no-cache tzdata && \
-    npm config set registry https://registry.npmmirror.com && \
     npm install --omit=dev
 COPY /packages/utils/dist ./node_modules/@akaiito/utils/dist
-ENV TZ="Asia/Shanghai"
+RUN rm -rf /packages && npm cache clean --force
 EXPOSE 7001
 CMD ["npm","run","start"]
 
