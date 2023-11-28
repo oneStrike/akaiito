@@ -13,8 +13,7 @@ EXPOSE 80
 FROM registry.cn-hangzhou.aliyuncs.com/asherith/node AS server
 WORKDIR /app
 COPY /packages/server/dist ./
-RUN apk add --no-cache tzdata && \
-    npm install --omit=dev
+RUN apk add --no-cache tzdata && npm install --omit=dev
 COPY /packages/utils/dist ./node_modules/@akaiito/utils/dist
 RUN rm -rf /packages && npm cache clean --force
 EXPOSE 7001
