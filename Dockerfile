@@ -19,7 +19,7 @@ WORKDIR /app
 COPY /packages/server/dist ./
 RUN apk add --no-cache tzdata && \
     npm config set registry https://registry.npmmirror.com && \
-    npm install --production
+    npm install --omit=dev
 COPY /packages/utils/dist ./node_modules/@akaiito/utils/dist
 RUN rm -rf /packages
 ENV TZ="Asia/Shanghai"
