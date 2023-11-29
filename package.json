@@ -5,8 +5,11 @@
   "main": "index.js",
   "packageManager": "pnpm@8.8.0",
   "scripts": {
-    "dev": "pnpm run --filter * dev",
-    "build": "",
+    "dev": "pnpm run -r dev",
+    "dev:server": "pnpm run --filter @akaiito/server dev",
+    "dev:admin": "pnpm run --filter @akaiito/admin dev",
+    "dev:client": "pnpm run --filter @akaiito/client dev",
+    "build": "pnpm run -r build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "commit": "git add . && git-cz",
@@ -30,7 +33,7 @@
     "husky": "^8.0.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "~5.1.6"
   },
   "lint-staged": {
     "*.{ts,jsx,tsx,vue,js,css,,scss}": "pnpm run prettier",
