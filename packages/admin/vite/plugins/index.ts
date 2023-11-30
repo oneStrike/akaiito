@@ -15,10 +15,6 @@ export function VitePlugins() {
   const vitePlugins: (Plugin | Plugin[])[] = [vue(), vueJsx()]
 
   //打包分析视图
-  vitePlugins.push(require('tailwindcss'))
-  vitePlugins.push(require('autoprefixer'))
-
-  //打包分析视图
   vitePlugins.push(visualizer())
 
   //自动注册组件
