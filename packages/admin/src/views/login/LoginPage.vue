@@ -1,22 +1,17 @@
 <template>
-  <div class="login flex justify-center items-center">
+  <div class="login h-screen flex justify-center items-center">
     <div class="content">
       <div class="login_card ml-auto p-4">
         <div class="text-center text-2xl mb-4">登录</div>
-        <el-form
-          ref="ruleFormRef"
-          :model="loginForm"
-          :rules="rules"
-          style="max-width: 460px"
-        >
-          <el-form-item prop="account">
+        <el-form ref="ruleFormRef" :model="loginForm">
+          <el-form-item prop="account" class="mt-8">
             <el-input
               @keyup.enter="login(ruleFormRef)"
               placeholder="请输入用户名"
               v-model.trim="loginForm.account"
             />
           </el-form-item>
-          <el-form-item prop="password">
+          <el-form-item prop="password" class="mt-8">
             <el-input
               @keyup.enter="login(ruleFormRef)"
               type="password"
@@ -24,7 +19,7 @@
               v-model.trim="loginForm.password"
             />
           </el-form-item>
-          <el-form-item prop="captcha">
+          <el-form-item prop="captcha" class="mt-8">
             <el-input
               placeholder="验证码"
               @keyup.enter="login(ruleFormRef)"
@@ -96,8 +91,6 @@ const login = async (val: any) => {
 
 <style scoped lang="scss">
 .login {
-  width: 100vw;
-  height: 100vh;
   background-image: url('../../assets/images/login-bg.png');
   background-size: cover;
 }
