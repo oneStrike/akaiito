@@ -150,6 +150,7 @@
     "useBrowserLocation": "readonly",
     "useCached": "readonly",
     "useClipboard": "readonly",
+    "useClipboardItems": "readonly",
     "useCloned": "readonly",
     "useColorMode": "readonly",
     "useConfirmDialog": "readonly",
@@ -301,7 +302,6 @@
     "watchThrottled": "readonly",
     "watchTriggerable": "readonly",
     "watchWithFilter": "readonly",
-    "whenever": "readonly",
-    "useClipboardItems": "readonly"
+    "whenever": "readonly"
   }
 }

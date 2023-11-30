@@ -5,3 +5,4 @@ dist
 .history
 .idea
 /src/types
+/postcss.config.js
