@@ -1,0 +1,24 @@
+{
+    "$schema": "node_modules/api-refs/api-refs.schema.json",
+    "version": "1.1.5",
+    "datasource": "apifox",
+    "output": {
+        "language": "ts",
+        "dir": "./src/apis",
+        "appendIndex": true,
+        "resultTypeFormatter": "Promise<{intf}['data']>",
+        "applyImportStatements": "import { httpClient } from '@/utils/request'"
+    },
+    "apifox": {
+        "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDM3ODE3LCJ0cyI6IjM2ZjMwNGQwYjgwZGRkYTgiLCJpYXQiOjE3MDE1MzM3OTU2ODN9.W-sGjb62cjhoPxXBFeIWJkmy1ph7LhxHEG7fqUYVQgs",
+        "project": { "id": 3418649, "name": "Aakiito2.0" },
+        "catalog": [
+            { "id": 23068570, "name": "open" },
+            { "id": 23213174, "name": "管理端" }
+        ],
+        "usage": [
+            { "id": 23068570, "name": "open", "map": "openApis" },
+            { "id": 23213174, "name": "管理端", "map": "adminApis" }
+        ]
+    }
+}

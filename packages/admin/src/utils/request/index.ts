@@ -1,7 +1,7 @@
-import { HttpClient } from '@/utils/request'
+import { HttpClient } from '@/utils/request/request'
 import type { IterateObject } from '@typings/index'
 import { useMessage } from '@/hooks/useFeedback'
-import type { AxiosError } from 'axios'
+import type { AxiosError, AxiosRequestConfig } from 'axios'
 
 interface ResponseData {
   data: IterateObject
@@ -23,9 +23,21 @@ const response = (data: any) => {
   }
 }
 
-export const httpClient = new HttpClient({
+const http = new HttpClient({
   loading: false,
   baseURL: import.meta.env.VITE_BASE_URL,
   responseInterceptor: response,
   responseInterceptorError: responseError
 })
+
+export const httpClient = <T>(axiosConfig: AxiosRequestConfig): Promise<T> => {
+  if (axiosConfig.method === 'GET') {
+    return http.get<T>({
+      ...axiosConfig
+    })
+  } else {
+    return http.post<T>({
+      ...axiosConfig
+    })
+  }
+}

@@ -3,7 +3,7 @@
     <div class="content">
       <div class="login_card ml-auto p-4">
         <div class="text-center text-2xl mb-4">登录</div>
-        <el-form ref="ruleFormRef" :model="loginForm">
+        <el-form ref="ruleFormRef" :model="loginForm" :rules="rules">
           <el-form-item prop="account" class="mt-8">
             <el-input
               @keyup.enter="login(ruleFormRef)"
@@ -27,8 +27,8 @@
               v-model.trim="loginForm.captcha"
             ></el-input>
             <img
-              v-if="captchaSrc"
-              :src="captchaSrc"
+              v-if="captchaInfo.data"
+              :src="captchaInfo.data"
               v-debounce="{
                 type: 'click',
                 delay: 200,
@@ -65,6 +65,7 @@
 
 <script lang="ts" setup>
 import { useValidate } from '@/hooks/useValidate'
+import { getCaptcha } from '@/apis/openApis'
 
 const ruleFormRef = ref()
 
@@ -80,9 +81,15 @@ const rules = reactive({
   captcha: useValidate.required('验证码')
 })
 
-const captchaSrc = ref('')
+const captchaInfo = ref({
+  id: '',
+  data: ''
+})
 const submitLoading = ref(false)
-const getCaptcha = async () => {}
+
+getCaptcha().then((res) => {
+  captchaInfo.value = res
+})
 
 const login = async (val: any) => {
   console.log('🚀 ~ file:LoginPage method:login line:92 -----', val)

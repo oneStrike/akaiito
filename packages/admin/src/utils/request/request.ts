@@ -45,7 +45,7 @@ export class HttpClient {
         .request(config)
         .then((res) => {
           if (config.responseInterceptor) config.responseInterceptor(res)
-          resolve(res.data)
+          resolve(res.data.data as T)
         })
         .catch((err) => {
           if (this.options.responseInterceptorError) {
