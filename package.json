@@ -23,7 +23,6 @@
   "license": "ISC",
   "devDependencies": {
     "@commitlint/config-conventional": "^17.8.1",
-    "@types/lodash-es": "^4.17.12",
     "@types/node": "^20.10.2",
     "commitizen": "^4.3.0",
     "commitlint": "^17.8.1",
