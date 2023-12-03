@@ -43,6 +43,11 @@ default:
       - .dockerignore
 
 .docker_job:
+  artifacts:
+    paths:
+      - packages/$CURRENT_PROJECT/dist/
+      - packages/utils/dist/
+      - .dockerignore
   after_script:
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker rm -f $CURRENT_IMAGE || true
@@ -154,4 +159,4 @@ run_server_job:
   extends:
     - .server
   script:
-    - docker run -d -p 81:80 --add-host akaiito:172.26.95.99 $CURRENT_IMAGE
+    - docker run -d -p 81:80 --add-host akaiito:172.17.0.1 $CURRENT_IMAGE
