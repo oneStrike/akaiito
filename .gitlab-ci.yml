@@ -155,4 +155,4 @@ run_server_job:
   extends:
     - .server
   script:
-    - docker run --add-host akaiito:172.0.0.1 -d -p 7001:7001 $DOCKER_REGISTRY/$SERVER
+    - docker run --add-host akaiito:172.26.95.99 -d -p 7001:7001 $DOCKER_REGISTRY/$SERVER
