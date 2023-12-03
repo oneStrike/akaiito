@@ -1,13 +1,13 @@
 import { Controller, Get, Inject } from '@midwayjs/core'
-import { CaptchaService } from '@midwayjs/captcha'
+import { CaptchaService } from '../../../base/service/captcha.service'
 
 @Controller('/open/captcha')
 export class CaptchaController {
   @Inject()
   captchaServer: CaptchaService
 
-  @Get('/getCaptcha')
+  @Get('/getCaptcha', { summary: '获取验证码' })
   async getCaptcha() {
-    return await this.captchaServer.formula()
+    return await this.captchaServer.getCaptcha()
   }
 }
