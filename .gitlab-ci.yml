@@ -43,11 +43,6 @@ default:
       - .dockerignore
 
 .docker_job:
-  artifacts:
-    paths:
-      - packages/$CURRENT_PROJECT/dist/
-      - packages/utils/dist/
-      - .dockerignore
   after_script:
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker rm -f $CURRENT_IMAGE || true
@@ -97,6 +92,11 @@ admin_docker:
     CURRENT_IMAGE_STAGE: 'admin'
   script:
     - echo $CURRENT_IMAGE
+  artifacts:
+    paths:
+      - packages/$CURRENT_PROJECT/dist/
+      - packages/utils/dist/
+      - .dockerignore
 
 client_build:
   stage: build
@@ -118,6 +118,11 @@ client_docker:
   variables:
     CURRENT_IMAGE: $DOCKER_REGISTRY/$CLIENT
     CURRENT_IMAGE_STAGE: 'client'
+  artifacts:
+    paths:
+      - packages/$CURRENT_PROJECT/dist/
+      - packages/utils/dist/
+      - .dockerignore
 
 server_build:
   stage: build
@@ -139,6 +144,11 @@ server_docker:
   variables:
     CURRENT_IMAGE: $DOCKER_REGISTRY/$SERVER
     CURRENT_IMAGE_STAGE: 'server'
+  artifacts:
+    paths:
+      - packages/$CURRENT_PROJECT/dist/
+      - packages/utils/dist/
+      - .dockerignore
 
 run_admin_job:
   stage: run
