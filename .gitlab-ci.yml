@@ -30,7 +30,7 @@ default:
       - Dockerfile
 
 .build_job:
-  image: node:18-alpine
+  image: node:16.20.0-alpine
   after_script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
