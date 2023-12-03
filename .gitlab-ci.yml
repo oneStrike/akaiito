@@ -45,7 +45,9 @@ default:
 .docker_job:
   after_script:
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
-    - docker rmi -f $CURRENT_IMAGE && docker ps | grep $CURRENT_IMAGE && docker stop $1 && ocker rm -f $1 || true
+    - docker ps | grep $CURRENT_IMAGE | awk '{print $1}' | xargs docker stop
+    - docker ps | grep $CURRENT_IMAGE | awk '{print $1}' | xargs docker rm
+    - docker rmi -f $CURRENT_IMAGE
     - docker build . --target $CURRENT_IMAGE_STAGE --tag $CURRENT_IMAGE
     - docker tag $CURRENT_IMAGE $CURRENT_IMAGE:latest
     - docker push $CURRENT_IMAGE:latest
