@@ -10,7 +10,6 @@
     "config/index.ts"
   ],
   "exclude": ["src/**/__tests__/*"],
-  "moduleResolution": "node",
   "compilerOptions": {
     "composite": true,
     "baseUrl": "./",
