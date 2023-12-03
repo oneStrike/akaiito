@@ -45,6 +45,7 @@ default:
 .docker_job:
   after_script:
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
+    - docker stop $CURRENT_IMAGE || true
     - docker rm -f $CURRENT_IMAGE || true
     - docker rmi -f $CURRENT_IMAGE || true
     - docker build . --target $CURRENT_IMAGE_STAGE --tag $CURRENT_IMAGE
