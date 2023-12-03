@@ -29,11 +29,6 @@ default:
       - .gitlab-ci.yml
       - .dockerignore
       - Dockerfile
-  only:
-    changes:
-      - .gitlab-ci.yml
-      - Dockerfile
-      - ./package.json
 
 .build_job:
   image: node:16.20.0-alpine
@@ -60,16 +55,22 @@ default:
   only:
     changes:
       - packages/admin/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
 
 .client:
   only:
     changes:
       - packages/client/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
 
 .server:
   only:
     changes:
       - packages/server/**/*
+      - .gitlab-ci.yml
+      - Dockerfile
 
 admin_build:
   stage: build
