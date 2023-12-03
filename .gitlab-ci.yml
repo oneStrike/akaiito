@@ -27,20 +27,25 @@ default:
   artifacts:
     paths:
       - .gitlab-ci.yml
+      - .dockerignore
       - Dockerfile
+  only:
+    changes:
+      - .gitlab-ci.yml
+      - Dockerfile
+      - ./package.json
 
 .build_job:
   image: node:16.20.0-alpine
   after_script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
+    - pnpm install -F @akaiito/$CURRENT_PROJECT --no-frozen-lockfile
     - pnpm -C packages/$CURRENT_PROJECT build
   artifacts:
     paths:
       - packages/$CURRENT_PROJECT/dist/
       - packages/utils/dist/
-      - .dockerignore
 
 .docker_job:
   after_script:
@@ -55,22 +60,16 @@ default:
   only:
     changes:
       - packages/admin/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 .client:
   only:
     changes:
       - packages/client/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 .server:
   only:
     changes:
       - packages/server/**/*
-      - .gitlab-ci.yml
-      - Dockerfile
 
 admin_build:
   stage: build
