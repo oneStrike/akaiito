@@ -34,7 +34,7 @@ default:
   after_script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
-    - pnpm install --no-frozen-lockfile -F @akaiito/$CURRENT_PROJECT
+    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
     - pnpm -C packages/$CURRENT_PROJECT build
   artifacts:
     paths:
