@@ -57,6 +57,7 @@ default:
       - packages/admin/**/*
       - .gitlab-ci.yml
       - Dockerfile
+      - packages.json
 
 .client:
   only:
@@ -64,6 +65,7 @@ default:
       - packages/client/**/*
       - .gitlab-ci.yml
       - Dockerfile
+      - packages.json
 
 .server:
   only:
@@ -71,6 +73,7 @@ default:
       - packages/server/**/*
       - .gitlab-ci.yml
       - Dockerfile
+      - packages.json
 
 admin_build:
   stage: build
