@@ -139,7 +139,7 @@ run_admin_job:
   extends:
     - .admin
   script:
-    - docker run -d -p 81:80 $DOCKER_REGISTRY/$ADMIN
+    - docker run -d -p 80:80 $DOCKER_REGISTRY/$ADMIN
 
 run_client_job:
   stage: run
