@@ -29,12 +29,8 @@
             <img
               v-if="captchaInfo.data"
               :src="captchaInfo.data"
-              v-debounce="{
-                type: 'click',
-                delay: 200,
-                fn: getCaptcha
-              }"
-              class="captcha_img"
+              class="captcha_img ml-8"
+              @click="getCaptchaFn"
             />
           </el-form-item>
           <el-form-item>
@@ -43,16 +39,11 @@
           <el-form-item>
             <el-button
               v-if="ruleFormRef"
-              v-debounce="{
-                type: 'click',
-                delay: 200,
-                fn: login,
-                params: ruleFormRef
-              }"
               class="login_btn"
               :loading="submitLoading"
               round
               type="primary"
+              @click="login"
               >登录
             </el-button>
           </el-form-item>
@@ -72,7 +63,8 @@ const ruleFormRef = ref()
 const loginForm = reactive({
   account: '',
   password: '',
-  captcha: ''
+  captcha: '',
+  captchaId: ''
 })
 
 const rules = reactive({
@@ -87,12 +79,17 @@ const captchaInfo = ref({
 })
 const submitLoading = ref(false)
 
-getCaptcha().then((res) => {
-  captchaInfo.value = res
-})
+const getCaptchaFn = useDebounceFn(async () => {
+  captchaInfo.value = await getCaptcha()
+}, 500)
+getCaptchaFn()
 
-const login = async (val: any) => {
-  console.log('🚀 ~ file:LoginPage method:login line:92 -----', val)
+const login = async () => {
+  await ruleFormRef.value.validate((valid: boolean) => {
+    if (!valid) return
+    submitLoading.value = true
+    loginForm.captchaId = captchaInfo.value.id
+  })
 }
 </script>
 

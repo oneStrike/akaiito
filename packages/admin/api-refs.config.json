@@ -7,6 +7,7 @@
         "dir": "./src/apis",
         "appendIndex": true,
         "resultTypeFormatter": "Promise<{intf}['data']>",
+        "filterGlobalParams": ["data"],
         "applyImportStatements": "import { httpClient } from '@/utils/request'"
     },
     "apifox": {
@@ -14,11 +15,11 @@
         "project": { "id": 3418649, "name": "Aakiito2.0" },
         "catalog": [
             { "id": 23068570, "name": "open" },
-            { "id": 23213174, "name": "管理端" }
+            { "id": 23213174, "name": "管理端", "children": [{ "id": 25637540, "name": "用户" }] }
         ],
         "usage": [
             { "id": 23068570, "name": "open", "map": "openApis" },
-            { "id": 23213174, "name": "管理端", "map": "adminApis" }
+            { "id": 23213174, "name": "管理端", "relate": true, "map": "adminApis" }
         ]
     }
 }

@@ -4,15 +4,15 @@ import { httpClient } from '@/utils/request'
 /* @util <api-refs@1.1.5> */
 /* @datasouce apifox */
 /* @total 1 */
-/* @projects
-   - [Aakiito2.0](https://www.apifox.cn/web/project/3418649)
+/* @projects 
+   - [Aakiito2.0](https://www.apifox.cn/web/project/3418649)  
  */
 
 /**
  * response | 获取验证码
  *
  * @function getCaptcha
- * @status (200) 成功l
+ * @status (200) 成功
  * @responseType json
  */
 export interface IGetCaptchaResponse {
