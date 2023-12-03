@@ -5,7 +5,7 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "module": "ESNext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "baseUrl": "./",
     "types": ["node", "vite/client"],
     "paths": {

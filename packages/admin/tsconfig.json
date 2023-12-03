@@ -19,7 +19,7 @@
     "types": ["node", "vite/client"],
     "noImplicitAny": false,
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,

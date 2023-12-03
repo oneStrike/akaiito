@@ -6,14 +6,14 @@
         <el-form ref="ruleFormRef" :model="loginForm" :rules="rules">
           <el-form-item prop="account" class="mt-8">
             <el-input
-              @keyup.enter="login(ruleFormRef)"
+              @keyup.enter="login"
               placeholder="请输入用户名"
               v-model.trim="loginForm.account"
             />
           </el-form-item>
           <el-form-item prop="password" class="mt-8">
             <el-input
-              @keyup.enter="login(ruleFormRef)"
+              @keyup.enter="login"
               type="password"
               placeholder="请输入密码"
               v-model.trim="loginForm.password"
@@ -22,7 +22,7 @@
           <el-form-item prop="captcha" class="mt-8">
             <el-input
               placeholder="验证码"
-              @keyup.enter="login(ruleFormRef)"
+              @keyup.enter="login"
               style="width: 140px"
               v-model.trim="loginForm.captcha"
             ></el-input>
