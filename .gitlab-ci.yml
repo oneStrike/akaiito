@@ -140,18 +140,18 @@ run_admin_job:
   extends:
     - .admin
   script:
-    - docker run -d -p 81:80 $CURRENT_IMAGE
+    - docker run -d -p 81:80 $DOCKER_REGISTRY/$ADMIN
 
 run_client_job:
   stage: run
   extends:
     - .client
   script:
-    - docker run -d -p 82:80 $CURRENT_IMAGE
+    - docker run -d -p 82:80 $DOCKER_REGISTRY/$CLIENT
 
 run_server_job:
   stage: run
   extends:
     - .server
   script:
-    - docker run -d -p 81:80 --add-host akaiito:172.17.0.1 $CURRENT_IMAGE
+    - docker run --add-host akaiito:172.0.0.1 -d -p 7001:7001 $DOCKER_REGISTRY/$SERVER
