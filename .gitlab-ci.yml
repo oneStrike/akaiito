@@ -26,6 +26,7 @@ default:
       - Dockerfile
 
 .build_job:
+  image: registry.cn-hangzhou.aliyuncs.com/asherith/docker
   after_script:
     - pnpm config set registry $PNPM_REGISTRY
     - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
