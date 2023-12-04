@@ -23,7 +23,7 @@ default:
     paths:
       - .gitlab-ci.yml
       - .dockerignore
-      - D00000000000111111ockerfile
+      - Dockerfile
 
 .build_job:
   after_script:
