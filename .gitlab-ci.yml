@@ -7,10 +7,6 @@ variables:
   ADMIN: 'asherith/admin'
   CLIENT: 'asherith/client'
   SERVER: 'asherith/server'
-  PNPM_REGISTRY: 'https://registry.npmmirror.com'
-  DOCKER_REGISTRY: 'registry.cn-hangzhou.aliyuncs.com'
-  DOCKER_USER: 'Asherith'
-  DOCKER_PASS: 'li259158'
   CURRENT_PROJECT: ''
   CURRENT_IMAGE: ''
   CURRENT_IMAGE_STAGE: ''
@@ -19,7 +15,6 @@ cache:
   key: cache-$CI_COMMIT_REF_NAME
   paths:
     - node_modules/
-    - pnpm-lock.yaml
 
 default:
   tags:
@@ -28,14 +23,13 @@ default:
     paths:
       - .gitlab-ci.yml
       - .dockerignore
-      - Dockerfile
+      - D00000000000111111ockerfile
 
 .build_job:
-  image: node:16.20.0-alpine
   after_script:
     - corepack enable
     - pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F @akaiito/$CURRENT_PROJECT --no-frozen-lockfile
+    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
     - pnpm -C packages/$CURRENT_PROJECT build
   artifacts:
     paths:
