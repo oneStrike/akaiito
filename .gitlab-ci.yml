@@ -1,12 +1,7 @@
 stages:
   - build
-  - docker
-  - run
 
 variables:
-  ADMIN: 'asherith/admin'
-  CLIENT: 'asherith/client'
-  SERVER: 'asherith/server'
   CURRENT_PROJECT: ''
   CURRENT_IMAGE: ''
   CURRENT_IMAGE_STAGE: ''
@@ -19,134 +14,174 @@ cache:
 default:
   tags:
     - akaiito
-  artifacts:
-    paths:
-      - .gitlab-ci.yml
-      - .dockerignore
-      - Dockerfile
 
 .build_job:
-  image: registry.cn-hangzhou.aliyuncs.com/asherith/docker
-  after_script:
-    - pnpm config set registry $PNPM_REGISTRY
-    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile
-    - pnpm -C packages/$CURRENT_PROJECT build
-  artifacts:
-    paths:
-      - packages/$CURRENT_PROJECT/dist/
-      - packages/utils/dist/
+before_script:
+  - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile && pnpm run -C packages/$CURRENT_PROJECT build
+  - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
+  - docker rm -f $CURRENT_PROJECT || true && docker rmi -f $CURRENT_IMAGE || true
+  - docker build . --target $CURRENT_PROJECT --tag $CURRENT_IMAGE
+  - docker tag $CURRENT_IMAGE $CURRENT_IMAGE:latest
+  - docker push $CURRENT_IMAGE:latest
 
-.docker_job:
-  after_script:
-    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
-    - docker ps | grep $CURRENT_IMAGE | awk '{print $1}' | xargs docker stop
-    - docker ps | grep $CURRENT_IMAGE | awk '{print $1}' | xargs docker rm
-    - docker rmi -f $CURRENT_IMAGE
-    - docker build . --target $CURRENT_IMAGE_STAGE --tag $CURRENT_IMAGE
-    - docker tag $CURRENT_IMAGE $CURRENT_IMAGE:latest
-    - docker push $CURRENT_IMAGE:latest
-
-.admin:
+admin_jon:
+  stage: build
+  extends:
+    - .build_job
+  script:
+    - docker run --restart always -d -p 80:80 --name $CURRENT_PROJECT $CURRENT_IMAGE
+  variables:
+    CURRENT_PROJECT: 'admin'
+    CURRENT_IMAGE: $DOCKER_REGISTRY/asherith/admin
   only:
     changes:
       - packages/admin/**/*
       - .gitlab-ci.yml
       - Dockerfile
+      - ./package.json
 
-.client:
+client_jon:
+  stage: build
+  extends:
+    - .build_job
+  script:
+    - docker run --restart always -d -p 82:80 --name $CURRENT_PROJECT $CURRENT_IMAGE
+  variables:
+    CURRENT_PROJECT: 'client'
+    CURRENT_IMAGE: $DOCKER_REGISTRY/asherith/client
   only:
     changes:
       - packages/client/**/*
       - .gitlab-ci.yml
       - Dockerfile
+      - ./package.json
 
-.server:
+server_jon:
+  stage: build
+  extends:
+    - .build_job
+  script:
+    - docker run --restart always --add-host akaiito:172.20.139.43 -d -p 7001:7001 --name $CURRENT_PROJECT $CURRENT_IMAGE
+  variables:
+    CURRENT_PROJECT: 'server'
+    CURRENT_IMAGE: $DOCKER_REGISTRY/asherith/server
   only:
     changes:
       - packages/server/**/*
       - .gitlab-ci.yml
       - Dockerfile
-
-admin_build:
-  stage: build
-  extends:
-    - .build_job
-    - .admin
-  script:
-    - echo $CURRENT_PROJECT
-  variables:
-    CURRENT_PROJECT: 'admin'
-
-admin_docker:
-  stage: docker
-  extends:
-    - .admin
-    - .docker_job
-  variables:
-    CURRENT_IMAGE: $DOCKER_REGISTRY/$ADMIN
-    CURRENT_IMAGE_STAGE: 'admin'
-  script:
-    - echo $CURRENT_IMAGE
-
-client_build:
-  stage: build
-  extends:
-    - .build_job
-    - .client
-  script:
-    - echo $CURRENT_PROJECT
-  variables:
-    CURRENT_PROJECT: 'client'
-
-client_docker:
-  stage: docker
-  extends:
-    - .client
-    - .docker_job
-  script:
-    - echo $CURRENT_IMAGE
-  variables:
-    CURRENT_IMAGE: $DOCKER_REGISTRY/$CLIENT
-    CURRENT_IMAGE_STAGE: 'client'
-
-server_build:
-  stage: build
-  extends:
-    - .build_job
-    - .server
-  script:
-    - echo $CURRENT_PROJECT
-  variables:
-    CURRENT_PROJECT: 'server'
-
-server_docker:
-  stage: docker
-  extends:
-    - .server
-    - .docker_job
-  script:
-    - echo $CURRENT_IMAGE
-  variables:
-    CURRENT_IMAGE: $DOCKER_REGISTRY/$SERVER
-    CURRENT_IMAGE_STAGE: 'server'
-
-run_admin_job:
-  stage: run
-  extends:
-    - .admin
-  script:
-    - docker run -d -p 80:80 $DOCKER_REGISTRY/$ADMIN
-
-run_client_job:
-  stage: run
-  extends:
-    - .client
-  script:
-    - docker run -d -p 82:80 $DOCKER_REGISTRY/$CLIENT
-
-run_server_job:
-  stage: run
-  extends:
-    - .server
-  script:
-    - docker run --add-host akaiito:172.26.95.99 -d -p 7001:7001 $DOCKER_REGISTRY/$SERVER
+      - ./package.json
+#.docker_job:
+# after_script:
+# - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
+# - docker ps | grep $DOCKER_REGISTRY/asherith/$CURRENT_PROJECT | awk '{print $1}' | xargs docker stop
+# - docker ps -a | grep $DOCKER_REGISTRY/asherith/$CURRENT_PROJECT | awk '{print $1}' | xargs docker rm
+# - docker rmi -f $CURRENT_IMAGE
+# - docker build . --target $CURRENT_IMAGE_STAGE --tag $CURRENT_IMAGE
+# - docker tag $CURRENT_IMAGE $CURRENT_IMAGE:latest
+# - docker push $CURRENT_IMAGE:latest
+#
+#.admin:
+# only:
+# changes:
+# - packages/admin/**/*
+# - .gitlab-ci.yml
+# - Dockerfile
+#
+#.client:
+# only:
+# changes:
+# - packages/client/**/*
+# - .gitlab-ci.yml
+# - Dockerfile
+#
+#.server:
+# only:
+# changes:
+# - packages/server/**/*
+# - .gitlab-ci.yml
+# - Dockerfile
+#
+#admin_build:
+# stage: build
+# extends:
+# - .build_job
+# - .admin
+# script:
+# - echo $DOCKER_USER
+# variables:
+# CURRENT_PROJECT: 'admin'
+#
+#admin_docker:
+# stage: docker
+# extends:
+# - .admin
+# - .docker_job
+# variables:
+# CURRENT_IMAGE: $DOCKER_REGISTRY/$ADMIN
+# CURRENT_IMAGE_STAGE: 'admin'
+# script:
+# - echo $CURRENT_IMAGE
+#
+#client_build:
+# stage: build
+# extends:
+# - .build_job
+# - .client
+# script:
+# - echo $CURRENT_PROJECT
+# variables:
+# CURRENT_PROJECT: 'client'
+#
+#client_docker:
+# stage: docker
+# extends:
+# - .client
+# - .docker_job
+# script:
+# - echo $CURRENT_IMAGE
+# variables:
+# CURRENT_IMAGE: $DOCKER_REGISTRY/$CLIENT
+# CURRENT_IMAGE_STAGE: 'client'
+#
+#server_build:
+# stage: build
+# extends:
+# - .build_job
+# - .server
+# script:
+# - echo $CURRENT_PROJECT
+# variables:
+# CURRENT_PROJECT: 'server'
+#
+#server_docker:
+# stage: docker
+# extends:
+# - .server
+# - .docker_job
+# script:
+# - echo $CURRENT_IMAGE
+# variables:
+# CURRENT_IMAGE: $DOCKER_REGISTRY/$SERVER
+# CURRENT_IMAGE_STAGE: 'server'
+#
+#run_admin_job:
+# stage: run
+# extends:
+# - .admin
+# script:
+# - docker run -d -p 80:80 $DOCKER_REGISTRY/$ADMIN
+#
+#run_client_job:
+# stage: run
+# extends:
+# - .client
+# script:
+# - docker run -d -p 82:80 $DOCKER_REGISTRY/$CLIENT
+#
+#run_server_job:
+# stage: run
+# extends:
+# - .server
+# script:
+# - docker run --add-host akaiito:172.26.95.99 -d -p 7001:7001 $DOCKER_REGISTRY/$SERVER
