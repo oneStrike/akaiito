@@ -1,10 +1,4 @@
-import {
-  Configuration,
-  App,
-  IMidwayContainer,
-  ILogger,
-  Logger
-} from '@midwayjs/core'
+import { Configuration, App, ILogger, Logger } from '@midwayjs/core'
 import * as koa from '@midwayjs/koa'
 import * as validate from '@midwayjs/validate'
 import * as info from '@midwayjs/info'
@@ -33,14 +27,14 @@ export class MainConfiguration {
   @Logger()
   logger: ILogger
 
-  async onReady(container: IMidwayContainer) {
-    this.registerPrisma(container)
+  async onReady() {
+    this.registerPrisma()
 
     this.app.useMiddleware([ReportMiddleware])
     this.app.useFilter([ExceptionFilter])
   }
 
-  private registerPrisma(container: IMidwayContainer) {
+  private registerPrisma() {
     const prisma = new PrismaClient({
       log: [{ level: 'query', emit: 'event' }]
     })

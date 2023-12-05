@@ -39,6 +39,7 @@ export class AkaiitoPrisma extends PrismaClient {
         }
       }
     })
+
     return this.prisma
   }
 }
