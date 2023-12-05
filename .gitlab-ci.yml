@@ -62,7 +62,7 @@ server_jon:
   extends:
     - .build_job
   script:
-    - docker run --restart always --add-host akaiito:172.20.139.43 -d -p 7001:7001 --name $CURRENT_PROJECT $CURRENT_IMAGE
+    - docker run --restart always --add-host akaiito:172.26.95.99 -d -p 7001:7001 --name $CURRENT_PROJECT $CURRENT_IMAGE
   variables:
     CURRENT_PROJECT: 'server'
     CURRENT_IMAGE: $DOCKER_REGISTRY/asherith/server
