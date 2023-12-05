@@ -23,6 +23,7 @@ export abstract class BaseService<T> {
 
   // 创建数据
   public async create(data: Partial<T>): Promise<T> {
+    console.log('🚀 ~ file:base.service method:create line:26 -----', data)
     return await this.model.create({ data })
   }
 
@@ -57,13 +58,6 @@ export abstract class BaseService<T> {
   ): FindPageResponse<T> {
     // 合并分页配置
     const { pageIndex, pageSize, orderBy, where } = this.pagination(options)
-    console.log(
-      '🚀 ~ file:base.service method:findPage line:60 -----',
-      pageIndex,
-      pageSize,
-      orderBy,
-      where
-    )
     // 查询选项
     const findOptions = this.mergeCommonQuery({
       where,

@@ -2,7 +2,7 @@ import {
   Configuration,
   App,
   IMidwayContainer,
-  IMidwayLogger,
+  ILogger,
   Logger
 } from '@midwayjs/core'
 import * as koa from '@midwayjs/koa'
@@ -31,7 +31,7 @@ export class MainConfiguration {
   app: koa.Application
 
   @Logger()
-  readonly logger: IMidwayLogger
+  logger: ILogger
 
   async onReady(container: IMidwayContainer) {
     this.registerPrisma(container)
@@ -42,21 +42,11 @@ export class MainConfiguration {
 
   private registerPrisma(container: IMidwayContainer) {
     const prisma = new PrismaClient({
-      log: [{ emit: 'event', level: 'query' }]
+      log: [{ level: 'query', emit: 'event' }]
     })
-    prisma.$connect()
-    // 输出查询日志
+
     prisma.$on('query', (e) => {
-      this.logger.info(
-        'Query: %s , params: %s , duration: %d ms',
-        e.query,
-        e.params,
-        e.duration
-      )
+      console.log(e)
     })
-    // prisma.$on('query', (event) => {
-    // console.log(event);
-    // });
-    container.registerObject('prisma', prisma)
   }
 }
