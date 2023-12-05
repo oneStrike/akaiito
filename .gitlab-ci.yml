@@ -11,16 +11,14 @@ cache:
   paths:
     - node_modules/
 
-before_script:
-  - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
-
 default:
   tags:
     - akaiito
 
 .build_job:
   before_script:
-    - pnpm install -F @akaiito/$CURRENT_PROJECT --frozen-lockfile && pnpm run -C packages/$CURRENT_PROJECT build
+    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
+    - pnpm install --filter @akaiito/$CURRENT_PROJECT --frozen-lockfile && pnpm run -C packages/$CURRENT_PROJECT build
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker rm -f $CURRENT_PROJECT || true && docker rmi -f $CURRENT_IMAGE || true
     - docker build . --target $CURRENT_PROJECT --tag $CURRENT_IMAGE
