@@ -23,12 +23,12 @@ export class RegisterPrisma {
       ]
     })
 
-    prisma.$on('query', (e) => {
+    prisma.$on('query', ({ query, params, duration }) => {
       this.logger.info(
         'Query: %s , params: %s , duration: %d ms',
-        e.query,
-        e.params,
-        e.duration
+        query,
+        params,
+        duration
       )
     })
 

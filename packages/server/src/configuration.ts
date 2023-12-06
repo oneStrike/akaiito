@@ -9,6 +9,7 @@ import {
 import * as koa from '@midwayjs/koa'
 import * as validate from '@midwayjs/validate'
 import * as info from '@midwayjs/info'
+import * as jwt from '@midwayjs/jwt'
 import { join } from 'path'
 import * as captcha from '@midwayjs/captcha'
 import { ReportMiddleware } from './middleware/report.middleware'
@@ -18,6 +19,7 @@ import { RegisterPrisma } from './prisma'
 @Configuration({
   imports: [
     koa,
+    jwt,
     captcha,
     validate,
     {
