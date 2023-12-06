@@ -33,7 +33,7 @@ export class MainConfiguration {
   @Logger()
   logger: ILogger
 
-  async onReady(container: IMidwayContainer) {
+  onReady(container: IMidwayContainer) {
     registerPrisma(container)
 
     this.app.useMiddleware([ReportMiddleware])
