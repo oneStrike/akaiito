@@ -16,7 +16,6 @@ export class LogService extends BaseService<AdminLog> {
   }
 
   async recordLogs(context: Context, report: ReportResult) {
-    console.log(context.req)
     const { path, method, header } = context
 
     const ip = utils.sysUtils.getReqIP(context)

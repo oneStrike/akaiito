@@ -3,7 +3,8 @@ import {
   App,
   ILogger,
   Logger,
-  IMidwayContainer
+  IMidwayContainer,
+  Inject
 } from '@midwayjs/core'
 import * as koa from '@midwayjs/koa'
 import * as validate from '@midwayjs/validate'
@@ -12,7 +13,7 @@ import { join } from 'path'
 import * as captcha from '@midwayjs/captcha'
 import { ReportMiddleware } from './middleware/report.middleware'
 import { ExceptionFilter } from './filter/exception.filter'
-import { registerPrisma } from './prisma/register'
+import { RegisterPrisma } from './prisma'
 
 @Configuration({
   imports: [
@@ -33,8 +34,11 @@ export class MainConfiguration {
   @Logger()
   logger: ILogger
 
+  @Inject()
+  registerPrisma: RegisterPrisma
+
   onReady(container: IMidwayContainer) {
-    registerPrisma(container)
+    this.registerPrisma.register(container)
 
     this.app.useMiddleware([ReportMiddleware])
     this.app.useFilter([ExceptionFilter])
