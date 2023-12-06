@@ -25,7 +25,6 @@ export const find = async <T>(
   const exclude = options.exclude || []
   delete options.exclude
   if (!options.orderBy) delete options.orderBy
-
   // 根据选项查找数据
   const result = await context.findMany(options)
   // 如果 timeSerialize 为 true，则序列化时间

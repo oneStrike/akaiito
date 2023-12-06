@@ -1,22 +1,22 @@
 import { Inject, Provide } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
-import { AdminLog } from '@prisma/client'
+import { AdminLog, PrismaClient } from '@prisma/client'
 
 import { ReportResult } from '@akaiito/typings/src'
 import { BaseService } from '../../../base/service/base.service'
-import { AkaiitoPrisma } from '../../../prisma'
 import { utils } from '../../../utils'
 
 @Provide()
 export class LogService extends BaseService<AdminLog> {
   @Inject()
-  prismaClient: AkaiitoPrisma
+  prismaClient: PrismaClient
 
   protected get model() {
     return this.prismaClient.adminLog
   }
 
   async recordLogs(context: Context, report: ReportResult) {
+    console.log(context.req)
     const { path, method, header } = context
 
     const ip = utils.sysUtils.getReqIP(context)

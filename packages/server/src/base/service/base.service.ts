@@ -23,7 +23,6 @@ export abstract class BaseService<T> {
 
   // 创建数据
   public async create(data: Partial<T>): Promise<T> {
-    console.log('🚀 ~ file:base.service method:create line:26 -----', data)
     return await this.model.create({ data })
   }
 
@@ -65,13 +64,11 @@ export abstract class BaseService<T> {
       skip: (pageIndex - 1) * pageSize,
       take: pageSize
     })
-
     // 并行查询总数和数据
     const [total, res] = await Promise.all([
       this.model.count(),
       this.model.find(findOptions, this.prismaConfig.timeSerialize)
     ])
-
     return {
       pageSize: res?.length ?? 0,
       pageIndex,
