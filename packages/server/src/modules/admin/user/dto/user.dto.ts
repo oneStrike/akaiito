@@ -20,11 +20,11 @@ export class UserDto {
   @Rule(validateString)
   mobile?: string
 
-  @Rule(givenValue([0, 1]))
-  status?: string
+  @Rule(givenValue([0, 1], false))
+  status?: number
 
-  @Rule(givenValue([0, 1]))
-  isRoot?: string
+  @Rule(givenValue([0, 1], false))
+  isRoot?: number
 }
 
 export class CreateUserDto extends OmitDto(UserDto, ['id']) {

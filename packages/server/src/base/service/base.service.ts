@@ -1,7 +1,10 @@
-import { App, Config, Context, Inject } from '@midwayjs/core'
+import { App, Config, Context, httpError, Inject } from '@midwayjs/core'
 import { Application } from '@midwayjs/koa'
 import type { PrismaConfig } from '../../typings/config/prisma'
-import type { FindPageResponse } from '../../typings/service/base.service'
+import {
+  FindPageResponse,
+  WhereOptions
+} from '../../typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
 import { utils } from '../../utils'
 
@@ -21,18 +24,28 @@ export abstract class BaseService<T> {
   // 抽象模型
   protected abstract model
 
+  //手动抛出一场
+  throwError(message: string) {
+    throw new httpError.BadRequestError(message)
+  }
+
+  //是否存在
+  async exists(where: WhereOptions<T>): Promise<boolean> {
+    return await this.model.isExists(where)
+  }
+
   // 创建数据
-  public async create(data: Partial<T>): Promise<T> {
+  async create(data: Partial<T>): Promise<T> {
     return await this.model.create({ data })
   }
 
   // 软删除
-  async softDeletion(where: Partial<T>) {
+  async softDeletion(where: WhereOptions<T>) {
     return await this.model.softDeletion(where)
   }
 
   // 根据ID查询数据
-  public async findById(id: number): Promise<T | null> {
+  async findById(id: number): Promise<T | null> {
     return await this.model.findUnique(
       this.mergeCommonQuery({
         where: {
@@ -43,7 +56,7 @@ export abstract class BaseService<T> {
   }
 
   // 根据条件查询唯一数据
-  public async findUnique(where: Partial<T>): Promise<T | null> {
+  async findUnique(where: WhereOptions<T>): Promise<T | null> {
     return await this.model.findUnique(
       this.mergeCommonQuery({
         where
@@ -52,8 +65,8 @@ export abstract class BaseService<T> {
   }
 
   // 分页查询
-  public async findPage(
-    options?: Partial<T> & PrismaConfig['pagination']
+  async findPage(
+    options?: WhereOptions<T> & PrismaConfig['pagination']
   ): FindPageResponse<T> {
     // 合并分页配置
     const { pageIndex, pageSize, orderBy, where } = this.pagination(options)
@@ -78,7 +91,7 @@ export abstract class BaseService<T> {
   }
 
   // 查询列表
-  public async findList(where?: Partial<T>) {
+  async findList(where?: WhereOptions<T>) {
     const result = await this.model.find(
       this.mergeCommonQuery({
         where,

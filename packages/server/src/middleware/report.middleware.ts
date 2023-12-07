@@ -16,7 +16,7 @@ export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
       const reportRes: ReportResult = {
         code: 200,
         status: 'success',
-        data: result,
+        data: result ?? null,
         desc: 'success'
       }
 

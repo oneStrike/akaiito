@@ -22,15 +22,14 @@ export class RegisterPrisma {
         { level: 'error', emit: 'event' }
       ]
     })
-
-    prisma.$on('query', ({ query, params, duration }) => {
-      this.logger.info(
-        'Query: %s , params: %s , duration: %d ms',
-        query,
-        params,
-        duration
-      )
-    })
+    // prisma.$on('query', ({ query, params, duration }) => {
+    //   this.logger.info(
+    //     'Query: %s , params: %s , duration: %d ms',
+    //     query,
+    //     params,
+    //     duration
+    //   )
+    // })
 
     const extendPrisma = prisma.$extends({
       name: 'exists',

@@ -20,6 +20,7 @@ export class ExceptionFilter {
         responseErrorInfo.desc = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
       }
     } else {
+      console.log('🚀 ~ file:exception.filter method:catch line:23 -----', err)
       responseErrorInfo.code = err.status
       switch (err.status) {
         case 400:
