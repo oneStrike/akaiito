@@ -12,7 +12,7 @@ const main = async () => {
         username: 'admin',
         mobile: '18888888888',
         password:
-          '3d94a1cf84755aa8.745c0d35f596335a342e9c2d3e15956e9de0a6a95ce18beea58f864940dae96a\n'
+          '345f6e158f1cff23.a1e6de188c81a24d350a110a34cec07886a1211fff4fcff2dd85f6ae82b4cf13'
       }
     })
   }
