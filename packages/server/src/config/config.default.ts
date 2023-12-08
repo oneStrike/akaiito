@@ -9,6 +9,7 @@ export default {
   jwt: {
     secret: 'akaiito',
     signOptions: { expiresIn: 1000 * 60 * 60 * 2 },
-    verifyOptions: { complete: true }
+    verifyOptions: { complete: true },
+    whiteList: ['/admin/user/login', '/open/captcha/getCaptcha']
   }
 } as MidwayConfig

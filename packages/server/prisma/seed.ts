@@ -11,8 +11,8 @@ const main = async () => {
       data: {
         username: 'admin',
         mobile: '18888888888',
-        nickname: '管理员',
-        password: '84bea2653fe3fd44e06e47e8fa419ad6'
+        password:
+          '3d94a1cf84755aa8.745c0d35f596335a342e9c2d3e15956e9de0a6a95ce18beea58f864940dae96a\n'
       }
     })
   }

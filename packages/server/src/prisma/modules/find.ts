@@ -43,3 +43,27 @@ export const find = async <T>(
 
   return result
 }
+
+export const findOne = async <T>(
+  context: any,
+  options: any,
+  timeSerialize: boolean
+): Promise<T> => {
+  const exclude = options.exclude || []
+  delete options.exclude
+  // 根据选项查找数据
+  const result = await context.findUnique(options)
+  if (timeSerialize || exclude.length) {
+    for (const resultKey in result) {
+      const item = result[resultKey]
+      if (exclude.includes(resultKey)) {
+        delete result[resultKey]
+      }
+      if (item instanceof Date && timeSerialize) {
+        result[resultKey] = formatDate(item)
+      }
+    }
+  }
+
+  return result
+}

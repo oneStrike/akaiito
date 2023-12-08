@@ -24,7 +24,7 @@ export abstract class BaseService<T> {
   // 抽象模型
   protected abstract model
 
-  //手动抛出一场
+  //手动抛出异常
   throwError(message: string) {
     throw new httpError.BadRequestError(message)
   }
@@ -46,7 +46,8 @@ export abstract class BaseService<T> {
 
   // 根据ID查询数据
   async findById(id: number): Promise<T | null> {
-    return await this.model.findUnique(
+    if (typeof id !== 'number') return null
+    return await this.model.findOne(
       this.mergeCommonQuery({
         where: {
           id
@@ -57,7 +58,7 @@ export abstract class BaseService<T> {
 
   // 根据条件查询唯一数据
   async findUnique(where: WhereOptions<T>): Promise<T | null> {
-    return await this.model.findUnique(
+    return await this.model.findOne(
       this.mergeCommonQuery({
         where
       })

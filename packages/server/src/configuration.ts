@@ -4,22 +4,26 @@ import {
   ILogger,
   Logger,
   IMidwayContainer,
-  Inject
+  Inject,
+  MidwayDecoratorService
 } from '@midwayjs/core'
 import * as koa from '@midwayjs/koa'
 import * as validate from '@midwayjs/validate'
 import * as info from '@midwayjs/info'
-import * as jwt from '@midwayjs/jwt'
 import { join } from 'path'
 import * as captcha from '@midwayjs/captcha'
 import { ReportMiddleware } from './middleware/report.middleware'
+import { JwtMiddleware } from './middleware/jwt.middleware'
 import { ExceptionFilter } from './filter/exception.filter'
 import { RegisterPrisma } from './prisma'
+import {
+  getUserInfoToToken,
+  USERINFO_KEY
+} from './decorator/userinfo.decorator'
 
 @Configuration({
   imports: [
     koa,
-    jwt,
     captcha,
     validate,
     {
@@ -39,10 +43,18 @@ export class MainConfiguration {
   @Inject()
   registerPrisma: RegisterPrisma
 
+  @Inject()
+  decoratorService: MidwayDecoratorService
+
   onReady(container: IMidwayContainer) {
     this.registerPrisma.register(container)
 
-    this.app.useMiddleware([ReportMiddleware])
+    this.app.useMiddleware([ReportMiddleware, JwtMiddleware])
     this.app.useFilter([ExceptionFilter])
+
+    this.decoratorService.registerMethodHandler(
+      USERINFO_KEY,
+      getUserInfoToToken
+    )
   }
 }

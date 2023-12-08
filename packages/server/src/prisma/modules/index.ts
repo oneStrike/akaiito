@@ -1,5 +1,5 @@
 import { exists } from './exists'
-import { find as prismaFind } from './find'
+import * as prismaFind from './find'
 import { softDeletion as prismaSoftDeletion } from './softDeletion'
 import { Prisma } from '@prisma/client/extension'
 
@@ -20,7 +20,16 @@ export const find = async function <T>(
   timeSerialize = true
 ) {
   const context = Prisma.getExtensionContext(this)
-  return await prismaFind(context, where, timeSerialize)
+  return await prismaFind.find(context, where, timeSerialize)
+}
+// 异步函数，根据给定的 where 条件查找数据，可选参数 timeSerialize 控制是否进行时间序列化
+export const findOne = async function <T>(
+  this: T,
+  where: PrismaWhere<T>,
+  timeSerialize = true
+) {
+  const context = Prisma.getExtensionContext(this)
+  return await prismaFind.findOne(context, where, timeSerialize)
 }
 
 // 异步函数，执行软删除操作，根据给定的 where 条件进行软删除
