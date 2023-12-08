@@ -65,18 +65,12 @@ export class UserService extends BaseService<AdminUser> {
     if (!userInfo.status) {
       this.throwError('账户已被禁用，请联系系统管理员')
     }
-    const tokenInfo = {
-      id: userInfo.id,
-      username: userInfo.username,
-      mobile: userInfo.mobile,
-      isRoot: userInfo.isRoot
-    }
     delete userInfo.password
     delete userInfo.deletedAt
     userInfo.createdAt = formatDate(userInfo.createdAt) as unknown as Date
     userInfo.updatedAt = formatDate(userInfo.updatedAt) as unknown as Date
     return {
-      token: await this.jwt.sign(tokenInfo),
+      token: await this.jwt.sign({ id: userInfo.id }),
       userInfo
     }
   }

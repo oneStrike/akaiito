@@ -11,6 +11,8 @@ export class ExceptionFilter {
       status: 'error',
       data: null
     } as ReportResult
+
+    ctx.logger.error(err)
     if (cause) {
       responseErrorInfo.code = 0
       const { context, type } = cause.details[0]
@@ -20,7 +22,6 @@ export class ExceptionFilter {
         responseErrorInfo.desc = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
       }
     } else {
-      console.log('🚀 ~ file:exception.filter method:catch line:23 -----', err)
       responseErrorInfo.code = err.status
       switch (err.status) {
         case 400:

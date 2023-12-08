@@ -19,14 +19,17 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
   resolve() {
     return async (ctx: Context, next: NextFunction) => {
       // 判断下有没有校验信息
-      if (!ctx.headers['authorization'] && !this.permit(ctx)) {
+      const permit = this.permit(ctx)
+      if (!ctx.headers['authorization'] && !permit) {
         throw new httpError.UnauthorizedError()
       }
-      const token = ctx.headers['authorization']
-      try {
-        await this.jwtService.verify(token)
-      } catch (e) {
-        throw new httpError.UnauthorizedError('登录状态失效')
+      if (!permit) {
+        const token = ctx.headers['authorization']
+        try {
+          await this.jwtService.verify(token)
+        } catch (e) {
+          throw new httpError.UnauthorizedError('登录状态失效')
+        }
       }
       await next()
     }
