@@ -2,7 +2,12 @@ import { App, Inject, Provide } from '@midwayjs/core'
 import { PrismaClient, AdminUser } from '@prisma/client'
 import { BaseService } from '../../../base/service/base.service'
 import { utils } from '../../../utils'
-import { CreateUserDto, UserLoginDto } from './dto/user.dto'
+import {
+  CreateUserDto,
+  UpdateUserPwd,
+  UserDto,
+  UserLoginDto
+} from './dto/user.dto'
 import { Jwt } from '../../../base/service/jwt.service'
 import { CaptchaService } from '../../../base/service/captcha.service'
 import { Application } from '@midwayjs/koa'
@@ -73,6 +78,34 @@ export class UserService extends BaseService<AdminUser> {
       token: await this.jwt.sign({ id: userInfo.id }),
       userInfo
     }
+  }
+
+  //更新用户信息
+  async updateUserInfo(userInfo: UserDto) {
+    const result = await this.updateById(userInfo.id, userInfo)
+    return result?.id || result
+  }
+
+  //修改用户密码
+  async updateUserPwd(userInfo: UpdateUserPwd) {
+    if (userInfo.newPassword !== userInfo.confirmNewPassword) {
+      this.throwError('密码输入不一致')
+    }
+    const oldUserInfo = await this.model.findUnique({
+      where: { id: userInfo.id }
+    })
+    if (!oldUserInfo) {
+      this.throwError('用户不存在')
+    }
+    if (
+      !(await this.diffPassword(userInfo.oldPassword, oldUserInfo.password))
+    ) {
+      this.throwError('原密码错误')
+    }
+
+    return this.updateById(userInfo.id, {
+      password: await utils.encryption(userInfo.newPassword)
+    })
   }
 
   //比对密码

@@ -35,6 +35,17 @@ export class CreateUserDto extends OmitDto(UserDto, ['id']) {
   confirmPassword!: string
 }
 
+export class UpdateUserPwd extends PickDto(UserDto, ['id']) {
+  @Rule(validatePwd)
+  oldPassword!: string
+
+  @Rule(validatePwd)
+  newPassword!: string
+
+  @Rule(validatePwd)
+  confirmNewPassword!: string
+}
+
 export class UserLoginDto extends PickDto(UserDto, ['mobile']) {
   @Rule(validatePwd)
   password!: string
@@ -44,4 +55,14 @@ export class UserLoginDto extends PickDto(UserDto, ['mobile']) {
 
   @Rule(requiredString)
   captchaId!: string
+}
+
+export class UserStatus extends PickDto(UserDto, ['id']) {
+  @Rule(givenValue([0, 1]))
+  status: number
+}
+
+export class UserPermissions extends PickDto(UserDto, ['id']) {
+  @Rule(givenValue([0, 1]))
+  isRoot: number
 }

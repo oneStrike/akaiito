@@ -39,6 +39,25 @@ export abstract class BaseService<T> {
     return await this.model.create({ data })
   }
 
+  //更新数据
+  async update(data: { where: WhereOptions<T>; data: Partial<T> }) {
+    return await this.model.update(data)
+  }
+
+  //根据主键id更新数据
+  async updateById(id: number, data: Partial<T>) {
+    try {
+      return await this.model.update({
+        where: {
+          id
+        },
+        data
+      })
+    } catch (e) {
+      return null
+    }
+  }
+
   // 软删除
   async softDeletion(where: WhereOptions<T>) {
     return await this.model.softDeletion(where)
