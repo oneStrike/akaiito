@@ -36,22 +36,30 @@ export class UserController {
   }
 
   @Post('/user/updateAdminUserInfo', { summary: '更新用户信息' })
+  @UserInfo()
   async updateUser(@Body() body: UserDto) {
-    return this.userService.updateUserInfo(body)
+    const user = this.ctx.getAttr('userInfo') as UserDto
+    return this.userService.updateUserInfo(body, user, 'info')
   }
 
   @Post('/user/updateAdminUserPassword', { summary: '修改密码' })
+  @UserInfo()
   async updateAdminUserPassword(@Body() body: UpdateUserPwd) {
-    return this.userService.updateUserPwd(body)
+    const user = this.ctx.getAttr('userInfo') as UserDto
+    return this.userService.updateUserPwd(body, user)
   }
 
   @Post('/user/updateAdminUserStatus', { summary: '启用或者禁用管理员' })
+  @UserInfo()
   async updateUserStatus(@Body() body: UserStatus) {
-    return this.userService.updateUserInfo(body)
+    const user = this.ctx.getAttr('userInfo') as UserDto
+    return this.userService.updateUserInfo(body, user)
   }
 
   @Post('/user/updateAdminUserPermissions', { summary: '更新用户权限' })
+  @UserInfo()
   async updateAdminUserPermissions(@Body() body: UserPermissions) {
-    return this.userService.updateUserInfo(body)
+    const user = this.ctx.getAttr('userInfo') as UserDto
+    return this.userService.updateUserInfo(body, user)
   }
 }

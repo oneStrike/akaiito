@@ -7,6 +7,7 @@ import {
 } from '@midwayjs/core'
 import { Context, NextFunction } from '@midwayjs/koa'
 import { Jwt } from '../base/service/jwt.service'
+import { IterateObject } from '@akaiito/typings/src'
 
 @Middleware()
 export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
@@ -26,7 +27,10 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
       if (!permit) {
         const token = ctx.headers['authorization']
         try {
-          await this.jwtService.verify(token)
+          const payload = (await this.jwtService.verify(
+            token
+          )) as unknown as IterateObject
+          ctx.setAttr('userId', payload!.id)
         } catch (e) {
           throw new httpError.UnauthorizedError('登录状态失效')
         }

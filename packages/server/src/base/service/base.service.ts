@@ -45,7 +45,7 @@ export abstract class BaseService<T> {
   }
 
   //根据主键id更新数据
-  async updateById(id: number, data: Partial<T>) {
+  async updateById(id: number, data: Partial<T>): Promise<T | null> {
     try {
       return await this.model.update({
         where: {

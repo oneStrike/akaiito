@@ -81,13 +81,22 @@ export class UserService extends BaseService<AdminUser> {
   }
 
   //更新用户信息
-  async updateUserInfo(userInfo: UserDto) {
+  async updateUserInfo(userInfo: UserDto, user: UserDto, type?: string) {
+    if (userInfo.id !== user.id && user.isRoot !== 1) {
+      this.throwError('权限不足')
+    }
+    if (userInfo.id === user.id && type !== 'info') {
+      this.throwError('权限不足')
+    }
     const result = await this.updateById(userInfo.id, userInfo)
     return result?.id || result
   }
 
   //修改用户密码
-  async updateUserPwd(userInfo: UpdateUserPwd) {
+  async updateUserPwd(userInfo: UpdateUserPwd, user: UserDto) {
+    if (userInfo.id !== user.id && user.isRoot !== 1) {
+      this.throwError('权限不足')
+    }
     if (userInfo.newPassword !== userInfo.confirmNewPassword) {
       this.throwError('密码输入不一致')
     }
@@ -103,9 +112,11 @@ export class UserService extends BaseService<AdminUser> {
       this.throwError('原密码错误')
     }
 
-    return this.updateById(userInfo.id, {
+    const result = await this.updateById(userInfo.id, {
       password: await utils.encryption(userInfo.newPassword)
     })
+
+    return result?.id || result
   }
 
   //比对密码
