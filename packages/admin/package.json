@@ -10,8 +10,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint:fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .eslintignore",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .eslintignore",
-    "format": "prettier --write src/",
-    "api:ref": "api-refs"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@akaiito/utils": "workspace:*",

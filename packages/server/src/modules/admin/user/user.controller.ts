@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from '@midwayjs/core'
+import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import {
   CreateUserDto,
   UpdateUserPwd,
@@ -30,9 +30,9 @@ export class UserController {
   }
 
   @Get('/user/getUserInfo', { summary: '获取管理员信息' })
-  @UserInfo()
-  async getUserInfo() {
-    return this.ctx.getAttr('userInfo')
+  async getUserInfo(@Query() query: { id?: number }) {
+    const id = query.id || this.ctx.getAttr('userId')
+    return this.userService.findById(id)
   }
 
   @Post('/user/updateAdminUserInfo', { summary: '更新用户信息' })

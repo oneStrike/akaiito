@@ -65,12 +65,9 @@ export abstract class BaseService<T> {
 
   // 根据ID查询数据
   async findById(id: number): Promise<T | null> {
-    if (typeof id !== 'number') return null
     return await this.model.findOne(
       this.mergeCommonQuery({
-        where: {
-          id
-        }
+        where: { id: Number(id) }
       })
     )
   }
