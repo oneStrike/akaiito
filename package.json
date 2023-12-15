@@ -13,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install",
     "commit": "git add . && git-cz",
-    "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install",
+    "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install && pnpm run -C packages/server prisma:generate",
     "prettier": "prettier --config .prettierrc  --ignore-path .prettierignore --write ./**/*.{js,css,vue,ts,scss}",
     "lint:fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .eslintignore",
     "preinstall": "npx only-allow pnpm"
