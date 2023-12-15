@@ -56,7 +56,7 @@
 
 <script lang="ts" setup>
 import { useValidate } from '@/hooks/useValidate'
-import { getCaptcha } from '@/apis/openApis'
+import { getCaptchaApi } from '@/apis/captcha'
 
 const ruleFormRef = ref()
 
@@ -80,7 +80,7 @@ const captchaInfo = ref({
 const submitLoading = ref(false)
 
 const getCaptchaFn = useDebounceFn(async () => {
-  captchaInfo.value = await getCaptcha()
+  captchaInfo.value = await getCaptchaApi()
 }, 500)
 getCaptchaFn()
 
