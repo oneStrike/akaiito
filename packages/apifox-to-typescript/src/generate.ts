@@ -67,7 +67,7 @@ export const generate = async () => {
     const result =
       `
    ${config.http.import}
-   import { ${api[apiKey].typings.join(',')} } from '${
+   import type { ${api[apiKey].typings.join(',')} } from '${
      api[apiKey].importTypings
    }'
   ` + api[apiKey].str

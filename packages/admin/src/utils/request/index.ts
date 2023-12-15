@@ -31,7 +31,7 @@ const http = new HttpClient({
 })
 
 export const httpClient = <T>(axiosConfig: AxiosRequestConfig): Promise<T> => {
-  if (axiosConfig.method === 'GET') {
+  if (axiosConfig.method === 'get') {
     return http.get<T>({
       ...axiosConfig
     })
