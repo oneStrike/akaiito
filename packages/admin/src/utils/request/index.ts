@@ -1,31 +1,51 @@
-import { HttpClient } from '@/utils/request/request'
-import type { IterateObject } from '@typings/index'
+import { HttpClient, HttpClientOptions } from '@/utils/request/request'
+import type { HttpResponseResult } from '@typings/index'
 import { useMessage } from '@/hooks/useFeedback'
-import type { AxiosError, AxiosRequestConfig } from 'axios'
-
-interface ResponseData {
-  data: IterateObject
-  code: number
-  desc: string
-  status: 'success' | 'error'
-}
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig
+} from 'axios'
+import { userStore } from '@/stores/modules/user'
+import { config } from '@/config'
 
 const responseError = (err: AxiosError) => {
   useMessage.error(err.message || '未知错误')
 }
 const response = (data: any) => {
-  const responseData = data.data as ResponseData
+  const responseData = data.data as HttpResponseResult
   if (responseData.code !== 200) {
     useMessage.error(responseData.desc || '未知错误')
-    return data
+    throw responseData
   } else {
     return data.config.source ? responseData : responseData.data
   }
 }
 
+const request: HttpClientOptions['requestInterceptor'] = async (
+  conf
+): Promise<InternalAxiosRequestConfig> => {
+  const useUserStore = userStore()
+  let accessToken = useUserStore.token.accessToken
+  if (!config.auth.httpWhiteList.includes(conf.url)) {
+    try {
+      await useUserStore.refreshAccessToken()
+      accessToken = useUserStore.token.accessToken
+    } catch (e) {
+      const router = useRouter()
+      await router.replace({ name: 'Login' })
+      throw new Error('token过期')
+    }
+  }
+
+  conf.headers.authorization = accessToken
+  return conf
+}
+
 const http = new HttpClient({
   loading: false,
   baseURL: import.meta.env.VITE_BASE_URL,
+  requestInterceptor: request,
   responseInterceptor: response,
   responseInterceptorError: responseError
 })

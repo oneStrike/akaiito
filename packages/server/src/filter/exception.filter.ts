@@ -1,6 +1,6 @@
 import { Catch, MidwayHttpError } from '@midwayjs/core'
 import { Context } from '@midwayjs/koa'
-import type { ReportResult } from '@akaiito/typings/src'
+import type { HttpResponseResult } from '@akaiito/typings/src'
 import { LogService } from '../modules/internal/log/log.service'
 
 @Catch()
@@ -10,7 +10,7 @@ export class ExceptionFilter {
     const responseErrorInfo = {
       status: 'error',
       data: null
-    } as ReportResult
+    } as HttpResponseResult
 
     ctx.logger.error(err)
     if (cause) {

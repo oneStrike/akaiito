@@ -66,3 +66,8 @@ export class UserPermissions extends PickDto(UserDto, ['id']) {
   @Rule(givenValue([0, 1]))
   isRoot: number
 }
+
+export class RefreshAccessToken {
+  @Rule(requiredString)
+  accessToken: string
+}

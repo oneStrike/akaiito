@@ -7,7 +7,6 @@ import {
 } from '@midwayjs/core'
 import { Context, NextFunction } from '@midwayjs/koa'
 import { Jwt } from '../base/service/jwt.service'
-import { IterateObject } from '@akaiito/typings/src'
 
 @Middleware()
 export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
@@ -19,22 +18,29 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
 
   resolve() {
     return async (ctx: Context, next: NextFunction) => {
-      // 判断下有没有校验信息
-      const permit = this.permit(ctx)
-      if (!ctx.headers['authorization'] && !permit) {
-        throw new httpError.UnauthorizedError()
-      }
-      if (!permit) {
-        const token = ctx.headers['authorization']
-        try {
-          const payload = (await this.jwtService.verify(
-            token
-          )) as unknown as IterateObject
-          ctx.setAttr('userId', payload!.id)
-        } catch (e) {
-          throw new httpError.UnauthorizedError('登录状态失效')
+      const refreshToken = ctx.headers['refresh_token'] as string
+      if (refreshToken && ctx.url.includes('/admin/user/refreshAccessToken')) {
+        const payload = await this.jwtService.verify(refreshToken)
+        if (typeof payload === 'string' || !payload.refresh) throw Error()
+        ctx.setAttr('userId', payload!.id)
+      } else {
+        // 判断下有没有校验信息
+        const permit = this.permit(ctx)
+        if (!ctx.headers['authorization'] && !permit) {
+          throw new httpError.UnauthorizedError()
+        }
+        if (!permit) {
+          const token = ctx.headers['authorization']
+          try {
+            const payload = await this.jwtService.verify(token)
+            if (typeof payload === 'string' || payload.refresh) throw Error()
+            ctx.setAttr('userId', payload!.id)
+          } catch (e) {
+            throw new httpError.UnauthorizedError('登录状态失效')
+          }
         }
       }
+
       await next()
     }
   }

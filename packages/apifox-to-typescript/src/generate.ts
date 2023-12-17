@@ -44,7 +44,15 @@ export const generate = async () => {
       item.requestScheme = item.parameters.query
     } else if (item.method === 'post') {
       //请求
-      item.requestScheme = formatSchema(item.requestBody.jsonSchema, dataSchema)
+      console.log(
+        '🚀 ~ file:generate method: line:47 -----',
+        item.requestBody.jsonSchema
+      )
+      if (item.requestBody.jsonSchema)
+        item.requestScheme = formatSchema(
+          item.requestBody.jsonSchema,
+          dataSchema
+        )
     }
     item.responseScheme = formatSchema(item.responses[0].jsonSchema, dataSchema)
     const options = conversion(item, config)

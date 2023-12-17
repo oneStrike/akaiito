@@ -206,9 +206,19 @@ export interface LoginTypings {
 
   Response: {
     /*
-     * token
+     * token信息
      */
-    token: string
+    token: {
+      /*
+       * 账号token
+       */
+      accessToken: string
+      /*
+       * 刷新token
+       */
+      refreshToken: string
+    }
+
     /*
      * 用户信息
      */
@@ -247,4 +257,23 @@ export interface LoginTypings {
       updatedAt: string
     }
   }
+}
+/**
+ * 接口 [刷新accessToken↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-134115928)
+ * @标签 `管理端/用户/刷新accessToken`
+ * @请求头 `POST /admin/user/refreshAccessToken`
+ * @更新时间 `2023-12-16T15:32:51.000Z`
+ */
+
+export interface RefreshAccessTokenTypings {
+  Request: {
+    /*
+     * accessToken
+     */
+    accessToken: string
+  }
+  /*
+   * accessToken
+   */
+  Response: string
 }

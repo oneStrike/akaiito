@@ -1,12 +1,13 @@
 import { httpClient } from '@/utils/request'
-import {
+import type {
   CreateAdminUserTypings,
   GetUserInfoTypings,
   UpdateAdminUserInfoTypings,
   UpdateAdminUserStatusTypings,
   UpdateAdminUserPasswordTypings,
   UpdateAdminUserPermissionsTypings,
-  LoginTypings
+  LoginTypings,
+  RefreshAccessTokenTypings
 } from './user.d'
 
 export const createAdminUserApi = (
@@ -73,6 +74,16 @@ export const loginApi = (
   return httpClient({
     method: 'post',
     url: '/admin/user/login',
+    data
+  })
+}
+
+export const refreshAccessTokenApi = (
+  data: RefreshAccessTokenTypings['Request']
+): Promise<RefreshAccessTokenTypings['Response']> => {
+  return httpClient({
+    method: 'post',
+    url: '/admin/user/refreshAccessToken',
     data
   })
 }

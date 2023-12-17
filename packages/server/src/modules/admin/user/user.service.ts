@@ -74,8 +74,15 @@ export class UserService extends BaseService<AdminUser> {
     delete userInfo.deletedAt
     userInfo.createdAt = formatDate(userInfo.createdAt) as unknown as Date
     userInfo.updatedAt = formatDate(userInfo.updatedAt) as unknown as Date
+    const token = {
+      accessToken: await this.jwt.sign({ id: userInfo.id }),
+      refreshToken: await this.jwt.sign(
+        { id: userInfo.id, refresh: true },
+        { expiresIn: 1000 * 60 * 60 * 24 * 2 }
+      )
+    }
     return {
-      token: await this.jwt.sign({ id: userInfo.id }),
+      token,
       userInfo
     }
   }
@@ -117,6 +124,14 @@ export class UserService extends BaseService<AdminUser> {
     })
 
     return result?.id || result
+  }
+
+  async refreshAccessToken(token: string, userInfo: UserDto) {
+    const accessToken = await this.jwt.verify(token)
+    if (typeof accessToken === 'string' || accessToken.id !== userInfo.id) {
+      this.throwError('权限不足')
+    }
+    return await this.jwt.sign({ id: userInfo.id })
   }
 
   //比对密码

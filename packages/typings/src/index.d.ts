@@ -2,7 +2,7 @@
 export type IterateObject<T = any> = Record<string | symbol, T>
 
 // 定义报告结果接口
-export interface ReportResult<T = any> {
+export interface HttpResponseResult<T = any> {
   data: T // 数据
   code: number // 状态码
   status: 'success' | 'error' // 状态

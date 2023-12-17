@@ -1,5 +1,5 @@
 import { httpClient } from '@/utils/request'
-import { GetCaptchaTypings } from './captcha.d'
+import type { GetCaptchaTypings } from './captcha.d'
 
 export const getCaptchaApi = (): Promise<GetCaptchaTypings['Response']> => {
   return httpClient({

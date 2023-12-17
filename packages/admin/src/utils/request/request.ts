@@ -2,16 +2,22 @@ import type {
   AxiosInstance,
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
-  AxiosError
+  AxiosError,
+  AxiosPromise
 } from 'axios'
 import axios, { type AxiosResponse } from 'axios'
 import { ElLoading } from 'element-plus'
+import type { HttpResponseResult } from '@akaiito/typings/src'
 
 export type HttpClientOptions = {
   loading?: boolean
   source?: boolean
-  requestInterceptor?: (config: HttpClientOptions) => InternalAxiosRequestConfig
-  responseInterceptor?: (config: AxiosResponse) => AxiosResponse
+  requestInterceptor?: (
+    config: HttpClientOptions & InternalAxiosRequestConfig
+  ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>
+  responseInterceptor?: (
+    config: AxiosResponse
+  ) => AxiosResponse | AxiosPromise<HttpResponseResult>
   responseInterceptorError?: (error: AxiosError) => any
 } & AxiosRequestConfig
 
@@ -31,24 +37,33 @@ export class HttpClient {
     if (this.options.requestInterceptor) {
       this.axiosInst.interceptors.request.use(this.options.requestInterceptor)
     }
+    if (this.options.responseInterceptor) {
+      this.axiosInst.interceptors.response.use(this.options.responseInterceptor)
+    }
   }
 
-  private request<T>(config: HttpClientOptions): Promise<T> {
+  private request<T>(
+    config: Omit<
+      HttpClientOptions,
+      'requestInterceptor' | 'responseInterceptor' | 'responseInterceptorError'
+    >
+  ): Promise<T> {
     return new Promise((resolve, reject) => {
       if ((config.loading || this.options.loading) && !this.loading) {
         this.loading = true
         ElLoading.service()
       }
 
-      if (config.requestInterceptor) config = config.requestInterceptor(config)
       return this.axiosInst
         .request(config)
         .then((res) => {
-          if (config.responseInterceptor) config.responseInterceptor(res)
-          resolve(res.data.data as T)
+          resolve(res as T)
         })
         .catch((err) => {
-          if (this.options.responseInterceptorError) {
+          if (
+            this.options.responseInterceptorError &&
+            err.name === 'AxiosError'
+          ) {
             this.options.responseInterceptorError(err)
           }
           reject(err)

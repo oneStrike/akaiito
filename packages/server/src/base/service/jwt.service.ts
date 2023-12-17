@@ -11,8 +11,8 @@ export class Jwt {
 
   async sign(
     payload: string | IterateObject,
-    secret?: string,
-    options?: jwt.SignOptions
+    options?: jwt.SignOptions,
+    secret?: string
   ) {
     secret = secret ?? this.jwtConfig.secret
     options = Object.assign(this.jwtConfig.signOptions, options || {})

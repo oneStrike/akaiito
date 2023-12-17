@@ -1,8 +1,7 @@
 import type { Router } from 'vue-router'
 import nProgress from 'nprogress'
-import { utils } from '@/utils'
-import { RouterWhiteListEnum } from '@/enum/routerWhiteList'
 import { userStore } from '@/stores/modules/user'
+import { config } from '@/config'
 
 export const guard = function (router: Router) {
   // 在路由跳转前执行的函数
@@ -11,18 +10,21 @@ export const guard = function (router: Router) {
     nProgress.start()
 
     // 如果目标路由在白名单中，直接通过
-    if (utils.isValueInStringEnum(to.name, RouterWhiteListEnum)) {
+    if (config.auth.routerWhiteList.includes(to.name as string)) {
       return true
     }
 
+    const useUserStore = userStore()
     // 获取用户 token 的状态
-    const tokenStatus = userStore().tokenStatus
-
-    // 如果目标路由不是登录页且用户未登录，跳转到登录页
-    if (to.path !== '/login' && !tokenStatus) {
-      return { path: '/login', replace: true }
+    let authStatus = useUserStore.getAuth('access')
+    if (!authStatus) {
+      await useUserStore.refreshAccessToken()
+      authStatus = useUserStore.getAuth('access')
+      // 如果目标路由不是登录页且用户未登录，跳转到登录页
+      if (!authStatus) {
+        return { path: '/login', replace: true }
+      }
     }
-
     return true
   })
 

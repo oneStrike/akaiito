@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import {
   CreateUserDto,
+  RefreshAccessToken,
   UpdateUserPwd,
   UserDto,
   UserLoginDto,
@@ -61,5 +62,12 @@ export class UserController {
   async updateAdminUserPermissions(@Body() body: UserPermissions) {
     const user = this.ctx.getAttr('userInfo') as UserDto
     return this.userService.updateUserInfo(body, user)
+  }
+
+  @Post('/user/refreshAccessToken', { summary: '刷新accessToken' })
+  @UserInfo()
+  async refreshAccessToken(@Body() body: RefreshAccessToken) {
+    const userInfo = this.ctx.getAttr('userInfo') as UserDto
+    return this.userService.refreshAccessToken(body.accessToken, userInfo)
   }
 }

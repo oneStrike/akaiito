@@ -2,7 +2,7 @@ import { Inject, Provide } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { AdminLog, PrismaClient } from '@prisma/client'
 
-import { ReportResult } from '@akaiito/typings/src'
+import { HttpResponseResult } from '@akaiito/typings/src'
 import { BaseService } from '../../../base/service/base.service'
 import { utils } from '../../../utils'
 
@@ -15,7 +15,7 @@ export class LogService extends BaseService<AdminLog> {
     return this.prismaClient.adminLog
   }
 
-  async recordLogs(context: Context, report: ReportResult) {
+  async recordLogs(context: Context, report: HttpResponseResult) {
     const { path, method, header } = context
 
     const ip = utils.sysUtils.getReqIP(context)

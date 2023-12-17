@@ -4,11 +4,11 @@
       <div class="login_card ml-auto p-4">
         <div class="text-center text-2xl mb-4">登录</div>
         <el-form ref="ruleFormRef" :model="loginForm" :rules="rules">
-          <el-form-item prop="account" class="mt-8">
+          <el-form-item prop="mobile" class="mt-8">
             <el-input
               @keyup.enter="login"
-              placeholder="请输入用户名"
-              v-model.trim="loginForm.account"
+              placeholder="请输入手机号"
+              v-model.trim="loginForm.mobile"
             />
           </el-form-item>
           <el-form-item prop="password" class="mt-8">
@@ -57,18 +57,21 @@
 <script lang="ts" setup>
 import { useValidate } from '@/hooks/useValidate'
 import { getCaptchaApi } from '@/apis/captcha'
+import { loginApi } from '@/apis/user'
+import { userStore } from '@/stores/modules/user'
 
+const useUserStore = userStore()
 const ruleFormRef = ref()
 
 const loginForm = reactive({
-  account: '',
+  mobile: '',
   password: '',
   captcha: '',
   captchaId: ''
 })
 
 const rules = reactive({
-  account: useValidate.required('账号'),
+  mobile: useValidate.required('账号'),
   password: useValidate.password,
   captcha: useValidate.required('验证码')
 })
@@ -85,10 +88,19 @@ const getCaptchaFn = useDebounceFn(async () => {
 getCaptchaFn()
 
 const login = async () => {
-  await ruleFormRef.value.validate((valid: boolean) => {
-    if (!valid) return
-    submitLoading.value = true
-    loginForm.captchaId = captchaInfo.value.id
+  await ruleFormRef.value.validate(async (valid: boolean) => {
+    try {
+      if (!valid) return
+      submitLoading.value = true
+      loginForm.captchaId = captchaInfo.value.id
+      const loginRes = await loginApi(loginForm)
+      if (loginRes.token) {
+        useUserStore.setAuth(loginRes)
+      }
+    } catch (e) {
+      console.log(e)
+    }
+    submitLoading.value = false
   })
 }
 </script>
