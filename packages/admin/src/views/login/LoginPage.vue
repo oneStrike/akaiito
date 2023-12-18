@@ -58,9 +58,10 @@
 import { useValidate } from '@/hooks/useValidate'
 import { getCaptchaApi } from '@/apis/captcha'
 import { loginApi } from '@/apis/user'
-import { userStore } from '@/stores/modules/user'
+import { useUserStore } from '@/stores/modules/user'
+const router = useRouter()
 
-const useUserStore = userStore()
+const userStore = useUserStore()
 const ruleFormRef = ref()
 
 const loginForm = reactive({
@@ -71,7 +72,7 @@ const loginForm = reactive({
 })
 
 const rules = reactive({
-  mobile: useValidate.required('账号'),
+  mobile: useValidate.required('手机号'),
   password: useValidate.password,
   captcha: useValidate.required('验证码')
 })
@@ -94,9 +95,8 @@ const login = async () => {
       submitLoading.value = true
       loginForm.captchaId = captchaInfo.value.id
       const loginRes = await loginApi(loginForm)
-      if (loginRes.token) {
-        useUserStore.setAuth(loginRes)
-      }
+      userStore.setAuth(loginRes)
+      router.replace({ name: 'Dashboard' })
     } catch (e) {
       console.log(e)
     }

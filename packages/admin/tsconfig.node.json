@@ -2,6 +2,7 @@
   "compilerOptions": {
     "composite": true,
     "esModuleInterop": true,
+//    "preserveSymlinks": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "module": "ESNext",

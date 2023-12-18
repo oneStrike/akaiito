@@ -10,7 +10,7 @@ declare module 'vue-router' {
     icon?: IconName
     roles?: string[]
     cache?: boolean
-    sort?: number
+    order?: number
     url?: string
   }
 }

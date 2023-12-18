@@ -1,6 +1,6 @@
 import type { Router } from 'vue-router'
 import nProgress from 'nprogress'
-import { userStore } from '@/stores/modules/user'
+import { useUserStore } from '@/stores/modules/user'
 import { config } from '@/config'
 
 export const guard = function (router: Router) {
@@ -14,12 +14,12 @@ export const guard = function (router: Router) {
       return true
     }
 
-    const useUserStore = userStore()
+    const userStore = useUserStore()
     // 获取用户 token 的状态
-    let authStatus = useUserStore.getAuth('access')
+    let authStatus = userStore.getAuth('access')
     if (!authStatus) {
-      await useUserStore.refreshAccessToken()
-      authStatus = useUserStore.getAuth('access')
+      await userStore.refreshAccessToken()
+      authStatus = userStore.getAuth('access')
       // 如果目标路由不是登录页且用户未登录，跳转到登录页
       if (!authStatus) {
         return { path: '/login', replace: true }

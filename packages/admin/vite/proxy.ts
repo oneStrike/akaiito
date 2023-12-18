@@ -2,7 +2,6 @@ import type { ServerOptions } from 'vite'
 import type { IterateObject } from '@akaiito/typings/src'
 
 export const ViteProxy = (env: IterateObject<string>): ServerOptions => {
-  console.log('🚀 ~ file:proxy method:ViteProxy line:5 -----', env)
   const proxyList = JSON.parse(env.VITE_PROXY_LIST)
   const proxyObj = {}
   proxyList.forEach((item: string) => {

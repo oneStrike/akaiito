@@ -3,7 +3,7 @@
 module.exports = {
   darkMode: 'class',
   corePlugins: {
-    preflight: false
+    preflight: true
   },
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {

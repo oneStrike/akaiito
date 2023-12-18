@@ -6,7 +6,7 @@ import type {
   AxiosRequestConfig,
   InternalAxiosRequestConfig
 } from 'axios'
-import { userStore } from '@/stores/modules/user'
+import { useUserStore } from '@/stores/modules/user'
 import { config } from '@/config'
 
 const responseError = (err: AxiosError) => {
@@ -25,12 +25,12 @@ const response = (data: any) => {
 const request: HttpClientOptions['requestInterceptor'] = async (
   conf
 ): Promise<InternalAxiosRequestConfig> => {
-  const useUserStore = userStore()
-  let accessToken = useUserStore.token.accessToken
+  const userStore = useUserStore()
+  let accessToken = userStore.token.accessToken
   if (!config.auth.httpWhiteList.includes(conf.url)) {
     try {
-      await useUserStore.refreshAccessToken()
-      accessToken = useUserStore.token.accessToken
+      await userStore.refreshAccessToken()
+      accessToken = userStore.token.accessToken
     } catch (e) {
       const router = useRouter()
       await router.replace({ name: 'Login' })

@@ -1,5 +1,6 @@
 // 导入必要的模块
 import type { RouteRecordRaw } from 'vue-router'
+import router from '@/router/index'
 
 // 基础路由
 const BasicRoutes: RouteRecordRaw[] = [
@@ -10,10 +11,42 @@ const BasicRoutes: RouteRecordRaw[] = [
     meta: { title: '登录', hideMenu: true } // 元数据，用于路由守卫等
   },
   {
+    path: '/',
+    redirect: '/dashboard',
+    component: () => import('@/layouts/LayoutMain.vue'),
+    meta: { title: '', hideMenu: true },
+    children: [
+      {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/DashboardPage.vue'),
+        meta: { title: '仪表盘', icon: 'dashboard', order: 0 }
+      }
+    ]
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     component: () => import('@/views/shared/NotFoundPage.vue'), // 404页组件
     meta: { title: '404', hideMenu: true } // 元数据，用于路由守卫等
+  },
+  {
+    path: '/redirect',
+    name: 'redirect',
+    component: () => import('@/layouts/LayoutMain.vue'),
+    meta: { hideMenu: true },
+    beforeEnter: (to) => {
+      const { query } = to
+      const timer = window.setTimeout(() => {
+        router
+          .replace({
+            path: query.path as string
+          })
+          .then(() => {
+            clearTimeout(timer)
+          })
+      }, 50)
+    }
   }
 ]
 
