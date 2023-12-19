@@ -4,8 +4,12 @@ import { useLayoutStore } from '@/stores/modules/layout'
 import { useUserStore } from '@/stores/modules/user'
 import LayoutSubMenu from '@/layouts/components/LayoutSubMenu.vue'
 import type { RouteRecordName, RouteRecordRaw } from 'vue-router'
+
 const router = useRouter()
+const route = useRoute()
 const layoutStore = useLayoutStore()
+
+console.log(route)
 
 const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
   const tempRoutes = []
@@ -44,6 +48,7 @@ const menuSelect = (menu: RouteRecordName) => {
   <el-menu
     class="h-full"
     :collapse="layoutStore.collapsed"
+    :default-active="route.name as string"
     @select="menuSelect"
   >
     <template v-for="menu in menus" :key="menu.name">
