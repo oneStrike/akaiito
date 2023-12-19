@@ -18,7 +18,7 @@ import LayoutTabs from '@/layouts/components/LayoutTabs.vue'
         <el-main class="!p-3 bg-[var(--el-bg-color-page)]">
           <layout-content />
         </el-main>
-        <el-footer>Footer</el-footer>
+        <!--        <el-footer>Footer</el-footer>-->
       </el-container>
     </el-container>
   </div>
