@@ -47,10 +47,10 @@ const menuSelect = (menu: RouteRecordName) => {
 <template>
   <div
     class="transition-width h-full"
-    :class="layoutStore.collapsed ? 'w-66px' : 'w-260px'"
+    :class="layoutStore.collapsed ? 'w-65px' : 'w-260px'"
   >
     <el-menu
-      class="h-full w-full"
+      class="h-full !w-full"
       :collapse="layoutStore.collapsed"
       :default-active="route.name as string"
       :collapse-transition="false"
