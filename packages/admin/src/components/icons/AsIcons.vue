@@ -40,7 +40,7 @@ watch(
 
 const handlerEvent = useDebounceFn(() => {
   emits('click')
-}, 200)
+}, 150)
 </script>
 
 <template>

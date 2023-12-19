@@ -10,7 +10,7 @@ import LayoutAside from '@/layouts/components/LayoutAside.vue'
         <layout-aside />
       </el-aside>
       <el-container>
-        <el-header class="!border-bottom">
+        <el-header class="border-bottom">
           <layout-header />
         </el-header>
         <el-main>
