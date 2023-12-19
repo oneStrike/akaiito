@@ -5,17 +5,17 @@ import LayoutAside from '@/layouts/components/LayoutAside.vue'
 import LayoutTabs from '@/layouts/components/LayoutTabs.vue'
 </script>
 <template>
-  <div class="bg-zinc-100">
+  <div class="">
     <el-container class="h-screen">
       <el-aside class="!w-auto">
         <layout-aside />
       </el-aside>
       <el-container>
-        <el-header class="!p-0 bg-white" height="100">
+        <el-header class="!p-0" height="100">
           <layout-header />
           <layout-tabs />
         </el-header>
-        <el-main class="!p-3">
+        <el-main class="!p-3 bg-[var(--el-bg-color-page)]">
           <layout-content />
         </el-main>
         <el-footer>Footer</el-footer>

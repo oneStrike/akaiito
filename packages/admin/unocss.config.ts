@@ -2,6 +2,21 @@ import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import presetRemToPx from '@unocss/preset-rem-to-px'
 
 export default defineConfig({
+  content: {
+    pipeline: {
+      exclude: [
+        'node_modules',
+        'dist',
+        '.git',
+        '.husky',
+        '.vscode',
+        'public',
+        'build',
+        'mock',
+        './stats.html'
+      ]
+    }
+  },
   presets: [presetUno(), presetAttributify(), presetRemToPx()],
   shortcuts: [
     ['main-center', 'flex justify-center items-center'],
