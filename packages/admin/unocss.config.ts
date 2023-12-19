@@ -3,7 +3,10 @@ import presetRemToPx from '@unocss/preset-rem-to-px'
 
 export default defineConfig({
   presets: [presetUno(), presetAttributify(), presetRemToPx()],
-  shortcuts: [],
+  shortcuts: [
+    ['main-center', 'flex justify-center items-center'],
+    ['cross-center', 'flex flex-row justify-center items-center']
+  ],
   rules: [
     [
       /^text-(.*)$/,

@@ -14,6 +14,9 @@ export default ({ mode }) => {
     build: ViteBuild,
     esbuild: {
       drop: mode !== 'development' ? ['console', 'debugger'] : []
+    },
+    optimizeDeps: {
+      include: ['element-plus']
     }
   })
 }

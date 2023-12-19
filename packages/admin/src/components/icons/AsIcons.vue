@@ -37,10 +37,6 @@ watch(
   },
   { immediate: true }
 )
-
-const handlerEvent = useDebounceFn(() => {
-  emits('click')
-}, 150)
 </script>
 
 <template>
@@ -48,7 +44,7 @@ const handlerEvent = useDebounceFn(() => {
     :color="iconColor"
     :size="size"
     :class="[rotate ? 'rotate_animation' : '', 'cursor-pointer', iconClass]"
-    @click="handlerEvent"
+    @click="emits('click')"
   >
     <!--   https://icones.netlify.app/collection/line-md -->
     <icon-md-chevron-double-left v-if="name === 'chevronDoubleLeft'" />
@@ -70,6 +66,12 @@ const handlerEvent = useDebounceFn(() => {
     <icon-majest-hand-pointer-event-line v-if="name === 'handPointer'" />
     <icon-majest-dashboard-line v-if="name === 'dashboard'" />
     <icon-majest-settings-cog-line v-if="name === 'settings'" />
+    <icon-majest-dots-horizontal-line v-if="name === 'dotsHorizontal'" />
+    <icon-majest-multiply-line v-if="name === 'multiply'" />
+    <icon-majest-reload-line v-if="name === 'reload'" />
+    <icon-majest-chevron-left-line v-if="name === 'chevronLeft'" />
+    <icon-majest-chevron-right-line v-if="name === 'chevronRight'" />
+    <icon-majest-code-line v-if="name === 'code'" />
   </el-icon>
 </template>
 

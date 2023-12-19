@@ -15,7 +15,7 @@ const toggleMenuStatus = () => {
 </script>
 
 <template>
-  <div class="h-full flex items-center justify-between">
+  <div class="h-60px pl-4 pr-4 flex items-center justify-between border-bottom">
     <div class="flex items-center">
       <as-icons
         :name="

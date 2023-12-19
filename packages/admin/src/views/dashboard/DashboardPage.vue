@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div></div>
+  <div>工作台</div>
 </template>
 
 <style scoped></style>
