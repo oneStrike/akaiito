@@ -7,13 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AsIcons: (typeof import('./../components/icons/AsIcons.vue'))['default']
+    AsIcons: typeof import('./../components/icons/AsIcons.vue')['default']
     ElAside: (typeof import('element-plus/es'))['ElAside']
     ElAvatar: (typeof import('element-plus/es'))['ElAvatar']
     ElBreadcrumb: (typeof import('element-plus/es'))['ElBreadcrumb']
     ElBreadcrumbItem: (typeof import('element-plus/es'))['ElBreadcrumbItem']
     ElButton: (typeof import('element-plus/es'))['ElButton']
-    ElCard: (typeof import('element-plus/es'))['ElCard']
     ElCheckbox: (typeof import('element-plus/es'))['ElCheckbox']
     ElContainer: (typeof import('element-plus/es'))['ElContainer']
     ElDropdown: (typeof import('element-plus/es'))['ElDropdown']
@@ -28,8 +27,6 @@ declare module 'vue' {
     ElMain: (typeof import('element-plus/es'))['ElMain']
     ElMenu: (typeof import('element-plus/es'))['ElMenu']
     ElMenuItem: (typeof import('element-plus/es'))['ElMenuItem']
-    ElMenuItemGroup: (typeof import('element-plus/es'))['ElMenuItemGroup']
-    ElRow: (typeof import('element-plus/es'))['ElRow']
     ElSpace: (typeof import('element-plus/es'))['ElSpace']
     ElSubMenu: (typeof import('element-plus/es'))['ElSubMenu']
     IconMajestArrowsCollapseFull: (typeof import('~icons/majesticons/arrows-collapse-full'))['default']
@@ -41,16 +38,10 @@ declare module 'vue' {
     IconMajestSettingsCogLine: (typeof import('~icons/majesticons/settings-cog-line'))['default']
     IconMajestUserLine: (typeof import('~icons/majesticons/user-line'))['default']
     IconMajestUsersLine: (typeof import('~icons/majesticons/users-line'))['default']
-    IconMajestUserverLine: (typeof import('~icons/majesticons/userver-line'))['default']
     IconMdChevronDoubleLeft: (typeof import('~icons/line-md/chevron-double-left'))['default']
-    IconMdCmoonAltToSunnyOutlineLoopTransition: (typeof import('~icons/line-md/cmoon-alt-to-sunny-outline-loop-transition'))['default']
     IconMdMoonLoop: (typeof import('~icons/line-md/moon-loop'))['default']
-    IconMdMoonToSunnyOutlineLoopTransition: (typeof import('~icons/line-md/moon-to-sunny-outline-loop-transition'))['default']
     IconMdSunRisingLoop: (typeof import('~icons/line-md/sun-rising-loop'))['default']
-    Icons: (typeof import('./../components/icons/Icons.vue'))['default']
-    LIcons: (typeof import('./../components/l-icons/l-icons.vue'))['default']
-    LkIcons: (typeof import('./../components/icons/LkIcons.vue'))['default']
-    RouterLink: (typeof import('vue-router'))['RouterLink']
-    RouterView: (typeof import('vue-router'))['RouterView']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
   }
 }

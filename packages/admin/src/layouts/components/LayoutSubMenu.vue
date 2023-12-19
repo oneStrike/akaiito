@@ -1,23 +1,26 @@
 <script setup lang="ts">
-import type { IterateObject } from '@typings/index'
+import type { RouteRecordRaw } from 'vue-router'
 
 export interface LayoutSubMenuProps {
-  menuInfo: IterateObject
+  menuInfo: RouteRecordRaw
 }
 
 withDefaults(defineProps<LayoutSubMenuProps>(), {})
 </script>
 
 <template>
-  <el-sub-menu :index="menuInfo.name" v-if="menuInfo.children?.length">
+  <el-sub-menu
+    :index="menuInfo.name as string"
+    v-if="menuInfo.children?.length"
+  >
     <template #title>
-      <as-icons :name="menuInfo.meta.icon" :size="16" />
+      <as-icons :name="menuInfo.meta.icon" />
       <span>{{ menuInfo.meta.title }}</span>
     </template>
 
     <template v-for="item in menuInfo.children" :key="item.name">
-      <el-menu-item :index="item.name" v-if="!item.children">
-        <as-icons :name="item.meta.icon" :size="16" />
+      <el-menu-item :index="item.name as string" v-if="!item.children">
+        <as-icons :name="item.meta.icon" />
         <template #title>
           <span>{{ item.meta.title }}</span>
         </template>

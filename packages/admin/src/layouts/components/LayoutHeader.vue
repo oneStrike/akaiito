@@ -21,7 +21,7 @@ const toggleMenuStatus = () => {
         :name="
           layoutStore.collapsed ? 'chevronDoubleRight' : 'chevronDoubleLeft'
         "
-        color="#909399"
+        color="!text-info"
         class="mr-4"
         @click="toggleMenuStatus"
       />
@@ -30,8 +30,8 @@ const toggleMenuStatus = () => {
           v-for="item in route.matched"
           :key="item.name"
           :to="{ path: route.path }"
-          >{{ item.meta.title }}</el-breadcrumb-item
-        >
+          >{{ item.meta.title }}
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-space size="large">
@@ -68,8 +68,8 @@ const toggleMenuStatus = () => {
             </el-dropdown-item>
             <el-dropdown-item>个人信息</el-dropdown-item>
             <el-dropdown-item @click="userStore.signOut"
-              >退出登录</el-dropdown-item
-            >
+              >退出登录
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

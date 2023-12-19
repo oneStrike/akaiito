@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import 'nprogress/nprogress.css'
-import 'tailwindcss/tailwind.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
+import '@unocss/reset/tailwind.css'
+import 'uno.css'
 
 import { bootstrap } from '@/core/bootstrap'
 import '@/assets/stylesheets/index.scss'

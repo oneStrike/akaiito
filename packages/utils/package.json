@@ -12,7 +12,6 @@
     "lint": "eslint --ext .ts --fix src/**/*.ts",
     "preversion": "pnpm run build && pnpm run cover:check",
     "postversion": "git push && git push --tags",
-    "prepare": "pnpm run build",
     "serve": "nodemon ./src/index.ts",
     "test": "mocha",
     "upgrade": "pnpx npm-check -u"

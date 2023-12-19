@@ -1,6 +1,7 @@
 import type { Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import UnoCSS from 'unocss/vite'
 
 import { visualizer } from 'rollup-plugin-visualizer'
 import ViteRestart from 'vite-plugin-restart'
@@ -12,7 +13,7 @@ import { Icons } from './icons'
 import { CreateStyleImport } from './style'
 
 export function VitePlugins() {
-  const vitePlugins: (Plugin | Plugin[])[] = [vue(), vueJsx()]
+  const vitePlugins: (Plugin | Plugin[])[] = [vue(), vueJsx(), UnoCSS()]
 
   //打包分析视图
   vitePlugins.push(visualizer())

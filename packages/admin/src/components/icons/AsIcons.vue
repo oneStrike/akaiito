@@ -2,13 +2,19 @@
 export interface AsIconsProps {
   name: string
   size?: number
-  color?: 'primary' | 'error' | 'info' | string
+  color?:
+    | '!text-primary'
+    | '!text-error'
+    | '!text-info'
+    | '!text-success'
+    | '!text-warning'
+    | string
   rotate?: boolean
 }
 
 const props = withDefaults(defineProps<AsIconsProps>(), {
-  color: '#303133',
-  size: 22,
+  color: '',
+  size: 18,
   rotate: false
 })
 
@@ -17,10 +23,17 @@ const emits = defineEmits<{
 }>()
 
 const iconColor = ref('')
+const iconClass = ref('text-primary')
+
 watch(
   () => props.color,
   (val) => {
-    iconColor.value = val
+    if (val.includes('#')) {
+      iconColor.value = val
+    } else if (val) {
+      val = val === 'text-primary!' ? 'text-theme!' : val
+      iconClass.value = val
+    }
   },
   { immediate: true }
 )
@@ -32,8 +45,9 @@ const handlerEvent = useDebounceFn(() => {
 
 <template>
   <el-icon
+    :color="iconColor"
     :size="size"
-    :class="[rotate ? 'rotate_animation' : '', 'cursor-pointer']"
+    :class="[rotate ? 'rotate_animation' : '', 'cursor-pointer', iconClass]"
     @click="handlerEvent"
   >
     <!--   https://icones.netlify.app/collection/line-md -->
