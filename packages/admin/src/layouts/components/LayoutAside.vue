@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { routes } from '@/router/routes'
 import { useLayoutStore } from '@/stores/modules/layout'
-import { useUserStore } from '@/stores/modules/user'
 import LayoutSubMenu from '@/layouts/components/LayoutSubMenu.vue'
 import type { RouteRecordName, RouteRecordRaw } from 'vue-router'
 
