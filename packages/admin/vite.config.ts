@@ -16,7 +16,7 @@ export default ({ mode }) => {
       drop: mode !== 'development' ? ['console', 'debugger'] : []
     },
     optimizeDeps: {
-      include: ['element-plus']
+      include: ['element-plus/es']
     }
   })
 }

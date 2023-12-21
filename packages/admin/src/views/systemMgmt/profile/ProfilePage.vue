@@ -1,6 +1,37 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useUserStore } from '@/stores/modules/user'
+
+const { userInfo } = storeToRefs(useUserStore())
+</script>
 
 <template>
-  <div>用户中心</div>
+  <div class="w-full h-full">
+    <el-row :gutter="12" class="h-full">
+      <el-col :span="12">
+        <el-card class="h-full">
+          <div class="wh-full cross-center flex-col">
+            <el-avatar :size="80" :src="userInfo.avatar">
+              <as-icons name="imageCircle" :size="60" />
+            </el-avatar>
+            <span class="text-3xl mt-4">{{ userInfo.username }}</span>
+            <el-descriptions :column="1" border class="mt-4" size="large">
+              <el-descriptions-item label="手机号">{{
+                userInfo.mobile
+              }}</el-descriptions-item>
+              <el-descriptions-item label="超级管理员">{{
+                userInfo.isRoot ? '是' : '否'
+              }}</el-descriptions-item>
+              <el-descriptions-item label="创建日期">{{
+                userInfo.createdAt
+              }}</el-descriptions-item>
+            </el-descriptions>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card class="h-full"> </el-card>
+      </el-col>
+    </el-row>
+  </div>
 </template>
 <style scoped></style>

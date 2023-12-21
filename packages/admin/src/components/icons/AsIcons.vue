@@ -72,6 +72,8 @@ watch(
     <icon-majest-chevron-left-line v-if="name === 'chevronLeft'" />
     <icon-majest-chevron-right-line v-if="name === 'chevronRight'" />
     <icon-majest-code-line v-if="name === 'code'" />
+    <icon-majest-image-circle-line v-if="name === 'imageCircle'" />
+    <icon-majest-data-minus-line v-if="name === 'dataMinus'" />
   </el-icon>
 </template>
 

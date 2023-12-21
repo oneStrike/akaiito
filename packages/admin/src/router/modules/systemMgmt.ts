@@ -16,7 +16,8 @@ export default {
       component: () => import('@/views/systemMgmt/profile/ProfilePage.vue'),
       meta: {
         title: '个人中心',
-        icon: 'user'
+        icon: 'user',
+        rules: ['root']
       }
     },
     {
@@ -27,6 +28,16 @@ export default {
       meta: {
         title: '操作日志',
         icon: 'handPointer'
+      }
+    },
+    {
+      name: 'DataDictionary',
+      path: '/dataDictionary',
+      component: () =>
+        import('@/views/systemMgmt/dataDictionary/DataDictionaryPage.vue'),
+      meta: {
+        title: '数据字典',
+        icon: 'dataMinus'
       }
     },
     {

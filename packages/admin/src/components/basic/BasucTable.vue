@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="main-page">系统状态</div>
+  <div>基础表格组件</div>
 </template>
 
 <style scoped></style>

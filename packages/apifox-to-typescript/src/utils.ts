@@ -6,7 +6,7 @@ export const formatSchema = (
 ) => {
   const {
     properties,
-    required,
+    required = [],
     'x-apifox-orders': apiOrders,
     'x-apifox-refs': refs
   } = schema
@@ -16,7 +16,7 @@ export const formatSchema = (
       const { $ref: ref, 'x-apifox-overrides': overrides } = refs[item]
       const refId = ref.split('/').pop()
       if (dataSchema && dataSchema[refId]) {
-        if (overrides) {
+        if (overrides && Object.keys(overrides).length) {
           for (const overridesKey in overrides) {
             if (overrides[overridesKey]) {
               dataSchema[refId].forEach((item: IterateObject) => {
@@ -28,25 +28,28 @@ export const formatSchema = (
           schemaArr.push(...dataSchema[refId])
         }
       }
-      return
     }
 
-    const type = properties[item].type
-    const schema = {
-      name: item,
-      type: Array.isArray(type) ? type.join(' | ') : type,
-      description: properties[item].description,
-      required: required.includes(item)
-    }
-    if (Array.isArray(type)) {
-      schema.type = type.join(' | ')
-    } else if (type === 'integer') {
-      schema.type = 'number'
-    } else if (type === 'object') {
-      schema.type = [...formatSchema(properties[item], dataSchema)]
-    }
+    const type = properties[item]?.type
+    if (type) {
+      const schema = {
+        name: item,
+        type: Array.isArray(type) ? type.join(' | ') : type,
+        description: properties[item].description,
+        required: required.includes(item)
+      }
+      if (Array.isArray(type)) {
+        schema.type = type.join(' | ')
+      } else if (type === 'integer') {
+        schema.type = 'number'
+      } else if (type === 'object') {
+        schema.type = [...formatSchema(properties[item], dataSchema)]
+      } else if (type === 'array') {
+        schema.type = [...formatSchema(properties[item].items, dataSchema)]
+      }
 
-    schemaArr.push(schema)
+      schemaArr.push(schema)
+    }
   })
   return schemaArr
 }

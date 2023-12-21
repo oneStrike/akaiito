@@ -3,15 +3,11 @@ import { useLayoutStore } from '@/stores/modules/layout'
 import { useUserStore } from '@/stores/modules/user'
 import { getAssetsFile } from '@/utils/getAssetsFile'
 
-const router = useRouter()
 const route = useRoute()
 
 const userStore = useUserStore()
 const layoutStore = useLayoutStore()
 const { userInfo } = storeToRefs(userStore)
-const toggleMenuStatus = () => {
-  layoutStore.collapsed = !layoutStore.collapsed
-}
 </script>
 
 <template>
@@ -23,7 +19,7 @@ const toggleMenuStatus = () => {
         "
         color="!text-info"
         class="mr-4"
-        @click="toggleMenuStatus"
+        @click="layoutStore.toggleMenuCollapsed"
       />
       <el-breadcrumb separator="/">
         <el-breadcrumb-item

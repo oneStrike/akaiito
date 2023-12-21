@@ -81,6 +81,11 @@ export class UserService extends BaseService<AdminUser> {
         { expiresIn: 1000 * 60 * 60 * 24 * 2 }
       )
     }
+    console.log(
+      '🚀 ~ file:user.service method:login line:84 -----',
+      token,
+      userInfo
+    )
     return {
       token,
       userInfo

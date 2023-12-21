@@ -7,6 +7,7 @@ import {
 } from '../../typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
 import { utils } from '../../utils'
+import { BaseOrderDto } from '../dto/base.dto'
 
 export abstract class BaseService<T> {
   // 注入应用实例
@@ -29,6 +30,9 @@ export abstract class BaseService<T> {
     throw new httpError.BadRequestError(message)
   }
 
+  async getCount(): Promise<number> {
+    return this.model.count()
+  }
   //是否存在
   async exists(where: WhereOptions<T>): Promise<boolean> {
     return await this.model.isExists(where)
@@ -36,7 +40,8 @@ export abstract class BaseService<T> {
 
   // 创建数据
   async create(data: Partial<T>): Promise<T> {
-    return await this.model.create({ data })
+    const { id } = await this.model.create({ data })
+    return id
   }
 
   //更新数据
@@ -56,6 +61,17 @@ export abstract class BaseService<T> {
     } catch (e) {
       return null
     }
+  }
+
+  //更新排序
+  async updateOrder(info: BaseOrderDto) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await this.updateById(info.targetId, { order: info.targetOrder })
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await this.updateById(info.originId, { order: info.originOrder })
+    return info.targetId
   }
 
   // 软删除
@@ -96,7 +112,7 @@ export abstract class BaseService<T> {
     })
     // 并行查询总数和数据
     const [total, res] = await Promise.all([
-      this.model.count(),
+      this.getCount(),
       this.model.find(findOptions, this.prismaConfig.timeSerialize)
     ])
     return {

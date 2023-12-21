@@ -19,8 +19,11 @@ export default defineConfig({
   },
   presets: [presetUno(), presetAttributify(), presetRemToPx()],
   shortcuts: [
-    ['main-center', 'flex justify-center items-center'],
-    ['cross-center', 'flex flex-row justify-center items-center']
+    ['main-page', 'bg-[var(--el-bg-color)] p-3'],
+    ['wh-full', 'w-full h-full'],
+    ['flex-center', 'flex justify-center items-center'],
+    ['cross-center', 'flex items-center'],
+    ['main-center', 'flex justify-center']
   ],
   rules: [
     [

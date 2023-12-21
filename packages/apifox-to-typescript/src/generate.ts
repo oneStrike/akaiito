@@ -44,10 +44,6 @@ export const generate = async () => {
       item.requestScheme = item.parameters.query
     } else if (item.method === 'post') {
       //请求
-      console.log(
-        '🚀 ~ file:generate method: line:47 -----',
-        item.requestBody.jsonSchema
-      )
       if (item.requestBody.jsonSchema)
         item.requestScheme = formatSchema(
           item.requestBody.jsonSchema,
@@ -79,7 +75,6 @@ export const generate = async () => {
      api[apiKey].importTypings
    }'
   ` + api[apiKey].str
-
     const parse = await prettier.format(result, {
       parser: 'typescript',
       ...prettierConfig
