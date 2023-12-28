@@ -217,7 +217,7 @@ export interface LoginTypings {
        * 刷新token
        */
       refreshToken: string
-    }
+    }[]
 
     /*
      * 用户信息
@@ -255,7 +255,7 @@ export interface LoginTypings {
        * 更新时间
        */
       updatedAt: string
-    }
+    }[]
   }
 }
 /**

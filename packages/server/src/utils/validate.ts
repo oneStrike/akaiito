@@ -69,7 +69,7 @@ export const requiredNumber = validateNumber.required()
  * @param isRequired 是否必须
  */
 export const givenValue = (values: any[], isRequired = true) => {
-  values.push(...values.map((item) => item.toString()))
+  values = values.map((item) => item.toString())
   const rule = RuleType.valid(...utils._.uniq(values))
   return isRequired ? rule.required() : rule.empty([''])
 }

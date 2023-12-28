@@ -13,7 +13,10 @@ export class ExceptionFilter {
     } as HttpResponseResult
 
     ctx.logger.error(err)
-    if (cause) {
+    if (err.name === 'PrismaClientKnownRequestError' && err.code === 'P2002') {
+      responseErrorInfo.code = 0
+      responseErrorInfo.desc = '数据重复'
+    } else if (cause) {
       responseErrorInfo.code = 0
       const { context, type } = cause.details[0]
       if (type === 'any.required') {

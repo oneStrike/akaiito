@@ -14,13 +14,13 @@ withDefaults(defineProps<LayoutSubMenuProps>(), {})
     v-if="menuInfo.children?.length"
   >
     <template #title>
-      <as-icons :name="menuInfo.meta.icon" />
+      <as-icons :name="menuInfo.meta.icon" unset />
       <span>{{ menuInfo.meta.title }}</span>
     </template>
 
     <template v-for="item in menuInfo.children" :key="item.name">
       <el-menu-item :index="item.name as string" v-if="!item.children">
-        <as-icons :name="item.meta.icon" />
+        <as-icons :name="item.meta.icon" unset />
         <template #title>
           <span>{{ item.meta.title }}</span>
         </template>

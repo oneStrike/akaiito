@@ -71,7 +71,6 @@ export class UserService extends BaseService<AdminUser> {
       this.throwError('账户已被禁用，请联系系统管理员')
     }
     delete userInfo.password
-    delete userInfo.deletedAt
     userInfo.createdAt = formatDate(userInfo.createdAt) as unknown as Date
     userInfo.updatedAt = formatDate(userInfo.updatedAt) as unknown as Date
     const token = {

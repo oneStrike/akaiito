@@ -79,6 +79,11 @@ export abstract class BaseService<T> {
     return await this.model.softDeletion(where)
   }
 
+  //删除
+  async delete(where: WhereOptions<T>) {
+    return await this.model.delete({ where })
+  }
+
   // 根据ID查询数据
   async findById(id: number): Promise<T | null> {
     return await this.model.findOne(
@@ -101,6 +106,11 @@ export abstract class BaseService<T> {
   async findPage(
     options?: WhereOptions<T> & PrismaConfig['pagination']
   ): FindPageResponse<T> {
+    console.log(
+      '🚀 ~ file:thiw method:findPage line:109 -----',
+      Object.keys(this.model),
+      this.model.$name
+    )
     // 合并分页配置
     const { pageIndex, pageSize, orderBy, where } = this.pagination(options)
     // 查询选项
@@ -119,7 +129,7 @@ export abstract class BaseService<T> {
       pageSize: res?.length ?? 0,
       pageIndex,
       total,
-      data: res
+      list: res
     }
   }
 
@@ -128,7 +138,8 @@ export abstract class BaseService<T> {
     const result = await this.model.find(
       this.mergeCommonQuery({
         where,
-        take: this.prismaConfig.maxListItemLimit
+        take: this.prismaConfig.maxListItemLimit,
+        orderBy: this.prismaConfig.orderBy
       }),
       this.prismaConfig.timeSerialize
     )
@@ -142,7 +153,6 @@ export abstract class BaseService<T> {
   // 合并查询选项
   mergeCommonQuery(options: IterateObject) {
     if (!options.where) options.where = {}
-    if (!options.where.deletedAt) options.where.deletedAt = null
     options.exclude = Object.assign(this.prismaConfig.exclude, options.exclude)
     return options
   }
@@ -150,15 +160,15 @@ export abstract class BaseService<T> {
   //分页参数
   pagination(options: IterateObject) {
     if (!options) return {}
-    const { pageSize, pageIndex, orderBy } = options
-
+    const { pageSize, pageIndex, orderBy: orderByJson } = options
+    const orderBy = utils.isJson(orderByJson)
+      ? JSON.parse(orderByJson)
+      : this.prismaConfig.orderBy
     return {
       where: utils._.omit(options, Object.keys(this.prismaConfig.pagination)),
       pageSize: pageSize || this.prismaConfig.pagination.pageSize,
       pageIndex: pageIndex || this.prismaConfig.pagination.pageIndex,
-      orderBy: utils.isJson(orderBy)
-        ? JSON.parse(orderBy)
-        : this.prismaConfig.pagination.orderBy
+      orderBy
     }
   }
 }

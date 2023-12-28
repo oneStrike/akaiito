@@ -4,7 +4,6 @@ prisma:
 
   # 默认排除的字段
   exclude:
-    - 'deletedAt'
     - 'password'
 
   # 单次列表查询的最大条数上线
@@ -14,4 +13,6 @@ prisma:
   pagination:
     pageSize: 15
     pageIndex: 1
-    orderBy:
+  # 默认排序字段
+  orderBy:
+    id: desc

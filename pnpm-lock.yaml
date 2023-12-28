@@ -54,6 +54,9 @@ importers:
       '@akaiito/utils':
         specifier: workspace:*
         version: link:../utils
+      '@element-plus/icons-vue':
+        specifier: ^2.3.1
+        version: 2.3.1(vue@3.3.13)
       '@vueuse/core':
         specifier: ^10.5.0
         version: 10.7.0(vue@3.3.13)
@@ -113,6 +116,9 @@ importers:
         specifier: ^0.58.0
         version: 0.58.0
       '@unocss/reset':
+        specifier: ^0.58.0
+        version: 0.58.0
+      '@unocss/transformer-variant-group':
         specifier: ^0.58.0
         version: 0.58.0
       '@vitejs/plugin-vue':

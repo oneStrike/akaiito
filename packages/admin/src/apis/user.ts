@@ -21,7 +21,7 @@ export const createAdminUserApi = (
 }
 
 export const getUserInfoApi = (
-  params: GetUserInfoTypings['Request']
+  params?: GetUserInfoTypings['Request']
 ): Promise<GetUserInfoTypings['Response']> => {
   return httpClient({
     method: 'get',

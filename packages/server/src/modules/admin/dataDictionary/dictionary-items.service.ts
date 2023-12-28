@@ -1,8 +1,10 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { BaseService } from '../../../base/service/base.service'
 import { PrismaClient, DataDictionaryItems } from '@prisma/client'
-import { CreateDictionaryItemsDto } from './dto/dictionary.dto'
-import { BaseIdDto, BasePageDto } from '../../../base/dto/base.dto'
+import {
+  CreateDictionaryItemsDto,
+  FindDictionItemsDto
+} from './dto/dictionary.dto'
 
 @Provide()
 export class DictionaryServiceItems extends BaseService<DataDictionaryItems> {
@@ -13,7 +15,7 @@ export class DictionaryServiceItems extends BaseService<DataDictionaryItems> {
     return this.prismaClient.dataDictionaryItems
   }
 
-  async getItems(items: BasePageDto & BaseIdDto) {
+  async getItems(items: FindDictionItemsDto) {
     const dictionaryId = items.id
     delete items.id
     return this.findPage({ ...items, dictionaryId })

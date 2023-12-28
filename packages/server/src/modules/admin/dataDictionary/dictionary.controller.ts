@@ -3,13 +3,14 @@ import { DictionaryService } from './dictionary.service'
 import {
   CreateDictionaryDto,
   CreateDictionaryItemsDto,
+  FindDictionDto,
+  FindDictionItemsDto,
   UpdateDictionaryDto
 } from './dto/dictionary.dto'
 import { DictionaryServiceItems } from './dictionary-items.service'
 import {
   BaseIdDto,
   BaseOrderDto,
-  BasePageDto,
   BaseStatusDto
 } from '../../../base/dto/base.dto'
 
@@ -22,12 +23,15 @@ export class DictionaryController {
   dictionaryItemsService: DictionaryServiceItems
 
   @Get('/getDataDictionary', { summary: '获取数据字典列表' })
-  async getDataDictionary(@Query() query: BasePageDto) {
+  async getDataDictionary(@Query() query: FindDictionDto) {
+    if (query.status) query.status = Number(query.status)
     return this.dictionaryService.findPage(query)
   }
 
   @Get('/getDataDictionaryItems', { summary: '获取数据字典子项列表' })
-  async getDataDictionaryItems(@Query() query: BasePageDto & BaseIdDto) {
+  async getDataDictionaryItems(@Query() query: FindDictionItemsDto) {
+    if (query.id) query.id = Number(query.id)
+    if (query.status) query.status = Number(query.status)
     return this.dictionaryItemsService.getItems(query)
   }
 
@@ -43,12 +47,12 @@ export class DictionaryController {
 
   @Post('/deleteDataDictionary', { summary: '删除数据字典' })
   async deleteDataDictionary(@Body() body: BaseIdDto) {
-    return this.dictionaryService.softDeletion(body)
+    return this.dictionaryService.delete(body)
   }
 
   @Post('/deleteDataDictionaryItems', { summary: '删除数据字典子项' })
   async deleteDataDictionaryItems(@Body() body: BaseIdDto) {
-    return this.dictionaryItemsService.softDeletion(body)
+    return this.dictionaryItemsService.delete(body)
   }
 
   @Post('/updateDataDictionary', { summary: '更新数据字典' })

@@ -10,29 +10,32 @@ export interface AsIconsProps {
     | '!text-warning'
     | string
   rotate?: boolean
+  hover?: boolean
+  unset?: boolean
 }
 
 const props = withDefaults(defineProps<AsIconsProps>(), {
   color: '',
   size: 18,
-  rotate: false
+  rotate: false,
+  hover: false,
+  unset: false
 })
 
 const emits = defineEmits<{
   (event: 'click'): void
 }>()
-
-const iconColor = ref('')
-const iconClass = ref('text-primary')
+const iconClass = ref('')
 
 watch(
   () => props.color,
   (val) => {
-    if (val.includes('#')) {
-      iconColor.value = val
-    } else if (val) {
-      val = val === 'text-primary!' ? 'text-theme!' : val
-      iconClass.value = val
+    if (!props.unset && val) {
+      if (val.includes('#')) {
+        iconClass.value = 'text-[' + val + ']'
+      } else {
+        iconClass.value = val === '!text-primary' ? '!text-theme' : val
+      }
     }
   },
   { immediate: true }
@@ -41,9 +44,14 @@ watch(
 
 <template>
   <el-icon
-    :color="iconColor"
     :size="size"
-    :class="[rotate ? 'rotate_animation' : '', 'cursor-pointer', iconClass]"
+    :class="[
+      unset ? '!text-unset' : '',
+      rotate ? 'rotate_animation' : '',
+      hover ? 'hover:(!text-theme)' : '',
+      'cursor-pointer',
+      iconClass
+    ]"
     @click="emits('click')"
   >
     <!--   https://icones.netlify.app/collection/line-md -->
@@ -74,6 +82,9 @@ watch(
     <icon-majest-code-line v-if="name === 'code'" />
     <icon-majest-image-circle-line v-if="name === 'imageCircle'" />
     <icon-majest-data-minus-line v-if="name === 'dataMinus'" />
+    <icon-majest-pinwheel-line v-if="name === 'pinwheel'" />
+    <icon-majest-minimize-line v-if="name === 'minimize'" />
+    <icon-majest-maximize-line v-if="name === 'maximize'" />
   </el-icon>
 </template>
 

@@ -14,7 +14,7 @@ import type {
 } from './dictionary.d'
 
 export const getDataDictionaryApi = (
-  params: GetDataDictionaryTypings['Request']
+  params?: GetDataDictionaryTypings['Request']
 ): Promise<GetDataDictionaryTypings['Response']> => {
   return httpClient({
     method: 'get',
@@ -24,7 +24,7 @@ export const getDataDictionaryApi = (
 }
 
 export const getDataDictionaryItemsApi = (
-  params: GetDataDictionaryItemsTypings['Request']
+  params?: GetDataDictionaryItemsTypings['Request']
 ): Promise<GetDataDictionaryItemsTypings['Response']> => {
   return httpClient({
     method: 'get',

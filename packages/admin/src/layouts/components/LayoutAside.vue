@@ -58,7 +58,7 @@ const menuSelect = (menu: RouteRecordName) => {
       <template v-for="menu in menus" :key="menu.name">
         <layout-sub-menu :menu-info="menu" v-if="menu.children" />
         <el-menu-item :index="menu.name as string" :key="menu.name" v-else>
-          <as-icons :name="menu.meta.icon" />
+          <as-icons :name="menu.meta.icon" unset />
           <template #title>
             <span>{{ menu.meta.title }}</span>
           </template>

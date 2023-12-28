@@ -33,7 +33,6 @@ const removeRouter = (name: any) => {
 //移除左侧
 const removeLeft = () => {
   const idx = findIdx(currentRouter.value)
-  console.log('🚀 ~ file:LayoutTabs method:removeLeft line:36 -----', idx)
   routerHistory.value.splice(1, idx - 1)
 }
 //移除右侧
@@ -69,6 +68,7 @@ const addRouter = (route: RouteLocationNormalizedLoaded) => {
 //刷新当前路由
 const reloadFlag = ref(false)
 const reload = () => {
+  if (reloadFlag.value) return
   reloadFlag.value = true
   router.replace({
     name: 'redirect',
@@ -78,7 +78,7 @@ const reload = () => {
   })
   window.setTimeout(() => {
     reloadFlag.value = false
-  }, 500)
+  }, 1000)
 }
 
 const navigation = (name: any) => {
@@ -118,58 +118,62 @@ watch(
         {{ item.content }}
       </el-tab-pane>
     </el-tabs>
-    <el-dropdown>
-      <as-icons name="dotsHorizontal" />
-      <template #dropdown>
-        <el-dropdown-menu>
-          <el-dropdown-item @click="reload">
-            <as-icons name="reload" />
-            <span>刷新</span>
-          </el-dropdown-item>
-          <el-dropdown-item
-            @click="removeRouter(currentRouter)"
-            :disabled="currentRouter === defaultHistory.name"
-          >
-            <as-icons name="multiply" />
-            <span>关闭当前</span>
-          </el-dropdown-item>
-          <el-dropdown-item
-            @click="removeLeft"
-            :disabled="
-              currentRouter === defaultHistory.name ||
-              findIdx(currentRouter) === 1
-            "
-          >
-            <as-icons name="chevronLeft" />
-            <span>关闭左侧</span>
-          </el-dropdown-item>
-          <el-dropdown-item
-            @click="removeRight"
-            :disabled="findIdx(currentRouter) + 1 === routerHistory.length"
-          >
-            <as-icons name="chevronRight" />
-            <span>关闭右侧</span>
-          </el-dropdown-item>
-          <el-dropdown-item
-            @click="removeAllRouter"
-            :disabled="currentRouter === defaultHistory.name"
-          >
-            <as-icons name="code" />
-            <span>关闭所有</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </template>
-    </el-dropdown>
+    <div class="flex-center">
+      <as-icons
+        name="pinwheel"
+        class="mr-4"
+        :rotate="reloadFlag"
+        @click="reload"
+      />
+      <el-dropdown class="flex-center">
+        <as-icons name="dotsHorizontal" />
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item
+              @click="removeRouter(currentRouter)"
+              :disabled="currentRouter === defaultHistory.name"
+            >
+              <as-icons name="multiply" />
+              <span>关闭当前</span>
+            </el-dropdown-item>
+            <el-dropdown-item
+              @click="removeLeft"
+              :disabled="
+                currentRouter === defaultHistory.name ||
+                findIdx(currentRouter) === 1
+              "
+            >
+              <as-icons name="chevronLeft" />
+              <span>关闭左侧</span>
+            </el-dropdown-item>
+            <el-dropdown-item
+              @click="removeRight"
+              :disabled="findIdx(currentRouter) + 1 === routerHistory.length"
+            >
+              <as-icons name="chevronRight" />
+              <span>关闭右侧</span>
+            </el-dropdown-item>
+            <el-dropdown-item
+              @click="removeAllRouter"
+              :disabled="currentRouter === defaultHistory.name"
+            >
+              <as-icons name="code" />
+              <span>关闭所有</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-::v-deep(.el-tabs__header) {
+:deep(.el-tabs__header) {
   margin: 0 !important;
   border-bottom: 0;
 }
 
-::v-deep(.el-tabs__nav) {
+:deep(.el-tabs__nav) {
   border: 0 !important;
 }
 </style>

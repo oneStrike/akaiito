@@ -85,10 +85,12 @@ export const formatApi = (
 
 export const conversion = (api: IterateObject, config: IterateObject) => {
   const requestDoc = generateTyping(api.requestScheme)
+  const requiredRequest = api.requestScheme?.find(
+    (item: IterateObject) => item.required
+  )
   const responseScheme = api.responseScheme?.find(
     (item: IterateObject) => item.name === config.field
   )
-
   const responseDoc = responseScheme?.type
     ? generateTyping(responseScheme.type)
     : null
@@ -116,7 +118,9 @@ export interface ${options.typingsName} {
 }
 `
   const payload = requestDoc
-    ? `${options.payload}: ${options.typingsName}['Request']`
+    ? `${options.payload}${requiredRequest ? '' : '?'}: ${
+        options.typingsName
+      }['Request']`
     : ''
 
   const apiStr = `
@@ -161,7 +165,7 @@ const generateTyping = (schema: IterateObject[] | string) => {
      ${item.name + (item.required ? '' : '?')}: ${
        typeof item.type !== 'string'
          ? `
-         ${generateTyping(item.type)}
+         ${generateTyping(item.type)}[]
        `
          : item.type
      }

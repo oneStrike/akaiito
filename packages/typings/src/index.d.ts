@@ -15,3 +15,20 @@ export interface RecordPaginationOptions {
   pageSize?: number // 每页大小
   orderBy?: string // 排序配置
 }
+
+//异步函数
+export type AsyncFn = (p?: any) => Promise<any>
+
+//获取函数的返回值
+type InferReturnType<T> = T extends (...args: any[]) => any ? ReturnType<T> : T
+
+//获取异步函数的解析值
+type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R>
+  ? R
+  : InferReturnType<T>
+
+//拼接loading
+type JoinLoading<T> = T & { loading: boolean }
+
+//获取列表数据的item
+type ResolveListItem<T> = JoinLoading<T['list'][number]>

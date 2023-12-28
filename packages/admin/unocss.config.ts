@@ -1,5 +1,6 @@
 import { defineConfig, presetAttributify, presetUno } from 'unocss'
 import presetRemToPx from '@unocss/preset-rem-to-px'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 export default defineConfig({
   content: {
@@ -17,6 +18,7 @@ export default defineConfig({
       ]
     }
   },
+  transformers: [transformerVariantGroup()],
   presets: [presetUno(), presetAttributify(), presetRemToPx()],
   shortcuts: [
     ['main-page', 'bg-[var(--el-bg-color)] p-3'],

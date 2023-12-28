@@ -78,7 +78,7 @@ export interface GetDataDictionaryTypings {
        * 更新时间
        */
       updatedAt: string
-    }
+    }[]
   }
 }
 /**
@@ -161,7 +161,7 @@ export interface GetDataDictionaryItemsTypings {
        * 应用状态，1启用、0禁用
        */
       status: number
-    }
+    }[]
   }
 }
 /**
