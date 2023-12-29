@@ -17,7 +17,7 @@ import { JwtMiddleware } from './middleware/jwt.middleware'
 import { ExceptionFilter } from './filter/exception.filter'
 import { RegisterPrisma } from './prisma'
 import {
-  getUserInfoToToken,
+  getUserInfoHandler,
   USERINFO_KEY
 } from './decorator/userinfo.decorator'
 
@@ -54,7 +54,7 @@ export class MainConfiguration {
 
     this.decoratorService.registerMethodHandler(
       USERINFO_KEY,
-      getUserInfoToToken
+      getUserInfoHandler
     )
   }
 }

@@ -28,7 +28,6 @@ const deleteRow = async () => {
     emits('success')
   } catch (e) {
     loading.value = false
-    useMessage.error(PromptsEnum.ERROR_DELETE)
     emits('error', e)
   }
 }

@@ -20,15 +20,21 @@ export interface RecordPaginationOptions {
 export type AsyncFn = (p?: any) => Promise<any>
 
 //获取函数的返回值
-type InferReturnType<T> = T extends (...args: any[]) => any ? ReturnType<T> : T
+export type InferReturnType<T> = T extends (...args: any[]) => any
+  ? ReturnType<T>
+  : T
 
 //获取异步函数的解析值
-type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R>
+export type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R>
   ? R
   : InferReturnType<T>
 
 //拼接loading
-type JoinLoading<T> = T & { loading: boolean }
+export type JoinLoading<T> = T & { loading: boolean }
+
+type ListData<T = any> = {
+  list: T[]
+}
 
 //获取列表数据的item
-type ResolveListItem<T> = JoinLoading<T['list'][number]>
+export type ResolveListItem<T extends ListData> = JoinLoading<T['list'][number]>

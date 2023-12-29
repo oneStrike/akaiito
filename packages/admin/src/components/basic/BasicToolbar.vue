@@ -2,6 +2,7 @@
 import type { ButtonProps, DropdownInstance } from 'element-plus'
 import type { BasicFormProps } from '@/components/basic/BasicForm.vue'
 import type { IterateObject } from '@typings/index'
+import { utils } from '@/utils'
 
 export type ToolbarFilter = BasicFormProps['options']
 
@@ -40,7 +41,11 @@ const emits = defineEmits<{
 const filterData = ref<IterateObject>()
 
 const submit = (val) => {
-  emits('query', val)
+  const { pickBy, isBoolean, isNumber } = utils._
+  emits(
+    'query',
+    pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)
+  )
 }
 </script>
 

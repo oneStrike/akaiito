@@ -17,7 +17,7 @@ export function UserInfo(): MethodDecorator {
   return createCustomMethodDecorator(USERINFO_KEY, {})
 }
 
-export function getUserInfoToToken(): IMethodAspect {
+export function getUserInfoHandler(): IMethodAspect {
   return {
     async before(joinPoint: JoinPoint) {
       const instance = joinPoint.target

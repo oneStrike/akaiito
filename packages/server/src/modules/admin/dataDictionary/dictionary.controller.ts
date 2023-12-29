@@ -24,14 +24,11 @@ export class DictionaryController {
 
   @Get('/getDataDictionary', { summary: '获取数据字典列表' })
   async getDataDictionary(@Query() query: FindDictionDto) {
-    if (query.status) query.status = Number(query.status)
     return this.dictionaryService.findPage(query)
   }
 
   @Get('/getDataDictionaryItems', { summary: '获取数据字典子项列表' })
   async getDataDictionaryItems(@Query() query: FindDictionItemsDto) {
-    if (query.id) query.id = Number(query.id)
-    if (query.status) query.status = Number(query.status)
     return this.dictionaryItemsService.getItems(query)
   }
 

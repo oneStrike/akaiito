@@ -14,9 +14,9 @@ import {
 import { useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/core/prompts'
 import { useRequest } from '@/hooks/useRequest'
-import { type ResolveListItem } from '@akaiito/typings/src'
+import type { ResolveListItem } from '@akaiito/typings/src'
 import BasicSwitch from '@/components/basic/BasicSwitch.vue'
-import BasicPopconfirm from '@/components/basic/BasicPopconfirm.vue'
+import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 
 const { pageRequest, requestData, resetPageRequest, loading } =
   useRequest(getDataDictionaryApi)
@@ -67,7 +67,7 @@ const edit = (val: TableItem) => {
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
 
-        <basic-popconfirm
+        <basic-pop-confirm
           :request="deleteDataDictionaryApi"
           :row="row"
           v-model:loading="loading"

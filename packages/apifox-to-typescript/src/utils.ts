@@ -36,7 +36,8 @@ export const formatSchema = (
         name: item,
         type: Array.isArray(type) ? type.join(' | ') : type,
         description: properties[item].description,
-        required: required.includes(item)
+        required: required.includes(item),
+        array: false
       }
       if (Array.isArray(type)) {
         schema.type = type.join(' | ')
@@ -46,6 +47,7 @@ export const formatSchema = (
         schema.type = [...formatSchema(properties[item], dataSchema)]
       } else if (type === 'array') {
         schema.type = [...formatSchema(properties[item].items, dataSchema)]
+        schema.array = true
       }
 
       schemaArr.push(schema)
@@ -165,7 +167,7 @@ const generateTyping = (schema: IterateObject[] | string) => {
      ${item.name + (item.required ? '' : '?')}: ${
        typeof item.type !== 'string'
          ? `
-         ${generateTyping(item.type)}[]
+         ${generateTyping(item.type)}${item.array ? '[]' : ''}
        `
          : item.type
      }

@@ -5,7 +5,9 @@ import { refreshAccessTokenApi } from '@/apis/user'
 import router from '@/router'
 
 export interface UserState {
-  token: LoginTypings['Response']['token'] & {
+  token: {
+    accessToken: string
+    refreshToken: string
     accessTokenExpiresIn?: number
     refreshTokenExpiresIn?: number
   }

@@ -64,12 +64,24 @@ export const validateNumber = RuleType.number()
 export const requiredNumber = validateNumber.required()
 
 /**
+ * 数字小于
+ */
+export const validateNumberLess = (less: number) => RuleType.number().less(less)
+
+/**
+ * 限定为必传数字小于
+ */
+export const requiredNumberLess = (less: number) => {
+  return validateNumberLess(less).required()
+}
+
+/**
  * 限定为给定值
  * @param values 给定值
  * @param isRequired 是否必须
  */
 export const givenValue = (values: any[], isRequired = true) => {
-  values = values.map((item) => item.toString())
+  values.push(...values.map((item) => item.toString()))
   const rule = RuleType.valid(...utils._.uniq(values))
   return isRequired ? rule.required() : rule.empty([''])
 }

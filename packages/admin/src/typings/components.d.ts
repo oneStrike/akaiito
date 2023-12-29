@@ -11,6 +11,7 @@ declare module 'vue' {
     BasicForm: (typeof import('./../components/basic/BasicForm.vue'))['default']
     BasicModal: (typeof import('./../components/basic/BasicModal.vue'))['default']
     BasicPopconfirm: (typeof import('./../components/basic/BasicPopconfirm.vue'))['default']
+    BasicPopConfirm: (typeof import('./../components/basic/BasicPopConfirm.vue'))['default']
     BasicSwitch: (typeof import('./../components/basic/BasicSwitch.vue'))['default']
     BasicTable: (typeof import('./../components/basic/BasicTable.vue'))['default']
     BasicToolbar: (typeof import('./../components/basic/BasicToolbar.vue'))['default']

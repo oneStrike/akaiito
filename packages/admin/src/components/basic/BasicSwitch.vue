@@ -28,7 +28,7 @@ const toggleStatus = async () => {
     useMessage.success(PromptsEnum.UPDATED)
     return true
   } catch (e) {
-    useMessage.error(PromptsEnum.ERROR_UPDATE)
+    row.value.loading = false
     emits('error', e)
   }
 }

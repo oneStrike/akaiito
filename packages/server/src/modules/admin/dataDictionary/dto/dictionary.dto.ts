@@ -1,8 +1,8 @@
 import { OmitDto, Rule } from '@midwayjs/validate'
 import {
-  givenValue,
   requiredNumber,
   requiredString,
+  validateNumberLess,
   validateString
 } from '../../../../utils/validate'
 import { BasePageDto } from '../../../../base/dto/base.dto'
@@ -17,7 +17,7 @@ export class DictionaryDto {
   @Rule(requiredString)
   code: string
 
-  @Rule(givenValue([0, 1], true))
+  @Rule(validateNumberLess(2))
   status: number
 
   @Rule(requiredString)
@@ -45,7 +45,7 @@ export class FindDictionDto extends BasePageDto {
   @Rule(validateString)
   code?: string
 
-  @Rule(givenValue([0, 1], false))
+  @Rule(validateNumberLess(2))
   status?: number
 }
 
@@ -59,6 +59,6 @@ export class FindDictionItemsDto extends BasePageDto {
   @Rule(validateString)
   code?: string
 
-  @Rule(givenValue([0, 1], false))
+  @Rule(validateNumberLess(2))
   status?: number
 }

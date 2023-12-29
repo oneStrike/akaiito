@@ -106,11 +106,6 @@ export abstract class BaseService<T> {
   async findPage(
     options?: WhereOptions<T> & PrismaConfig['pagination']
   ): FindPageResponse<T> {
-    console.log(
-      '🚀 ~ file:thiw method:findPage line:109 -----',
-      Object.keys(this.model),
-      this.model.$name
-    )
     // 合并分页配置
     const { pageIndex, pageSize, orderBy, where } = this.pagination(options)
     // 查询选项
