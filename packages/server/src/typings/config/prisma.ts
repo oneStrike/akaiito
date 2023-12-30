@@ -8,5 +8,5 @@ export interface PrismaConfig {
   orderBy: IterateObject
   timeSerialize: boolean
   maxListItemLimit: number
-  exclude: string[]
+  excludes: string[]
 }

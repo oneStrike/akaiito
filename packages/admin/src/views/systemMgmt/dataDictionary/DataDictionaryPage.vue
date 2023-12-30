@@ -61,6 +61,9 @@ const edit = (val: TableItem) => {
       :data="requestData.list"
       v-loading="loading"
     >
+      <template #name="{ row }">
+        <el-button link type="primary">{{ row.name }}</el-button>
+      </template>
       <template #status="{ row }">
         <basic-switch :request="updateDataDictionaryStatusApi" :row="row" />
       </template>

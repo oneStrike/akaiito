@@ -7,7 +7,6 @@ import {
   ScopeEnum
 } from '@midwayjs/core'
 import { PrismaClient } from '@prisma/client'
-import * as extendModules from './modules'
 
 @Provide()
 @Scope(ScopeEnum.Request, { allowDowngrade: true })
@@ -22,24 +21,7 @@ export class RegisterPrisma {
         { level: 'error', emit: 'event' }
       ]
     })
-    // prisma.$on('query', ({ query, params, duration }) => {
-    //   this.logger.info(
-    //     'Query: %s , params: %s , duration: %d ms',
-    //     query,
-    //     params,
-    //     duration
-    //   )
-    // })
 
-    const extendPrisma = prisma.$extends({
-      name: 'exists',
-      model: {
-        $allModels: {
-          ...extendModules
-        }
-      }
-    })
-
-    container.registerObject('prismaClient', extendPrisma)
+    container.registerObject('prismaClient', prisma)
   }
 }

@@ -48,6 +48,7 @@ const formSubmit = (val) => {
     v-model="show"
     :loading="loading"
     :width="width"
+    :title="title"
     @handler="handler"
   >
     <basic-form

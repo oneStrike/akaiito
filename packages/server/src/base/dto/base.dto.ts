@@ -1,8 +1,9 @@
 import { Rule } from '@midwayjs/validate'
 import {
-  givenValue,
   requiredNumber,
+  requiredNumberLess,
   validateNumber,
+  validateNumberArray,
   validateString
 } from '../../utils/validate'
 
@@ -22,8 +23,13 @@ export class BaseIdDto {
   id: number
 }
 
-export class BaseStatusDto extends BaseIdDto {
-  @Rule(givenValue([0, 1], true))
+export class BaseIdsDto {
+  @Rule(validateNumberArray)
+  ids: number[]
+}
+
+export class BaseStatusDto extends BaseIdsDto {
+  @Rule(requiredNumberLess(2))
   status: number
 }
 

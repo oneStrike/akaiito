@@ -5,7 +5,10 @@ export type FindPageResponse<T> = Promise<{
   list: T[]
 }>
 
-export type WhereOptions<T> = Partial<T> & {
+export type WhereOptions<T> = {
+  id?: any
+  excludes?: string[]
+  orderBy?: string
   AND?: Partial<T> | Partial<T>[]
   OR?: Partial<T>[]
   NOT?: Partial<T> | Partial<T>[]

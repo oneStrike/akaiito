@@ -16,9 +16,7 @@ export class DictionaryServiceItems extends BaseService<DataDictionaryItems> {
   }
 
   async getItems(items: FindDictionItemsDto) {
-    const dictionaryId = items.id
-    delete items.id
-    return this.findPage({ ...items, dictionaryId })
+    return this.findPage({ ...items })
   }
 
   async createItems(items: CreateDictionaryItemsDto) {

@@ -107,6 +107,10 @@ export const validateDate = RuleType.date()
 export const requiredDate = validateDate.required()
 
 /**
+ * 数字类型的数组
+ */
+export const validateNumberArray = RuleType.array().items(requiredNumber)
+/**
  * 限定为数字类型的数组
  */
 export const requiredNumberArray = RuleType.array()

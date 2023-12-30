@@ -38,7 +38,8 @@ export const tableColumns: BasicTableColumn = [
   {
     label: '名称',
     prop: 'name',
-    align: 'center'
+    align: 'center',
+    slotName: 'name'
   },
   {
     label: '编码',

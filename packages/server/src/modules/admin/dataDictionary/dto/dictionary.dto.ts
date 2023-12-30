@@ -51,7 +51,7 @@ export class FindDictionDto extends BasePageDto {
 
 export class FindDictionItemsDto extends BasePageDto {
   @Rule(requiredNumber)
-  id: number
+  dictionaryId: number
 
   @Rule(validateString)
   name?: string

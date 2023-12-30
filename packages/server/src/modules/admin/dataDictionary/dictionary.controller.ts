@@ -64,12 +64,15 @@ export class DictionaryController {
 
   @Post('/updateDataDictionaryStatus', { summary: '更新数据字典状态' })
   async updateDataDictionaryStatus(@Body() body: BaseStatusDto) {
-    return this.dictionaryService.updateById(body.id, body)
+    return this.dictionaryService.updateBatch({ id: { in: body.ids } }, body)
   }
 
   @Post('/updateDataDictionaryItemsStatus', { summary: '更新数据字典子项状态' })
   async updateDataDictionaryItemsStatus(@Body() body: BaseStatusDto) {
-    return this.dictionaryItemsService.updateById(body.id, body)
+    return this.dictionaryItemsService.updateBatch(
+      { id: { in: body.ids } },
+      body
+    )
   }
 
   @Post('/updateDataDictionaryItemsOrder', { summary: '更新数据字典子项排序' })
