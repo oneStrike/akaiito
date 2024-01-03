@@ -30,13 +30,13 @@ export class UserController {
 
   @Post('/createAdminUser', { summary: '创建管理员' })
   async createUser(@Body() body: CreateUserDto) {
-    return (await this.userService.createUser(body)).id
+    return await this.userService.createUser(body)
   }
 
   @Get('/getUserInfo', { summary: '获取管理员信息' })
   async getUserInfo(@Query() query: { id?: number }) {
     const id = query.id || this.ctx.getAttr('userId')
-    return this.userService.findById(id)
+    return this.userService.findUnique({ where: { id } })
   }
 
   @Post('/updateAdminUserInfo', { summary: '更新用户信息' })

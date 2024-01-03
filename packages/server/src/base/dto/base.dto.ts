@@ -28,7 +28,12 @@ export class BaseIdsDto {
   ids: number[]
 }
 
-export class BaseStatusDto extends BaseIdsDto {
+export class BaseIdsStatusDto extends BaseIdsDto {
+  @Rule(requiredNumberLess(2))
+  status: number
+}
+
+export class BaseIdStatusDto extends BaseIdDto {
   @Rule(requiredNumberLess(2))
   status: number
 }

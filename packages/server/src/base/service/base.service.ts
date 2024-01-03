@@ -3,7 +3,7 @@ import { Application } from '@midwayjs/koa'
 import type { PrismaConfig } from '../../typings/config/prisma'
 import {
   FindPageResponse,
-  WhereOptions
+  PrismaFindOptions
 } from '../../typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
 import { utils } from '../../utils'
@@ -30,150 +30,213 @@ export abstract class BaseService<T = IterateObject> {
     throw new httpError.BadRequestError(message)
   }
 
-  async getCount(): Promise<number> {
-    return this.model.count()
+  async getCount(where?: PrismaFindOptions<T>): Promise<number> {
+    return await this.model.count(where || {})
   }
 
   //是否存在
-  async exists(where: WhereOptions<T>): Promise<boolean> {
-    const result = await this.model.findFirst({ where })
+  async exists(options: PrismaFindOptions<T>): Promise<boolean> {
+    const result = await this.model.findFirst({
+      where: this.handlerWhere(options).where
+    })
     return !!result
   }
 
   // 创建数据
-  async create(data: Partial<T>): Promise<T> {
+  async create(data: Partial<T>): Promise<number> {
     const { id } = await this.model.create({ data })
     return id
   }
 
   //更新数据
-  async update(where: WhereOptions<T>, data: IterateObject) {
+  async update(options: PrismaFindOptions<T>, data: IterateObject) {
     try {
-      return await this.model.update({ where, data })
+      return await this.model.update({
+        where: this.handlerWhere(options).where,
+        data
+      })
     } catch (e) {
       return null
     }
   }
 
-  //更新数据
-  async updateBatch(where: WhereOptions<T>, data: IterateObject) {
+  //批量更新数据
+  async updateBatch(options: PrismaFindOptions<T>, data: IterateObject) {
     try {
-      return await this.model.updateMany({ where, data })
+      return await this.model.updateMany({
+        where: this.handlerWhere(options).where,
+        data
+      })
     } catch (e) {
       return null
     }
-  }
-
-  //根据主键id更新数据
-  async updateById(id: number, data: Partial<T>): Promise<T | null> {
-    return await this.update({ id }, data)
   }
 
   //更新排序
   async updateOrder(info: BaseOrderDto) {
     await Promise.all([
-      this.update({ id: info.targetId }, { order: info.targetOrder }),
-      this.update({ id: info.originId }, { order: info.originOrder })
+      this.update(
+        { where: { id: info.targetId } },
+        { order: info.targetOrder }
+      ),
+      this.update({ where: { id: info.originId } }, { order: info.originOrder })
     ])
     return info.targetId
   }
 
   // 软删除
-  async softDeletion(where: WhereOptions<T>) {
-    return await this.update(where, { deletedAt: new Date() })
+  async softDeletion(options?: PrismaFindOptions<T>) {
+    return await this.update(
+      { where: this.handlerWhere(options).where },
+      { deletedAt: new Date() }
+    )
   }
 
   //删除
-  async delete(where: WhereOptions<T>) {
-    return await this.model.delete({ where })
+  async delete(options?: PrismaFindOptions<T>) {
+    return await this.model.delete({
+      where: this.handlerWhere(options).where
+    })
+  }
+
+  //批量删除
+  async deleteBatch(options?: PrismaFindOptions<T>) {
+    return await this.model.deleteMany({
+      where: this.handlerWhere(options).where
+    })
   }
 
   // 根据条件查询唯一数据
-  async findUnique(where: WhereOptions<T>): Promise<T | null> {
-    const excludes = where.excludes
-    return this.excludesField(excludes, await this.model.findUnique({ where }))
-  }
-
-  // 根据ID查询数据
-  async findById(id: number, excludes?: string[]): Promise<T | null> {
-    return await this.findUnique({ id, excludes })
+  async findUnique(options?: PrismaFindOptions<T>): Promise<T | null> {
+    return this.handlerExcludeField(
+      this.excludeField(options.excludes),
+      await this.model.findUnique({ where: this.handlerWhere(options) })
+    )
   }
 
   // 分页查询
-  async findPage(
-    options?: WhereOptions<T> & PrismaConfig['pagination']
-  ): FindPageResponse<T> {
-    // 合并分页配置
-    const { pageIndex, pageSize, orderBy, where, excludes } =
-      this.pagination(options)
-    // 查询选项
-    const findOptions = {
-      where,
-      orderBy,
-      skip: (pageIndex - 1) * pageSize,
-      take: pageSize
-    }
+  async findPage(options?: PrismaFindOptions<T>): FindPageResponse<T> {
+    const excludes = this.excludeField(options.excludes)
+    const where = this.handlerWhere(options, true)
+
     // 并行查询总数和数据
-    const [total, res] = await Promise.all([
-      this.getCount(),
-      this.model.findMany(findOptions, this.prismaConfig.timeSerialize)
+    const [total, record] = await Promise.all([
+      this.getCount(where),
+      this.model.findMany(where)
     ])
     return {
-      pageSize: res?.length ?? 0,
-      pageIndex,
+      pageSize: record?.length ?? 0,
+      pageIndex: where.pageIndex,
       total,
-      list: this.excludesField(excludes, res)
+      list: this.handlerExcludeField(excludes, record)
     }
   }
 
   // 查询列表
-  async findList(where?: WhereOptions<T>) {
-    const excludes = where.excludes
-    const orderBy = utils.isJson(where.orderBy)
-      ? Object.assign(this.prismaConfig.orderBy, JSON.parse(where.orderBy))
-      : this.prismaConfig.orderBy
+  async findList(options?: PrismaFindOptions<T>) {
+    const excludes = this.excludeField(options.excludes)
     const result = await this.model.findMany({
-      where,
-      take: this.prismaConfig.maxListItemLimit,
-      orderBy
+      ...this.handlerWhere(options),
+      take: this.prismaConfig.maxListItemLimit
     })
 
     return {
-      data: this.excludesField(excludes, result),
+      data: this.handlerExcludeField(excludes, result),
       total: result.length
     }
   }
 
   //排除结果中的指定字段
-  excludesField(excludes: string[], data: IterateObject | IterateObject[]) {
-    excludes = this.prismaConfig.excludes?.concat(excludes)
+  handlerExcludeField<T>(excludes: string[], data: T): T {
     if (!excludes || !excludes.length) return data
-    const target = Array.isArray(data) ? data : [data]
-    target.forEach((item) => {
-      for (const itemKey in item) {
-        if (excludes.includes(itemKey)) delete item[itemKey]
-      }
-    })
-    return Array.isArray(data) ? target : target[0]
+    if (Array.isArray(data)) {
+      return data.map((item) => utils._.omit(item, excludes)) as T
+    } else {
+      return utils._.omit(data as object, excludes) as T
+    }
   }
 
-  //分页参数
-  pagination(options: IterateObject) {
-    if (!options) return {}
-    const { pageSize, pageIndex, orderBy: orderByJson, excludes } = options
-    const orderBy = utils.isJson(orderByJson)
-      ? Object.assign(this.prismaConfig.orderBy, JSON.parse(orderByJson))
-      : this.prismaConfig.orderBy
+  //处理where
+  handlerWhere(options: PrismaFindOptions<T>, page?: boolean) {
+    const optionsKeys = [
+      'orderBy',
+      'pageSize',
+      'pageIndex',
+      'where',
+      'fuzzy',
+      'excludes'
+    ]
 
-    return {
-      where: utils._.omit(options, [
-        ...Object.keys(this.prismaConfig.pagination),
-        'excludes'
-      ]),
-      pageSize: pageSize || this.prismaConfig.pagination.pageSize,
-      pageIndex: pageIndex || this.prismaConfig.pagination.pageIndex,
-      orderBy,
-      excludes
+    const where: IterateObject = {
+      where: utils._.omit(options, optionsKeys) || {}
     }
+
+    if (options?.orderBy) {
+      where.orderBy = this.orderBy(options.orderBy)
+    }
+
+    if (options?.fuzzy) {
+      where.where = this.fuzzyQuery(
+        options.fuzzy,
+        Object.assign(where.where, options.where)
+      )
+    }
+
+    if (page) {
+      const { pageIndex, pageSize } = this.pagination(options)
+      where.skip = (pageIndex - 1) * pageSize
+      where.take = pageSize
+    }
+
+    return where
+  }
+
+  //分页
+  pagination(options: IterateObject) {
+    const { pageSize, pageIndex } = options
+    return {
+      pageSize: pageSize || this.prismaConfig.pagination.pageSize,
+      pageIndex: pageIndex || this.prismaConfig.pagination.pageIndex
+    }
+  }
+
+  //排序
+  orderBy(orderBy: string) {
+    return utils.isJson(orderBy)
+      ? Object.assign(this.prismaConfig.orderBy, JSON.parse(orderBy))
+      : this.prismaConfig.orderBy
+  }
+
+  /**
+   * 模糊查询函数
+   *
+   * @param options - 查询选项的模糊匹配部分
+   * @param where - 查询条件
+   * @returns 返回模糊查询条件
+   */
+  fuzzyQuery(
+    options: PrismaFindOptions<T>['fuzzy'],
+    where: PrismaFindOptions<T>['where']
+  ) {
+    if (!Array.isArray(options)) return where
+    options.forEach((item: PrismaFindOptions<T>['fuzzy'][number]) => {
+      if (typeof item === 'string') {
+        if (where[item]) {
+          where[item] = {
+            startsWith: `%${where[item]}%`
+          }
+        }
+      } else {
+        where[item.field] = {
+          startsWith: item.pos.replace('V', where[item.field])
+        }
+      }
+    })
+    return where
+  }
+
+  //排除的字段
+  excludeField(field: string[] = []) {
+    return field.concat(this.prismaConfig.excludes || [])
   }
 }

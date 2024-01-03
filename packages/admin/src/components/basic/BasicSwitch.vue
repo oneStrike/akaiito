@@ -5,10 +5,13 @@ import { PromptsEnum } from '@/core/prompts'
 
 export interface BasicSwitchProps<T = IterateObject> {
   row: T
+  ids?: boolean
   request: AsyncFn
 }
 
-const props = withDefaults(defineProps<BasicSwitchProps>(), {})
+const props = withDefaults(defineProps<BasicSwitchProps>(), {
+  ids: false
+})
 const emits = defineEmits<{
   (event: 'update:row'): void
   (event: 'success'): void
@@ -21,7 +24,11 @@ const toggleStatus = async () => {
   try {
     row.value.loading = true
     const status = row.value.status === 0 ? 1 : 0
-    await props.request({ id: row.value.id, status })
+    const params = {
+      [props.ids ? 'ids' : 'id']: props.ids ? [row.value.id] : row.value.id,
+      status
+    }
+    await props.request(params)
     row.value.loading = false
     row.value.status = status
     emits('success')

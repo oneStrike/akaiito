@@ -4,6 +4,7 @@ import type {
 } from '@/components/basic/BasicToolbar.vue'
 import type { BasicTableColumn } from '@/components/basic/BasicTable.vue'
 import type { BasicFormOptions } from '@/components/basic/BasicForm.vue'
+import { utils } from '@/utils'
 
 export const toolbar: BasicToolbarProps['toolbar'] = [
   {
@@ -45,6 +46,12 @@ export const tableColumns: BasicTableColumn = [
     label: '编码',
     prop: 'code',
     align: 'center'
+  },
+  {
+    label: '创建时间',
+    prop: 'createdAt',
+    align: 'center',
+    formatter: utils.formatter
   },
   {
     label: '状态',

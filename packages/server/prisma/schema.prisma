@@ -1,6 +1,7 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "linux-musl"]
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "linux-musl"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
 datasource db {
@@ -156,6 +157,9 @@ model DataDictionary {
   createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
 
+  @@fulltext([code])
+  @@fulltext([name])
+  @@fulltext([name, code])
   @@map("data_dictionary")
 }
 
@@ -170,5 +174,8 @@ model DataDictionaryItems {
   createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
 
+  @@fulltext([code])
+  @@fulltext([name])
+  @@fulltext([name, code])
   @@map("data_dictionary_items")
 }

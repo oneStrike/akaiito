@@ -226,15 +226,15 @@ export interface CreateDataDictionaryItemsTypings {
  * 接口 [删除数据字典↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691283)
  * @标签 `管理端/用户/数据字典/删除数据字典`
  * @请求头 `POST /admin/dictionary/deleteDataDictionary`
- * @更新时间 `2023-12-21T15:08:10.000Z`
+ * @更新时间 `2023-12-30T08:33:56.000Z`
  */
 
 export interface DeleteDataDictionaryTypings {
   Request: {
     /*
-     * 主键id
+     *
      */
-    id: number
+    ids: null[]
   }
   /*
    * 主键id
@@ -245,15 +245,15 @@ export interface DeleteDataDictionaryTypings {
  * 接口 [删除数据字典子项↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691296)
  * @标签 `管理端/用户/数据字典/删除数据字典子项`
  * @请求头 `POST /admin/dictionary/deleteDataDictionaryItems`
- * @更新时间 `2023-12-21T15:10:32.000Z`
+ * @更新时间 `2023-12-30T08:34:08.000Z`
  */
 
 export interface DeleteDataDictionaryItemsTypings {
   Request: {
     /*
-     * 主键id
+     *
      */
-    id: number
+    ids: null[]
   }
   /*
    * 主键id
@@ -264,15 +264,11 @@ export interface DeleteDataDictionaryItemsTypings {
  * 接口 [更新数据字典↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691324)
  * @标签 `管理端/用户/数据字典/更新数据字典`
  * @请求头 `POST /admin/dictionary/updateDataDictionary`
- * @更新时间 `2023-12-21T15:10:26.000Z`
+ * @更新时间 `2023-12-30T08:34:50.000Z`
  */
 
 export interface UpdateDataDictionaryTypings {
   Request: {
-    /*
-     * 主键id
-     */
-    id: number
     /*
      * 名称
      */
@@ -285,6 +281,10 @@ export interface UpdateDataDictionaryTypings {
      * 描述
      */
     desc: string
+    /*
+     * 主键id
+     */
+    id: number
   }
   /*
    * 主键id
@@ -324,19 +324,19 @@ export interface UpdateDataDictionaryItemsTypings {
  * 接口 [更新数据字典状态↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691434)
  * @标签 `管理端/用户/数据字典/更新数据字典状态`
  * @请求头 `POST /admin/dictionary/updateDataDictionaryStatus`
- * @更新时间 `2023-12-21T15:40:32.000Z`
+ * @更新时间 `2023-12-30T08:35:06.000Z`
  */
 
 export interface UpdateDataDictionaryStatusTypings {
   Request: {
     /*
-     * 主键id
-     */
-    id: number
-    /*
      * 应用状态，1启用、0禁用
      */
     status: number
+    /*
+     *
+     */
+    ids: null[]
   }
   /*
    * 主键id
@@ -347,19 +347,19 @@ export interface UpdateDataDictionaryStatusTypings {
  * 接口 [更新数据字典子项状态↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691450)
  * @标签 `管理端/用户/数据字典/更新数据字典子项状态`
  * @请求头 `POST /admin/dictionary/updateDataDictionaryItemsStatus`
- * @更新时间 `2023-12-21T15:30:42.000Z`
+ * @更新时间 `2023-12-30T08:35:20.000Z`
  */
 
 export interface UpdateDataDictionaryItemsStatusTypings {
   Request: {
     /*
-     * 主键id
-     */
-    id: number
-    /*
      * 应用状态，1启用、0禁用
      */
     status: number
+    /*
+     *
+     */
+    ids: null[]
   }
   /*
    * 主键id

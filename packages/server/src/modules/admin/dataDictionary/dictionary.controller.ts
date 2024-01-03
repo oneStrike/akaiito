@@ -9,9 +9,9 @@ import {
 } from './dto/dictionary.dto'
 import { DictionaryServiceItems } from './dictionary-items.service'
 import {
-  BaseIdDto,
-  BaseOrderDto,
-  BaseStatusDto
+  BaseIdsDto,
+  BaseIdsStatusDto,
+  BaseOrderDto
 } from '../../../base/dto/base.dto'
 
 @Controller('/admin/dictionary')
@@ -24,12 +24,18 @@ export class DictionaryController {
 
   @Get('/getDataDictionary', { summary: '获取数据字典列表' })
   async getDataDictionary(@Query() query: FindDictionDto) {
-    return this.dictionaryService.findPage(query)
+    return this.dictionaryService.findPage({
+      ...query,
+      fuzzy: ['name', 'code']
+    })
   }
 
   @Get('/getDataDictionaryItems', { summary: '获取数据字典子项列表' })
   async getDataDictionaryItems(@Query() query: FindDictionItemsDto) {
-    return this.dictionaryItemsService.getItems(query)
+    return this.dictionaryItemsService.getItems({
+      ...query,
+      fuzzy: ['name', 'code']
+    })
   }
 
   @Post('/createDataDictionary', { summary: '创建数据字典' })
@@ -43,35 +49,38 @@ export class DictionaryController {
   }
 
   @Post('/deleteDataDictionary', { summary: '删除数据字典' })
-  async deleteDataDictionary(@Body() body: BaseIdDto) {
-    return this.dictionaryService.delete(body)
+  async deleteDataDictionary(@Body() body: BaseIdsDto) {
+    return this.dictionaryService.deleteBatch({ id: { in: body.ids } })
   }
 
   @Post('/deleteDataDictionaryItems', { summary: '删除数据字典子项' })
-  async deleteDataDictionaryItems(@Body() body: BaseIdDto) {
-    return this.dictionaryItemsService.delete(body)
+  async deleteDataDictionaryItems(@Body() body: BaseIdsDto) {
+    return this.dictionaryItemsService.deleteBatch({ id: { in: body.ids } })
   }
 
   @Post('/updateDataDictionary', { summary: '更新数据字典' })
   async updateDataDictionary(@Body() body: UpdateDictionaryDto) {
-    return this.dictionaryService.updateById(body.id, body)
+    return this.dictionaryService.update({ id: body.id }, body)
   }
 
   @Post('/updateDataDictionaryItems', { summary: '更新数据字典子项' })
   async updateDataDictionaryItems(@Body() body: UpdateDictionaryDto) {
-    return this.dictionaryItemsService.updateById(body.id, body)
+    return this.dictionaryItemsService.update({ id: body.id }, body)
   }
 
   @Post('/updateDataDictionaryStatus', { summary: '更新数据字典状态' })
-  async updateDataDictionaryStatus(@Body() body: BaseStatusDto) {
-    return this.dictionaryService.updateBatch({ id: { in: body.ids } }, body)
+  async updateDataDictionaryStatus(@Body() body: BaseIdsStatusDto) {
+    return this.dictionaryService.updateBatch(
+      { id: { in: body.ids } },
+      { status: body.status }
+    )
   }
 
   @Post('/updateDataDictionaryItemsStatus', { summary: '更新数据字典子项状态' })
-  async updateDataDictionaryItemsStatus(@Body() body: BaseStatusDto) {
+  async updateDataDictionaryItemsStatus(@Body() body: BaseIdsStatusDto) {
     return this.dictionaryItemsService.updateBatch(
       { id: { in: body.ids } },
-      body
+      { status: body.status }
     )
   }
 

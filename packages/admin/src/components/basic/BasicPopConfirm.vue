@@ -6,6 +6,7 @@ import { PromptsEnum } from '@/core/prompts'
 export interface BasicPopConfirmProps<T = IterateObject> {
   request: AsyncFn
   row: T
+  ids?: boolean
   loading?: boolean
 }
 const props = withDefaults(defineProps<BasicPopConfirmProps>(), {})
@@ -22,7 +23,10 @@ const loading = useVModel(props, 'loading', emits)
 const deleteRow = async () => {
   try {
     loading.value = true
-    await props.request({ id: row.value.id })
+    const params = {
+      [props.ids ? 'ids' : 'id']: props.ids ? [row.value.id] : row.value.id
+    }
+    await props.request(params)
     loading.value = false
     useMessage.success(PromptsEnum.DELETED)
     emits('success')

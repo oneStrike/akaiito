@@ -37,7 +37,7 @@ export class UserService extends BaseService<AdminUser> {
       this.throwError('密码不一致')
     }
     const isExists = await this.exists({
-      OR: [{ mobile: info.mobile }, { username: info.username }]
+      where: { OR: [{ mobile: info.mobile }, { username: info.username }] }
     })
     this.model.findFirst({ where: {} })
     if (isExists) {
@@ -80,11 +80,7 @@ export class UserService extends BaseService<AdminUser> {
         { expiresIn: 1000 * 60 * 60 * 24 * 2 }
       )
     }
-    console.log(
-      '🚀 ~ file:user.service method:login line:84 -----',
-      token,
-      userInfo
-    )
+
     return {
       token,
       userInfo
@@ -99,7 +95,7 @@ export class UserService extends BaseService<AdminUser> {
     if (userInfo.id === user.id && type !== 'info') {
       this.throwError('权限不足')
     }
-    const result = await this.updateById(userInfo.id, userInfo)
+    const result = await this.update({ where: { id: userInfo.id } }, userInfo)
     return result?.id || result
   }
 
@@ -123,9 +119,12 @@ export class UserService extends BaseService<AdminUser> {
       this.throwError('原密码错误')
     }
 
-    const result = await this.updateById(userInfo.id, {
-      password: await utils.encryption(userInfo.newPassword)
-    })
+    const result = await this.update(
+      { where: { id: userInfo.id } },
+      {
+        password: await utils.encryption(userInfo.newPassword)
+      }
+    )
 
     return result?.id || result
   }

@@ -65,7 +65,7 @@ const edit = (val: TableItem) => {
         <el-button link type="primary">{{ row.name }}</el-button>
       </template>
       <template #status="{ row }">
-        <basic-switch :request="updateDataDictionaryStatusApi" :row="row" />
+        <basic-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
@@ -73,6 +73,7 @@ const edit = (val: TableItem) => {
         <basic-pop-confirm
           :request="deleteDataDictionaryApi"
           :row="row"
+          ids
           v-model:loading="loading"
           @success="resetPageRequest()"
         />
