@@ -10,19 +10,19 @@ const { userInfo } = storeToRefs(useUserStore())
       <el-col :span="12">
         <el-card class="h-full">
           <div class="wh-full cross-center flex-col">
-            <el-avatar :size="80" :src="userInfo.avatar">
+            <el-avatar :size="80" :src="userInfo?.avatar ?? ''">
               <as-icons name="imageCircle" :size="60" />
             </el-avatar>
-            <span class="text-3xl mt-4">{{ userInfo.username }}</span>
+            <span class="text-3xl mt-4">{{ userInfo?.username }}</span>
             <el-descriptions :column="1" border class="mt-4" size="large">
               <el-descriptions-item label="手机号">{{
-                userInfo.mobile
+                userInfo?.mobile
               }}</el-descriptions-item>
               <el-descriptions-item label="超级管理员">{{
-                userInfo.isRoot ? '是' : '否'
+                userInfo?.isRoot ? '是' : '否'
               }}</el-descriptions-item>
               <el-descriptions-item label="创建日期">{{
-                userInfo.createdAt
+                userInfo?.createdAt
               }}</el-descriptions-item>
             </el-descriptions>
           </div>

@@ -104,8 +104,8 @@ defineExpose({
         v-if="item.component === 'Select'"
         v-model="formData[item.field]"
         :clearable="
-          typeof item.componentProps.clearable === 'boolean'
-            ? item.componentProps.clearable
+          typeof item.componentProps?.clearable === 'boolean'
+            ? item.componentProps?.clearable
             : true
         "
         v-bind="item.componentProps"

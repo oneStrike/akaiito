@@ -38,7 +38,7 @@ const handler = () => {
   basicFormRef.value?.submitForm()
 }
 
-const formSubmit = (val) => {
+const formSubmit = (val: IterateObject) => {
   emits('submit', val)
 }
 </script>

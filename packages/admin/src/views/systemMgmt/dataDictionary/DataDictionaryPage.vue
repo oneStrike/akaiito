@@ -35,12 +35,13 @@ const handlerToolbar = (val: string) => {
   }
 }
 
-const addDictionary = async (value: TableItem) => {
+const addDictionary = async (value: any) => {
   await createDataDictionaryApi(value)
   formModalShow.value = false
   useMessage.success(PromptsEnum.CREATED)
   resetPageRequest()
 }
+
 const edit = (val: TableItem) => {
   currentRow.value = val
   formModalShow.value = true

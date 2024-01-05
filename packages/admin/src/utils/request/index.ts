@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientOptions } from '@/utils/request/request'
+import { HttpClient, type HttpClientOptions } from '@/utils/request/request'
 import type { HttpResponseResult } from '@typings/index'
 import { useMessage } from '@/hooks/useFeedback'
 import type {
@@ -27,7 +27,7 @@ const request: HttpClientOptions['requestInterceptor'] = async (
 ): Promise<InternalAxiosRequestConfig> => {
   const userStore = useUserStore()
   let accessToken = userStore.token.accessToken
-  if (!accessToken && !config.auth.httpWhiteList.includes(conf.url)) {
+  if (!accessToken && !config.auth.httpWhiteList.includes(conf.url || '')) {
     try {
       await userStore.refreshAccessToken()
       accessToken = userStore.token.accessToken

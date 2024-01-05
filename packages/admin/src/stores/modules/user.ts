@@ -59,9 +59,9 @@ export const useUserStore = defineStore('useUserStore', {
     getAuth(type: 'access' | 'refresh') {
       const timestamp = dayjs().unix()
       const target =
-        type === 'access'
+        (type === 'access'
           ? this.token.accessTokenExpiresIn
-          : this.token.refreshTokenExpiresIn
+          : this.token.refreshTokenExpiresIn) || 0
       return target > timestamp + 1000 * 60 * 10
     },
 

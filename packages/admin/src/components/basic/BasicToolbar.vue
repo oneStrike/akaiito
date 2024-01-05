@@ -40,7 +40,7 @@ const emits = defineEmits<{
 
 const filterData = ref<IterateObject>()
 
-const submit = (val) => {
+const submit = (val: IterateObject) => {
   const { pickBy, isBoolean, isNumber } = utils._
   emits(
     'query',

@@ -11,11 +11,11 @@ const layoutStore = useLayoutStore()
 console.log(route)
 
 const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
-  const tempRoutes = []
+  const tempRoutes: RouteRecordRaw[] = []
   return routes
     .filter((item) => !item.meta?.hideMenu || Array.isArray(item.children))
     .map((item) => {
-      if (item.meta?.hideMenu) {
+      if (item.meta?.hideMenu && Array.isArray(item.children)) {
         tempRoutes.push(...item.children)
         return false
       }
@@ -27,7 +27,11 @@ const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
 
 const serializeRoutes = (route: RouteRecordRaw[]) => {
   return filterMenus(route)
-    .sort((a, b) => a.meta?.order - b.meta?.order)
+    .sort((a, b) => {
+      if (!a?.meta?.order) return 1
+      if (!b?.meta?.order) return 0
+      return a.meta.order - b.meta.order
+    })
     .map((item) => {
       if (Array.isArray(item.children)) {
         item.children = serializeRoutes(item.children)
@@ -58,9 +62,9 @@ const menuSelect = (menu: RouteRecordName) => {
       <template v-for="menu in menus" :key="menu.name">
         <layout-sub-menu :menu-info="menu" v-if="menu.children" />
         <el-menu-item :index="menu.name as string" :key="menu.name" v-else>
-          <as-icons :name="menu.meta.icon" unset />
+          <as-icons :name="menu?.meta?.icon" unset />
           <template #title>
-            <span>{{ menu.meta.title }}</span>
+            <span>{{ menu?.meta?.title }}</span>
           </template>
         </el-menu-item>
       </template>

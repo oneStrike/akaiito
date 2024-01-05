@@ -37,6 +37,7 @@ const toggleStatus = async () => {
   } catch (e) {
     row.value.loading = false
     emits('error', e)
+    return false
   }
 }
 </script>

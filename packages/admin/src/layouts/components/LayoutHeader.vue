@@ -46,7 +46,7 @@ const { userInfo } = storeToRefs(userStore)
           <el-avatar
             :size="30"
             :src="
-              userInfo.avatar
+              userInfo?.avatar
                 ? userInfo.avatar
                 : getAssetsFile('images/default-avatar.png')
             "
@@ -58,7 +58,7 @@ const { userInfo } = storeToRefs(userStore)
             <el-dropdown-item>
               <span
                 >登录角色：{{
-                  userInfo.isRoot ? '超级管理员' : '普通管理员'
+                  userInfo?.isRoot ? '超级管理员' : '普通管理员'
                 }}</span
               >
             </el-dropdown-item>

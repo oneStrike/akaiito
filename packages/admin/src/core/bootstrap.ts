@@ -9,7 +9,8 @@ export const bootstrap: Plugin = {
     app.config.globalProperties.$dayjs = dayjs
 
     for (const utilsKey in utils) {
-      app.config.globalProperties['$' + utilsKey] = utils[utilsKey]
+      app.config.globalProperties['$' + utilsKey] =
+        utils[utilsKey as keyof typeof utils]
     }
 
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
