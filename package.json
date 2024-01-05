@@ -9,6 +9,7 @@
     "dev:admin": "pnpm run --filter @akaiito/admin dev",
     "dev:client": "pnpm run --filter @akaiito/client dev",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build:pt": "pnpm run --filter @akaiito/utils build & pnpm run --filter @akaiito/apifox-to-typescript build",
     "prepare": "husky install",
     "commit": "git add . && git-cz",
     "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install && pnpm run -C packages/server prisma:generate",
