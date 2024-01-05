@@ -23,7 +23,7 @@ default:
       pnpm run -C packages/$CURRENT_PROJECT prisma:seed
       else
       echo "当前项目不是'server'"
-      fi
+      fi;
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker rm -f $CURRENT_PROJECT || true && docker rmi -f $CURRENT_IMAGE || true
     - docker build . --target $CURRENT_PROJECT --tag $CURRENT_IMAGE
