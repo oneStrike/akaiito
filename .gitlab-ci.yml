@@ -21,6 +21,7 @@ default:
     - pnpm install --filter @akaiito/$CURRENT_PROJECT --frozen-lockfile && pnpm run build:pt && pnpm run -C packages/$CURRENT_PROJECT build
     - if [ "$CURRENT_PROJECT" = "server" ]; then
       pnpm run -C packages/$CURRENT_PROJECT prisma:seed
+      fi
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
     - docker rm -f $CURRENT_PROJECT || true && docker rmi -f $CURRENT_IMAGE || true
     - docker build . --target $CURRENT_PROJECT --tag $CURRENT_IMAGE
