@@ -32,7 +32,7 @@ export type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R>
 //拼接loading
 export type JoinLoading<T> = T & { loading: boolean }
 
-type ListData<T> = {
+type ListData<T = any> = {
   list: T[]
 }
 
