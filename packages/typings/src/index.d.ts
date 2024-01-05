@@ -32,9 +32,10 @@ export type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R>
 //拼接loading
 export type JoinLoading<T> = T & { loading: boolean }
 
-type ListData<T = any> = {
-  list: T[]
-}
+//去除loading
+export type OmitLoading<T> = Omit<T, 'loading'>
 
 //获取列表数据的item
-export type ResolveListItem<T = ListData> = JoinLoading<T['list'][number]>
+export type ResolveListItem<T> = T extends { list: infer L }
+  ? JoinLoading<L>
+  : never

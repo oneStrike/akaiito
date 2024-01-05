@@ -14,7 +14,7 @@ import {
 import { useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/core/prompts'
 import { useRequest } from '@/hooks/useRequest'
-import type { ResolveListItem } from '@akaiito/typings/src'
+import { type ResolveListItem } from '@akaiito/typings/src'
 import BasicSwitch from '@/components/basic/BasicSwitch.vue'
 import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 
