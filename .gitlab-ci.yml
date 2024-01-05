@@ -39,7 +39,7 @@ admin_jon:
       - packages/admin/**/*
       - .gitlab-ci.yml
       - Dockerfile
-      - ./package.json
+      - package.json
 
 client_jon:
   stage: build
@@ -55,13 +55,14 @@ client_jon:
       - packages/client/**/*
       - .gitlab-ci.yml
       - Dockerfile
-      - ./package.json
+      - package.json
 
 server_jon:
   stage: build
   extends:
     - .build_job
   script:
+    - pnpm run prisma:seed
     - docker run --restart always --add-host akaiito:172.26.95.99 -d -p 7001:7001 --name $CURRENT_PROJECT $CURRENT_IMAGE
   variables:
     CURRENT_PROJECT: 'server'
@@ -71,7 +72,7 @@ server_jon:
       - packages/server/**/*
       - .gitlab-ci.yml
       - Dockerfile
-      - ./package.json
+      - package.json
 #.docker_job:
 # after_script:
 # - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
