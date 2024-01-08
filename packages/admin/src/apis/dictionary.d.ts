@@ -234,7 +234,7 @@ export interface DeleteDataDictionaryTypings {
     /*
      *
      */
-    ids: null[]
+    ids: number[]
   }
   /*
    * 主键id
@@ -253,7 +253,7 @@ export interface DeleteDataDictionaryItemsTypings {
     /*
      *
      */
-    ids: null[]
+    ids: number[]
   }
   /*
    * 主键id
@@ -336,7 +336,7 @@ export interface UpdateDataDictionaryStatusTypings {
     /*
      *
      */
-    ids: null[]
+    ids: number[]
   }
   /*
    * 主键id
@@ -359,7 +359,7 @@ export interface UpdateDataDictionaryItemsStatusTypings {
     /*
      *
      */
-    ids: null[]
+    ids: number[]
   }
   /*
    * 主键id

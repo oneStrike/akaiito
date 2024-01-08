@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AsyncFn, IterateObject } from '@typings/index'
 import { useMessage } from '@/hooks/useFeedback'
-import { PromptsEnum } from '@/core/prompts'
+import { PromptsEnum } from '@/enum/prompts'
 
 export interface BasicSwitchProps<T = IterateObject> {
   row: T

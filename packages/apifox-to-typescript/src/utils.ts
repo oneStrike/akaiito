@@ -46,7 +46,10 @@ export const formatSchema = (
       } else if (type === 'object') {
         schema.type = [...formatSchema(properties[item], dataSchema)]
       } else if (type === 'array') {
-        schema.type = [...formatSchema(properties[item].items, dataSchema)]
+        schema.type =
+          properties[item].items.type === 'object'
+            ? [...formatSchema(properties[item].items, dataSchema)]
+            : properties[item].items.type
         schema.array = true
       }
 
@@ -169,7 +172,7 @@ const generateTyping = (schema: IterateObject[] | string) => {
          ? `
          ${generateTyping(item.type)}${item.array ? '[]' : ''}
        `
-         : item.type
+         : item.type + (item.array ? '[]' : '')
      }
 `
     })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TableProps, TableColumnInstance } from 'element-plus'
+import type { TableColumnInstance } from 'element-plus'
 import type { IterateObject } from '@typings/index'
 
 export type BasicTableColumn = (Partial<TableColumnInstance> & {
@@ -9,13 +9,33 @@ export type BasicTableColumn = (Partial<TableColumnInstance> & {
 export interface BasicTableProps<T = IterateObject> {
   data: T[]
   columns: BasicTableColumn
+  selection?: Boolean
+  selectionItems?: T[] | null
 }
 
 const props = withDefaults(defineProps<BasicTableProps>(), {})
+
+const emits = defineEmits<{
+  (event: 'update:selectionItems', data: any): void
+}>()
+
+const selectionItems = computed({
+  get() {
+    return props.selectionItems
+  },
+  set(val) {
+    emits('update:selectionItems', val)
+  }
+})
+
+const handleSelectionChange = (val) => {
+  selectionItems.value = val
+}
 </script>
 
 <template>
-  <el-table :data="data">
+  <el-table :data="data" @selection-change="handleSelectionChange">
+    <el-table-column type="selection" width="55" v-if="selection" />
     <el-table-column
       v-for="item in columns"
       :key="item.columnKey"

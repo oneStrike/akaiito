@@ -11,12 +11,14 @@ import {
   filter,
   formOptions
 } from '@/views/systemMgmt/dataDictionary/Shared'
-import { useMessage } from '@/hooks/useFeedback'
-import { PromptsEnum } from '@/core/prompts'
+import { useConfirm, useMessage } from '@/hooks/useFeedback'
+import { PromptsEnum } from '@/enum/prompts'
 import { useRequest } from '@/hooks/useRequest'
 import { type ResolveListItem } from '@akaiito/typings/src'
 import BasicSwitch from '@/components/basic/BasicSwitch.vue'
 import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
+
+const toolbarOptions = toolbar
 
 const { pageRequest, requestData, resetPageRequest, loading } =
   useRequest(getDataDictionaryApi)
@@ -27,10 +29,32 @@ type TableItem = ResolveListItem<typeof requestData.value>
 const formModalShow = ref(false)
 const currentRow = ref<TableItem | null>(null)
 
-const handlerToolbar = (val: string) => {
+const handlerToolbar = async (val: string) => {
+  const ids = selectionItems.value?.map((item) => item.id)
   switch (val) {
     case 'add':
       formModalShow.value = true
+      break
+    case 'delete':
+      useConfirm(
+        'delete',
+        () => deleteDataDictionaryApi({ ids }),
+        resetPageRequest
+      )
+      break
+    case 'enable':
+      useConfirm(
+        'enable',
+        () => updateDataDictionaryStatusApi({ ids, status: 1 }),
+        resetPageRequest
+      )
+      break
+    case 'disable':
+      useConfirm(
+        'disable',
+        () => updateDataDictionaryStatusApi({ ids, status: 0 }),
+        resetPageRequest
+      )
       break
   }
 }
@@ -46,13 +70,16 @@ const edit = (val: TableItem) => {
   currentRow.value = val
   formModalShow.value = true
 }
+
+const selectionItems = ref<TableItem[] | null>(null)
 </script>
 
 <template>
   <div class="main-page">
     <basic-toolbar
-      :toolbar="toolbar"
+      :toolbar="toolbarOptions"
       :filter="filter"
+      :selection="!selectionItems?.length"
       @handler="handlerToolbar"
       @query="resetPageRequest"
     />
@@ -60,7 +87,9 @@ const edit = (val: TableItem) => {
       v-if="requestData"
       :columns="tableColumns"
       :data="requestData.list"
+      :selection="true"
       v-loading="loading"
+      v-model:selection-items="selectionItems"
     >
       <template #name="{ row }">
         <el-button link type="primary">{{ row.name }}</el-button>
@@ -70,7 +99,6 @@ const edit = (val: TableItem) => {
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
-
         <basic-pop-confirm
           :request="deleteDataDictionaryApi"
           :row="row"

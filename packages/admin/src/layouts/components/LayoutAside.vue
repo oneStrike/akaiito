@@ -28,8 +28,8 @@ const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
 const serializeRoutes = (route: RouteRecordRaw[]) => {
   return filterMenus(route)
     .sort((a, b) => {
-      if (!a?.meta?.order) return 1
-      if (!b?.meta?.order) return 0
+      if (!a?.meta?.order) return -1
+      if (!b?.meta?.order) return 1
       return a.meta.order - b.meta.order
     })
     .map((item) => {

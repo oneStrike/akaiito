@@ -18,6 +18,7 @@ export const toolbar: BasicToolbarProps['toolbar'] = [
   {
     type: 'dropdown',
     label: '批量操作',
+    props: { disabled: false },
     options: [
       {
         label: '批量删除',
@@ -29,7 +30,7 @@ export const toolbar: BasicToolbarProps['toolbar'] = [
       },
       {
         label: '批量禁用',
-        value: 'disabled'
+        value: 'disable'
       }
     ]
   }
@@ -72,14 +73,16 @@ export const filter: ToolbarFilter = [
     field: 'name',
     component: 'Input',
     componentProps: {
-      placeholder: '名称'
+      placeholder: '名称',
+      clearable: true
     }
   },
   {
     field: 'code',
     component: 'Input',
     componentProps: {
-      placeholder: '编码'
+      placeholder: '编码',
+      clearable: true
     }
   },
   {
@@ -87,6 +90,7 @@ export const filter: ToolbarFilter = [
     component: 'Select',
     componentProps: {
       placeholder: '状态',
+      clearable: true,
       options: [
         {
           label: '启用',

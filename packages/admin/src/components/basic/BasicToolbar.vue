@@ -6,37 +6,57 @@ import { utils } from '@/utils'
 
 export type ToolbarFilter = BasicFormProps['options']
 
-export type Toolbar =
-  | {
-      type: 'button'
-      label: string
-      value?: any
-      slotName?: string
-      props: Partial<ButtonProps>
-    }
-  | {
-      type: 'dropdown'
-      label: string
-      value?: any
-      slotName?: string
-      props?: Partial<DropdownInstance>
-      buttonProps?: Partial<ButtonProps>
-      options: {
-        label: string
-        value: any
-        props?: { disabled?: boolean; divided?: boolean }
-      }[]
-    }
+export type Toolbar = {
+  type: 'dropdown' | 'button'
+  label: string
+  value?: any
+  slotName?: string
+  props?: any
+  buttonProps?: Partial<ButtonProps>
+  options?: {
+    label: string
+    value: any
+    props?: { disabled?: boolean; divided?: boolean }
+  }[]
+}
 export interface BasicToolbarProps {
   toolbar: Toolbar[]
   filter?: ToolbarFilter
+  selection?: boolean
+  followSelection?: boolean
 }
 
-const props = withDefaults(defineProps<BasicToolbarProps>(), {})
+const props = withDefaults(defineProps<BasicToolbarProps>(), {
+  followSelection: true
+})
 const emits = defineEmits<{
   (event: 'handler', data: any): void
   (event: 'query', data: IterateObject): void
 }>()
+
+const innerFilter = computed(() =>
+  props.filter.map((item) => {
+    if (!item.componentProps) item.componentProps = {}
+    if (!item.on) item.on = {}
+    if (!item.props) item.props = {}
+    item.props.class = 'w-52'
+    const innerSubmit = () => nextTick(() => submit(filterData.value))
+
+    if (typeof item.componentProps.clearable !== 'boolean') {
+      item.componentProps.clearable = true
+    }
+
+    if (!item.on.clear) {
+      item.on.clear = innerSubmit
+    }
+
+    if (item.component === 'Select' && !item.on.change) {
+      item.on.change = innerSubmit
+    }
+
+    return item
+  })
+)
 
 const filterData = ref<IterateObject>()
 
@@ -63,15 +83,21 @@ const submit = (val: IterateObject) => {
         <el-dropdown
           v-if="item.type === 'dropdown'"
           v-bind="item.props"
+          :disabled="followSelection ? selection : item?.props.disabled"
           @command="(val) => emits('handler', val)"
         >
-          <el-button v-bind="item.buttonProps">{{ item.label }}</el-button>
+          <el-button
+            v-bind="item.buttonProps"
+            :disabled="followSelection ? selection : item?.buttonProps.disabled"
+            >{{ item.label }}</el-button
+          >
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item
                 v-for="(child, idx) in item.options"
                 :key="idx"
                 :command="child.value"
+                v-bind="child?.props"
               >
                 {{ child.label }}
               </el-dropdown-item>
@@ -87,7 +113,7 @@ const submit = (val: IterateObject) => {
     <basic-form
       v-if="Array.isArray(filter) && filter.length"
       v-model="filterData"
-      :options="filter"
+      :options="innerFilter"
       :form-props="{ inline: true }"
       submit-text="查询"
       @submit="submit"
