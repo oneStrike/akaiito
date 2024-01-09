@@ -117,6 +117,7 @@ const submit = (val: IterateObject) => {
       :form-props="{ inline: true }"
       submit-text="查询"
       @submit="submit"
+      @reset="submit"
     />
   </div>
 </template>
