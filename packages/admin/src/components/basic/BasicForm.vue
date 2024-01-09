@@ -91,7 +91,7 @@ defineExpose({
         v-if="item.component === 'Input'"
         v-model="formData[item.field]"
         v-bind="item.componentProps"
-        v-on="item.on"
+        v-on="item.on || {}"
       />
 
       <el-input
@@ -100,7 +100,7 @@ defineExpose({
         v-bind="item.componentProps"
         type="textarea"
         :rows="3"
-        v-on="item.on"
+        v-on="item.on || {}"
       />
 
       <el-select
@@ -112,7 +112,7 @@ defineExpose({
             : true
         "
         v-bind="item.componentProps"
-        v-on="item.on"
+        v-on="item.on || {}"
       >
         <el-option
           v-for="sub in item.componentProps?.options"

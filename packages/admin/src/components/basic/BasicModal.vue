@@ -16,6 +16,7 @@ const emits = defineEmits<{
   (event: 'handler'): void
   (event: 'update:modelValue'): void
   (event: 'close'): void
+  (event: 'closed'): void
 }>()
 
 const contentStyle = computed(() => {
@@ -30,9 +31,10 @@ const fullscreen = ref(false)
 const { start: timeoutStart } = useTimeoutFn(() => {
   fullscreen.value = false
 }, 500)
-const close = () => {
+const close = (event: 'close' | 'closed') => {
   modalShow.value = false
-  emits('close')
+  if (event === 'close') emits('close')
+  if (event === 'closed') emits('closed')
   timeoutStart()
 }
 </script>
@@ -46,7 +48,8 @@ const close = () => {
     :width="width"
     destroy-on-close
     align-center
-    @close="close"
+    @close="close('close')"
+    @closed="close('closed')"
   >
     <template #header="{ close, titleId, titleClass }">
       <div class="flex justify-between">
@@ -73,7 +76,7 @@ const close = () => {
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="close" :loading="loading">关闭</el-button>
+        <el-button @click="close('close')" :loading="loading">关闭</el-button>
         <el-button type="primary" @click="emits('handler')" :loading="loading">
           确定
         </el-button>

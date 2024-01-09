@@ -3,6 +3,7 @@ import {
   createDataDictionaryApi,
   deleteDataDictionaryApi,
   getDataDictionaryApi,
+  updateDataDictionaryApi,
   updateDataDictionaryStatusApi
 } from '@/apis/dictionary'
 import {
@@ -26,6 +27,7 @@ pageRequest()
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
+const formLoading = ref(false)
 const formModalShow = ref(false)
 const currentRow = ref<TableItem | null>(null)
 
@@ -60,9 +62,17 @@ const handlerToolbar = async (val: string) => {
 }
 
 const addDictionary = async (value: any) => {
-  await createDataDictionaryApi(value)
+  formLoading.value = true
+  if (currentRow.value) {
+    await updateDataDictionaryApi({ ...value, id: currentRow.value.id })
+    useMessage.success(PromptsEnum.UPDATED)
+  } else {
+    await createDataDictionaryApi(value)
+    useMessage.success(PromptsEnum.CREATED)
+  }
   formModalShow.value = false
-  useMessage.success(PromptsEnum.CREATED)
+  formLoading.value = false
+  currentRow.value = null
   resetPageRequest()
 }
 
@@ -75,7 +85,7 @@ const selectionItems = ref<TableItem[] | null>(null)
 </script>
 
 <template>
-  <div class="main-page">
+  <div class="main-page" v-loading="loading">
     <basic-toolbar
       :toolbar="toolbarOptions"
       :filter="filter"
@@ -88,7 +98,6 @@ const selectionItems = ref<TableItem[] | null>(null)
       :columns="tableColumns"
       :data="requestData.list"
       :selection="true"
-      v-loading="loading"
       v-model:selection-items="selectionItems"
     >
       <template #name="{ row }">
@@ -111,9 +120,12 @@ const selectionItems = ref<TableItem[] | null>(null)
 
     <form-modal
       v-model:modal="formModalShow"
+      :default-value="currentRow"
       :title="currentRow ? '添加' : '编辑'"
       :options="formOptions"
+      :loading="formLoading"
       @submit="addDictionary"
+      @closed="currentRow = null"
     />
   </div>
 </template>

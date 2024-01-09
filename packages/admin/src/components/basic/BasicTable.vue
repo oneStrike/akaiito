@@ -9,6 +9,7 @@ export type BasicTableColumn = (Partial<TableColumnInstance> & {
 export interface BasicTableProps<T = IterateObject> {
   data: T[]
   columns: BasicTableColumn
+  index?: Boolean
   selection?: Boolean
   selectionItems?: T[] | null
 }
@@ -35,11 +36,17 @@ const handleSelectionChange = (val) => {
 
 <template>
   <el-table :data="data" @selection-change="handleSelectionChange">
-    <el-table-column type="selection" width="55" v-if="selection" />
+    <el-table-column
+      type="selection"
+      width="55"
+      v-if="selection"
+      class-name="leading-9"
+    />
     <el-table-column
       v-for="item in columns"
       :key="item.columnKey"
       v-bind="item"
+      class-name="leading-9"
     >
       <template #default="{ row, column, $index }">
         <template v-if="item.slotName">
@@ -55,4 +62,8 @@ const handleSelectionChange = (val) => {
   </el-table>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+::v-deep(.cell) {
+  line-height: 32px;
+}
+</style>

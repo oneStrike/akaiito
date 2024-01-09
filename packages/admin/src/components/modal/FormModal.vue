@@ -4,9 +4,11 @@ import type {
   BasicFormProps
 } from '@/components/basic/BasicForm.vue'
 import type { IterateObject } from '@typings/index'
+import { utils } from '@/utils'
 
 export interface FormModalProps {
   modelValue?: IterateObject
+  defaultValue?: IterateObject
   modal?: boolean
   options: BasicFormOptions[]
   title?: string
@@ -21,6 +23,8 @@ const props = withDefaults(defineProps<FormModalProps>(), {
 })
 
 const emits = defineEmits<{
+  (event: 'close'): void
+  (event: 'closed'): void
   (event: 'submit', data: IterateObject): void
   (event: 'update:modelValue', data: IterateObject): void
   (event: 'update:modal', data: IterateObject): void
@@ -28,7 +32,20 @@ const emits = defineEmits<{
 
 const show = useVModel(props, 'modal', emits)
 
-const formValue = useVModel(props, 'modelValue', emits)
+watch(show, (val) => {
+  if (!val) {
+    formValue.value = {}
+  }
+})
+
+const formValue = computed({
+  get() {
+    return props.modelValue || utils._.cloneDeep(props.defaultValue || {})
+  },
+  set(val) {
+    emits('update:modelValue', val)
+  }
+})
 
 const formProps = computed(() =>
   Object.assign(props.formProps, { labelPosition: 'top' })
@@ -50,6 +67,8 @@ const formSubmit = (val: IterateObject) => {
     :width="width"
     :title="title"
     @handler="handler"
+    @close="emits('close')"
+    @closed="emits('closed')"
   >
     <basic-form
       ref="basicFormRef"
