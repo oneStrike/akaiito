@@ -46,7 +46,7 @@ const innerFilter = computed(() =>
       item.componentProps.clearable = true
     }
 
-    if (!item.on.clear) {
+    if (!item.on.clear && item.component !== 'Select') {
       item.on.clear = innerSubmit
     }
 
