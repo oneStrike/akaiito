@@ -136,7 +136,7 @@ export interface GetDataDictionaryItemsTypings {
     /*
      *
      */
-    list?: {
+    list: {
       /*
        * 名称
        */
@@ -158,9 +158,17 @@ export interface GetDataDictionaryItemsTypings {
        */
       dictionaryId: number
       /*
+       * 数据字典名称
+       */
+      dictionaryName: string
+      /*
        * 应用状态，1启用、0禁用
        */
       status: number
+      /*
+       * 主键id
+       */
+      id: number
     }[]
   }
 }
@@ -195,7 +203,7 @@ export interface CreateDataDictionaryTypings {
  * 接口 [创建数据字典子项↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135341394)
  * @标签 `管理端/用户/数据字典/创建数据字典子项`
  * @请求头 `POST /admin/dictionary/createDataDictionaryItems`
- * @更新时间 `2023-12-21T15:01:53.000Z`
+ * @更新时间 `2024-01-12T16:07:18.000Z`
  */
 
 export interface CreateDataDictionaryItemsTypings {
@@ -216,6 +224,10 @@ export interface CreateDataDictionaryItemsTypings {
      * 数据字典id
      */
     dictionaryId: number
+    /*
+     * 数据字典名称
+     */
+    dictionaryName: string
   }
   /*
    * 主键id

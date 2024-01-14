@@ -75,7 +75,7 @@ export const tableColumns: BasicTableColumn = [
   }
 ]
 
-export const filter: ToolbarFilter = [
+export const filter: () => ToolbarFilter = () => [
   {
     field: 'name',
     component: 'Input',

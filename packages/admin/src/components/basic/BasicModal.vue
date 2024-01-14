@@ -76,7 +76,11 @@ const close = (event: 'close' | 'closed') => {
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="close('close')" :loading="loading">关闭</el-button>
+        <el-button
+          @click="(modalShow = false), close('close')"
+          :loading="loading"
+          >关闭</el-button
+        >
         <el-button type="primary" @click="emits('handler')" :loading="loading">
           确定
         </el-button>

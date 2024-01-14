@@ -56,7 +56,7 @@ export const validateUrl = requiredString.uri()
 /**
  * 限定为数字类型
  */
-export const validateNumber = RuleType.number()
+export const validateNumber = RuleType.number().empty('')
 
 /**
  * 限定为必传数字类型
@@ -99,7 +99,7 @@ export const givenRange = ([max, min]: [number, number], isRequired = true) => {
 /**
  * 限定为日期类型
  */
-export const validateDate = RuleType.date()
+export const validateDate = RuleType.date().empty('')
 
 /**
  * 限定为必传日期类型

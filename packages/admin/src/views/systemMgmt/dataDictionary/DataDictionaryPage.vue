@@ -18,6 +18,7 @@ import { useRequest } from '@/hooks/useRequest'
 import { type ResolveListItem } from '@akaiito/typings/src'
 import BasicSwitch from '@/components/basic/BasicSwitch.vue'
 import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
+import RecordDetails from '@/views/systemMgmt/dataDictionary/RecordDetails.vue'
 
 const toolbarOptions = toolbar
 
@@ -29,6 +30,7 @@ type TableItem = ResolveListItem<typeof requestData.value>
 
 const formLoading = ref(false)
 const formModalShow = ref(false)
+const detailModalShow = ref(false)
 const currentRow = ref<TableItem | null>(null)
 
 const handlerToolbar = async (val: string) => {
@@ -88,7 +90,7 @@ const selectionItems = ref<TableItem[] | null>(null)
   <div class="main-page" v-loading="loading">
     <basic-toolbar
       :toolbar="toolbarOptions"
-      :filter="filter"
+      :filter="filter()"
       :selection="!selectionItems?.length"
       @handler="handlerToolbar"
       @query="resetPageRequest"
@@ -101,7 +103,12 @@ const selectionItems = ref<TableItem[] | null>(null)
       v-model:selection-items="selectionItems"
     >
       <template #name="{ row }">
-        <el-button link type="primary">{{ row.name }}</el-button>
+        <el-button
+          link
+          type="primary"
+          @click="(detailModalShow = true), (currentRow = row)"
+          >{{ row.name }}</el-button
+        >
       </template>
       <template #status="{ row }">
         <basic-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
@@ -125,6 +132,15 @@ const selectionItems = ref<TableItem[] | null>(null)
       :options="formOptions"
       :loading="formLoading"
       @submit="addDictionary"
+      @closed="currentRow = null"
+    />
+
+    <record-details
+      v-model="detailModalShow"
+      :record="currentRow"
+      :title="currentRow?.name"
+      :height="700"
+      :max-height="700"
       @closed="currentRow = null"
     />
   </div>

@@ -110,7 +110,7 @@ export abstract class BaseService<T = IterateObject> {
   async findUnique(options?: PrismaFindOptions<T>): Promise<T | null> {
     return this.handlerExcludeField(
       this.excludeField(options.excludes),
-      await this.model.findUnique({ where: this.handlerWhere(options) })
+      await this.model.findUnique(this.handlerWhere(options))
     )
   }
 
@@ -118,10 +118,10 @@ export abstract class BaseService<T = IterateObject> {
   async findPage(options?: PrismaFindOptions<T>): FindPageResponse<T> {
     const excludes = this.excludeField(options.excludes)
     const where = this.handlerWhere(options, true)
-
+    console.log('🚀 ~ file:base.service method:findPage line:121 -----', where)
     // 并行查询总数和数据
     const [total, record] = await Promise.all([
-      this.getCount(where),
+      this.getCount(),
       this.model.findMany(where)
     ])
     return {
@@ -171,9 +171,7 @@ export abstract class BaseService<T = IterateObject> {
       where: utils._.omit(options, optionsKeys) || {}
     }
 
-    if (options?.orderBy) {
-      where.orderBy = this.orderBy(options.orderBy)
-    }
+    where.orderBy = this.orderBy(options.orderBy)
 
     if (options?.fuzzy) {
       where.where = this.fuzzyQuery(
@@ -201,7 +199,7 @@ export abstract class BaseService<T = IterateObject> {
   }
 
   //排序
-  orderBy(orderBy: string) {
+  orderBy(orderBy?: string) {
     return utils.isJson(orderBy)
       ? Object.assign(this.prismaConfig.orderBy, JSON.parse(orderBy))
       : this.prismaConfig.orderBy

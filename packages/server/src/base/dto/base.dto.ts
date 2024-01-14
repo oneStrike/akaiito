@@ -2,6 +2,7 @@ import { Rule } from '@midwayjs/validate'
 import {
   requiredNumber,
   requiredNumberLess,
+  validateDate,
   validateNumber,
   validateNumberArray,
   validateString
@@ -16,6 +17,12 @@ export class BasePageDto {
 
   @Rule(validateString)
   orderBy?: string
+
+  @Rule(validateDate)
+  startTime?: string
+
+  @Rule(validateDate)
+  endTime?: string
 }
 
 export class BaseIdDto {

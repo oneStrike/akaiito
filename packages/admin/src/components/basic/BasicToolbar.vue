@@ -39,7 +39,7 @@ const innerFilter = computed(() =>
     if (!item.componentProps) item.componentProps = {}
     if (!item.on) item.on = {}
     if (!item.props) item.props = {}
-    item.props.class = 'w-52'
+    if (!item.props.class) item.props.class = 'w-52'
     const innerSubmit = () => nextTick(() => submit(filterData.value))
 
     if (typeof item.componentProps.clearable !== 'boolean') {
