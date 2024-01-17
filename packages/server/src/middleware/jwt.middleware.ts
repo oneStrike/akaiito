@@ -6,7 +6,7 @@ import {
   IMiddleware
 } from '@midwayjs/core'
 import { Context, NextFunction } from '@midwayjs/koa'
-import { Jwt } from '../base/service/jwt.service'
+import { Jwt } from '../modules/internal/authentication/jwt.service'
 
 @Middleware()
 export class JwtMiddleware implements IMiddleware<Context, NextFunction> {

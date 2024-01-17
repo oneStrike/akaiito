@@ -5,7 +5,7 @@ import {
   validateNumberLess,
   validateString
 } from '../../../../utils/validate'
-import { BasePageDto } from '../../../../base/dto/base.dto'
+import { BasePageDto } from '../../../../basic/dto/basic.dto'
 
 export class DictionaryDto {
   @Rule(requiredNumber)

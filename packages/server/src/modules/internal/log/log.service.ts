@@ -3,11 +3,11 @@ import type { Context } from '@midwayjs/koa'
 import { AdminLog, PrismaClient } from '@prisma/client'
 
 import { HttpResponseResult } from '@akaiito/typings/src'
-import { BaseService } from '../../../base/service/base.service'
+import { BasicService } from '../../../basic/service/basic.service'
 import { utils } from '../../../utils'
 
 @Provide()
-export class LogService extends BaseService<AdminLog> {
+export class LogService extends BasicService<AdminLog> {
   @Inject()
   prismaClient: PrismaClient
 

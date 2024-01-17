@@ -12,7 +12,7 @@ import {
   BaseIdsDto,
   BaseIdsStatusDto,
   BaseOrderDto
-} from '../../../base/dto/base.dto'
+} from '../../../basic/dto/basic.dto'
 
 @Controller('/admin/dictionary')
 export class DictionaryController {

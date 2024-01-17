@@ -7,9 +7,9 @@ import {
 } from '../../typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
 import { utils } from '../../utils'
-import { BaseOrderDto } from '../dto/base.dto'
+import { BaseOrderDto } from '../dto/basic.dto'
 
-export abstract class BaseService<T = IterateObject> {
+export abstract class BasicService<T = IterateObject> {
   // 注入应用实例
   @App()
   protected app: Application

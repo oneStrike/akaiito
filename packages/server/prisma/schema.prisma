@@ -20,6 +20,8 @@ model AdminLog {
   statusCode Int?     @default(1) @map("status_code") /// 响应状态码
   statusDesc String?  @map("receipt_desc") @db.VarChar(300) /// 响应描述
   path       String?  @db.VarChar(255) /// 请求地址
+  name       String?  @db.VarChar(255) /// 请求地址描述信息
+  record     String?  @db.VarChar(255) /// 操作记录
   userAgent  String?  @map("user_agent") @db.VarChar(255) /// 浏览器信息标识
   params     String?  @db.LongText /// 请求参数
   createdAt  DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
@@ -39,7 +41,6 @@ model AdminUser {
   isRoot    Int?      @default(0) @map("is_root") @db.TinyInt ///是否是超级管理员 1是0否
   createdAt DateTime? @default(now()) @map("created_at") @db.DateTime(0) ///创建时间
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0) /// 更新时间
-  deletedAt DateTime? @map("deleted_at") @db.DateTime(0) ///软删除时间
 
   @@map("admin_user")
 }

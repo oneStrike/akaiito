@@ -1,6 +1,6 @@
 import { App, Inject, Provide } from '@midwayjs/core'
 import { PrismaClient, AdminUser } from '@prisma/client'
-import { BaseService } from '../../../base/service/base.service'
+import { BasicService } from '../../../basic/service/basic.service'
 import { utils } from '../../../utils'
 import {
   CreateUserDto,
@@ -8,13 +8,13 @@ import {
   UserDto,
   UserLoginDto
 } from './dto/user.dto'
-import { Jwt } from '../../../base/service/jwt.service'
-import { CaptchaService } from '../../../base/service/captcha.service'
 import { Application } from '@midwayjs/koa'
 import { formatDate } from '../../../prisma/utils/formatDate'
+import { Jwt } from '../../internal/authentication/jwt.service'
+import { CaptchaService } from '../../internal/authentication/captcha.service'
 
 @Provide()
-export class UserService extends BaseService<AdminUser> {
+export class UserService extends BasicService<AdminUser> {
   @Inject()
   prismaClient: PrismaClient
 

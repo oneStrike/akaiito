@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Post, Body, Query } from '@midwayjs/core'
 import { LogService } from './log.service'
-import { BaseIdDto, BasePageDto } from '../../../base/dto/base.dto'
+import { BaseIdDto, BasePageDto } from '../../../basic/dto/basic.dto'
 
 @Controller('/admin/log')
 export class LogController {
