@@ -15,6 +15,8 @@ export type WhereOptions<T> = {
 }
 
 export type PrismaFindOptions<T = IterateObject> = {
+  startTime?: string
+  endTime?: string
   orderBy?: string
   pageSize?: number
   pageIndex?: number

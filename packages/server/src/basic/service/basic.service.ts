@@ -119,13 +119,14 @@ export abstract class BasicService<T = IterateObject> {
     const excludes = this.excludeField(options.excludes)
     const where = this.handlerWhere(options, true)
     // 并行查询总数和数据
+    console.log(where.where)
     const [total, record] = await Promise.all([
-      this.getCount(),
+      this.getCount({ where: where.where }),
       this.model.findMany(where)
     ])
     return {
       pageSize: record?.length ?? 0,
-      pageIndex: where.pageIndex,
+      pageIndex: where.skip ? where.skip / where.take + 1 : 1,
       total,
       list: this.handlerExcludeField(excludes, record)
     }
@@ -163,7 +164,9 @@ export abstract class BasicService<T = IterateObject> {
       'pageIndex',
       'where',
       'fuzzy',
-      'excludes'
+      'excludes',
+      'startTime',
+      'endTime'
     ]
 
     const where: IterateObject = {
@@ -177,6 +180,16 @@ export abstract class BasicService<T = IterateObject> {
         options.fuzzy,
         Object.assign(where.where, options.where)
       )
+    }
+    if (!where.where) where.where = {}
+    if (options.startTime) {
+      where.where.createdAt = {
+        gte: options.startTime
+      }
+    }
+    if (options.endTime) {
+      if (!where.where.createdAt) where.where.createdAt = {}
+      where.where.createdAt.lte = options.endTime
     }
 
     if (page) {
