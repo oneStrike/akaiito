@@ -7,7 +7,7 @@ request()
 </script>
 
 <template>
-  <div class="main-page" v-loading="loading"></div>
+  <div class="main-page" v-loading="loading">更新日志</div>
 </template>
 
 <style scoped></style>

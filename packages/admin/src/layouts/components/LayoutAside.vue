@@ -27,16 +27,17 @@ const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
 
 const serializeRoutes = (route: RouteRecordRaw[]) => {
   return filterMenus(route)
+    .map((item, index) => {
+      if (Array.isArray(item.children)) {
+        item.children = serializeRoutes(item.children)
+      }
+      item.meta.order = item.meta.order || index
+      return item
+    })
     .sort((a, b) => {
       if (!a?.meta?.order) return -1
       if (!b?.meta?.order) return 1
       return a.meta.order - b.meta.order
-    })
-    .map((item) => {
-      if (Array.isArray(item.children)) {
-        item.children = serializeRoutes(item.children)
-      }
-      return item
     })
 }
 
