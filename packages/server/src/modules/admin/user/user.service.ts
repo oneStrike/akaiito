@@ -74,7 +74,10 @@ export class UserService extends BasicService<AdminUser> {
     userInfo.createdAt = formatDate(userInfo.createdAt) as unknown as Date
     userInfo.updatedAt = formatDate(userInfo.updatedAt) as unknown as Date
     const token = {
-      accessToken: await this.jwt.sign({ id: userInfo.id }),
+      accessToken: await this.jwt.sign({
+        id: userInfo.id,
+        username: userInfo.username
+      }),
       refreshToken: await this.jwt.sign(
         { id: userInfo.id, refresh: true },
         { expiresIn: 1000 * 60 * 60 * 24 * 2 }

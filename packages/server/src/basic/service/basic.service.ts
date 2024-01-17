@@ -118,7 +118,6 @@ export abstract class BasicService<T = IterateObject> {
   async findPage(options?: PrismaFindOptions<T>): FindPageResponse<T> {
     const excludes = this.excludeField(options.excludes)
     const where = this.handlerWhere(options, true)
-    console.log('🚀 ~ file:base.service method:findPage line:121 -----', where)
     // 并行查询总数和数据
     const [total, record] = await Promise.all([
       this.getCount(),

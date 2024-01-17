@@ -23,6 +23,7 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
         const payload = await this.jwtService.verify(refreshToken)
         if (typeof payload === 'string' || !payload.refresh) throw Error()
         ctx.setAttr('userId', payload!.id)
+        ctx.setAttr('username', payload!.username)
       } else {
         // 判断下有没有校验信息
         const permit = this.permit(ctx)
@@ -35,6 +36,7 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
             const payload = await this.jwtService.verify(token)
             if (typeof payload === 'string' || payload.refresh) throw Error()
             ctx.setAttr('userId', payload!.id)
+            ctx.setAttr('username', payload!.username)
           } catch (e) {
             throw new httpError.UnauthorizedError('登录状态失效')
           }

@@ -5,7 +5,8 @@ import {
   Logger,
   IMidwayContainer,
   Inject,
-  MidwayDecoratorService
+  MidwayDecoratorService,
+  MidwayWebRouterService
 } from '@midwayjs/core'
 import * as koa from '@midwayjs/koa'
 import * as validate from '@midwayjs/validate'
@@ -46,8 +47,16 @@ export class MainConfiguration {
   @Inject()
   decoratorService: MidwayDecoratorService
 
-  onReady(container: IMidwayContainer) {
+  @Inject()
+  webRouterService: MidwayWebRouterService
+
+  async onReady(container: IMidwayContainer) {
     this.registerPrisma.register(container)
+
+    container.registerObject(
+      'router',
+      await this.webRouterService.getFlattenRouterTable()
+    )
 
     this.app.useMiddleware([ReportMiddleware, JwtMiddleware])
     this.app.useFilter([ExceptionFilter])
