@@ -31,6 +31,10 @@ const emits = defineEmits<{
   (event: 'update:selectionItems', data: any): void
   (event: 'update:pageIndex', data: number): void
   (event: 'update:pageSize', data: number): void
+  (
+    event: 'sortChange',
+    data: { field: string; order: 'asc' | 'desc' | null }
+  ): void
 }>()
 
 const currentPageIndex = computed({
@@ -98,15 +102,15 @@ const selectionItems = computed({
   }
 })
 
-const handleSelectionChange = (val) => {
+const handlerSelectionChange = (val) => {
   selectionItems.value = val
 }
 
-const handleSizeChange = (val) => {
-  console.log(val)
-}
-const handleCurrentChange = (val) => {
-  console.log(val)
+const handlerSortChange = (val) => {
+  emits('sortChange', {
+    field: val.prop,
+    order: val.order === 'descending' ? 'desc' : 'asc'
+  })
 }
 </script>
 
@@ -116,7 +120,8 @@ const handleCurrentChange = (val) => {
       :data="data"
       :height="tableHeight"
       :max-height="tableHeight"
-      @selection-change="handleSelectionChange"
+      @selection-change="handlerSelectionChange"
+      @sort-change="handlerSortChange"
     >
       <el-table-column
         type="selection"
@@ -158,8 +163,6 @@ const handleCurrentChange = (val) => {
         background
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
       />
     </div>
   </div>

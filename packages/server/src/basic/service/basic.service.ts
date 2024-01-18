@@ -211,9 +211,16 @@ export abstract class BasicService<T = IterateObject> {
 
   //排序
   orderBy(orderBy?: string) {
-    return utils.isJson(orderBy)
-      ? Object.assign(this.prismaConfig.orderBy, JSON.parse(orderBy))
-      : this.prismaConfig.orderBy
+    const orderByArr = []
+    console.log(orderBy)
+    if (utils.isJson(orderBy)) {
+      orderByArr.push(JSON.parse(orderBy))
+    }
+    if (this.prismaConfig.orderBy) {
+      orderByArr.push(this.prismaConfig.orderBy)
+    }
+    console.log(orderByArr)
+    return orderByArr
   }
 
   /**

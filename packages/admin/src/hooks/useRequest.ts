@@ -3,34 +3,59 @@ import type { IterateObject } from '@typings/index'
 
 export const useRequest = <T extends Function>(
   api: T,
-  params?: IterateObject
+  params: IterateObject = {}
 ) => {
   const loading = ref(false)
   const requestData = ref<ResolvedReturnType<T>>()
 
-  const requestParams = ref<IterateObject>({
+  const pageParams = {
     pageIndex: 0,
     pageSize: 15,
-    orderBy: ''
-  })
+    orderBy: {}
+  }
+
+  const requestParams = ref<IterateObject>({})
 
   const request = async <K>(p?: K) => {
     loading.value = true
-    requestData.value = await api(Object.assign(p || {}, params || {}))
+    const options: IterateObject = {
+      ...(p || {}),
+      ...requestParams.value
+    }
+
+    if (Object.keys(requestParams.value.orderBy).length) {
+      options.orderBy = JSON.stringify(requestParams.value.orderBy)
+    }
+
+    requestData.value = await api(options)
     loading.value = false
   }
 
   const pageRequest = async <K>(p?: K) => {
-    await request({ ...p, ...requestParams.value })
-    requestParams.value.pageIndex++
+    if (!requestParams.value.pageSize) {
+      requestParams.value.orderBy = {}
+      requestParams.value.pageSize = pageParams.pageSize
+      requestParams.value.pageIndex = 0
+    } else {
+      requestParams.value.pageIndex++
+    }
+
+    requestParams.value = {
+      ...requestParams.value,
+      ...(p || {})
+    }
   }
 
   const resetPageRequest = async <K>(p?: K) => {
     requestParams.value = {
       pageIndex: 0,
       pageSize: 15,
-      orderBy: ''
+      orderBy: {}
     }
+  }
+
+  const sortChange = (val: IterateObject) => {
+    requestParams.value.orderBy[val.field] = val.order
   }
 
   watch(requestParams, () => request(requestParams.value), { deep: true })
@@ -41,6 +66,7 @@ export const useRequest = <T extends Function>(
     requestParams,
     requestData,
     pageRequest,
+    sortChange,
     resetPageRequest
   }
 }

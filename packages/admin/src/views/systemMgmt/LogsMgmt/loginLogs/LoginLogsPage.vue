@@ -6,10 +6,16 @@ import type { ResolveListItem } from '@akaiito/typings/src'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const { request, resetPageRequest, requestData, loading, requestParams } =
-  useRequest(getRequestLogApi)
+const {
+  pageRequest,
+  resetPageRequest,
+  sortChange,
+  requestData,
+  loading,
+  requestParams
+} = useRequest(getRequestLogApi)
 requestParams.value.path = '/admin/user/login'
-request()
+pageRequest()
 </script>
 
 <template>
@@ -20,6 +26,7 @@ request()
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
+      @sort-change="sortChange"
     >
     </basic-table>
   </div>

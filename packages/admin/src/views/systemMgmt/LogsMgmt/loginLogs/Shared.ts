@@ -39,7 +39,8 @@ export const tableColumns: BasicTableColumn = [
     label: '登录时间',
     prop: 'createdAt',
     align: 'center',
-    formatter: utils.formatter
+    formatter: utils.formatter,
+    sortable: 'custom'
   }
 ]
 
