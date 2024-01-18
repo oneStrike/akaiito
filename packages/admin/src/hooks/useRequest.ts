@@ -8,7 +8,7 @@ export const useRequest = <T extends Function>(
   const loading = ref(false)
   const requestData = ref<ResolvedReturnType<T>>()
 
-  const pageParams = ref({
+  const requestParams = ref<IterateObject>({
     pageIndex: 0,
     pageSize: 15,
     orderBy: ''
@@ -21,27 +21,24 @@ export const useRequest = <T extends Function>(
   }
 
   const pageRequest = async <K>(p?: K) => {
-    await request({ ...p, ...pageParams.value })
-    pageParams.value.pageIndex++
+    await request({ ...p, ...requestParams.value })
+    requestParams.value.pageIndex++
   }
 
   const resetPageRequest = async <K>(p?: K) => {
-    console.log(
-      '🚀 ~ file:useRequest method:resetPageRequest line:29 -----',
-      api
-    )
-    pageParams.value = {
+    requestParams.value = {
       pageIndex: 0,
       pageSize: 15,
       orderBy: ''
     }
-    await request({ ...p, ...pageParams.value })
   }
+
+  watch(requestParams, () => request(requestParams.value), { deep: true })
 
   return {
     loading,
     request,
-    pageParams,
+    requestParams,
     requestData,
     pageRequest,
     resetPageRequest

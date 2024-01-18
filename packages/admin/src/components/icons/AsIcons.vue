@@ -85,6 +85,8 @@ watch(
     <icon-majest-pinwheel-line v-if="name === 'pinwheel'" />
     <icon-majest-minimize-line v-if="name === 'minimize'" />
     <icon-majest-maximize-line v-if="name === 'maximize'" />
+    <icon-majest-list-box-line v-if="name === 'listBox'" />
+    <icon-majest-login-half-circle-line v-if="name === 'login'" />
   </el-icon>
 </template>
 

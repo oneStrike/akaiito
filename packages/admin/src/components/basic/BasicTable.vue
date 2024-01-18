@@ -4,21 +4,90 @@ import type { IterateObject } from '@typings/index'
 
 export type BasicTableColumn = (Partial<TableColumnInstance> & {
   slotName?: string
+  defaultValue?: string
 })[]
 
 export interface BasicTableProps<T = IterateObject> {
   data: T[]
   columns: BasicTableColumn
-  index?: Boolean
-  selection?: Boolean
+  index?: boolean
+  pageSize?: number
+  pageIndex?: number
+  total?: number
+  selection?: boolean
   selectionItems?: T[] | null
+  defaultValue?: string
 }
 
-const props = withDefaults(defineProps<BasicTableProps>(), {})
+const props = withDefaults(defineProps<BasicTableProps>(), {
+  index: true,
+  defaultValue: '-',
+  pageSize: 15,
+  pageIndex: 0,
+  total: 15
+})
 
 const emits = defineEmits<{
   (event: 'update:selectionItems', data: any): void
+  (event: 'update:pageIndex', data: number): void
+  (event: 'update:pageSize', data: number): void
 }>()
+
+const currentPageIndex = computed({
+  get() {
+    return props.pageIndex + 1
+  },
+  set(val) {
+    emits('update:pageIndex', val - 1)
+  }
+})
+
+const currentPageSize = useVModel(props, 'pageSize', emits)
+
+const paginationRef = ref()
+const tableBoxRef = ref()
+
+const tableHeight = ref(100)
+const elHeight = ref({
+  container: 0,
+  pagination: 0
+})
+
+onMounted(() => {
+  useResizeObserver(tableBoxRef.value?.parentNode, (entries) => {
+    const entry = entries[0]
+    elHeight.value.container = entry.contentRect.height
+  })
+
+  useResizeObserver(paginationRef.value, (entries) => {
+    const entry = entries[0]
+    const { height, y } = entry.contentRect
+    elHeight.value.pagination = height + y
+  })
+})
+
+watch(
+  elHeight,
+  (val) => {
+    tableHeight.value = val.container - val.pagination
+  },
+  { deep: true, immediate: true }
+)
+
+const innerColumns = computed(() => {
+  if (props.index && props.columns[0].type !== 'index') {
+    return [
+      {
+        label: '序号',
+        prop: 'index',
+        align: 'center',
+        type: 'index',
+        width: 66
+      },
+      ...props.columns
+    ]
+  }
+})
 
 const selectionItems = computed({
   get() {
@@ -32,34 +101,68 @@ const selectionItems = computed({
 const handleSelectionChange = (val) => {
   selectionItems.value = val
 }
+
+const handleSizeChange = (val) => {
+  console.log(val)
+}
+const handleCurrentChange = (val) => {
+  console.log(val)
+}
 </script>
 
 <template>
-  <el-table :data="data" @selection-change="handleSelectionChange">
-    <el-table-column
-      type="selection"
-      width="55"
-      v-if="selection"
-      class-name="leading-9"
-    />
-    <el-table-column
-      v-for="item in columns"
-      :key="item.columnKey"
-      v-bind="item"
-      class-name="leading-9"
+  <div ref="tableBoxRef" class="h-full">
+    <el-table
+      :data="data"
+      :height="tableHeight"
+      :max-height="tableHeight"
+      @selection-change="handleSelectionChange"
     >
-      <template #default="{ row, column, $index }">
-        <template v-if="item.slotName">
-          <slot
-            :name="item.slotName"
-            :row="row"
-            :column="column"
-            :index="$index"
-          ></slot>
+      <el-table-column
+        type="selection"
+        width="55"
+        v-if="selection"
+        class-name="leading-9"
+      />
+      <el-table-column
+        v-for="item in innerColumns"
+        :key="item.columnKey"
+        v-bind="item"
+        class-name="leading-9"
+      >
+        <template #default="{ row, column, $index }">
+          <template v-if="item.slotName">
+            <slot
+              :name="item.slotName"
+              :row="row"
+              :column="column"
+              :index="$index"
+            ></slot>
+          </template>
+          <template v-else-if="item.type !== 'index'">
+            {{
+              item.formatter
+                ? item.formatter(row, column, row[item.prop], $index)
+                : row[item.prop] || item.defaultValue || defaultValue
+            }}
+          </template>
         </template>
-      </template>
-    </el-table-column>
-  </el-table>
+      </el-table-column>
+    </el-table>
+    <div class="w-full flex justify-end pt-3 pr-3" ref="paginationRef">
+      <el-pagination
+        :hide-on-single-page="total > currentPageSize"
+        v-model:current-page="currentPageIndex"
+        v-model:page-size="currentPageSize"
+        :page-sizes="[15, 30, 45, 50, 100]"
+        background
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped lang="scss">

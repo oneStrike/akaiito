@@ -8,8 +8,6 @@ const router = useRouter()
 const route = useRoute()
 const layoutStore = useLayoutStore()
 
-console.log(route)
-
 const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
   const tempRoutes: RouteRecordRaw[] = []
   return routes
@@ -35,8 +33,6 @@ const serializeRoutes = (route: RouteRecordRaw[]) => {
       return item
     })
     .sort((a, b) => {
-      if (!a?.meta?.order) return -1
-      if (!b?.meta?.order) return 1
       return a.meta.order - b.meta.order
     })
 }

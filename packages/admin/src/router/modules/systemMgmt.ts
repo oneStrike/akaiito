@@ -25,7 +25,7 @@ export default {
       path: '/logsMgmt',
       meta: {
         title: '日志管理',
-        icon: 'handPointer'
+        icon: 'listBox'
       },
       children: [
         {
@@ -35,7 +35,7 @@ export default {
             import('@/views/systemMgmt/logsMgmt/loginLogs/LoginLogsPage.vue'),
           meta: {
             title: '登录日志',
-            icon: 'handPointer'
+            icon: 'login'
           }
         },
         {
@@ -57,7 +57,7 @@ export default {
             import('@/views/systemMgmt/logsMgmt/updateLogs/UpdateLogsPage.vue'),
           meta: {
             title: '更新日志',
-            icon: 'handPointer'
+            icon: 'reload'
           }
         }
       ]

@@ -119,7 +119,6 @@ export abstract class BasicService<T = IterateObject> {
     const excludes = this.excludeField(options.excludes)
     const where = this.handlerWhere(options, true)
     // 并行查询总数和数据
-    console.log(where.where)
     const [total, record] = await Promise.all([
       this.getCount({ where: where.where }),
       this.model.findMany(where)
@@ -194,7 +193,7 @@ export abstract class BasicService<T = IterateObject> {
 
     if (page) {
       const { pageIndex, pageSize } = this.pagination(options)
-      where.skip = (pageIndex - 1) * pageSize
+      where.skip = pageIndex * pageSize
       where.take = pageSize
     }
 

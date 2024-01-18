@@ -21,7 +21,7 @@ export default defineConfig({
   transformers: [transformerVariantGroup()],
   presets: [presetUno(), presetAttributify(), presetRemToPx()],
   shortcuts: [
-    ['main-page', 'bg-[var(--el-bg-color)] p-3'],
+    ['main-page', 'bg-[var(--el-bg-color)] p-3 overflow-hidden'],
     ['wh-full', 'w-full h-full'],
     ['flex-center', 'flex justify-center items-center'],
     ['cross-center', 'flex items-center'],

@@ -38,13 +38,6 @@ export const toolbar: BasicToolbarProps['toolbar'] = [
 
 export const tableColumns: BasicTableColumn = [
   {
-    label: '序号',
-    prop: 'index',
-    align: 'center',
-    type: 'index',
-    width: 66
-  },
-  {
     label: '名称',
     prop: 'name',
     align: 'center',
