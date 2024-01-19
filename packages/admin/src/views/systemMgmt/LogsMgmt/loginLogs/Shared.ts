@@ -40,7 +40,9 @@ export const tableColumns: BasicTableColumn = [
     prop: 'createdAt',
     align: 'center',
     formatter: utils.formatter,
-    sortable: 'custom'
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'createdAt'
   }
 ]
 

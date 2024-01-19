@@ -2,7 +2,7 @@ import { Inject, Provide } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { AdminLog, PrismaClient } from '@prisma/client'
 
-import { HttpResponseResult } from '@akaiito/typings/src'
+import { HttpResponseResult, IterateObject } from '@akaiito/typings/src'
 import { BasicService } from '../../../basic/service/basic.service'
 import { utils } from '../../../utils'
 import { RouterService } from '../router/router.service'
@@ -20,15 +20,21 @@ export class LogService extends BasicService<AdminLog> {
   }
 
   async recordLogs(context: Context, report: HttpResponseResult) {
-    const { path, method, header } = context
+    const { path, method, header, query, request } = context
+    const params = (method === 'POST' ? request.body : query) || {}
+
+    const summaryUserInfo: IterateObject =
+      context.getAttr('summaryUserInfo') || {}
 
     const route = this.routerService.getRoute(path)
     const ip = utils.sysUtils.getReqIP(context)
     const ipAddress = utils.sysUtils.getIpAddr(ip) as string
     await this.create({
-      summary: typeof route !== 'string' ? route.summary : '',
-      username: context.getAttr('username'),
-      userId: context.getAttr('userId'),
+      summary: typeof route !== 'string' && route ? route.summary : '',
+      username: summaryUserInfo.username,
+      userId: summaryUserInfo.id,
+      mobile: summaryUserInfo.mobile,
+      params: JSON.stringify(params),
       ip,
       ipAddress,
       method,

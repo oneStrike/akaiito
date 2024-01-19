@@ -7,6 +7,7 @@ import {
 } from '@midwayjs/core'
 import { Context, NextFunction } from '@midwayjs/koa'
 import { Jwt } from '../modules/internal/authentication/jwt.service'
+import { IterateObject } from '@akaiito/typings/src'
 
 @Middleware()
 export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
@@ -22,8 +23,7 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
       if (refreshToken && ctx.url.includes('/admin/user/refreshAccessToken')) {
         const payload = await this.jwtService.verify(refreshToken)
         if (typeof payload === 'string' || !payload.refresh) throw Error()
-        ctx.setAttr('userId', payload!.id)
-        ctx.setAttr('username', payload!.username)
+        this.setUserInfoToCtx(ctx, payload)
       } else {
         // 判断下有没有校验信息
         const permit = this.permit(ctx)
@@ -35,8 +35,7 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
           try {
             const payload = await this.jwtService.verify(token)
             if (typeof payload === 'string' || payload.refresh) throw Error()
-            ctx.setAttr('userId', payload!.id)
-            ctx.setAttr('username', payload!.username)
+            this.setUserInfoToCtx(ctx, payload)
           } catch (e) {
             throw new httpError.UnauthorizedError('登录状态失效')
           }
@@ -45,6 +44,14 @@ export class JwtMiddleware implements IMiddleware<Context, NextFunction> {
 
       await next()
     }
+  }
+
+  setUserInfoToCtx(ctx: Context, payload: IterateObject) {
+    ctx.setAttr('summaryUserInfo', {
+      userId: payload.id,
+      username: payload.username,
+      mobile: payload.mobile
+    })
   }
 
   // 配置忽略鉴权的路由地址

@@ -9,7 +9,6 @@ import {
   UserLoginDto
 } from './dto/user.dto'
 import { Application } from '@midwayjs/koa'
-import { formatDate } from '../../../prisma/utils/formatDate'
 import { Jwt } from '../../internal/authentication/jwt.service'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
 
@@ -71,12 +70,11 @@ export class UserService extends BasicService<AdminUser> {
       this.throwError('账户已被禁用，请联系系统管理员')
     }
     delete userInfo.password
-    userInfo.createdAt = formatDate(userInfo.createdAt) as unknown as Date
-    userInfo.updatedAt = formatDate(userInfo.updatedAt) as unknown as Date
     const token = {
       accessToken: await this.jwt.sign({
         id: userInfo.id,
-        username: userInfo.username
+        username: userInfo.username,
+        mobile: userInfo.mobile
       }),
       refreshToken: await this.jwt.sign(
         { id: userInfo.id, refresh: true },
