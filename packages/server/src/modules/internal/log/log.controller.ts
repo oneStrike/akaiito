@@ -7,7 +7,7 @@ export class LogController {
   @Inject()
   logServer: LogService
 
-  @Get('/getRequestLogs')
+  @Get('/getRequestLogs', { summary: '获取请求日志' })
   async getRequestLogs(@Query() query: LogDto) {
     return await this.logServer.getRequestLogs(query)
   }

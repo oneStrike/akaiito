@@ -48,6 +48,13 @@ export const tableColumns: BasicTableColumn = [
 
 export const filter: ToolbarFilter = [
   {
+    field: 'dateTimePicker',
+    component: 'DateTime',
+    componentProps: {
+      placeholder: '操作时间'
+    }
+  },
+  {
     field: 'status',
     component: 'Select',
     componentProps: {

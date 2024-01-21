@@ -132,6 +132,7 @@ defineExpose({
         start-placeholder="开始时间"
         end-placeholder="结束时间"
         v-on="item.on || {}"
+        v-bind="item.componentProps"
       />
     </el-form-item>
     <el-form-item v-if="showBtn">

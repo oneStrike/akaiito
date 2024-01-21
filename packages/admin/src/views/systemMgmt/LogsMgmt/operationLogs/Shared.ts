@@ -13,6 +13,18 @@ export const tableColumns: BasicTableColumn = [
     prop: 'username',
     align: 'center'
   },
+
+  {
+    label: '请求信息',
+    prop: 'summary',
+    align: 'center'
+  },
+  {
+    label: '请求方式',
+    prop: 'method',
+    align: 'center'
+  },
+
   {
     label: '操作IP',
     prop: 'ip',
@@ -23,17 +35,12 @@ export const tableColumns: BasicTableColumn = [
     prop: 'ipAddress',
     align: 'center'
   },
+
   {
     label: '操作结果',
-    prop: 'ipAddress',
+    prop: 'statusCode',
     align: 'center',
-    formatter: (row) => {
-      if (row.statusCode === 200) {
-        return '操作成功'
-      } else {
-        return row.statusDesc
-      }
-    }
+    slotName: 'statusCode'
   },
   {
     label: '操作时间',
@@ -67,6 +74,23 @@ export const filter: ToolbarFilter = [
         {
           label: '失败',
           value: 0
+        }
+      ]
+    }
+  },
+  {
+    field: 'method',
+    component: 'Select',
+    componentProps: {
+      placeholder: '请求方式',
+      options: [
+        {
+          label: 'POST',
+          value: 'POST'
+        },
+        {
+          label: 'GET',
+          value: 'GET'
         }
       ]
     }
