@@ -20,7 +20,7 @@ export type Toolbar = {
   }[]
 }
 export interface BasicToolbarProps {
-  toolbar: Toolbar[]
+  toolbar?: Toolbar[]
   filter?: ToolbarFilter
   selection?: boolean
   followSelection?: boolean
@@ -34,13 +34,24 @@ const emits = defineEmits<{
   (event: 'query', data: IterateObject): void
 }>()
 
+const bindChangeEventComponent = ['Select', 'DateTime']
 const innerFilter = computed(() =>
   props.filter.map((item) => {
     if (!item.componentProps) item.componentProps = {}
     if (!item.on) item.on = {}
     if (!item.props) item.props = {}
-    if (!item.props.class) item.props.class = 'w-52'
-    const innerSubmit = () => nextTick(() => submit(filterData.value))
+    if (!item.props.class) {
+      switch (item.component) {
+        case 'DateTime':
+          item.props.class = 'w-96'
+          break
+        default:
+          item.props.class = 'w-52'
+      }
+    }
+    const innerSubmit = () => {
+      nextTick(() => submit(filterData.value))
+    }
 
     if (typeof item.componentProps.clearable !== 'boolean') {
       item.componentProps.clearable = true
@@ -50,10 +61,9 @@ const innerFilter = computed(() =>
       item.on.clear = innerSubmit
     }
 
-    if (item.component === 'Select' && !item.on.change) {
+    if (bindChangeEventComponent.includes(item.component) && !item.on.change) {
       item.on.change = innerSubmit
     }
-
     return item
   })
 )
@@ -62,6 +72,19 @@ const filterData = ref<IterateObject>()
 
 const submit = (val: IterateObject) => {
   const { pickBy, isBoolean, isNumber } = utils._
+  if (
+    val &&
+    Array.isArray(val.dateTimePicker) &&
+    val.dateTimePicker.length === 2
+  ) {
+    const start = val.dateTimePicker[0]
+    const end = val.dateTimePicker[1]
+    val.startTime = utils.dayjs(start).format('YYYY-MM-DD HH:mm:ss')
+    val.endTime = utils.dayjs(end).format('YYYY-MM-DD HH:mm:ss')
+  } else if (val) {
+    delete val.startTime
+    delete val.endTime
+  }
   emits(
     'query',
     pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)

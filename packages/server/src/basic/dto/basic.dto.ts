@@ -8,7 +8,7 @@ import {
   validateString
 } from '../../utils/validate'
 
-export class BasePageDto {
+export class BasicPageDto {
   @Rule(validateNumber)
   pageSize?: number
 

@@ -1,13 +1,35 @@
 <script setup lang="ts">
 import { useRequest } from '@/hooks/useRequest'
-import { getRequestLogApi } from '@/apis/system'
+import {
+  tableColumns,
+  filter
+} from '@/views/systemMgmt/LogsMgmt/operationLogs/Shared'
+import { getRequestLogsApi } from '@/apis/logs'
 
-const { request, resetPageRequest, loading } = useRequest(getRequestLogApi)
-request()
+const {
+  pageRequest,
+  resetPageRequest,
+  sortChange,
+  requestData,
+  loading,
+  requestParams
+} = useRequest(getRequestLogsApi)
+pageRequest()
 </script>
 
 <template>
-  <div class="main-page" v-loading="loading">操作日志</div>
+  <div class="main-page" v-loading="loading">
+    <basic-toolbar :filter="filter" @query="resetPageRequest" />
+    <basic-table
+      v-model:page-index="requestParams.pageIndex"
+      v-model:page-size="requestParams.pageSize"
+      :columns="tableColumns"
+      :data="requestData?.list ?? []"
+      :total="requestData?.total"
+      @sort-change="sortChange"
+    >
+    </basic-table>
+  </div>
 </template>
 
 <style scoped></style>

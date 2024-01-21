@@ -5,7 +5,7 @@ import {
   validateNumberLess,
   validateString
 } from '../../../../utils/validate'
-import { BasePageDto } from '../../../../basic/dto/basic.dto'
+import { BasicPageDto } from '../../../../basic/dto/basic.dto'
 
 export class DictionaryDto {
   @Rule(requiredNumber)
@@ -38,7 +38,7 @@ export class CreateDictionaryItemsDto extends OmitDto(DictionaryDto, [
   dictionaryId: number
 }
 
-export class FindDictionDto extends BasePageDto {
+export class FindDictionDto extends BasicPageDto {
   @Rule(validateString)
   name?: string
 
@@ -49,7 +49,7 @@ export class FindDictionDto extends BasePageDto {
   status?: number
 }
 
-export class FindDictionItemsDto extends BasePageDto {
+export class FindDictionItemsDto extends BasicPageDto {
   @Rule(requiredNumber)
   dictionaryId: number
 

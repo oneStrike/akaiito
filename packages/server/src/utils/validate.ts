@@ -66,7 +66,8 @@ export const requiredNumber = validateNumber.required()
 /**
  * 数字小于
  */
-export const validateNumberLess = (less: number) => RuleType.number().less(less)
+export const validateNumberLess = (less: number) =>
+  RuleType.number().less(less).empty('')
 
 /**
  * 限定为必传数字小于

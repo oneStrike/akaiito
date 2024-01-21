@@ -91,6 +91,7 @@ defineExpose({
         v-if="item.component === 'Input'"
         v-model="formData[item.field]"
         v-bind="item.componentProps"
+        @keydown.enter="submitForm"
         v-on="item.on || {}"
       />
 
@@ -100,6 +101,7 @@ defineExpose({
         v-bind="item.componentProps"
         type="textarea"
         :rows="3"
+        @keydown.enter="submitForm"
         v-on="item.on || {}"
       />
 
@@ -121,6 +123,16 @@ defineExpose({
           :value="sub.value"
         />
       </el-select>
+
+      <el-date-picker
+        v-if="item.component === 'DateTime'"
+        v-model="formData[item.field]"
+        type="datetimerange"
+        range-separator="-"
+        start-placeholder="开始时间"
+        end-placeholder="结束时间"
+        v-on="item.on || {}"
+      />
     </el-form-item>
     <el-form-item v-if="showBtn">
       <el-button type="primary" @click="submitForm">{{ submitText }}</el-button>

@@ -161,8 +161,8 @@ export abstract class BasicService<T = IterateObject> {
       'orderBy',
       'pageSize',
       'pageIndex',
-      'where',
       'fuzzy',
+      'where',
       'excludes',
       'startTime',
       'endTime'
@@ -170,6 +170,10 @@ export abstract class BasicService<T = IterateObject> {
 
     const where: IterateObject = {
       where: utils._.omit(options, optionsKeys) || {}
+    }
+
+    if (options.where) {
+      where.where = Object.assign(where.where, options.where)
     }
 
     where.orderBy = this.orderBy(options.orderBy)
@@ -196,7 +200,6 @@ export abstract class BasicService<T = IterateObject> {
       where.skip = pageIndex * pageSize
       where.take = pageSize
     }
-
     return where
   }
 

@@ -26,7 +26,6 @@ const props = withDefaults(defineProps<BasicTableProps>(), {
   pageIndex: 0,
   total: 15
 })
-
 const emits = defineEmits<{
   (event: 'update:selectionItems', data: any): void
   (event: 'update:pageIndex', data: number): void
@@ -54,7 +53,8 @@ const tableBoxRef = ref()
 const tableHeight = ref(100)
 const elHeight = ref({
   container: 0,
-  pagination: 0
+  pagination: 0,
+  toolbar: 0
 })
 
 onMounted(() => {
@@ -68,12 +68,18 @@ onMounted(() => {
     const { height, y } = entry.contentRect
     elHeight.value.pagination = height + y
   })
+
+  useResizeObserver(document.getElementById('toolbar'), (entries) => {
+    const entry = entries[0]
+    const { height, y } = entry.contentRect
+    elHeight.value.toolbar = height + y
+  })
 })
 
 watch(
   elHeight,
   (val) => {
-    tableHeight.value = val.container - val.pagination
+    tableHeight.value = val.container - val.pagination - val.toolbar
   },
   { deep: true, immediate: true }
 )

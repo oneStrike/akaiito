@@ -4,13 +4,13 @@ import { utils } from '@/utils'
 
 export const tableColumns: BasicTableColumn = [
   {
-    label: '账号',
-    prop: 'code',
+    label: '手机号',
+    prop: 'mobile',
     align: 'center'
   },
   {
     label: '登录者',
-    prop: 'code',
+    prop: 'username',
     align: 'center'
   },
   {
@@ -46,39 +46,31 @@ export const tableColumns: BasicTableColumn = [
   }
 ]
 
-export const filter: () => ToolbarFilter = () => [
-  {
-    field: 'name',
-    component: 'Input',
-    componentProps: {
-      placeholder: '登陆者',
-      clearable: true
-    }
-  },
-  {
-    field: 'code',
-    component: 'Input',
-    componentProps: {
-      placeholder: '编码',
-      clearable: true
-    }
-  },
+export const filter: ToolbarFilter = [
   {
     field: 'status',
     component: 'Select',
     componentProps: {
-      placeholder: '状态',
+      placeholder: '登录结果',
       clearable: true,
       options: [
         {
-          label: '启用',
+          label: '成功',
           value: 1
         },
         {
-          label: '禁用',
+          label: '失败',
           value: 0
         }
       ]
+    }
+  },
+  {
+    field: 'mobile',
+    component: 'Input',
+    componentProps: {
+      placeholder: '手机号',
+      clearable: true
     }
   }
 ]

@@ -15,7 +15,7 @@ import {
 import { useConfirm, useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/enum/prompts'
 import { useRequest } from '@/hooks/useRequest'
-import { type ResolveListItem } from '@akaiito/typings/src'
+import type { ResolveListItem } from '@akaiito/typings/src'
 import BasicSwitch from '@/components/basic/BasicSwitch.vue'
 import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 import RecordDetails from '@/views/systemMgmt/dataDictionary/RecordDetails.vue'

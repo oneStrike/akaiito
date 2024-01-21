@@ -21,11 +21,20 @@ export class LogService extends BasicService<AdminLog> {
 
   async recordLogs(context: Context, report: HttpResponseResult) {
     const { path, method, header, query, request } = context
-    const params = (method === 'POST' ? request.body : query) || {}
-
+    const params: IterateObject =
+      (method === 'POST' ? request.body : query) || {}
     const summaryUserInfo: IterateObject =
       context.getAttr('summaryUserInfo') || {}
-
+    if (path === '/admin/user/login' && report.data) {
+      summaryUserInfo.id = report.data.userInfo.id
+      summaryUserInfo.username = report.data.userInfo.username
+      summaryUserInfo.mobile = report.data.userInfo.mobile
+      params.password = params.password.replace(/./g, '*')
+    }
+    if (path === '/admin/user/createAdminUser') {
+      params.password = params.password.replace(/./g, '*')
+      params.confirmPassword = params.confirmPassword.replace(/./g, '*')
+    }
     const route = this.routerService.getRoute(path)
     const ip = utils.sysUtils.getReqIP(context)
     const ipAddress = utils.sysUtils.getIpAddr(ip) as string
@@ -43,5 +52,21 @@ export class LogService extends BasicService<AdminLog> {
       statusDesc: report.desc,
       userAgent: header['user-agent']
     })
+  }
+
+  async getRequestLogs(query: IterateObject) {
+    if (query.status === 1) {
+      query.where = {
+        statusCode: 200
+      }
+    } else if (query.status === 0) {
+      query.where = {
+        statusCode: {
+          not: 200
+        }
+      }
+    }
+    delete query.status
+    return await this.findPage(query)
   }
 }

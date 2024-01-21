@@ -20,7 +20,8 @@ export const useRequest = <T extends Function>(
     loading.value = true
     const options: IterateObject = {
       ...(p || {}),
-      ...requestParams.value
+      ...requestParams.value,
+      ...params
     }
 
     if (Object.keys(requestParams.value.orderBy).length) {
@@ -50,7 +51,8 @@ export const useRequest = <T extends Function>(
     requestParams.value = {
       pageIndex: 0,
       pageSize: 15,
-      orderBy: {}
+      orderBy: {},
+      ...p
     }
   }
 

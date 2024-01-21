@@ -1,19 +1,14 @@
-import { Controller, Get, Inject, Post, Body, Query } from '@midwayjs/core'
+import { Controller, Get, Inject, Query } from '@midwayjs/core'
 import { LogService } from './log.service'
-import { BaseIdDto, BasePageDto } from '../../../basic/dto/basic.dto'
+import { LogDto } from './dto/log.dto'
 
-@Controller('/admin/log')
+@Controller('/admin/logs')
 export class LogController {
   @Inject()
   logServer: LogService
 
-  @Get('/getLogs')
-  async getLogs(@Query() query: BasePageDto) {
-    return await this.logServer.findPage(query)
-  }
-
-  @Post('/deleteLog')
-  async deleteLog(@Body() body: BaseIdDto) {
-    return await this.logServer.softDeletion(body)
+  @Get('/getRequestLogs')
+  async getRequestLogs(@Query() query: LogDto) {
+    return await this.logServer.getRequestLogs(query)
   }
 }
