@@ -108,9 +108,10 @@ export abstract class BasicService<T = IterateObject> {
 
   // 根据条件查询唯一数据
   async findUnique(options?: PrismaFindOptions<T>): Promise<T | null> {
+    const { where } = this.handlerWhere(options)
     return this.handlerExcludeField(
       this.excludeField(options.excludes),
-      await this.model.findUnique(this.handlerWhere(options))
+      await this.model.findUnique({ where })
     )
   }
 

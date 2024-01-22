@@ -17,6 +17,7 @@ const emits = defineEmits<{
   (event: 'update:modelValue'): void
   (event: 'close'): void
   (event: 'closed'): void
+  (event: 'fullScreen', data: boolean): void
 }>()
 
 const contentStyle = computed(() => {
@@ -36,6 +37,11 @@ const close = (event: 'close' | 'closed') => {
   if (event === 'close') emits('close')
   if (event === 'closed') emits('closed')
   timeoutStart()
+}
+
+const toggleFullScreenStatus = () => {
+  fullscreen.value = !fullscreen.value
+  emits('fullScreen', fullscreen.value)
 }
 </script>
 
@@ -60,7 +66,7 @@ const close = (event: 'close' | 'closed') => {
             hover
             color="!text-info"
             class="mr-4"
-            @click="fullscreen = !fullscreen"
+            @click="toggleFullScreenStatus"
           />
           <as-icons name="multiply" color="!text-info" hover @click="close" />
         </div>

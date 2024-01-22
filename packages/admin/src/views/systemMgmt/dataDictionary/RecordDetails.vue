@@ -26,6 +26,7 @@ export interface RecordDetails extends BasicModalProps {
 }
 type TableItem = ResolveListItem<typeof requestData.value>
 
+const basicTableRef = ref()
 const props = withDefaults(defineProps<RecordDetails>(), {})
 const emits = defineEmits<{
   (event: 'update:modelValue'): void
@@ -47,7 +48,7 @@ const filterOptions = filter().map((item) => {
 const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
 const dictionaryId = computed(() => ({ dictionaryId: props.record?.id }))
-const { pageRequest, requestData, resetPageRequest, loading } = useRequest(
+const { requestData, resetPageRequest, loading, requestParams } = useRequest(
   getDataDictionaryItemsApi
 )
 
@@ -85,7 +86,7 @@ watch(
   show,
   (val) => {
     if (val) {
-      pageRequest(dictionaryId.value)
+      resetPageRequest(dictionaryId.value)
     }
   },
   { deep: true, immediate: true }
@@ -115,10 +116,22 @@ const edit = (val: TableItem) => {
   currentRow.value = val
   formModalShow.value = true
 }
+
+const computedTableHeight = () => {
+  console.log(
+    '🚀 ~ file:RecordDetails method:computedTableHeight line:121 -----'
+  )
+  basicTableRef.value?.computedTableHeight()
+}
 </script>
 
 <template>
-  <basic-modal v-model="show" v-bind="props" @closed="emits('closed')">
+  <basic-modal
+    v-model="show"
+    v-bind="props"
+    @closed="emits('closed')"
+    @full-screen="computedTableHeight"
+  >
     <div v-loading="loading" class="h-full">
       <basic-toolbar
         :toolbar="toolbarOptions"
@@ -130,9 +143,13 @@ const edit = (val: TableItem) => {
 
       <basic-table
         v-if="requestData"
+        ref="basicTableRef"
+        v-model:page-index="requestParams.pageIndex"
+        v-model:page-size="requestParams.pageSize"
         :columns="tableColumns"
         :data="requestData.list"
         :selection="true"
+        :total="requestData?.total"
         v-model:selection-items="selectionItems"
       >
         <template #name="{ row }">

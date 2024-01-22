@@ -58,6 +58,10 @@ const elHeight = ref({
 })
 
 onMounted(() => {
+  computedTableHeight()
+})
+
+const computedTableHeight = () => {
   useResizeObserver(tableBoxRef.value?.parentNode, (entries) => {
     const entry = entries[0]
     elHeight.value.container = entry.contentRect.height
@@ -74,14 +78,12 @@ onMounted(() => {
     const { height, y } = entry.contentRect
     elHeight.value.toolbar = height + y
   })
-})
+}
 
 watch(
   elHeight,
   (val) => {
-    console.log('🚀 ~ file:BasicTable method: line:82 -----', val)
     tableHeight.value = val.container - val.pagination - val.toolbar
-    console.log('🚀 ~ file:BasicTable method: line:84 -----', tableHeight.value)
   },
   { deep: true, immediate: true }
 )
@@ -120,6 +122,10 @@ const handlerSortChange = (val) => {
     order: val.order === 'descending' ? 'desc' : 'asc'
   })
 }
+
+defineExpose({
+  computedTableHeight
+})
 </script>
 
 <template>
