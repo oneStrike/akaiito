@@ -70,7 +70,7 @@ const close = (event: 'close' | 'closed') => {
       class="overflow-auto"
       :class="fullscreen ? 'max-h-[82vh]' : 'max-h-[70vh]'"
     >
-      <div :style="contentStyle">
+      <div :style="contentStyle" class="h-full">
         <slot></slot>
       </div>
     </div>

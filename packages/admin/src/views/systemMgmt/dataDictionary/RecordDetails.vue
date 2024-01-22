@@ -84,7 +84,9 @@ const handlerToolbar = async (val: string) => {
 watch(
   show,
   (val) => {
-    if (val) pageRequest(dictionaryId.value)
+    if (val) {
+      pageRequest(dictionaryId.value)
+    }
   },
   { deep: true, immediate: true }
 )
@@ -117,7 +119,7 @@ const edit = (val: TableItem) => {
 
 <template>
   <basic-modal v-model="show" v-bind="props" @closed="emits('closed')">
-    <div v-loading="loading">
+    <div v-loading="loading" class="h-full">
       <basic-toolbar
         :toolbar="toolbarOptions"
         :filter="filterOptions"

@@ -139,8 +139,9 @@ const selectionItems = ref<TableItem[] | null>(null)
       v-model="detailModalShow"
       :record="currentRow"
       :title="currentRow?.name"
-      :height="700"
-      :max-height="700"
+      :height="630"
+      :max-height="630"
+      :width="1200"
       @closed="currentRow = null"
     />
   </div>

@@ -77,7 +77,8 @@ export const filter: ToolbarFilter = [
     component: 'Input',
     componentProps: {
       placeholder: '手机号',
-      clearable: true
+      clearable: true,
+      maxlength: 11
     }
   }
 ]

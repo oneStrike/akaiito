@@ -79,7 +79,9 @@ onMounted(() => {
 watch(
   elHeight,
   (val) => {
+    console.log('🚀 ~ file:BasicTable method: line:82 -----', val)
     tableHeight.value = val.container - val.pagination - val.toolbar
+    console.log('🚀 ~ file:BasicTable method: line:84 -----', tableHeight.value)
   },
   { deep: true, immediate: true }
 )
@@ -121,7 +123,7 @@ const handlerSortChange = (val) => {
 </script>
 
 <template>
-  <div ref="tableBoxRef" class="h-full">
+  <div ref="tableBoxRef" :style="{ height: tableHeight + 'px' }">
     <el-table
       :data="data"
       :height="tableHeight"
