@@ -7,7 +7,8 @@ import type {
   UpdateAdminUserPasswordTypings,
   UpdateAdminUserPermissionsTypings,
   LoginTypings,
-  RefreshAccessTokenTypings
+  RefreshAccessTokenTypings,
+  GetUserPageTypings
 } from './user.d'
 
 export const createAdminUserApi = (
@@ -85,5 +86,15 @@ export const refreshAccessTokenApi = (
     method: 'post',
     url: '/admin/user/refreshAccessToken',
     data
+  })
+}
+
+export const getUserPageApi = (
+  params?: GetUserPageTypings['Request']
+): Promise<GetUserPageTypings['Response']> => {
+  return httpClient({
+    method: 'get',
+    url: '/admin/user/getUserPage',
+    params
   })
 }

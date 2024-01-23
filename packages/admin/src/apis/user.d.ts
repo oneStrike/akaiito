@@ -45,7 +45,7 @@ export interface CreateAdminUserTypings {
  * 接口 [获取用户信息↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131964178)
  * @标签 `管理端/用户/获取用户信息`
  * @请求头 `GET /admin/user/getUserInfo`
- * @更新时间 `2023-12-09T09:08:03.000Z`
+ * @更新时间 `2024-01-21T12:47:59.000Z`
  */
 
 export interface GetUserInfoTypings {
@@ -276,4 +276,95 @@ export interface RefreshAccessTokenTypings {
    * accessToken
    */
   Response: string
+}
+/**
+ * 接口 [获取管理员列表↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-144286941)
+ * @标签 `管理端/用户/获取管理员列表`
+ * @请求头 `GET /admin/user/getUserPage`
+ * @更新时间 `2024-01-23T15:46:15.000Z`
+ */
+
+export interface GetUserPageTypings {
+  Request: {
+    /*
+     * 页码
+     */
+    pageIndex?: string
+    /*
+     * 单页数量
+     */
+    pageSize?: string
+    /*
+     * 排序
+     */
+    sortBy?: string
+    /*
+     * 管理员手机号
+     */
+    mobile?: string
+    /*
+     * 启用状态，1启用，0禁用
+     */
+    status?: string
+    /*
+     * 是否是超管，1是0否
+     */
+    isRoot?: string
+    /*
+     * 姓名
+     */
+    username?: string
+  }
+
+  Response: {
+    /*
+     * 单页数量
+     */
+    pageSize: number
+    /*
+     * 页码
+     */
+    pageIndex: number
+    /*
+     * 总记录条数
+     */
+    total: number
+    /*
+     *
+     */
+    list: {
+      /*
+       * 主键id
+       */
+      id: number
+      /*
+       * 用户名
+       */
+      username: string
+      /*
+       * 手机号
+       */
+      mobile: string
+      /*
+       * 用户头像
+       */
+      avatar?: string | null
+      /*
+       * 管理员状态，1启用0禁用
+       */
+      status: number
+      /*
+       * 是否为超管，1是0否
+       */
+      isRoot: number
+      /*
+       * 创建时间
+       */
+      createdAt: string
+      /*
+       * 更新时间
+       */
+      updatedAt: string
+    }[]
+  }
 }

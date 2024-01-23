@@ -106,11 +106,10 @@ const selectionItems = ref<TableItem[] | null>(null)
       v-model:selection-items="selectionItems"
     >
       <template #name="{ row }">
-        <el-button
-          link
+        <el-link
           type="primary"
           @click="(detailModalShow = true), (currentRow = row)"
-          >{{ row.name }}</el-button
+          >{{ row.name }}</el-link
         >
       </template>
       <template #status="{ row }">

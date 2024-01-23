@@ -1,11 +1,12 @@
 import { OmitDto, PickDto, Rule } from '@midwayjs/validate'
 import {
-  givenValue,
   requiredNumber,
   requiredString,
+  validateNumberLess,
   validatePwd,
   validateString
 } from '../../../../utils/validate'
+import { BaseIdDto, BasicPageDto } from '../../../../basic/dto/basic.dto'
 
 export class UserDto {
   @Rule(requiredNumber)
@@ -20,10 +21,10 @@ export class UserDto {
   @Rule(validateString)
   mobile?: string
 
-  @Rule(givenValue([0, 1], false))
+  @Rule(validateNumberLess(2))
   status?: number
 
-  @Rule(givenValue([0, 1], false))
+  @Rule(validateNumberLess(2))
   isRoot?: number
 }
 
@@ -35,7 +36,7 @@ export class CreateUserDto extends OmitDto(UserDto, ['id']) {
   confirmPassword!: string
 }
 
-export class UpdateUserPwd extends PickDto(UserDto, ['id']) {
+export class UpdateUserPwd extends BaseIdDto {
   @Rule(validatePwd)
   oldPassword!: string
 
@@ -57,17 +58,21 @@ export class UserLoginDto extends PickDto(UserDto, ['mobile']) {
   captchaId!: string
 }
 
-export class UserStatus extends PickDto(UserDto, ['id']) {
-  @Rule(givenValue([0, 1]))
+export class UserPageDto extends BasicPageDto {
+  @Rule(validateString)
+  username?: string
+
+  @Rule(validateNumberLess(2))
   status: number
-}
 
-export class UserPermissions extends PickDto(UserDto, ['id']) {
-  @Rule(givenValue([0, 1]))
+  @Rule(validateNumberLess(2))
   isRoot: number
+
+  @Rule(validateString)
+  mobile?: string
 }
 
-export class RefreshAccessToken {
+export class RefreshAccessTokenDto {
   @Rule(requiredString)
   accessToken: string
 }

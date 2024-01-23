@@ -3,11 +3,8 @@ import { useRequest } from '@/hooks/useRequest'
 import {
   tableColumns,
   filter
-} from '@/views/systemMgmt/LogsMgmt/loginLogs/Shared'
-import type { ResolveListItem } from '@akaiito/typings/src'
+} from '@/views/systemMgmt/logsMgmt/loginLogs/Shared'
 import { getRequestLogsApi } from '@/apis/logs'
-
-type TableItem = ResolveListItem<typeof requestData.value>
 
 const {
   pageRequest,

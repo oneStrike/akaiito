@@ -27,7 +27,7 @@ export function getUserInfoHandler(): IMethodAspect {
         const jwtServer = await ctx.requestContext.getAsync(Jwt)
         const userService = await ctx.requestContext.getAsync(UserService)
         const payload = await jwtServer.verify(authorization)
-        const userInfo = await userService.findById(payload.id)
+        const userInfo = await userService.findUnique({ id: payload.id })
         ctx.setAttr('userInfo', userInfo)
       }
     }

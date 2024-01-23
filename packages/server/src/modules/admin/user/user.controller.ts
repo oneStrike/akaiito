@@ -1,16 +1,16 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import {
   CreateUserDto,
-  RefreshAccessToken,
+  RefreshAccessTokenDto,
   UpdateUserPwd,
   UserDto,
   UserLoginDto,
-  UserPermissions,
-  UserStatus
+  UserPageDto
 } from './dto/user.dto'
 import { UserService } from './user.service'
 import { UserInfo } from '../../../decorator/userinfo.decorator'
 import { Context } from '@midwayjs/koa'
+import { BaseIdStatusDto } from '../../../basic/dto/basic.dto'
 
 @Controller('/admin/user', {
   tagName: '管理员',
@@ -38,6 +38,14 @@ export class UserController {
     const id = query.id || this.ctx.getAttr('userId')
     return this.userService.findUnique({ where: { id } })
   }
+  @Get('/getUserPage', { summary: '获取管理员列表' })
+  async getUserPage(@Query() query: UserPageDto) {
+    return this.userService.findPage({
+      ...query,
+      fuzzy: ['username', 'mobile'],
+      excludes: ['password']
+    })
+  }
 
   @Post('/updateAdminUserInfo', { summary: '更新用户信息' })
   @UserInfo()
@@ -55,21 +63,16 @@ export class UserController {
 
   @Post('/updateAdminUserStatus', { summary: '启用或者禁用管理员' })
   @UserInfo()
-  async updateUserStatus(@Body() body: UserStatus) {
-    const user = this.ctx.getAttr('userInfo') as UserDto
-    return this.userService.updateUserInfo(body, user)
-  }
-
-  @Post('/updateAdminUserPermissions', { summary: '更新用户权限' })
-  @UserInfo()
-  async updateAdminUserPermissions(@Body() body: UserPermissions) {
+  async updateUserStatus(@Body() body: BaseIdStatusDto) {
     const user = this.ctx.getAttr('userInfo') as UserDto
     return this.userService.updateUserInfo(body, user)
   }
 
   @Post('/refreshAccessToken', { summary: '刷新accessToken' })
   @UserInfo()
-  async refreshAccessToken(@Body() body: RefreshAccessToken) {
+  async refreshAccessToken(
+    @Body() body: RefreshAccessTokenDto
+  ): Promise<string> {
     const userInfo = this.ctx.getAttr('userInfo') as UserDto
     return this.userService.refreshAccessToken(body.accessToken, userInfo)
   }
