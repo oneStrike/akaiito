@@ -20,8 +20,19 @@ export default {
         rules: ['root']
       }
     },
+
     {
-      name: 'LogsMgmt',
+      name: 'DataDictionary',
+      path: '/dataDictionary',
+      component: () =>
+        import('@/views/systemMgmt/dataDictionary/DataDictionaryPage.vue'),
+      meta: {
+        title: '数据字典',
+        icon: 'dataMinus'
+      }
+    },
+    {
+      name: 'logsMgmt',
       path: '/logsMgmt',
       meta: {
         title: '日志管理',
@@ -63,16 +74,6 @@ export default {
       ]
     },
 
-    {
-      name: 'DataDictionary',
-      path: '/dataDictionary',
-      component: () =>
-        import('@/views/systemMgmt/dataDictionary/DataDictionaryPage.vue'),
-      meta: {
-        title: '数据字典',
-        icon: 'dataMinus'
-      }
-    },
     {
       name: 'UserMgmt',
       path: '/userMgmt',

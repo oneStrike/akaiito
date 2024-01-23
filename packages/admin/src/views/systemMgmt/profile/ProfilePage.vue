@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/modules/user'
+import { utils } from '@/utils'
 
 const { userInfo } = storeToRefs(useUserStore())
 </script>
@@ -22,7 +23,7 @@ const { userInfo } = storeToRefs(useUserStore())
                 userInfo?.isRoot ? '是' : '否'
               }}</el-descriptions-item>
               <el-descriptions-item label="创建日期">{{
-                userInfo?.createdAt
+                utils.formatter(userInfo?.createdAt)
               }}</el-descriptions-item>
             </el-descriptions>
           </div>
