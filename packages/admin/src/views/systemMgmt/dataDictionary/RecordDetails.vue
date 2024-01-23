@@ -27,6 +27,7 @@ export interface RecordDetails extends BasicModalProps {
 type TableItem = ResolveListItem<typeof requestData.value>
 
 const basicTableRef = ref()
+const basicToolbarRef = ref()
 const props = withDefaults(defineProps<RecordDetails>(), {})
 const emits = defineEmits<{
   (event: 'update:modelValue'): void
@@ -87,6 +88,8 @@ watch(
   (val) => {
     if (val) {
       resetPageRequest(dictionaryId.value)
+    } else {
+      basicToolbarRef.value?.resetFilter()
     }
   },
   { deep: true, immediate: true }
@@ -118,9 +121,6 @@ const edit = (val: TableItem) => {
 }
 
 const computedTableHeight = () => {
-  console.log(
-    '🚀 ~ file:RecordDetails method:computedTableHeight line:121 -----'
-  )
   basicTableRef.value?.computedTableHeight()
 }
 </script>
@@ -134,6 +134,7 @@ const computedTableHeight = () => {
   >
     <div v-loading="loading" class="h-full">
       <basic-toolbar
+        ref="basicToolbarRef"
         :toolbar="toolbarOptions"
         :filter="filterOptions"
         :selection="!selectionItems?.length"

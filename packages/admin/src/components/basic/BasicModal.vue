@@ -23,7 +23,7 @@ const emits = defineEmits<{
 const contentStyle = computed(() => {
   if (!props.height) return ''
   if (typeof props.height === 'string') return `height:${props.height}`
-  return `height:${props.height}px`
+  return `height:${fullscreen.value ? '80vh' : props.height}px`
 })
 
 const modalShow = useVModel(props, 'modelValue', emits)
@@ -52,7 +52,6 @@ const toggleFullScreenStatus = () => {
     :fullscreen="fullscreen"
     :show-close="false"
     :width="width"
-    destroy-on-close
     align-center
     @close="close('close')"
     @closed="close('closed')"
@@ -74,7 +73,7 @@ const toggleFullScreenStatus = () => {
     </template>
     <div
       class="overflow-auto"
-      :class="fullscreen ? 'max-h-[82vh]' : 'max-h-[70vh]'"
+      :class="fullscreen ? ['max-h-[80vh]', 'h-[80vh]'] : 'max-h-[70vh]'"
     >
       <div :style="contentStyle" class="h-full">
         <slot></slot>

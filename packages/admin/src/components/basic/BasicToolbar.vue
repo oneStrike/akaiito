@@ -69,6 +69,7 @@ const innerFilter = computed(() =>
 )
 
 const filterData = ref<IterateObject>()
+const basicFormRef = ref<IterateObject>()
 
 const submit = (val: IterateObject) => {
   const { pickBy, isBoolean, isNumber } = utils._
@@ -85,11 +86,20 @@ const submit = (val: IterateObject) => {
     delete val.startTime
     delete val.endTime
   }
+
   emits(
     'query',
     pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)
   )
 }
+
+const resetFilter = () => {
+  basicFormRef.value?.resetForm()
+}
+
+defineExpose({
+  resetFilter
+})
 </script>
 
 <template>
@@ -134,6 +144,7 @@ const submit = (val: IterateObject) => {
       </div>
     </div>
     <basic-form
+      ref="basicFormRef"
       v-if="Array.isArray(filter) && filter.length"
       v-model="filterData"
       :options="innerFilter"
