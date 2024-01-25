@@ -6,6 +6,7 @@ export interface BasicModalProps {
   height?: number | string
   maxHeight?: number
   loading?: boolean
+  destroyOnClose?: boolean
 }
 const props = withDefaults(defineProps<BasicModalProps>(), {
   modelValue: false,
@@ -53,6 +54,7 @@ const toggleFullScreenStatus = () => {
     :show-close="false"
     :width="width"
     align-center
+    :destroy-on-close="destroyOnClose"
     @close="close('close')"
     @closed="close('closed')"
   >

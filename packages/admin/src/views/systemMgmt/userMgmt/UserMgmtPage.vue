@@ -3,13 +3,21 @@ import { useRequest } from '@/hooks/useRequest'
 import {
   tableColumns,
   filter,
-  toolbar
+  toolbar,
+  pwdFormOptions
 } from '@/views/systemMgmt/userMgmt/Shared'
-import { getUserPageApi, updateAdminUserInfoApi } from '@/apis/user'
+import {
+  deleteAdminUserApi,
+  getUserPageApi,
+  updateAdminUserInfoApi,
+  updateAdminUserPasswordApi
+} from '@/apis/user'
 import BasicSwitch from '@/components/basic/BasicSwitch.vue'
-import { deleteDataDictionaryApi } from '@/apis/dictionary'
 import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
-
+import type { ResolveListItem } from '@akaiito/typings/src'
+import { useMessage } from '@/hooks/useFeedback'
+import { useUserStore } from '@/stores/modules/user'
+type TableItem = ResolveListItem<typeof requestData.value>
 const {
   pageRequest,
   resetPageRequest,
@@ -19,6 +27,28 @@ const {
   requestParams
 } = useRequest(getUserPageApi)
 pageRequest()
+
+const userStore = useUserStore()
+const formLoading = ref(false)
+const pwdModal = ref(false)
+const pwdValue = ref()
+const currentRow = ref<TableItem>()
+
+//修改密码
+const changePwd = async (val) => {
+  formLoading.value = true
+  val.id = currentRow.value.id
+  await updateAdminUserPasswordApi(val)
+  formLoading.value = false
+  useMessage.success({
+    message: '修改成功!'
+  })
+  pwdModal.value = false
+  currentRow.value = null
+  if (val.id === userStore.userInfo.id) {
+    userStore.signOut()
+  }
+}
 </script>
 
 <template>
@@ -53,15 +83,32 @@ pageRequest()
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
+
+        <el-button
+          type="primary"
+          link
+          @click="(currentRow = row), (pwdModal = true)"
+          >修改密码</el-button
+        >
+
         <basic-pop-confirm
-          :request="deleteUs"
+          :request="deleteAdminUserApi"
           :row="row"
-          ids
           v-model:loading="loading"
           @success="resetPageRequest()"
         />
       </template>
     </basic-table>
+
+    <modal-form
+      v-model="pwdValue"
+      v-model:modal="pwdModal"
+      title="修改密码"
+      :options="pwdFormOptions"
+      :loading="formLoading"
+      @submit="changePwd"
+      @closed="currentRow = null"
+    />
   </div>
 </template>
 

@@ -5,10 +5,10 @@ import type {
   UpdateAdminUserInfoTypings,
   UpdateAdminUserStatusTypings,
   UpdateAdminUserPasswordTypings,
-  UpdateAdminUserPermissionsTypings,
   LoginTypings,
   RefreshAccessTokenTypings,
-  GetUserPageTypings
+  GetUserPageTypings,
+  DeleteAdminUserTypings
 } from './user.d'
 
 export const createAdminUserApi = (
@@ -60,15 +60,6 @@ export const updateAdminUserPasswordApi = (
   })
 }
 
-export const updateAdminUserPermissionsApi = (): Promise<
-  UpdateAdminUserPermissionsTypings['Response']
-> => {
-  return httpClient({
-    method: 'post',
-    url: '/admin/user/updateAdminUserPermissions'
-  })
-}
-
 export const loginApi = (
   data: LoginTypings['Request']
 ): Promise<LoginTypings['Response']> => {
@@ -96,5 +87,15 @@ export const getUserPageApi = (
     method: 'get',
     url: '/admin/user/getUserPage',
     params
+  })
+}
+
+export const deleteAdminUserApi = (
+  data: DeleteAdminUserTypings['Request']
+): Promise<DeleteAdminUserTypings['Response']> => {
+  return httpClient({
+    method: 'post',
+    url: '/admin/user/deleteAdminUser',
+    data
   })
 }

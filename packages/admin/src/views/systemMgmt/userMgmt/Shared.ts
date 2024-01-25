@@ -4,6 +4,8 @@ import type {
 } from '@/components/basic/BasicToolbar.vue'
 import type { BasicTableColumn } from '@/components/basic/BasicTable.vue'
 import { utils } from '@/utils'
+import type { BasicFormOptions } from '@/components/basic/BasicForm.vue'
+import { useValidate } from '@/hooks/useValidate'
 
 export const tableColumns: BasicTableColumn = [
   {
@@ -109,6 +111,66 @@ export const toolbar: BasicToolbarProps['toolbar'] = [
     value: 'add',
     props: {
       type: 'primary'
+    }
+  }
+]
+
+export const pwdFormOptions: BasicFormOptions[] = [
+  {
+    field: 'oldPassword',
+    component: 'Input',
+    props: {
+      required: true,
+      label: '原密码',
+      rules: [
+        { required: true, message: '请输入原密码' },
+        {
+          validator: useValidate.password
+        }
+      ]
+    },
+    componentProps: {
+      placeholder: '请输入原密码',
+      type: 'password',
+      showPassword: true
+    }
+  },
+  {
+    field: 'newPassword',
+    component: 'Input',
+    props: {
+      required: true,
+      label: '新密码',
+      rules: [
+        { required: true, message: '请输入新密码' },
+        {
+          validator: useValidate.password
+        }
+      ]
+    },
+    componentProps: {
+      placeholder: '请输入新密码',
+      type: 'password',
+      showPassword: true
+    }
+  },
+  {
+    field: 'confirmNewPassword',
+    component: 'Input',
+    props: {
+      required: true,
+      label: '确认新密码',
+      rules: [
+        { required: true, message: '请输入确认新密码' },
+        {
+          validator: useValidate.password
+        }
+      ]
+    },
+    componentProps: {
+      placeholder: '请输入确认新密码',
+      type: 'password',
+      showPassword: true
     }
   }
 ]

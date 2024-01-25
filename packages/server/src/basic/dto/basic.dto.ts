@@ -25,7 +25,7 @@ export class BasicPageDto {
   endTime?: string
 }
 
-export class BaseIdDto {
+export class BasicIdDto {
   @Rule(requiredNumber)
   id: number
 }
@@ -40,7 +40,7 @@ export class BaseIdsStatusDto extends BaseIdsDto {
   status: number
 }
 
-export class BaseIdStatusDto extends BaseIdDto {
+export class BaseIdStatusDto extends BasicIdDto {
   @Rule(requiredNumberLess(2))
   status: number
 }

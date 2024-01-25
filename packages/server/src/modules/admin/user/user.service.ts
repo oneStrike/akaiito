@@ -88,6 +88,18 @@ export class UserService extends BasicService<AdminUser> {
     }
   }
 
+  //删除管理员用户
+  async deleteAdminUser(delId, user) {
+    if (!user.isRoot) {
+      this.throwError('权限不足')
+    }
+    if (user.id === delId.id) {
+      this.throwError('无法删除自己')
+    }
+    const { id } = await this.model.delete({ where: delId })
+    return id
+  }
+
   //更新用户信息
   async updateUserInfo(userInfo: UserDto, user: UserDto, type?: string) {
     if (userInfo.id !== user.id && user.isRoot !== 1) {

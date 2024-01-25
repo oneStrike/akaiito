@@ -44,7 +44,7 @@ const deleteRow = async () => {
     cancel-button-text="取消"
     confirm-button-type="danger"
     title="是否删除当前项？"
-    trigger="hover"
+    trigger="click"
     @confirm="deleteRow"
   >
     <template #reference>

@@ -80,6 +80,7 @@ declare module 'vue' {
     IconMdChevronDoubleLeft: (typeof import('~icons/line-md/chevron-double-left'))['default']
     IconMdMoonLoop: (typeof import('~icons/line-md/moon-loop'))['default']
     IconMdSunRisingLoop: (typeof import('~icons/line-md/sun-rising-loop'))['default']
+    ModalForm: (typeof import('./../components/modal/modalForm.vue'))['default']
     RouterLink: (typeof import('vue-router'))['RouterLink']
     RouterView: (typeof import('vue-router'))['RouterView']
   }

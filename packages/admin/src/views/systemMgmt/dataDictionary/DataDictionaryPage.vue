@@ -25,7 +25,6 @@ const toolbarOptions = toolbar
 const { pageRequest, requestData, resetPageRequest, loading, requestParams } =
   useRequest(getDataDictionaryApi)
 pageRequest()
-console.log('🚀 ~ file:DataDictionaryPage method: line:28 -----', requestParams)
 type TableItem = ResolveListItem<typeof requestData.value>
 
 const formLoading = ref(false)
@@ -127,7 +126,7 @@ const selectionItems = ref<TableItem[] | null>(null)
       </template>
     </basic-table>
 
-    <form-modal
+    <modal-form
       v-model:modal="formModalShow"
       :default-value="currentRow"
       :title="currentRow ? '添加' : '编辑'"

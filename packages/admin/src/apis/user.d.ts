@@ -164,20 +164,6 @@ export interface UpdateAdminUserPasswordTypings {
   Response: number | null
 }
 /**
- * 接口 [更新权限↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131972552)
- * @标签 `管理端/用户/更新权限`
- * @请求头 `POST /admin/user/updateAdminUserPermissions`
- * @更新时间 `2023-12-09T09:18:00.000Z`
- */
-
-export interface UpdateAdminUserPermissionsTypings {
-  Request: null
-  /*
-   * 主键id
-   */
-  Response: number | null
-}
-/**
  * 接口 [登录↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-130086370)
  * @标签 `管理端/用户/登录`
  * @请求头 `POST /admin/user/login`
@@ -367,4 +353,23 @@ export interface GetUserPageTypings {
       updatedAt: string
     }[]
   }
+}
+/**
+ * 接口 [删除管理员↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-144631484)
+ * @标签 `管理端/用户/删除管理员`
+ * @请求头 `POST /admin/user/deleteAdminUser`
+ * @更新时间 `2024-01-24T13:51:12.000Z`
+ */
+
+export interface DeleteAdminUserTypings {
+  Request: {
+    /*
+     * 主键id
+     */
+    id: number
+  }
+  /*
+   * 删除的主键id
+   */
+  Response: number
 }

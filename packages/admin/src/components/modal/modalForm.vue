@@ -66,6 +66,7 @@ const formSubmit = (val: IterateObject) => {
     :loading="loading"
     :width="width"
     :title="title"
+    destroy-on-close
     @handler="handler"
     @close="emits('close')"
     @closed="emits('closed')"

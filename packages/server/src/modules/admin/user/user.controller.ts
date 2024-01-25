@@ -10,7 +10,7 @@ import {
 import { UserService } from './user.service'
 import { UserInfo } from '../../../decorator/userinfo.decorator'
 import { Context } from '@midwayjs/koa'
-import { BaseIdStatusDto } from '../../../basic/dto/basic.dto'
+import { BaseIdStatusDto, BasicIdDto } from '../../../basic/dto/basic.dto'
 
 @Controller('/admin/user', {
   tagName: '管理员',
@@ -38,6 +38,7 @@ export class UserController {
     const id = query.id || this.ctx.getAttr('userId')
     return this.userService.findUnique({ where: { id } })
   }
+
   @Get('/getUserPage', { summary: '获取管理员列表' })
   async getUserPage(@Query() query: UserPageDto) {
     return this.userService.findPage({
@@ -52,6 +53,13 @@ export class UserController {
   async updateUser(@Body() body: UserDto) {
     const user = this.ctx.getAttr('userInfo') as UserDto
     return this.userService.updateUserInfo(body, user, 'info')
+  }
+
+  @Post('/deleteAdminUser', { summary: '删除管理员' })
+  @UserInfo()
+  async deleteAdminUser(@Body() body: BasicIdDto) {
+    const user = this.ctx.getAttr('userInfo') as UserDto
+    return this.userService.deleteAdminUser(body, user)
   }
 
   @Post('/updateAdminUserPassword', { summary: '修改密码' })

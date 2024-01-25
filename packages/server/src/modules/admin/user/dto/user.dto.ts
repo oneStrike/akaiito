@@ -6,7 +6,7 @@ import {
   validatePwd,
   validateString
 } from '../../../../utils/validate'
-import { BaseIdDto, BasicPageDto } from '../../../../basic/dto/basic.dto'
+import { BasicIdDto, BasicPageDto } from '../../../../basic/dto/basic.dto'
 
 export class UserDto {
   @Rule(requiredNumber)
@@ -36,7 +36,7 @@ export class CreateUserDto extends OmitDto(UserDto, ['id']) {
   confirmPassword!: string
 }
 
-export class UpdateUserPwd extends BaseIdDto {
+export class UpdateUserPwd extends BasicIdDto {
   @Rule(validatePwd)
   oldPassword!: string
 
