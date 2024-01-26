@@ -112,11 +112,11 @@ const selectionItems = computed({
   }
 })
 
-const handlerSelectionChange = (val) => {
+const handlerSelectionChange = (val: any) => {
   selectionItems.value = val
 }
 
-const handlerSortChange = (val) => {
+const handlerSortChange = (val: any) => {
   emits('sortChange', {
     field: val.prop,
     order: val.order === 'descending' ? 'desc' : 'asc'

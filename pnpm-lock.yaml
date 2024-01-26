@@ -51,6 +51,9 @@ importers:
 
   packages/admin:
     dependencies:
+      '@akaiito/basic-config':
+        specifier: workspace:*
+        version: link:../basic-config
       '@akaiito/utils':
         specifier: workspace:*
         version: link:../utils
@@ -236,6 +239,8 @@ importers:
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@20.10.5)(typescript@5.3.3)
+
+  packages/basic-config: {}
 
   packages/client:
     dependencies:

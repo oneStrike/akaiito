@@ -115,6 +115,68 @@ export const toolbar: BasicToolbarProps['toolbar'] = [
   }
 ]
 
+export const formOptions: BasicFormOptions[] = [
+  {
+    field: 'avatar',
+    component: 'Upload',
+    props: {
+      label: '头像'
+    },
+    componentProps: {
+      placeholder: '请上传头像'
+    }
+  },
+  {
+    field: 'username',
+    component: 'Input',
+    props: {
+      label: '用户名',
+      rules: [{ required: true, message: '请输入原密码' }]
+    },
+    componentProps: {
+      placeholder: '请填写用户名',
+      maxlength: 50
+    }
+  },
+  {
+    field: 'mobile',
+    component: 'Input',
+    props: {
+      label: '手机号',
+      required: true,
+      rules: [
+        { validator: useValidate.mobile },
+        { required: true, message: '请输入手机号' }
+      ]
+    },
+    componentProps: {
+      placeholder: '请输入手机号',
+      maxlength: 11
+    }
+  },
+  {
+    field: 'isRoot',
+    component: 'Radio',
+    props: {
+      label: '角色',
+      rules: [{ required: true, message: '请选择角色身份' }]
+    },
+    componentProps: {
+      placeholder: '请选择角色身份',
+      options: [
+        {
+          label: '超级管理员',
+          value: 1
+        },
+        {
+          label: '普通管理员',
+          value: 0
+        }
+      ]
+    }
+  }
+]
+
 export const pwdFormOptions: BasicFormOptions[] = [
   {
     field: 'oldPassword',

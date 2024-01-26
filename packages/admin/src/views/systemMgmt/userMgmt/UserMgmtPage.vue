@@ -4,7 +4,8 @@ import {
   tableColumns,
   filter,
   toolbar,
-  pwdFormOptions
+  pwdFormOptions,
+  formOptions
 } from '@/views/systemMgmt/userMgmt/Shared'
 import {
   deleteAdminUserApi,
@@ -12,6 +13,7 @@ import {
   updateAdminUserInfoApi,
   updateAdminUserPasswordApi
 } from '@/apis/user'
+import type { UpdateAdminUserPasswordTypings } from '@/apis/user.d'
 import BasicSwitch from '@/components/basic/BasicSwitch.vue'
 import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 import type { ResolveListItem } from '@akaiito/typings/src'
@@ -31,11 +33,16 @@ pageRequest()
 const userStore = useUserStore()
 const formLoading = ref(false)
 const pwdModal = ref(false)
-const pwdValue = ref()
+const formModal = ref(false)
 const currentRow = ref<TableItem>()
 
+//更新用户信息
+const updateUserInfo = (val) => {
+  console.log('🚀 ~ file:UserMgmtPage method:updateUserInfo line:41 -----', val)
+}
+
 //修改密码
-const changePwd = async (val) => {
+const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
   formLoading.value = true
   val.id = currentRow.value.id
   await updateAdminUserPasswordApi(val)
@@ -82,7 +89,12 @@ const changePwd = async (val) => {
         <basic-switch :request="updateAdminUserInfoApi" :row="row" />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="edit(row)">编辑</el-button>
+        <el-button
+          type="primary"
+          link
+          @click="(currentRow = row), (formModal = true)"
+          >编辑</el-button
+        >
 
         <el-button
           type="primary"
@@ -101,7 +113,16 @@ const changePwd = async (val) => {
     </basic-table>
 
     <modal-form
-      v-model="pwdValue"
+      v-model:modal="formModal"
+      :title="currentRow?.id ? '修改用户' : '添加用户'"
+      :options="formOptions"
+      :loading="formLoading"
+      :default-value="currentRow"
+      @submit="updateUserInfo"
+      @closed="currentRow = null"
+    />
+
+    <modal-form
       v-model:modal="pwdModal"
       title="修改密码"
       :options="pwdFormOptions"

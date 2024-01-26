@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IterateObject } from '@typings/index'
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
+import BasicUpload from '@/components/basic/BasicUpload.vue'
 
 export type BasicFormComponent =
   | 'Input'
@@ -87,6 +88,13 @@ defineExpose({
       :prop="item.field"
       v-bind="item.props"
     >
+      <basic-upload
+        v-if="item.component === 'Upload'"
+        v-model="formData[item.field]"
+        v-bind="item.componentProps"
+        v-on="item.on || {}"
+      />
+
       <el-input
         v-if="item.component === 'Input'"
         v-model="formData[item.field]"
@@ -104,6 +112,19 @@ defineExpose({
         @keydown.enter="submitForm"
         v-on="item.on || {}"
       />
+
+      <el-radio-group
+        v-model="formData[item.field]"
+        v-bind="item.componentProps"
+        v-on="item.on || {}"
+      >
+        <el-radio
+          :label="child.value"
+          v-for="child in item.componentProps.options"
+          :key="child.value"
+          >{{ child.label }}</el-radio
+        >
+      </el-radio-group>
 
       <el-select
         v-if="item.component === 'Select'"
