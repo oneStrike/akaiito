@@ -13,6 +13,8 @@ import * as validate from '@midwayjs/validate'
 import * as info from '@midwayjs/info'
 import { join } from 'path'
 import * as captcha from '@midwayjs/captcha'
+import * as upload from '@midwayjs/upload'
+import * as staticFile from '@midwayjs/static-file'
 import { ReportMiddleware } from './middleware/report.middleware'
 import { JwtMiddleware } from './middleware/jwt.middleware'
 import { ExceptionFilter } from './filter/exception.filter'
@@ -25,8 +27,10 @@ import {
 @Configuration({
   imports: [
     koa,
+    upload,
     captcha,
     validate,
+    staticFile,
     {
       component: info,
       enabledEnvironment: ['local']

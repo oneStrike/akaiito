@@ -15,7 +15,7 @@ export class ExceptionFilter {
     ctx.logger.error(err)
     if (err.name === 'PrismaClientKnownRequestError' && err.code === 'P2002') {
       responseErrorInfo.code = 0
-      responseErrorInfo.desc = '数据重复'
+      responseErrorInfo.desc = '重复数据'
     } else if (cause) {
       responseErrorInfo.code = 0
       const { context, type } = cause.details[0]
@@ -25,6 +25,8 @@ export class ExceptionFilter {
         responseErrorInfo.desc = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
       }
     } else {
+      if (err.name === 'MultipartInvalidFilenameError')
+        err.message = '不受支持的文件类型'
       responseErrorInfo.code = err.status
       switch (err.status) {
         case 400:
