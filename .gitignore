@@ -8,4 +8,4 @@ logs
 /packages/server/dist/
 /packages/admin/dist/
 /.history/
-!/packages/server/public/
+/packages/server/public/

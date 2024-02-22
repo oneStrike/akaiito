@@ -123,7 +123,10 @@ export const formOptions: BasicFormOptions[] = [
       label: '头像'
     },
     componentProps: {
-      placeholder: '请上传头像'
+      placeholder: '请上传头像',
+      scenario: 'adminUserAvatar',
+      multiple: true,
+      fileType: 'image'
     }
   },
   {

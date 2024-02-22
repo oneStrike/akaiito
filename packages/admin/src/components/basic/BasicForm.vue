@@ -114,6 +114,7 @@ defineExpose({
       />
 
       <el-radio-group
+        v-if="item.component === 'Radio'"
         v-model="formData[item.field]"
         v-bind="item.componentProps"
         v-on="item.on || {}"

@@ -14,7 +14,7 @@ const responseError = (err: AxiosError) => {
 }
 const response = (data: any) => {
   const responseData = data.data as HttpResponseResult
-  if (responseData.code !== 200) {
+  if (responseData.code !== 200 && data.config.errorMessage !== false) {
     useMessage.error(responseData.desc || '未知错误')
     throw responseData
   } else {
@@ -50,7 +50,11 @@ const http = new HttpClient({
   responseInterceptorError: responseError
 })
 
-export const httpClient = <T>(axiosConfig: AxiosRequestConfig): Promise<T> => {
+type extended = { errorMessage?: boolean }
+
+export const httpClient = <T>(
+  axiosConfig: AxiosRequestConfig & extended
+): Promise<T> => {
   if (axiosConfig.method === 'get') {
     return http.get<T>({
       ...axiosConfig

@@ -1,16 +1,23 @@
 import { IterateObject } from '@akaiito/typings/src'
 
 export const formatSchema = (
-  schema: IterateObject,
+  schema: IterateObject | IterateObject[],
   dataSchema?: IterateObject
 ) => {
+  const schemaArr: IterateObject[] = []
+  if (Array.isArray(schema)) {
+    schema.forEach((item) => {
+      if (item.type === 'file') item.type = 'string'
+      schemaArr.push(item)
+    })
+    return schemaArr
+  }
   const {
     properties,
     required = [],
     'x-apifox-orders': apiOrders,
     'x-apifox-refs': refs
   } = schema
-  const schemaArr: IterateObject[] = []
   apiOrders?.forEach((item: string) => {
     if (refs && refs[item]) {
       const { $ref: ref, 'x-apifox-overrides': overrides } = refs[item]
@@ -96,6 +103,7 @@ export const conversion = (api: IterateObject, config: IterateObject) => {
   const responseScheme = api.responseScheme?.find(
     (item: IterateObject) => item.name === config.field
   )
+
   const responseDoc = responseScheme?.type
     ? generateTyping(responseScheme.type)
     : null
@@ -119,7 +127,13 @@ export interface ${options.typingsName} {
           */`
       : ''
   }
-  Response: ${responseDoc ? responseDoc : null}
+  Response: ${
+    responseDoc
+      ? responseScheme.array
+        ? responseDoc + '[]'
+        : responseDoc
+      : null
+  }
 }
 `
   const payload = requestDoc

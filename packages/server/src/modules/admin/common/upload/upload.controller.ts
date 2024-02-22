@@ -6,7 +6,7 @@ export class HomeController {
   @Inject()
   uploadService: UploadService
 
-  @Post('/file')
+  @Post('/uploadFile')
   async upload(@Files() files, @Fields() fields) {
     return this.uploadService.local(files, fields)
   }

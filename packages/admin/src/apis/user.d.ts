@@ -95,7 +95,7 @@ export interface GetUserInfoTypings {
  * 接口 [更新用户信息↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131972458)
  * @标签 `管理端/用户/更新用户信息`
  * @请求头 `POST /admin/user/updateAdminUserInfo`
- * @更新时间 `2023-12-09T09:18:59.000Z`
+ * @更新时间 `2024-01-26T14:53:51.000Z`
  */
 
 export interface UpdateAdminUserInfoTypings {

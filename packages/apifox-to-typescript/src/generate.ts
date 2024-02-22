@@ -44,11 +44,14 @@ export const generate = async () => {
       item.requestScheme = item.parameters.query
     } else if (item.method === 'post') {
       //请求
-      if (item.requestBody.jsonSchema)
-        item.requestScheme = formatSchema(
-          item.requestBody.jsonSchema,
-          dataSchema
-        )
+
+      const requestScheme =
+        item.requestBody.type === 'multipart/form-data'
+          ? item.requestBody.parameters
+          : item.requestBody.jsonSchema
+      if (requestScheme) {
+        item.requestScheme = formatSchema(requestScheme, dataSchema)
+      }
     }
     item.responseScheme = formatSchema(item.responses[0].jsonSchema, dataSchema)
     const options = conversion(item, config)
