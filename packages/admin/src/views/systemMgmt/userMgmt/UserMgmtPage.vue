@@ -37,8 +37,16 @@ const formModal = ref(false)
 const currentRow = ref<TableItem>()
 
 //更新用户信息
-const updateUserInfo = (val) => {
-  console.log('🚀 ~ file:UserMgmtPage method:updateUserInfo line:41 -----', val)
+const updateUserInfo = async (val) => {
+  formLoading.value = true
+  if (Array.isArray(val.avatar)) {
+    val.avatar = val.avatar[0].filePath
+  }
+  await updateAdminUserInfoApi(val)
+  formLoading.value = false
+  useMessage.success('修改成功!')
+  formModal.value = false
+  await resetPageRequest()
 }
 
 //修改密码
