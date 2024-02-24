@@ -32,8 +32,8 @@ export class LogService extends BasicService<AdminLog> {
       params.password = params.password.replace(/./g, '*')
     }
     if (path === '/admin/user/createAdminUser') {
-      params.password = params.password.replace(/./g, '*')
-      params.confirmPassword = params.confirmPassword.replace(/./g, '*')
+      params.password = params.password?.replace(/./g, '*')
+      params.confirmPassword = params.confirmPassword?.replace(/./g, '*')
     }
     const route = this.routerService.getRoute(path)
     const ip = utils.sysUtils.getReqIP(context)

@@ -16,6 +16,7 @@ export type BasicFormComponent =
   | 'Upload'
 
 export interface BasicFormOptions {
+  show?: boolean
   field: string
   props?: Partial<FormItemProps & { class?: string }>
   component: BasicFormComponent
@@ -82,81 +83,83 @@ defineExpose({
 
 <template>
   <el-form :model="formData" v-bind="formProps" ref="formRef">
-    <el-form-item
-      v-for="item in options"
-      :key="item.field"
-      :prop="item.field"
-      v-bind="item.props"
-    >
-      <basic-upload
-        v-if="item.component === 'Upload'"
-        v-model="formData[item.field]"
-        v-bind="item.componentProps"
-        v-on="item.on || {}"
-      />
-
-      <el-input
-        v-if="item.component === 'Input'"
-        v-model="formData[item.field]"
-        v-bind="item.componentProps"
-        @keydown.enter="submitForm"
-        v-on="item.on || {}"
-      />
-
-      <el-input
-        v-if="item.component === 'Textarea'"
-        v-model="formData[item.field]"
-        v-bind="item.componentProps"
-        type="textarea"
-        :rows="3"
-        @keydown.enter="submitForm"
-        v-on="item.on || {}"
-      />
-
-      <el-radio-group
-        v-if="item.component === 'Radio'"
-        v-model="formData[item.field]"
-        v-bind="item.componentProps"
-        v-on="item.on || {}"
+    <template v-for="item in options" :key="item.field">
+      <el-form-item
+        :prop="item.field"
+        v-bind="item.props"
+        v-if="item.show !== false"
       >
-        <el-radio
-          :label="child.value"
-          v-for="child in item.componentProps.options"
-          :key="child.value"
-          >{{ child.label }}</el-radio
-        >
-      </el-radio-group>
-
-      <el-select
-        v-if="item.component === 'Select'"
-        v-model="formData[item.field]"
-        :clearable="
-          typeof item.componentProps?.clearable === 'boolean'
-            ? item.componentProps?.clearable
-            : true
-        "
-        v-bind="item.componentProps"
-        v-on="item.on || {}"
-      >
-        <el-option
-          v-for="sub in item.componentProps?.options"
-          :key="sub.value"
-          :label="sub.label"
-          :value="sub.value"
+        <basic-upload
+          v-if="item.component === 'Upload'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps"
+          v-on="item.on || {}"
         />
-      </el-select>
 
-      <el-date-picker
-        v-if="item.component === 'DateTime'"
-        v-model="formData[item.field]"
-        type="datetimerange"
-        range-separator="-"
-        start-placeholder="开始时间"
-        end-placeholder="结束时间"
-        v-on="item.on || {}"
-        v-bind="item.componentProps"
-      />
-    </el-form-item>
+        <el-input
+          v-if="item.component === 'Input'"
+          v-model="formData[item.field]"
+          autocomplete="new-password"
+          v-bind="item.componentProps"
+          @keydown.enter="submitForm"
+          v-on="item.on || {}"
+        />
+
+        <el-input
+          v-if="item.component === 'Textarea'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps"
+          type="textarea"
+          :rows="3"
+          @keydown.enter="submitForm"
+          v-on="item.on || {}"
+        />
+
+        <el-radio-group
+          v-if="item.component === 'Radio'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps"
+          v-on="item.on || {}"
+        >
+          <el-radio
+            :label="child.value"
+            v-for="child in item.componentProps.options"
+            :key="child.value"
+            >{{ child.label }}</el-radio
+          >
+        </el-radio-group>
+
+        <el-select
+          v-if="item.component === 'Select'"
+          v-model="formData[item.field]"
+          :clearable="
+            typeof item.componentProps?.clearable === 'boolean'
+              ? item.componentProps?.clearable
+              : true
+          "
+          v-bind="item.componentProps"
+          v-on="item.on || {}"
+        >
+          <el-option
+            v-for="sub in item.componentProps?.options"
+            :key="sub.value"
+            :label="sub.label"
+            :value="sub.value"
+          />
+        </el-select>
+
+        <el-date-picker
+          v-if="item.component === 'DateTime'"
+          v-model="formData[item.field]"
+          type="datetimerange"
+          range-separator="-"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+          v-on="item.on || {}"
+          v-bind="item.componentProps"
+        />
+      </el-form-item>
+    </template>
     <el-form-item v-if="showBtn">
       <el-button type="primary" @click="submitForm">{{ submitText }}</el-button>
       <el-button @click="resetForm">{{ resetText }}</el-button>

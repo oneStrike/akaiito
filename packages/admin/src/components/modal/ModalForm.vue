@@ -26,15 +26,35 @@ const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
   (event: 'submit', data: IterateObject): void
-  (event: 'update:modelValue', data: IterateObject): void
   (event: 'update:modal', data: IterateObject): void
+  (event: 'update:loading', data: boolean): void
+  (event: 'update:modelValue', data: IterateObject): void
 }>()
 
+onMounted(() => {
+  window.addEventListener('unhandledrejection', () => {
+    btnLoading.value = false
+    emits('update:loading', false)
+  })
+})
+
 const show = useVModel(props, 'modal', emits)
+const btnLoading = ref(false)
+
+watch(
+  () => props.loading,
+  (val) => {
+    btnLoading.value = !!val
+  },
+  { immediate: true }
+)
 
 watch(show, (val) => {
   if (!val) {
     formValue.value = {}
+    basicFormRef.value.resetForm()
+    btnLoading.value = false
+    emits('update:loading', false)
   }
 })
 
@@ -56,14 +76,16 @@ const handler = () => {
 }
 
 const formSubmit = (val: IterateObject) => {
+  btnLoading.value = true
   emits('submit', val)
+  emits('update:loading', true)
 }
 </script>
 
 <template>
   <basic-modal
     v-model="show"
-    :loading="loading"
+    :loading="btnLoading"
     :width="width"
     :title="title"
     destroy-on-close

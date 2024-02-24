@@ -8,6 +8,7 @@ import {
   formOptions
 } from '@/views/systemMgmt/userMgmt/Shared'
 import {
+  createAdminUserApi,
   deleteAdminUserApi,
   getUserPageApi,
   updateAdminUserInfoApi,
@@ -19,6 +20,8 @@ import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 import type { ResolveListItem } from '@akaiito/typings/src'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
+import { useFormTool } from '@/hooks/useForm'
+
 type TableItem = ResolveListItem<typeof requestData.value>
 const {
   pageRequest,
@@ -31,30 +34,32 @@ const {
 pageRequest()
 
 const userStore = useUserStore()
-const formLoading = ref(false)
 const pwdModal = ref(false)
 const formModal = ref(false)
 const currentRow = ref<TableItem>()
 
+const openUpdateUserInfoModal = (row: TableItem) => {
+  useFormTool.hideItem(formOptions, ['password', 'confirmPassword'])
+  currentRow.value = row
+  formModal.value = true
+}
+
 //更新用户信息
-const updateUserInfo = async (val) => {
-  formLoading.value = true
+const updateOrAddUserInfo = async (val) => {
   if (Array.isArray(val.avatar)) {
     val.avatar = val.avatar[0].filePath
   }
-  await updateAdminUserInfoApi(val)
-  formLoading.value = false
-  useMessage.success('修改成功!')
+  const api = currentRow.value ? updateAdminUserInfoApi : createAdminUserApi
+  await api(val)
+  useMessage.success(currentRow.value ? '修改成功!' : '添加成功!')
   formModal.value = false
   await resetPageRequest()
 }
 
 //修改密码
 const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
-  formLoading.value = true
   val.id = currentRow.value.id
   await updateAdminUserPasswordApi(val)
-  formLoading.value = false
   useMessage.success({
     message: '修改成功!'
   })
@@ -64,6 +69,12 @@ const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
     userStore.signOut()
   }
 }
+
+const handlerToolbar = () => {
+  useFormTool.showItem(formOptions, ['password', 'confirmPassword'])
+  currentRow.value = null
+  formModal.value = true
+}
 </script>
 
 <template>
@@ -72,6 +83,7 @@ const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
       :toolbar="toolbar"
       :filter="filter"
       @query="resetPageRequest"
+      @handler="handlerToolbar"
     />
     <basic-table
       v-model:page-index="requestParams.pageIndex"
@@ -97,10 +109,7 @@ const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
         <basic-switch :request="updateAdminUserInfoApi" :row="row" />
       </template>
       <template #action="{ row }">
-        <el-button
-          type="primary"
-          link
-          @click="(currentRow = row), (formModal = true)"
+        <el-button type="primary" link @click="openUpdateUserInfoModal(row)"
           >编辑</el-button
         >
 
@@ -124,9 +133,8 @@ const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
       v-model:modal="formModal"
       :title="currentRow?.id ? '修改用户' : '添加用户'"
       :options="formOptions"
-      :loading="formLoading"
       :default-value="currentRow"
-      @submit="updateUserInfo"
+      @submit="updateOrAddUserInfo"
       @closed="currentRow = null"
     />
 
@@ -134,7 +142,6 @@ const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
       v-model:modal="pwdModal"
       title="修改密码"
       :options="pwdFormOptions"
-      :loading="formLoading"
       @submit="changePwd"
       @closed="currentRow = null"
     />

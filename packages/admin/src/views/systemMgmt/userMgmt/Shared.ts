@@ -142,6 +142,44 @@ export const formOptions: BasicFormOptions[] = [
     }
   },
   {
+    field: 'password',
+    component: 'Input',
+    props: {
+      required: true,
+      label: '密码',
+      rules: [
+        { required: true, message: '请输入密码' },
+        {
+          validator: useValidate.password
+        }
+      ]
+    },
+    componentProps: {
+      placeholder: '请输入密码',
+      type: 'password',
+      showPassword: true
+    }
+  },
+  {
+    field: 'confirmPassword',
+    component: 'Input',
+    props: {
+      required: true,
+      label: '确认密码',
+      rules: [
+        { required: true, message: '请输入确认密码' },
+        {
+          validator: useValidate.password
+        }
+      ]
+    },
+    componentProps: {
+      placeholder: '请输入确认密码',
+      type: 'password',
+      showPassword: true
+    }
+  },
+  {
     field: 'mobile',
     component: 'Input',
     props: {
