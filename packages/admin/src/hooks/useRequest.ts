@@ -32,7 +32,7 @@ export const useRequest = <T extends Function>(
     loading.value = false
   }
 
-  const pageRequest = async <K>(p?: K) => {
+  const requestPage = async <K>(p?: K) => {
     if (!requestParams.value.pageSize) {
       requestParams.value.orderBy = {}
       requestParams.value.pageSize = pageParams.pageSize
@@ -47,11 +47,20 @@ export const useRequest = <T extends Function>(
     }
   }
 
-  const resetPageRequest = async <K>(p?: K) => {
+  const resetRequest = async <K>(p?: K) => {
+    console.log('🚀 ~ file:useRequest method:resetRequest line:51 -----', p)
+    requestParams.value = requestParams.value.pageSize
+      ? {
+          ...pageParams,
+          ...p
+        }
+      : { ...p }
+  }
+
+  const resetPage = async <K>(p?: K) => {
     requestParams.value = {
-      pageIndex: 0,
-      pageSize: 15,
-      orderBy: {},
+      ...requestParams.value,
+      ...pageParams,
       ...p
     }
   }
@@ -65,10 +74,11 @@ export const useRequest = <T extends Function>(
   return {
     loading,
     request,
-    requestParams,
-    requestData,
-    pageRequest,
+    resetPage,
     sortChange,
-    resetPageRequest
+    requestPage,
+    requestData,
+    resetRequest,
+    requestParams
   }
 }

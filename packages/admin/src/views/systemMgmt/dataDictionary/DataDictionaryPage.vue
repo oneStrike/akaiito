@@ -22,9 +22,9 @@ import RecordDetails from '@/views/systemMgmt/dataDictionary/RecordDetails.vue'
 
 const toolbarOptions = toolbar
 
-const { pageRequest, requestData, resetPageRequest, loading, requestParams } =
+const { requestPage, requestData, resetPage, loading, requestParams } =
   useRequest(getDataDictionaryApi)
-pageRequest()
+requestPage()
 type TableItem = ResolveListItem<typeof requestData.value>
 
 const formLoading = ref(false)
@@ -39,24 +39,20 @@ const handlerToolbar = async (val: string) => {
       formModalShow.value = true
       break
     case 'delete':
-      useConfirm(
-        'delete',
-        () => deleteDataDictionaryApi({ ids }),
-        resetPageRequest
-      )
+      useConfirm('delete', () => deleteDataDictionaryApi({ ids }), resetPage)
       break
     case 'enable':
       useConfirm(
         'enable',
         () => updateDataDictionaryStatusApi({ ids, status: 1 }),
-        resetPageRequest
+        resetPage
       )
       break
     case 'disable':
       useConfirm(
         'disable',
         () => updateDataDictionaryStatusApi({ ids, status: 0 }),
-        resetPageRequest
+        resetPage
       )
       break
   }
@@ -74,7 +70,7 @@ const addDictionary = async (value: any) => {
   formModalShow.value = false
   formLoading.value = false
   currentRow.value = null
-  resetPageRequest()
+  resetPage()
 }
 
 const edit = (val: TableItem) => {
@@ -92,7 +88,7 @@ const selectionItems = ref<TableItem[] | null>(null)
       :filter="filter()"
       :selection="!selectionItems?.length"
       @handler="handlerToolbar"
-      @query="resetPageRequest"
+      @query="resetPage"
     />
     <basic-table
       v-if="requestData"
@@ -121,7 +117,7 @@ const selectionItems = ref<TableItem[] | null>(null)
           :row="row"
           ids
           v-model:loading="loading"
-          @success="resetPageRequest()"
+          @success="resetPage()"
         />
       </template>
     </basic-table>

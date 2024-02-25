@@ -9,7 +9,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     AsIcons: (typeof import('./../components/icons/AsIcons.vue'))['default']
     BasicForm: (typeof import('./../components/basic/BasicForm.vue'))['default']
-    BasicImage: (typeof import('./../components/basic/BasicImage.vue'))['default']
     BasicModal: (typeof import('./../components/basic/BasicModal.vue'))['default']
     BasicPopConfirm: (typeof import('./../components/basic/BasicPopConfirm.vue'))['default']
     BasicSwitch: (typeof import('./../components/basic/BasicSwitch.vue'))['default']
@@ -36,7 +35,6 @@ declare module 'vue' {
     ElFormItem: (typeof import('element-plus/es'))['ElFormItem']
     ElHeader: (typeof import('element-plus/es'))['ElHeader']
     ElIcon: (typeof import('element-plus/es'))['ElIcon']
-    ElImage: (typeof import('element-plus/es'))['ElImage']
     ElImageViewer: (typeof import('element-plus/es'))['ElImageViewer']
     ElInput: (typeof import('element-plus/es'))['ElInput']
     ElLink: (typeof import('element-plus/es'))['ElLink']

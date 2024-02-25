@@ -34,9 +34,13 @@ const emits = defineEmits<{
   (event: 'query', data: IterateObject): void
 }>()
 
+onMounted(() => {
+  console.log('🚀 ~ file:1 method: line:38 -----')
+})
+
 const bindChangeEventComponent = ['Select', 'DateTime']
 const innerFilter = computed(() =>
-  props.filter.map((item) => {
+  utils._.cloneDeep(props.filter).map((item) => {
     if (!item.componentProps) item.componentProps = {}
     if (!item.on) item.on = {}
     if (!item.props) item.props = {}
@@ -86,7 +90,7 @@ const submit = (val: IterateObject) => {
     delete val.startTime
     delete val.endTime
   }
-
+  console.log('🚀 ~ file:BasicToolbar method:submit line:89 -----')
   emits(
     'query',
     pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)

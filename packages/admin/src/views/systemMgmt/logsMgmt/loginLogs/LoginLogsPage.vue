@@ -7,8 +7,8 @@ import {
 import { getRequestLogsApi } from '@/apis/logs'
 
 const {
-  pageRequest,
-  resetPageRequest,
+  requestPage,
+  resetPage,
   sortChange,
   requestData,
   loading,
@@ -16,12 +16,12 @@ const {
 } = useRequest(getRequestLogsApi, {
   path: '/admin/user/login'
 })
-pageRequest()
+requestPage()
 </script>
 
 <template>
   <div class="main-page" v-loading="loading">
-    <basic-toolbar :filter="filter" @query="resetPageRequest" />
+    <basic-toolbar :filter="filter" @query="resetPage" />
     <basic-table
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"

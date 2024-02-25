@@ -45,7 +45,7 @@ const BasicRoutes: RouteRecordRaw[] = [
           .then(() => {
             clearTimeout(timer)
           })
-      }, 50)
+      }, 100)
     }
   }
 ]

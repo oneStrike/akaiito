@@ -1,25 +1,22 @@
 <script setup lang="ts">
 import { useRequest } from '@/hooks/useRequest'
-import {
-  tableColumns,
-  filter
-} from '@/views/systemMgmt/LogsMgmt/operationLogs/Shared'
+import { tableColumns, filter } from './Shared'
 import { getRequestLogsApi } from '@/apis/logs'
 
 const {
-  pageRequest,
-  resetPageRequest,
+  requestPage,
+  resetPage,
   sortChange,
   requestData,
   loading,
   requestParams
 } = useRequest(getRequestLogsApi)
-pageRequest()
+requestPage()
 </script>
 
 <template>
   <div class="main-page" v-loading="loading">
-    <basic-toolbar :filter="filter" @query="resetPageRequest" />
+    <basic-toolbar :filter="filter" @query="resetPage" />
     <basic-table
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"

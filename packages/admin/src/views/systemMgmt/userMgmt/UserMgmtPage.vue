@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRequest } from '@/hooks/useRequest'
 import {
-  tableColumns,
   filter,
   toolbar,
-  pwdFormOptions,
-  formOptions
+  formOptions,
+  tableColumns,
+  pwdFormOptions
 } from '@/views/systemMgmt/userMgmt/Shared'
 import {
   createAdminUserApi,
@@ -23,15 +23,17 @@ import { useUserStore } from '@/stores/modules/user'
 import { useFormTool } from '@/hooks/useForm'
 
 type TableItem = ResolveListItem<typeof requestData.value>
+
 const {
-  pageRequest,
-  resetPageRequest,
+  requestPage,
+  resetPage,
   sortChange,
   requestData,
   loading,
-  requestParams
+  requestParams,
+  resetRequest
 } = useRequest(getUserPageApi)
-pageRequest()
+requestPage()
 
 const userStore = useUserStore()
 const pwdModal = ref(false)
@@ -53,7 +55,7 @@ const updateOrAddUserInfo = async (val) => {
   await api(val)
   useMessage.success(currentRow.value ? '修改成功!' : '添加成功!')
   formModal.value = false
-  await resetPageRequest()
+  await resetPage()
 }
 
 //修改密码
@@ -75,6 +77,11 @@ const handlerToolbar = () => {
   currentRow.value = null
   formModal.value = true
 }
+
+const switchStatus = async (val) => {
+  await updateAdminUserInfoApi(val)
+  await resetPage()
+}
 </script>
 
 <template>
@@ -82,7 +89,7 @@ const handlerToolbar = () => {
     <basic-toolbar
       :toolbar="toolbar"
       :filter="filter"
-      @query="resetPageRequest"
+      @query="resetRequest"
       @handler="handlerToolbar"
     />
     <basic-table
@@ -106,7 +113,7 @@ const handlerToolbar = () => {
       </template>
 
       <template #status="{ row }">
-        <basic-switch :request="updateAdminUserInfoApi" :row="row" />
+        <basic-switch :request="switchStatus" :row="row" />
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openUpdateUserInfoModal(row)"
@@ -124,7 +131,7 @@ const handlerToolbar = () => {
           :request="deleteAdminUserApi"
           :row="row"
           v-model:loading="loading"
-          @success="resetPageRequest()"
+          @success="resetPage()"
         />
       </template>
     </basic-table>

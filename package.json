@@ -22,16 +22,16 @@
   "license": "ISC",
   "devDependencies": {
     "@commitlint/config-conventional": "^17.8.1",
-    "@types/node": "^20.10.2",
+    "@types/node": "^20.11.20",
     "commitizen": "^4.3.0",
     "commitlint": "^17.8.1",
     "commitlint-config-cz": "^0.13.3",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.39.0",
+    "eslint": "^8.57.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
   },
   "lint-staged": {
     "*.{ts,jsx,tsx,vue,js,css,,scss}": "pnpm run prettier",

@@ -49,7 +49,7 @@ const filterOptions = filter().map((item) => {
 const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
 const dictionaryId = computed(() => ({ dictionaryId: props.record?.id }))
-const { requestData, resetPageRequest, loading, requestParams } = useRequest(
+const { requestData, resetPage, loading, requestParams } = useRequest(
   getDataDictionaryItemsApi
 )
 
@@ -63,21 +63,21 @@ const handlerToolbar = async (val: string) => {
       useConfirm(
         'delete',
         () => deleteDataDictionaryItemsApi({ ids }),
-        () => resetPageRequest(dictionaryId.value)
+        () => resetPage(dictionaryId.value)
       )
       break
     case 'enable':
       useConfirm(
         'enable',
         () => updateDataDictionaryItemsStatusApi({ ids, status: 1 }),
-        () => resetPageRequest(dictionaryId.value)
+        () => resetPage(dictionaryId.value)
       )
       break
     case 'disable':
       useConfirm(
         'disable',
         () => updateDataDictionaryItemsStatusApi({ ids, status: 0 }),
-        () => resetPageRequest(dictionaryId.value)
+        () => resetPage(dictionaryId.value)
       )
       break
   }
@@ -87,7 +87,7 @@ watch(
   show,
   (val) => {
     if (val) {
-      resetPageRequest(dictionaryId.value)
+      resetPage(dictionaryId.value)
     } else {
       basicToolbarRef.value?.resetFilter()
     }
@@ -108,7 +108,7 @@ const addDictionary = async (value: any) => {
     }
     formModalShow.value = false
     currentRow.value = null
-    resetPageRequest(dictionaryId.value)
+    resetPage(dictionaryId.value)
   } catch (e) {
     console.log('🚀 ~ file:e method:addDictionary line:102 -----', e)
   }
@@ -139,7 +139,7 @@ const computedTableHeight = () => {
         :filter="filterOptions"
         :selection="!selectionItems?.length"
         @handler="handlerToolbar"
-        @query="(val) => resetPageRequest({ ...val, ...dictionaryId })"
+        @query="(val) => resetPage({ ...val, ...dictionaryId })"
       />
 
       <basic-table
@@ -170,12 +170,12 @@ const computedTableHeight = () => {
             :row="row"
             ids
             v-model:loading="loading"
-            @success="resetPageRequest(dictionaryId)"
+            @success="resetPage(dictionaryId)"
           />
         </template>
       </basic-table>
 
-      <form-modal
+      <modal-form
         v-model:modal="formModalShow"
         :default-value="currentRow"
         :title="currentRow ? '添加' : '编辑'"
