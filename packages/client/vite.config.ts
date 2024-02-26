@@ -1,7 +1,22 @@
-import { defineConfig } from 'vite'
-import uni from '@dcloudio/vite-plugin-uni'
+import { defineConfig, loadEnv } from 'vite'
+import { ViteResolve } from './vite/resolve'
+import { ViteProxy } from './vite/proxy'
+import { ViteBuild } from './vite/build'
+import { VitePlugins } from './vite/plugins'
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [uni()]
-})
+export default ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), 'VITE')
+  return defineConfig({
+    base: './',
+    plugins: VitePlugins(),
+    resolve: ViteResolve,
+    server: mode !== 'development' ? {} : ViteProxy(env),
+    build: ViteBuild,
+    esbuild: {
+      drop: mode !== 'development' ? ['console', 'debugger'] : []
+    },
+    optimizeDeps: {
+      include: ['element-plus/es']
+    }
+  })
+}

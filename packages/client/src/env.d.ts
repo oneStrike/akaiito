@@ -1,8 +1,18 @@
-/// <reference types="vite/client" />
+import type { IterateObject } from '@akaiito/typings/src'
 
 declare module '*.vue' {
+  // @ts-ignore
   import { DefineComponent } from 'vue'
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+
+declare const ROUTES: ({
+  path: string
+  name?: string
+  meta?: ObjType
+  root?: string
+  auth?: string
+  tabBar: boolean
+  subPage: boolean
+} & IterateObject)[]

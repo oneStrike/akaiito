@@ -1,0 +1,40 @@
+import type { Plugin } from 'vite'
+import UnoCSS from 'unocss/vite'
+import uni from '@dcloudio/vite-plugin-uni'
+
+import { visualizer } from 'rollup-plugin-visualizer'
+import ViteRestart from 'vite-plugin-restart'
+import { autoImport } from './import'
+import { Compression } from './compression'
+import progress from 'vite-plugin-progress'
+
+export function VitePlugins() {
+  const vitePlugins: (Plugin | Plugin[])[] = [UnoCSS(), uni()]
+
+  //打包分析视图
+  vitePlugins.push(visualizer())
+
+  //自动导入hook等
+  vitePlugins.push(autoImport())
+
+  //打包压缩
+  vitePlugins.push(Compression())
+
+  //打包进度条
+  vitePlugins.push(progress() as Plugin)
+
+  //配置文件变更自动重启服务
+  vitePlugins.push(
+    ViteRestart({
+      restart: [
+        'vite.config.js',
+        '../**/*/.ts',
+        '.env',
+        '.env.production',
+        '.env.development'
+      ]
+    })
+  )
+
+  return vitePlugins
+}

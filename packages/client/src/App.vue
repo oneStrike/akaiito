@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { onLaunch, onShow, onHide } from '@dcloudio/uni-app'
-
 onLaunch(() => {
   console.log('App Launch')
 })
@@ -11,4 +9,14 @@ onHide(() => {
   console.log('App Hide')
 })
 </script>
-<style></style>
+<style lang="scss">
+page {
+  width: 100vw;
+  /* #ifndef H5*/
+  height: 100vh;
+  /* #endif*/
+  /* #ifdef H5*/
+  height: 100%;
+  /* #endif*/
+}
+</style>

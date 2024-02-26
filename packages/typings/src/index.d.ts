@@ -28,9 +28,8 @@ export type InferReturnType<T> = T extends (...args: any[]) => any
   : T
 
 //获取异步函数的解析值
-export type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R>
-  ? R
-  : InferReturnType<T>
+export type ResolvedReturnType<T> =
+  InferReturnType<T> extends Promise<infer R> ? R : InferReturnType<T>
 
 //拼接loading
 export type JoinLoading<T> = T & { loading: boolean }
