@@ -1,7 +1,8 @@
 import * as path from 'path'
 
-import type { TransformPagesConf, ObjType } from 'src/components/libs/typings'
+import type { TransformPagesConf } from 'src/components/libs/typings'
 import type { Pages } from '@/components/libs/typings/hooks'
+import type { IterateObject } from '@akaiito/typings/src'
 
 class TransformPages {
   private CONFIG: TransformPagesConf = {
@@ -42,10 +43,10 @@ class TransformPages {
    * 通过读取pages.json文件 生成直接可用的routes
    */
   getPages(pages = this.pagesJson.pages, root?: string): Pages[] {
-    const tabBarPages = this.pagesJson.tabBar.list.map(
+    const tabBarPages = this.pagesJson.tabBar?.list.map(
       (item: { pagePath: string }) => item.pagePath
     )
-    return pages.map((item: ObjType) => {
+    return pages.map((item: IterateObject) => {
       const route: Pages = {
         path: item.path,
         name: item.name || '',
@@ -53,7 +54,7 @@ class TransformPages {
         root: root || '',
         auth: item.auth || '',
         subPage: !!root,
-        tabBar: tabBarPages.includes(item.path)
+        tabBar: tabBarPages?.includes(item.path) ?? false
       }
       this.CONFIG.includes.forEach((key) => {
         route[key] = item[key] || ''

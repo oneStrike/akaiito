@@ -2,21 +2,22 @@ import { RouterJumpMethodEnum } from '@/components/libs/enum/router'
 import type { RouterConfig } from '@/components/libs/typings/config'
 import type { IRouter, Pages } from '@/components/libs/typings/hooks'
 import type { IterateObject } from '@akaiito/typings/src'
-import TransformPages from '@/components/libs/utils/pagesJson'
 
 export class EsRouter {
-  public pages: Pages[]
   public tabBarPage: Pages[]
+  public pages: Pages[]
   private readonly guard?: RouterConfig['routerGuard']
   private readonly enter?: RouterConfig['routerEnter']
   private readonly prefix?: RouterConfig['prefix']
 
   constructor(config?: RouterConfig) {
-    this.pages = new TransformPages().routes
     this.guard = config?.routerGuard
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
-    this.tabBarPage = this.pages.filter((item) => item.tabBar)
+    // @ts-ignore
+    this.pages = ROUTES
+    // @ts-ignore
+    this.tabBarPage = ROUTES.filter((item) => item.tabBar)
   }
 
   private async jump({ path, method, params }: IRouter) {

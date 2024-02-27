@@ -3,6 +3,7 @@ import type { useModal } from '@/components/libs/hooks/useModal'
 import type { EsRouter } from '@/components/libs/hooks/useRouter'
 import type { EsRequest } from '@/components/libs/hooks/useRequest'
 import type { setConfig } from '@/components/libs/hooks/useConfig'
+import type { IterateObject } from '@akaiito/typings/src'
 
 //扩展android和ios类型
 export type Platform =
@@ -26,8 +27,6 @@ export interface TransformPagesConf {
   includes: string[]
 }
 
-export type ObjType<T = any> = Record<string | symbol, T>
-
 declare global {
   interface Uni {
     $es: {
@@ -42,3 +41,13 @@ declare global {
     }
   }
 }
+
+declare const ROUTES: {
+  path: string
+  name?: string
+  meta?: IterateObject
+  root?: string
+  auth?: string
+  tabBar: boolean
+  subPage: boolean
+}[]

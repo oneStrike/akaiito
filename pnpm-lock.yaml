@@ -320,9 +320,6 @@ importers:
       '@dcloudio/vite-plugin-uni':
         specifier: 3.0.0-3090920231225001
         version: 3.0.0-3090920231225001(postcss@8.4.35)(ts-node@10.9.2)(vite@4.0.3)(vue@3.4.20)
-      '@types/node':
-        specifier: ^20.11.20
-        version: 20.11.20
       '@vue/runtime-core':
         specifier: ^3.4.20
         version: 3.4.20
