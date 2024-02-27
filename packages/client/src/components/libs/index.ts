@@ -6,7 +6,7 @@ import { EsRouter } from '@/components/libs/hooks/useRouter'
 import { EsRequest } from '@/components/libs/hooks/useRequest'
 import { setConfig } from '@/components/libs/hooks/useConfig'
 
-export const useLk = {
+export const useEs = {
   setup: (conf?: Partial<Config>) => {
     const systemInfo = uni.getSystemInfoSync()
 
