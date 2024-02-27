@@ -1,6 +1,5 @@
 //主题色以及字体颜色
 import type { IterateObject } from '@akaiito/typings/src'
-import { routerWhiteList } from '@/config/router.config'
 
 export type ColorScheme = {
   primary?: string

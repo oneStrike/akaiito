@@ -1,4 +1,4 @@
-import path from 'path'
+import * as path from 'path'
 
 import type { TransformPagesConf, ObjType } from 'src/components/libs/typings'
 import type { Pages } from '@/components/libs/typings/hooks'
@@ -12,7 +12,7 @@ class TransformPages {
   // Uni-app的pages.js导出的方法
   private uniPagesHandler: any
   // 路由表
-  public declare ROUTES: Pages[]
+  public declare routes: Pages[]
   // 平台
   private readonly platform: string
 
@@ -28,7 +28,7 @@ class TransformPages {
     this.platform = process.env['UNI_PLATFORM']!
     this.pagesPath = path.resolve(process.cwd(), pagesPath)
     this.uniPagesHandler = require('@dcloudio/uni-cli-shared/dist/json/pages.js')
-    this.ROUTES = this.getPages().concat(this.getNotMpRoutes())
+    this.routes = this.getPages().concat(this.getNotMpRoutes())
   }
 
   /**

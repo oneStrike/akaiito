@@ -22,27 +22,5 @@ export const config: Config = {
     bgColor: '#f5f5f5'
   },
 
-  //字体尺寸
-  sizeScheme: {
-    tiny: 12,
-    small: 14,
-    medium: 16,
-    large: 18,
-    huge: 20,
-    utmost: 24
-  },
-  //圆角
-  radius: {
-    basis: 8,
-    medium: 16,
-    large: 32
-  },
-
-  //间距
-  spaceScheme: {
-    basis: 16,
-    large: 32
-  },
-
   tabBarHeight: 50
 }
