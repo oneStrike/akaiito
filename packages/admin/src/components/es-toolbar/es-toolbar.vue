@@ -34,54 +34,57 @@ const emits = defineEmits<{
   (event: 'query', data: IterateObject): void
 }>()
 
-onMounted(() => {
-  console.log('🚀 ~ file:1 method: line:38 -----')
-})
-
 const bindChangeEventComponent = ['Select', 'DateTime']
-const innerFilter = computed(() =>
-  utils._.cloneDeep(props.filter).map((item) => {
-    if (!item.componentProps) item.componentProps = {}
-    if (!item.on) item.on = {}
-    if (!item.props) item.props = {}
-    if (!item.props.class) {
-      switch (item.component) {
-        case 'DateTime':
-          item.props.class = 'w-96'
-          break
-        default:
-          item.props.class = 'w-52'
+
+const innerFilter = ref<ToolbarFilter>()
+
+watch(
+  () => props.filter,
+  (val) => {
+    innerFilter.value = utils._.cloneDeep(val).map((item) => {
+      if (!item.componentProps) item.componentProps = {}
+      if (!item.on) item.on = {}
+      if (!item.props) item.props = {}
+      if (!item.props.class) {
+        switch (item.component) {
+          case 'DateTime':
+            item.props.class = 'w-96'
+            break
+          default:
+            item.props.class = 'w-52'
+        }
       }
-    }
-    const innerSubmit = () => {
-      nextTick(() => submit(filterData.value))
-    }
+      const innerSubmit = () => {
+        nextTick(() => submit(filterData.value))
+      }
 
-    if (typeof item.componentProps.clearable !== 'boolean') {
-      item.componentProps.clearable = true
-    }
+      if (typeof item.componentProps.clearable !== 'boolean') {
+        item.componentProps.clearable = true
+      }
 
-    if (!item.on.clear && item.component !== 'Select') {
-      item.on.clear = innerSubmit
-    }
+      if (!item.on.clear && item.component !== 'Select') {
+        item.on.clear = innerSubmit
+      }
 
-    if (bindChangeEventComponent.includes(item.component) && !item.on.change) {
-      item.on.change = innerSubmit
-    }
-    return item
-  })
+      if (
+        bindChangeEventComponent.includes(item.component) &&
+        !item.on.change
+      ) {
+        item.on.change = innerSubmit
+      }
+      return item
+    })
+  },
+  { deep: true, immediate: true }
 )
 
 const filterData = ref<IterateObject>()
 const esFormRef = ref<IterateObject>()
 
 const submit = (val: IterateObject) => {
+  val = utils._.cloneDeep(val)
   const { pickBy, isBoolean, isNumber } = utils._
-  if (
-    val &&
-    Array.isArray(val.dateTimePicker) &&
-    val.dateTimePicker.length === 2
-  ) {
+  if (Array.isArray(val?.dateTimePicker) && val?.dateTimePicker.length === 2) {
     const start = val.dateTimePicker[0]
     const end = val.dateTimePicker[1]
     val.startTime = utils.dayjs(start).format('YYYY-MM-DD HH:mm:ss')
@@ -89,7 +92,9 @@ const submit = (val: IterateObject) => {
   } else if (val) {
     delete val.startTime
     delete val.endTime
+    delete val.dateTimePicker
   }
+
   emits(
     'query',
     pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)

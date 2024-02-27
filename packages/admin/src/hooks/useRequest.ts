@@ -48,7 +48,6 @@ export const useRequest = <T extends Function>(
   }
 
   const resetRequest = async <K>(p?: K) => {
-    console.log('🚀 ~ file:useRequest method:resetRequest line:51 -----', p)
     requestParams.value = requestParams.value.pageSize
       ? {
           ...pageParams,

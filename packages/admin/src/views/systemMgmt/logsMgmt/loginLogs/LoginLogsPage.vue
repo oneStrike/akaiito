@@ -8,7 +8,7 @@ import { getRequestLogsApi } from '@/apis/logs'
 
 const {
   requestPage,
-  resetPage,
+  resetRequest,
   sortChange,
   requestData,
   loading,
@@ -21,7 +21,7 @@ requestPage()
 
 <template>
   <div class="main-page" v-loading="loading">
-    <es-toolbar :filter="filter" @query="resetPage" />
+    <es-toolbar :filter="filter" @query="resetRequest" />
     <es-table
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"
