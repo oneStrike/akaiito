@@ -1,7 +1,7 @@
 /**
  * @description 替换android app的uni.showModal
  */
-import { GlobalModalOptions } from '@/components/libs/typings/globalModal'
+import type { GlobalModalOptions } from '@/components/libs/typings/globalModal'
 
 export class GlobalModal {
   modalControl: PlusNativeObjView | null

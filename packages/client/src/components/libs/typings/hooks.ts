@@ -1,19 +1,19 @@
-import { RouterJumpMethodEnum } from '@/components/libs/enum/router'
-import { ObjType } from '@/components/libs/typings/index'
+import type { RouterJumpMethodEnum } from '@/components/libs/enum/router'
+import type { IterateObject } from '@akaiito/typings/src'
 
 export type Pages = {
   path: string
   name?: string
-  meta?: ObjType
+  meta?: IterateObject
   root?: string
   auth?: string
   tabBar: boolean
   subPage: boolean
-} & ObjType
+} & IterateObject
 
 export interface IRouter {
   path: string
-  params?: ObjType
+  params?: IterateObject
   method?: RouterJumpMethodEnum
 }
 

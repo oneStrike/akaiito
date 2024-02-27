@@ -1,6 +1,6 @@
-import { ObjType } from '@/components/libs/typings/index'
-
 //主题色以及字体颜色
+import type { IterateObject } from '@akaiito/typings/src'
+
 export type ColorScheme = {
   primary?: string
   light?: string
@@ -16,7 +16,7 @@ export type ColorScheme = {
   minor?: string
 
   bgColor?: string
-} & ObjType<string>
+} & IterateObject<string>
 
 //字体尺寸
 export type SizeScheme = {
@@ -26,19 +26,19 @@ export type SizeScheme = {
   large?: number
   huge?: number
   utmost?: number
-} & ObjType<number>
+} & IterateObject<number>
 
 //圆角
 export type RadiusScheme = {
   basis?: number
   medium?: number
   large?: number
-} & ObjType<number>
+} & IterateObject<number>
 //间距
 export type SpaceScheme = {
   basis?: number
   large?: number
-} & ObjType<number>
+} & IterateObject<number>
 
 export interface RouterConfig {
   routerGuard?: (path: string) => Promise<boolean> | boolean // 路由守卫

@@ -1,9 +1,7 @@
 import path from 'path'
-import type {
-  TransformPagesConf,
-  ObjType,
-  Pages
-} from 'src/components/libs/typings'
+
+import type { TransformPagesConf, ObjType } from 'src/components/libs/typings'
+import type { Pages } from '@/components/libs/typings/hooks'
 
 class TransformPages {
   private CONFIG: TransformPagesConf = {
