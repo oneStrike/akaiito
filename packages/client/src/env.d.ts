@@ -7,12 +7,14 @@ declare module '*.vue' {
   export default component
 }
 
-declare const ROUTES: {
+type ObjType<T = any> = Record<string | symbol, T>
+
+declare const ROUTES: ({
   path: string
   name?: string
-  meta?: IterateObject
+  meta?: ObjType
   root?: string
   auth?: string
   tabBar: boolean
   subPage: boolean
-}[]
+} & IterateObject)[]

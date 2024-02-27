@@ -78,6 +78,7 @@
     "unocss-preset-weapp": "^0.58.6",
     "unplugin-auto-import": "^0.16.7",
     "unplugin-vue-components": "^0.25.2",
+    "unplugin-vue-define-options": "^1.4.2",
     "vite": "4.0.3",
     "vite-plugin-progress": "^0.0.7",
     "vite-plugin-restart": "^0.3.1",
