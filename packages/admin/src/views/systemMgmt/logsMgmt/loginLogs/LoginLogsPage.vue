@@ -30,6 +30,14 @@ requestPage()
       :total="requestData?.total"
       @sort-change="sortChange"
     >
+      <template #statusCode="{ row }">
+        <el-text class="mx-1" type="success" v-if="row.statusCode === 200"
+          >登录成功</el-text
+        >
+        <el-text class="mx-1" type="danger" v-else>{{
+          row.statusDesc
+        }}</el-text>
+      </template>
     </es-table>
   </div>
 </template>

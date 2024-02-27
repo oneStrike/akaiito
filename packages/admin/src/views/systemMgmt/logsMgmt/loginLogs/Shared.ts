@@ -25,15 +25,9 @@ export const tableColumns: EsTableColumn = [
   },
   {
     label: '登录结果',
-    prop: 'ipAddress',
+    prop: 'statusCode',
     align: 'center',
-    formatter: (row) => {
-      if (row.statusCode === 200) {
-        return '登录成功'
-      } else {
-        return row.statusDesc
-      }
-    }
+    slotName: 'statusCode'
   },
   {
     label: '登录时间',
