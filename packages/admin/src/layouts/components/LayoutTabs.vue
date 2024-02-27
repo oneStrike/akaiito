@@ -119,21 +119,21 @@ watch(
       </el-tab-pane>
     </el-tabs>
     <div class="flex-center">
-      <as-icons
+      <es-icons
         name="pinwheel"
         class="mr-4"
         :rotate="reloadFlag"
         @click="reload"
       />
       <el-dropdown class="flex-center">
-        <as-icons name="dotsHorizontal" />
+        <es-icons name="dotsHorizontal" />
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item
               @click="removeRouter(currentRouter)"
               :disabled="currentRouter === defaultHistory.name"
             >
-              <as-icons name="multiply" />
+              <es-icons name="multiply" />
               <span>关闭当前</span>
             </el-dropdown-item>
             <el-dropdown-item
@@ -143,21 +143,21 @@ watch(
                 findIdx(currentRouter) === 1
               "
             >
-              <as-icons name="chevronLeft" />
+              <es-icons name="chevronLeft" />
               <span>关闭左侧</span>
             </el-dropdown-item>
             <el-dropdown-item
               @click="removeRight"
               :disabled="findIdx(currentRouter) + 1 === routerHistory.length"
             >
-              <as-icons name="chevronRight" />
+              <es-icons name="chevronRight" />
               <span>关闭右侧</span>
             </el-dropdown-item>
             <el-dropdown-item
               @click="removeAllRouter"
               :disabled="currentRouter === defaultHistory.name"
             >
-              <as-icons name="code" />
+              <es-icons name="code" />
               <span>关闭所有</span>
             </el-dropdown-item>
           </el-dropdown-menu>

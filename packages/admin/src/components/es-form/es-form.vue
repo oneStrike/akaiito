@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { IterateObject } from '@typings/index'
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
-import BasicUpload from '@/components/basic/BasicUpload.vue'
 
-export type BasicFormComponent =
+export type EsFormComponent =
   | 'Input'
   | 'InputNumber'
   | 'Textarea'
@@ -15,17 +14,17 @@ export type BasicFormComponent =
   | 'DateTime'
   | 'Upload'
 
-export interface BasicFormOptions {
+export interface EsFormOptions {
   show?: boolean
   field: string
   props?: Partial<FormItemProps & { class?: string }>
-  component: BasicFormComponent
+  component: EsFormComponent
   componentProps?: IterateObject
   on?: IterateObject
 }
-export interface BasicFormProps {
+export interface EsFormProps {
   modelValue: IterateObject
-  options: BasicFormOptions[]
+  options: EsFormOptions[]
   formProps?: Partial<Omit<FormProps, 'model'>>
   showBtn?: boolean
   submitText?: string
@@ -33,7 +32,7 @@ export interface BasicFormProps {
 }
 
 const formRef = ref<FormInstance>()
-const props = withDefaults(defineProps<BasicFormProps>(), {
+const props = withDefaults(defineProps<EsFormProps>(), {
   modelValue: () => ({}),
   formProps: () => ({}),
   showBtn: true,
@@ -89,7 +88,7 @@ defineExpose({
         v-bind="item.props"
         v-if="item.show !== false"
       >
-        <basic-upload
+        <es-upload
           v-if="item.component === 'Upload'"
           v-model="formData[item.field]"
           v-bind="item.componentProps"

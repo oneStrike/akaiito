@@ -1,8 +1,8 @@
-import type { ToolbarFilter } from '@/components/basic/BasicToolbar.vue'
-import type { BasicTableColumn } from '@/components/basic/BasicTable.vue'
+import type { ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import { utils } from '@/utils'
 
-export const tableColumns: BasicTableColumn = [
+export const tableColumns: EsTableColumn = [
   {
     label: '手机号',
     prop: 'mobile',

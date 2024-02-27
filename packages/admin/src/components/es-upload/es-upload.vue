@@ -11,7 +11,7 @@ import { useMessage } from '@/hooks/useFeedback'
 import { useUpload } from '@/hooks/useUpload'
 import type { UploadFileTypings } from '@/apis/upload.d'
 
-export interface BasicUploadProps {
+export interface EsUploadProps {
   modelValue?:
     | UploadUserFile[]
     | string
@@ -27,7 +27,7 @@ export interface BasicUploadProps {
 }
 
 const uploadRef = ref<UploadInstance>()
-const props = withDefaults(defineProps<BasicUploadProps>(), {
+const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
   maxSize: config.maxUploadFileSize,
   maxCount: 1
@@ -166,7 +166,7 @@ const onPreview = (uploadFile: UploadFile) => {
 </script>
 
 <template>
-  <div class="basic-upload">
+  <div class="es-upload">
     <el-upload
       ref="uploadRef"
       v-model:file-list="fileList"
@@ -191,16 +191,16 @@ const onPreview = (uploadFile: UploadFile) => {
           >
             <template #reference>
               <div class="w-full h-full flex-center" @click.stop>
-                <as-icons name="downloading" :size="26" />
+                <es-icons name="downloading" :size="26" />
               </div>
             </template>
           </el-popconfirm>
         </div>
-        <as-icons name="downloading" :size="26" v-else />
+        <es-icons name="downloading" :size="26" v-else />
       </template>
     </el-upload>
 
-    <preview-image
+    <es-preview-image
       v-if="Array.isArray(previewImages) && previewImages.length"
       :url-list="previewImages"
       @close="previewImages = []"

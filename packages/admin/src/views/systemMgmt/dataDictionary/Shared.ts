@@ -1,12 +1,12 @@
 import type {
-  BasicToolbarProps,
+  EsToolbarProps,
   ToolbarFilter
-} from '@/components/basic/BasicToolbar.vue'
-import type { BasicTableColumn } from '@/components/basic/BasicTable.vue'
-import type { BasicFormOptions } from '@/components/basic/BasicForm.vue'
+} from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsTableColumn } from '@/components/es-table/es-table.vue'
+import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 import { utils } from '@/utils'
 
-export const toolbar: BasicToolbarProps['toolbar'] = [
+export const toolbar: EsToolbarProps['toolbar'] = [
   {
     type: 'button',
     label: '添加',
@@ -36,7 +36,7 @@ export const toolbar: BasicToolbarProps['toolbar'] = [
   }
 ]
 
-export const tableColumns: BasicTableColumn = [
+export const tableColumns: EsTableColumn = [
   {
     label: '名称',
     prop: 'name',
@@ -105,7 +105,7 @@ export const filter: () => ToolbarFilter = () => [
   }
 ]
 
-export const formOptions: BasicFormOptions[] = [
+export const formOptions: EsFormOptions[] = [
   {
     field: 'name',
     component: 'Input',

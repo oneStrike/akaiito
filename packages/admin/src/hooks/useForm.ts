@@ -1,15 +1,15 @@
-import type { BasicFormOptions } from '@/components/basic/BasicForm.vue'
+import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 
 export const useFormTool = {
-  getItem(formOptions: BasicFormOptions[], filed: string | string[]) {
+  getItem(formOptions: EsFormOptions[], filed: string | string[]) {
     filed = typeof filed === 'string' ? [filed] : filed
     return formOptions.filter((item) => filed.includes(item.field))
   },
 
   specificItem(
-    formOptions: BasicFormOptions[],
+    formOptions: EsFormOptions[],
     filed: string | string[],
-    cb: (item: BasicFormOptions) => BasicFormOptions
+    cb: (item: EsFormOptions) => EsFormOptions
   ) {
     filed = typeof filed === 'string' ? [filed] : filed
     return formOptions.map((item) => {
@@ -20,14 +20,14 @@ export const useFormTool = {
     })
   },
 
-  hideItem(formOptions: BasicFormOptions[], filed: string | string[]) {
+  hideItem(formOptions: EsFormOptions[], filed: string | string[]) {
     return this.specificItem(formOptions, filed, (item) => {
       item.show = false
       return item
     })
   },
 
-  showItem(formOptions: BasicFormOptions[], filed: string | string[]) {
+  showItem(formOptions: EsFormOptions[], filed: string | string[]) {
     return this.specificItem(formOptions, filed, (item) => {
       item.show = true
       return item

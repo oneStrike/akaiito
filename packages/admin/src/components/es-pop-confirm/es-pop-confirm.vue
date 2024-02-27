@@ -3,13 +3,13 @@ import type { AsyncFn, IterateObject } from '@typings/index'
 import { useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/enum/prompts'
 
-export interface BasicPopConfirmProps<T = IterateObject> {
+export interface EsPopConfirmProps<T = IterateObject> {
   request: AsyncFn
   row: T
   ids?: boolean
   loading?: boolean
 }
-const props = withDefaults(defineProps<BasicPopConfirmProps>(), {})
+const props = withDefaults(defineProps<EsPopConfirmProps>(), {})
 const emits = defineEmits<{
   (event: 'update:row'): void
   (event: 'update:loading'): void

@@ -3,13 +3,13 @@ import type { AsyncFn, IterateObject } from '@typings/index'
 import { useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/enum/prompts'
 
-export interface BasicSwitchProps<T = IterateObject> {
+export interface EsSwitchProps<T = IterateObject> {
   row: T
   ids?: boolean
   request: AsyncFn
 }
 
-const props = withDefaults(defineProps<BasicSwitchProps>(), {
+const props = withDefaults(defineProps<EsSwitchProps>(), {
   ids: false
 })
 const emits = defineEmits<{

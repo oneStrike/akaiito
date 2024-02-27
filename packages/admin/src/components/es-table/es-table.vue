@@ -2,14 +2,14 @@
 import type { TableColumnInstance } from 'element-plus'
 import type { IterateObject } from '@typings/index'
 
-export type BasicTableColumn = (Partial<TableColumnInstance> & {
+export type EsTableColumn = (Partial<TableColumnInstance> & {
   slotName?: string
   defaultValue?: string
 })[]
 
-export interface BasicTableProps<T = IterateObject> {
+export interface EsTableProps<T = IterateObject> {
   data: T[]
-  columns: BasicTableColumn
+  columns: EsTableColumn
   index?: boolean
   pageSize?: number
   pageIndex?: number
@@ -19,7 +19,7 @@ export interface BasicTableProps<T = IterateObject> {
   defaultValue?: string
 }
 
-const props = withDefaults(defineProps<BasicTableProps>(), {
+const props = withDefaults(defineProps<EsTableProps>(), {
   index: true,
   defaultValue: '-',
   pageSize: 15,

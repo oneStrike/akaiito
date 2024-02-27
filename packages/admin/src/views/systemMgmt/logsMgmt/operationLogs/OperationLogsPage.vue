@@ -16,8 +16,8 @@ requestPage()
 
 <template>
   <div class="main-page" v-loading="loading">
-    <basic-toolbar :filter="filter" @query="resetPage" />
-    <basic-table
+    <es-toolbar :filter="filter" @query="resetPage" />
+    <es-table
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"
       :columns="tableColumns"
@@ -33,7 +33,7 @@ requestPage()
           row.statusDesc
         }}</el-text>
       </template>
-    </basic-table>
+    </es-table>
   </div>
 </template>
 

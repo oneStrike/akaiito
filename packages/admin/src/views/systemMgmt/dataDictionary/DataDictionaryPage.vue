@@ -16,8 +16,6 @@ import { useConfirm, useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/enum/prompts'
 import { useRequest } from '@/hooks/useRequest'
 import type { ResolveListItem } from '@akaiito/typings/src'
-import BasicSwitch from '@/components/basic/BasicSwitch.vue'
-import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 import RecordDetails from '@/views/systemMgmt/dataDictionary/RecordDetails.vue'
 
 const toolbarOptions = toolbar
@@ -83,14 +81,14 @@ const selectionItems = ref<TableItem[] | null>(null)
 
 <template>
   <div class="main-page" v-loading="loading">
-    <basic-toolbar
+    <es-toolbar
       :toolbar="toolbarOptions"
       :filter="filter()"
       :selection="!selectionItems?.length"
       @handler="handlerToolbar"
       @query="resetPage"
     />
-    <basic-table
+    <es-table
       v-if="requestData"
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"
@@ -108,11 +106,11 @@ const selectionItems = ref<TableItem[] | null>(null)
         >
       </template>
       <template #status="{ row }">
-        <basic-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
+        <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
-        <basic-pop-confirm
+        <es-pop-confirm
           :request="deleteDataDictionaryApi"
           :row="row"
           ids
@@ -120,9 +118,9 @@ const selectionItems = ref<TableItem[] | null>(null)
           @success="resetPage()"
         />
       </template>
-    </basic-table>
+    </es-table>
 
-    <modal-form
+    <es-modal-form
       v-model:modal="formModalShow"
       :default-value="currentRow"
       :title="currentRow ? '添加' : '编辑'"

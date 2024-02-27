@@ -13,7 +13,7 @@ const { userInfo } = storeToRefs(userStore)
 <template>
   <div class="h-60px pl-4 pr-4 flex items-center justify-between border-bottom">
     <div class="flex items-center">
-      <as-icons
+      <es-icons
         :name="
           layoutStore.collapsed ? 'chevronDoubleRight' : 'chevronDoubleLeft'
         "
@@ -31,13 +31,13 @@ const { userInfo } = storeToRefs(userStore)
       </el-breadcrumb>
     </div>
     <el-space size="large">
-      <as-icons
+      <es-icons
         @click="layoutStore.toggleFullScreen"
         :name="
           layoutStore.fullScreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'
         "
       />
-      <as-icons
+      <es-icons
         @click="layoutStore.toggleThemeMode"
         :name="layoutStore.theme === 'light' ? 'sunLoop' : 'moonLoop'"
       />
@@ -51,7 +51,7 @@ const { userInfo } = storeToRefs(userStore)
                 : getAssetsFile('images/default-avatar.png')
             "
           />
-          <as-icons name="chevronDown" color="#606266" />
+          <es-icons name="chevronDown" color="#606266" />
         </div>
         <template #dropdown>
           <el-dropdown-menu>

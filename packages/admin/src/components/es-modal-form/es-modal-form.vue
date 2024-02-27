@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type {
-  BasicFormOptions,
-  BasicFormProps
-} from '@/components/basic/BasicForm.vue'
+  EsFormOptions,
+  EsFormProps
+} from '@/components/es-form/es-form.vue'
 import type { IterateObject } from '@typings/index'
 import { utils } from '@/utils'
 
@@ -10,13 +10,13 @@ export interface FormModalProps {
   modelValue?: IterateObject
   defaultValue?: IterateObject
   modal?: boolean
-  options: BasicFormOptions[]
+  options: EsFormOptions[]
   title?: string
   loading?: boolean
-  formProps?: BasicFormProps['formProps']
+  formProps?: EsFormProps['formProps']
   width?: string | number
 }
-const basicFormRef = ref()
+const esFormRef = ref()
 const props = withDefaults(defineProps<FormModalProps>(), {
   formProps: () => ({}),
   width: 700
@@ -52,7 +52,7 @@ watch(
 watch(show, (val) => {
   if (!val) {
     formValue.value = {}
-    basicFormRef.value.resetForm()
+    esFormRef.value.resetForm()
     btnLoading.value = false
     emits('update:loading', false)
   }
@@ -72,7 +72,7 @@ const formProps = computed(() =>
 )
 
 const handler = () => {
-  basicFormRef.value?.submitForm()
+  esFormRef.value?.submitForm()
 }
 
 const formSubmit = (val: IterateObject) => {
@@ -83,7 +83,7 @@ const formSubmit = (val: IterateObject) => {
 </script>
 
 <template>
-  <basic-modal
+  <es-modal
     v-model="show"
     :loading="btnLoading"
     :width="width"
@@ -93,15 +93,15 @@ const formSubmit = (val: IterateObject) => {
     @close="emits('close')"
     @closed="emits('closed')"
   >
-    <basic-form
-      ref="basicFormRef"
+    <es-form
+      ref="esFormRef"
       :options="options"
       :show-btn="false"
       :form-props="formProps"
       v-model="formValue"
       @submit="formSubmit"
     />
-  </basic-modal>
+  </es-modal>
 </template>
 
 <style scoped></style>

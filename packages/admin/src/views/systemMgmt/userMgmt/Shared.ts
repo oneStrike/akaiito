@@ -1,13 +1,13 @@
 import type {
-  BasicToolbarProps,
+  EsToolbarProps,
   ToolbarFilter
-} from '@/components/basic/BasicToolbar.vue'
-import type { BasicTableColumn } from '@/components/basic/BasicTable.vue'
+} from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import { utils } from '@/utils'
-import type { BasicFormOptions } from '@/components/basic/BasicForm.vue'
+import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 import { useValidate } from '@/hooks/useValidate'
 
-export const tableColumns: BasicTableColumn = [
+export const tableColumns: EsTableColumn = [
   {
     label: '用户名',
     prop: 'username',
@@ -104,7 +104,7 @@ export const filter: ToolbarFilter = [
   }
 ]
 
-export const toolbar: BasicToolbarProps['toolbar'] = [
+export const toolbar: EsToolbarProps['toolbar'] = [
   {
     type: 'button',
     label: '添加',
@@ -115,7 +115,7 @@ export const toolbar: BasicToolbarProps['toolbar'] = [
   }
 ]
 
-export const formOptions: BasicFormOptions[] = [
+export const formOptions: EsFormOptions[] = [
   {
     field: 'avatar',
     component: 'Upload',
@@ -218,7 +218,7 @@ export const formOptions: BasicFormOptions[] = [
   }
 ]
 
-export const pwdFormOptions: BasicFormOptions[] = [
+export const pwdFormOptions: EsFormOptions[] = [
   {
     field: 'oldPassword',
     component: 'Input',

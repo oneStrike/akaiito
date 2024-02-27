@@ -12,13 +12,13 @@
       "path": "pages/index/index",
       "name": "home",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationBarTitleText": "Akaiito"
       }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "Akaiito",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   }

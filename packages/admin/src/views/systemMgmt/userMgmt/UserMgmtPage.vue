@@ -15,8 +15,6 @@ import {
   updateAdminUserPasswordApi
 } from '@/apis/user'
 import type { UpdateAdminUserPasswordTypings } from '@/apis/user.d'
-import BasicSwitch from '@/components/basic/BasicSwitch.vue'
-import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 import type { ResolveListItem } from '@akaiito/typings/src'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
@@ -86,13 +84,13 @@ const switchStatus = async (val) => {
 
 <template>
   <div class="main-page" v-loading="loading">
-    <basic-toolbar
+    <es-toolbar
       :toolbar="toolbar"
       :filter="filter"
       @query="resetRequest"
       @handler="handlerToolbar"
     />
-    <basic-table
+    <es-table
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"
       :columns="tableColumns"
@@ -113,7 +111,7 @@ const switchStatus = async (val) => {
       </template>
 
       <template #status="{ row }">
-        <basic-switch :request="switchStatus" :row="row" />
+        <es-switch :request="switchStatus" :row="row" />
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openUpdateUserInfoModal(row)"
@@ -127,16 +125,16 @@ const switchStatus = async (val) => {
           >修改密码</el-button
         >
 
-        <basic-pop-confirm
+        <es-pop-confirm
           :request="deleteAdminUserApi"
           :row="row"
           v-model:loading="loading"
           @success="resetPage()"
         />
       </template>
-    </basic-table>
+    </es-table>
 
-    <modal-form
+    <es-modal-form
       v-model:modal="formModal"
       :title="currentRow?.id ? '修改用户' : '添加用户'"
       :options="formOptions"
@@ -145,7 +143,7 @@ const switchStatus = async (val) => {
       @closed="currentRow = null"
     />
 
-    <modal-form
+    <es-modal-form
       v-model:modal="pwdModal"
       title="修改密码"
       :options="pwdFormOptions"

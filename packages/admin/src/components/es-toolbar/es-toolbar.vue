@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ButtonProps } from 'element-plus'
-import type { BasicFormProps } from '@/components/basic/BasicForm.vue'
+import type { EsFormProps } from '@/components/es-form/es-form.vue'
 import type { IterateObject } from '@typings/index'
 import { utils } from '@/utils'
 
-export type ToolbarFilter = BasicFormProps['options']
+export type ToolbarFilter = EsFormProps['options']
 
 export type Toolbar = {
   type: 'dropdown' | 'button'
@@ -19,14 +19,14 @@ export type Toolbar = {
     props?: { disabled?: boolean; divided?: boolean }
   }[]
 }
-export interface BasicToolbarProps {
+export interface EsToolbarProps {
   toolbar?: Toolbar[]
   filter?: ToolbarFilter
   selection?: boolean
   followSelection?: boolean
 }
 
-const props = withDefaults(defineProps<BasicToolbarProps>(), {
+const props = withDefaults(defineProps<EsToolbarProps>(), {
   followSelection: true
 })
 const emits = defineEmits<{
@@ -73,7 +73,7 @@ const innerFilter = computed(() =>
 )
 
 const filterData = ref<IterateObject>()
-const basicFormRef = ref<IterateObject>()
+const esFormRef = ref<IterateObject>()
 
 const submit = (val: IterateObject) => {
   const { pickBy, isBoolean, isNumber } = utils._
@@ -90,7 +90,6 @@ const submit = (val: IterateObject) => {
     delete val.startTime
     delete val.endTime
   }
-  console.log('🚀 ~ file:BasicToolbar method:submit line:89 -----')
   emits(
     'query',
     pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)
@@ -98,7 +97,7 @@ const submit = (val: IterateObject) => {
 }
 
 const resetFilter = () => {
-  basicFormRef.value?.resetForm()
+  esFormRef.value?.resetForm()
 }
 
 defineExpose({
@@ -147,8 +146,8 @@ defineExpose({
         </template>
       </div>
     </div>
-    <basic-form
-      ref="basicFormRef"
+    <es-form
+      ref="esFormRef"
       v-if="Array.isArray(filter) && filter.length"
       v-model="filterData"
       :options="innerFilter"

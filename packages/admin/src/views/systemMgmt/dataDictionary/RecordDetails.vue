@@ -7,7 +7,7 @@ import {
 } from '@/views/systemMgmt/dataDictionary/Shared'
 
 import type { IterateObject, ResolveListItem } from '@typings/index'
-import type { BasicModalProps } from '@/components/basic/BasicModal.vue'
+import type { EsModalProps } from '@/components/es-modal/es-modal.vue'
 import { useRequest } from '@/hooks/useRequest'
 import {
   createDataDictionaryItemsApi,
@@ -17,17 +17,15 @@ import {
   updateDataDictionaryItemsStatusApi
 } from '@/apis/dictionary'
 import { useConfirm, useMessage } from '@/hooks/useFeedback'
-import BasicSwitch from '@/components/basic/BasicSwitch.vue'
-import BasicPopConfirm from '@/components/basic/BasicPopConfirm.vue'
 import { PromptsEnum } from '@/enum/prompts'
 
-export interface RecordDetails extends BasicModalProps {
+export interface RecordDetails extends EsModalProps {
   record: IterateObject
 }
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const basicTableRef = ref()
-const basicToolbarRef = ref()
+const esTableRef = ref()
+const esToolbarRef = ref()
 const props = withDefaults(defineProps<RecordDetails>(), {})
 const emits = defineEmits<{
   (event: 'update:modelValue'): void
@@ -89,7 +87,7 @@ watch(
     if (val) {
       resetPage(dictionaryId.value)
     } else {
-      basicToolbarRef.value?.resetFilter()
+      esToolbarRef.value?.resetFilter()
     }
   },
   { deep: true, immediate: true }
@@ -121,20 +119,20 @@ const edit = (val: TableItem) => {
 }
 
 const computedTableHeight = () => {
-  basicTableRef.value?.computedTableHeight()
+  esTableRef.value?.computedTableHeight()
 }
 </script>
 
 <template>
-  <basic-modal
+  <es-modal
     v-model="show"
     v-bind="props"
     @closed="emits('closed')"
     @full-screen="computedTableHeight"
   >
     <div v-loading="loading" class="h-full">
-      <basic-toolbar
-        ref="basicToolbarRef"
+      <es-toolbar
+        ref="esToolbarRef"
         :toolbar="toolbarOptions"
         :filter="filterOptions"
         :selection="!selectionItems?.length"
@@ -142,9 +140,9 @@ const computedTableHeight = () => {
         @query="(val) => resetPage({ ...val, ...dictionaryId })"
       />
 
-      <basic-table
+      <es-table
         v-if="requestData"
-        ref="basicTableRef"
+        ref="esTableRef"
         v-model:page-index="requestParams.pageIndex"
         v-model:page-size="requestParams.pageSize"
         :columns="tableColumns"
@@ -157,7 +155,7 @@ const computedTableHeight = () => {
           <span>{{ row.name }}</span>
         </template>
         <template #status="{ row }">
-          <basic-switch
+          <es-switch
             :request="updateDataDictionaryItemsStatusApi"
             :row="row"
             ids
@@ -165,7 +163,7 @@ const computedTableHeight = () => {
         </template>
         <template #action="{ row }">
           <el-button type="primary" link @click="edit(row)">编辑</el-button>
-          <basic-pop-confirm
+          <es-pop-confirm
             :request="deleteDataDictionaryItemsApi"
             :row="row"
             ids
@@ -173,9 +171,9 @@ const computedTableHeight = () => {
             @success="resetPage(dictionaryId)"
           />
         </template>
-      </basic-table>
+      </es-table>
 
-      <modal-form
+      <es-modal-form
         v-model:modal="formModalShow"
         :default-value="currentRow"
         :title="currentRow ? '添加' : '编辑'"
@@ -185,7 +183,7 @@ const computedTableHeight = () => {
         @closed="currentRow = null"
       />
     </div>
-  </basic-modal>
+  </es-modal>
 </template>
 
 <style scoped></style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-export interface BasicModalProps {
+export interface EsModalProps {
   modelValue: boolean
   title?: string
   width?: number | string
@@ -8,7 +8,7 @@ export interface BasicModalProps {
   loading?: boolean
   destroyOnClose?: boolean
 }
-const props = withDefaults(defineProps<BasicModalProps>(), {
+const props = withDefaults(defineProps<EsModalProps>(), {
   modelValue: false,
   title: '',
   loading: false
@@ -62,14 +62,14 @@ const toggleFullScreenStatus = () => {
       <div class="flex justify-between">
         <h4 :id="titleId" :class="titleClass">{{ title }}</h4>
         <div class="cursor-pointer">
-          <as-icons
+          <es-icons
             :name="fullscreen ? 'minimize' : 'maximize'"
             hover
             color="!text-info"
             class="mr-4"
             @click="toggleFullScreenStatus"
           />
-          <as-icons name="multiply" color="!text-info" hover @click="close" />
+          <es-icons name="multiply" color="!text-info" hover @click="close" />
         </div>
       </div>
     </template>

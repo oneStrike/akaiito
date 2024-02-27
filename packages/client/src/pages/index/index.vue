@@ -2,7 +2,7 @@
   <view class="content wh-full">
     <image class="logo" src="/static/logo.png" />
     <view class="text-area">
-      <as-icons />
+      <es-icons />
     </view>
   </view>
 </template>
