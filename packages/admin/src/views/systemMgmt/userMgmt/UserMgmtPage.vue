@@ -54,6 +54,21 @@ const updateOrAddUserInfo = async (val) => {
   useMessage.success(currentRow.value ? '修改成功!' : '添加成功!')
   formModal.value = false
   await resetPage()
+  if (val.id === userStore.userInfo.id) {
+    console.log(
+      '🚀 ~ file:UserMgmtPage method:updateOrAddUserInfo line:58 -----',
+      requestData.value.list.filter(
+        (item) => item.id === userStore.userInfo.id
+      )[0]
+    )
+    setTimeout(() => {
+      userStore.setUserInfo(
+        requestData.value.list.filter(
+          (item) => item.id === userStore.userInfo.id
+        )[0]
+      )
+    }, 2022)
+  }
 }
 
 //修改密码

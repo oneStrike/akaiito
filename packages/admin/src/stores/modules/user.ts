@@ -38,15 +38,19 @@ export const useUserStore = defineStore('useUserStore', {
         accessToken: '',
         refreshToken: ''
       }
-      this.userInfo = null
+      this.setUserInfo(null)
       router.replace({ name: 'Login' })
+    },
+    //设置用户信息
+    setUserInfo(userInfo: LoginTypings['Response']['userInfo'] | null) {
+      this.userInfo = userInfo
     },
     // 设置认证信息
     setAuth(authInfo: LoginTypings['Response']) {
       const { token, userInfo } = authInfo
       const { accessToken, refreshToken } = config.auth
       const timestamp = dayjs().unix()
-      this.userInfo = userInfo
+      this.setUserInfo(userInfo)
       this.token = {
         accessToken: token.accessToken,
         refreshToken: token.refreshToken,

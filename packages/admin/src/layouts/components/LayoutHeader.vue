@@ -8,6 +8,7 @@ const route = useRoute()
 const userStore = useUserStore()
 const layoutStore = useLayoutStore()
 const { userInfo } = storeToRefs(userStore)
+console.log('🚀 ~ file:LayoutHeader method: line:11 -----', userInfo)
 </script>
 
 <template>
