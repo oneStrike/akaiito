@@ -41,13 +41,3 @@ declare global {
     }
   }
 }
-
-declare const ROUTES: {
-  path: string
-  name?: string
-  meta?: IterateObject
-  root?: string
-  auth?: string
-  tabBar: boolean
-  subPage: boolean
-}[]

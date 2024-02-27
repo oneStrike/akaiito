@@ -14,9 +14,7 @@ export class EsRouter {
     this.guard = config?.routerGuard
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
-    // @ts-ignore
     this.pages = ROUTES
-    // @ts-ignore
     this.tabBarPage = ROUTES.filter((item) => item.tabBar)
   }
 
