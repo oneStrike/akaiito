@@ -55,12 +55,6 @@ const updateOrAddUserInfo = async (val) => {
   formModal.value = false
   await resetPage()
   if (val.id === userStore.userInfo.id) {
-    console.log(
-      '🚀 ~ file:UserMgmtPage method:updateOrAddUserInfo line:58 -----',
-      requestData.value.list.filter(
-        (item) => item.id === userStore.userInfo.id
-      )[0]
-    )
     setTimeout(() => {
       userStore.setUserInfo(
         requestData.value.list.filter(
@@ -130,15 +124,15 @@ const switchStatus = async (val) => {
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openUpdateUserInfoModal(row)"
-          >编辑</el-button
-        >
+          >编辑
+        </el-button>
 
         <el-button
           type="primary"
           link
           @click="(currentRow = row), (pwdModal = true)"
-          >修改密码</el-button
-        >
+          >修改密码
+        </el-button>
 
         <es-pop-confirm
           :request="deleteAdminUserApi"
