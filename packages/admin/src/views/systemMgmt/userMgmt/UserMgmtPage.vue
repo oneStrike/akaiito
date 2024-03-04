@@ -55,13 +55,11 @@ const updateOrAddUserInfo = async (val) => {
   formModal.value = false
   await resetPage()
   if (val.id === userStore.userInfo.id) {
-    setTimeout(() => {
-      userStore.setUserInfo(
-        requestData.value.list.filter(
-          (item) => item.id === userStore.userInfo.id
-        )[0]
-      )
-    }, 2022)
+    userStore.setUserInfo(
+      requestData.value.list.filter(
+        (item) => item.id === userStore.userInfo.id
+      )[0]
+    )
   }
 }
 
