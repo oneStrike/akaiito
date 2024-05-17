@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import UnoCSS from 'unocss/vite'
+// import UnoCSS from 'unocss/vite'
 import uni from '@dcloudio/vite-plugin-uni'
 
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -8,7 +8,8 @@ import { autoImport } from './import'
 import { Compression } from './compression'
 import progress from 'vite-plugin-progress'
 
-export function VitePlugins() {
+export async function VitePlugins() {
+  const UnoCSS = await import('unocss/vite').then((i) => i.default)
   const vitePlugins: (Plugin | Plugin[])[] = [UnoCSS(), uni()]
 
   //打包分析视图

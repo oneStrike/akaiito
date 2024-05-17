@@ -5,11 +5,11 @@ import { ViteBuild } from './vite/build'
 import { VitePlugins } from './vite/plugins'
 import TransformPages from './src/components/libs/utils/pagesJson'
 
-export default ({ mode }) => {
+export default async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE')
   return defineConfig({
     base: './',
-    plugins: VitePlugins(),
+    plugins: await VitePlugins(),
     resolve: ViteResolve,
     server: mode !== 'development' ? {} : ViteProxy(env),
     build: ViteBuild,
