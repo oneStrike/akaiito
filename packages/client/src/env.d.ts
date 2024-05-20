@@ -9,12 +9,18 @@ declare module '*.vue' {
 
 type ObjType<T = any> = Record<string | symbol, T>
 
-declare const ROUTES: ({
-  path: string
-  name?: string
-  meta?: ObjType
-  root?: string
-  auth?: string
-  tabBar: boolean
-  subPage: boolean
-} & IterateObject)[]
+interface WindowExtensions {
+  ROUTES: ({
+    path: string
+    name?: string
+    meta?: IterateObject
+    root?: string
+    auth?: string
+    tabBar: boolean
+    subPage: boolean
+  } & IterateObject)[]
+}
+
+declare global {
+  interface Window extends WindowExtensions {}
+}

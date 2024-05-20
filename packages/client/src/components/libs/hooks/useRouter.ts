@@ -14,8 +14,8 @@ export class EsRouter {
     this.guard = config?.routerGuard
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
-    this.pages = ROUTES
-    this.tabBarPage = ROUTES.filter((item) => item.tabBar)
+    this.pages = window.ROUTES
+    this.tabBarPage = window.ROUTES.filter((item) => item.tabBar)
   }
 
   private async jump({ path, method, params }: IRouter) {
@@ -28,9 +28,9 @@ export class EsRouter {
     }
     path = prefix + this.fullPath(path, params)
     const pass = this.guard ? await this.guard(path) : true
+    if (!method) method = RouterJumpMethodEnum.NAVIGATE
     if (pass) {
-      console.log(path)
-      // @ts-ignore
+      //@ts-ignore
       uni[method]({
         url: path,
         success: () => Promise.resolve(),
