@@ -1,5 +1,5 @@
 import * as path from 'node:path'
-import basicConfig from '@akaiito/basic-config'
+import basicConfig from './../../../../../config/config.default'
 
 const whitelist = []
 

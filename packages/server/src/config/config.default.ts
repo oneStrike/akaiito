@@ -1,5 +1,5 @@
 import { MidwayConfig } from '@midwayjs/core'
-import basicConfig from '@akaiito/basic-config'
+import basicConfig from './../../../../config/config.default'
 import { uploadConfig } from './modules/upload'
 import { jwtConfig } from './modules/jwt'
 import { staticFileConfig } from './modules/staticFile'
