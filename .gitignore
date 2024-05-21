@@ -9,3 +9,4 @@ logs
 /packages/admin/dist/
 /.history/
 /packages/server/public/
+/dist

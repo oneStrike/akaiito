@@ -7,7 +7,7 @@ import {
 } from '../../typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
 import { utils } from '../../utils'
-import { BaseOrderDto } from '../dto/basic.dto'
+import { BasicOrderDto } from '../dto/basic.dto'
 
 export abstract class BasicService<T = IterateObject> {
   // 注入应用实例
@@ -73,7 +73,7 @@ export abstract class BasicService<T = IterateObject> {
   }
 
   //更新排序
-  async updateOrder(info: BaseOrderDto) {
+  async updateOrder(info: BasicOrderDto) {
     await Promise.all([
       this.update(
         { where: { id: info.targetId } },

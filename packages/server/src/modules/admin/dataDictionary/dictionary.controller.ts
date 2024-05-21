@@ -9,9 +9,9 @@ import {
 } from './dto/dictionary.dto'
 import { DictionaryServiceItems } from './dictionary-items.service'
 import {
-  BaseIdsDto,
-  BaseIdsStatusDto,
-  BaseOrderDto
+  BasicIdsDto,
+  BasicIdsStatusDto,
+  BasicOrderDto
 } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/dictionary')
@@ -49,12 +49,12 @@ export class DictionaryController {
   }
 
   @Post('/deleteDataDictionary', { summary: '删除数据字典' })
-  async deleteDataDictionary(@Body() body: BaseIdsDto) {
+  async deleteDataDictionary(@Body() body: BasicIdsDto) {
     return this.dictionaryService.deleteBatch({ id: { in: body.ids } })
   }
 
   @Post('/deleteDataDictionaryItems', { summary: '删除数据字典子项' })
-  async deleteDataDictionaryItems(@Body() body: BaseIdsDto) {
+  async deleteDataDictionaryItems(@Body() body: BasicIdsDto) {
     return this.dictionaryItemsService.deleteBatch({ id: { in: body.ids } })
   }
 
@@ -69,7 +69,7 @@ export class DictionaryController {
   }
 
   @Post('/updateDataDictionaryStatus', { summary: '更新数据字典状态' })
-  async updateDataDictionaryStatus(@Body() body: BaseIdsStatusDto) {
+  async updateDataDictionaryStatus(@Body() body: BasicIdsStatusDto) {
     return this.dictionaryService.updateBatch(
       { id: { in: body.ids } },
       { status: body.status }
@@ -77,7 +77,7 @@ export class DictionaryController {
   }
 
   @Post('/updateDataDictionaryItemsStatus', { summary: '更新数据字典子项状态' })
-  async updateDataDictionaryItemsStatus(@Body() body: BaseIdsStatusDto) {
+  async updateDataDictionaryItemsStatus(@Body() body: BasicIdsStatusDto) {
     return this.dictionaryItemsService.updateBatch(
       { id: { in: body.ids } },
       { status: body.status }
@@ -85,7 +85,7 @@ export class DictionaryController {
   }
 
   @Post('/updateDataDictionaryItemsOrder', { summary: '更新数据字典子项排序' })
-  async updateDataDictionaryItemsOrder(@Body() body: BaseOrderDto) {
+  async updateDataDictionaryItemsOrder(@Body() body: BasicOrderDto) {
     return this.dictionaryItemsService.updateOrder(body)
   }
 }

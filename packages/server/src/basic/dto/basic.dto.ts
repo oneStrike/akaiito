@@ -36,25 +36,25 @@ export class BasicIdDto {
   id: number
 }
 
-export class BaseIdsDto {
+export class BasicIdsDto {
   /*主键ids*/
   @Rule(validateNumberArray)
   ids: number[]
 }
 
-export class BaseIdsStatusDto extends BaseIdsDto {
+export class BasicIdsStatusDto extends BasicIdsDto {
   /*状态*/
   @Rule(requiredNumberLess(2))
   status: number
 }
 
-export class BaseIdStatusDto extends BasicIdDto {
+export class BasicIdStatusDto extends BasicIdDto {
   /*状态*/
   @Rule(requiredNumberLess(2))
   status: number
 }
 
-export class BaseOrderDto {
+export class BasicOrderDto {
   @Rule(requiredNumber)
   targetId: number
 

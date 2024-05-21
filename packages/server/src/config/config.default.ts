@@ -1,11 +1,10 @@
 import { MidwayConfig } from '@midwayjs/core'
-import basicConfig from './../../../../config/config.default'
 import { uploadConfig } from './modules/upload'
 import { jwtConfig } from './modules/jwt'
 import { staticFileConfig } from './modules/staticFile'
+import { utils } from '@/utils/index'
 
 export default {
-  basicConfig,
   keys: '67893242123139_4623',
   koa: {
     port: 7001
@@ -18,5 +17,6 @@ export default {
     }
   },
   upload: uploadConfig,
-  staticFile: staticFileConfig
+  staticFile: staticFileConfig,
+  basicConfig: utils.getPublicConfig()
 } as MidwayConfig

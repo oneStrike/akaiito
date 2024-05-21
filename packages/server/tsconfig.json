@@ -18,7 +18,6 @@
       "./typings",
       "./node_modules/@types"
     ],
-    "outDir": "dist/dist",
     "paths": {
       "@/*": [
         "./src/*"

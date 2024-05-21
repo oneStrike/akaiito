@@ -28,6 +28,7 @@ export class CreateDictionaryDto extends OmitDto(DictionaryDto, [
   'id',
   'status'
 ]) {}
+
 export class UpdateDictionaryDto extends OmitDto(DictionaryDto, ['status']) {}
 
 export class CreateDictionaryItemsDto extends OmitDto(DictionaryDto, [

@@ -10,7 +10,7 @@ import {
 import { UserService } from './user.service'
 import { UserInfo } from '../../../decorator/userinfo.decorator'
 import { Context } from '@midwayjs/koa'
-import { BaseIdStatusDto, BasicIdDto } from '../../../basic/dto/basic.dto'
+import { BasicIdStatusDto, BasicIdDto } from '../../../basic/dto/basic.dto'
 
 @Controller('/admin/user', {
   tagName: '管理员',
@@ -71,7 +71,7 @@ export class UserController {
 
   @Post('/updateAdminUserStatus', { summary: '启用或者禁用管理员' })
   @UserInfo()
-  async updateUserStatus(@Body() body: BaseIdStatusDto) {
+  async updateUserStatus(@Body() body: BasicIdStatusDto) {
     const user = this.ctx.getAttr('userInfo') as UserDto
     return this.userService.updateUserInfo(body, user)
   }

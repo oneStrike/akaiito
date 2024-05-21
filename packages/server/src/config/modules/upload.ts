@@ -1,5 +1,6 @@
 import * as path from 'node:path'
-import basicConfig from './../../../../../config/config.default'
+import { utils } from '@/utils/index'
+const basicConfig = utils.getPublicConfig()
 
 const whitelist = []
 

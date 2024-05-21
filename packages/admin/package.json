@@ -15,7 +15,6 @@
     "att": "att"
   },
   "dependencies": {
-    "@akaiito/basic-config": "workspace:*",
     "@akaiito/utils": "workspace:*",
     "@element-plus/icons-vue": "^2.3.1",
     "@vueuse/core": "^10.9.0",
