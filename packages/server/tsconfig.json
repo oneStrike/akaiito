@@ -18,6 +18,7 @@
       "./typings",
       "./node_modules/@types"
     ],
+    "outDir": "./dist/dist",
     "paths": {
       "@/*": [
         "./src/*"
@@ -27,6 +28,7 @@
   "exclude": [
     "dist",
     "node_modules",
-    "test"
+    "test",
+    "prisma"
   ]
 }
