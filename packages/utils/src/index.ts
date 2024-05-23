@@ -4,7 +4,7 @@ import { validate } from './validate'
 import { isValueInStringEnum } from './isValueInStringEnum'
 import { downloadBlob } from './downloadBlob'
 import { fillFormOptions } from './fillFormOptions'
-import { getPublicConfig } from './getPublicConfig'
+import { getProjectConfig } from './getProjectConfig'
 
 export const utils = {
   parseQuery,
@@ -13,5 +13,5 @@ export const utils = {
   isValueInStringEnum,
   downloadBlob,
   fillFormOptions,
-  getPublicConfig
+  getProjectConfig
 }

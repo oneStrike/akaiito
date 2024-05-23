@@ -1,11 +1,12 @@
 import * as path from 'node:path'
-import { utils } from '@/utils/index'
-const basicConfig = utils.getPublicConfig()
+import { utils } from '@/utils'
+
+const projectUploadConfig = utils.getProjectConfig()['upload']
 
 const whitelist = []
 
-for (const fileTypeKey in basicConfig.allowFileType) {
-  basicConfig.allowFileType[fileTypeKey].forEach((item) => {
+for (const fileTypeKey in projectUploadConfig.allowFileType) {
+  projectUploadConfig.allowFileType[fileTypeKey].forEach((item) => {
     whitelist.push('.' + item)
   })
 }

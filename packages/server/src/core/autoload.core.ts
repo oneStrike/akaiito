@@ -1,6 +1,6 @@
 import { Autoload, Provide, Init, Inject, Config } from '@midwayjs/core'
 import * as fs from 'fs-extra'
-import { ConfigService } from '../modules/internal/config/config.service'
+import { ConfigService } from '@/modules/internal/config/config.service'
 
 @Autoload()
 @Provide()
@@ -8,8 +8,8 @@ export class AutoLoadCore {
   @Inject()
   configServer: ConfigService
 
-  @Config('basicConfig')
-  basicConfig
+  @Config('projectConfig')
+  projectConfig
 
   @Config('staticFile')
   staticFileConfig
@@ -19,7 +19,7 @@ export class AutoLoadCore {
     //初始化项目配置
     await this.configServer.loadConfig()
     //创建静态资源文件目录
-    for (const item of this.basicConfig.resourceScenario) {
+    for (const item of this.projectConfig.upload.resourceScenario) {
       await fs.ensureDir(this.staticFileConfig.dirs.default.dir + '/' + item)
     }
   }

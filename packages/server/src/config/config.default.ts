@@ -2,7 +2,7 @@ import { MidwayConfig } from '@midwayjs/core'
 import { uploadConfig } from './modules/upload'
 import { jwtConfig } from './modules/jwt'
 import { staticFileConfig } from './modules/staticFile'
-import { utils } from '@/utils/index'
+import { utils } from '@/utils'
 
 export default {
   keys: '67893242123139_4623',
@@ -18,5 +18,5 @@ export default {
   },
   upload: uploadConfig,
   staticFile: staticFileConfig,
-  basicConfig: utils.getPublicConfig()
+  projectConfig: utils.getProjectConfig()
 } as MidwayConfig
