@@ -9,10 +9,10 @@ export class AutoLoadCore {
   configServer: ConfigService
 
   @Config('projectConfig')
-  projectConfig
+  projectConfig: { upload: { resourceScenario: any } }
 
   @Config('staticFile')
-  staticFileConfig
+  staticFileConfig: { dirs: { default: { dir: string } } }
 
   @Init()
   async init() {
