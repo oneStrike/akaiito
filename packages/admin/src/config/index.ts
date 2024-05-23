@@ -1,7 +1,7 @@
-import basicConfig from '@akaiito/basic-config'
 import auth from '@/config/auth'
+import { utils } from '@/utils'
 
 export const config = {
   auth,
-  ...basicConfig
+  config: utils.getProjectConfig()
 }

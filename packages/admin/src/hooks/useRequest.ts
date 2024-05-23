@@ -58,8 +58,7 @@ export const useRequest = <T extends Function>(
 
     requestParams.value = {
       // 更新请求参数
-      ...page,
-      ...(p || {})
+      ...page
     }
     ignorePrevAsyncUpdates() // 忽略之前的异步更新
     return await request(p)
@@ -88,7 +87,6 @@ export const useRequest = <T extends Function>(
   const resetPage = async <K>(p?: K) => {
     requestParams.value = {
       // 根据默认参数、当前参数和新参数进行重置
-      ...requestParams.value,
       ...defaultPageParams,
       ...p
     }

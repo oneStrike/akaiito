@@ -27,11 +27,11 @@ requestPage()
     >
       <template #statusCode="{ row }">
         <el-text class="mx-1" type="success" v-if="row.statusCode === 200"
-          >操作成功</el-text
-        >
-        <el-text class="mx-1" type="danger" v-else>{{
-          row.statusDesc
-        }}</el-text>
+          >操作成功
+        </el-text>
+        <el-text class="mx-1" type="danger" v-else
+          >{{ row.statusDesc }}
+        </el-text>
       </template>
     </es-table>
   </div>

@@ -19,6 +19,7 @@ export type Toolbar = {
     props?: { disabled?: boolean; divided?: boolean }
   }[]
 }
+
 export interface EsToolbarProps {
   toolbar?: Toolbar[]
   filter?: ToolbarFilter
@@ -94,7 +95,6 @@ const submit = (val: IterateObject) => {
     delete val.endTime
     delete val.dateTimePicker
   }
-
   emits(
     'query',
     pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)
@@ -118,8 +118,8 @@ defineExpose({
           v-if="item.type === 'button'"
           v-bind="item.props"
           @click="emits('handler', item.value)"
-          >{{ item.label }}</el-button
-        >
+          >{{ item.label }}
+        </el-button>
 
         <el-dropdown
           v-if="item.type === 'dropdown'"
@@ -130,8 +130,8 @@ defineExpose({
           <el-button
             v-bind="item.buttonProps"
             :disabled="followSelection ? selection : item?.buttonProps.disabled"
-            >{{ item.label }}</el-button
-          >
+            >{{ item.label }}
+          </el-button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item
@@ -164,4 +164,19 @@ defineExpose({
   </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+:deep(.el-form--inline) {
+  position: relative;
+  padding-right: 130px !important;
+}
+
+:deep(.es-form-button) {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  .el-form-item {
+    margin-right: 0;
+  }
+}
+</style>

@@ -33,6 +33,6 @@ export class FunPluginController {
 
   @Post('/updateFunPluginStatus', { summary: '更新功能插件状态' })
   async updateFunPluginStatus(@Body() body: BasicIdStatusDto) {
-    return this.funPluginService.delete(body)
+    return this.funPluginService.update({ id: body.id }, body)
   }
 }

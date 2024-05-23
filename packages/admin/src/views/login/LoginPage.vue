@@ -59,6 +59,8 @@ import { useValidate } from '@/hooks/useValidate'
 import { getCaptchaApi } from '@/apis/captcha'
 import { loginApi } from '@/apis/user'
 import { useUserStore } from '@/stores/modules/user'
+import { config } from '@/config'
+
 const router = useRouter()
 
 const userStore = useUserStore()
@@ -70,7 +72,6 @@ const loginForm = reactive({
   captcha: '',
   captchaId: ''
 })
-
 const rules = reactive({
   mobile: useValidate.required('手机号'),
   password: useValidate.password,

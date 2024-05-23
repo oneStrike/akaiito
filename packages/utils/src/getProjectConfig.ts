@@ -1,5 +1,5 @@
-import path from 'node:path'
+import configJson from '../../../config/config.project.json'
 
 export const getProjectConfig = () => {
-  return require(path.join(process.cwd(), '/../../config/config.project.json'))
+  return configJson
 }

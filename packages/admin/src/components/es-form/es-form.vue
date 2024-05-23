@@ -22,6 +22,7 @@ export interface EsFormOptions {
   componentProps?: IterateObject
   on?: IterateObject
 }
+
 export interface EsFormProps {
   modelValue: IterateObject
   options: EsFormOptions[]
@@ -124,8 +125,8 @@ defineExpose({
             :label="child.value"
             v-for="child in item.componentProps.options"
             :key="child.value"
-            >{{ child.label }}</el-radio
-          >
+            >{{ child.label }}
+          </el-radio>
         </el-radio-group>
 
         <el-select
@@ -159,10 +160,14 @@ defineExpose({
         />
       </el-form-item>
     </template>
-    <el-form-item v-if="showBtn">
-      <el-button type="primary" @click="submitForm">{{ submitText }}</el-button>
-      <el-button @click="resetForm">{{ resetText }}</el-button>
-    </el-form-item>
+    <div class="es-form-button">
+      <el-form-item v-if="showBtn">
+        <el-button type="primary" @click="submitForm">{{
+          submitText
+        }}</el-button>
+        <el-button @click="resetForm">{{ resetText }}</el-button>
+      </el-form-item>
+    </div>
   </el-form>
 </template>
 
