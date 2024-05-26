@@ -1,36 +1,37 @@
 import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 
-export const useFormTool = {
-  getItem(formOptions: EsFormOptions[], filed: string | string[]) {
-    filed = typeof filed === 'string' ? [filed] : filed
-    return formOptions.filter((item) => filed.includes(item.field))
-  },
+export const useFormTool = (options: EsFormOptions[]) => {
+  const formOptions = ref(options)
 
-  specificItem(
-    formOptions: EsFormOptions[],
+  const getItem = (filed: string | string[]) => {
+    filed = typeof filed === 'string' ? [filed] : filed
+    return formOptions.value.filter((item) => filed.includes(item.field))
+  }
+
+  const specificItem = (
     filed: string | string[],
     cb: (item: EsFormOptions) => EsFormOptions
-  ) {
+  ) => {
     filed = typeof filed === 'string' ? [filed] : filed
-    return formOptions.map((item) => {
+    return formOptions.value.map((item) => {
       if (filed.includes(item.field)) {
         item = cb(item)
       }
       return item
     })
-  },
+  }
 
-  hideItem(formOptions: EsFormOptions[], filed: string | string[]) {
-    return this.specificItem(formOptions, filed, (item) => {
-      item.show = false
+  const toggleDisplay = (filed: string | string[], status: boolean) => {
+    specificItem(filed, (item) => {
+      item.show = status
       return item
     })
-  },
+  }
 
-  showItem(formOptions: EsFormOptions[], filed: string | string[]) {
-    return this.specificItem(formOptions, filed, (item) => {
-      item.show = true
-      return item
-    })
+  return {
+    getItem,
+    formOptions: formOptions.value,
+    specificItem,
+    toggleDisplay
   }
 }

@@ -5,17 +5,19 @@ import type {
 } from '@/components/es-form/es-form.vue'
 import type { IterateObject } from '@typings/index'
 import { utils } from '@/utils'
+import type { Ref } from 'vue'
 
 export interface FormModalProps {
   modelValue?: IterateObject
   defaultValue?: IterateObject
   modal?: boolean
-  options: EsFormOptions[]
+  options: EsFormOptions[] | Ref<EsFormOptions[]>
   title?: string
   loading?: boolean
   formProps?: EsFormProps['formProps']
   width?: string | number
 }
+
 const esFormRef = ref()
 const props = withDefaults(defineProps<FormModalProps>(), {
   formProps: () => ({}),
@@ -26,6 +28,7 @@ const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
   (event: 'submit', data: IterateObject): void
+  (event: 'change', data: IterateObject): void
   (event: 'update:modal', data: IterateObject): void
   (event: 'update:loading', data: boolean): void
   (event: 'update:modelValue', data: IterateObject): void
@@ -64,6 +67,7 @@ const formValue = computed({
   },
   set(val) {
     emits('update:modelValue', val)
+    emits('change', val)
   }
 })
 

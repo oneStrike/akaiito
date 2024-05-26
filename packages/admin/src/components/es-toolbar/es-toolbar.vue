@@ -52,7 +52,7 @@ watch(
             item.props.class = 'w-96'
             break
           default:
-            item.props.class = 'w-52'
+            item.props.class = 'w-44'
         }
       }
       const innerSubmit = () => {

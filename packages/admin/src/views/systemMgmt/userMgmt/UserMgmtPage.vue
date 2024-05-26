@@ -38,8 +38,10 @@ const pwdModal = ref(false)
 const formModal = ref(false)
 const currentRow = ref<TableItem>()
 
+const formScheme = useFormTool(formOptions)
+
 const openUpdateUserInfoModal = (row: TableItem) => {
-  useFormTool.hideItem(formOptions, ['password', 'confirmPassword'])
+  formScheme.toggleDisplay(['password', 'confirmPassword'], false)
   currentRow.value = row
   formModal.value = true
 }
@@ -78,7 +80,7 @@ const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
 }
 
 const handlerToolbar = () => {
-  useFormTool.showItem(formOptions, ['password', 'confirmPassword'])
+  formScheme.toggleDisplay(['password', 'confirmPassword'], true)
   currentRow.value = null
   formModal.value = true
 }
@@ -144,7 +146,7 @@ const switchStatus = async (val) => {
     <es-modal-form
       v-model:modal="formModal"
       :title="currentRow?.id ? '修改用户' : '添加用户'"
-      :options="formOptions"
+      :options="formScheme.formOptions"
       :default-value="currentRow"
       @submit="updateOrAddUserInfo"
       @closed="currentRow = null"

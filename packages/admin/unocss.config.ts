@@ -1,4 +1,4 @@
-import { defineConfig, presetAttributify, presetUno } from 'unocss'
+import { defineConfig, presetAttributify, presetUno, presetWind } from 'unocss'
 import presetRemToPx from '@unocss/preset-rem-to-px'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
 
@@ -19,7 +19,7 @@ export default defineConfig({
     }
   },
   transformers: [transformerVariantGroup()],
-  presets: [presetUno(), presetAttributify(), presetRemToPx()],
+  presets: [presetUno(), presetAttributify(), presetRemToPx(), presetWind()],
   shortcuts: [
     ['main-page', 'bg-[var(--el-bg-color)] p-3 overflow-hidden'],
     ['wh-full', 'w-full h-full'],

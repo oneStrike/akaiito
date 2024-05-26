@@ -1,5 +1,9 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { CreateFunPluginDto, FunPluginDto } from './dto/funPlugin.dto'
+import {
+  CreateFunPluginDto,
+  FunPluginDto,
+  GetFunPluginDto
+} from './dto/funPlugin.dto'
 import { FunPluginService } from './funPlugin.service'
 import { BasicIdStatusDto, BasicIdDto } from '@/basic/dto/basic.dto'
 
@@ -9,8 +13,8 @@ export class FunPluginController {
   funPluginService: FunPluginService
 
   @Get('/getFunPlugin', { summary: '获取功能插件列表' })
-  async getFunPlugin(@Query() query: CreateFunPluginDto) {
-    return this.funPluginService.findPage({
+  async getFunPlugin(@Query() query: GetFunPluginDto) {
+    return this.funPluginService.findList({
       ...query,
       fuzzy: ['name']
     })

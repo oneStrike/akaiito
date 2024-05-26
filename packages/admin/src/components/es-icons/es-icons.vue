@@ -88,6 +88,9 @@ watch(
     <icon-majest-maximize-line v-if="name === 'maximize'" />
     <icon-majest-list-box-line v-if="name === 'listBox'" />
     <icon-majest-login-half-circle-line v-if="name === 'login'" />
+    <icon-majest-puzzle-line v-if="name === 'puzzle'" />
+    <icon-majest-planet-line v-if="name === 'planet'" />
+    <icon-majest-dots-vertical v-if="name === 'dotsVertical'" />
   </el-icon>
 </template>
 

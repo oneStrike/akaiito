@@ -1,7 +1,7 @@
 import { Catch, MidwayHttpError } from '@midwayjs/core'
 import { Context } from '@midwayjs/koa'
 import type { HttpResponseResult } from '@akaiito/typings/src'
-import { LogService } from '../modules/internal/log/log.service'
+import { LogService } from '@/modules/internal/log/log.service'
 
 @Catch()
 export class ExceptionFilter {

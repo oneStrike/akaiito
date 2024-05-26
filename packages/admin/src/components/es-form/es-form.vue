@@ -17,7 +17,7 @@ export type EsFormComponent =
 export interface EsFormOptions {
   show?: boolean
   field: string
-  props?: Partial<FormItemProps & { class?: string }>
+  props?: Partial<FormItemProps & { class?: string; defaultValue?: any }>
   component: EsFormComponent
   componentProps?: IterateObject
   on?: IterateObject
@@ -65,9 +65,10 @@ watch(
 )
 
 const submitForm = () => {
-  formRef.value?.validate((valid) => {
-    if (!valid) return false
+  formRef.value?.validate((isValid) => {
+    if (!isValid) return false
     emits('submit', toRaw(formData.value))
+    return isValid
   })
 }
 const resetForm = () => {
@@ -105,6 +106,15 @@ defineExpose({
           v-on="item.on || {}"
         />
 
+        <el-input-number
+          v-if="item.component === 'InputNumber'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps"
+          :class="item.props.class || 'w-54!'"
+          @keydown.enter="submitForm"
+          v-on="item.on || {}"
+        />
+
         <el-input
           v-if="item.component === 'Textarea'"
           v-model="formData[item.field]"
@@ -122,7 +132,7 @@ defineExpose({
           v-on="item.on || {}"
         >
           <el-radio
-            :label="child.value"
+            :value="child.value"
             v-for="child in item.componentProps.options"
             :key="child.value"
             >{{ child.label }}
@@ -162,9 +172,9 @@ defineExpose({
     </template>
     <div class="es-form-button">
       <el-form-item v-if="showBtn">
-        <el-button type="primary" @click="submitForm">{{
-          submitText
-        }}</el-button>
+        <el-button type="primary" @click="submitForm"
+          >{{ submitText }}
+        </el-button>
         <el-button @click="resetForm">{{ resetText }}</el-button>
       </el-form-item>
     </div>

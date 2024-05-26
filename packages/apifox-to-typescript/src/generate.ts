@@ -29,7 +29,7 @@ export const generate = async () => {
   )
 
   const apiDetailArr = apiList.map((item: IterateObject) => {
-    console.log(`************${item.name}************`)
+    console.log(`************${item.name}`)
     return apifoxApi.getApiDetail(item.api.id)
   })
   const apiDetail = await Promise.all(apiDetailArr)

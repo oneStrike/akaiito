@@ -37,7 +37,7 @@ export type JoinLoading<T> = T & { loading: boolean }
 //去除loading
 export type OmitLoading<T> = Omit<T, 'loading'>
 
-//获取列表数据的item
+//获取分页数据的item
 export type ResolveListItem<T> = T extends { list: infer L }
   ? JoinLoading<L extends any[] ? L[number] : L>
   : never

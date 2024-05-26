@@ -8,6 +8,7 @@ import {
 import type { IterateObject } from '@akaiito/typings/src'
 import { utils } from '../../utils'
 import { BasicOrderDto } from '../dto/basic.dto'
+import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
 
 export abstract class BasicService<T = IterateObject> {
   // 注入应用实例
@@ -94,9 +95,13 @@ export abstract class BasicService<T = IterateObject> {
 
   //删除
   async delete(options?: PrismaFindOptions<T>) {
-    return await this.model.delete({
-      where: this.handlerWhere(options).where
-    })
+    try {
+      return await this.model.delete({
+        where: this.handlerWhere(options).where
+      })
+    } catch (e) {
+      this.throwError(prismaErrorMessage(e.code))
+    }
   }
 
   //批量删除

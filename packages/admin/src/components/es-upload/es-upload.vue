@@ -29,7 +29,7 @@ export interface EsUploadProps {
 const uploadRef = ref<UploadInstance>()
 const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
-  maxSize: config.maxUploadFileSize,
+  maxSize: config.upload.maxUploadFileSize,
   maxCount: 1
 })
 const emits = defineEmits<{
@@ -81,7 +81,7 @@ watch(
 
 const accept = computed(() => {
   if (!props.fileType) return '*'
-  return config.allowFileType[props.fileType]
+  return config.upload.allowFileType[props.fileType]
     .map((item) => props.fileType + '/' + item)
     .join(',')
 })
@@ -214,6 +214,7 @@ const onPreview = (uploadFile: UploadFile) => {
   height: 88px;
   display: v-bind(uploadBtnDisplay);
 }
+
 ::v-deep(.el-upload-list__item) {
   width: 88px;
   height: 88px;

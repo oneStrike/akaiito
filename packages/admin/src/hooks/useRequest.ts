@@ -37,7 +37,10 @@ export const useRequest = <T extends Function>(
     }
 
     // 如果有排序参数，则将其转换为字符串
-    if (Object.keys(requestParams.value.orderBy).length) {
+    if (
+      requestParams.value.orderBy &&
+      Object.keys(requestParams.value.orderBy).length
+    ) {
       options.orderBy = JSON.stringify(requestParams.value.orderBy)
     }
 

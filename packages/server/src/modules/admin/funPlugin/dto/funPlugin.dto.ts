@@ -1,9 +1,10 @@
-import { OmitDto, Rule } from '@midwayjs/validate'
+import { OmitDto, PickDto, Rule } from '@midwayjs/validate'
 import {
   requiredNumber,
   requiredString,
   validateNumber,
-  validateNumberLess
+  validateNumberLess,
+  validateString
 } from '@/utils/validate'
 import type { Decimal } from '@prisma/client/runtime/library'
 
@@ -17,7 +18,7 @@ export class FunPluginDto {
   @Rule(requiredString)
   avatar: string
 
-  @Rule(validateNumberLess(2))
+  @Rule(validateNumberLess(5))
   type: number
 
   @Rule(validateNumberLess(2))
@@ -40,6 +41,17 @@ export class FunPluginDto {
 
   @Rule(requiredString)
   desc: string
+}
+
+/*获取功能插件列表*/
+
+export class GetFunPluginDto extends PickDto(FunPluginDto, [
+  'type',
+  'status',
+  'isFree'
+]) {
+  @Rule(validateString)
+  name: string
 }
 
 /*创建功能插件*/
