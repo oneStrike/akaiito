@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useRequest } from '@/hooks/useRequest'
-import { getFunPluginApi, createFunPluginApi } from '@/apis/funPlugin'
+import {
+  getFunPluginApi,
+  createFunPluginApi,
+  updateFunPluginStatusApi
+} from '@/apis/funPlugin'
 import type { GetFunPluginTypings } from '@/apis/funPlugin.d'
 import {
   filter,
@@ -17,6 +21,8 @@ const currentRow = ref<GetFunPluginTypings['Response']['data'][number]>()
 const { request, loading, resetRequest, requestData } =
   useRequest(getFunPluginApi)
 request()
+
+const pluginType = ['', '小说', '漫画', '图片', '视频']
 
 /*新增插件信息*/
 const handlerToolbar = () => {}
@@ -43,7 +49,7 @@ const formChange = (val: IterateObject) => {
 </script>
 
 <template>
-  <div class="main-page" v-loading="loading">
+  <div class="main-page pb-6" v-loading="loading">
     <es-toolbar
       :toolbar="toolbar"
       :filter="filter"
@@ -51,9 +57,15 @@ const formChange = (val: IterateObject) => {
       @handler="formModal = true"
     />
 
-    <el-space wrap size="default" v-if="requestData && requestData.data">
+    <el-space
+      wrap
+      alignment="stretch"
+      size="default"
+      v-if="requestData && requestData.data"
+      class="overflow-auto"
+    >
       <el-card shadow="hover" v-for="item in requestData.data" :key="item.id">
-        <div class="flex justify-between">
+        <div class="flex justify-between w-260px">
           <div class="flex">
             <el-image
               :src="item.avatar"
@@ -61,45 +73,36 @@ const formChange = (val: IterateObject) => {
             ></el-image>
             <div class="flex flex-col flex-auto">
               <el-tooltip :content="item.name" placement="top">
-                <span class="truncate w-full">{{ item.name + item.name }}</span>
+                <span class="truncate w-220px">{{
+                  item.name + item.name
+                }}</span>
               </el-tooltip>
-              <el-tag
-                class="w-fit mt-1"
-                size="small"
-                :type="item.status ? 'success' : 'danger'"
-                effect="light"
-              >
-                {{ item.status ? '启用' : '禁用' }}
-              </el-tag>
+              <div class="flex justify-between">
+                <el-tag
+                  class="w-fit mt-1"
+                  size="small"
+                  :type="item.status ? 'success' : 'danger'"
+                  effect="light"
+                >
+                  {{ item.status ? '上线中' : '下线中' }}
+                </el-tag>
+                <es-switch :row="item" :request="updateFunPluginStatusApi" />
+              </div>
             </div>
           </div>
-          <el-dropdown>
-            <es-icons name="dotsVertical"></es-icons>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>编辑</el-dropdown-item>
-                <el-dropdown-item
-                  >{{ item.status ? '禁用' : '启用' }}
-                </el-dropdown-item>
-                <el-dropdown-item>删除</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
         </div>
-        <div class="flex flex-wrap justify-between">
-          <el-tag class="w-48% mt-2" effect="light" type="info">
-            item.label
-          </el-tag>
-          <el-tag class="w-48% mt-2 ml-2" effect="light" type="info">
-            item.label
-          </el-tag>
-          <el-tag class="w-48% mt-2" effect="light" type="info">
-            item.label
-          </el-tag>
-          <el-tag class="w-48% mt-2" effect="light" type="info">
-            item.label
-          </el-tag>
-        </div>
+        <el-divider />
+        <el-descriptions :column="1">
+          <el-descriptions-item label="插件类型："
+            >{{ pluginType[item.type] }}
+          </el-descriptions-item>
+          <el-descriptions-item label="出售价格："
+            >{{ item.price }}
+          </el-descriptions-item>
+          <el-descriptions-item label="购买人数："
+            >{{ item.purchaseCount }}
+          </el-descriptions-item>
+        </el-descriptions>
       </el-card>
     </el-space>
 

@@ -67,6 +67,10 @@ export interface GetFunPluginTypings {
        */
       price: string
       /*
+       * 购买人次
+       */
+      purchaseCount: number
+      /*
        * 辅助购买人次
        */
       assistPurchaseCount: number
