@@ -11,7 +11,7 @@ export interface FormModalProps {
   modelValue?: IterateObject
   defaultValue?: IterateObject
   modal?: boolean
-  options: EsFormOptions[] | Ref<EsFormOptions[]>
+  options: EsFormOptions[]
   title?: string
   loading?: boolean
   formProps?: EsFormProps['formProps']
@@ -63,6 +63,7 @@ watch(show, (val) => {
 
 const formValue = computed({
   get() {
+    console.log(props.modelValue || utils._.cloneDeep(props.defaultValue || {}))
     return props.modelValue || utils._.cloneDeep(props.defaultValue || {})
   },
   set(val) {

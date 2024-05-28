@@ -3,7 +3,9 @@ import { useRequest } from '@/hooks/useRequest'
 import {
   getFunPluginApi,
   createFunPluginApi,
-  updateFunPluginStatusApi
+  updateFunPluginStatusApi,
+  updateFunPluginApi,
+  deleteFunPluginApi
 } from '@/apis/funPlugin'
 import type { GetFunPluginTypings } from '@/apis/funPlugin.d'
 import {
@@ -15,9 +17,11 @@ import type { IterateObject } from '@akaiito/typings/src'
 import { useFormTool } from '@/hooks/useForm'
 import { useMessage } from '@/hooks/useFeedback'
 
+type record = GetFunPluginTypings['Response']['data'][number]
+
 const formScheme = useFormTool(formOptions)
 const formModal = ref(false)
-const currentRow = ref<GetFunPluginTypings['Response']['data'][number]>()
+const currentRow = ref<record>()
 const { request, loading, resetRequest, requestData } =
   useRequest(getFunPluginApi)
 request()
@@ -25,7 +29,12 @@ request()
 const pluginType = ['', '小说', '漫画', '图片', '视频']
 
 /*新增插件信息*/
-const handlerToolbar = () => {}
+const openEditFormModal = (item: record) => {
+  if (!item.isFree) item.price = parseFloat(item.price) as unknown as string
+  formScheme.toggleDisplay(['price', 'assistPurchaseCount'], item.isFree === 0)
+  currentRow.value = item
+  formModal.value = true
+}
 
 formScheme.toggleDisplay(['price', 'assistPurchaseCount'], false)
 
@@ -34,7 +43,12 @@ const submitForm = async (val) => {
   if (Array.isArray(val.avatar)) {
     val.avatar = val.avatar[0].filePath
   }
-  await createFunPluginApi(val)
+  if (currentRow.value.id) {
+    val.id = currentRow.value.id
+    await updateFunPluginApi(val)
+  } else {
+    await createFunPluginApi(val)
+  }
   formModal.value = false
   useMessage.success({
     message: currentRow.value?.id ? '修改成功!' : '新增成功！'
@@ -72,11 +86,19 @@ const formChange = (val: IterateObject) => {
               class="w12 h12 rounded-md mr-2"
             ></el-image>
             <div class="flex flex-col flex-auto">
-              <el-tooltip :content="item.name" placement="top">
-                <span class="truncate w-220px">{{
-                  item.name + item.name
-                }}</span>
-              </el-tooltip>
+              <div class="flex justify-between">
+                <span class="truncate w-170px">{{ item.name }}</span>
+                <div class="flex">
+                  <es-icons name="edit" @click="openEditFormModal(item)" />
+                  <es-pop-confirm
+                    :request="deleteFunPluginApi"
+                    :row="item"
+                    @success="request()"
+                  >
+                    <es-icons name="delete" class="ml-2" color="!text-error" />
+                  </es-pop-confirm>
+                </div>
+              </div>
               <div class="flex justify-between">
                 <el-tag
                   class="w-fit mt-1"
@@ -97,7 +119,7 @@ const formChange = (val: IterateObject) => {
             >{{ pluginType[item.type] }}
           </el-descriptions-item>
           <el-descriptions-item label="出售价格："
-            >{{ item.price }}
+            >{{ item.isFree ? '免费' : item.price }}
           </el-descriptions-item>
           <el-descriptions-item label="购买人数："
             >{{ item.purchaseCount }}
@@ -108,10 +130,9 @@ const formChange = (val: IterateObject) => {
 
     <es-modal-form
       v-model:modal="formModal"
-      :model-value="{ type: 1, isFree: 1 }"
       :title="currentRow?.id ? '修改插件' : '新增插件'"
       :options="formScheme.formOptions"
-      :default-value="currentRow"
+      :default-value="currentRow || { type: 1, isFree: 1 }"
       @change="formChange"
       @submit="submitForm"
       @closed="currentRow = null"
@@ -119,4 +140,12 @@ const formChange = (val: IterateObject) => {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.el-divider--horizontal) {
+  margin: 12px 0;
+}
+
+:deep(.el-descriptions__cell) {
+  padding-bottom: 0 !important;
+}
+</style>

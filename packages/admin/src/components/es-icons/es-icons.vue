@@ -3,11 +3,11 @@ export interface AsIconsProps {
   name: string
   size?: number
   color?:
-    | '!text-primary'
-    | '!text-error'
-    | '!text-info'
-    | '!text-success'
-    | '!text-warning'
+    | 'text-primary'
+    | 'text-error'
+    | 'text-info'
+    | 'text-success'
+    | 'text-warning'
     | string
   rotate?: boolean
   hover?: boolean
@@ -91,6 +91,8 @@ watch(
     <icon-majest-puzzle-line v-if="name === 'puzzle'" />
     <icon-majest-planet-line v-if="name === 'planet'" />
     <icon-majest-dots-vertical v-if="name === 'dotsVertical'" />
+    <icon-majest-edit-pen-2-line v-if="name === 'edit'" />
+    <icon-majest-delete-bin-line v-if="name === 'delete'" />
   </el-icon>
 </template>
 

@@ -9,6 +9,7 @@ export interface EsPopConfirmProps<T = IterateObject> {
   ids?: boolean
   loading?: boolean
 }
+
 const props = withDefaults(defineProps<EsPopConfirmProps>(), {})
 const emits = defineEmits<{
   (event: 'update:row'): void
@@ -48,7 +49,9 @@ const deleteRow = async () => {
     @confirm="deleteRow"
   >
     <template #reference>
-      <el-button type="danger" link>删除</el-button>
+      <slot>
+        <el-button type="danger" link>删除</el-button>
+      </slot>
     </template>
   </el-popconfirm>
 </template>

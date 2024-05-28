@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IterateObject } from '@typings/index'
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
+import type { Ref } from 'vue'
 
 export type EsFormComponent =
   | 'Input'
