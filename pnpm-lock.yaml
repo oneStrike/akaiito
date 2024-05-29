@@ -324,6 +324,9 @@ importers:
       '@uni-helper/unocss-preset-uni':
         specifier: ^0.2.8
         version: 0.2.8(@unocss/rule-utils@0.60.2)(unocss-applet@0.8.1)(unocss@0.60.2)
+      '@uni-helper/vite-plugin-uni-components':
+        specifier: ^0.0.9
+        version: 0.0.9
       '@vue/runtime-core':
         specifier: ^3.4.27
         version: 3.4.27
@@ -5550,6 +5553,23 @@ packages:
       '@unocss/rule-utils': 0.60.2
       unocss: 0.60.2(postcss@8.4.38)(vite@5.2.8)
       unocss-applet: 0.8.1(unocss@0.60.2)
+    dev: true
+
+  /@uni-helper/vite-plugin-uni-components@0.0.9:
+    resolution: {integrity: sha512-yomG3MCb4wYYBlyFFeepAuVArjy37xCqZk9nM5mqfTHqNEtl49jz1LZgIukkfv4EAG28M+pzNwWz34Dywi70zg==}
+    dependencies:
+      '@antfu/utils': 0.7.8
+      '@rollup/pluginutils': 5.1.0
+      chokidar: 3.6.0
+      debug: 4.3.4(supports-color@5.5.0)
+      fast-glob: 3.3.2
+      local-pkg: 0.4.3
+      magic-string: 0.30.10
+      minimatch: 8.0.4
+      resolve: 1.22.8
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
     dev: true
 
   /@unocss-applet/preset-applet@0.8.1(unocss@0.60.2):
@@ -11431,6 +11451,11 @@ packages:
     resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
     engines: {node: '>= 12.13.0'}
 
+  /local-pkg@0.4.3:
+    resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
+    engines: {node: '>=14'}
+    dev: true
+
   /local-pkg@0.5.0:
     resolution: {integrity: sha512-ok6z3qlYyCDS4ZEU27HaU6x/xZa9Whf8jD4ptH5UZTQYZVYeb9bnZ3ojVhiJNLiXK1Hfc0GNbLXcmZ5plLDDBg==}
     engines: {node: '>=14'}
@@ -11943,6 +11968,13 @@ packages:
   /minimatch@5.1.6:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: true
+
+  /minimatch@8.0.4:
+    resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
+    engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
     dev: true

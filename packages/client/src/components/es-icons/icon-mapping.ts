@@ -1,3 +1,3 @@
 export const iconMapping = {
-  foo: 'majesticons:airplane-line'
+  foo: 'majesticons:hand-pointer-event-line'
 }

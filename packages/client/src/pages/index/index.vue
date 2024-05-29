@@ -1,8 +1,9 @@
 <template>
-  <view class="content wh-full">213123
+  <view class="content wh-full"
+    >213123
     <image class="logo" src="/static/logo.png" />
     <view class="text-area">
-      <es-icons name="foo" />
+      <es-icons name="foo" :size="100" />
       <es-icons name="MajesticonsAirplaneLine" />
     </view>
   </view>
