@@ -12,31 +12,35 @@ export interface EsIconProps {
 }
 
 defineOptions({
-  name: 'EsIcon'
+  name: 'EsIcon',
+  options: {
+    virtualHost: true //虚拟化组件节点,开启后无法再外部设置组件样式
+  }
 })
 
 const props = withDefaults(defineProps<EsIconProps>(), {
-  size: 400,
-  color: 'green'
+  size: 40,
+  color: 'basis'
 })
 
 const iconStyle = computed(() => {
   const width = props.size ? props.size : props.width
   const height = props.size ? props.size : props.height
+  const unit = config.unit
+  const color = config.colorScheme[props.color] || props.color
 
-  return {
-    width: width + config.unit,
-    height: height + config.unit,
-    color: config.colorScheme[props.color] || props.color,
-    '--un-icon': icons[props.name].data
-  }
+  return `
+  width:  ${width + unit};
+  height: ${height + unit};
+  color:  ${color};
+  --un-icon: ${icons[props.name].data}`
 })
-console.log(iconStyle)
 </script>
 
 <template>
   <view class="icon" :style="iconStyle"></view>
 </template>
+
 <style lang="scss" scoped>
 .icon {
   mask: var(--un-icon) no-repeat;
@@ -44,7 +48,6 @@ console.log(iconStyle)
   -webkit-mask: var(--un-icon) no-repeat;
   -webkit-mask-size: 100% 100%;
   background-color: currentColor;
+  display: inline-block;
 }
 </style>
-
-<style scoped></style>
