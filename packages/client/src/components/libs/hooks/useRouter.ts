@@ -14,8 +14,10 @@ export class EsRouter {
     this.guard = config?.routerGuard
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
-    this.pages = window.ROUTES
-    this.tabBarPage = window.ROUTES.filter((item) => item.tabBar)
+    //@ts-ignore
+    this.pages = window?.ROUTES || ROUTES
+    //@ts-ignore
+    this.tabBarPage = (window?.ROUTES || ROUTES).filter((item) => item.tabBar)
   }
 
   private async jump({ path, method, params }: IRouter) {

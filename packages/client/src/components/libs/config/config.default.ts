@@ -2,7 +2,7 @@ import type { Config } from '@/components/libs/typings/config'
 
 export const config: Config = {
   //尺寸单位 rpx和px
-  unit: 'px',
+  unit: 'rpx',
 
   colorScheme: {
     primary: '#e87949',
