@@ -20,7 +20,11 @@ export class EsRouter {
     this.tabBarPage = (window?.ROUTES || ROUTES).filter((item) => item.tabBar)
   }
 
-  private async jump({ path, method, params }: IRouter) {
+  private async jump({ path, name, method, params }: IRouter) {
+    if (!path && name) {
+      path = '/' + this.pages.find((item) => item.name === name)?.path
+    }
+    if (!path) return
     const { tabBar = '', normal = '' } = this.prefix || {}
     let prefix = normal
     if (method === RouterJumpMethodEnum.RELAUNCH) {

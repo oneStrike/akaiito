@@ -12,7 +12,8 @@ export type Pages = {
 } & IterateObject
 
 export interface IRouter {
-  path: string
+  path?: string
+  name?: string
   params?: IterateObject
   method?: RouterJumpMethodEnum
 }

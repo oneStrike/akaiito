@@ -10,5 +10,8 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     EsIcons: typeof import('./../components/es-icons/es-icons.vue')['default']
+    EsPage: typeof import('./../components/es-page/es-page.vue')['default']
+    EsTabs: typeof import('./../components/es-tabs/es-tabs.vue')['default']
+    UniIcons: typeof import('@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue')['default']
   }
 }

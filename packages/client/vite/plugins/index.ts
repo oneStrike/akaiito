@@ -24,10 +24,8 @@ export async function VitePlugins() {
   //自动注册组件
   vitePlugins.push(AutoRegistryComponent())
 
-  // #ifndef APP
   //打包进度条
   vitePlugins.push(progress() as Plugin)
-  // #endif
 
   //配置文件变更自动重启服务
   vitePlugins.push(
