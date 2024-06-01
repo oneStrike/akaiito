@@ -3,7 +3,7 @@ import type { GetFunPluginTypings } from './funPlugin.d'
 
 export const getFunPluginApi = (): Promise<GetFunPluginTypings['Response']> => {
   return httpClient({
-    method: 'get',
+    method: 'GET',
     url: '/client/funPlugin/getFunPlugin'
   })
 }

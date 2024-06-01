@@ -5,7 +5,7 @@ export const uploadFileApi = (
   data: UploadFileTypings['Request']
 ): Promise<UploadFileTypings['Response']> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/common/upload/uploadFile',
     data
   })

@@ -3,7 +3,7 @@ import type { GetLogsTypings } from './logs.d'
 
 export const getLogsApi = (): Promise<GetLogsTypings['Response']> => {
   return httpClient({
-    method: 'get',
+    method: 'GET',
     url: '/admin/logs/getLogs'
   })
 }

@@ -151,7 +151,7 @@ export interface ${options.typingsName} {
       options.typingsName
     }['Response']> =>{
       return ${config.http.client}({
-        method: '${api.method}',
+        method: '${api.method.toUpperCase()}',
         url: '${api.path}',
         ${payload ? options.payload : ''}
       })

@@ -6,7 +6,7 @@ export interface HttpResponseResult<T = any> {
   data: T // 数据
   code: number // 状态码
   status: 'success' | 'error' // 状态
-  desc: string // 描述
+  message: string // 描述
 }
 
 // 定义记录分页选项接口

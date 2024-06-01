@@ -1,12 +1,12 @@
 import { App, Config, Context, httpError, Inject } from '@midwayjs/core'
 import { Application } from '@midwayjs/koa'
-import type { PrismaConfig } from '../../typings/config/prisma'
+import type { PrismaConfig } from '@/typings/config/prisma'
 import {
   FindPageResponse,
   PrismaFindOptions
-} from '../../typings/service/base.service'
+} from '@/typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
-import { utils } from '../../utils'
+import { utils } from '@/utils'
 import { BasicOrderDto } from '../dto/basic.dto'
 import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
 

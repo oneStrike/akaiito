@@ -17,8 +17,6 @@ const props = withDefaults(defineProps<EsTabsProps>(), {
 })
 
 const current = defineModel({ type: Number, default: 0 })
-
-console.log(uni.$es.systemInfo)
 </script>
 
 <template>

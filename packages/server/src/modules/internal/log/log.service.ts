@@ -3,8 +3,8 @@ import type { Context } from '@midwayjs/koa'
 import { AdminLog, PrismaClient } from '@prisma/client'
 
 import { HttpResponseResult, IterateObject } from '@akaiito/typings/src'
-import { BasicService } from '../../../basic/service/basic.service'
-import { utils } from '../../../utils'
+import { BasicService } from '@/basic/service/basic.service'
+import { utils } from '@/utils'
 import { RouterService } from '../router/router.service'
 
 @Provide()
@@ -49,7 +49,7 @@ export class LogService extends BasicService<AdminLog> {
       method,
       path,
       statusCode: report.code,
-      statusDesc: report.desc,
+      statusDesc: report.message,
       userAgent: header['user-agent']
     })
   }

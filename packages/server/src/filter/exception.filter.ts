@@ -15,14 +15,14 @@ export class ExceptionFilter {
     ctx.logger.error(err)
     if (err.name === 'PrismaClientKnownRequestError' && err.code === 'P2002') {
       responseErrorInfo.code = 0
-      responseErrorInfo.desc = '重复数据'
+      responseErrorInfo.message = '重复数据'
     } else if (cause) {
       responseErrorInfo.code = 0
       const { context, type } = cause.details[0]
       if (type === 'any.required') {
-        responseErrorInfo.desc = `【 ${context.label} 】参数丢失`
+        responseErrorInfo.message = `【 ${context.label} 】参数丢失`
       } else {
-        responseErrorInfo.desc = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
+        responseErrorInfo.message = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
       }
     } else {
       if (err.name === 'MultipartInvalidFilenameError')
@@ -30,26 +30,26 @@ export class ExceptionFilter {
       responseErrorInfo.code = err.status
       switch (err.status) {
         case 400:
-          responseErrorInfo.desc = err.message
+          responseErrorInfo.message = err.message
           break
         case 401:
-          responseErrorInfo.desc = '鉴权信息缺失'
+          responseErrorInfo.message = '鉴权信息缺失'
           break
         case 403:
-          responseErrorInfo.desc = '登陆失效，请重新登陆'
+          responseErrorInfo.message = '登陆失效，请重新登陆'
           break
         case 404:
-          responseErrorInfo.desc = '请求路径错误'
+          responseErrorInfo.message = '请求路径错误'
           break
         case 500:
-          responseErrorInfo.desc = '内部服务错误'
+          responseErrorInfo.message = '内部服务错误'
           break
         case 413:
-          responseErrorInfo.desc = '超出大小限制'
+          responseErrorInfo.message = '超出大小限制'
           break
         default:
           responseErrorInfo.code = 0
-          responseErrorInfo.desc = '未知错误'
+          responseErrorInfo.message = '未知错误'
       }
     }
     err.status = 200
