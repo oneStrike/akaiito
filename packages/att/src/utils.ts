@@ -74,7 +74,7 @@ export const formatApi = (
   exclude: string[]
 ) => {
   apis.forEach((item) => {
-    if (item.type === 'apiDetailFolder') {
+    if (item.type === 'apiDetailFolder' && !exclude.includes(item.folder?.id)) {
       tag.push({
         id: item.folder.id,
         name: item.name
@@ -87,7 +87,11 @@ export const formatApi = (
         tag.map((item) => item.name).join('/') + '/' + item.name
       target.push(item)
     }
-    if (item.type === 'apiDetailFolder' && item.children.length) {
+    if (
+      item.type === 'apiDetailFolder' &&
+      item.children.length &&
+      !exclude.includes(item.folder?.id)
+    ) {
       formatApi(target, tags, item.children, exclude)
       if (item.folder.parentId === 0) tag = []
     }

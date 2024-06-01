@@ -4,8 +4,7 @@ import type {
   CreateFunPluginTypings,
   UpdateFunPluginTypings,
   DeleteFunPluginTypings,
-  UpdateFunPluginStatusTypings,
-  GetFunPluginTypings
+  UpdateFunPluginStatusTypings
 } from './funPlugin.d'
 
 export const getFunPluginApi = (
@@ -55,12 +54,5 @@ export const updateFunPluginStatusApi = (
     method: 'post',
     url: '/admin/funPlugin/updateFunPluginStatus',
     data
-  })
-}
-
-export const getFunPluginApi = (): Promise<GetFunPluginTypings['Response']> => {
-  return httpClient({
-    method: 'get',
-    url: '/client/funPlugin/getFunPlugin'
   })
 }

@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { getFunPluginApi } from '@/apis/funPlugin'
+
 defineOptions({
   name: 'Plugins'
 })
 
 const tabs = ['小说', '漫画', '图片', '视频']
+getFunPluginApi()
 </script>
 
 <template>

@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Query } from '@midwayjs/core'
-import { GetFunPluginDto } from './dto/funPlugin.dto'
-import { FunPluginService } from './funPlugin.service'
+import { FunPluginService } from '@/modules/admin/funPlugin/funPlugin.service'
+import { GetFunPluginDto } from '@/modules/admin/funPlugin/dto/funPlugin.dto'
 
 @Controller('/client/funPlugin')
 export class FunPluginController {
