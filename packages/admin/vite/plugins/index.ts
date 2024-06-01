@@ -1,7 +1,6 @@
 import type { Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import UnoCSS from 'unocss/vite'
 
 import { visualizer } from 'rollup-plugin-visualizer'
 import ViteRestart from 'vite-plugin-restart'
@@ -12,7 +11,9 @@ import progress from 'vite-plugin-progress'
 import { Icons } from './icons'
 import { CreateStyleImport } from './style'
 
-export function VitePlugins() {
+export async function VitePlugins() {
+  const UnoCSS = await import('unocss/vite').then((i) => i.default)
+
   const vitePlugins: (Plugin | Plugin[])[] = [vue(), vueJsx(), UnoCSS()]
 
   //打包分析视图

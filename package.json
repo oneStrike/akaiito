@@ -33,7 +33,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.2.5",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.5"
   },
   "lint-staged": {
     "*.{ts,jsx,tsx,vue,js,css,,scss}": "pnpm run prettier",

@@ -2,7 +2,6 @@
   "name": "@akaiito/admin",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "att && run-p type-check \"build-only {@}\" --",
@@ -29,7 +28,7 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
-    "@akaiito/apifox-to-typescript": "workspace:*",
+    "@akaiito/att": "workspace:*",
     "@akaiito/typings": "workspace:*",
     "@iconify-json/line-md": "^1.1.37",
     "@iconify-json/majesticons": "^1.1.11",

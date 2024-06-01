@@ -1,5 +1,5 @@
 // 定义泛型类型，用于迭代对象
-export type IterateObject<T = any> = Record<string, T>
+export type IterateObject<T = any> = Record<string | symbol, T>
 
 // 定义报告结果接口
 export interface HttpResponseResult<T = any> {
@@ -37,7 +37,7 @@ export type JoinLoading<T> = T & { loading: boolean }
 //去除loading
 export type OmitLoading<T> = Omit<T, 'loading'>
 
-//获取分页数据的item
+//获取列表数据的item
 export type ResolveListItem<T> = T extends { list: infer L }
   ? JoinLoading<L extends any[] ? L[number] : L>
   : never

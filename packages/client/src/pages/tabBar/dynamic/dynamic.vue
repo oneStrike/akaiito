@@ -4,7 +4,7 @@ defineOptions({
 })
 
 const navPage = () => {
-  uni.$es.router.navigateTo({
+  useRouter.navigateTo({
     name: 'plugins'
   })
 }

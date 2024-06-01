@@ -4,11 +4,11 @@ import { ViteResolve } from './vite/resolve'
 import { ViteProxy } from './vite/proxy'
 import { ViteBuild } from './vite/build'
 
-export default ({ mode }) => {
+export default async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE')
   return defineConfig({
     base: './',
-    plugins: VitePlugins(),
+    plugins: await VitePlugins(),
     resolve: ViteResolve,
     server: mode !== 'development' ? {} : ViteProxy(env),
     build: ViteBuild,

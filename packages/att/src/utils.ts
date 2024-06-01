@@ -80,7 +80,7 @@ export const formatApi = (
         name: item.name
       })
     }
-    if (!exclude.includes(item.id) && item.type === 'apiDetail') {
+    if (!exclude.includes(item.folder?.id) && item.type === 'apiDetail') {
       const targetIdx = tag.findIndex((tag) => tag.id === item.api.folderId)
       tag.splice(targetIdx + 1)
       tags[item.api.id] =

@@ -5,20 +5,15 @@ defineOptions({
 
 export interface EsPageProps {
   backgroundColor?: string
-  navBarTitle?: string
   padding?: boolean
+  tabs?: boolean
 }
 
 const props = withDefaults(defineProps<EsPageProps>(), {
   backgroundColor: '#ffffff',
-  padding: false
+  padding: false,
+  tabs: false
 })
-
-if (props.navBarTitle) {
-  uni.setNavigationBarTitle({
-    title: props.navBarTitle
-  })
-}
 
 const pageStyle = computed(() => {
   return {

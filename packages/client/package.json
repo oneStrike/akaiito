@@ -2,6 +2,7 @@
   "name": "@akaiito/client",
   "version": "1.0.0",
   "scripts": {
+    "att": "att",
     "dev": "pnpm run dev:h5",
     "build": "pnpm run build:h5",
     "lint:fix": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .eslintignore",
@@ -43,7 +44,6 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@akaiito/typings": "workspace:*",
     "@akaiito/utils": "workspace:*",
     "@dcloudio/uni-app": "3.0.0-alpha-4010520240507001",
     "@dcloudio/uni-app-plus": "3.0.0-alpha-4010520240507001",
@@ -65,6 +65,8 @@
     "vue-i18n": "^9.13.1"
   },
   "devDependencies": {
+    "@akaiito/att": "workspace:*",
+    "@akaiito/typings": "workspace:*",
     "@dcloudio/types": "^3.4.8",
     "@dcloudio/uni-automator": "3.0.0-alpha-4010520240507001",
     "@dcloudio/uni-cli-shared": "3.0.0-alpha-4010520240507001",
