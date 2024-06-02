@@ -5,7 +5,6 @@ import {
   Logger,
   IMidwayContainer,
   Inject,
-  MidwayDecoratorService,
   MidwayWebRouterService
 } from '@midwayjs/core'
 import * as koa from '@midwayjs/koa'
@@ -19,11 +18,7 @@ import { ReportMiddleware } from './middleware/report.middleware'
 import { ExceptionFilter } from './filter/exception.filter'
 import { RegisterPrisma } from './prisma'
 import { AuthGuard } from './guard/auth.guard'
-
-import {
-  getUserInfoHandler,
-  USERINFO_KEY
-} from './decorator/userinfo.decorator'
+import { DecoratorService } from '@/basic/service/decorator.service'
 
 @Configuration({
   imports: [
@@ -50,7 +45,7 @@ export class MainConfiguration {
   registerPrisma: RegisterPrisma
 
   @Inject()
-  decoratorService: MidwayDecoratorService
+  decoratorService: DecoratorService
 
   @Inject()
   webRouterService: MidwayWebRouterService
@@ -65,12 +60,7 @@ export class MainConfiguration {
 
     this.app.useMiddleware([ReportMiddleware])
     this.app.useFilter([ExceptionFilter])
-
-    this.decoratorService.registerMethodHandler(
-      USERINFO_KEY,
-      getUserInfoHandler
-    )
-
     this.app.useGuard(AuthGuard)
+    this.decoratorService.register()
   }
 }

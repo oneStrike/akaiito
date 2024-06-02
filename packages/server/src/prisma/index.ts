@@ -1,15 +1,7 @@
-import {
-  ILogger,
-  IMidwayContainer,
-  Inject,
-  Provide,
-  Scope,
-  ScopeEnum
-} from '@midwayjs/core'
+import { ILogger, IMidwayContainer, Inject, Singleton } from '@midwayjs/core'
 import { PrismaClient } from '@prisma/client'
 
-@Provide()
-@Scope(ScopeEnum.Request, { allowDowngrade: true })
+@Singleton()
 export class RegisterPrisma {
   @Inject()
   logger: ILogger
