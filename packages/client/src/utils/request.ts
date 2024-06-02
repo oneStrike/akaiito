@@ -13,6 +13,7 @@ export interface HttpClient {
   params?: any
   headers?: any
   loading?: boolean
+  showError?: boolean
 }
 
 export const httpClient = <T>(options: HttpClient): Promise<T> => {
@@ -30,11 +31,16 @@ export const httpClient = <T>(options: HttpClient): Promise<T> => {
         if (data.code === 200) {
           resolve(data.data as T)
         } else {
-          uni.showModal({
-            title: '提示',
-            content: data.message,
-            showCancel: false
-          })
+          if (options.showError || typeof options.showError !== 'boolean') {
+            uni.showModal({
+              title: '提示',
+              content: data.message,
+              showCancel: false,
+              complete() {
+                reject(data)
+              }
+            })
+          }
         }
       },
       complete() {

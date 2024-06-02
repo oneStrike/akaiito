@@ -8,9 +8,9 @@ import {
   UserPageDto
 } from './dto/user.dto'
 import { UserService } from './user.service'
-import { UserInfo } from '../../../decorator/userinfo.decorator'
+import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Context } from '@midwayjs/koa'
-import { BasicIdStatusDto, BasicIdDto } from '../../../basic/dto/basic.dto'
+import { BasicIdStatusDto, BasicIdDto } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/user', {
   tagName: '管理员',

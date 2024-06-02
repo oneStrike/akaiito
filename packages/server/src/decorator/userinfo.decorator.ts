@@ -4,8 +4,8 @@ import {
   JoinPoint,
   REQUEST_OBJ_CTX_KEY
 } from '@midwayjs/core'
-import { UserService } from '../modules/admin/user/user.service'
-import { Jwt } from '../modules/internal/authentication/jwt.service'
+import { UserService } from '@/modules/admin/user/user.service'
+import { Jwt } from '@/modules/internal/authentication/jwt.service'
 
 export const USERINFO_KEY = 'decorator:userinfo_key'
 
