@@ -12,6 +12,7 @@ export const ViteProxy = (env: IterateObject<string>): ServerOptions => {
       rewrite: (path: string) => path.replace(key, rewrite)
     }
   })
+  console.log(proxyObj);
   return {
     proxy: proxyObj,
     host: '0.0.0.0'

@@ -1,5 +1,5 @@
 // 定义泛型类型，用于迭代对象
-export type IterateObject<T = any> = Record<string | symbol, T>
+export type IterateObject<T = any> = Record<string, T>
 
 // 定义报告结果接口
 export interface HttpResponseResult<T = any> {

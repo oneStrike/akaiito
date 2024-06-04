@@ -206,5 +206,5 @@ model ClientUser {
   createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
 
-  @@map("fun_plugin")
+  @@map("client_user")
 }

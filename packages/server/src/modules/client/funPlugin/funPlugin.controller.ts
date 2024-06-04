@@ -9,6 +9,7 @@ export class FunPluginController {
 
   @Get('/getFunPlugin', { summary: '获取功能插件列表' })
   async getFunPlugin(@Query() query: GetFunPluginDto) {
+    query.status = 1
     return this.funPluginService.findList({
       ...query,
       fuzzy: ['name']

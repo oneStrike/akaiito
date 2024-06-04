@@ -18,6 +18,14 @@ export type ColorScheme = {
   bgColor?: string
 } & IterateObject<string>
 
+export type SizeScheme = {
+  xs: number
+  sm: number
+  base: number
+  lg: number
+  xl: number
+} & IterateObject<number>
+
 export interface RouterConfig {
   routerGuard?: (path: string) => Promise<boolean> | boolean // 路由守卫
   routerEnter?: (path: string) => void // 路由跳转成功
@@ -31,5 +39,6 @@ export interface RouterConfig {
 export interface Config extends RouterConfig {
   unit: 'px' | 'rpx'
   colorScheme: ColorScheme
+  sizeScheme: SizeScheme
   tabBarHeight?: number
 }

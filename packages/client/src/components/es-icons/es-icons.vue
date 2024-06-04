@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import icons from './es-icons.json'
 import { config } from '@/components/libs/config/config.default'
-import type { ColorScheme } from '@/components/libs/typings/config'
+import type { ColorScheme, SizeScheme } from '@/components/libs/typings/config'
 
 export interface EsIconProps {
   name: keyof typeof icons
-  size?: number
+  size?: keyof SizeScheme | number
   width?: number
   height?: number
   color?: keyof ColorScheme | string
@@ -20,19 +20,21 @@ defineOptions({
 
 const props = withDefaults(defineProps<EsIconProps>(), {
   size: 40,
-  color: 'basis'
+  color: 'base'
 })
 
 const iconStyle = computed(() => {
-  const width = props.size ? props.size : props.width
-  const height = props.size ? props.size : props.height
+  const iconSize = config.sizeScheme[props.size] ?? props.size
+
+  const width = iconSize ? iconSize : props.width
+  const height = iconSize ? iconSize : props.height
   const unit = config.unit
   const color = config.colorScheme[props.color] || props.color
 
   return `
   width:  ${width + unit};
   height: ${height + unit};
-  color:  ${color};
+  color:  ${String(color)};
   --un-icon: ${icons[props.name].data}`
 })
 </script>

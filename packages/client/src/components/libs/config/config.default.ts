@@ -14,12 +14,20 @@ export const config: Config = {
     white: '#FFFFFF',
     transparent: 'transparent',
     //字体颜色
-    basis: '#18191C',
+    base: '#18191C',
     info: '#61666D',
     minor: '#9499A0',
 
     //背景颜色
     bgColor: '#f5f5f5'
+  },
+
+  sizeScheme: {
+    xs: 24,
+    sm: 28,
+    base: 32,
+    lg: 36,
+    xl: 40
   },
 
   tabBarHeight: 50

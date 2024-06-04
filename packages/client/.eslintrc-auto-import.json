@@ -99,6 +99,8 @@
     "watchEffect": "readonly",
     "watchPostEffect": "readonly",
     "watchSyncEffect": "readonly",
-    "useRouter": "readonly"
+    "useRouter": "readonly",
+    "userRequest": "readonly",
+    "useRequest": "readonly"
   }
 }

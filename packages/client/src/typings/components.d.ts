@@ -9,9 +9,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    EsCard: typeof import('./../components/es-card/es-card.vue')['default']
+    EsEmpty: typeof import('./../components/es-empty/es-empty.vue')['default']
     EsIcons: typeof import('./../components/es-icons/es-icons.vue')['default']
+    EsList: typeof import('./../components/es-list/es-list.vue')['default']
     EsPage: typeof import('./../components/es-page/es-page.vue')['default']
     EsTabs: typeof import('./../components/es-tabs/es-tabs.vue')['default']
+    EsText: typeof import('./../components/es-text/es-text.vue')['default']
+    ExEmpty: typeof import('./../components/es-empty/ex-empty.vue')['default']
     UniIcons: typeof import('@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue')['default']
   }
 }
