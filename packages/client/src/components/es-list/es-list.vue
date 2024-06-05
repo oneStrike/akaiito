@@ -30,7 +30,11 @@ const loadMoreStatus = computed(() => {
     <view v-for="(item, idx) in data" :key="idx">
       <slot :record="item" :index="idx"></slot>
     </view>
-    <uni-load-more iconType="snow" :status="loadMoreStatus" />
+    <uni-load-more
+      v-if="data.length"
+      iconType="snow"
+      :status="loadMoreStatus"
+    />
     <es-empty v-if="!data.length" />
   </view>
 </template>

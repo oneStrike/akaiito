@@ -1,11 +1,5 @@
 import type { IterateObject, ResolvedReturnType } from '@akaiito/typings/src'
 
-/**
- * useRequest 是一个高阶函数，用于封装 API 请求，提供加载状态、请求参数配置及排序等功能。
- * @param api 一个函数，代表需要被封装的 API 请求。
- * @param params 默认请求参数，可选。
- * @returns 返回一个对象，包含加载状态、请求方法、重置方法、排序改变方法及请求数据等属性。
- */
 export const useRequest = <T extends Function>(
   api: T,
   defaultParams: IterateObject = {},

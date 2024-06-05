@@ -9,7 +9,6 @@ import { setConfig } from '@/components/libs/hooks/useConfig'
 export const useEs = {
   setup: (conf?: Partial<Config>) => {
     const systemInfo = uni.getSystemInfoSync()
-
     uni.$es = {
       config: Object.assign(config, conf),
       systemInfo: systemInfo,

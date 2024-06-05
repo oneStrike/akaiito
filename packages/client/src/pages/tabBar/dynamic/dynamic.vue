@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { useRouter } from '@/hooks/useRouter'
+
 defineOptions({
   name: 'TabBarDynamic'
 })
 
 const navPage = () => {
-  useRouter.navigateTo({
+  uni.$es.router.navigateTo({
     name: 'plugins'
   })
 }
+console.log(uni)
 </script>
 
 <template>

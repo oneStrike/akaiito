@@ -21,9 +21,14 @@ export const httpClient = <T>(options: HttpClient): Promise<T> => {
     if (options.loading || typeof options.loading !== 'boolean') {
       uni.showLoading({ mask: true })
     }
+    console.log(uni.$es)
+    const url =
+      uni.$es.systemInfo.uniPlatform === 'web'
+        ? options.url
+        : import.meta.env.VITE_PROXY_PATH + options.url
     uni.request({
-      url: options.url,
-      data: options.data,
+      url,
+      data: options.params,
       header: options.headers,
       method: options.method,
       success: (res) => {
@@ -43,7 +48,7 @@ export const httpClient = <T>(options: HttpClient): Promise<T> => {
           }
         }
       },
-      complete() {
+      complete(res) {
         uni.hideLoading()
       }
     })

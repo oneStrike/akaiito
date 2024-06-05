@@ -16,7 +16,7 @@ declare module '@vue/runtime-core' {
     EsPage: typeof import('./../components/es-page/es-page.vue')['default']
     EsTabs: typeof import('./../components/es-tabs/es-tabs.vue')['default']
     EsText: typeof import('./../components/es-text/es-text.vue')['default']
-    ExEmpty: typeof import('./../components/es-empty/ex-empty.vue')['default']
-    UniIcons: typeof import('@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue')['default']
+    UniLoadMore: typeof import('@dcloudio/uni-ui/lib/uni-load-more/uni-load-more.vue')['default']
+    UniSegmentedControl: typeof import('@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue')['default']
   }
 }

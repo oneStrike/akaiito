@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import icons from './es-icons.json'
 import { config } from '@/components/libs/config/config.default'
-import type { ColorScheme, SizeScheme } from '@/components/libs/typings/config'
 
 export interface EsIconProps {
   name: keyof typeof icons
-  size?: keyof SizeScheme | number
+  size?: string | number
   width?: number
   height?: number
-  color?: keyof ColorScheme | string
+  color?: string
 }
 
 defineOptions({

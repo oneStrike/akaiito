@@ -6,13 +6,16 @@ defineOptions({
 })
 
 const tabs = ['小说', '漫画', '图片', '视频']
-const { requestRes } = useRequest(getFunPluginApi)
-console.log(requestRes)
+const { requestRes, request } = useRequest(getFunPluginApi)
+
+const tabChange = (val: number) => {
+  request({ type: val + 1 })
+}
 </script>
 
 <template>
   <es-page background-color="#f5f5f5" tabs>
-    <es-tabs :tabs="tabs" />
+    <es-tabs :tabs="tabs" @change="tabChange" />
     <view class="pl-3 pr-3 pt-3">
       <es-list :data="requestRes?.data">
         <template v-slot="{ record }">

@@ -15,8 +15,15 @@ const props = withDefaults(defineProps<EsTabsProps>(), {
   inActiveColor: '#000000',
   backgroundColor: '#ffffff'
 })
+const emits = defineEmits<{
+  (event: 'change', val: number): void
+}>()
 
 const current = defineModel({ type: Number, default: 0 })
+
+const tanChange = (val: { currentIndex: number }) => {
+  emits('change', val.currentIndex)
+}
 </script>
 
 <template>
@@ -26,6 +33,7 @@ const current = defineModel({ type: Number, default: 0 })
       :values="tabs"
       :style-type="styleType"
       :active-color="activeColor"
+      @clickItem="tanChange"
     />
   </view>
 </template>
