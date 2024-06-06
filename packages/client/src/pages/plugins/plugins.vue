@@ -19,24 +19,21 @@ const tabChange = (val: number) => {
     <es-tabs :tabs="tabs" @change="tabChange" />
     <view class="pl-3 pr-3 pt-3">
       <es-list :data="requestRes?.data" :loading="loading">
-        <template v-slot="{ record }">
-          <es-card class="mb-3 flex">
-            <view class="flex">
-              <image
-                class="!w-10 !h-10 rounded mr-3"
-                :src="$filePath(record.avatar)"
-              ></image>
-              <view class="flex flex-col justify-between">
-                <es-text :text="record.name" />
-                <es-text
-                  :text="'积分：' + record.price"
-                  color="primary"
-                  size="xs"
-                />
-              </view>
-            </view>
-          </es-card>
-        </template>
+        <es-card
+          class="mb-3"
+          v-for="item in requestRes?.data"
+          :key="item.id"
+          :flex="true"
+        >
+          <image
+            class="!w-10 !h-10 rounded mr-3"
+            :src="$filePath(item.avatar)"
+          ></image>
+          <view class="flex flex-col justify-between">
+            <es-text :text="item.name" />
+            <es-text :text="'积分：' + item.price" color="primary" size="xs" />
+          </view>
+        </es-card>
       </es-list>
     </view>
   </es-page>

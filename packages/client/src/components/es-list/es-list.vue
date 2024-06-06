@@ -27,9 +27,7 @@ const loadMoreStatus = computed(() => {
 
 <template>
   <view>
-    <view v-for="(item, idx) in data" :key="idx">
-      <slot :record="item" :index="idx"></slot>
-    </view>
+    <slot></slot>
     <uni-load-more
       v-if="data.length"
       iconType="snow"
