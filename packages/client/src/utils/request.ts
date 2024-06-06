@@ -1,3 +1,5 @@
+import { useModal } from '@/components/libs/hooks/useModal'
+
 export interface HttpClient {
   method:
     | 'OPTIONS'
@@ -37,11 +39,11 @@ export const httpClient = <T>(options: HttpClient): Promise<T> => {
           resolve(data.data as T)
         } else {
           if (options.showError || typeof options.showError !== 'boolean') {
-            uni.showModal({
+            useModal.open({
               title: '提示',
               content: data.message,
               showCancel: false,
-              complete() {
+              success() {
                 reject(data)
               }
             })
@@ -50,6 +52,17 @@ export const httpClient = <T>(options: HttpClient): Promise<T> => {
       },
       complete(res) {
         uni.hideLoading()
+
+        if (res.errMsg.includes('request:fail')) {
+          useModal.open({
+            title: '提示',
+            content: res.errMsg,
+            showCancel: false,
+            success() {
+              reject(res)
+            }
+          })
+        }
       }
     })
   })
