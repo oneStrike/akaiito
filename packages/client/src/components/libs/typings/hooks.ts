@@ -25,12 +25,13 @@ export type RequestResponse = {
 }
 
 export type RequestConfig = {
-  baseUrl: string
+  baseUrl?: string
   timeout?: number
   loading?: boolean
   showError?: boolean
   loadingText?: string
   errorPropagation?: boolean
+  errorModal?: boolean
   interceptor?: {
     request?: (config: RequestOptions) => RequestOptions
     response?: (data: any) => RequestResponse

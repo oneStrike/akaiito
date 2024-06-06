@@ -32,7 +32,8 @@
       "path": "pages/plugins/plugins",
       "name": "plugins",
       "style": {
-        "navigationBarTitleText": "插件"
+        "navigationBarTitleText": "插件",
+        "enablePullDownRefresh": true
       }
     }
   ],

@@ -24,8 +24,9 @@ export const useEs = {
         routerEnter: conf?.routerEnter,
         prefix: conf?.prefix
       }),
-      http: EsRequest,
-      setConfig
+      httpClient: EsRequest,
+      setConfig,
+      env: import.meta.env
     }
   }
 }

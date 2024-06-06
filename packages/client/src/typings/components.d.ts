@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     EsCard: typeof import('./../components/es-card/es-card.vue')['default']
     EsEmpty: typeof import('./../components/es-empty/es-empty.vue')['default']
     EsIcons: typeof import('./../components/es-icons/es-icons.vue')['default']
+    EsImage: typeof import('./../components/es-image/es-image.vue')['default']
     EsList: typeof import('./../components/es-list/es-list.vue')['default']
     EsPage: typeof import('./../components/es-page/es-page.vue')['default']
     EsTabs: typeof import('./../components/es-tabs/es-tabs.vue')['default']

@@ -2,7 +2,10 @@
 import { config } from '@/components/libs/config/config.default'
 
 defineOptions({
-  name: 'EsText'
+  name: 'EsText',
+  options: {
+    virtualHost: true
+  }
 })
 
 const colorScheme = uni.$es.config.colorScheme

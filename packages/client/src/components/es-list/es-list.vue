@@ -35,6 +35,6 @@ const loadMoreStatus = computed(() => {
       iconType="snow"
       :status="loadMoreStatus"
     />
-    <es-empty v-if="!data.length" />
+    <es-empty v-if="!data.length && !loading" />
   </view>
 </template>

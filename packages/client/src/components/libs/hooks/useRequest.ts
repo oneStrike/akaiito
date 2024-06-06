@@ -2,6 +2,7 @@ import type {
   RequestConfig,
   RequestOptions
 } from '@/components/libs/typings/hooks'
+import { useModal } from '@/components/libs/hooks/useModal'
 
 export class EsRequest {
   baseUrl: RequestConfig['baseUrl']
@@ -13,6 +14,7 @@ export class EsRequest {
   errorPropagation: RequestConfig['errorPropagation']
   handlerError: RequestConfig['handlerError']
   loadingStatus: boolean
+  errorModal: boolean | undefined
 
   constructor(config: RequestConfig) {
     this.baseUrl = config.baseUrl
@@ -23,10 +25,17 @@ export class EsRequest {
     this.loadingText = config.loadingText || '加载中...'
     this.handlerError = config.handlerError
     this.interceptor = config.interceptor
+    this.errorModal =
+      typeof config.errorModal === 'boolean' ? config.errorModal : true
     this.loadingStatus = false
   }
 
   request<T>(config: RequestOptions): Promise<T> {
+    const errorModal =
+      typeof config.errorModal === 'boolean'
+        ? config.errorModal
+        : this.errorModal
+
     if (this.interceptor?.request) {
       config = this.interceptor.request(config)
     }
@@ -70,18 +79,48 @@ export class EsRequest {
             config.handlerError(responseData)
           }
           if (responseData?.error && errorPropagation) {
-            reject(responseData)
+            if (errorModal) {
+              useModal.open({
+                title: '提示',
+                content: responseData.data.message,
+                showCancel: false,
+                success() {
+                  reject(responseData)
+                }
+              })
+            }
             return
           }
-          resolve(responseData?.data as T)
+          // @ts-ignore
+          resolve(responseData ? responseData?.data : res?.data?.data)
         },
         fail: (err) => {
-          reject(err)
+          if (errorModal) {
+            useModal.open({
+              title: '提示',
+              content: err.errMsg,
+              showCancel: false,
+              success() {
+                reject(err)
+              }
+            })
+          }
         },
         complete: (res) => {
           nextTick(() => {
             this.loadingStatus = false
             uni.hideLoading()
+
+            if (res.errMsg.includes('request:fail') && errorModal) {
+              useModal.open({
+                title: '提示',
+                content: res.errMsg,
+                showCancel: false,
+                success() {
+                  reject(res)
+                }
+              })
+            }
           })
         }
       })
