@@ -21,7 +21,7 @@ export interface EsImageProps {
 defineOptions({
   name: 'EsImage',
   options: {
-    virtualHost: true
+    // virtualHost: true
   }
 })
 
@@ -37,7 +37,7 @@ const imageSrc = computed(() => {
 </script>
 
 <template>
-  <image :src="imageSrc" :mode="mode"></image>
+  <image class="inline-block" :src="imageSrc" :mode="mode"></image>
 </template>
 
 <style scoped></style>

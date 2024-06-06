@@ -94,14 +94,13 @@
     "useAttrs": "readonly",
     "useCssModule": "readonly",
     "useCssVars": "readonly",
+    "useRefresh": "readonly",
+    "useRequest": "readonly",
+    "useRouter": "readonly",
     "useSlots": "readonly",
     "watch": "readonly",
     "watchEffect": "readonly",
     "watchPostEffect": "readonly",
-    "watchSyncEffect": "readonly",
-    "useRouter": "readonly",
-    "userRequest": "readonly",
-    "useRequest": "readonly",
-    "useRefresh": "readonly"
+    "watchSyncEffect": "readonly"
   }
 }

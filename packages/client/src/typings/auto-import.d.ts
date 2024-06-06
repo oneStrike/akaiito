@@ -92,7 +92,6 @@ declare global {
   const useRequest: typeof import('../hooks/useRequest')['useRequest']
   const useRouter: typeof import('../hooks/useRouter')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
-  const userRequest: typeof import('../hooks/useRequest')['userRequest']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
   const watchPostEffect: typeof import('vue')['watchPostEffect']

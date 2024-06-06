@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <view class="p-3 bg-white rounded shadow-md">
+  <view class="p-3 bg-white rounded shadow-md w-full">
     <slot></slot>
   </view>
 </template>

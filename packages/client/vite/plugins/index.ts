@@ -22,7 +22,7 @@ export async function VitePlugins() {
   vitePlugins.push(Compression())
 
   //自动注册组件
-  vitePlugins.push(AutoRegistryComponent())
+  // vitePlugins.push(AutoRegistryComponent())
 
   //打包进度条
   vitePlugins.push(progress() as Plugin)

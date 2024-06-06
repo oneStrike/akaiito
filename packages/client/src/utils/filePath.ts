@@ -1,4 +1,5 @@
 export const filePath = (path: string) => {
-  console.log(process.env,path)
-  return `${process.env.VITE_BASE_URL}/${path}`
+  return uni.$es.systemInfo.uniPlatform === 'web'
+    ? path
+    : import.meta.env.VITE_PROXY_PATH + path
 }

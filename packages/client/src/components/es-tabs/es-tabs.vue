@@ -2,6 +2,7 @@
 export interface EsTabsProps {
   tabs: string[]
   top?: string
+  modelValue?: number
   styleType?: 'button' | 'text'
   activeColor?: string
   inActiveColor?: string
@@ -11,15 +12,24 @@ export interface EsTabsProps {
 const props = withDefaults(defineProps<EsTabsProps>(), {
   top: 'var(--window-top)',
   styleType: 'text',
+  modelValue: 0,
   activeColor: '#007aff',
   inActiveColor: '#000000',
   backgroundColor: '#ffffff'
 })
 const emits = defineEmits<{
   (event: 'change', val: number): void
+  (event: 'update:modelValue', val: number): void
 }>()
 
-const current = defineModel({ type: Number, default: 0 })
+const current = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val) {
+    emits('update:modelValue', val)
+  }
+})
 
 const tanChange = (val: { currentIndex: number }) => {
   emits('change', val.currentIndex)

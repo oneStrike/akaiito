@@ -10,6 +10,12 @@ onHide(() => {
 })
 </script>
 <style lang="scss">
+/* #ifndef MP-WEIXIN*/
+* {
+  box-sizing: border-box;
+}
+/* #endif*/
+
 page {
   /* #ifndef H5*/
   width: 100vw;
