@@ -101,6 +101,7 @@
     "watchSyncEffect": "readonly",
     "useRouter": "readonly",
     "userRequest": "readonly",
-    "useRequest": "readonly"
+    "useRequest": "readonly",
+    "useRefresh": "readonly"
   }
 }

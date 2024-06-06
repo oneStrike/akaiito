@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { getFunPluginApi } from '@/apis/funPlugin'
+import { useRefresh } from '@/hooks/useRefresh'
 
 defineOptions({
   name: 'Plugins'
 })
 
 const tabs = ['小说', '漫画', '图片', '视频']
-const { requestRes, request } = useRequest(getFunPluginApi)
+const { requestRes, request, loading, reset } = useRequest(getFunPluginApi)
+useRefresh(reset)
 const tabChange = (val: number) => {
   request({ type: val + 1 })
 }
@@ -16,7 +18,7 @@ const tabChange = (val: number) => {
   <es-page background-color="#f5f5f5" tabs>
     <es-tabs :tabs="tabs" @change="tabChange" />
     <view class="pl-3 pr-3 pt-3">
-      <es-list :data="requestRes?.data">
+      <es-list :data="requestRes?.data" :loading="loading">
         <template v-slot="{ record }">
           <es-card class="mb-3 flex">
             <es-image class="w-10 h-10 rounded mr-3" :src="record.avatar" />
