@@ -6,11 +6,10 @@ defineOptions({
 })
 
 const navPage = () => {
-  uni.$es.router.navigateTo({
+  useRouter().navigateTo({
     name: 'plugins'
   })
 }
-console.log(uni)
 </script>
 
 <template>

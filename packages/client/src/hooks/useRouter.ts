@@ -1,1 +1,1 @@
-export const useRouter = uni.$es?.router
+export const useRouter = () => uni.$es?.router
