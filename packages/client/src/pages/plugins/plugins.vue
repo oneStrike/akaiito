@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { getFunPluginApi } from '@/apis/funPlugin'
-import { useRefresh } from '@/hooks/useRefresh'
 
 defineOptions({
   name: 'Plugins'
 })
 
 const tabs = ['小说', '漫画', '图片', '视频']
-const { requestRes, request, loading, reset } = useRequest(getFunPluginApi)
-useRefresh(reset)
+const { requestRes, request, loading } = useRequest(getFunPluginApi, {
+  refresh: true
+})
 const tabChange = (val: number) => {
   request({ type: val + 1 })
 }
