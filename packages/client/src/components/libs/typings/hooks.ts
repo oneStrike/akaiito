@@ -27,6 +27,7 @@ export type RequestResponse = {
 export type RequestConfig = {
   baseUrl?: string
   timeout?: number
+  params?: UniNamespace.RequestOptions['data']
   loading?: boolean
   showError?: boolean
   loadingText?: string

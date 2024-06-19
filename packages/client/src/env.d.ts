@@ -1,4 +1,5 @@
 import type { IterateObject } from '@akaiito/typings/src'
+import dayjs from 'dayjs'
 
 declare module '*.vue' {
   // @ts-ignore
@@ -19,6 +20,13 @@ interface WindowExtensions {
     tabBar: boolean
     subPage: boolean
   } & IterateObject)[]
+}
+
+declare module 'vue' {
+  interface ComponentCustomProperties {
+    $filePath: (path: string) => string
+    $dayjs: typeof dayjs
+  }
 }
 
 declare global {

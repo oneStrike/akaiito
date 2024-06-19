@@ -20,10 +20,10 @@ const tabChange = (val: number) => {
     <view class="pl-3 pr-3 pt-3">
       <es-list :data="requestRes?.data" :loading="loading">
         <es-card
-          class="mb-3"
           v-for="item in requestRes?.data"
           :key="item.id"
           :flex="true"
+          class="mb-3"
         >
           <image
             class="!w-10 !h-10 rounded mr-3"
@@ -31,12 +31,14 @@ const tabChange = (val: number) => {
           ></image>
           <view class="flex flex-col justify-between">
             <es-text :text="item.name" />
-            <es-text :text="'积分：' + item.price" color="primary" size="xs" />
+            <es-text
+              :text="'积分：' + item.price"
+              size="xs11"
+              color="primary"
+            />
           </view>
         </es-card>
       </es-list>
     </view>
   </es-page>
 </template>
-
-<style scoped></style>

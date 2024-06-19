@@ -33,7 +33,8 @@
       "name": "plugins",
       "style": {
         "navigationBarTitleText": "插件",
-        "enablePullDownRefresh": true
+        "enablePullDownRefresh": true,
+        "backgroundColor": "#ffffff"
       }
     }
   ],
@@ -66,7 +67,7 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "Akaiito",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#ffffff"
   }
 }

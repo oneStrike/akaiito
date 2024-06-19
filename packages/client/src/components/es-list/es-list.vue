@@ -1,6 +1,9 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'EsList'
+  name: 'EsList',
+  options: {
+    virtualHost: true
+  }
 })
 
 export interface EsListProps {

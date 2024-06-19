@@ -56,7 +56,7 @@ export class EsRequest {
       uni.request({
         url: baseUrl + config.url,
         method: config.method,
-        data: config.data,
+        data: Object.assign(config.data || {}, config.params || {}),
         dataType: config.dataType,
         header: config.header,
         timeout: config.timeout || this.timeout,
