@@ -21,7 +21,7 @@ export interface FormModalProps {
 const esFormRef = ref()
 const props = withDefaults(defineProps<FormModalProps>(), {
   formProps: () => ({}),
-  width: 700
+  width: 880
 })
 
 const emits = defineEmits<{
@@ -93,6 +93,7 @@ const formSubmit = (val: IterateObject) => {
     :loading="btnLoading"
     :width="width"
     :title="title"
+    class="!p-8"
     destroy-on-close
     @handler="handler"
     @close="emits('close')"

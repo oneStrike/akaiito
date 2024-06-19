@@ -4,6 +4,7 @@
       "adminUserAvatar",
       "adminResourceLibrary",
       "userAvatar",
+      "plugin",
       "shared"
     ],
     "allowFileType": {
@@ -32,6 +33,22 @@
         "aac",
         "wma",
         "wav"
+      ],
+      "document": [
+        "doc",
+        "docx",
+        "xls",
+        "xlsx",
+        "ppt",
+        "pptx",
+        "pdf",
+        "txt",
+        "md",
+        "rtf"
+      ],
+      "compressed": [
+        "zip",
+        "rar"
       ]
     },
     "maxUploadFileSize": 10

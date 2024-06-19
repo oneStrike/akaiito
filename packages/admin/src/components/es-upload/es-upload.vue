@@ -17,7 +17,7 @@ export interface EsUploadProps {
     | string
     | string[]
     | UploadFileTypings['Response']
-  fileType?: 'image' | 'video' | 'audio'
+  fileType?: 'image' | 'video' | 'audio' | 'compressed'
   listType?: UploadProps['listType']
   multiple?: UploadProps['multiple']
   scenario?: string
@@ -81,12 +81,17 @@ watch(
 
 const accept = computed(() => {
   if (!props.fileType) return '*'
-  return config.upload.allowFileType[props.fileType]
-    .map((item) => props.fileType + '/' + item)
+  const allowFileType = config.upload.allowFileType[props.fileType]
+  if (!allowFileType) return props.fileType
+  return allowFileType
+    .map((item: string) => {
+      if (props.fileType === 'compressed') {
+        return `application/x-${item}-compressed`
+      }
+      return props.fileType + '/' + item
+    })
     .join(',')
 })
-
-// 定义一个ref，用于存储上传文件列表
 
 // 使用debounceFn函数定义一个异步函数，用于上传文件
 const startUpload = useDebounceFn(async (uploadFiles: UploadFiles) => {
@@ -115,6 +120,7 @@ const startUpload = useDebounceFn(async (uploadFiles: UploadFiles) => {
     }
 
     // 判断文件格式是否正确
+    console.log(accept.value, item.raw.type)
     if (!accept.value.includes(item.raw.type)) {
       removeFileList.push(item)
       useMessage.error(`【${item.name}】文件格式错误`)
@@ -133,7 +139,6 @@ const startUpload = useDebounceFn(async (uploadFiles: UploadFiles) => {
   // 如果readyFile数组不为空，则上传文件
   if (readyFile.length) {
     const complete = await useUpload(readyFile, props.scenario)
-
     // 将上传成功的文件添加到files数组中
     files.value = files.value.concat(complete.success)
 
@@ -166,8 +171,44 @@ const onPreview = (uploadFile: UploadFile) => {
 </script>
 
 <template>
-  <div class="es-upload">
+  <div class="es-upload w-full">
+    <div class="picture-card" v-if="listType === 'picture-card'">
+      <el-upload
+        ref="uploadRef"
+        v-model:file-list="fileList"
+        :list-type="listType"
+        :accept="accept"
+        :auto-upload="false"
+        :data="{ scenario }"
+        :multiple="multiple"
+        :on-change="change"
+        :on-remove="remove"
+        :on-preview="onPreview"
+      >
+        <template #trigger>
+          <div class="w-full h-full" v-if="assetLibrary">
+            <el-popconfirm
+              width="180"
+              title="素材库选择或者上传"
+              cancel-button-text="资源库"
+              confirm-button-text="本地上传"
+              :hide-after="10"
+              @confirm="uploadRef.$el.querySelector('input').click()"
+            >
+              <template #reference>
+                <div class="w-full h-full flex-center" @click.stop>
+                  <es-icons name="downloading" :size="26" />
+                </div>
+              </template>
+            </el-popconfirm>
+          </div>
+          <es-icons name="downloading" :size="26" v-else />
+          <el-button type="primary">上传文件</el-button>
+        </template>
+      </el-upload>
+    </div>
     <el-upload
+      v-else
       ref="uploadRef"
       v-model:file-list="fileList"
       :list-type="listType"
@@ -177,26 +218,9 @@ const onPreview = (uploadFile: UploadFile) => {
       :multiple="multiple"
       :on-change="change"
       :on-remove="remove"
-      :on-preview="onPreview"
     >
       <template #trigger>
-        <div class="w-full h-full" v-if="assetLibrary">
-          <el-popconfirm
-            width="180"
-            title="素材库选择或者上传"
-            cancel-button-text="资源库"
-            confirm-button-text="本地上传"
-            :hide-after="10"
-            @confirm="uploadRef.$el.querySelector('input').click()"
-          >
-            <template #reference>
-              <div class="w-full h-full flex-center" @click.stop>
-                <es-icons name="downloading" :size="26" />
-              </div>
-            </template>
-          </el-popconfirm>
-        </div>
-        <es-icons name="downloading" :size="26" v-else />
+        <el-button type="primary">上传文件</el-button>
       </template>
     </el-upload>
 
@@ -209,14 +233,16 @@ const onPreview = (uploadFile: UploadFile) => {
 </template>
 
 <style scoped lang="scss">
-::v-deep(.el-upload) {
-  width: 88px;
-  height: 88px;
-  display: v-bind(uploadBtnDisplay);
-}
+.picture-card {
+  ::v-deep(.el-upload) {
+    width: 88px;
+    height: 88px;
+    display: v-bind(uploadBtnDisplay);
+  }
 
-::v-deep(.el-upload-list__item) {
-  width: 88px;
-  height: 88px;
+  ::v-deep(.el-upload-list__item) {
+    width: 88px;
+    height: 88px;
+  }
 }
 </style>

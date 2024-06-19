@@ -43,7 +43,7 @@ const submitForm = async (val) => {
   if (Array.isArray(val.avatar)) {
     val.avatar = val.avatar[0].filePath
   }
-  if (currentRow.value.id) {
+  if (currentRow.value?.id) {
     val.id = currentRow.value.id
     await updateFunPluginApi(val)
   } else {
@@ -75,7 +75,7 @@ const formChange = (val: IterateObject) => {
       wrap
       alignment="stretch"
       size="default"
-      v-if="requestData && requestData.data"
+      v-if="requestData && requestData.data && requestData.data.length"
       class="overflow-auto"
     >
       <el-card shadow="hover" v-for="item in requestData.data" :key="item.id">
@@ -127,6 +127,8 @@ const formChange = (val: IterateObject) => {
         </el-descriptions>
       </el-card>
     </el-space>
+
+    <el-empty v-else description="暂无数据" />
 
     <es-modal-form
       v-model:modal="formModal"

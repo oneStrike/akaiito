@@ -51,6 +51,35 @@ export const formOptions: EsFormOptions[] = [
       maxlength: 50
     }
   },
+  {
+    field: 'pluginFile',
+    component: 'Upload',
+    props: {
+      label: '插件包',
+      class: 'w-6/12!',
+      rules: [{ required: true, message: '请上传插件包' }]
+    },
+    componentProps: {
+      placeholder: '请上传插件包',
+      maxlength: 50,
+      listType: 'text',
+      scenario: 'plugin',
+      fileType: 'compressed'
+    }
+  },
+  {
+    field: 'version',
+    component: 'Input',
+    props: {
+      label: '插件版本',
+      class: 'w-6/12!',
+      rules: [{ required: true, message: '请输入插件版本' }]
+    },
+    componentProps: {
+      placeholder: '请输入插件版本',
+      maxlength: 50
+    }
+  },
 
   {
     field: 'type',

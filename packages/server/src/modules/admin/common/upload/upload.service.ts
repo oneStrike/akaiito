@@ -12,6 +12,7 @@ export class UploadService {
   staticFileConfig
 
   async local(files: IterateObject[], fields: IterateObject) {
+    console.log(this.projectConfig.upload.resourceScenario, fields.scenario)
     if (!this.projectConfig.upload.resourceScenario.includes(fields.scenario)) {
       throw new httpError.BadRequestError('不受支持的场景文件')
     }

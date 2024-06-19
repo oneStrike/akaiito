@@ -15,7 +15,7 @@ const responseError = (err: AxiosError) => {
 const response = (data: any) => {
   const responseData = data.data as HttpResponseResult
   if (responseData.code !== 200 && data.config.errorMessage !== false) {
-    useMessage.error(responseData.desc || '未知错误')
+    useMessage.error(responseData.message || '未知错误')
     throw responseData
   } else {
     return data.config.source ? responseData : responseData.data

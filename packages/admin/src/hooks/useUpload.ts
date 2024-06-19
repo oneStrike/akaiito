@@ -43,7 +43,7 @@ export const useUpload = async (
             }
           }
         })
-        .catch(() => {
+        .catch((err) => {
           errorFile.push(item)
           useMessage.error(`【${item.name}】上传失败`)
           if (successFile.length + errorFile.length === target.length) {

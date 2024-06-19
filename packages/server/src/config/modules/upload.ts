@@ -2,7 +2,6 @@ import * as path from 'node:path'
 import { utils } from '@/utils'
 
 const projectUploadConfig = utils.getProjectConfig()['upload']
-
 const whitelist = []
 
 for (const fileTypeKey in projectUploadConfig.allowFileType) {
