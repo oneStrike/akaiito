@@ -2,7 +2,6 @@
 import { config } from '@/config'
 import type {
   UploadFile,
-  UploadFiles,
   UploadInstance,
   UploadProps,
   UploadUserFile
@@ -10,6 +9,7 @@ import type {
 import { useMessage } from '@/hooks/useFeedback'
 import { useUpload } from '@/hooks/useUpload'
 import type { UploadFileTypings } from '@/apis/upload.d'
+import { utils } from '@/utils'
 
 export interface EsUploadProps {
   modelValue?:
@@ -24,22 +24,25 @@ export interface EsUploadProps {
   maxCount?: number
   maxSize?: number
   assetLibrary?: boolean
+  structure?: 'string' | 'object' | 'field'
 }
 
 const uploadRef = ref<UploadInstance>()
 const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
   maxSize: config.upload.maxUploadFileSize,
-  maxCount: 1
+  maxCount: 1,
+  structure: 'field'
 })
 const emits = defineEmits<{
-  (event: 'update:modelValue', data: typeof files.value): void
+  (event: 'update:modelValue', data: typeof fileList.value): void
   (event: 'updateError', data: any[]): void
 }>()
 
-const filePathToObj = (path: string) => {
+const filePathToObj = (path: string, name?: string) => {
   return {
-    fileName: path.split('/').at(-1),
+    fileName: name,
+    name,
     filePath: path,
     url: path,
     mimeType: props.fileType + '/' + path.split('.').at(-1),
@@ -54,14 +57,19 @@ const transformModelValue = () => {
     return props.modelValue.map((item) => {
       const filePath =
         typeof item === 'string' ? item : item.filePath || item.url
-      return filePathToObj(filePath)
+      return filePathToObj(filePath, item.fileName)
     })
+  } else if (utils.isJson(props.modelValue)) {
+    return JSON.parse(props.modelValue).map((item) => ({
+      ...item,
+      name: item.fileName,
+      url: item.filePath
+    }))
   } else {
     return [filePathToObj(props.modelValue)]
   }
 }
 
-const files = ref<UploadFileTypings['Response']>([])
 const previewImages = ref()
 const uploadBtnDisplay = computed(() =>
   fileList.value?.length >= props.maxCount ? 'none' : 'inline-flex'
@@ -73,7 +81,6 @@ watch(
   (val) => {
     if (val) {
       fileList.value = transformModelValue()
-      files.value = transformModelValue()
     }
   },
   { deep: true, immediate: true }
@@ -93,134 +100,90 @@ const accept = computed(() => {
     .join(',')
 })
 
-// 使用debounceFn函数定义一个异步函数，用于上传文件
-const startUpload = useDebounceFn(async (uploadFiles: UploadFiles) => {
-  const removeFileList = []
-  const readyFile = []
-
-  // 遍历上传文件列表
-  uploadFiles.forEach((item) => {
-    // 判断文件大小是否超过限制
-    if (item.size > props.maxSize * 1024 * 1024) {
-      removeFileList.push(item)
-      useMessage.error(`【${item.name}】超出文件大小限制`)
-      return
-    }
-
-    // 获取已上传成功的文件数量
-    const successFileCount = fileList.value.filter(
-      (item) => item.status === 'success'
-    )
-
-    // 判断上传文件数量是否超过限制
-    if (readyFile.length + successFileCount.length >= props.maxCount) {
-      removeFileList.push(item)
-      useMessage.error(`【${item.name}】超出最大数量限制`)
-      return
-    }
-
-    // 判断文件格式是否正确
-    console.log(accept.value, item.raw.type)
-    if (!accept.value.includes(item.raw.type)) {
-      removeFileList.push(item)
-      useMessage.error(`【${item.name}】文件格式错误`)
-      return
-    }
-
-    // 将文件添加到readyFile数组中
-    readyFile.push(item)
-  })
-
-  // 如果需要移除的文件列表不为空，则移除这些文件
-  if (removeFileList.length) {
-    removeFileList.forEach((item) => uploadRef.value.handleRemove(item))
+//文件上传之前，判断上传的数量是否超量
+const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (fileList.value?.length >= props.maxCount) {
+    useMessage.error(`【${rawFile.name}】超出最大数量限制`)
+    return false
+  } else if (rawFile.size > props.maxSize * 1024 * 1024) {
+    useMessage.error(`【${rawFile.name}】超出文件大小限制`)
+    return false
+  } else if (!accept.value.includes(rawFile.type)) {
+    useMessage.error(`【${rawFile.name}】文件格式错误`)
+    return
   }
-
-  // 如果readyFile数组不为空，则上传文件
-  if (readyFile.length) {
-    const complete = await useUpload(readyFile, props.scenario)
-    // 将上传成功的文件添加到files数组中
-    files.value = files.value.concat(complete.success)
-
-    // 触发更新modelValue的事件
-    emits('update:modelValue', files.value)
-
-    // 如果上传失败的文件列表不为空，则触发更新Error的事件
-    if (complete.error && complete.error.length) {
-      emits('updateError', complete.error)
-    }
-  }
-}, 30)
-
-const change = (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-  startUpload(uploadFiles)
-}
-
-const remove = async (
-  uploadFile: UploadFile & UploadFileTypings['Response'][number]
-) => {
-  files.value = files.value.filter(
-    (item) => item.fileName !== uploadFile.fileName
-  )
-  emits('update:modelValue', files.value)
+  return true
 }
 
 const onPreview = (uploadFile: UploadFile) => {
   previewImages.value = [uploadFile]
 }
+const upload: UploadProps['httpRequest'] = async ({ file }) => {
+  const uploadRes = await useUpload(file, props.scenario)
+  return uploadRes.success[0]
+}
+
+const change = () => {
+  if (fileList.value && fileList.value.length) {
+    const emitData = fileList.value.map((item) => {
+      const target = item.response ? item.response : item
+      return {
+        fileName: target.fileName,
+        filePath: target.filePath,
+        mimeType: target.mimeType
+      }
+    })
+    let res = emitData
+    if (props.structure === 'string') {
+      res = JSON.stringify(emitData)
+    } else if (props.structure === 'field') {
+      res = emitData[0].filePath
+    }
+    emits('update:modelValue', res)
+  }
+}
 </script>
 
 <template>
   <div class="es-upload w-full">
-    <div class="picture-card" v-if="listType === 'picture-card'">
-      <el-upload
-        ref="uploadRef"
-        v-model:file-list="fileList"
-        :list-type="listType"
-        :accept="accept"
-        :auto-upload="false"
-        :data="{ scenario }"
-        :multiple="multiple"
-        :on-change="change"
-        :on-remove="remove"
-        :on-preview="onPreview"
-      >
-        <template #trigger>
-          <div class="w-full h-full" v-if="assetLibrary">
-            <el-popconfirm
-              width="180"
-              title="素材库选择或者上传"
-              cancel-button-text="资源库"
-              confirm-button-text="本地上传"
-              :hide-after="10"
-              @confirm="uploadRef.$el.querySelector('input').click()"
-            >
-              <template #reference>
-                <div class="w-full h-full flex-center" @click.stop>
-                  <es-icons name="downloading" :size="26" />
-                </div>
-              </template>
-            </el-popconfirm>
-          </div>
-          <es-icons name="downloading" :size="26" v-else />
-          <el-button type="primary">上传文件</el-button>
-        </template>
-      </el-upload>
-    </div>
     <el-upload
-      v-else
       ref="uploadRef"
       v-model:file-list="fileList"
       :list-type="listType"
       :accept="accept"
-      :auto-upload="false"
-      :data="{ scenario }"
       :multiple="multiple"
+      :on-preview="onPreview"
       :on-change="change"
-      :on-remove="remove"
+      :before-upload="beforeUpload"
+      :http-request="upload"
     >
       <template #trigger>
-        <el-button type="primary">上传文件</el-button>
+        <div class="w-full h-full" v-if="assetLibrary">
+          <el-popconfirm
+            width="180"
+            title="素材库选择或者上传"
+            cancel-button-text="资源库"
+            confirm-button-text="本地上传"
+            :hide-after="10"
+            @confirm="uploadRef.$el.querySelector('input').click()"
+          >
+            <template #reference>
+              <div class="w-full h-full flex-center" @click.stop>
+                <es-icons name="uploading" :size="26" />
+              </div>
+            </template>
+          </el-popconfirm>
+        </div>
+        <es-icons
+          name="uploading"
+          :size="22"
+          class="mr-2"
+          v-if="listType === 'picture-card'"
+        />
+        <el-button type="primary" v-else>
+          <es-icons name="uploading" :size="22" class="mr-2" />
+          上传
+        </el-button>
       </template>
     </el-upload>
 
@@ -233,14 +196,18 @@ const onPreview = (uploadFile: UploadFile) => {
 </template>
 
 <style scoped lang="scss">
-.picture-card {
-  ::v-deep(.el-upload) {
-    width: 88px;
-    height: 88px;
-    display: v-bind(uploadBtnDisplay);
-  }
+::v-deep(.el-upload--picture-card) {
+  width: 88px;
+  height: 88px;
+  display: v-bind(uploadBtnDisplay);
+}
 
-  ::v-deep(.el-upload-list__item) {
+::v-deep(.el-upload--text) {
+  display: v-bind(uploadBtnDisplay);
+}
+
+::v-deep(.el-upload-list--picture-card) {
+  .el-upload-list__item {
     width: 88px;
     height: 88px;
   }

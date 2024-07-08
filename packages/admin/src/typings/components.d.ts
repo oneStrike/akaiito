@@ -106,6 +106,7 @@ declare module 'vue' {
     IconMdDownloadingLoop: typeof import('~icons/line-md/downloading-loop')['default']
     IconMdMoonLoop: typeof import('~icons/line-md/moon-loop')['default']
     IconMdSunRisingLoop: typeof import('~icons/line-md/sun-rising-loop')['default']
+    IconMdUploadingLoop: typeof import('~icons/line-md/uploading-loop')['default']
     ModalForm: (typeof import('./../components/modal/ModalForm.vue'))['default']
     PreviewImage: (typeof import('./../components/previewImage/PreviewImage.vue'))['default']
     RouterLink: typeof import('vue-router')['RouterLink']

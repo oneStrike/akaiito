@@ -63,6 +63,7 @@ watch(
     <icon-md-sun-rising-loop v-if="name === 'sunLoop'" />
     <icon-md-moon-loop v-if="name === 'moonLoop'" />
     <icon-md-downloading-loop v-if="name === 'downloading'" />
+    <icon-md-uploading-loop v-if="name === 'uploading'" />
 
     <!--https://icones.netlify.app/collection/majesticons    -->
 
