@@ -12,7 +12,9 @@ console.log('🚀 ~ file:LayoutHeader method: line:11 -----', userInfo)
 </script>
 
 <template>
-  <div class="h-60px pl-4 pr-4 flex items-center justify-between border-bottom">
+  <div
+    class="h-60px pl-4 pr-4 flex items-center justify-between border-b border-inherit border-solid"
+  >
     <div class="flex items-center">
       <es-icons
         :name="

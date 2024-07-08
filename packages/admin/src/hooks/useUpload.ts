@@ -17,9 +17,12 @@ export const useUpload = async (
     const successFile = []
     const errorFile = []
     target.forEach((item) => {
+      console.log(item)
       const formData = new FormData()
-      formData.append('file', item?.raw ?? item)
+      const file = item?.raw ?? item
+      formData.append('file', file)
       formData.append('scenario', scenario)
+      formData.append('name', file.name)
 
       httpClient({
         method: 'post',

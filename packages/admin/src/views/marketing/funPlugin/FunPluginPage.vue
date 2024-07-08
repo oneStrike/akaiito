@@ -40,9 +40,6 @@ formScheme.toggleDisplay(['price', 'assistPurchaseCount'], false)
 
 /*新增编辑插件信息*/
 const submitForm = async (val) => {
-  if (Array.isArray(val.avatar)) {
-    val.avatar = val.avatar[0].filePath
-  }
   if (currentRow.value?.id) {
     val.id = currentRow.value.id
     await updateFunPluginApi(val)
@@ -83,6 +80,7 @@ const formChange = (val: IterateObject) => {
           <div class="flex">
             <el-image
               :src="item.avatar"
+              fit="cover"
               class="w12 h12 rounded-md mr-2"
             ></el-image>
             <div class="flex flex-col flex-auto">

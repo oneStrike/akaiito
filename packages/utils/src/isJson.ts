@@ -12,6 +12,7 @@ export const isJson = (str: string) => {
     if (typeof res === 'object' && res) {
       return res
     }
+    return false
   } catch (e) {
     // 解析失败，返回 false
     return false

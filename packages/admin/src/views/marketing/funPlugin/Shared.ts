@@ -34,7 +34,7 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请上传插件封面',
       scenario: 'shared',
-      multiple: true,
+      multiple: false,
       fileType: 'image'
     }
   },
@@ -61,10 +61,11 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请上传插件包',
-      maxlength: 50,
+      maxlength: 1,
       listType: 'text',
       scenario: 'plugin',
-      fileType: 'compressed'
+      fileType: 'compressed',
+      structure: 'string'
     }
   },
   {

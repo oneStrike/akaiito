@@ -12,7 +12,6 @@ export class UploadService {
   staticFileConfig
 
   async local(files: IterateObject[], fields: IterateObject) {
-    console.log(this.projectConfig.upload.resourceScenario, fields.scenario)
     if (!this.projectConfig.upload.resourceScenario.includes(fields.scenario)) {
       throw new httpError.BadRequestError('不受支持的场景文件')
     }
@@ -23,7 +22,7 @@ export class UploadService {
       const fileName = item.data.split(/\\/).pop()
       const path = `/${fields.scenario}/${date}/${fileName}`
       reportData.push({
-        fileName,
+        fileName: fields.name,
         filePath: staticFileDefaultConfig.prefix + path,
         mimeType: item.mimeType
       })

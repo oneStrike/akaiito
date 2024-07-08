@@ -93,7 +93,6 @@ const formSubmit = (val: IterateObject) => {
     :loading="btnLoading"
     :width="width"
     :title="title"
-    class="!p-8"
     destroy-on-close
     @handler="handler"
     @close="emits('close')"

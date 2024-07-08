@@ -15,6 +15,10 @@ export default defineConfig({
         'build',
         'mock',
         './stats.html'
+      ],
+      include: [
+        /\.(vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
+        'src/**/*.{js,ts}'
       ]
     }
   },
@@ -25,19 +29,15 @@ export default defineConfig({
     ['wh-full', 'w-full h-full'],
     ['flex-center', 'flex justify-center items-center'],
     ['cross-center', 'flex items-center'],
-    ['main-center', 'flex justify-center']
+    ['main-center', 'flex justify-center'],
+    ['border-complete-d', 'rounded border border-inherit border-dashed'],
+    ['border-complete-s', 'rounded border border-inherit border-solid']
   ],
   rules: [
     [
       /^text-(.*)$/,
       ([, c], { theme }: { theme: any }) => {
         if (theme.colors[c]) return { color: theme.colors[c] }
-      }
-    ],
-    [
-      /^border-(.*)$/,
-      ([, pos], { theme }: { theme: any }) => {
-        return { [`border-${pos}`]: `1px solid ${theme.colors.border}` }
       }
     ]
   ],

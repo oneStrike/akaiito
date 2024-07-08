@@ -18,6 +18,12 @@ export class FunPluginDto {
   @Rule(requiredString)
   avatar: string
 
+  @Rule(requiredString)
+  pluginFile: string
+
+  @Rule(requiredString)
+  version: string
+
   @Rule(validateNumberLess(5))
   type: number
 
