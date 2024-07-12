@@ -27,7 +27,6 @@ export async function VitePlugins() {
   //打包进度条
   vitePlugins.push(progress() as Plugin)
 
-  //配置文件变更自动重启服务
   vitePlugins.push(
     ViteRestart({
       restart: [

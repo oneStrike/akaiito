@@ -5,7 +5,14 @@ defineOptions({
 </script>
 
 <template>
-  <view>我是首页</view>
+  <view>
+    <es-icons name="empty" size="200" color="red" />
+    <es-icons name="sunny" size="200" />
+    <es-icons name="smile" size="200" />
+    <es-icons name="moon" size="200" />
+    <es-icons name="bell" size="200" />
+    <es-icons name="frog" size="200" />
+  </view>
 </template>
 
 <style scoped></style>

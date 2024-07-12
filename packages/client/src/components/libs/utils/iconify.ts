@@ -62,6 +62,7 @@ const downloadSvg = (url: string): Promise<string> => {
 //解析远程svg数据
 const parasRemoteSvg = async () => {
   if (!Object.keys(iconMapping).length) return
+  console.log(iconMapping)
   for (const iconMappingKey in iconMapping) {
     const sourceName = iconMapping[iconMappingKey as keyof typeof iconMapping]
     const url = 'https://api.iconify.design/' + sourceName + '.svg'

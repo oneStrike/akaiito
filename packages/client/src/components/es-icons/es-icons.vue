@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<EsIconProps>(), {
   size: 40,
   color: 'base'
 })
-
+const colour = ref(false)
 const iconStyle = computed(() => {
   const iconSize = config.sizeScheme[props.size] ?? props.size
 
@@ -29,7 +29,10 @@ const iconStyle = computed(() => {
   const height = iconSize ? iconSize : props.height
   const unit = config.unit
   const color = config.colorScheme[props.color] || props.color
-
+  const icon = icons[props.name]
+  if (!icon.local) {
+    colour.value = !icon.data.includes('currentColor')
+  }
   return `
   width:  ${width + unit};
   height: ${height + unit};
@@ -39,7 +42,7 @@ const iconStyle = computed(() => {
 </script>
 
 <template>
-  <view class="icon" :style="iconStyle"></view>
+  <view :class="colour ? 'icon-colour' : 'icon'" :style="iconStyle"></view>
 </template>
 
 <style lang="scss" scoped>
@@ -50,5 +53,11 @@ const iconStyle = computed(() => {
   -webkit-mask-size: 100% 100%;
   background-color: currentColor;
   display: inline-block;
+}
+
+.icon-colour {
+  background: var(--un-icon) no-repeat;
+  background-size: 100% 100%;
+  background-color: transparent;
 }
 </style>
