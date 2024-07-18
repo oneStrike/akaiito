@@ -24,7 +24,6 @@ const props = withDefaults(defineProps<EsIconProps>(), {
 const colour = ref(false)
 const iconStyle = computed(() => {
   const iconSize = config.sizeScheme[props.size] ?? props.size
-
   const width = iconSize ? iconSize : props.width
   const height = iconSize ? iconSize : props.height
   const unit = config.unit

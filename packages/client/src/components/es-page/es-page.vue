@@ -8,13 +8,15 @@ export interface EsPageProps {
   padding?: boolean
   tabs?: boolean
   empty?: boolean
+  borderTop?: boolean
 }
 
 const props = withDefaults(defineProps<EsPageProps>(), {
   backgroundColor: '#ffffff',
   padding: false,
   tabs: false,
-  empty: false
+  empty: false,
+  borderTop: true
 })
 
 const pageStyle = computed(() => {
@@ -27,6 +29,10 @@ const pageStyle = computed(() => {
 
 <template>
   <view class="es-page" :style="pageStyle">
+    <view
+      v-if="borderTop"
+      class="fixed top0 w-full h-px bg-slate-200 z-50"
+    ></view>
     <slot></slot>
     <es-empty v-if="empty" />
   </view>

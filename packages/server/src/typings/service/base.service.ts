@@ -20,7 +20,7 @@ export type PrismaFindOptions<T = IterateObject> = {
   orderBy?: string
   pageSize?: number
   pageIndex?: number
-  excludes?: string[]
   fuzzy?: { field: string; pos: string }[] | string[]
   where?: WhereOptions<T>
+  omit?: Record<string, boolean>
 } & IterateObject

@@ -15,6 +15,7 @@ view {
 }
 
 page {
+  box-sizing: border-box;
   /* #ifndef H5*/
   width: 100vw;
   height: 100vh;

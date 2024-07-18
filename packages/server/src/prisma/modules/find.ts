@@ -21,9 +21,7 @@ export const find = async <T>(
       }
     }
   }
-  // 删除 options 中的 exclude 键
-  const exclude = options.exclude || []
-  delete options.exclude
+
   if (!options.orderBy) delete options.orderBy
   // 根据选项查找数据
   const result = await context.findMany(options)
@@ -31,9 +29,6 @@ export const find = async <T>(
   if (timeSerialize) {
     for (const item of result) {
       for (const itemKey in item) {
-        if (exclude.includes(itemKey)) {
-          delete item[itemKey]
-        }
         if (item[itemKey] instanceof Date) {
           item[itemKey] = formatDate(item[itemKey])
         }
@@ -49,16 +44,11 @@ export const findOne = async <T>(
   options: any,
   timeSerialize: boolean
 ): Promise<T> => {
-  const exclude = options.exclude || []
-  delete options.exclude
   // 根据选项查找数据
   const result = await context.findUnique(options)
-  if (timeSerialize || exclude.length) {
+  if (timeSerialize) {
     for (const resultKey in result) {
       const item = result[resultKey]
-      if (exclude.includes(resultKey)) {
-        delete result[resultKey]
-      }
       if (item instanceof Date && timeSerialize) {
         result[resultKey] = formatDate(item)
       }

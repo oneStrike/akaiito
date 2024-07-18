@@ -114,15 +114,11 @@ export abstract class BasicService<T = IterateObject> {
   // 根据条件查询唯一数据
   async findUnique(options?: PrismaFindOptions<T>): Promise<T | null> {
     const { where } = this.handlerWhere(options)
-    return this.handlerExcludeField(
-      this.excludeField(options.excludes),
-      await this.model.findUnique({ where })
-    )
+    return await this.model.findUnique({ where })
   }
 
   // 分页查询
   async findPage(options?: PrismaFindOptions<T>): FindPageResponse<T> {
-    const excludes = this.excludeField(options.excludes)
     const where = this.handlerWhere(options, true)
     // 并行查询总数和数据
     const [total, record] = await Promise.all([
@@ -133,31 +129,20 @@ export abstract class BasicService<T = IterateObject> {
       pageSize: record?.length ?? 0,
       pageIndex: where.skip ? where.skip / where.take + 1 : 1,
       total,
-      list: this.handlerExcludeField(excludes, record)
+      list: record
     }
   }
 
   // 查询列表
   async findList(options?: PrismaFindOptions<T>) {
-    const excludes = this.excludeField(options.excludes)
     const result = await this.model.findMany({
       ...this.handlerWhere(options),
       take: this.prismaConfig.maxListItemLimit
     })
 
     return {
-      data: this.handlerExcludeField(excludes, result),
+      data: result,
       total: result.length
-    }
-  }
-
-  //排除结果中的指定字段
-  handlerExcludeField<T>(excludes: string[], data: T): T {
-    if (!excludes || !excludes.length) return data
-    if (Array.isArray(data)) {
-      return data.map((item) => utils._.omit(item, excludes)) as T
-    } else {
-      return utils._.omit(data as object, excludes) as T
     }
   }
 
@@ -169,9 +154,9 @@ export abstract class BasicService<T = IterateObject> {
       'pageIndex',
       'fuzzy',
       'where',
-      'excludes',
       'startTime',
-      'endTime'
+      'endTime',
+      'omit'
     ]
 
     const where: IterateObject = {
@@ -189,6 +174,9 @@ export abstract class BasicService<T = IterateObject> {
         options.fuzzy,
         Object.assign(where.where, options.where)
       )
+    }
+    if (options?.omit) {
+      where.omit = options.omit
     }
     if (!where.where) where.where = {}
     if (options.startTime) {
@@ -256,10 +244,5 @@ export abstract class BasicService<T = IterateObject> {
       }
     })
     return where
-  }
-
-  //排除的字段
-  excludeField(field: string[] = []) {
-    return field.concat(this.prismaConfig.excludes || [])
   }
 }

@@ -22,7 +22,7 @@ interface WindowExtensions {
   } & IterateObject)[]
 }
 
-declare module 'vue' {
+declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $filePath: (path: string) => string
     $dayjs: typeof dayjs

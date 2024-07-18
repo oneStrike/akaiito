@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getFunPluginApi } from '@/apis/funPlugin'
+import { useRouter } from '@/hooks/useRouter'
 
 defineOptions({
   name: 'Plugins'
@@ -11,6 +12,11 @@ const { requestRes, request, loading } = useRequest(getFunPluginApi, {
 })
 const tabChange = (val: number) => {
   request({ type: val + 1 })
+}
+
+const showDetail = (item: any) => {
+  console.log(item)
+  useRouter()?.navigateTo({ name: 'pluginsDetail' })
 }
 </script>
 
@@ -24,18 +30,16 @@ const tabChange = (val: number) => {
           :key="item.id"
           :flex="true"
           class="mb-3"
+          @click="showDetail(item)"
         >
           <image
             class="!w-10 !h-10 rounded mr-3"
             :src="$filePath(item.avatar)"
+            mode="aspectFill"
           ></image>
           <view class="flex flex-col justify-between">
             <es-text :text="item.name" />
-            <es-text
-              :text="'积分：' + item.price"
-              size="xs11"
-              color="primary"
-            />
+            <es-text :text="'积分：' + item.price" size="xs" color="primary" />
           </view>
         </es-card>
       </es-list>

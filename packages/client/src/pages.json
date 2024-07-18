@@ -36,6 +36,14 @@
         "enablePullDownRefresh": true,
         "backgroundColor": "#ffffff"
       }
+    },
+    {
+      "path": "pages/plugins/detail",
+      "name": "pluginsDetail",
+      "style": {
+        "navigationBarTitleText": "插件",
+        "backgroundColor": "#ffffff"
+      }
     }
   ],
   "tabBar": {

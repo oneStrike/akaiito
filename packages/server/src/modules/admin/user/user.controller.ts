@@ -44,7 +44,9 @@ export class UserController {
     return this.userService.findPage({
       ...query,
       fuzzy: ['username', 'mobile'],
-      excludes: ['password']
+      omit: {
+        password: true
+      }
     })
   }
 

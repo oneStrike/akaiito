@@ -2,9 +2,6 @@ prisma:
   # 是否格式化时间格式
   timeSerialize: true
 
-  # 默认排除的字段
-  excludes:
-
   # 单次列表查询的最大条数上线
   maxListItemLimit: 500
 

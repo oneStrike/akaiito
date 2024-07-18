@@ -1,0 +1,26 @@
+model DataDictionary {
+  id        Int       @id @default(autoincrement())
+  name      String?   @unique(map: "name") @db.VarChar(50)
+  code      String?   @unique(map: "code") @db.VarChar(50)
+  status    Int?      @default(0) @db.TinyInt
+  desc      String    @db.VarChar(255)
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+
+  @@map("data_dictionary")
+}
+
+model DataDictionaryItems {
+  id             Int       @id @default(autoincrement())
+  dictionaryId   Int       @map("dictionary_id")
+  dictionaryName String    @map("dictionary_name")
+  name           String?   @unique(map: "name") @db.VarChar(50)
+  code           String?   @unique(map: "code") @db.VarChar(50)
+  order          Int?      @default(1) @db.SmallInt
+  status         Int       @default(0) @db.TinyInt
+  desc           String    @db.VarChar(255)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt      DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+
+  @@map("data_dictionary_items")
+}
