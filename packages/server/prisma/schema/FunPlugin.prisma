@@ -7,7 +7,7 @@ model FunPlugin {
   desc                String    @db.VarChar(255) ///插件描述信息
   downloadCount       Int       @default(0) @map("download_count") ///下载次数
   purchaseCount       Int       @default(0) @map("purchase_count") /// 已购买人数
-  assistPurchaseCount Int       @default(0) @map("assist_purchase_count") /// 辅助购买数量
+  assistPurchaseCount Int       @default(0) @map("assist_purchase_count") /// 辅助购买人数
   price               Decimal?  @default(0.00) @db.Decimal(10, 2) /// 价格
   sourceName          String    @map("source_name") @db.VarChar(50) /// 数据源名称
   sourceUrl           String    @map("source_url") @db.VarChar(255) /// 数据源地址
