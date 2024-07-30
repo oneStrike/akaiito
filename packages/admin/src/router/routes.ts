@@ -14,13 +14,13 @@ const BasicRoutes: RouteRecordRaw[] = [
     path: '/',
     redirect: '/dashboard',
     component: () => import('@/layouts/LayoutMain.vue'),
-    meta: { title: '', hideMenu: true },
+    meta: { title: '', hideMenu: true, order: 1 },
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/DashboardPage.vue'),
-        meta: { title: '仪表盘', icon: 'dashboard', order: 0 }
+        meta: { title: '仪表盘', icon: 'dashboard', order: 1 }
       }
     ]
   },

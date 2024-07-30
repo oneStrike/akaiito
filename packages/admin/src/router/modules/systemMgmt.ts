@@ -6,7 +6,7 @@ export default {
   component: () => import('@/layouts/LayoutMain.vue'),
   meta: {
     title: '系统管理',
-    order: 9999,
+    order: 4,
     icon: 'settings'
   },
   children: [

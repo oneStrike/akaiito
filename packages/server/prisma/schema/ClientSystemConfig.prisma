@@ -1,0 +1,8 @@
+/// 客户端系统配置
+model ClientSystemConfig {
+  id         Int     @id @default(autoincrement()) /// 主键id
+  clientName String? @map("client_name") @db.VarChar(50) /// 客户端名字
+  logo       String? @db.VarChar(200) /// 客户端logo
+
+  @@map("client_system_config")
+}

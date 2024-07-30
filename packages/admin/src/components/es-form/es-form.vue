@@ -173,10 +173,10 @@ defineExpose({
     </template>
     <div class="es-form-button">
       <el-form-item v-if="showBtn">
+        <el-button @click="resetForm">{{ resetText }}</el-button>
         <el-button type="primary" @click="submitForm"
           >{{ submitText }}
         </el-button>
-        <el-button @click="resetForm">{{ resetText }}</el-button>
       </el-form-item>
     </div>
   </el-form>

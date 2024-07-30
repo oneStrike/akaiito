@@ -94,6 +94,7 @@ watch(
     <icon-majest-dots-vertical v-if="name === 'dotsVertical'" />
     <icon-majest-edit-pen-2-line v-if="name === 'edit'" />
     <icon-majest-delete-bin-line v-if="name === 'delete'" />
+    <icon-majest-smartphone-apps-line v-if="name === 'phone'" />
   </el-icon>
 </template>
 

@@ -61,6 +61,19 @@ export abstract class BasicService<T = IterateObject> {
     }
   }
 
+  //更新或插入一条数据
+  async upsert(options: PrismaFindOptions<T>, data: IterateObject) {
+    try {
+      return await this.model.upsert({
+        where: this.handlerWhere(options).where,
+        update: data,
+        create: data
+      })
+    } catch (e) {
+      return null
+    }
+  }
+
   //批量更新数据
   async updateBatch(options: PrismaFindOptions<T>, data: IterateObject) {
     try {

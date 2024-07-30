@@ -5,14 +5,11 @@ defineOptions({
 </script>
 
 <template>
-  <view>
-    <es-icons name="empty" size="200" color="red" />
-    <es-icons name="sunny" size="40" />
-    <es-icons name="smile" size="200" />
-    <es-icons name="moon" size="200" />
-    <es-icons name="bell" size="40" />
-    <es-icons name="frog" size="200" />
-  </view>
+  <es-page>
+    <view class="head-bar">
+      <image src="/static/images/home.png"></image>
+    </view>
+  </es-page>
 </template>
 
 <style scoped></style>

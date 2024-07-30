@@ -11,7 +11,8 @@
       "path": "pages/tabBar/home/home",
       "name": "home",
       "style": {
-        "navigationBarTitleText": "首页"
+        "navigationBarTitleText": "首页",
+        "navigationStyle": "custom"
       }
     },
     {
@@ -34,14 +35,6 @@
       "style": {
         "navigationBarTitleText": "插件",
         "enablePullDownRefresh": true,
-        "backgroundColor": "#ffffff"
-      }
-    },
-    {
-      "path": "pages/plugins/detail",
-      "name": "pluginsDetail",
-      "style": {
-        "navigationBarTitleText": "插件",
         "backgroundColor": "#ffffff"
       }
     }

@@ -17,7 +17,7 @@ export class FunPluginService extends BasicService<FunPlugin> {
       ...query,
       fuzzy: ['name']
     })
-    return pageData.list.map((item) => {
+    pageData.list = pageData.list.map((item) => {
       const res = {
         ...item,
         purchaseCount: item.assistPurchaseCount + item.purchaseCount
@@ -25,6 +25,7 @@ export class FunPluginService extends BasicService<FunPlugin> {
       delete res.assistPurchaseCount
       return res
     })
+    return pageData
   }
 
   async getDetail(id: number) {

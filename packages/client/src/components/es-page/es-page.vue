@@ -31,7 +31,7 @@ const pageStyle = computed(() => {
   <view class="es-page" :style="pageStyle">
     <view
       v-if="borderTop"
-      class="fixed top0 w-full h-px bg-slate-200 z-50"
+      class="fixed left-0 w-full h-px bg-slate-200 z-50"
     ></view>
     <slot></slot>
     <es-empty v-if="empty" />

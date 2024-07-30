@@ -6,7 +6,7 @@ export default {
   component: () => import('@/layouts/LayoutMain.vue'),
   meta: {
     title: '营运管理',
-    order: 9999,
+    order: 2,
     icon: 'planet'
   },
   children: [
@@ -17,6 +17,17 @@ export default {
       meta: {
         title: '功能插件',
         icon: 'puzzle',
+        rules: ['root']
+      }
+    },
+    {
+      name: 'ClientSystemMgmt',
+      path: '/clientSystemMgmt',
+      component: () =>
+        import('@/views/marketing/systemMgmt/systemMgmtPage.vue'),
+      meta: {
+        title: '系统配置',
+        icon: 'settings',
         rules: ['root']
       }
     }

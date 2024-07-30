@@ -100,6 +100,7 @@ declare module 'vue' {
     IconMajestReloadLine: typeof import('~icons/majesticons/reload-line')['default']
     IconMajestServerLine: typeof import('~icons/majesticons/server-line')['default']
     IconMajestSettingsCogLine: typeof import('~icons/majesticons/settings-cog-line')['default']
+    IconMajestSmartphoneAppsLine: typeof import('~icons/majesticons/smartphone-apps-line')['default']
     IconMajestUserLine: typeof import('~icons/majesticons/user-line')['default']
     IconMajestUsersLine: typeof import('~icons/majesticons/users-line')['default']
     IconMdChevronDoubleLeft: typeof import('~icons/line-md/chevron-double-left')['default']
