@@ -13,7 +13,7 @@ export const formOptions: EsFormOptions[] = [
     }
   },
   {
-    field: 'avatar',
+    field: 'logo',
     component: 'Upload',
     props: {
       label: 'logo',

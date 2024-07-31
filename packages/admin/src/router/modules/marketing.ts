@@ -21,12 +21,12 @@ export default {
       }
     },
     {
-      name: 'ClientSystemMgmt',
-      path: '/clientSystemMgmt',
+      name: 'ClientSystemConfig',
+      path: '/clientSystemConfig',
       component: () =>
-        import('@/views/marketing/systemMgmt/systemMgmtPage.vue'),
+        import('@/views/marketing/clientSystemConfig/clientSystemConfig.vue'),
       meta: {
-        title: '系统配置',
+        title: '客户端配置',
         icon: 'settings',
         rules: ['root']
       }

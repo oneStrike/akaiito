@@ -55,7 +55,7 @@ type extended = { errorMessage?: boolean }
 export const httpClient = <T>(
   axiosConfig: AxiosRequestConfig & extended
 ): Promise<T> => {
-  if (axiosConfig.method === 'get') {
+  if (axiosConfig.method?.toLocaleLowerCase() === 'get') {
     return http.get<T>({
       ...axiosConfig
     })
