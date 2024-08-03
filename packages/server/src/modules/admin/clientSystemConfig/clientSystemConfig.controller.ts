@@ -8,7 +8,7 @@ export class ClientSystemConfigController {
   clientSystemConfig: ClientSystemConfigService
 
   @Get('/getClientSystemConfig', { summary: '获取客户端系统配置信息' })
-  async getFunPlugin() {
+  async getClientSystemConfig() {
     return this.clientSystemConfig.findUnique({ id: 1 })
   }
 

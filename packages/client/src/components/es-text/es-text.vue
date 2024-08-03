@@ -15,6 +15,7 @@ export interface EsTextProps {
   text: string
   size?: string | number
   color?: string
+  lineClamp?: number
 }
 
 const props = withDefaults(defineProps<EsTextProps>(), {
@@ -23,10 +24,18 @@ const props = withDefaults(defineProps<EsTextProps>(), {
 })
 
 const textStyle = computed(() => {
-  return {
-    color: colorScheme[props.color] || props.color,
-    fontSize: (sizeScheme[props.size] || props.size) + config.unit
+  const style = [
+    `color: ${colorScheme[props.color] || props.color}`,
+    `fontSize:${(sizeScheme[props.size] || props.size) + config.unit}`
+  ]
+
+  if (props.lineClamp) {
+    style.push(
+      `display: -webkit-box;-webkit-box-orient: vertical; -webkit-line-clamp: ${props.lineClamp};overflow: hidden;text-overflow: ellipsis`
+    )
   }
+
+  return style.join(';')
 })
 </script>
 

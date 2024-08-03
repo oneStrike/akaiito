@@ -41,7 +41,11 @@ const iconStyle = computed(() => {
 </script>
 
 <template>
-  <view :class="colour ? 'icon-colour' : 'icon'" :style="iconStyle"></view>
+  <view
+    :class="colour ? 'icon-colour' : 'icon'"
+    :style="iconStyle"
+    :name="name"
+  ></view>
 </template>
 
 <style lang="scss" scoped>

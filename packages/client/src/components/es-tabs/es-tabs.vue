@@ -37,7 +37,7 @@ const tanChange = (val: { currentIndex: number }) => {
 </script>
 
 <template>
-  <view :style="{ backgroundColor, top }" class="pb-1 shadow-md sticky z-10">
+  <view :style="{ backgroundColor, top }" class="shadow-md sticky z-10">
     <uni-segmented-control
       :current="current"
       :values="tabs"

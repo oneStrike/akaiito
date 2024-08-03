@@ -12,9 +12,9 @@ export const useEs = {
     uni.$es = {
       config: Object.assign(config, conf),
       systemInfo: systemInfo,
-      /* #ifdef MP*/
-      menuRectInfo: uni.getMenuButtonBoundingClientRect(),
-      /* #endif*/
+      menuRectInfo: uni?.getMenuButtonBoundingClientRect
+        ? uni?.getMenuButtonBoundingClientRect()
+        : {},
       platform: (systemInfo.uniPlatform === 'app'
         ? plus.os.name?.toLowerCase()
         : systemInfo.uniPlatform) as Platform,

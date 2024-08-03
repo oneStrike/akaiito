@@ -21,7 +21,7 @@ export interface EsImageProps {
 defineOptions({
   name: 'EsImage',
   options: {
-    // virtualHost: true
+    virtualHost: true
   }
 })
 

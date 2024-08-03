@@ -1,6 +1,9 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'EsPage'
+  name: 'EsPage',
+  options: {
+    virtualHost: true
+  }
 })
 
 export interface EsPageProps {
@@ -33,6 +36,7 @@ const pageStyle = computed(() => {
       v-if="borderTop"
       class="fixed left-0 w-full h-px bg-slate-200 z-50"
     ></view>
+
     <slot></slot>
     <es-empty v-if="empty" />
   </view>
