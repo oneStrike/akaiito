@@ -78,6 +78,7 @@ export class EsRequest {
           if (config.handlerError && responseData?.error) {
             config.handlerError(responseData)
           }
+
           if (responseData?.error && errorPropagation) {
             if (errorModal) {
               useModal({

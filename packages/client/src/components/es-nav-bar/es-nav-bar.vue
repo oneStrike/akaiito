@@ -25,7 +25,6 @@ const props = withDefaults(defineProps<EsNavBarProps>(), {
   safeArea: true,
   backgroundColor: '#ffffff'
 })
-console.log(uni.$es.menuRectInfo, uni.$es.systemInfo)
 const safeAreaWidth = ref('')
 const navBarStyle = computed(() => {
   const { top, height, left } = uni.$es.menuRectInfo

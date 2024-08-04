@@ -1,18 +1,22 @@
 export const useStorage = <T>(key: string, defaultValue?: T) => {
-  const storageValue = ref<T>(defaultValue)
+  const storageValue = ref<T>()
 
   const getStorage = () => {
     storageValue.value = uni.getStorageSync(key)
   }
 
-  const setStorage = (data) => {
+  const setStorage = (data: any) => {
     uni.setStorageSync(key, data)
   }
 
   const removeStorage = () => {
     uni.removeStorageSync(key)
   }
-  getStorage(key)
+  getStorage()
+  if (!storageValue.value && typeof defaultValue !== 'undefined') {
+    storageValue.value = defaultValue
+  }
+
   watch(
     storageValue,
     (newValue) => {

@@ -10,12 +10,11 @@ defineOptions({
 const { storageValue } = useStorage<string[]>('search', [])
 
 const startSearch = (value: string) => {
-  console.log(storageValue.value.includes(value))
-  if (!storageValue.value.includes(value)) {
-    if (storageValue.value.length >= 12) {
-      storageValue.value.shift()
+  if (!storageValue.value!.includes(value)) {
+    if (storageValue.value!.length >= 12) {
+      storageValue.value!.shift()
     }
-    storageValue.value.unshift(value)
+    storageValue.value!.unshift(value)
   }
 }
 
