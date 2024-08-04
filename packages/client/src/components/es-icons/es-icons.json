@@ -13,6 +13,13 @@
     "data": "url(\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m20 20l-4.05-4.05m0 0a7 7 0 1 0-9.9-9.9a7 7 0 0 0 9.9 9.9'/%3E%3C/svg%3E\")",
     "url": "https://api.iconify.design/majesticons:search-line.svg"
   },
+  "delete": {
+    "local": false,
+    "name": "delete",
+    "sourceName": "majesticons:delete-bin-line",
+    "data": "url(\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 7a3 3 0 0 1 3-3v0a3 3 0 0 1 3 3v0M9 7h6M9 7H6m9 0h3m2 0h-2M4 7h2m0 0v11a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7'/%3E%3C/svg%3E\")",
+    "url": "https://api.iconify.design/majesticons:delete-bin-line.svg"
+  },
   "arrowLeft": {
     "local": false,
     "name": "arrowLeft",

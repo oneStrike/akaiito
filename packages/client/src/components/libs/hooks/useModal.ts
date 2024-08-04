@@ -45,7 +45,7 @@ const showUniModal = (options: GlobalModalOptions) => {
   })
 }
 
-const show = (options: GlobalModalOptions) => {
+export const useModal = (options: GlobalModalOptions) => {
   options = Object.assign(defaultOptions, options)
 
   // #ifndef APP-PLUS
@@ -59,8 +59,4 @@ const show = (options: GlobalModalOptions) => {
     new GlobalModal(options).show()
   }
   // #endif
-}
-
-export const useModal = {
-  open: show
 }

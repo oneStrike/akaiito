@@ -80,7 +80,7 @@ export class EsRequest {
           }
           if (responseData?.error && errorPropagation) {
             if (errorModal) {
-              useModal.open({
+              useModal({
                 title: '提示',
                 content: responseData.data.message,
                 showCancel: false,
@@ -96,7 +96,7 @@ export class EsRequest {
         },
         fail: (err) => {
           if (errorModal) {
-            useModal.open({
+            useModal({
               title: '提示',
               content: err.errMsg,
               showCancel: false,
@@ -112,7 +112,7 @@ export class EsRequest {
             uni.hideLoading()
 
             if (res.errMsg.includes('request:fail') && errorModal) {
-              useModal.open({
+              useModal({
                 title: '提示',
                 content: res.errMsg,
                 showCancel: false,

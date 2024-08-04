@@ -37,6 +37,14 @@
         "enablePullDownRefresh": true,
         "backgroundColor": "#ffffff"
       }
+    },
+    {
+      "path": "pages/search/search",
+      "name": "search",
+      "style": {
+        "navigationBarTitleText": "搜索",
+        "backgroundColor": "#ffffff"
+      }
     }
   ],
   "tabBar": {

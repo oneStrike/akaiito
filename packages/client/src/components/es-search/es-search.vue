@@ -5,6 +5,7 @@ export interface EsSearchProps {
   mode?: 'icon' | 'search' | 'booth'
   placeholder?: string | string[]
   icon?: string
+  focus?: boolean
   trim?: boolean
   radius?: number
   backgroundColor?: string
@@ -21,6 +22,7 @@ defineOptions({
 const props = withDefaults(defineProps<EsSearchProps>(), {
   mode: 'search',
   trim: true,
+  focus: false,
   placeholder: '搜索关键词',
   icon: 'search',
   maxLength: 100,
@@ -49,11 +51,13 @@ const searchStyle = computed(() => {
 
 const emits = defineEmits<{
   (event: 'confirm', data: string): void
+  (event: 'click'): void
   (event: 'clear'): void
 }>()
 
 //清空输入框的内容
 const clear = () => {
+  console.log('清空输入框的内容')
   searchValue.value = ''
   emits('clear')
 }
@@ -72,6 +76,7 @@ const confirm = () => {
     v-if="mode !== 'icon'"
     :style="searchStyle"
     class="es-search w-full h-8 bg-neutral-100 rounded-md flex items-center px-2"
+    @click="emits('click')"
   >
     <slot name="icon">
       <es-icons name="search" color="#666666" />
@@ -87,6 +92,7 @@ const confirm = () => {
       type="text"
       :placeholder="typeof placeholder === 'string' ? placeholder : ''"
       class="pl-1 flex-1"
+      :focus="focus"
       :maxlength="maxLength"
       confirm-type="search"
       @confirm="confirm"

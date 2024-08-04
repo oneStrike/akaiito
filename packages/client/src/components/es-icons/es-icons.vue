@@ -21,6 +21,11 @@ const props = withDefaults(defineProps<EsIconProps>(), {
   size: 40,
   color: 'base'
 })
+
+const emits = defineEmits<{
+  (event: 'click'): void
+}>()
+
 const colour = ref(false)
 const iconStyle = computed(() => {
   const iconSize = config.sizeScheme[props.size] ?? props.size
@@ -45,6 +50,7 @@ const iconStyle = computed(() => {
     :class="colour ? 'icon-colour' : 'icon'"
     :style="iconStyle"
     :name="name"
+    @click="emits('click')"
   ></view>
 </template>
 
