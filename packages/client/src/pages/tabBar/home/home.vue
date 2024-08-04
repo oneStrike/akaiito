@@ -10,9 +10,9 @@ defineOptions({
 
 <template>
   <es-page :border-top="false">
-    <es-nav-bar center-text="首页">
+    <es-nav-bar>
       <template #content>
-        <view class="flex items-center">
+        <view class="flex items-center w-full px-4">
           <es-image
             :src="systemConfigStore.systemConfig.logo"
             class="w-24 h-8 mr-2"
