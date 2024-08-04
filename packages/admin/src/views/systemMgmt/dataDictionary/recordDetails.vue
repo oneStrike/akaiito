@@ -4,7 +4,7 @@ import {
   filter,
   formOptions,
   toolbar
-} from '@/views/systemMgmt/dataDictionary/Shared'
+} from '@/views/systemMgmt/dataDictionary/shared'
 
 import type { IterateObject, ResolveListItem } from '@typings/index'
 import type { EsModalProps } from '@/components/es-modal/es-modal.vue'

@@ -1,22 +1,27 @@
 <script setup lang="ts">
 import { useRequest } from '@/hooks/useRequest'
-import { tableColumns, filter } from './Shared'
+import {
+  tableColumns,
+  filter
+} from '@/views/systemMgmt/logsMgmt/loginLogs/shared'
 import { getRequestLogsApi } from '@/apis/logs'
 
 const {
   requestPage,
-  resetPage,
+  resetRequest,
   sortChange,
   requestData,
   loading,
   requestParams
-} = useRequest(getRequestLogsApi)
+} = useRequest(getRequestLogsApi, {
+  path: '/admin/user/login'
+})
 requestPage()
 </script>
 
 <template>
   <div class="main-page" v-loading="loading">
-    <es-toolbar :filter="filter" @query="resetPage" />
+    <es-toolbar :filter="filter" @query="resetRequest" />
     <es-table
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"
@@ -27,7 +32,7 @@ requestPage()
     >
       <template #statusCode="{ row }">
         <el-text class="mx-1" type="success" v-if="row.statusCode === 200"
-          >操作成功
+          >登录成功
         </el-text>
         <el-text class="mx-1" type="danger" v-else
           >{{ row.statusDesc }}

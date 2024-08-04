@@ -12,7 +12,7 @@ import {
   filter,
   toolbar,
   formOptions
-} from '@/views/marketing/funPlugin/Shared'
+} from '@/views/marketing/funPlugin/shared'
 import type { IterateObject } from '@akaiito/typings/src'
 import { useFormTool } from '@/hooks/useForm'
 import { useMessage } from '@/hooks/useFeedback'

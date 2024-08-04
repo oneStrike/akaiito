@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { formOptions } from './Shared'
+import { formOptions } from './shared'
 import {
   getClientSystemConfigApi,
   updateClientSystemConfigApi

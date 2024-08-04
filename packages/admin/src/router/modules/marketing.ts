@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 export default {
   name: 'Marketing',
   path: '/marketing',
-  component: () => import('@/layouts/LayoutMain.vue'),
+  component: () => import('@/layouts/layoutMain.vue'),
   meta: {
     title: '营运管理',
     order: 2,
@@ -13,7 +13,7 @@ export default {
     {
       name: 'FunPlugin',
       path: '/funPlugin',
-      component: () => import('@/views/marketing/funPlugin/FunPluginPage.vue'),
+      component: () => import('@/views/marketing/funPlugin/funPluginPage.vue'),
       meta: {
         title: '功能插件',
         icon: 'puzzle',

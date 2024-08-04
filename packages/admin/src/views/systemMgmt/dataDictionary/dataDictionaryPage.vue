@@ -11,12 +11,12 @@ import {
   toolbar,
   filter,
   formOptions
-} from '@/views/systemMgmt/dataDictionary/Shared'
+} from '@/views/systemMgmt/dataDictionary/shared'
 import { useConfirm, useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/enum/prompts'
 import { useRequest } from '@/hooks/useRequest'
 import type { ResolveListItem } from '@akaiito/typings/src'
-import RecordDetails from '@/views/systemMgmt/dataDictionary/RecordDetails.vue'
+import RecordDetails from '@/views/systemMgmt/dataDictionary/recordDetails.vue'
 
 const toolbarOptions = toolbar
 
@@ -102,8 +102,8 @@ const selectionItems = ref<TableItem[] | null>(null)
         <el-link
           type="primary"
           @click="(detailModalShow = true), (currentRow = row)"
-          >{{ row.name }}</el-link
-        >
+          >{{ row.name }}
+        </el-link>
       </template>
       <template #status="{ row }">
         <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids />

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import LayoutContent from '@/layouts/components/LayoutContent.vue'
-import LayoutHeader from '@/layouts/components/LayoutHeader.vue'
-import LayoutAside from '@/layouts/components/LayoutAside.vue'
-import LayoutTabs from '@/layouts/components/LayoutTabs.vue'
+import layoutContent from '@/layouts/components/layoutContent.vue'
+import layoutHeader from '@/layouts/components/layoutHeader.vue'
+import layoutAside from '@/layouts/components/layoutAside.vue'
+import layoutTabs from '@/layouts/components/layoutTabs.vue'
 </script>
 <template>
   <div class="">

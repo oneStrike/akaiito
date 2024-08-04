@@ -7,19 +7,19 @@ const BasicRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/login/LoginPage.vue'), // 登录页组件
+    component: () => import('@/views/login/loginPage.vue'), // 登录页组件
     meta: { title: '登录', hideMenu: true } // 元数据，用于路由守卫等
   },
   {
     path: '/',
     redirect: '/dashboard',
-    component: () => import('@/layouts/LayoutMain.vue'),
+    component: () => import('@/layouts/layoutMain.vue'),
     meta: { title: '', hideMenu: true, order: 1 },
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/DashboardPage.vue'),
+        component: () => import('@/views/dashboard/dashboardPage.vue'),
         meta: { title: '仪表盘', icon: 'dashboard', order: 1 }
       }
     ]
@@ -27,13 +27,13 @@ const BasicRoutes: RouteRecordRaw[] = [
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import('@/views/shared/NotFoundPage.vue'), // 404页组件
+    component: () => import('@/views/shared/notFoundPage.vue'), // 404页组件
     meta: { title: '404', hideMenu: true } // 元数据，用于路由守卫等
   },
   {
     path: '/redirect',
     name: 'redirect',
-    component: () => import('@/layouts/LayoutMain.vue'),
+    component: () => import('@/layouts/layoutMain.vue'),
     meta: { hideMenu: true },
     beforeEnter: (to) => {
       const { query } = to

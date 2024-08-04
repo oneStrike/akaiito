@@ -6,7 +6,7 @@ import {
   formOptions,
   tableColumns,
   pwdFormOptions
-} from '@/views/systemMgmt/userMgmt/Shared'
+} from '@/views/systemMgmt/userMgmt/shared'
 import {
   createAdminUserApi,
   deleteAdminUserApi,
