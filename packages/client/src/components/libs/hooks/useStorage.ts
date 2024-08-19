@@ -1,8 +1,10 @@
-export const useStorage = <T>(key: string, defaultValue?: T) => {
+export const useStorage = <T>(key: string, defaultValue?: T, init = true) => {
   const storageValue = ref<T>()
 
   const getStorage = () => {
-    storageValue.value = uni.getStorageSync(key)
+    const result = uni.getStorageSync(key)
+    storageValue.value = result
+    return result
   }
 
   const setStorage = (data: any) => {
@@ -12,7 +14,9 @@ export const useStorage = <T>(key: string, defaultValue?: T) => {
   const removeStorage = () => {
     uni.removeStorageSync(key)
   }
-  getStorage()
+
+  init && getStorage()
+
   if (!storageValue.value && typeof defaultValue !== 'undefined') {
     storageValue.value = defaultValue
   }
@@ -22,13 +26,14 @@ export const useStorage = <T>(key: string, defaultValue?: T) => {
     (newValue) => {
       setStorage(newValue)
     },
-    { deep: true, immediate: true }
+    { deep: true }
   )
 
   return {
+    key,
     storageValue,
-    setStorage,
-    getStorage,
-    removeStorage
+    set: setStorage,
+    get: getStorage,
+    remove: removeStorage
   }
 }

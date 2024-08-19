@@ -7,18 +7,31 @@ export default {
   meta: {
     title: '内容管理',
     order: 2,
-    icon: 'settings'
+    icon: 'book'
   },
   children: [
     {
-      name: 'Profile',
-      path: '/profile',
+      name: 'ContentMgmtPage',
+      path: '/contentMgmt/contentMgmt',
+      component: () =>
+        import('@/views/contentMgmt/contentMgmt/contentMgmt.vue'),
+      meta: {
+        title: '内容列表',
+        icon: 'textbox',
+        rules: ['root'],
+        order: 2
+      }
+    },
+    {
+      name: 'ClassifyMgmtPage',
+      path: '/contentMgmt/classifyMgmtPage',
       component: () =>
         import('@/views/contentMgmt/classifyMgmt/classifyMgmtPage.vue'),
       meta: {
         title: '分类管理',
-        icon: 'user',
-        rules: ['root']
+        icon: 'scale',
+        rules: ['root'],
+        order: 2
       }
     }
   ]

@@ -95,6 +95,9 @@ watch(
     <icon-majest-edit-pen-2-line v-if="name === 'edit'" />
     <icon-majest-delete-bin-line v-if="name === 'delete'" />
     <icon-majest-smartphone-apps-line v-if="name === 'phone'" />
+    <icon-majest-scale-light-line v-if="name === 'scale'" />
+    <icon-majest-book-open-line v-if="name === 'book'" />
+    <icon-majest-textbox-line v-if="name === 'textbox'" />
   </el-icon>
 </template>
 

@@ -75,7 +75,7 @@ const confirm = () => {
   <view
     v-if="mode !== 'icon'"
     :style="searchStyle"
-    class="es-search w-full h-8 bg-neutral-100 rounded-md flex items-center px-2"
+    class="es-search w-full h-9 bg-neutral-100 rounded-md flex items-center px-2"
     @click="emits('click')"
   >
     <slot name="icon">

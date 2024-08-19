@@ -2,6 +2,7 @@
 import EsSearch from '@/components/es-search/es-search.vue'
 import { useStorage } from '@/components/libs/hooks/useStorage'
 import { useModal } from '@/components/libs/hooks/useModal'
+import { useRouter } from '@/hooks/useRouter'
 
 defineOptions({
   name: 'SearchPage'
@@ -37,7 +38,7 @@ const clearHistory = () => {
     </view>
     <view class="mt-6">
       <es-text text="热门搜索" />
-      <view class="search-item mt-2">是搜索</view>
+      <view class="search-item mt-2">是搜1索</view>
     </view>
     <view class="mt-6">
       <view class="flex justify-between">

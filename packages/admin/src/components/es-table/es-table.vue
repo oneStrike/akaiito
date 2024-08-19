@@ -3,6 +3,7 @@ import type { TableColumnInstance } from 'element-plus'
 import type { IterateObject } from '@typings/index'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
+  prop?: string
   slotName?: string
   defaultValue?: string
 })[]
@@ -161,12 +162,23 @@ defineExpose({
           <template v-else-if="item.type !== 'index'">
             {{
               item.formatter
-                ? item.formatter(row, column, row[item.prop], $index)
-                : row[item.prop] || item.defaultValue || defaultValue
+                ? item.formatter(
+                    row,
+                    column,
+                    item.prop ? row[item.prop] : null,
+                    $index
+                  )
+                : item.prop
+                  ? row[item.prop]
+                  : item.defaultValue || defaultValue
             }}
           </template>
         </template>
       </el-table-column>
+
+      <template #empty>
+        <el-empty description="暂无数据" />
+      </template>
     </el-table>
     <div class="w-full flex justify-end pt-3 pr-3" ref="paginationRef">
       <el-pagination

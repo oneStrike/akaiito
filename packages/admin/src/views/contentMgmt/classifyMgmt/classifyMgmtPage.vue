@@ -1,11 +1,7 @@
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts"></script>
 
-export default defineComponent({
-  name: 'classifyMgmtPage'
-})
-</script>
-
-<template></template>
+<template>
+  <div class="main-page">分类管理</div>
+</template>
 
 <style scoped></style>

@@ -23,6 +23,10 @@ const props = withDefaults(defineProps<EsTextProps>(), {
   size: 'base'
 })
 
+const emits = defineEmits<{
+  (event: 'click'): void
+}>()
+
 const textStyle = computed(() => {
   const style = [
     `color: ${colorScheme[props.color] || props.color}`,
@@ -40,5 +44,7 @@ const textStyle = computed(() => {
 </script>
 
 <template>
-  <text class="w-fit" :style="textStyle">{{ text }}</text>
+  <text class="w-fit" :style="textStyle" @click="emits('click')">{{
+    text
+  }}</text>
 </template>
