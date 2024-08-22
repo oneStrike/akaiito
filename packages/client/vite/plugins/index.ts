@@ -13,19 +13,19 @@ export async function VitePlugins() {
   const vitePlugins: (Plugin | Plugin[])[] = [UnoCSS(), uni()]
 
   //打包分析视图
-  vitePlugins.push(visualizer())
+  //vitePlugins.push(visualizer())
 
   //自动导入hook等
   vitePlugins.push(autoImport())
 
   //打包压缩
-  vitePlugins.push(Compression())
+  //vitePlugins.push(Compression())
 
   //自动注册组件
-  // vitePlugins.push(AutoRegistryComponent())
+  vitePlugins.push(AutoRegistryComponent())
 
   //打包进度条
-  vitePlugins.push(progress() as Plugin)
+  //vitePlugins.push(progress() as Plugin)
 
   vitePlugins.push(
     ViteRestart({

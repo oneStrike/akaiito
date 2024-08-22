@@ -51,7 +51,6 @@ export class EsRequest {
     }
 
     const baseUrl = config.baseUrl || this.baseUrl
-
     return new Promise((resolve, reject) => {
       uni.request({
         url: baseUrl + config.url,

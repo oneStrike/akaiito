@@ -13,7 +13,8 @@ export const useSystemConfigStore = defineStore('useSystemConfig', {
   },
   actions: {
     async getSystemConfig() {
-      this.systemConfig = await getClientSystemConfigApi()
+      this.systemConfig = (await getClientSystemConfigApi()) || {}
+      console.log(this.systemConfig)
     }
   }
 })

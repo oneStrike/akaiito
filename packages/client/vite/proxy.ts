@@ -5,9 +5,9 @@ export const ViteProxy = (env: IterateObject<string>): ServerOptions => {
   const proxyKeys = JSON.parse(env.VITE_PROXY_KEY)
   const proxyObj = {}
   proxyKeys.forEach((item: string) => {
-    const [key, rewrite = ''] = item.split('.')
+    const [url, key, rewrite = ''] = item
     proxyObj[key] = {
-      target: env.VITE_PROXY_PATH,
+      target: url,
       changeOrigin: true,
       rewrite: (path: string) => path.replace(key, rewrite)
     }
