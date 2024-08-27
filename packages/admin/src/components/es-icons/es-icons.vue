@@ -98,6 +98,9 @@ watch(
     <icon-majest-scale-light-line v-if="name === 'scale'" />
     <icon-majest-book-open-line v-if="name === 'book'" />
     <icon-majest-textbox-line v-if="name === 'textbox'" />
+    <icon-majest-cube-line v-if="name === 'cube'" />
+
+    <icon-tabler-user-edit v-if="name === 'userEdit'" />
   </el-icon>
 </template>
 

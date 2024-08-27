@@ -18,8 +18,5 @@ declare module 'vue' {
     EsSwiper: typeof import('./../components/es-swiper/es-swiper.vue')['default']
     EsTabs: typeof import('./../components/es-tabs/es-tabs.vue')['default']
     EsText: typeof import('./../components/es-text/es-text.vue')['default']
-    UniLoadMore: typeof import('@dcloudio/uni-ui/lib/uni-load-more/uni-load-more.vue')['default']
-    UniSegmentedControl: typeof import('@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue')['default']
-    UniTag: typeof import('@dcloudio/uni-ui/lib/uni-tag/uni-tag.vue')['default']
   }
 }

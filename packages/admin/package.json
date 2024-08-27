@@ -32,6 +32,7 @@
     "@akaiito/typings": "workspace:*",
     "@iconify-json/line-md": "^1.1.37",
     "@iconify-json/majesticons": "^1.1.11",
+    "@iconify-json/tabler": "^1.1.120",
     "@rushstack/eslint-patch": "^1.10.2",
     "@tsconfig/node18": "^18.2.4",
     "@types/lodash": "^4.17.1",

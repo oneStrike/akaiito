@@ -2,7 +2,6 @@
 import EsSearch from '@/components/es-search/es-search.vue'
 import { useStorage } from '@/components/libs/hooks/useStorage'
 import { useModal } from '@/components/libs/hooks/useModal'
-import { useRouter } from '@/hooks/useRouter'
 
 defineOptions({
   name: 'SearchPage'

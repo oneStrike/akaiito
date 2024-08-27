@@ -16,7 +16,7 @@ export const AutoRegistryComponent = () => {
           md: 'line-md',
           bx: 'bx'
         },
-        enabledCollections: ['line-md', 'majesticons'],
+        enabledCollections: ['line-md', 'majesticons', 'tabler'],
         customCollections: ['akaiito']
       })
     ]

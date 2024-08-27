@@ -8,10 +8,6 @@ defineOptions({
   name: 'TabBarHomePage'
 })
 
-onShow(() => {
-  console.log(useRouter()?.getQuery())
-})
-
 const searchPage = () => {
   useRouter()?.navigateTo({
     name: 'search'

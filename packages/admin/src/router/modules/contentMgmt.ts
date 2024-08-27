@@ -23,6 +23,18 @@ export default {
       }
     },
     {
+      name: 'AuthorsMgmtPage',
+      path: '/contentMgmt/authorsMgmt',
+      component: () =>
+        import('@/views/contentMgmt/authorsMgmt/authorsMgmtPage.vue'),
+      meta: {
+        title: '作者管理',
+        icon: 'userEdit',
+        rules: ['root'],
+        order: 2
+      }
+    },
+    {
       name: 'ClassifyMgmtPage',
       path: '/contentMgmt/classifyMgmtPage',
       component: () =>
@@ -31,7 +43,19 @@ export default {
         title: '分类管理',
         icon: 'scale',
         rules: ['root'],
-        order: 2
+        order: 3
+      }
+    },
+    {
+      name: 'modelMgmtPage',
+      path: '/contentMgmt/modelMgmtPage',
+      component: () =>
+        import('@/views/contentMgmt/modelMgmt/modelMgmtPage.vue'),
+      meta: {
+        title: '模型管理',
+        icon: 'cube',
+        rules: ['root'],
+        order: 4
       }
     }
   ]
