@@ -12,7 +12,7 @@ import * as validate from '@midwayjs/validate'
 import * as info from '@midwayjs/info'
 import { join } from 'path'
 import * as captcha from '@midwayjs/captcha'
-import * as upload from '@midwayjs/upload'
+import * as busboy from '@midwayjs/busboy'
 import * as staticFile from '@midwayjs/static-file'
 import { ReportMiddleware } from './middleware/report.middleware'
 import { ExceptionFilter } from './filter/exception.filter'
@@ -23,7 +23,7 @@ import { DecoratorService } from '@/basic/service/decorator.service'
 @Configuration({
   imports: [
     koa,
-    upload,
+    busboy,
     captcha,
     validate,
     staticFile,

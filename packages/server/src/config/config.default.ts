@@ -16,7 +16,7 @@ export default {
       noDefaults: false
     }
   },
-  upload: uploadConfig,
+  busboy: uploadConfig,
   staticFile: staticFileConfig,
   projectConfig: utils.getProjectConfig()
 } as MidwayConfig
