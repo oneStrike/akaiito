@@ -5,8 +5,8 @@ import {
   validateNumberLess,
   validatePwd,
   validateString
-} from '../../../../utils/validate'
-import { BasicIdDto, BasicPageDto } from '../../../../basic/dto/basic.dto'
+} from '@/utils/validate'
+import { BasicIdDto, BasicPageDto } from '@/basic/dto/basic.dto'
 
 export class UserDto {
   @Rule(requiredNumber)

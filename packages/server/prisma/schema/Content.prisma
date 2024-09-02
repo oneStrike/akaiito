@@ -7,7 +7,7 @@ model ContentCategories {
   Content    Content   @relation(fields: [contentId], references: [id])
 
   @@id([contentId, categoryId])
-  @@map("content_categories")
+  @@map("content_categorie")
 }
 
 /// 内容
@@ -24,7 +24,7 @@ model Content {
   Author      Author?             @relation(fields: [authorId], references: [id])
   authorId    Int?
 
-  @@map("contents")
+  @@map("content")
 }
 
 /// 分类
@@ -39,7 +39,7 @@ model Category {
   updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
   contents    Content[]
 
-  @@map("categories")
+  @@map("categorie")
 }
 
 /// 作者
@@ -55,5 +55,5 @@ model Author {
   updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
   contents    Content[]
 
-  @@map("authors")
+  @@map("author")
 }

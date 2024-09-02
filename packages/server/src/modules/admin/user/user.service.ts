@@ -1,7 +1,7 @@
 import { App, Inject, Provide } from '@midwayjs/core'
 import { PrismaClient, AdminUser } from '@prisma/client'
-import { BasicService } from '../../../basic/service/basic.service'
-import { utils } from '../../../utils'
+import { BasicService } from '@/basic/service/basic.service'
+import { utils } from '@/utils'
 import {
   CreateUserDto,
   UpdateUserPwd,
