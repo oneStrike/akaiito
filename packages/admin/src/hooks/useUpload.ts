@@ -1,24 +1,26 @@
-import { httpClient } from '@/utils/request'
-import { useUserStore } from '@/stores/modules/user'
-import type { UploadFiles } from 'element-plus'
-import type { UploadFileTypings } from '@/apis/upload.d'
 import { useMessage } from '@/hooks/useFeedback'
+import { useUserStore } from '@/stores/modules/user'
+import { httpClient } from '@/utils/request'
+import type { UploadFileTypings } from '@/apis/upload.d'
+import type { UploadFiles } from 'element-plus'
 
 type files = string | Blob
-export const useUpload = async (
+type UploadFileRes = UploadFileTypings['Response']
+
+export async function useUpload(
   files: UploadFiles | files | files[],
-  scenario: string
+  scenario: string,
 ): Promise<{
-  success: UploadFileTypings['Response'] | []
+  success: UploadFileRes | []
   error: any[]
-}> => {
+}> {
   return new Promise((resolve) => {
     const target = Array.isArray(files) ? files : [files]
-    const successFile = []
-    const errorFile = []
+    const successFile: UploadFileRes = []
+    const errorFile: (typeof target)[number][] = []
     target.forEach((item) => {
-      console.log(item)
       const formData = new FormData()
+      // @ts-expect-error ignore
       const file = item?.raw ?? item
       formData.append('file', file)
       formData.append('scenario', scenario)
@@ -31,30 +33,32 @@ export const useUpload = async (
         errorMessage: false,
         headers: {
           'Content-Type': 'multipart/form-data',
-          authorization: useUserStore().token.accessToken
-        }
+          'authorization': useUserStore().token.accessToken,
+        },
       })
-        .then((res: UploadFileTypings['Response']) => {
-          successFile.push(...res)
+        .then((res) => {
+          const result = res as UploadFileRes
+          successFile.push(...result)
           if (successFile.length + errorFile.length === target.length) {
             if (successFile.length) {
               useMessage.success('上传成功')
               resolve({
                 success: successFile,
-                error: errorFile
+                error: errorFile,
               })
             }
           }
         })
-        .catch((err) => {
+        .catch(() => {
           errorFile.push(item)
+          // @ts-expect-error ignore
           useMessage.error(`【${item.name}】上传失败`)
           if (successFile.length + errorFile.length === target.length) {
             if (successFile.length) {
               useMessage.success('上传成功')
               resolve({
                 success: successFile,
-                error: errorFile
+                error: errorFile,
               })
             }
           }

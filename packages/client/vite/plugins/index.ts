@@ -5,7 +5,6 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import ViteRestart from 'vite-plugin-restart'
 import { autoImport } from './import'
 import { Compression } from './compression'
-import progress from 'vite-plugin-progress'
 import { AutoRegistryComponent } from './components'
 
 export async function VitePlugins() {
@@ -15,7 +14,7 @@ export async function VitePlugins() {
   //打包分析视图
   vitePlugins.push(visualizer())
 
-  //自动导入hook等
+  // 自动导入hook等
   vitePlugins.push(autoImport())
 
   //打包压缩
@@ -23,9 +22,6 @@ export async function VitePlugins() {
 
   //自动注册组件
   vitePlugins.push(AutoRegistryComponent())
-
-  //打包进度条
-  vitePlugins.push(progress())
 
   vitePlugins.push(
     ViteRestart({

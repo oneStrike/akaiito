@@ -1,6 +1,6 @@
-import 'vue-router'
+import type dayjs from 'dayjs'
 import 'vue'
-import dayjs from 'dayjs'
+import 'vue-router'
 
 export {}
 declare module 'vue-router' {

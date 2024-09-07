@@ -7,7 +7,7 @@ export default {
   meta: {
     title: '营运管理',
     order: 2,
-    icon: 'planet'
+    icon: 'planet',
   },
   children: [
     {
@@ -17,8 +17,8 @@ export default {
       meta: {
         title: '功能插件',
         icon: 'puzzle',
-        rules: ['root']
-      }
+        rules: ['root'],
+      },
     },
     {
       name: 'ClientSystemConfig',
@@ -28,8 +28,8 @@ export default {
       meta: {
         title: '客户端配置',
         icon: 'settings',
-        rules: ['root']
-      }
-    }
-  ]
+        rules: ['root'],
+      },
+    },
+  ],
 } as RouteRecordRaw

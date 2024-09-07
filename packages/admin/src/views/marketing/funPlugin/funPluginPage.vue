@@ -1,36 +1,33 @@
 <script setup lang="ts">
-import { useRequest } from '@/hooks/useRequest'
 import {
-  getFunPluginApi,
   createFunPluginApi,
-  updateFunPluginStatusApi,
+  deleteFunPluginApi,
+  getFunPluginApi,
   updateFunPluginApi,
-  deleteFunPluginApi
+  updateFunPluginStatusApi,
 } from '@/apis/funPlugin'
-import type { GetFunPluginTypings } from '@/apis/funPlugin.d'
-import {
-  filter,
-  toolbar,
-  formOptions
-} from '@/views/marketing/funPlugin/shared'
-import type { IterateObject } from '@akaiito/typings/src'
-import { useFormTool } from '@/hooks/useForm'
 import { useMessage } from '@/hooks/useFeedback'
+import { useFormTool } from '@/hooks/useForm'
+import { useRequest } from '@/hooks/useRequest'
+import { filter, formOptions, toolbar } from '@/views/marketing/funPlugin/shared'
+import type { GetFunPluginTypings } from '@/apis/funPlugin.d'
+import type { IterateObject } from '@akaiito/typings/src'
 
 type record = GetFunPluginTypings['Response']['data'][number]
 
 const formScheme = useFormTool(formOptions)
 const formModal = ref(false)
-const currentRow = ref<record>()
-const { request, loading, resetRequest, requestData } =
-  useRequest(getFunPluginApi)
+const currentRow = ref<record | null>()
+const { request, loading, resetRequest, requestData } = useRequest(getFunPluginApi)
 request()
 
 const pluginType = ['', '小说', '漫画', '图片', '视频']
 
-/*新增插件信息*/
-const openEditFormModal = (item: record) => {
-  if (!item.isFree) item.price = parseFloat(item.price) as unknown as string
+/* 新增插件信息 */
+function openEditFormModal(item: record) {
+  if (!item.isFree) {
+    item.price = Number.parseFloat(item.price) as unknown as string
+  }
   formScheme.toggleDisplay(['price', 'assistPurchaseCount'], item.isFree === 0)
   currentRow.value = item
   formModal.value = true
@@ -38,8 +35,8 @@ const openEditFormModal = (item: record) => {
 
 formScheme.toggleDisplay(['price', 'assistPurchaseCount'], false)
 
-/*新增编辑插件信息*/
-const submitForm = async (val) => {
+/* 新增编辑插件信息 */
+async function submitForm(val: any) {
   if (currentRow.value?.id) {
     val.id = currentRow.value.id
     await updateFunPluginApi(val)
@@ -48,19 +45,19 @@ const submitForm = async (val) => {
   }
   formModal.value = false
   useMessage.success({
-    message: currentRow.value?.id ? '修改成功!' : '新增成功！'
+    message: currentRow.value?.id ? '修改成功!' : '新增成功！',
   })
   currentRow.value = null
   request()
 }
 
-const formChange = (val: IterateObject) => {
+function formChange(val: IterateObject) {
   formScheme.toggleDisplay(['price', 'assistPurchaseCount'], val.isFree === 0)
 }
 </script>
 
 <template>
-  <div class="main-page pb-6" v-loading="loading">
+  <div v-loading="loading" class="main-page pb-6">
     <es-toolbar
       :toolbar="toolbar"
       :filter="filter"
@@ -69,20 +66,16 @@ const formChange = (val: IterateObject) => {
     />
 
     <el-space
+      v-if="requestData && requestData.data && requestData.data.length"
       wrap
       alignment="stretch"
       size="default"
-      v-if="requestData && requestData.data && requestData.data.length"
       class="overflow-auto"
     >
-      <el-card shadow="hover" v-for="item in requestData.data" :key="item.id">
+      <el-card v-for="item in requestData.data" :key="item.id" shadow="hover">
         <div class="flex justify-between w-260px">
           <div class="flex">
-            <el-image
-              :src="item.avatar"
-              fit="cover"
-              class="w12 h12 rounded-md mr-2"
-            ></el-image>
+            <el-image :src="item.avatar" fit="cover" class="w12 h12 rounded-md mr-2" />
             <div class="flex flex-col flex-auto">
               <div class="flex justify-between">
                 <span class="truncate w-170px">{{ item.name }}</span>
@@ -113,14 +106,14 @@ const formChange = (val: IterateObject) => {
         </div>
         <el-divider />
         <el-descriptions :column="1">
-          <el-descriptions-item label="插件类型："
-            >{{ pluginType[item.type] }}
+          <el-descriptions-item label="插件类型：">
+            {{ pluginType[item.type] }}
           </el-descriptions-item>
-          <el-descriptions-item label="出售价格："
-            >{{ item.isFree ? '免费' : item.price }}
+          <el-descriptions-item label="出售价格：">
+            {{ item.isFree ? '免费' : item.price }}
           </el-descriptions-item>
-          <el-descriptions-item label="购买人数："
-            >{{ item.purchaseCount }}
+          <el-descriptions-item label="购买人数：">
+            {{ item.purchaseCount }}
           </el-descriptions-item>
         </el-descriptions>
       </el-card>

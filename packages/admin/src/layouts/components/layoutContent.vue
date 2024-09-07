@@ -6,7 +6,7 @@ const layoutStore = useLayoutStore()
 
 <template>
   <router-view v-slot="{ Component, route }" class="h-full rounded-md">
-    <transition :name="layoutStore.pageAnim + '-transform'" mode="out-in">
+    <transition :name="`${layoutStore.pageAnim}-transform`" mode="out-in">
       <component :is="Component" :key="route.fullPath" />
     </transition>
   </router-view>

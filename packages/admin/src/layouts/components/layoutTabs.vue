@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router'
-import type { IterateObject } from '@typings/index'
 import { SessionCacheEnum } from '@/enum/cache'
+import type { IterateObject } from '@typings/index'
+import type { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
@@ -11,11 +11,11 @@ const defaultHistory = { name: 'Dashboard', title: '工作台' }
 
 const routerHistory = useSessionStorage<IterateObject[]>(
   SessionCacheEnum.HISTORY_ROUTER,
-  [defaultHistory]
+  [defaultHistory],
 )
 
-//移除指定路由
-const removeRouter = (name: any) => {
+// 移除指定路由
+function removeRouter(name: any) {
   if (routerHistory.value.length === 2) {
     removeAllRouter()
     return
@@ -30,58 +30,58 @@ const removeRouter = (name: any) => {
   routerHistory.value.splice(idx, 1)
 }
 
-//移除左侧
-const removeLeft = () => {
+// 移除左侧
+function removeLeft() {
   const idx = findIdx(currentRouter.value)
   routerHistory.value.splice(1, idx - 1)
 }
-//移除右侧
-const removeRight = () => {
+// 移除右侧
+function removeRight() {
   const idx = findIdx(currentRouter.value)
   routerHistory.value.splice(idx + 1)
 }
 
-//移除所有路由
-const removeAllRouter = () => {
+// 移除所有路由
+function removeAllRouter() {
   routerHistory.value = [defaultHistory]
   navigation(defaultHistory.name)
 }
 
-//查找当前所在的所以
-const findIdx = (name = route.name) => {
+// 查找当前所在的所以
+function findIdx(name = route.name) {
   return routerHistory.value.findIndex((item) => item.name === name)
 }
-//判断是否已经存在
-const isExits = (name: RouteRecordName) => {
+// 判断是否已经存在
+function isExits(name: RouteRecordName) {
   return !!routerHistory.value.find((item) => item.name === name)
 }
 
-//添加历史记录
-const addRouter = (route: RouteLocationNormalizedLoaded) => {
+// 添加历史记录
+function addRouter(route: RouteLocationNormalizedLoaded) {
   if (route.name === 'redirect') return
   routerHistory.value.push({
     name: route.name!,
-    title: route.meta.title
+    title: route.meta.title,
   })
 }
 
-//刷新当前路由
+// 刷新当前路由
 const reloadFlag = ref(false)
-const reload = () => {
+function reload() {
   if (reloadFlag.value) return
   reloadFlag.value = true
   router.replace({
     name: 'redirect',
     query: {
-      path: router.currentRoute.value.fullPath
-    }
+      path: router.currentRoute.value.fullPath,
+    },
   })
   window.setTimeout(() => {
     reloadFlag.value = false
   }, 1000)
 }
 
-const navigation = (name: any) => {
+function navigation(name: any) {
   router.push({ name })
 }
 
@@ -95,7 +95,7 @@ watch(
     }
     currentRouter.value = val.name
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 </script>
 
@@ -106,7 +106,7 @@ watch(
       type="card"
       class="flex-auto h-40px"
       @tab-remove="removeRouter"
-      @tabChange="navigation"
+      @tab-change="navigation"
     >
       <el-tab-pane
         v-for="item in routerHistory"
@@ -130,32 +130,32 @@ watch(
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item
-              @click="removeRouter(currentRouter)"
               :disabled="currentRouter === defaultHistory.name"
+              @click="removeRouter(currentRouter)"
             >
               <es-icons name="multiply" />
               <span>关闭当前</span>
             </el-dropdown-item>
             <el-dropdown-item
-              @click="removeLeft"
               :disabled="
                 currentRouter === defaultHistory.name ||
                 findIdx(currentRouter) === 1
               "
+              @click="removeLeft"
             >
               <es-icons name="chevronLeft" />
               <span>关闭左侧</span>
             </el-dropdown-item>
             <el-dropdown-item
-              @click="removeRight"
               :disabled="findIdx(currentRouter) + 1 === routerHistory.length"
+              @click="removeRight"
             >
               <es-icons name="chevronRight" />
               <span>关闭右侧</span>
             </el-dropdown-item>
             <el-dropdown-item
-              @click="removeAllRouter"
               :disabled="currentRouter === defaultHistory.name"
+              @click="removeAllRouter"
             >
               <es-icons name="code" />
               <span>关闭所有</span>

@@ -1,35 +1,35 @@
-import type {
-  EsToolbarProps,
-  ToolbarFilter
-} from '@/components/es-toolbar/es-toolbar.vue'
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
+import { useValidate } from '@/hooks/useValidate'
 import { utils } from '@/utils'
 import type { EsFormOptions } from '@/components/es-form/es-form.vue'
-import { useValidate } from '@/hooks/useValidate'
+import type { EsTableColumn } from '@/components/es-table/es-table.vue'
+import type {
+  EsToolbarProps,
+  ToolbarFilter,
+} from '@/components/es-toolbar/es-toolbar.vue'
 
 export const tableColumns: EsTableColumn = [
   {
     label: '用户名',
     prop: 'username',
     align: 'center',
-    slotName: 'username'
+    slotName: 'username',
   },
   {
     label: '手机号',
     prop: 'mobile',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '角色',
     prop: 'isRoot',
     align: 'center',
-    slotName: 'isRoot'
+    slotName: 'isRoot',
   },
   {
     label: '状态',
     prop: 'status',
     align: 'center',
-    slotName: 'status'
+    slotName: 'status',
   },
   {
     label: '创建时间',
@@ -38,14 +38,14 @@ export const tableColumns: EsTableColumn = [
     formatter: utils.formatter,
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt'
+    sortBy: 'createdAt',
   },
   {
     label: '操作',
     prop: 'action',
     align: 'center',
-    slotName: 'action'
-  }
+    slotName: 'action',
+  },
 ]
 
 export const filter: ToolbarFilter = [
@@ -59,14 +59,14 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: '启用',
-          value: 1
+          value: 1,
         },
         {
           label: '禁用',
-          value: 0
-        }
-      ]
-    }
+          value: 0,
+        },
+      ],
+    },
   },
   {
     field: 'isRoot',
@@ -78,30 +78,30 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: '超级管理员',
-          value: 1
+          value: 1,
         },
         {
           label: '普通管理员',
-          value: 0
-        }
-      ]
-    }
+          value: 0,
+        },
+      ],
+    },
   },
   {
     field: 'username',
     component: 'Input',
     componentProps: {
-      placeholder: '用户名'
-    }
+      placeholder: '用户名',
+    },
   },
   {
     field: 'mobile',
     component: 'Input',
     componentProps: {
       placeholder: '手机号',
-      maxlength: 11
-    }
-  }
+      maxlength: 11,
+    },
+  },
 ]
 
 export const toolbar: EsToolbarProps['toolbar'] = [
@@ -110,9 +110,9 @@ export const toolbar: EsToolbarProps['toolbar'] = [
     label: '添加',
     value: 'add',
     props: {
-      type: 'primary'
-    }
-  }
+      type: 'primary',
+    },
+  },
 ]
 
 export const formOptions: EsFormOptions[] = [
@@ -120,26 +120,26 @@ export const formOptions: EsFormOptions[] = [
     field: 'avatar',
     component: 'Upload',
     props: {
-      label: '头像'
+      label: '头像',
     },
     componentProps: {
       placeholder: '请上传头像',
       scenario: 'adminUserAvatar',
       multiple: true,
-      fileType: 'image'
-    }
+      fileType: 'image',
+    },
   },
   {
     field: 'username',
     component: 'Input',
     props: {
       label: '用户名',
-      rules: [{ required: true, message: '请输入原密码' }]
+      rules: [{ required: true, message: '请输入原密码' }],
     },
     componentProps: {
       placeholder: '请填写用户名',
-      maxlength: 50
-    }
+      maxlength: 50,
+    },
   },
   {
     field: 'password',
@@ -147,18 +147,13 @@ export const formOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '密码',
-      rules: [
-        { required: true, message: '请输入密码' },
-        {
-          validator: useValidate.password
-        }
-      ]
+      rules: [{ required: true, message: '请输入密码' }, useValidate.password],
     },
     componentProps: {
       placeholder: '请输入密码',
       type: 'password',
-      showPassword: true
-    }
+      showPassword: true,
+    },
   },
   {
     field: 'confirmPassword',
@@ -166,18 +161,13 @@ export const formOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '确认密码',
-      rules: [
-        { required: true, message: '请输入确认密码' },
-        {
-          validator: useValidate.password
-        }
-      ]
+      rules: [{ required: true, message: '请输入确认密码' }, useValidate.password],
     },
     componentProps: {
       placeholder: '请输入确认密码',
       type: 'password',
-      showPassword: true
-    }
+      showPassword: true,
+    },
   },
   {
     field: 'mobile',
@@ -185,37 +175,34 @@ export const formOptions: EsFormOptions[] = [
     props: {
       label: '手机号',
       required: true,
-      rules: [
-        { validator: useValidate.mobile },
-        { required: true, message: '请输入手机号' }
-      ]
+      rules: [useValidate.mobile, { required: true, message: '请输入手机号' }],
     },
     componentProps: {
       placeholder: '请输入手机号',
-      maxlength: 11
-    }
+      maxlength: 11,
+    },
   },
   {
     field: 'isRoot',
     component: 'Radio',
     props: {
       label: '角色',
-      rules: [{ required: true, message: '请选择角色身份' }]
+      rules: [{ required: true, message: '请选择角色身份' }],
     },
     componentProps: {
       placeholder: '请选择角色身份',
       options: [
         {
           label: '超级管理员',
-          value: 1
+          value: 1,
         },
         {
           label: '普通管理员',
-          value: 0
-        }
-      ]
-    }
-  }
+          value: 0,
+        },
+      ],
+    },
+  },
 ]
 
 export const pwdFormOptions: EsFormOptions[] = [
@@ -225,18 +212,13 @@ export const pwdFormOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '原密码',
-      rules: [
-        { required: true, message: '请输入原密码' },
-        {
-          validator: useValidate.password
-        }
-      ]
+      rules: [{ required: true, message: '请输入原密码' }, useValidate.password],
     },
     componentProps: {
       placeholder: '请输入原密码',
       type: 'password',
-      showPassword: true
-    }
+      showPassword: true,
+    },
   },
   {
     field: 'newPassword',
@@ -244,18 +226,13 @@ export const pwdFormOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '新密码',
-      rules: [
-        { required: true, message: '请输入新密码' },
-        {
-          validator: useValidate.password
-        }
-      ]
+      rules: [{ required: true, message: '请输入新密码' }, useValidate.password],
     },
     componentProps: {
       placeholder: '请输入新密码',
       type: 'password',
-      showPassword: true
-    }
+      showPassword: true,
+    },
   },
   {
     field: 'confirmNewPassword',
@@ -263,17 +240,12 @@ export const pwdFormOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '确认新密码',
-      rules: [
-        { required: true, message: '请输入确认新密码' },
-        {
-          validator: useValidate.password
-        }
-      ]
+      rules: [{ required: true, message: '请输入确认新密码' }, useValidate.password],
     },
     componentProps: {
       placeholder: '请输入确认新密码',
       type: 'password',
-      showPassword: true
-    }
-  }
+      showPassword: true,
+    },
+  },
 ]

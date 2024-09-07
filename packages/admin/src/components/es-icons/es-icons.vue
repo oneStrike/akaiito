@@ -19,7 +19,7 @@ const props = withDefaults(defineProps<AsIconsProps>(), {
   size: 18,
   rotate: false,
   hover: false,
-  unset: false
+  unset: false,
 })
 
 const emits = defineEmits<{
@@ -32,25 +32,25 @@ watch(
   (val) => {
     if (!props.unset && val) {
       if (val.includes('#')) {
-        iconClass.value = 'text-[' + val + ']'
+        iconClass.value = `text-[${val}]`
       } else {
         iconClass.value = val === '!text-primary' ? '!text-theme' : val
       }
     }
   },
-  { immediate: true }
+  { immediate: true },
 )
 </script>
 
 <template>
   <el-icon
     :size="size"
+    class="cursor-pointer"
     :class="[
       unset ? '!text-unset' : '',
       rotate ? 'rotate_animation' : '',
       hover ? 'hover:(!text-theme)' : '',
-      'cursor-pointer',
-      iconClass
+      iconClass,
     ]"
     @click="emits('click')"
   >
@@ -65,7 +65,7 @@ watch(
     <icon-md-downloading-loop v-if="name === 'downloading'" />
     <icon-md-uploading-loop v-if="name === 'uploading'" />
 
-    <!--https://icones.netlify.app/collection/majesticons    -->
+    <!-- https://icones.netlify.app/collection/majesticons    -->
 
     <icon-majest-arrows-collapse-full v-if="name === 'arrowsCollapseFull'" />
     <icon-majest-arrows-expand-full v-if="name === 'arrowsExpandFull'" />

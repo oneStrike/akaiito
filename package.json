@@ -21,10 +21,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@antfu/eslint-config": "^3.2.0",
     "@commitlint/config-conventional": "^17.8.1",
-    "@types/node": "^20.11.20",
+    "@types/node": "^20.12.13",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@unocss/eslint-plugin": "^0.62.3",
     "commitizen": "^4.3.0",
     "commitlint": "^17.8.1",
     "commitlint-config-cz": "^0.13.3",

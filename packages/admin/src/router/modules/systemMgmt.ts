@@ -7,7 +7,7 @@ export default {
   meta: {
     title: '系统管理',
     order: 4,
-    icon: 'settings'
+    icon: 'settings',
   },
   children: [
     {
@@ -17,8 +17,8 @@ export default {
       meta: {
         title: '个人中心',
         icon: 'user',
-        rules: ['root']
-      }
+        rules: ['root'],
+      },
     },
 
     {
@@ -28,15 +28,15 @@ export default {
         import('@/views/systemMgmt/dataDictionary/dataDictionaryPage.vue'),
       meta: {
         title: '数据字典',
-        icon: 'dataMinus'
-      }
+        icon: 'dataMinus',
+      },
     },
     {
       name: 'logsMgmt',
       path: '/logsMgmt',
       meta: {
         title: '日志管理',
-        icon: 'listBox'
+        icon: 'listBox',
       },
       children: [
         {
@@ -46,8 +46,8 @@ export default {
             import('@/views/systemMgmt/logsMgmt/loginLogs/loginLogsPage.vue'),
           meta: {
             title: '登录日志',
-            icon: 'login'
-          }
+            icon: 'login',
+          },
         },
         {
           name: 'OperationLogs',
@@ -58,8 +58,8 @@ export default {
             ),
           meta: {
             title: '操作日志',
-            icon: 'handPointer'
-          }
+            icon: 'handPointer',
+          },
         },
         {
           name: 'UpdateLogs',
@@ -68,10 +68,10 @@ export default {
             import('@/views/systemMgmt/logsMgmt/updateLogs/updateLogsPage.vue'),
           meta: {
             title: '更新日志',
-            icon: 'reload'
-          }
-        }
-      ]
+            icon: 'reload',
+          },
+        },
+      ],
     },
 
     {
@@ -80,8 +80,8 @@ export default {
       component: () => import('@/views/systemMgmt/userMgmt/userMgmtPage.vue'),
       meta: {
         title: '用户管理',
-        icon: 'users'
-      }
+        icon: 'users',
+      },
     },
     {
       name: 'ServerStatus',
@@ -90,8 +90,8 @@ export default {
         import('@/views/systemMgmt/serverStatus/serverStatusPage.vue'),
       meta: {
         title: '系统状态',
-        icon: 'server'
-      }
-    }
-  ]
+        icon: 'server',
+      },
+    },
+  ],
 } as RouteRecordRaw

@@ -1,7 +1,7 @@
-import type { Router } from 'vue-router'
-import nProgress from 'nprogress'
-import { useUserStore } from '@/stores/modules/user'
 import { config } from '@/config'
+import { useUserStore } from '@/stores/modules/user'
+import nProgress from 'nprogress'
+import type { Router } from 'vue-router'
 
 export const guard = function (router: Router) {
   // 在路由跳转前执行的函数

@@ -1,8 +1,8 @@
-import type { LoginTypings } from '@/apis/user.d'
-import { config } from '@/config'
-import dayjs from 'dayjs'
 import { refreshAccessTokenApi } from '@/apis/user'
+import { config } from '@/config'
 import router from '@/router'
+import dayjs from 'dayjs'
+import type { LoginTypings } from '@/apis/user.d'
 
 export interface UserState {
   token: {
@@ -16,32 +16,32 @@ export interface UserState {
 
 export const useUserStore = defineStore('useUserStore', {
   persist: {
-    storage: sessionStorage
+    storage: sessionStorage,
   },
   state: (): UserState => ({
     userInfo: null,
     token: {
       accessToken: '',
-      refreshToken: ''
-    }
+      refreshToken: '',
+    },
   }),
 
   getters: {
     tokenStatus() {
       return false
-    }
+    },
   },
 
   actions: {
     signOut() {
       this.token = {
         accessToken: '',
-        refreshToken: ''
+        refreshToken: '',
       }
       this.setUserInfo(null)
       router.replace({ name: 'Login' })
     },
-    //设置用户信息
+    // 设置用户信息
     setUserInfo(userInfo: LoginTypings['Response']['userInfo'] | null) {
       this.userInfo = userInfo
     },
@@ -55,7 +55,7 @@ export const useUserStore = defineStore('useUserStore', {
         accessToken: token.accessToken,
         refreshToken: token.refreshToken,
         accessTokenExpiresIn: accessToken.expiresIn + timestamp,
-        refreshTokenExpiresIn: refreshToken.expiresIn + timestamp
+        refreshTokenExpiresIn: refreshToken.expiresIn + timestamp,
       }
     },
 
@@ -75,7 +75,7 @@ export const useUserStore = defineStore('useUserStore', {
         if (!this.token.accessToken) return
         // 刷新访问令牌
         this.token.accessToken = await refreshAccessTokenApi({
-          accessToken: this.token.accessToken
+          accessToken: this.token.accessToken,
         })
         // 更新访问令牌过期时间
         this.token.accessTokenExpiresIn =
@@ -84,9 +84,9 @@ export const useUserStore = defineStore('useUserStore', {
         // 若刷新失败，则将认证信息重置为空
         this.token = {
           accessToken: '',
-          refreshToken: ''
+          refreshToken: '',
         }
       }
-    }
-  }
+    },
+  },
 })

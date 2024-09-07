@@ -16,23 +16,24 @@ const { userInfo } = storeToRefs(useUserStore())
             </el-avatar>
             <span class="text-3xl mt-4">{{ userInfo?.username }}</span>
             <el-descriptions :column="1" border class="mt-4" size="large">
-              <el-descriptions-item label="手机号">{{
-                userInfo?.mobile
-              }}</el-descriptions-item>
-              <el-descriptions-item label="超级管理员">{{
-                userInfo?.isRoot ? '是' : '否'
-              }}</el-descriptions-item>
-              <el-descriptions-item label="创建日期">{{
-                utils.formatter(userInfo?.createdAt)
-              }}</el-descriptions-item>
+              <el-descriptions-item label="手机号">
+                {{ userInfo?.mobile }}
+              </el-descriptions-item>
+              <el-descriptions-item label="超级管理员">
+                {{ userInfo?.isRoot ? '是' : '否' }}
+              </el-descriptions-item>
+              <el-descriptions-item label="创建日期">
+                {{ utils.formatter(userInfo!.createdAt) }}
+              </el-descriptions-item>
             </el-descriptions>
           </div>
         </el-card>
       </el-col>
       <el-col :span="12">
-        <el-card class="h-full"> </el-card>
+        <el-card class="h-full" />
       </el-col>
     </el-row>
   </div>
 </template>
+
 <style scoped></style>

@@ -1,15 +1,15 @@
+import { useLayoutStore } from '@/stores/modules/layout'
+import { utils } from '@/utils'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import type { Plugin } from 'vue'
-import { useLayoutStore } from '@/stores/modules/layout'
-import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { utils } from '@/utils'
 
 export const bootstrap: Plugin = {
   install: (app) => {
     app.config.globalProperties.$dayjs = dayjs
 
     for (const utilsKey in utils) {
-      app.config.globalProperties['$' + utilsKey] =
+      app.config.globalProperties[`$${utilsKey}`] =
         utils[utilsKey as keyof typeof utils]
     }
 
@@ -22,8 +22,8 @@ export const bootstrap: Plugin = {
     document.documentElement.classList.add(layoutStore.theme)
 
     layoutStore.fullScreen = !!document.fullscreenElement
-    document.addEventListener('fullscreenchange', function () {
+    document.addEventListener('fullscreenchange', () => {
       layoutStore.fullScreen = !layoutStore.fullScreen
     })
-  }
+  },
 }

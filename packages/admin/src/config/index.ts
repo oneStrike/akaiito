@@ -3,5 +3,5 @@ import { utils } from '@/utils'
 
 export const config = {
   auth,
-  ...utils.getProjectConfig()
+  ...utils.getProjectConfig(),
 }

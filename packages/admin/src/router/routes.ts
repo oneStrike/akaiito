@@ -1,6 +1,6 @@
 // 导入必要的模块
-import type { RouteRecordRaw } from 'vue-router'
 import router from '@/router/index'
+import type { RouteRecordRaw } from 'vue-router'
 
 // 基础路由
 const BasicRoutes: RouteRecordRaw[] = [
@@ -8,7 +8,7 @@ const BasicRoutes: RouteRecordRaw[] = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/loginPage.vue'), // 登录页组件
-    meta: { title: '登录', hideMenu: true } // 元数据，用于路由守卫等
+    meta: { title: '登录', hideMenu: true }, // 元数据，用于路由守卫等
   },
   {
     path: '/',
@@ -20,15 +20,15 @@ const BasicRoutes: RouteRecordRaw[] = [
         path: '/dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/dashboardPage.vue'),
-        meta: { title: '仪表盘', icon: 'dashboard', order: 1 }
-      }
-    ]
+        meta: { title: '仪表盘', icon: 'dashboard', order: 1 },
+      },
+    ],
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     component: () => import('@/views/shared/notFoundPage.vue'), // 404页组件
-    meta: { title: '404', hideMenu: true } // 元数据，用于路由守卫等
+    meta: { title: '404', hideMenu: true }, // 元数据，用于路由守卫等
   },
   {
     path: '/redirect',
@@ -40,20 +40,20 @@ const BasicRoutes: RouteRecordRaw[] = [
       const timer = window.setTimeout(() => {
         router
           .replace({
-            path: query.path as string
+            path: query.path as string,
           })
           .then(() => {
             clearTimeout(timer)
           })
       }, 100)
-    }
-  }
+    },
+  },
 ]
 
 // 自动加载路由
 const modules: Record<string, { [key: string]: never }> = import.meta.glob(
   './modules/**/*.ts',
-  { eager: true }
+  { eager: true },
 ) // 获取所有模块
 const autoRoutes: RouteRecordRaw[] = []
 Object.keys(modules).forEach((key) => {

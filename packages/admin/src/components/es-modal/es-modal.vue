@@ -8,10 +8,11 @@ export interface EsModalProps {
   loading?: boolean
   destroyOnClose?: boolean
 }
+
 const props = withDefaults(defineProps<EsModalProps>(), {
   modelValue: false,
   title: '',
-  loading: false
+  loading: false,
 })
 const emits = defineEmits<{
   (event: 'handler'): void
@@ -20,27 +21,36 @@ const emits = defineEmits<{
   (event: 'closed'): void
   (event: 'fullScreen', data: boolean): void
 }>()
+const fullscreen = ref(false)
 
 const contentStyle = computed(() => {
-  if (!props.height) return ''
-  if (typeof props.height === 'string') return `height:${props.height}`
+  if (!props.height) {
+    return ''
+  }
+  if (typeof props.height === 'string') {
+    return `height:${props.height}`
+  }
   return `height:${fullscreen.value ? '80vh' : props.height}px`
 })
 
 const modalShow = useVModel(props, 'modelValue', emits)
 
-const fullscreen = ref(false)
 const { start: timeoutStart } = useTimeoutFn(() => {
   fullscreen.value = false
 }, 500)
-const close = (event: 'close' | 'closed') => {
+
+function close(event: 'close' | 'closed') {
   modalShow.value = false
-  if (event === 'close') emits('close')
-  if (event === 'closed') emits('closed')
+  if (event === 'close') {
+    emits('close')
+  }
+  if (event === 'closed') {
+    emits('closed')
+  }
   timeoutStart()
 }
 
-const toggleFullScreenStatus = () => {
+function toggleFullScreenStatus() {
   fullscreen.value = !fullscreen.value
   emits('fullScreen', fullscreen.value)
 }
@@ -48,8 +58,8 @@ const toggleFullScreenStatus = () => {
 
 <template>
   <el-dialog
-    draggable
     v-model="modalShow"
+    draggable
     :fullscreen="fullscreen"
     :show-close="false"
     :width="width"
@@ -60,7 +70,9 @@ const toggleFullScreenStatus = () => {
   >
     <template #header="{ close, titleId, titleClass }">
       <div class="flex justify-between">
-        <h4 :id="titleId" :class="titleClass">{{ title }}</h4>
+        <h4 :id="titleId" :class="titleClass">
+          {{ title }}
+        </h4>
         <div class="cursor-pointer">
           <es-icons
             :name="fullscreen ? 'minimize' : 'maximize'"
@@ -78,17 +90,15 @@ const toggleFullScreenStatus = () => {
       :class="fullscreen ? ['max-h-[80vh]', 'h-[80vh]'] : 'max-h-[70vh]'"
     >
       <div :style="contentStyle" class="h-full">
-        <slot></slot>
+        <slot />
       </div>
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button
-          @click="(modalShow = false), close('close')"
-          :loading="loading"
-          >关闭</el-button
-        >
-        <el-button type="primary" @click="emits('handler')" :loading="loading">
+        <el-button :loading="loading" @click="(modalShow = false), close('close')">
+          关闭
+        </el-button>
+        <el-button type="primary" :loading="loading" @click="emits('handler')">
           确定
         </el-button>
       </div>

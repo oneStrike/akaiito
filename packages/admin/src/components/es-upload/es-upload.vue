@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { config } from '@/config'
+import { useMessage } from '@/hooks/useFeedback'
+import { useUpload } from '@/hooks/useUpload'
+import { utils } from '@/utils'
+import type { UploadFileTypings } from '@/apis/upload.d'
 import type {
   UploadFile,
   UploadInstance,
   UploadProps,
-  UploadUserFile
+  UploadUserFile,
 } from 'element-plus'
-import { useMessage } from '@/hooks/useFeedback'
-import { useUpload } from '@/hooks/useUpload'
-import type { UploadFileTypings } from '@/apis/upload.d'
-import { utils } from '@/utils'
 
 export interface EsUploadProps {
   modelValue?:
+    | UploadFileTypings['Response']
     | UploadUserFile[]
     | string
     | string[]
-    | UploadFileTypings['Response']
   fileType?: 'image' | 'video' | 'audio' | 'compressed'
   listType?: UploadProps['listType']
   multiple?: UploadProps['multiple']
@@ -27,55 +27,57 @@ export interface EsUploadProps {
   structure?: 'string' | 'object' | 'field'
 }
 
-const uploadRef = ref<UploadInstance>()
 const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
   maxSize: config.upload.maxUploadFileSize,
   maxCount: 1,
-  structure: 'field'
+  structure: 'field',
 })
 const emits = defineEmits<{
   (event: 'update:modelValue', data: typeof fileList.value): void
   (event: 'updateError', data: any[]): void
 }>()
+const uploadRef = ref<UploadInstance>()
 
-const filePathToObj = (path: string, name?: string) => {
+function filePathToObj(path: string, name?: string) {
   return {
     fileName: name,
     name,
     filePath: path,
     url: path,
-    mimeType: props.fileType + '/' + path.split('.').at(-1),
+    mimeType: `${props.fileType}/${path.split('.').at(-1)}`,
     status: 'success',
-    uid: new Date().getTime()
+    uid: new Date().getTime(),
   }
 }
 
-const transformModelValue = () => {
-  if (!props.modelValue) return []
+function transformModelValue() {
+  if (!props.modelValue) {
+    return []
+  }
   if (Array.isArray(props.modelValue)) {
-    return props.modelValue.map((item) => {
+    return props.modelValue.map((item: any) => {
       const filePath =
         typeof item === 'string' ? item : item.filePath || item.url
       return filePathToObj(filePath, item.fileName)
     })
   } else if (utils.isJson(props.modelValue)) {
-    return JSON.parse(props.modelValue).map((item) => ({
+    return JSON.parse(props.modelValue).map((item: any) => ({
       ...item,
       name: item.fileName,
-      url: item.filePath
+      url: item.filePath,
     }))
   } else {
     return [filePathToObj(props.modelValue)]
   }
 }
 
+const fileList = ref()
 const previewImages = ref()
 const uploadBtnDisplay = computed(() =>
-  fileList.value?.length >= props.maxCount ? 'none' : 'inline-flex'
+  fileList.value?.length >= props.maxCount ? 'none' : 'inline-flex',
 )
 
-const fileList = ref()
 watch(
   () => props.modelValue,
   (val) => {
@@ -83,24 +85,28 @@ watch(
       fileList.value = transformModelValue()
     }
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 
 const accept = computed(() => {
-  if (!props.fileType) return '*'
+  if (!props.fileType) {
+    return '*'
+  }
   const allowFileType = config.upload.allowFileType[props.fileType]
-  if (!allowFileType) return props.fileType
+  if (!allowFileType) {
+    return props.fileType
+  }
   return allowFileType
     .map((item: string) => {
       if (props.fileType === 'compressed') {
         return `application/x-${item}-compressed`
       }
-      return props.fileType + '/' + item
+      return `${props.fileType}/${item}`
     })
     .join(',')
 })
 
-//文件上传之前，判断上传的数量是否超量
+// 文件上传之前，判断上传的数量是否超量
 const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   if (fileList.value?.length >= props.maxCount) {
     useMessage.error(`【${rawFile.name}】超出最大数量限制`)
@@ -115,22 +121,23 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 
-const onPreview = (uploadFile: UploadFile) => {
+function onPreview(uploadFile: UploadFile) {
   previewImages.value = [uploadFile]
 }
+
 const upload: UploadProps['httpRequest'] = async ({ file }) => {
-  const uploadRes = await useUpload(file, props.scenario)
+  const uploadRes = await useUpload(file, props.scenario!)
   return uploadRes.success[0]
 }
 
-const change = () => {
+function change() {
   if (fileList.value && fileList.value.length) {
-    const emitData = fileList.value.map((item) => {
+    const emitData = fileList.value.map((item: any) => {
       const target = item.response ? item.response : item
       return {
         fileName: target.fileName,
         filePath: target.filePath,
-        mimeType: target.mimeType
+        mimeType: target.mimeType,
       }
     })
     let res = emitData
@@ -158,14 +165,14 @@ const change = () => {
       :http-request="upload"
     >
       <template #trigger>
-        <div class="w-full h-full" v-if="assetLibrary">
+        <div v-if="assetLibrary" class="w-full h-full">
           <el-popconfirm
             width="180"
             title="素材库选择或者上传"
             cancel-button-text="资源库"
             confirm-button-text="本地上传"
             :hide-after="10"
-            @confirm="uploadRef.$el.querySelector('input').click()"
+            @confirm="uploadRef!.$el.querySelector('input').click()"
           >
             <template #reference>
               <div class="w-full h-full flex-center" @click.stop>
@@ -175,12 +182,12 @@ const change = () => {
           </el-popconfirm>
         </div>
         <es-icons
+          v-if="listType === 'picture-card'"
           name="uploading"
           :size="22"
           class="mr-2"
-          v-if="listType === 'picture-card'"
         />
-        <el-button type="primary" v-else>
+        <el-button v-else type="primary">
           <es-icons name="uploading" :size="22" class="mr-2" />
           上传
         </el-button>

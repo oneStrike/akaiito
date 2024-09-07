@@ -1,3 +1,54 @@
+<script lang="ts" setup>
+import { getCaptchaApi } from '@/apis/captcha'
+import { loginApi } from '@/apis/user'
+import { useValidate } from '@/hooks/useValidate'
+import { useUserStore } from '@/stores/modules/user'
+
+const router = useRouter()
+
+const userStore = useUserStore()
+const ruleFormRef = ref()
+
+const loginForm = reactive({
+  mobile: '',
+  password: '',
+  captcha: '',
+  captchaId: '',
+})
+const rules = reactive({
+  mobile: useValidate.required('手机号'),
+  password: useValidate.password,
+  captcha: useValidate.required('验证码'),
+})
+
+const captchaInfo = ref({
+  id: '',
+  data: '',
+})
+const submitLoading = ref(false)
+
+const getCaptchaFn = useDebounceFn(async () => {
+  captchaInfo.value = await getCaptchaApi()
+}, 500)
+getCaptchaFn()
+
+async function login() {
+  await ruleFormRef.value.validate(async (valid: boolean) => {
+    try {
+      if (!valid) return
+      submitLoading.value = true
+      loginForm.captchaId = captchaInfo.value.id
+      const loginRes = await loginApi(loginForm)
+      userStore.setAuth(loginRes)
+      router.replace({ name: 'Dashboard' })
+    } catch (e) {
+      console.log(e)
+    }
+    submitLoading.value = false
+  })
+}
+</script>
+
 <template>
   <div class="login h-screen flex justify-center items-center">
     <div class="content">
@@ -6,26 +57,26 @@
         <el-form ref="ruleFormRef" :model="loginForm" :rules="rules">
           <el-form-item prop="mobile" class="mt-8">
             <el-input
-              @keyup.enter="login"
-              placeholder="请输入手机号"
               v-model.trim="loginForm.mobile"
+              placeholder="请输入手机号"
+              @keyup.enter="login"
             />
           </el-form-item>
           <el-form-item prop="password" class="mt-8">
             <el-input
-              @keyup.enter="login"
+              v-model.trim="loginForm.password"
               type="password"
               placeholder="请输入密码"
-              v-model.trim="loginForm.password"
+              @keyup.enter="login"
             />
           </el-form-item>
           <el-form-item prop="captcha" class="mt-8">
             <el-input
-              placeholder="验证码"
-              @keyup.enter="login"
-              style="width: 140px"
               v-model.trim="loginForm.captcha"
-            ></el-input>
+              placeholder="验证码"
+              style="width: 140px"
+              @keyup.enter="login"
+            />
             <img
               v-if="captchaInfo.data"
               :src="captchaInfo.data"
@@ -44,7 +95,8 @@
               round
               type="primary"
               @click="login"
-              >登录
+            >
+              登录
             </el-button>
           </el-form-item>
         </el-form>
@@ -53,58 +105,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { useValidate } from '@/hooks/useValidate'
-import { getCaptchaApi } from '@/apis/captcha'
-import { loginApi } from '@/apis/user'
-import { useUserStore } from '@/stores/modules/user'
-import { config } from '@/config'
-
-const router = useRouter()
-
-const userStore = useUserStore()
-const ruleFormRef = ref()
-
-const loginForm = reactive({
-  mobile: '',
-  password: '',
-  captcha: '',
-  captchaId: ''
-})
-const rules = reactive({
-  mobile: useValidate.required('手机号'),
-  password: useValidate.password,
-  captcha: useValidate.required('验证码')
-})
-
-const captchaInfo = ref({
-  id: '',
-  data: ''
-})
-const submitLoading = ref(false)
-
-const getCaptchaFn = useDebounceFn(async () => {
-  captchaInfo.value = await getCaptchaApi()
-}, 500)
-getCaptchaFn()
-
-const login = async () => {
-  await ruleFormRef.value.validate(async (valid: boolean) => {
-    try {
-      if (!valid) return
-      submitLoading.value = true
-      loginForm.captchaId = captchaInfo.value.id
-      const loginRes = await loginApi(loginForm)
-      userStore.setAuth(loginRes)
-      router.replace({ name: 'Dashboard' })
-    } catch (e) {
-      console.log(e)
-    }
-    submitLoading.value = false
-  })
-}
-</script>
 
 <style scoped lang="scss">
 .login {

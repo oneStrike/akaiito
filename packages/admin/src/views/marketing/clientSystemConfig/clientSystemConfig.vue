@@ -1,22 +1,22 @@
 <script lang="ts" setup>
-import { formOptions } from './shared'
 import {
   getClientSystemConfigApi,
-  updateClientSystemConfigApi
+  updateClientSystemConfigApi,
 } from '@/apis/clientManage'
 import { useMessage } from '@/hooks/useFeedback'
+import { formOptions } from './shared'
 
 defineOptions({
-  name: 'ClientSystemMgmtPage'
+  name: 'ClientSystemMgmtPage',
 })
 
-const formSubmit = async () => {
+async function formSubmit() {
   await updateClientSystemConfigApi(configData.value)
   useMessage.success('更新成功')
 }
 
 const configData = ref()
-const getConfigData = async () => {
+async function getConfigData() {
   configData.value = await getClientSystemConfigApi()
 }
 getConfigData()
@@ -26,9 +26,9 @@ getConfigData()
   <div class="main-page">
     <es-form
       ref="esFormRef"
+      v-model="configData"
       :form-props="{ labelPosition: 'top' }"
       :options="formOptions"
-      v-model="configData"
       @submit="formSubmit"
     />
   </div>

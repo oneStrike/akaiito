@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { AsyncFn, IterateObject } from '@typings/index'
-import { useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/enum/prompts'
+import { useMessage } from '@/hooks/useFeedback'
+import type { AsyncFn, IterateObject } from '@typings/index'
 
 export interface EsPopConfirmProps<T = IterateObject> {
   request: AsyncFn
@@ -21,11 +21,11 @@ const emits = defineEmits<{
 const row = useVModel(props, 'row', emits)
 const loading = useVModel(props, 'loading', emits)
 
-const deleteRow = async () => {
+async function deleteRow() {
   try {
     loading.value = true
     const params = {
-      [props.ids ? 'ids' : 'id']: props.ids ? [row.value.id] : row.value.id
+      [props.ids ? 'ids' : 'id']: props.ids ? [row.value.id] : row.value.id,
     }
     await props.request(params)
     loading.value = false
@@ -50,7 +50,7 @@ const deleteRow = async () => {
   >
     <template #reference>
       <slot>
-        <el-button type="danger" link>删除</el-button>
+        <el-button type="danger" link> 删除 </el-button>
       </slot>
     </template>
   </el-popconfirm>

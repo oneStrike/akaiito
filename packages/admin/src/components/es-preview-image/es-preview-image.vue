@@ -10,7 +10,7 @@ export interface PreviewImageProps {
 
 const props = withDefaults(defineProps<PreviewImageProps>(), {
   zIndex: 999,
-  initialIndex: 0
+  initialIndex: 0,
 })
 
 const emits = defineEmits<{
@@ -18,7 +18,9 @@ const emits = defineEmits<{
 }>()
 
 const imageList = computed(() => {
-  if (!Array.isArray(props.urlList)) return []
+  if (!Array.isArray(props.urlList)) {
+    return []
+  }
   return props.urlList.map((item) => {
     return typeof item === 'string' ? item : item.filePath
   })

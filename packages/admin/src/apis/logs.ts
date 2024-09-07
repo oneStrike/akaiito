@@ -1,19 +1,19 @@
 import { httpClient } from '@/utils/request'
 import type { GetLogsTypings, GetRequestLogsTypings } from './logs.d'
 
-export const getLogsApi = (): Promise<GetLogsTypings['Response']> => {
+export function getLogsApi(): Promise<GetLogsTypings['Response']> {
   return httpClient({
     method: 'GET',
-    url: '/admin/logs/getLogs'
+    url: '/admin/logs/getLogs',
   })
 }
 
-export const getRequestLogsApi = (
-  params?: GetRequestLogsTypings['Request']
-): Promise<GetRequestLogsTypings['Response']> => {
+export function getRequestLogsApi(
+  params?: GetRequestLogsTypings['Request'],
+): Promise<GetRequestLogsTypings['Response']> {
   return httpClient({
     method: 'GET',
     url: '/admin/logs/getRequestLogs',
-    params
+    params,
   })
 }

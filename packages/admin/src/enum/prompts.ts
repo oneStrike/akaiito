@@ -10,5 +10,5 @@ export enum PromptsEnum {
   CONFIRM_UPDATE = '是否确认修改？',
   CONFIRM_ENABLED = '是否确认启用？',
   CONFIRM_DISABLED = '是否确认禁用？',
-  EMPTY_SELECTED = '请至少选择一项'
+  EMPTY_SELECTED = '请至少选择一项',
 }

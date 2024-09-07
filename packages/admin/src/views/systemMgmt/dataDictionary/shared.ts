@@ -1,10 +1,10 @@
+import { utils } from '@/utils'
+import type { EsFormOptions } from '@/components/es-form/es-form.vue'
+import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type {
   EsToolbarProps,
-  ToolbarFilter
+  ToolbarFilter,
 } from '@/components/es-toolbar/es-toolbar.vue'
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type { EsFormOptions } from '@/components/es-form/es-form.vue'
-import { utils } from '@/utils'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
@@ -12,8 +12,8 @@ export const toolbar: EsToolbarProps['toolbar'] = [
     label: '添加',
     value: 'add',
     props: {
-      type: 'primary'
-    }
+      type: 'primary',
+    },
   },
   {
     type: 'dropdown',
@@ -22,18 +22,18 @@ export const toolbar: EsToolbarProps['toolbar'] = [
     options: [
       {
         label: '批量删除',
-        value: 'delete'
+        value: 'delete',
       },
       {
         label: '批量启用',
-        value: 'enable'
+        value: 'enable',
       },
       {
         label: '批量禁用',
-        value: 'disable'
-      }
-    ]
-  }
+        value: 'disable',
+      },
+    ],
+  },
 ]
 
 export const tableColumns: EsTableColumn = [
@@ -41,31 +41,31 @@ export const tableColumns: EsTableColumn = [
     label: '名称',
     prop: 'name',
     align: 'center',
-    slotName: 'name'
+    slotName: 'name',
   },
   {
     label: '编码',
     prop: 'code',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '创建时间',
     prop: 'createdAt',
     align: 'center',
-    formatter: utils.formatter
+    formatter: utils.formatter,
   },
   {
     label: '状态',
     prop: 'status',
     align: 'center',
-    slotName: 'status'
+    slotName: 'status',
   },
   {
     label: '操作',
     prop: 'action',
     align: 'center',
-    slotName: 'action'
-  }
+    slotName: 'action',
+  },
 ]
 
 export const filter: () => ToolbarFilter = () => [
@@ -74,16 +74,16 @@ export const filter: () => ToolbarFilter = () => [
     component: 'Input',
     componentProps: {
       placeholder: '名称',
-      clearable: true
-    }
+      clearable: true,
+    },
   },
   {
     field: 'code',
     component: 'Input',
     componentProps: {
       placeholder: '编码',
-      clearable: true
-    }
+      clearable: true,
+    },
   },
   {
     field: 'status',
@@ -94,15 +94,15 @@ export const filter: () => ToolbarFilter = () => [
       options: [
         {
           label: '启用',
-          value: 1
+          value: 1,
         },
         {
           label: '禁用',
-          value: 0
-        }
-      ]
-    }
-  }
+          value: 0,
+        },
+      ],
+    },
+  },
 ]
 
 export const formOptions: EsFormOptions[] = [
@@ -111,32 +111,32 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '名称',
-      rules: [{ required: true, message: '请输入名称' }]
+      rules: [{ required: true, message: '请输入名称' }],
     },
     componentProps: {
-      placeholder: '请输入名称'
-    }
+      placeholder: '请输入名称',
+    },
   },
   {
     field: 'code',
     component: 'Input',
     props: {
       label: '编码',
-      rules: [{ required: true, message: '请输入编码' }]
+      rules: [{ required: true, message: '请输入编码' }],
     },
     componentProps: {
-      placeholder: '请输入编码'
-    }
+      placeholder: '请输入编码',
+    },
   },
   {
     field: 'desc',
     component: 'Textarea',
     props: {
       label: '描述信息',
-      rules: [{ required: true, message: '请输入描述信息' }]
+      rules: [{ required: true, message: '请输入描述信息' }],
     },
     componentProps: {
-      placeholder: '请输入描述信息'
-    }
-  }
+      placeholder: '请输入描述信息',
+    },
+  },
 ]

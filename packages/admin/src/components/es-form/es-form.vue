@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { IterateObject } from '@typings/index'
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
-import type { Ref } from 'vue'
 
 export type EsFormComponent =
   | 'Input'
@@ -15,10 +14,15 @@ export type EsFormComponent =
   | 'DateTime'
   | 'Upload'
 
+export type FormComponentProps = Partial<FormItemProps> & {
+  class?: string
+  defaultValue?: any
+}
+
 export interface EsFormOptions {
   show?: boolean
   field: string
-  props?: Partial<FormItemProps & { class?: string; defaultValue?: any }>
+  props?: FormComponentProps
   component: EsFormComponent
   componentProps?: IterateObject
   on?: IterateObject
@@ -33,20 +37,19 @@ export interface EsFormProps {
   resetText?: string
 }
 
-const formRef = ref<FormInstance>()
 const props = withDefaults(defineProps<EsFormProps>(), {
   modelValue: () => ({}),
   formProps: () => ({}),
   showBtn: true,
   submitText: '提交',
-  resetText: '重置'
+  resetText: '重置',
 })
 const emits = defineEmits<{
   (event: 'reset'): void
   (event: 'submit', data: IterateObject): void
   (event: 'update:modelValue', data: IterateObject): void
 }>()
-
+const formRef = ref<FormInstance>()
 const formData = ref<IterateObject>({})
 
 watch(
@@ -54,7 +57,7 @@ watch(
   (val) => {
     formData.value = val
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 )
 
 watch(
@@ -62,34 +65,35 @@ watch(
   (val) => {
     emits('update:modelValue', val)
   },
-  { deep: true }
+  { deep: true },
 )
 
-const submitForm = () => {
+function submitForm() {
   formRef.value?.validate((isValid) => {
-    if (!isValid) return false
-    emits('submit', toRaw(formData.value))
-    return isValid
+    if (isValid) {
+      emits('submit', toRaw(formData.value))
+    }
   })
 }
-const resetForm = () => {
+
+function resetForm() {
   formRef.value?.resetFields()
   emits('reset')
 }
 
 defineExpose({
   submitForm,
-  resetForm
+  resetForm,
 })
 </script>
 
 <template>
-  <el-form :model="formData" v-bind="formProps" ref="formRef">
+  <el-form v-bind="formProps" ref="formRef" :model="formData">
     <template v-for="item in options" :key="item.field">
       <el-form-item
+        v-if="item.show !== false"
         :prop="item.field"
         v-bind="item.props"
-        v-if="item.show !== false"
       >
         <es-upload
           v-if="item.component === 'Upload'"
@@ -111,7 +115,7 @@ defineExpose({
           v-if="item.component === 'InputNumber'"
           v-model="formData[item.field]"
           v-bind="item.componentProps"
-          :class="item.props.class || 'w-54!'"
+          :class="item.props?.class || 'w-54!'"
           @keydown.enter="submitForm"
           v-on="item.on || {}"
         />
@@ -133,10 +137,11 @@ defineExpose({
           v-on="item.on || {}"
         >
           <el-radio
-            :value="child.value"
-            v-for="child in item.componentProps.options"
+            v-for="child in item.componentProps?.options"
             :key="child.value"
-            >{{ child.label }}
+            :value="child.value"
+          >
+            {{ child.label }}
           </el-radio>
         </el-radio-group>
 
@@ -166,16 +171,18 @@ defineExpose({
           range-separator="-"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
-          v-on="item.on || {}"
           v-bind="item.componentProps"
+          v-on="item.on || {}"
         />
       </el-form-item>
     </template>
     <div class="es-form-button">
       <el-form-item v-if="showBtn">
-        <el-button @click="resetForm">{{ resetText }}</el-button>
-        <el-button type="primary" @click="submitForm"
-          >{{ submitText }}
+        <el-button @click="resetForm">
+          {{ resetText }}
+        </el-button>
+        <el-button type="primary" @click="submitForm">
+          {{ submitText }}
         </el-button>
       </el-form-item>
     </div>

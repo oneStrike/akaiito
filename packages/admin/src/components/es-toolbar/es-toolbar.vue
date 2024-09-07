@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ButtonProps } from 'element-plus'
+import { utils } from '@/utils'
 import type { EsFormProps } from '@/components/es-form/es-form.vue'
 import type { IterateObject } from '@typings/index'
-import { utils } from '@/utils'
+import type { ButtonProps } from 'element-plus'
 
 export type ToolbarFilter = EsFormProps['options']
 
-export type Toolbar = {
+export interface Toolbar {
   type: 'dropdown' | 'button'
   label: string
   value?: any
@@ -16,7 +16,10 @@ export type Toolbar = {
   options?: {
     label: string
     value: any
-    props?: { disabled?: boolean; divided?: boolean }
+    props?: {
+      disabled?: boolean
+      divided?: boolean
+    }
   }[]
 }
 
@@ -28,7 +31,7 @@ export interface EsToolbarProps {
 }
 
 const props = withDefaults(defineProps<EsToolbarProps>(), {
-  followSelection: true
+  followSelection: true,
 })
 const emits = defineEmits<{
   (event: 'handler', data: any): void
@@ -36,16 +39,22 @@ const emits = defineEmits<{
 }>()
 
 const bindChangeEventComponent = ['Select', 'DateTime']
-
-const innerFilter = ref<ToolbarFilter>()
-
+const filterData = ref<IterateObject>({})
+const esFormRef = ref<IterateObject>()
+const innerFilter = ref<ToolbarFilter>([])
 watch(
   () => props.filter,
   (val) => {
-    innerFilter.value = utils._.cloneDeep(val).map((item) => {
-      if (!item.componentProps) item.componentProps = {}
-      if (!item.on) item.on = {}
-      if (!item.props) item.props = {}
+    innerFilter.value = utils._.cloneDeep(val!).map((item) => {
+      if (!item.componentProps) {
+        item.componentProps = {}
+      }
+      if (!item.on) {
+        item.on = {}
+      }
+      if (!item.props) {
+        item.props = {}
+      }
       if (!item.props.class) {
         switch (item.component) {
           case 'DateTime':
@@ -76,13 +85,10 @@ watch(
       return item
     })
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 
-const filterData = ref<IterateObject>()
-const esFormRef = ref<IterateObject>()
-
-const submit = (val: IterateObject) => {
+function submit(val?: IterateObject) {
   val = utils._.cloneDeep(val)
   const { pickBy, isBoolean, isNumber } = utils._
   if (Array.isArray(val?.dateTimePicker) && val?.dateTimePicker.length === 2) {
@@ -97,16 +103,16 @@ const submit = (val: IterateObject) => {
   }
   emits(
     'query',
-    pickBy(val, (item) => isBoolean(item) || isNumber(item) || item)
+    pickBy(val, (item) => isBoolean(item) || isNumber(item) || item),
   )
 }
 
-const resetFilter = () => {
+function resetFilter() {
   esFormRef.value?.resetForm()
 }
 
 defineExpose({
-  resetFilter
+  resetFilter,
 })
 </script>
 
@@ -118,19 +124,21 @@ defineExpose({
           v-if="item.type === 'button'"
           v-bind="item.props"
           @click="emits('handler', item.value)"
-          >{{ item.label }}
+        >
+          {{ item.label }}
         </el-button>
 
         <el-dropdown
           v-if="item.type === 'dropdown'"
           v-bind="item.props"
           :disabled="followSelection ? selection : item?.props.disabled"
-          @command="(val) => emits('handler', val)"
+          @command="(val: any) => emits('handler', val)"
         >
           <el-button
             v-bind="item.buttonProps"
-            :disabled="followSelection ? selection : item?.buttonProps.disabled"
-            >{{ item.label }}
+            :disabled="followSelection ? selection : item.buttonProps!.disabled"
+          >
+            {{ item.label }}
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
@@ -147,19 +155,19 @@ defineExpose({
         </el-dropdown>
 
         <template v-if="item.slotName">
-          <slot :name="item.slotName" :tool="item"></slot>
+          <slot :name="item.slotName" :tool="item" />
         </template>
       </div>
     </div>
     <es-form
-      ref="esFormRef"
       v-if="Array.isArray(filter) && filter.length"
+      ref="esFormRef"
       v-model="filterData"
       :options="innerFilter"
       :form-props="{ inline: true }"
       submit-text="查询"
       @submit="submit"
-      @reset="submit"
+      @reset="submit()"
     />
   </div>
 </template>

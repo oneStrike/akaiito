@@ -1,13 +1,13 @@
+import { PromptsEnum } from '@/enum/prompts'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { AsyncFn } from '@typings/index'
-import { PromptsEnum } from '@/enum/prompts'
 
 export const useMessage: typeof ElMessage = ElMessage
 
 export type UseConfirm = (
   type: 'delete' | 'disable' | 'enable',
   handler: AsyncFn,
-  callback?: Function
+  callback?: () => void,
 ) => void
 
 export const useConfirm: UseConfirm = (type, handler, callback) => {
@@ -29,10 +29,12 @@ export const useConfirm: UseConfirm = (type, handler, callback) => {
   }
 
   ElMessageBox.confirm(message, '警告', {
-    type: 'warning'
+    type: 'warning',
   }).then(async () => {
     await handler()
     useMessage.success(prompt)
-    callback && callback()
+    if (callback) {
+      callback()
+    }
   })
 }

@@ -1,22 +1,22 @@
-import type {
-  AxiosInstance,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-  AxiosError,
-  AxiosPromise
-} from 'axios'
 import axios, { type AxiosResponse } from 'axios'
 import { ElLoading } from 'element-plus'
 import type { HttpResponseResult } from '@akaiito/typings/src'
+import type {
+  AxiosError,
+  AxiosInstance,
+  AxiosPromise,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+} from 'axios'
 
 export type HttpClientOptions = {
   loading?: boolean
   source?: boolean
   requestInterceptor?: (
-    config: HttpClientOptions & InternalAxiosRequestConfig
+    config: HttpClientOptions & InternalAxiosRequestConfig,
   ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>
   responseInterceptor?: (
-    config: AxiosResponse
+    config: AxiosResponse,
   ) => AxiosResponse | AxiosPromise<HttpResponseResult>
   responseInterceptorError?: (error: AxiosError) => any
 } & AxiosRequestConfig
@@ -24,8 +24,9 @@ export type HttpClientOptions = {
 export class HttpClient {
   private readonly options: HttpClientOptions
   private readonly basicOptions: HttpClientOptions = {
-    loading: true
+    loading: true,
   }
+
   axiosInst: AxiosInstance
   loading: boolean
 
@@ -46,7 +47,7 @@ export class HttpClient {
     config: Omit<
       HttpClientOptions,
       'requestInterceptor' | 'responseInterceptor' | 'responseInterceptorError'
-    >
+    >,
   ): Promise<T> {
     return new Promise((resolve, reject) => {
       if ((config.loading || this.options.loading) && !this.loading) {

@@ -1,124 +1,124 @@
 import { httpClient } from '@/utils/request'
 import type {
-  GetDataDictionaryTypings,
-  GetDataDictionaryItemsTypings,
-  CreateDataDictionaryTypings,
   CreateDataDictionaryItemsTypings,
-  DeleteDataDictionaryTypings,
+  CreateDataDictionaryTypings,
   DeleteDataDictionaryItemsTypings,
-  UpdateDataDictionaryTypings,
+  DeleteDataDictionaryTypings,
+  GetDataDictionaryItemsTypings,
+  GetDataDictionaryTypings,
+  UpdateDataDictionaryItemsOrderTypings,
+  UpdateDataDictionaryItemsStatusTypings,
   UpdateDataDictionaryItemsTypings,
   UpdateDataDictionaryStatusTypings,
-  UpdateDataDictionaryItemsStatusTypings,
-  UpdateDataDictionaryItemsOrderTypings
+  UpdateDataDictionaryTypings,
 } from './dictionary.d'
 
-export const getDataDictionaryApi = (
-  params?: GetDataDictionaryTypings['Request']
-): Promise<GetDataDictionaryTypings['Response']> => {
+export function getDataDictionaryApi(
+  params?: GetDataDictionaryTypings['Request'],
+): Promise<GetDataDictionaryTypings['Response']> {
   return httpClient({
     method: 'GET',
     url: '/admin/dictionary/getDataDictionary',
-    params
+    params,
   })
 }
 
-export const getDataDictionaryItemsApi = (
-  params?: GetDataDictionaryItemsTypings['Request']
-): Promise<GetDataDictionaryItemsTypings['Response']> => {
+export function getDataDictionaryItemsApi(
+  params?: GetDataDictionaryItemsTypings['Request'],
+): Promise<GetDataDictionaryItemsTypings['Response']> {
   return httpClient({
     method: 'GET',
     url: '/admin/dictionary/getDataDictionaryItems',
-    params
+    params,
   })
 }
 
-export const createDataDictionaryApi = (
-  data: CreateDataDictionaryTypings['Request']
-): Promise<CreateDataDictionaryTypings['Response']> => {
+export function createDataDictionaryApi(
+  data: CreateDataDictionaryTypings['Request'],
+): Promise<CreateDataDictionaryTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/createDataDictionary',
-    data
+    data,
   })
 }
 
-export const createDataDictionaryItemsApi = (
-  data: CreateDataDictionaryItemsTypings['Request']
-): Promise<CreateDataDictionaryItemsTypings['Response']> => {
+export function createDataDictionaryItemsApi(
+  data: CreateDataDictionaryItemsTypings['Request'],
+): Promise<CreateDataDictionaryItemsTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/createDataDictionaryItems',
-    data
+    data,
   })
 }
 
-export const deleteDataDictionaryApi = (
-  data: DeleteDataDictionaryTypings['Request']
-): Promise<DeleteDataDictionaryTypings['Response']> => {
+export function deleteDataDictionaryApi(
+  data: DeleteDataDictionaryTypings['Request'],
+): Promise<DeleteDataDictionaryTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/deleteDataDictionary',
-    data
+    data,
   })
 }
 
-export const deleteDataDictionaryItemsApi = (
-  data: DeleteDataDictionaryItemsTypings['Request']
-): Promise<DeleteDataDictionaryItemsTypings['Response']> => {
+export function deleteDataDictionaryItemsApi(
+  data: DeleteDataDictionaryItemsTypings['Request'],
+): Promise<DeleteDataDictionaryItemsTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/deleteDataDictionaryItems',
-    data
+    data,
   })
 }
 
-export const updateDataDictionaryApi = (
-  data: UpdateDataDictionaryTypings['Request']
-): Promise<UpdateDataDictionaryTypings['Response']> => {
+export function updateDataDictionaryApi(
+  data: UpdateDataDictionaryTypings['Request'],
+): Promise<UpdateDataDictionaryTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionary',
-    data
+    data,
   })
 }
 
-export const updateDataDictionaryItemsApi = (
-  data: UpdateDataDictionaryItemsTypings['Request']
-): Promise<UpdateDataDictionaryItemsTypings['Response']> => {
+export function updateDataDictionaryItemsApi(
+  data: UpdateDataDictionaryItemsTypings['Request'],
+): Promise<UpdateDataDictionaryItemsTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItems',
-    data
+    data,
   })
 }
 
-export const updateDataDictionaryStatusApi = (
-  data: UpdateDataDictionaryStatusTypings['Request']
-): Promise<UpdateDataDictionaryStatusTypings['Response']> => {
+export function updateDataDictionaryStatusApi(
+  data: UpdateDataDictionaryStatusTypings['Request'],
+): Promise<UpdateDataDictionaryStatusTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryStatus',
-    data
+    data,
   })
 }
 
-export const updateDataDictionaryItemsStatusApi = (
-  data: UpdateDataDictionaryItemsStatusTypings['Request']
-): Promise<UpdateDataDictionaryItemsStatusTypings['Response']> => {
+export function updateDataDictionaryItemsStatusApi(
+  data: UpdateDataDictionaryItemsStatusTypings['Request'],
+): Promise<UpdateDataDictionaryItemsStatusTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItemsStatus',
-    data
+    data,
   })
 }
 
-export const updateDataDictionaryItemsOrderApi = (
-  data: UpdateDataDictionaryItemsOrderTypings['Request']
-): Promise<UpdateDataDictionaryItemsOrderTypings['Response']> => {
+export function updateDataDictionaryItemsOrderApi(
+  data: UpdateDataDictionaryItemsOrderTypings['Request'],
+): Promise<UpdateDataDictionaryItemsOrderTypings['Response']> {
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItemsOrder',
-    data
+    data,
   })
 }

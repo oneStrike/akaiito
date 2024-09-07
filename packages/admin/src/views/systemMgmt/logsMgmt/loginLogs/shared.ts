@@ -1,33 +1,33 @@
-import type { ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import { utils } from '@/utils'
+import type { EsTableColumn } from '@/components/es-table/es-table.vue'
+import type { ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 
 export const tableColumns: EsTableColumn = [
   {
     label: '手机号',
     prop: 'mobile',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '登录者',
     prop: 'username',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '登录IP',
     prop: 'ip',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '登录地址',
     prop: 'ipAddress',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '登录结果',
     prop: 'statusCode',
     align: 'center',
-    slotName: 'statusCode'
+    slotName: 'statusCode',
   },
   {
     label: '登录时间',
@@ -36,8 +36,8 @@ export const tableColumns: EsTableColumn = [
     formatter: utils.formatter,
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt'
-  }
+    sortBy: 'createdAt',
+  },
 ]
 
 export const filter: ToolbarFilter = [
@@ -45,8 +45,8 @@ export const filter: ToolbarFilter = [
     field: 'dateTimePicker',
     component: 'DateTime',
     componentProps: {
-      placeholder: '操作时间'
-    }
+      placeholder: '操作时间',
+    },
   },
   {
     field: 'status',
@@ -57,14 +57,14 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: '成功',
-          value: 1
+          value: 1,
         },
         {
           label: '失败',
-          value: 0
-        }
-      ]
-    }
+          value: 0,
+        },
+      ],
+    },
   },
   {
     field: 'mobile',
@@ -72,7 +72,7 @@ export const filter: ToolbarFilter = [
     componentProps: {
       placeholder: '手机号',
       clearable: true,
-      maxlength: 11
-    }
-  }
+      maxlength: 11,
+    },
+  },
 ]

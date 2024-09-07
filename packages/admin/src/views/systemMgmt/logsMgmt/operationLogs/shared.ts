@@ -1,46 +1,46 @@
-import type { ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import { utils } from '@/utils'
+import type { EsTableColumn } from '@/components/es-table/es-table.vue'
+import type { ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 
 export const tableColumns: EsTableColumn = [
   {
     label: '手机号',
     prop: 'mobile',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '操作者',
     prop: 'username',
-    align: 'center'
+    align: 'center',
   },
 
   {
     label: '请求信息',
     prop: 'summary',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '请求方式',
     prop: 'method',
-    align: 'center'
+    align: 'center',
   },
 
   {
     label: '操作IP',
     prop: 'ip',
-    align: 'center'
+    align: 'center',
   },
   {
     label: '操作IP地址',
     prop: 'ipAddress',
-    align: 'center'
+    align: 'center',
   },
 
   {
     label: '操作结果',
     prop: 'statusCode',
     align: 'center',
-    slotName: 'statusCode'
+    slotName: 'statusCode',
   },
   {
     label: '操作时间',
@@ -49,8 +49,8 @@ export const tableColumns: EsTableColumn = [
     formatter: utils.formatter,
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt'
-  }
+    sortBy: 'createdAt',
+  },
 ]
 
 export const filter: ToolbarFilter = [
@@ -58,8 +58,8 @@ export const filter: ToolbarFilter = [
     field: 'dateTimePicker',
     component: 'DateTime',
     componentProps: {
-      placeholder: '操作时间'
-    }
+      placeholder: '操作时间',
+    },
   },
   {
     field: 'status',
@@ -69,14 +69,14 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: '成功',
-          value: 1
+          value: 1,
         },
         {
           label: '失败',
-          value: 0
-        }
-      ]
-    }
+          value: 0,
+        },
+      ],
+    },
   },
   {
     field: 'method',
@@ -86,14 +86,14 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: 'POST',
-          value: 'POST'
+          value: 'POST',
         },
         {
           label: 'GET',
-          value: 'GET'
-        }
-      ]
-    }
+          value: 'GET',
+        },
+      ],
+    },
   },
   {
     field: 'mobile',
@@ -101,7 +101,7 @@ export const filter: ToolbarFilter = [
     componentProps: {
       placeholder: '手机号',
       clearable: true,
-      maxlength: 11
-    }
-  }
+      maxlength: 11,
+    },
+  },
 ]

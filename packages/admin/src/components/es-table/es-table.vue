@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { TableColumnInstance } from 'element-plus'
 import type { IterateObject } from '@typings/index'
+import type { TableColumnInstance } from 'element-plus'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
   prop?: string
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<EsTableProps>(), {
   defaultValue: '-',
   pageSize: 15,
   pageIndex: 0,
-  total: 15
+  total: 15,
 })
 const emits = defineEmits<{
   (event: 'update:selectionItems', data: any): void
@@ -33,7 +33,10 @@ const emits = defineEmits<{
   (event: 'update:pageSize', data: number): void
   (
     event: 'sortChange',
-    data: { field: string; order: 'asc' | 'desc' | null }
+    data: {
+      field: string
+      order: 'asc' | 'desc' | null
+    },
   ): void
 }>()
 
@@ -43,7 +46,7 @@ const currentPageIndex = computed({
   },
   set(val) {
     emits('update:pageIndex', val - 1)
-  }
+  },
 })
 
 const currentPageSize = useVModel(props, 'pageSize', emits)
@@ -55,14 +58,14 @@ const tableHeight = ref(100)
 const elHeight = ref({
   container: 0,
   pagination: 0,
-  toolbar: 0
+  toolbar: 0,
 })
 
 onMounted(() => {
   computedTableHeight()
 })
 
-const computedTableHeight = () => {
+function computedTableHeight() {
   useResizeObserver(tableBoxRef.value?.parentNode, (entries) => {
     const entry = entries[0]
     elHeight.value.container = entry.contentRect.height
@@ -86,7 +89,7 @@ watch(
   (val) => {
     tableHeight.value = val.container - val.pagination - val.toolbar
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 )
 
 const innerColumns = computed(() => {
@@ -97,11 +100,12 @@ const innerColumns = computed(() => {
         prop: 'index',
         align: 'center',
         type: 'index',
-        width: 66
+        width: 66,
       },
-      ...props.columns
+      ...props.columns,
     ]
   }
+  return []
 })
 
 const selectionItems = computed({
@@ -110,27 +114,27 @@ const selectionItems = computed({
   },
   set(val) {
     emits('update:selectionItems', val)
-  }
+  },
 })
 
-const handlerSelectionChange = (val: any) => {
+function handlerSelectionChange(val: any) {
   selectionItems.value = val
 }
 
-const handlerSortChange = (val: any) => {
+function handlerSortChange(val: any) {
   emits('sortChange', {
     field: val.prop,
-    order: val.order === 'descending' ? 'desc' : 'asc'
+    order: val.order === 'descending' ? 'desc' : 'asc',
   })
 }
 
 defineExpose({
-  computedTableHeight
+  computedTableHeight,
 })
 </script>
 
 <template>
-  <div ref="tableBoxRef" :style="{ height: tableHeight + 'px' }">
+  <div ref="tableBoxRef" :style="{ height: `${tableHeight}px` }">
     <el-table
       :data="data"
       :height="tableHeight"
@@ -139,9 +143,9 @@ defineExpose({
       @sort-change="handlerSortChange"
     >
       <el-table-column
+        v-if="selection"
         type="selection"
         width="55"
-        v-if="selection"
         class-name="leading-9"
       />
       <el-table-column
@@ -157,7 +161,7 @@ defineExpose({
               :row="row"
               :column="column"
               :index="$index"
-            ></slot>
+            />
           </template>
           <template v-else-if="item.type !== 'index'">
             {{
@@ -166,7 +170,7 @@ defineExpose({
                     row,
                     column,
                     item.prop ? row[item.prop] : null,
-                    $index
+                    $index,
                   )
                 : item.prop
                   ? row[item.prop]
@@ -180,11 +184,11 @@ defineExpose({
         <el-empty description="暂无数据" />
       </template>
     </el-table>
-    <div class="w-full flex justify-end pt-3 pr-3" ref="paginationRef">
+    <div ref="paginationRef" class="w-full flex justify-end pt-3 pr-3">
       <el-pagination
-        :hide-on-single-page="total > currentPageSize"
         v-model:current-page="currentPageIndex"
         v-model:page-size="currentPageSize"
+        :hide-on-single-page="total > currentPageSize"
         :page-sizes="[15, 30, 45, 50, 100]"
         background
         layout="total, sizes, prev, pager, next, jumper"

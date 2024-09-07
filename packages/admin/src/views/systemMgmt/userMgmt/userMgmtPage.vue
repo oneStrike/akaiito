@@ -1,24 +1,23 @@
 <script setup lang="ts">
-import { useRequest } from '@/hooks/useRequest'
-import {
-  filter,
-  toolbar,
-  formOptions,
-  tableColumns,
-  pwdFormOptions
-} from '@/views/systemMgmt/userMgmt/shared'
 import {
   createAdminUserApi,
   deleteAdminUserApi,
   getUserPageApi,
   updateAdminUserInfoApi,
-  updateAdminUserPasswordApi
+  updateAdminUserPasswordApi,
 } from '@/apis/user'
-import type { UpdateAdminUserPasswordTypings } from '@/apis/user.d'
-import type { ResolveListItem } from '@akaiito/typings/src'
 import { useMessage } from '@/hooks/useFeedback'
-import { useUserStore } from '@/stores/modules/user'
 import { useFormTool } from '@/hooks/useForm'
+import { useRequest } from '@/hooks/useRequest'
+import { useUserStore } from '@/stores/modules/user'
+import {
+  filter,
+  formOptions,
+  pwdFormOptions,
+  tableColumns,
+  toolbar,
+} from '@/views/systemMgmt/userMgmt/shared'
+import type { ResolveListItem } from '@akaiito/typings/src'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
@@ -29,25 +28,25 @@ const {
   requestData,
   loading,
   requestParams,
-  resetRequest
+  resetRequest,
 } = useRequest(getUserPageApi)
 requestPage()
 
 const userStore = useUserStore()
 const pwdModal = ref(false)
 const formModal = ref(false)
-const currentRow = ref<TableItem>()
+const currentRow = ref<TableItem | null>()
 
 const formScheme = useFormTool(formOptions)
 
-const openUpdateUserInfoModal = (row: TableItem) => {
+function openUpdateUserInfoModal(row: TableItem) {
   formScheme.toggleDisplay(['password', 'confirmPassword'], false)
   currentRow.value = row
   formModal.value = true
 }
 
-//更新用户信息
-const updateOrAddUserInfo = async (val) => {
+// 更新用户信息
+async function updateOrAddUserInfo(val: any) {
   if (Array.isArray(val.avatar)) {
     val.avatar = val.avatar[0].filePath
   }
@@ -56,43 +55,44 @@ const updateOrAddUserInfo = async (val) => {
   useMessage.success(currentRow.value ? '修改成功!' : '添加成功!')
   formModal.value = false
   await resetPage()
-  if (val.id === userStore.userInfo.id) {
-    userStore.setUserInfo(
-      requestData.value.list.filter(
-        (item) => item.id === userStore.userInfo.id
-      )[0]
-    )
+  if (val.id === userStore.userInfo?.id && requestData.value) {
+    const target = requestData.value.list.filter(
+      (item) => item.id === userStore.userInfo?.id,
+    )[0]
+    userStore.setUserInfo(target)
   }
 }
 
-//修改密码
-const changePwd = async (val: UpdateAdminUserPasswordTypings['Request']) => {
-  val.id = currentRow.value.id
-  await updateAdminUserPasswordApi(val)
-  useMessage.success({
-    message: '修改成功!'
-  })
-  pwdModal.value = false
-  currentRow.value = null
-  if (val.id === userStore.userInfo.id) {
-    userStore.signOut()
+// 修改密码
+async function changePwd(val: any) {
+  if (currentRow.value) {
+    val.id = currentRow.value.id
+    await updateAdminUserPasswordApi(val)
+    useMessage.success({
+      message: '修改成功!',
+    })
+    pwdModal.value = false
+    currentRow.value = null
+    if (val.id === userStore.userInfo?.id) {
+      userStore.signOut()
+    }
   }
 }
 
-const handlerToolbar = () => {
+function handlerToolbar() {
   formScheme.toggleDisplay(['password', 'confirmPassword'], true)
   currentRow.value = null
   formModal.value = true
 }
 
-const switchStatus = async (val) => {
+async function switchStatus(val: any) {
   await updateAdminUserInfoApi(val)
   await resetPage()
 }
 </script>
 
 <template>
-  <div class="main-page" v-loading="loading">
+  <div v-loading="loading" class="main-page">
     <es-toolbar
       :toolbar="toolbar"
       :filter="filter"
@@ -115,29 +115,26 @@ const switchStatus = async (val) => {
       </template>
 
       <template #isRoot="{ row }">
-        <el-text v-if="row.isRoot === 1" type="primary">超级管理员</el-text>
-        <el-text v-else>普通管理员</el-text>
+        <el-text v-if="row.isRoot === 1" type="primary"> 超级管理员</el-text>
+        <el-text v-else> 普通管理员</el-text>
       </template>
 
       <template #status="{ row }">
         <es-switch :request="switchStatus" :row="row" />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="openUpdateUserInfoModal(row)"
-          >编辑
+        <el-button type="primary" link @click="openUpdateUserInfoModal(row)">
+          编辑
         </el-button>
 
-        <el-button
-          type="primary"
-          link
-          @click="(currentRow = row), (pwdModal = true)"
-          >修改密码
+        <el-button type="primary" link @click="(currentRow = row), (pwdModal = true)">
+          修改密码
         </el-button>
 
         <es-pop-confirm
+          v-model:loading="loading"
           :request="deleteAdminUserApi"
           :row="row"
-          v-model:loading="loading"
           @success="resetPage()"
         />
       </template>

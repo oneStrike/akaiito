@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import layoutSubMenu from '@/layouts/components/layoutSubMenu.vue'
 import { routes } from '@/router/routes'
 import { useLayoutStore } from '@/stores/modules/layout'
-import layoutSubMenu from '@/layouts/components/layoutSubMenu.vue'
 import type { RouteRecordName, RouteRecordRaw } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
 const layoutStore = useLayoutStore()
 
-const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
+function filterMenus(routes: RouteRecordRaw[]): RouteRecordRaw[] {
   const tempRoutes: RouteRecordRaw[] = []
   return routes
     .filter((item) => !item.meta?.hideMenu || Array.isArray(item.children))
@@ -23,23 +23,25 @@ const filterMenus = (routes: RouteRecordRaw[]): RouteRecordRaw[] => {
     .concat(tempRoutes) as RouteRecordRaw[]
 }
 
-const serializeRoutes = (route: RouteRecordRaw[]) => {
+function serializeRoutes(route: RouteRecordRaw[]) {
   return filterMenus(route)
     .map((item, index) => {
       if (Array.isArray(item.children)) {
         item.children = serializeRoutes(item.children)
       }
-      item.meta.order = item.meta.order || index
+      item.meta!.order = item.meta!.order || index
       return item
     })
     .sort((a, b) => {
-      return a.meta.order - b.meta.order
+      const orderA = a.meta?.order ?? Infinity
+      const orderB = b.meta?.order ?? Infinity
+      return orderA - orderB
     })
 }
 
 const menus = reactive(serializeRoutes(routes))
 
-const menuSelect = (menu: RouteRecordName) => {
+function menuSelect(menu: RouteRecordName) {
   router.push({ name: menu })
 }
 </script>
@@ -57,8 +59,8 @@ const menuSelect = (menu: RouteRecordName) => {
       @select="menuSelect"
     >
       <template v-for="menu in menus" :key="menu.name">
-        <layout-sub-menu :menu-info="menu" v-if="menu.children" />
-        <el-menu-item :index="menu.name as string" :key="menu.name" v-else>
+        <layout-sub-menu v-if="menu.children" :menu-info="menu" />
+        <el-menu-item v-else :key="menu.name" :index="menu.name as string">
           <es-icons :name="menu?.meta?.icon" unset />
           <template #title>
             <span>{{ menu?.meta?.title }}</span>

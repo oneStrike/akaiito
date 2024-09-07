@@ -4,27 +4,27 @@ import { utils } from '@/utils'
 const { validEmail, validPhone, validPwd, validUrl } = utils.validate
 
 // 必填验证规则
-const required = (label: string, trigger?: 'blue' | 'change') => {
+function required(label: string, trigger?: 'blue' | 'change') {
   return {
     required: true,
-    message: label + '不能为空',
-    trigger
+    message: `${label}不能为空`,
+    trigger,
   }
 }
 
 // 自定义验证规则
-const validator = (reg: RegExp, message: string) => {
+function validator(reg: RegExp, message: string) {
   return {
     trigger: 'blur',
     validator: (rule: any, value: any, callback: any) => {
       if (!value) {
-        return callback(new Error(message + '不能为空'))
+        return callback(new Error(`${message}不能为空`))
       } else if (!reg.test(value)) {
-        return callback(new Error(message + '规则不符合'))
+        return callback(new Error(`${message}规则不符合`))
       } else {
         callback()
       }
-    }
+    },
   }
 }
 
@@ -34,5 +34,5 @@ export const useValidate = {
   password: validator(validPwd, '密码'), // 密码验证
   mobile: validator(validPhone, '手机号'), // 手机号验证
   email: validator(validEmail, '邮箱'), // 邮箱验证
-  url: validator(validUrl, '链接') // 链接验证
+  url: validator(validUrl, '链接'), // 链接验证
 }

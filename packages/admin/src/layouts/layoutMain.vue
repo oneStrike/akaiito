@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import layoutAside from '@/layouts/components/layoutAside.vue'
 import layoutContent from '@/layouts/components/layoutContent.vue'
 import layoutHeader from '@/layouts/components/layoutHeader.vue'
-import layoutAside from '@/layouts/components/layoutAside.vue'
 import layoutTabs from '@/layouts/components/layoutTabs.vue'
 </script>
+
 <template>
   <div class="">
     <el-container class="h-screen">
@@ -18,7 +19,7 @@ import layoutTabs from '@/layouts/components/layoutTabs.vue'
         <el-main class="!p-3 bg-[var(--el-bg-color-page)]">
           <layout-content />
         </el-main>
-        <!--        <el-footer>Footer</el-footer>-->
+        <!--        <el-footer>Footer</el-footer> -->
       </el-container>
     </el-container>
   </div>

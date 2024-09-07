@@ -7,7 +7,7 @@ export default {
   meta: {
     title: '内容管理',
     order: 2,
-    icon: 'book'
+    icon: 'book',
   },
   children: [
     {
@@ -19,8 +19,8 @@ export default {
         title: '内容列表',
         icon: 'textbox',
         rules: ['root'],
-        order: 2
-      }
+        order: 2,
+      },
     },
     {
       name: 'AuthorsMgmtPage',
@@ -31,8 +31,8 @@ export default {
         title: '作者管理',
         icon: 'userEdit',
         rules: ['root'],
-        order: 2
-      }
+        order: 2,
+      },
     },
     {
       name: 'ClassifyMgmtPage',
@@ -43,8 +43,8 @@ export default {
         title: '分类管理',
         icon: 'scale',
         rules: ['root'],
-        order: 3
-      }
+        order: 3,
+      },
     },
     {
       name: 'modelMgmtPage',
@@ -55,8 +55,8 @@ export default {
         title: '模型管理',
         icon: 'cube',
         rules: ['root'],
-        order: 4
-      }
-    }
-  ]
+        order: 4,
+      },
+    },
+  ],
 } as RouteRecordRaw

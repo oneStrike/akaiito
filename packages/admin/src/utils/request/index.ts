@@ -1,18 +1,18 @@
+import { config } from '@/config'
+import { useMessage } from '@/hooks/useFeedback'
+import { useUserStore } from '@/stores/modules/user'
 import { HttpClient, type HttpClientOptions } from '@/utils/request/request'
 import type { HttpResponseResult } from '@typings/index'
-import { useMessage } from '@/hooks/useFeedback'
 import type {
   AxiosError,
   AxiosRequestConfig,
-  InternalAxiosRequestConfig
+  InternalAxiosRequestConfig,
 } from 'axios'
-import { useUserStore } from '@/stores/modules/user'
-import { config } from '@/config'
 
-const responseError = (err: AxiosError) => {
+function responseError(err: AxiosError) {
   useMessage.error(err.message || '未知错误')
 }
-const response = (data: any) => {
+function response(data: any) {
   const responseData = data.data as HttpResponseResult
   if (responseData.code !== 200 && data.config.errorMessage !== false) {
     useMessage.error(responseData.message || '未知错误')
@@ -23,7 +23,7 @@ const response = (data: any) => {
 }
 
 const request: HttpClientOptions['requestInterceptor'] = async (
-  conf
+  conf,
 ): Promise<InternalAxiosRequestConfig> => {
   const userStore = useUserStore()
   let accessToken = userStore.token.accessToken
@@ -47,21 +47,23 @@ const http = new HttpClient({
   baseURL: import.meta.env.VITE_BASE_URL,
   requestInterceptor: request,
   responseInterceptor: response,
-  responseInterceptorError: responseError
+  responseInterceptorError: responseError,
 })
 
-type extended = { errorMessage?: boolean }
+interface extended {
+  errorMessage?: boolean
+}
 
-export const httpClient = <T>(
-  axiosConfig: AxiosRequestConfig & extended
-): Promise<T> => {
+export function httpClient<T>(
+  axiosConfig: AxiosRequestConfig & extended,
+): Promise<T> {
   if (axiosConfig.method?.toLocaleLowerCase() === 'get') {
     return http.get<T>({
-      ...axiosConfig
+      ...axiosConfig,
     })
   } else {
     return http.post<T>({
-      ...axiosConfig
+      ...axiosConfig,
     })
   }
 }

@@ -29,20 +29,21 @@ console.log('🚀 ~ file:layoutHeader method: line:11 -----', userInfo)
           v-for="item in route.matched"
           :key="item.name"
           :to="{ path: route.path }"
-          >{{ item.meta.title }}
+        >
+          {{ item.meta.title }}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-space size="large">
       <es-icons
-        @click="layoutStore.toggleFullScreen"
         :name="
           layoutStore.fullScreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'
         "
+        @click="layoutStore.toggleFullScreen"
       />
       <es-icons
-        @click="layoutStore.toggleThemeMode"
         :name="layoutStore.theme === 'light' ? 'sunLoop' : 'moonLoop'"
+        @click="layoutStore.toggleThemeMode"
       />
       <el-dropdown>
         <div class="cursor-pointer flex items-center">
@@ -66,8 +67,8 @@ console.log('🚀 ~ file:layoutHeader method: line:11 -----', userInfo)
               >
             </el-dropdown-item>
             <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item @click="userStore.signOut"
-              >退出登录
+            <el-dropdown-item @click="userStore.signOut">
+              退出登录
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

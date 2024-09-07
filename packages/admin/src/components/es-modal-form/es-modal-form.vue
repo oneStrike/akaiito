@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import type {
-  EsFormOptions,
-  EsFormProps
-} from '@/components/es-form/es-form.vue'
-import type { IterateObject } from '@typings/index'
 import { utils } from '@/utils'
-import type { Ref } from 'vue'
+import type { EsFormOptions, EsFormProps } from '@/components/es-form/es-form.vue'
+import type { IterateObject } from '@typings/index'
 
 export interface FormModalProps {
   modelValue?: IterateObject
-  defaultValue?: IterateObject
+  defaultValue?: IterateObject | null
   modal?: boolean
   options: EsFormOptions[]
   title?: string
@@ -18,12 +14,10 @@ export interface FormModalProps {
   width?: string | number
 }
 
-const esFormRef = ref()
 const props = withDefaults(defineProps<FormModalProps>(), {
   formProps: () => ({}),
-  width: 880
+  width: 880,
 })
-
 const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
@@ -34,6 +28,19 @@ const emits = defineEmits<{
   (event: 'update:modelValue', data: IterateObject): void
 }>()
 
+const btnLoading = ref(false)
+const esFormRef = ref()
+
+const formValue = computed({
+  get() {
+    return props.modelValue || utils._.cloneDeep(props.defaultValue || {})
+  },
+  set(val) {
+    emits('update:modelValue', val)
+    emits('change', val)
+  },
+})
+
 onMounted(() => {
   window.addEventListener('unhandledrejection', () => {
     btnLoading.value = false
@@ -42,14 +49,13 @@ onMounted(() => {
 })
 
 const show = useVModel(props, 'modal', emits)
-const btnLoading = ref(false)
 
 watch(
   () => props.loading,
   (val) => {
     btnLoading.value = !!val
   },
-  { immediate: true }
+  { immediate: true },
 )
 
 watch(show, (val) => {
@@ -61,26 +67,13 @@ watch(show, (val) => {
   }
 })
 
-const formValue = computed({
-  get() {
-    console.log(props.modelValue || utils._.cloneDeep(props.defaultValue || {}))
-    return props.modelValue || utils._.cloneDeep(props.defaultValue || {})
-  },
-  set(val) {
-    emits('update:modelValue', val)
-    emits('change', val)
-  }
-})
+const formProps = computed(() => Object.assign(props.formProps, { labelPosition: 'top' }))
 
-const formProps = computed(() =>
-  Object.assign(props.formProps, { labelPosition: 'top' })
-)
-
-const handler = () => {
+function handler() {
   esFormRef.value?.submitForm()
 }
 
-const formSubmit = (val: IterateObject) => {
+function formSubmit(val: IterateObject) {
   btnLoading.value = true
   emits('submit', val)
   emits('update:loading', true)
@@ -100,10 +93,10 @@ const formSubmit = (val: IterateObject) => {
   >
     <es-form
       ref="esFormRef"
+      v-model="formValue"
       :options="options"
       :show-btn="false"
       :form-props="formProps"
-      v-model="formValue"
       @submit="formSubmit"
     />
   </es-modal>

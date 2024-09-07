@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { AsyncFn, IterateObject } from '@typings/index'
-import { useMessage } from '@/hooks/useFeedback'
 import { PromptsEnum } from '@/enum/prompts'
+import { useMessage } from '@/hooks/useFeedback'
+import type { AsyncFn, IterateObject } from '@typings/index'
 
 export interface EsSwitchProps<T = IterateObject> {
   row: T
@@ -10,7 +10,7 @@ export interface EsSwitchProps<T = IterateObject> {
 }
 
 const props = withDefaults(defineProps<EsSwitchProps>(), {
-  ids: false
+  ids: false,
 })
 const emits = defineEmits<{
   (event: 'update:row'): void
@@ -20,13 +20,13 @@ const emits = defineEmits<{
 
 const row = useVModel(props, 'row', emits)
 
-const toggleStatus = async () => {
+async function toggleStatus() {
   try {
     row.value.loading = true
     const status = row.value.status === 0 ? 1 : 0
     const params = {
       [props.ids ? 'ids' : 'id']: props.ids ? [row.value.id] : row.value.id,
-      status
+      status,
     }
     await props.request(params)
     row.value.loading = false

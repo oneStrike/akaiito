@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { getRequestLogsApi } from '@/apis/logs'
 import { useRequest } from '@/hooks/useRequest'
 import {
+  filter,
   tableColumns,
-  filter
 } from '@/views/systemMgmt/logsMgmt/loginLogs/shared'
-import { getRequestLogsApi } from '@/apis/logs'
 
 const {
   requestPage,
@@ -12,15 +12,15 @@ const {
   sortChange,
   requestData,
   loading,
-  requestParams
+  requestParams,
 } = useRequest(getRequestLogsApi, {
-  path: '/admin/user/login'
+  path: '/admin/user/login',
 })
 requestPage()
 </script>
 
 <template>
-  <div class="main-page" v-loading="loading">
+  <div v-loading="loading" class="main-page">
     <es-toolbar :filter="filter" @query="resetRequest" />
     <es-table
       v-model:page-index="requestParams.pageIndex"
@@ -31,11 +31,11 @@ requestPage()
       @sort-change="sortChange"
     >
       <template #statusCode="{ row }">
-        <el-text class="mx-1" type="success" v-if="row.statusCode === 200"
-          >登录成功
+        <el-text v-if="row.statusCode === 200" class="mx-1" type="success">
+          登录成功
         </el-text>
-        <el-text class="mx-1" type="danger" v-else
-          >{{ row.statusDesc }}
+        <el-text v-else class="mx-1" type="danger">
+          {{ row.statusDesc }}
         </el-text>
       </template>
     </es-table>
