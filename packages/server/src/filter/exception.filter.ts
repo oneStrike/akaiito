@@ -1,7 +1,8 @@
-import { Catch, MidwayHttpError } from '@midwayjs/core'
-import { Context } from '@midwayjs/koa'
-import type { HttpResponseResult } from '@akaiito/typings/src'
 import { LogService } from '@/modules/internal/log/log.service'
+import { Catch } from '@midwayjs/core'
+import type { HttpResponseResult } from '@akaiito/typings/src'
+import type { MidwayHttpError } from '@midwayjs/core'
+import type { Context } from '@midwayjs/koa'
 
 @Catch()
 export class ExceptionFilter {
@@ -9,7 +10,7 @@ export class ExceptionFilter {
     const cause = err.cause as any
     const responseErrorInfo = {
       status: 'error',
-      data: null
+      data: null,
     } as HttpResponseResult
 
     ctx.logger.error(err)
@@ -25,8 +26,7 @@ export class ExceptionFilter {
         responseErrorInfo.message = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
       }
     } else {
-      if (err.name === 'MultipartInvalidFilenameError')
-        err.message = '不受支持的文件类型'
+      if (err.name === 'MultipartInvalidFilenameError') err.message = '不受支持的文件类型'
       responseErrorInfo.code = err.status
       switch (err.status) {
         case 400:

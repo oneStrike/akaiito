@@ -1,8 +1,8 @@
 import { RouterJumpMethodEnum } from '@/components/libs/enum/router'
+import { useStorage } from '@/components/libs/hooks/useStorage'
 import type { RouterConfig } from '@/components/libs/typings/config'
 import type { IRouter, Pages } from '@/components/libs/typings/hooks'
 import type { IterateObject } from '@akaiito/typings/src'
-import { useStorage } from '@/components/libs/hooks/useStorage'
 
 export class EsRouter {
   public tabBarPage: Pages[]
@@ -16,15 +16,15 @@ export class EsRouter {
     this.guard = config?.routerGuard
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
-    //@ts-ignore
+    // @ts-ignore
     this.pages = window?.ROUTES || ROUTES
-    //@ts-ignore
+    // @ts-ignore
     this.tabBarPage = (window?.ROUTES || ROUTES).filter((item) => item.tabBar)
   }
 
   private async jump({ path, name, method, query }: IRouter) {
     if (!path && name) {
-      path = '/' + this.pages.find((item) => item.name === name)?.path
+      path = `/${this.pages.find((item) => item.name === name)?.path}`
     }
     if (!path) return
     const { tabBar = '', normal = '' } = this.prefix || {}
@@ -38,19 +38,19 @@ export class EsRouter {
     const pass = this.guard ? await this.guard(path) : true
     if (!method) method = RouterJumpMethodEnum.NAVIGATE
     if (pass) {
-      //@ts-ignore
+      // @ts-ignore
       uni[method]({
         url: path,
         success: () => Promise.resolve(),
         fail: (err: any) => Promise.reject(err),
         complete: (res: any) => {
           this.enter && this.enter(res)
-        }
+        },
       })
     }
   }
 
-  //拼接完整路由地址
+  // 拼接完整路由地址
   fullPath(path: string, query?: IterateObject) {
     const queryArr: string[] = []
     if (query) {
@@ -64,13 +64,13 @@ export class EsRouter {
     return path + (queryStr ? joinUnit + queryStr : '')
   }
 
-  //获取当前路由在pages.json的信息
+  // 获取当前路由在pages.json的信息
   getRoute() {
     const currentPath = getCurrentPages().at(-1)?.route
     return this.pages.find((item) => item.path === currentPath)
   }
 
-  //获取传递的query信息
+  // 获取传递的query信息
   getQuery() {
     const pages = getCurrentPages()
     const currentPage = pages[pages.length - 1]
@@ -95,7 +95,7 @@ export class EsRouter {
     return options
   }
 
-  //是否为tabBar页面
+  // 是否为tabBar页面
   isTabBarPage(path: string) {
     return !!this.tabBarPage.find((item) => item.path.includes(path))
   }

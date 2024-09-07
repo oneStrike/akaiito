@@ -8,13 +8,13 @@ export interface UseSystemConfigState {
 export const useSystemConfigStore = defineStore('useSystemConfig', {
   state() {
     return {
-      systemConfig: {}
+      systemConfig: {},
     } as UseSystemConfigState
   },
   actions: {
     async getSystemConfig() {
       this.systemConfig = (await getClientSystemConfigApi()) || {}
       console.log(this.systemConfig)
-    }
-  }
+    },
+  },
 })

@@ -1,15 +1,9 @@
-import {
-  Config,
-  Guard,
-  httpError,
-  IGuard,
-  Inject,
-  MidwayWebRouterService
-} from '@midwayjs/core'
-import { Context } from '@midwayjs/koa'
-import { Jwt } from '@/modules/internal/authentication/jwt.service'
-import { IterateObject } from '@akaiito/typings/src'
 import { isAdminRequest } from '@/utils/requestSource'
+import { Config, Guard, httpError, Inject } from '@midwayjs/core'
+import type { Jwt } from '@/modules/internal/authentication/jwt.service'
+import type { IterateObject } from '@akaiito/typings/src'
+import type { IGuard, MidwayWebRouterService } from '@midwayjs/core'
+import type { Context } from '@midwayjs/koa'
 
 @Guard()
 export class AuthGuard implements IGuard<Context> {
@@ -24,22 +18,22 @@ export class AuthGuard implements IGuard<Context> {
 
   async canActivate(ctx: Context) {
     if (isAdminRequest(ctx.url)) {
-      const refreshToken = ctx.headers['refresh_token'] as string
+      const refreshToken = ctx.headers.refresh_token as string
       if (refreshToken && ctx.url.includes('/admin/user/refreshAccessToken')) {
         const payload = await this.jwtService.verify(refreshToken)
-        if (typeof payload === 'string' || !payload.refresh) throw Error()
+        if (typeof payload === 'string' || !payload.refresh) throw new Error()
         this.setUserInfoToCtx(ctx, payload)
       } else {
         // 判断下有没有校验信息
         const permit = this.permit(ctx)
-        if (!ctx.headers['authorization'] && !permit) {
+        if (!ctx.headers.authorization && !permit) {
           throw new httpError.UnauthorizedError()
         }
         if (!permit) {
-          const token = ctx.headers['authorization']
+          const token = ctx.headers.authorization
           try {
             const payload = await this.jwtService.verify(token)
-            if (typeof payload === 'string' || payload.refresh) throw Error()
+            if (typeof payload === 'string' || payload.refresh) throw new Error()
             this.setUserInfoToCtx(ctx, payload)
           } catch (e) {
             throw new httpError.UnauthorizedError('登录状态失效')
@@ -55,7 +49,7 @@ export class AuthGuard implements IGuard<Context> {
     ctx.setAttr('summaryUserInfo', {
       userId: payload.id,
       username: payload.username,
-      mobile: payload.mobile
+      mobile: payload.mobile,
     })
   }
 

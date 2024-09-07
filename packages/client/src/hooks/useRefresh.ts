@@ -1,4 +1,4 @@
-export const useRefresh = (handler: () => Promise<any>) => {
+export function useRefresh(handler: () => Promise<any>) {
   const refresh = () => {
     onPullDownRefresh(() => {
       handler().then(() => {

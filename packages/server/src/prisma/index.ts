@@ -1,5 +1,6 @@
-import { ILogger, IMidwayContainer, Inject, Singleton } from '@midwayjs/core'
+import { Inject, Singleton } from '@midwayjs/core'
 import { PrismaClient } from '@prisma/client'
+import type { ILogger, IMidwayContainer } from '@midwayjs/core'
 
 @Singleton()
 export class RegisterPrisma {
@@ -10,8 +11,8 @@ export class RegisterPrisma {
     const prisma = new PrismaClient({
       log: [
         { level: 'query', emit: 'event' },
-        { level: 'error', emit: 'event' }
-      ]
+        { level: 'error', emit: 'event' },
+      ],
     })
 
     container.registerObject('prismaClient', prisma)

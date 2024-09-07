@@ -2,12 +2,12 @@
 import { useRouter } from '@/hooks/useRouter'
 
 defineOptions({
-  name: 'TabBarDynamic'
+  name: 'TabBarDynamic',
 })
 
-const navPage = () => {
+function navPage() {
   useRouter().navigateTo({
-    name: 'plugins'
+    name: 'plugins',
   })
 }
 </script>
@@ -17,4 +17,5 @@ const navPage = () => {
     <button @click="navPage">插件</button>
   </view>
 </template>
+
 <style scoped></style>

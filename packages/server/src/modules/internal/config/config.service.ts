@@ -1,9 +1,10 @@
-import { Inject, MidwayConfigService, Provide } from '@midwayjs/core'
-import * as yaml from 'yaml'
-import * as fs from 'fs/promises'
-import * as path from 'path'
+import * as fs from 'node:fs/promises'
+import * as path from 'node:path'
 import { ConfigFilePathEnum } from '@/enum/configFilePath'
-import { IterateObject } from '@akaiito/typings/src'
+import { Inject, Provide } from '@midwayjs/core'
+import * as yaml from 'yaml'
+import type { IterateObject } from '@akaiito/typings/src'
+import type { MidwayConfigService } from '@midwayjs/core'
 
 @Provide()
 export class ConfigService {
@@ -29,7 +30,7 @@ export class ConfigService {
   // 获取配置
   async getYamlConfig<T>(
     pathEnum?: ConfigFilePathEnum,
-    field?: keyof T
+    field?: keyof T,
   ): Promise<T | T[keyof T]> {
     // 拼接配置文件路径
     const yamlFilePath = path.join(this.baseDir, pathEnum)

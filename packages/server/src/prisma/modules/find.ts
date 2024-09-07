@@ -7,11 +7,11 @@ import { formatDate } from '../utils/formatDate'
  * @param timeSerialize - 是否序列化时间的布尔值。
  * @returns 返回一个解析为结果的 Promise。
  */
-export const find = async <T>(
+export async function find<T>(
   context: any,
   options: any,
-  timeSerialize: boolean
-): Promise<T> => {
+  timeSerialize: boolean,
+): Promise<T> {
   // 删除在上下文字段中不存在的 orderBy 键
   if (options.orderBy) {
     const fields = Object.keys(context.fields)
@@ -39,11 +39,11 @@ export const find = async <T>(
   return result
 }
 
-export const findOne = async <T>(
+export async function findOne<T>(
   context: any,
   options: any,
-  timeSerialize: boolean
-): Promise<T> => {
+  timeSerialize: boolean,
+): Promise<T> {
   // 根据选项查找数据
   const result = await context.findUnique(options)
   if (timeSerialize) {

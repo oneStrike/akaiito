@@ -1,9 +1,9 @@
-import * as https from 'node:https'
 import * as fs from 'node:fs'
+import * as https from 'node:https'
 import * as path from 'node:path'
 
-import { iconMapping } from '../../es-icons/icon-mapping'
 import type { IterateObject } from '@akaiito/typings/src'
+import { iconMapping } from '../../es-icons/icon-mapping'
 
 const svgList: {
   local: boolean
@@ -17,20 +17,20 @@ function encodeSvg(svg: string) {
   const res = svg
     .replace(
       '<svg',
-      ~svg.indexOf('xmlns') ? '<svg' : '<svg xmlns="http://www.w3.org/2000/svg"'
+      ~svg.indexOf('xmlns') ? '<svg' : '<svg xmlns="http://www.w3.org/2000/svg"',
     )
     .replace(/"/g, "'")
     .replace(/%/g, '%25')
     .replace(/#/g, '%23')
-    .replace(/{/g, '%7B')
-    .replace(/}/g, '%7D')
+    .replace(/\{/g, '%7B')
+    .replace(/\}/g, '%7D')
     .replace(/</g, '%3C')
     .replace(/>/g, '%3E')
   return `url("data:image/svg+xml;utf8,${res}")`
 }
 
-//下载svg数据
-const downloadSvg = (url: string): Promise<string> => {
+// 下载svg数据
+function downloadSvg(url: string): Promise<string> {
   return new Promise((resolve) => {
     https
       .get(url, (res) => {
@@ -59,25 +59,25 @@ const downloadSvg = (url: string): Promise<string> => {
   })
 }
 
-//解析远程svg数据
-const parasRemoteSvg = async () => {
+// 解析远程svg数据
+async function parasRemoteSvg() {
   if (!Object.keys(iconMapping).length) return
   console.log(iconMapping)
   for (const iconMappingKey in iconMapping) {
     const sourceName = iconMapping[iconMappingKey as keyof typeof iconMapping]
-    const url = 'https://api.iconify.design/' + sourceName + '.svg'
+    const url = `https://api.iconify.design/${sourceName}.svg`
     svgList.push({
       local: false,
       name: iconMappingKey,
-      sourceName: sourceName,
+      sourceName,
       data: encodeSvg(await downloadSvg(url)),
-      url
+      url,
     })
   }
 }
 
-//获取本地svg数据
-const parseLocalSvg = (iconPath: string) => {
+// 获取本地svg数据
+function parseLocalSvg(iconPath: string) {
   // 假设 iconPath 是相对于当前工作目录的文件夹路径
   const iconFolderPath = path.join(process.cwd(), iconPath)
 
@@ -95,7 +95,7 @@ const parseLocalSvg = (iconPath: string) => {
           name: fileName.split('.')[0],
           sourceName: '',
           data: encodeSvg(svgContent),
-          url: filePath
+          url: filePath,
         })
       } catch (error) {
         console.error(`无法读取文件 ${filePath}:`, error)
@@ -104,7 +104,7 @@ const parseLocalSvg = (iconPath: string) => {
     })
 }
 
-const persistData = () => {
+function persistData() {
   const filePath = path.join(__dirname, '../../es-icons/es-icons.json')
   const jsonData: IterateObject = {}
   svgList.forEach((item) => {
@@ -113,7 +113,7 @@ const persistData = () => {
   fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2), 'utf-8')
 }
 
-export const generateIcon = async (iconPath: string) => {
+export async function generateIcon(iconPath: string) {
   iconPath && parseLocalSvg(iconPath)
   await parasRemoteSvg()
   persistData()

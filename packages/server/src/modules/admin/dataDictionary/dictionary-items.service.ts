@@ -1,9 +1,9 @@
 import { Inject, Provide } from '@midwayjs/core'
+import type { DataDictionaryItems, PrismaClient } from '@prisma/client'
 import { BasicService } from '../../../basic/service/basic.service'
-import { PrismaClient, DataDictionaryItems } from '@prisma/client'
-import { CreateDictionaryItemsDto } from './dto/dictionary.dto'
-import { PrismaFindOptions } from '../../../typings/service/base.service'
-import { DictionaryService } from './dictionary.service'
+import type { PrismaFindOptions } from '../../../typings/service/base.service'
+import type { DictionaryService } from './dictionary.service'
+import type { CreateDictionaryItemsDto } from './dto/dictionary.dto'
 
 @Provide()
 export class DictionaryServiceItems extends BasicService<DataDictionaryItems> {
@@ -23,7 +23,7 @@ export class DictionaryServiceItems extends BasicService<DataDictionaryItems> {
 
   async createItems(items: CreateDictionaryItemsDto) {
     const dict = await this.dictionaryService.findUnique({
-      id: items.dictionaryId
+      id: items.dictionaryId,
     })
     if (!dict) {
       return this.throwError('暂未查询到对应的数据字典')
@@ -31,7 +31,7 @@ export class DictionaryServiceItems extends BasicService<DataDictionaryItems> {
     return this.create({
       ...items,
       dictionaryName: dict.name,
-      order: await this.getCount()
+      order: await this.getCount(),
     })
   }
 }

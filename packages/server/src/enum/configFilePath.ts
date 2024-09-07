@@ -1,3 +1,3 @@
 export enum ConfigFilePathEnum {
-  QUERY = '/config/modules/prisma.yml'
+  QUERY = '/config/modules/prisma.yml',
 }

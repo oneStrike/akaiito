@@ -1,10 +1,10 @@
 import { Rule } from '@midwayjs/validate'
+import { BasicPageDto } from '../../../../basic/dto/basic.dto'
 import {
   givenValue,
   validateNumberLess,
-  validateString
+  validateString,
 } from '../../../../utils/validate'
-import { BasicPageDto } from '../../../../basic/dto/basic.dto'
 
 export class LogDto extends BasicPageDto {
   @Rule(givenValue(['POST', 'GET'], false))

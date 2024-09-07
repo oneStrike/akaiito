@@ -1,5 +1,5 @@
 import { Inject, Provide } from '@midwayjs/core'
-import { CaptchaService as Captcha } from '@midwayjs/captcha'
+import type { CaptchaService as Captcha } from '@midwayjs/captcha'
 
 @Provide()
 export class CaptchaService {
@@ -10,11 +10,11 @@ export class CaptchaService {
     const { id, imageBase64: data } = await this.captchaService.image({
       size: 4,
       noise: 3,
-      type: 'letter'
+      type: 'letter',
     })
     return {
       id,
-      data
+      data,
     }
   }
 

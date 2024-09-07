@@ -1,18 +1,14 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { DictionaryService } from './dictionary.service'
-import {
+import type { BasicIdsDto, BasicIdsStatusDto, BasicOrderDto } from '@/basic/dto/basic.dto'
+import type { DictionaryService } from './dictionary.service'
+import type { DictionaryServiceItems } from './dictionary-items.service'
+import type {
   CreateDictionaryDto,
   CreateDictionaryItemsDto,
   FindDictionDto,
   FindDictionItemsDto,
-  UpdateDictionaryDto
+  UpdateDictionaryDto,
 } from './dto/dictionary.dto'
-import { DictionaryServiceItems } from './dictionary-items.service'
-import {
-  BasicIdsDto,
-  BasicIdsStatusDto,
-  BasicOrderDto
-} from '@/basic/dto/basic.dto'
 
 @Controller('/admin/dictionary')
 export class DictionaryController {
@@ -26,7 +22,7 @@ export class DictionaryController {
   async getDataDictionary(@Query() query: FindDictionDto) {
     return this.dictionaryService.findPage({
       ...query,
-      fuzzy: ['name', 'code']
+      fuzzy: ['name', 'code'],
     })
   }
 
@@ -34,7 +30,7 @@ export class DictionaryController {
   async getDataDictionaryItems(@Query() query: FindDictionItemsDto) {
     return this.dictionaryItemsService.getItems({
       ...query,
-      fuzzy: ['name', 'code']
+      fuzzy: ['name', 'code'],
     })
   }
 
@@ -72,7 +68,7 @@ export class DictionaryController {
   async updateDataDictionaryStatus(@Body() body: BasicIdsStatusDto) {
     return this.dictionaryService.updateBatch(
       { id: { in: body.ids } },
-      { status: body.status }
+      { status: body.status },
     )
   }
 
@@ -80,7 +76,7 @@ export class DictionaryController {
   async updateDataDictionaryItemsStatus(@Body() body: BasicIdsStatusDto) {
     return this.dictionaryItemsService.updateBatch(
       { id: { in: body.ids } },
-      { status: body.status }
+      { status: body.status },
     )
   }
 

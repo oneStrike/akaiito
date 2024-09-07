@@ -1,11 +1,11 @@
-import { Inject, Provide } from '@midwayjs/core'
-import type { Context } from '@midwayjs/koa'
-import { AdminLog, PrismaClient } from '@prisma/client'
-
-import { HttpResponseResult, IterateObject } from '@akaiito/typings/src'
 import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
-import { RouterService } from '../router/router.service'
+import { Inject, Provide } from '@midwayjs/core'
+
+import type { HttpResponseResult, IterateObject } from '@akaiito/typings/src'
+import type { Context } from '@midwayjs/koa'
+import type { AdminLog, PrismaClient } from '@prisma/client'
+import type { RouterService } from '../router/router.service'
 
 @Provide()
 export class LogService extends BasicService<AdminLog> {
@@ -21,10 +21,8 @@ export class LogService extends BasicService<AdminLog> {
 
   async recordLogs(context: Context, report: HttpResponseResult) {
     const { path, method, header, query, request } = context
-    const params: IterateObject =
-      (method === 'POST' ? request.body : query) || {}
-    const summaryUserInfo: IterateObject =
-      context.getAttr('summaryUserInfo') || {}
+    const params: IterateObject = (method === 'POST' ? request.body : query) || {}
+    const summaryUserInfo: IterateObject = context.getAttr('summaryUserInfo') || {}
     if (path === '/admin/user/login' && report.data) {
       summaryUserInfo.id = report.data.userInfo.id
       summaryUserInfo.username = report.data.userInfo.username
@@ -50,20 +48,20 @@ export class LogService extends BasicService<AdminLog> {
       path,
       statusCode: report.code,
       statusDesc: report.message,
-      userAgent: header['user-agent']
+      userAgent: header['user-agent'],
     })
   }
 
   async getRequestLogs(query: IterateObject) {
     if (query.status === 1) {
       query.where = {
-        statusCode: 200
+        statusCode: 200,
       }
     } else if (query.status === 0) {
       query.where = {
         statusCode: {
-          not: 200
-        }
+          not: 200,
+        },
       }
     }
     delete query.status

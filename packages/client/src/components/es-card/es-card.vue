@@ -1,19 +1,19 @@
 <script setup lang="ts">
 defineOptions({
-  name: 'EsCard'
+  name: 'EsCard',
 })
 
-export interface EsCardProps {
-  flex?: boolean
-}
-
 const props = withDefaults(defineProps<EsCardProps>(), {
-  flex: false
+  flex: false,
 })
 
 const emits = defineEmits<{
   (event: 'click'): void
 }>()
+
+export interface EsCardProps {
+  flex?: boolean
+}
 
 const className = computed(() => {
   return [props.flex ? 'flex' : '']
@@ -26,9 +26,10 @@ const className = computed(() => {
     :class="className"
     @click="emits('click')"
   >
-    <slot></slot>
+    <slot />
   </view>
 </template>
+
 <style>
 :host {
   display: block;

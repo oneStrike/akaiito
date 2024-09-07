@@ -1,20 +1,20 @@
+import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import {
+import type { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
+import type { Context } from '@midwayjs/koa'
+import type {
   CreateUserDto,
   RefreshAccessTokenDto,
   UpdateUserPwd,
   UserDto,
   UserLoginDto,
-  UserPageDto
+  UserPageDto,
 } from './dto/user.dto'
-import { UserService } from './user.service'
-import { UserInfo } from '@/decorator/userinfo.decorator'
-import { Context } from '@midwayjs/koa'
-import { BasicIdStatusDto, BasicIdDto } from '@/basic/dto/basic.dto'
+import type { UserService } from './user.service'
 
 @Controller('/admin/user', {
   tagName: '管理员',
-  description: '管理平台的用户管理'
+  description: '管理平台的用户管理',
 })
 export class UserController {
   @Inject()
@@ -45,8 +45,8 @@ export class UserController {
       ...query,
       fuzzy: ['username', 'mobile'],
       omit: {
-        password: true
-      }
+        password: true,
+      },
     })
   }
 
@@ -80,9 +80,7 @@ export class UserController {
 
   @Post('/refreshAccessToken', { summary: '刷新accessToken' })
   @UserInfo()
-  async refreshAccessToken(
-    @Body() body: RefreshAccessTokenDto
-  ): Promise<string> {
+  async refreshAccessToken(@Body() body: RefreshAccessTokenDto): Promise<string> {
     const userInfo = this.ctx.getAttr('userInfo') as UserDto
     return this.userService.refreshAccessToken(body.accessToken, userInfo)
   }

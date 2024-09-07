@@ -4,5 +4,5 @@ export const iconMapping = {
 
   arrowLeft: 'heroicons-outline:chevron-left',
 
-  close: 'line-md:close-circle'
+  close: 'line-md:close-circle',
 }

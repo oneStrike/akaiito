@@ -1,7 +1,4 @@
-import type {
-  IterateObject,
-  RecordPaginationOptions
-} from '@akaiito/typings/src'
+import type { IterateObject, RecordPaginationOptions } from '@akaiito/typings/src'
 
 export interface PrismaConfig {
   pagination: Omit<RecordPaginationOptions, 'orderBy'>

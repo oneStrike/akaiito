@@ -1,7 +1,7 @@
+import { Prisma } from '@prisma/client/extension'
 import { exists } from './exists'
 import * as prismaFind from './find'
 import { softDeletion as prismaSoftDeletion } from './softDeletion'
-import { Prisma } from '@prisma/client/extension'
 
 // 定义一个泛型类型别名，表示可以作为参数传入 Prisma.where 方法的参数类型
 export type PrismaWhere<T> = Prisma.Args<T, 'findFirst'>['where']
@@ -17,7 +17,7 @@ export const isExists = async function <T>(this: T, where: PrismaWhere<T>) {
 export const find = async function <T>(
   this: T,
   where: PrismaWhere<T>,
-  timeSerialize = true
+  timeSerialize = true,
 ) {
   const context = Prisma.getExtensionContext(this)
   return await prismaFind.find(context, where, timeSerialize)
@@ -26,7 +26,7 @@ export const find = async function <T>(
 export const findOne = async function <T>(
   this: T,
   where: PrismaWhere<T>,
-  timeSerialize = true
+  timeSerialize = true,
 ) {
   const context = Prisma.getExtensionContext(this)
   return await prismaFind.findOne(context, where, timeSerialize)

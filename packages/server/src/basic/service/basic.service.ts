@@ -1,14 +1,12 @@
-import { App, Config, Context, httpError, Inject } from '@midwayjs/core'
-import { Application } from '@midwayjs/koa'
-import type { PrismaConfig } from '@/typings/config/prisma'
-import {
-  FindPageResponse,
-  PrismaFindOptions
-} from '@/typings/service/base.service'
-import type { IterateObject } from '@akaiito/typings/src'
-import { utils } from '@/utils'
-import { BasicOrderDto } from '../dto/basic.dto'
 import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
+import { utils } from '@/utils'
+import { App, Config, httpError, Inject } from '@midwayjs/core'
+import type { PrismaConfig } from '@/typings/config/prisma'
+import type { FindPageResponse, PrismaFindOptions } from '@/typings/service/base.service'
+import type { IterateObject } from '@akaiito/typings/src'
+import type { Context } from '@midwayjs/core'
+import type { Application } from '@midwayjs/koa'
+import type { BasicOrderDto } from '../dto/basic.dto'
 
 export abstract class BasicService<T = IterateObject> {
   // 注入应用实例
@@ -26,7 +24,7 @@ export abstract class BasicService<T = IterateObject> {
   // 抽象模型
   protected abstract model: any
 
-  //手动抛出异常
+  // 手动抛出异常
   throwError(message: string) {
     throw new httpError.BadRequestError(message)
   }
@@ -35,10 +33,10 @@ export abstract class BasicService<T = IterateObject> {
     return await this.model.count(where || {})
   }
 
-  //是否存在
+  // 是否存在
   async exists(options: PrismaFindOptions<T>): Promise<boolean> {
     const result = await this.model.findFirst({
-      where: this.handlerWhere(options).where
+      where: this.handlerWhere(options).where,
     })
     return !!result
   }
@@ -49,51 +47,48 @@ export abstract class BasicService<T = IterateObject> {
     return id
   }
 
-  //更新数据
+  // 更新数据
   async update(options: PrismaFindOptions<T>, data: IterateObject) {
     try {
       return await this.model.update({
         where: this.handlerWhere(options).where,
-        data
+        data,
       })
     } catch (e) {
       return null
     }
   }
 
-  //更新或插入一条数据
+  // 更新或插入一条数据
   async upsert(options: PrismaFindOptions<T>, data: IterateObject) {
     try {
       return await this.model.upsert({
         where: this.handlerWhere(options).where,
         update: data,
-        create: data
+        create: data,
       })
     } catch (e) {
       return null
     }
   }
 
-  //批量更新数据
+  // 批量更新数据
   async updateBatch(options: PrismaFindOptions<T>, data: IterateObject) {
     try {
       return await this.model.updateMany({
         where: this.handlerWhere(options).where,
-        data
+        data,
       })
     } catch (e) {
       return null
     }
   }
 
-  //更新排序
+  // 更新排序
   async updateOrder(info: BasicOrderDto) {
     await Promise.all([
-      this.update(
-        { where: { id: info.targetId } },
-        { order: info.targetOrder }
-      ),
-      this.update({ where: { id: info.originId } }, { order: info.originOrder })
+      this.update({ where: { id: info.targetId } }, { order: info.targetOrder }),
+      this.update({ where: { id: info.originId } }, { order: info.originOrder }),
     ])
     return info.targetId
   }
@@ -102,25 +97,25 @@ export abstract class BasicService<T = IterateObject> {
   async softDeletion(options?: PrismaFindOptions<T>) {
     return await this.update(
       { where: this.handlerWhere(options).where },
-      { deletedAt: new Date() }
+      { deletedAt: new Date() },
     )
   }
 
-  //删除
+  // 删除
   async delete(options?: PrismaFindOptions<T>) {
     try {
       return await this.model.delete({
-        where: this.handlerWhere(options).where
+        where: this.handlerWhere(options).where,
       })
     } catch (e) {
       this.throwError(prismaErrorMessage(e.code))
     }
   }
 
-  //批量删除
+  // 批量删除
   async deleteBatch(options?: PrismaFindOptions<T>) {
     return await this.model.deleteMany({
-      where: this.handlerWhere(options).where
+      where: this.handlerWhere(options).where,
     })
   }
 
@@ -136,13 +131,13 @@ export abstract class BasicService<T = IterateObject> {
     // 并行查询总数和数据
     const [total, record] = await Promise.all([
       this.getCount({ where: where.where }),
-      this.model.findMany(where)
+      this.model.findMany(where),
     ])
     return {
       pageSize: record?.length ?? 0,
       pageIndex: where.skip ? where.skip / where.take + 1 : 1,
       total,
-      list: record
+      list: record,
     }
   }
 
@@ -150,16 +145,16 @@ export abstract class BasicService<T = IterateObject> {
   async findList(options?: PrismaFindOptions<T>) {
     const result = await this.model.findMany({
       ...this.handlerWhere(options),
-      take: this.prismaConfig.maxListItemLimit
+      take: this.prismaConfig.maxListItemLimit,
     })
 
     return {
       data: result,
-      total: result.length
+      total: result.length,
     }
   }
 
-  //处理where
+  // 处理where
   handlerWhere(options: PrismaFindOptions<T>, page?: boolean) {
     const optionsKeys = [
       'orderBy',
@@ -169,11 +164,11 @@ export abstract class BasicService<T = IterateObject> {
       'where',
       'startTime',
       'endTime',
-      'omit'
+      'omit',
     ]
 
     const where: IterateObject = {
-      where: utils._.omit(options, optionsKeys) || {}
+      where: utils._.omit(options, optionsKeys) || {},
     }
 
     if (options.where) {
@@ -185,7 +180,7 @@ export abstract class BasicService<T = IterateObject> {
     if (options?.fuzzy) {
       where.where = this.fuzzyQuery(
         options.fuzzy,
-        Object.assign(where.where, options.where)
+        Object.assign(where.where, options.where),
       )
     }
     if (options?.omit) {
@@ -194,7 +189,7 @@ export abstract class BasicService<T = IterateObject> {
     if (!where.where) where.where = {}
     if (options.startTime) {
       where.where.createdAt = {
-        gte: options.startTime
+        gte: options.startTime,
       }
     }
     if (options.endTime) {
@@ -210,16 +205,16 @@ export abstract class BasicService<T = IterateObject> {
     return where
   }
 
-  //分页
+  // 分页
   pagination(options: IterateObject) {
     const { pageSize, pageIndex } = options
     return {
       pageSize: pageSize || this.prismaConfig.pagination.pageSize,
-      pageIndex: pageIndex || this.prismaConfig.pagination.pageIndex
+      pageIndex: pageIndex || this.prismaConfig.pagination.pageIndex,
     }
   }
 
-  //排序
+  // 排序
   orderBy(orderBy?: string) {
     const orderByArr = []
     if (utils.isJson(orderBy)) {
@@ -240,19 +235,19 @@ export abstract class BasicService<T = IterateObject> {
    */
   fuzzyQuery(
     options: PrismaFindOptions<T>['fuzzy'],
-    where: PrismaFindOptions<T>['where']
+    where: PrismaFindOptions<T>['where'],
   ) {
     if (!Array.isArray(options)) return where
     options.forEach((item: PrismaFindOptions<T>['fuzzy'][number]) => {
       if (typeof item === 'string') {
         if (where[item]) {
           where[item] = {
-            startsWith: `%${where[item]}%`
+            startsWith: `%${where[item]}%`,
           }
         }
       } else {
         where[item.field] = {
-          startsWith: item.pos.replace('V', where[item.field])
+          startsWith: item.pos.replace('V', where[item.field]),
         }
       }
     })

@@ -1,11 +1,7 @@
-import {
-  createCustomMethodDecorator,
-  IMethodAspect,
-  JoinPoint,
-  REQUEST_OBJ_CTX_KEY
-} from '@midwayjs/core'
 import { UserService } from '@/modules/admin/user/user.service'
 import { Jwt } from '@/modules/internal/authentication/jwt.service'
+import { createCustomMethodDecorator, REQUEST_OBJ_CTX_KEY } from '@midwayjs/core'
+import type { IMethodAspect, JoinPoint } from '@midwayjs/core'
 
 export const USERINFO_KEY = 'decorator:userinfo_key'
 
@@ -30,6 +26,6 @@ export function getUserInfoHandler(): IMethodAspect {
         const userInfo = await userService.findUnique({ id: payload.id })
         ctx.setAttr('userInfo', userInfo)
       }
-    }
+    },
   }
 }

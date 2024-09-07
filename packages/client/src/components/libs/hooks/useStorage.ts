@@ -1,4 +1,4 @@
-export const useStorage = <T>(key: string, defaultValue?: T, init = true) => {
+export function useStorage<T>(key: string, defaultValue?: T, init = true) {
   const storageValue = ref<T>()
 
   const getStorage = () => {
@@ -26,7 +26,7 @@ export const useStorage = <T>(key: string, defaultValue?: T, init = true) => {
     (newValue) => {
       setStorage(newValue)
     },
-    { deep: true }
+    { deep: true },
   )
 
   return {
@@ -34,6 +34,6 @@ export const useStorage = <T>(key: string, defaultValue?: T, init = true) => {
     storageValue,
     set: setStorage,
     get: getStorage,
-    remove: removeStorage
+    remove: removeStorage,
   }
 }

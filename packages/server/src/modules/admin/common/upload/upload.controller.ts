@@ -1,6 +1,7 @@
-import { Controller, Inject, Post, Files, Fields } from '@midwayjs/core'
-import { UploadService } from './upload.service'
-import { UploadFileInfo, UploadMiddleware } from '@midwayjs/busboy'
+import { UploadMiddleware } from '@midwayjs/busboy'
+import { Controller, Fields, Files, Inject, Post } from '@midwayjs/core'
+import type { UploadFileInfo } from '@midwayjs/busboy'
+import type { UploadService } from './upload.service'
 
 @Controller('/common/upload')
 export class HomeController {
@@ -10,7 +11,7 @@ export class HomeController {
   @Post('/uploadFile', { middleware: [UploadMiddleware] })
   async upload(
     @Files() files: Array<UploadFileInfo>,
-    @Fields() fields: Record<string, string>
+    @Fields() fields: Record<string, string>,
   ) {
     return this.uploadService.local(files, fields)
   }

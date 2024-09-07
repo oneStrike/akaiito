@@ -2,8 +2,13 @@
 defineOptions({
   name: 'EsList',
   options: {
-    virtualHost: true
-  }
+    virtualHost: true,
+  },
+})
+
+const props = withDefaults(defineProps<EsListProps>(), {
+  data: () => [],
+  loading: false,
 })
 
 export interface EsListProps {
@@ -11,11 +16,6 @@ export interface EsListProps {
   total?: number
   loading?: boolean
 }
-
-const props = withDefaults(defineProps<EsListProps>(), {
-  data: () => [],
-  loading: false
-})
 
 const loadMoreStatus = computed(() => {
   if (!props.total || props.data.length >= props.total) {
@@ -30,12 +30,8 @@ const loadMoreStatus = computed(() => {
 
 <template>
   <view>
-    <slot></slot>
-    <uni-load-more
-      v-if="data.length"
-      iconType="snow"
-      :status="loadMoreStatus"
-    />
+    <slot />
+    <uni-load-more v-if="data.length" icon-type="snow" :status="loadMoreStatus" />
     <es-empty v-if="!data.length && !loading" />
   </view>
 </template>

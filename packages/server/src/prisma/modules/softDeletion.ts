@@ -1,10 +1,10 @@
-export const softDeletion = async <T>(context: T, where: any) => {
+export async function softDeletion<T>(context: T, where: any) {
   try {
     const deleteRes = await (context as any).update({
       where,
       data: {
-        deletedAt: new Date()
-      }
+        deletedAt: new Date(),
+      },
     })
     return deleteRes.id
   } catch (e) {

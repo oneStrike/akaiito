@@ -1,5 +1,5 @@
-import { Rule } from '@midwayjs/validate'
 import { requiredString, validateNumber } from '@/utils/validate'
+import { Rule } from '@midwayjs/validate'
 
 export class ClientSystemConfigDto {
   @Rule(validateNumber)

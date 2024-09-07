@@ -1,12 +1,12 @@
-import { OmitDto, PickDto, Rule } from '@midwayjs/validate'
+import { BasicIdDto, BasicPageDto } from '@/basic/dto/basic.dto'
 import {
   requiredNumber,
   requiredString,
   validateNumberLess,
   validatePwd,
-  validateString
+  validateString,
 } from '@/utils/validate'
-import { BasicIdDto, BasicPageDto } from '@/basic/dto/basic.dto'
+import { OmitDto, PickDto, Rule } from '@midwayjs/validate'
 
 export class UserDto {
   @Rule(requiredNumber)

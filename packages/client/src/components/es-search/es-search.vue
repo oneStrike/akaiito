@@ -15,8 +15,8 @@ export interface EsSearchProps {
 defineOptions({
   name: 'EsSearch',
   options: {
-    virtualHost: true
-  }
+    virtualHost: true,
+  },
 })
 
 const props = withDefaults(defineProps<EsSearchProps>(), {
@@ -26,8 +26,14 @@ const props = withDefaults(defineProps<EsSearchProps>(), {
   placeholder: '搜索关键词',
   icon: 'search',
   maxLength: 100,
-  backgroundColor: '#F5F6F7'
+  backgroundColor: '#F5F6F7',
 })
+
+const emits = defineEmits<{
+  (event: 'confirm', data: string): void
+  (event: 'click'): void
+  (event: 'clear'): void
+}>()
 
 const searchValue = defineModel({
   type: String,
@@ -38,7 +44,7 @@ const searchValue = defineModel({
       return value.replace(/\s+/g, '')
     }
     return value
-  }
+  },
 })
 
 const searchStyle = computed(() => {
@@ -49,24 +55,16 @@ const searchStyle = computed(() => {
   return styles
 })
 
-const emits = defineEmits<{
-  (event: 'confirm', data: string): void
-  (event: 'click'): void
-  (event: 'clear'): void
-}>()
-
-//清空输入框的内容
-const clear = () => {
+// 清空输入框的内容
+function clear() {
   console.log('清空输入框的内容')
   searchValue.value = ''
   emits('clear')
 }
 
-//确认搜索
-const confirm = () => {
-  const emitsData = props.trim
-    ? searchValue.value.replace(/\s+/g, '')
-    : searchValue.value
+// 确认搜索
+function confirm() {
+  const emitsData = props.trim ? searchValue.value.replace(/\s+/g, '') : searchValue.value
   emits('confirm', emitsData)
 }
 </script>
@@ -87,8 +85,8 @@ const confirm = () => {
       class="pl-1"
     />
     <input
-      v-model="searchValue"
       v-else-if="mode === 'search'"
+      v-model="searchValue"
       type="text"
       :placeholder="typeof placeholder === 'string' ? placeholder : ''"
       class="pl-1 flex-1"
@@ -98,10 +96,10 @@ const confirm = () => {
       @confirm="confirm"
     />
     <es-icons
+      v-if="searchValue"
       name="close"
       color="#999999"
       class="ml-1"
-      v-if="searchValue"
       @click="clear"
     />
   </view>

@@ -1,8 +1,8 @@
 // 获得请求IP
-import type { Context } from '@midwayjs/koa'
 import IP2Region from 'ip2region'
+import type { Context } from '@midwayjs/koa'
 
-export const getReqIP = (ctx: Context) => {
+export function getReqIP(ctx: Context) {
   const req: any = ctx.req
   return (
     req.headers['x-forwarded-for'] || // 判断是否有反向代理 IP
@@ -13,7 +13,7 @@ export const getReqIP = (ctx: Context) => {
 }
 
 // 根据IP获得请求地址
-export const getIpAddr = (ip?: string | string[]): string | string[] => {
+export function getIpAddr(ip?: string | string[]): string | string[] {
   const ipdb = new IP2Region()
   if (typeof ip === 'string') {
     const { country, province, city } = ipdb.search(ip)

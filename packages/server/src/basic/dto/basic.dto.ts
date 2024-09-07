@@ -1,55 +1,55 @@
-import { Rule } from '@midwayjs/validate'
 import {
   requiredNumber,
   requiredNumberLess,
   validateDate,
   validateNumber,
   validateNumberArray,
-  validateString
+  validateString,
 } from '@/utils/validate'
+import { Rule } from '@midwayjs/validate'
 
 export class BasicPageDto {
-  /*单页数量*/
+  /* 单页数量 */
   @Rule(validateNumber)
   pageSize?: number
 
-  /*页码*/
+  /* 页码 */
   @Rule(validateNumber)
   pageIndex?: number
 
-  /*排序*/
+  /* 排序 */
   @Rule(validateString)
   orderBy?: string
 
-  /*开始时间*/
+  /* 开始时间 */
   @Rule(validateDate)
   startTime?: string
 
-  /*结束时间*/
+  /* 结束时间 */
   @Rule(validateDate)
   endTime?: string
 }
 
 export class BasicIdDto {
-  /*主键id*/
+  /* 主键id */
   @Rule(requiredNumber)
   id: number
 }
 
 export class BasicIdsDto {
-  /*主键ids*/
+  /* 主键ids */
   @Rule(validateNumberArray)
   ids: number[]
 }
 
 export class BasicIdsStatusDto extends BasicIdsDto {
-  /*状态*/
+  /* 状态 */
   @Rule(requiredNumberLess(2))
   status: number
 }
 
 export class BasicIdStatusDto extends BasicIdDto {
-  /*状态*/
+  /* 状态 */
   @Rule(requiredNumberLess(2))
   status: number
 }

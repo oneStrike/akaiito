@@ -1,5 +1,5 @@
 import { Controller, Get, Inject } from '@midwayjs/core'
-import { CaptchaService } from '../../internal/authentication/captcha.service'
+import type { CaptchaService } from '../../internal/authentication/captcha.service'
 
 @Controller('/open/captcha')
 export class CaptchaController {

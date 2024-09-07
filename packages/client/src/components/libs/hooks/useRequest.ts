@@ -1,8 +1,5 @@
-import type {
-  RequestConfig,
-  RequestOptions
-} from '@/components/libs/typings/hooks'
 import { useModal } from '@/components/libs/hooks/useModal'
+import type { RequestConfig, RequestOptions } from '@/components/libs/typings/hooks'
 
 export class EsRequest {
   baseUrl: RequestConfig['baseUrl']
@@ -25,16 +22,13 @@ export class EsRequest {
     this.loadingText = config.loadingText || '加载中...'
     this.handlerError = config.handlerError
     this.interceptor = config.interceptor
-    this.errorModal =
-      typeof config.errorModal === 'boolean' ? config.errorModal : true
+    this.errorModal = typeof config.errorModal === 'boolean' ? config.errorModal : true
     this.loadingStatus = false
   }
 
   request<T>(config: RequestOptions): Promise<T> {
     const errorModal =
-      typeof config.errorModal === 'boolean'
-        ? config.errorModal
-        : this.errorModal
+      typeof config.errorModal === 'boolean' ? config.errorModal : this.errorModal
 
     if (this.interceptor?.request) {
       config = this.interceptor.request(config)
@@ -46,7 +40,7 @@ export class EsRequest {
       this.loadingStatus = true
       uni.showLoading({
         mask: true,
-        title: config.loadingText || this.loadingText
+        title: config.loadingText || this.loadingText,
       })
     }
 
@@ -61,8 +55,7 @@ export class EsRequest {
         timeout: config.timeout || this.timeout,
         responseType: config.responseType,
         success: (res) => {
-          const errorPropagation =
-            config.errorPropagation ?? this.errorPropagation
+          const errorPropagation = config.errorPropagation ?? this.errorPropagation
           let responseData
           if (this.interceptor?.response) {
             responseData = this.interceptor.response(res.data)
@@ -86,7 +79,7 @@ export class EsRequest {
                 showCancel: false,
                 success() {
                   reject(responseData)
-                }
+                },
               })
             }
             return
@@ -102,7 +95,7 @@ export class EsRequest {
               showCancel: false,
               success() {
                 reject(err)
-              }
+              },
             })
           }
         },
@@ -118,11 +111,11 @@ export class EsRequest {
                 showCancel: false,
                 success() {
                   reject(res)
-                }
+                },
               })
             }
           })
-        }
+        },
       })
     })
   }

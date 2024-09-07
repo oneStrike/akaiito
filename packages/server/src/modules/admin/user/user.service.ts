@@ -1,16 +1,11 @@
-import { App, Inject, Provide } from '@midwayjs/core'
-import { PrismaClient, AdminUser } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
-import {
-  CreateUserDto,
-  UpdateUserPwd,
-  UserDto,
-  UserLoginDto
-} from './dto/user.dto'
-import { Application } from '@midwayjs/koa'
-import { Jwt } from '../../internal/authentication/jwt.service'
-import { CaptchaService } from '../../internal/authentication/captcha.service'
+import { App, Inject, Provide } from '@midwayjs/core'
+import type { Application } from '@midwayjs/koa'
+import type { AdminUser, PrismaClient } from '@prisma/client'
+import type { CaptchaService } from '../../internal/authentication/captcha.service'
+import type { Jwt } from '../../internal/authentication/jwt.service'
+import type { CreateUserDto, UpdateUserPwd, UserDto, UserLoginDto } from './dto/user.dto'
 
 @Provide()
 export class UserService extends BasicService<AdminUser> {
@@ -30,25 +25,25 @@ export class UserService extends BasicService<AdminUser> {
     return this.prismaClient.adminUser
   }
 
-  //创建用户
+  // 创建用户
   async createUser(info: CreateUserDto) {
     if (info.password !== info.confirmPassword) {
       this.throwError('密码不一致')
     }
     const isExists = await this.exists({
-      where: { OR: [{ mobile: info.mobile }, { username: info.username }] }
+      where: { OR: [{ mobile: info.mobile }, { username: info.username }] },
     })
     this.model.findFirst({ where: {} })
     if (isExists) {
       this.throwError('用户信息已被注册')
     }
     delete info.confirmPassword
-    //加密密码
+    // 加密密码
     info.password = await utils.encryption(info.password)
     return this.create(info)
   }
 
-  //登录
+  // 登录
   async login(info: UserLoginDto) {
     if (
       (await this.captchaServer.verifyCaptcha(info.captchaId, info.captcha)) &&
@@ -57,12 +52,9 @@ export class UserService extends BasicService<AdminUser> {
       this.throwError('验证码错误')
     }
     const userInfo = await this.model.findUnique({
-      where: { mobile: info.mobile }
+      where: { mobile: info.mobile },
     })
-    if (
-      !userInfo ||
-      !(await this.diffPassword(info.password, userInfo.password))
-    ) {
+    if (!userInfo || !(await this.diffPassword(info.password, userInfo.password))) {
       this.throwError('手机号或密码错误')
     }
 
@@ -74,21 +66,21 @@ export class UserService extends BasicService<AdminUser> {
       accessToken: await this.jwt.sign({
         id: userInfo.id,
         username: userInfo.username,
-        mobile: userInfo.mobile
+        mobile: userInfo.mobile,
       }),
       refreshToken: await this.jwt.sign(
         { id: userInfo.id, refresh: true },
-        { expiresIn: 1000 * 60 * 60 * 24 * 2 }
-      )
+        { expiresIn: 1000 * 60 * 60 * 24 * 2 },
+      ),
     }
 
     return {
       token,
-      userInfo
+      userInfo,
     }
   }
 
-  //删除管理员用户
+  // 删除管理员用户
   async deleteAdminUser(delId, user) {
     if (!user.isRoot) {
       this.throwError('权限不足')
@@ -100,7 +92,7 @@ export class UserService extends BasicService<AdminUser> {
     return id
   }
 
-  //更新用户信息
+  // 更新用户信息
   async updateUserInfo(userInfo: UserDto, user: UserDto, type?: string) {
     if (userInfo.id !== user.id && user.isRoot !== 1) {
       this.throwError('权限不足')
@@ -112,7 +104,7 @@ export class UserService extends BasicService<AdminUser> {
     return result?.id || result
   }
 
-  //修改用户密码
+  // 修改用户密码
   async updateUserPwd(userInfo: UpdateUserPwd, user: UserDto) {
     if (userInfo.id !== user.id && user.isRoot !== 1) {
       this.throwError('权限不足')
@@ -121,22 +113,20 @@ export class UserService extends BasicService<AdminUser> {
       this.throwError('密码输入不一致')
     }
     const oldUserInfo = await this.model.findUnique({
-      where: { id: userInfo.id }
+      where: { id: userInfo.id },
     })
     if (!oldUserInfo) {
       this.throwError('用户不存在')
     }
-    if (
-      !(await this.diffPassword(userInfo.oldPassword, oldUserInfo.password))
-    ) {
+    if (!(await this.diffPassword(userInfo.oldPassword, oldUserInfo.password))) {
       this.throwError('原密码错误')
     }
 
     const result = await this.update(
       { where: { id: userInfo.id } },
       {
-        password: await utils.encryption(userInfo.newPassword)
-      }
+        password: await utils.encryption(userInfo.newPassword),
+      },
     )
 
     return result?.id || result
@@ -150,7 +140,7 @@ export class UserService extends BasicService<AdminUser> {
     return await this.jwt.sign({ id: userInfo.id })
   }
 
-  //比对密码
+  // 比对密码
   private async diffPassword(newPwd: string, oldPwd: string) {
     const salt = oldPwd.split('.')[0]
     const currentPassword = await utils.encryption(newPwd, salt)

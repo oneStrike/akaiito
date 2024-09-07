@@ -1,25 +1,22 @@
 import { httpClient } from '@/utils/request'
-import type {
-  GetFunPluginTypings,
-  GetFunPluginDetailTypings
-} from './funPlugin.d'
+import type { GetFunPluginDetailTypings, GetFunPluginTypings } from './funPlugin.d'
 
-export const getFunPluginApi = (
-  params?: GetFunPluginTypings['Request']
-): Promise<GetFunPluginTypings['Response']> => {
+export function getFunPluginApi(
+  params?: GetFunPluginTypings['Request'],
+): Promise<GetFunPluginTypings['Response']> {
   return httpClient({
     method: 'GET',
     url: '/client/funPlugin/getFunPlugin',
-    params
+    params,
   })
 }
 
-export const getFunPluginDetailApi = (
-  params: GetFunPluginDetailTypings['Request']
-): Promise<GetFunPluginDetailTypings['Response']> => {
+export function getFunPluginDetailApi(
+  params: GetFunPluginDetailTypings['Request'],
+): Promise<GetFunPluginDetailTypings['Response']> {
   return httpClient({
     method: 'GET',
     url: '/client/funPlugin/getFunPluginDetail',
-    params
+    params,
   })
 }

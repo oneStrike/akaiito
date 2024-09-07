@@ -1,7 +1,7 @@
-import { Config, httpError, Provide } from '@midwayjs/core'
-import { IterateObject } from '@akaiito/typings/src'
-import * as fs from 'fs-extra'
 import { utils } from '@/utils'
+import { Config, httpError, Provide } from '@midwayjs/core'
+import * as fs from 'fs-extra'
+import type { IterateObject } from '@akaiito/typings/src'
 
 @Provide()
 export class UploadService {
@@ -24,7 +24,7 @@ export class UploadService {
       reportData.push({
         fileName: fields.name,
         filePath: staticFileDefaultConfig.prefix + path,
-        mimeType: item.mimeType
+        mimeType: item.mimeType,
       })
       fs.move(item.data, staticFileDefaultConfig.dir + path)
     })

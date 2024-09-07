@@ -1,11 +1,11 @@
-import { OmitDto, Rule } from '@midwayjs/validate'
+import { BasicPageDto } from '@/basic/dto/basic.dto'
 import {
   requiredNumber,
   requiredString,
   validateNumberLess,
-  validateString
+  validateString,
 } from '@/utils/validate'
-import { BasicPageDto } from '@/basic/dto/basic.dto'
+import { OmitDto, Rule } from '@midwayjs/validate'
 
 export class DictionaryDto {
   @Rule(requiredNumber)
@@ -24,17 +24,11 @@ export class DictionaryDto {
   desc: string
 }
 
-export class CreateDictionaryDto extends OmitDto(DictionaryDto, [
-  'id',
-  'status'
-]) {}
+export class CreateDictionaryDto extends OmitDto(DictionaryDto, ['id', 'status']) {}
 
 export class UpdateDictionaryDto extends OmitDto(DictionaryDto, ['status']) {}
 
-export class CreateDictionaryItemsDto extends OmitDto(DictionaryDto, [
-  'id',
-  'status'
-]) {
+export class CreateDictionaryItemsDto extends OmitDto(DictionaryDto, ['id', 'status']) {
   @Rule(requiredNumber)
   dictionaryId: number
 }

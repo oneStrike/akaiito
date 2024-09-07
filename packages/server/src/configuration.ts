@@ -1,24 +1,17 @@
-import {
-  Configuration,
-  App,
-  ILogger,
-  Logger,
-  IMidwayContainer,
-  Inject,
-  MidwayWebRouterService
-} from '@midwayjs/core'
-import * as koa from '@midwayjs/koa'
-import * as validate from '@midwayjs/validate'
-import * as info from '@midwayjs/info'
-import { join } from 'path'
-import * as captcha from '@midwayjs/captcha'
+import { join } from 'node:path'
 import * as busboy from '@midwayjs/busboy'
+import * as captcha from '@midwayjs/captcha'
+import { App, Configuration, Inject, Logger } from '@midwayjs/core'
+import * as info from '@midwayjs/info'
+import * as koa from '@midwayjs/koa'
 import * as staticFile from '@midwayjs/static-file'
-import { ReportMiddleware } from './middleware/report.middleware'
+import * as validate from '@midwayjs/validate'
+import type { DecoratorService } from '@/basic/service/decorator.service'
+import type { ILogger, IMidwayContainer, MidwayWebRouterService } from '@midwayjs/core'
 import { ExceptionFilter } from './filter/exception.filter'
-import { RegisterPrisma } from './prisma'
 import { AuthGuard } from './guard/auth.guard'
-import { DecoratorService } from '@/basic/service/decorator.service'
+import { ReportMiddleware } from './middleware/report.middleware'
+import type { RegisterPrisma } from './prisma'
 
 @Configuration({
   imports: [
@@ -29,10 +22,10 @@ import { DecoratorService } from '@/basic/service/decorator.service'
     staticFile,
     {
       component: info,
-      enabledEnvironment: ['local']
-    }
+      enabledEnvironment: ['local'],
+    },
   ],
-  importConfigs: [join(__dirname, './config')]
+  importConfigs: [join(__dirname, './config')],
 })
 export class MainConfiguration {
   @App('koa')
@@ -55,7 +48,7 @@ export class MainConfiguration {
 
     container.registerObject(
       'router',
-      await this.webRouterService.getFlattenRouterTable()
+      await this.webRouterService.getFlattenRouterTable(),
     )
 
     this.app.useMiddleware([ReportMiddleware])

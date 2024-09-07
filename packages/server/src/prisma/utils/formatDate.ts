@@ -1,4 +1,4 @@
-export const formatDate = (date: Date) => {
+export function formatDate(date: Date) {
   if (!date) return
   return new Date(date)
     .toLocaleString('zh-CN', {
@@ -9,7 +9,7 @@ export const formatDate = (date: Date) => {
       minute: '2-digit',
       second: '2-digit',
       hour12: false,
-      timeZone: 'Asia/Shanghai'
+      timeZone: 'Asia/Shanghai',
     })
     .replace(/\//g, '-')
 }

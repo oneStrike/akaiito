@@ -1,5 +1,5 @@
-import type { IterateObject, ResolvedReturnType } from '@akaiito/typings/src'
 import { useRefresh } from '@/hooks/useRefresh'
+import type { IterateObject, ResolvedReturnType } from '@akaiito/typings/src'
 
 interface UseRequestOptions {
   defaultParams?: IterateObject
@@ -7,20 +7,17 @@ interface UseRequestOptions {
   refresh?: boolean
 }
 
-export const useRequest = <T extends Function>(
-  api: T,
-  options?: UseRequestOptions
-) => {
+export function useRequest<T extends Function>(api: T, options?: UseRequestOptions) {
   const init = options?.init ?? true
   const defaultParams = options?.defaultParams ?? {}
   const refresh = options?.refresh ?? false
   const loading = ref(false) // 表示请求的加载状态
   const requestRes = ref<ResolvedReturnType<T>>() // 存储请求返回的数据
-  const params = ref<IterateObject>(defaultParams) //请求参数
-  //默认的分页请求参数
+  const params = ref<IterateObject>(defaultParams) // 请求参数
+  // 默认的分页请求参数
   const pageParams = {
     pageIndex: 0,
-    pageSize: 15
+    pageSize: 15,
   }
 
   const request = async <K>(p?: K) => {
@@ -62,7 +59,7 @@ export const useRequest = <T extends Function>(
     params.value = {
       // 根据默认参数、当前参数和新参数进行重置
       ...pageParams,
-      ...(p || {})
+      ...(p || {}),
     }
     return await request(p)
   }
@@ -85,6 +82,6 @@ export const useRequest = <T extends Function>(
     request,
     resetPage,
     requestPage,
-    requestRes
+    requestRes,
   }
 }

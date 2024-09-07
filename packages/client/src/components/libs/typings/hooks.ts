@@ -18,13 +18,13 @@ export interface IRouter {
   method?: RouterJumpMethodEnum
 }
 
-export type RequestResponse = {
+export interface RequestResponse {
   error?: boolean
   desc?: string
   data?: any
 }
 
-export type RequestConfig = {
+export interface RequestConfig {
   baseUrl?: string
   timeout?: number
   params?: UniNamespace.RequestOptions['data']

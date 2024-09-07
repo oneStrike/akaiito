@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import EsSearch from '@/components/es-search/es-search.vue'
-import { useStorage } from '@/components/libs/hooks/useStorage'
 import { useModal } from '@/components/libs/hooks/useModal'
+import { useStorage } from '@/components/libs/hooks/useStorage'
 
 defineOptions({
-  name: 'SearchPage'
+  name: 'SearchPage',
 })
 
 const { storageValue } = useStorage<string[]>('search', [])
 
-const startSearch = (value: string) => {
+function startSearch(value: string) {
   if (!storageValue.value!.includes(value)) {
     if (storageValue.value!.length >= 12) {
       storageValue.value!.shift()
@@ -18,14 +18,14 @@ const startSearch = (value: string) => {
   }
 }
 
-const clearHistory = () => {
+function clearHistory() {
   useModal({
     content: '确定清空搜索历史吗？',
     success: ({ confirm }) => {
       if (confirm) {
         storageValue.value = []
       }
-    }
+    },
   })
 }
 </script>
@@ -33,11 +33,11 @@ const clearHistory = () => {
 <template>
   <es-page border-top padding>
     <view class="search pt-2">
-      <es-search :focus="true" @confirm="startSearch" />
+      <EsSearch :focus="true" @confirm="startSearch" />
     </view>
     <view class="mt-6">
       <es-text text="热门搜索" />
-      <view class="search-item mt-2">是搜1索</view>
+      <view class="search-item mt-2"> 是搜1索 </view>
     </view>
     <view class="mt-6">
       <view class="flex justify-between">

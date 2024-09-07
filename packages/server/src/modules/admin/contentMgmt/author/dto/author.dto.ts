@@ -1,10 +1,10 @@
-import { Rule } from '@midwayjs/validate'
 import {
   requiredNumber,
   requiredString,
   validateNumberLess,
-  validateString
+  validateString,
 } from '@/utils/validate'
+import { Rule } from '@midwayjs/validate'
 
 export class AuthorDto {
   @Rule(requiredNumber)

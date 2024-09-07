@@ -10,10 +10,10 @@ const defaultOptions = {
   cancelColor: '#000000',
   confirmText: '确定',
   confirmColor: '#3CC51F',
-  complete: false
+  complete: false,
 }
 
-const showUniModal = (options: GlobalModalOptions) => {
+function showUniModal(options: GlobalModalOptions) {
   let { cancelText, cancelColor, confirmText, confirmColor } = options
 
   const { title, content, showCancel, success, fail } = options
@@ -41,11 +41,11 @@ const showUniModal = (options: GlobalModalOptions) => {
     },
     fail: (err) => {
       fail && fail(err)
-    }
+    },
   })
 }
 
-export const useModal = (options: GlobalModalOptions) => {
+export function useModal(options: GlobalModalOptions) {
   options = Object.assign(defaultOptions, options)
 
   // #ifndef APP-PLUS

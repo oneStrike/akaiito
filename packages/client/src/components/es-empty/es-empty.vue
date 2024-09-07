@@ -4,11 +4,11 @@ export interface EsEmptyProps {
 }
 
 defineOptions({
-  name: 'EsEmpty'
+  name: 'EsEmpty',
 })
 
-const props = withDefaults(defineProps<EsEmptyProps>(), {
-  text: '暂无数据'
+withDefaults(defineProps<EsEmptyProps>(), {
+  text: '暂无数据',
 })
 </script>
 

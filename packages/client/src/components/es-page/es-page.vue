@@ -2,8 +2,16 @@
 defineOptions({
   name: 'EsPage',
   options: {
-    virtualHost: true
-  }
+    virtualHost: true,
+  },
+})
+
+const props = withDefaults(defineProps<EsPageProps>(), {
+  backgroundColor: '#ffffff',
+  padding: false,
+  tabs: false,
+  empty: false,
+  borderTop: true,
 })
 
 export interface EsPageProps {
@@ -14,30 +22,19 @@ export interface EsPageProps {
   borderTop?: boolean
 }
 
-const props = withDefaults(defineProps<EsPageProps>(), {
-  backgroundColor: '#ffffff',
-  padding: false,
-  tabs: false,
-  empty: false,
-  borderTop: true
-})
-
 const pageStyle = computed(() => {
   return {
     backgroundColor: props.backgroundColor,
-    padding: props.padding ? '0 32rpx' : '0'
+    padding: props.padding ? '0 32rpx' : '0',
   }
 })
 </script>
 
 <template>
   <view class="es-page" :style="pageStyle">
-    <view
-      v-if="borderTop"
-      class="fixed left-0 w-full h-px bg-slate-200 z-50"
-    ></view>
+    <view v-if="borderTop" class="fixed left-0 w-full h-px bg-slate-200 z-50" />
 
-    <slot></slot>
+    <slot />
     <es-empty v-if="empty" />
   </view>
 </template>

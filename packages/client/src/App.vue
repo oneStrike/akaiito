@@ -9,6 +9,7 @@ onHide(() => {
   console.log('App Hide')
 })
 </script>
+
 <style lang="scss">
 view {
   box-sizing: border-box;

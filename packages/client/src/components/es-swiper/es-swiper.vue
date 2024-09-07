@@ -7,12 +7,12 @@ export interface EsSwiperProps {
 defineOptions({
   name: 'EsSwiper',
   options: {
-    virtualHost: true
-  }
+    virtualHost: true,
+  },
 })
 
 const props = withDefaults(defineProps<EsSwiperProps>(), {
-  mode: 'text'
+  mode: 'text',
 })
 </script>
 
@@ -24,11 +24,7 @@ const props = withDefaults(defineProps<EsSwiperProps>(), {
     disable-touch
     vertical
   >
-    <swiper-item
-      v-for="(item, idx) in text"
-      :key="idx"
-      class="flex items-center"
-    >
+    <swiper-item v-for="(item, idx) in text" :key="idx" class="flex items-center">
       <es-text :text="item" size="sm" color="info" :line-clamp="2" />
     </swiper-item>
   </swiper>

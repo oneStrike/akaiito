@@ -1,9 +1,10 @@
 import type { IterateObject } from '@akaiito/typings/src'
-import dayjs from 'dayjs'
+import type dayjs from 'dayjs'
 
 declare module '*.vue' {
   // @ts-ignore
-  import { DefineComponent } from 'vue'
+  import type { DefineComponent } from 'vue'
+
   const component: DefineComponent<{}, {}, any>
   export default component
 }

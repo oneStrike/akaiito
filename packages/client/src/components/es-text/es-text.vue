@@ -4,10 +4,17 @@ import { config } from '@/components/libs/config/config.default'
 defineOptions({
   name: 'EsText',
   options: {
-    virtualHost: true
-  }
+    virtualHost: true,
+  },
 })
 
+const props = withDefaults(defineProps<EsTextProps>(), {
+  color: 'base',
+  size: 'base',
+})
+const emits = defineEmits<{
+  (event: 'click'): void
+}>()
 const colorScheme = uni.$es.config.colorScheme
 const sizeScheme = uni.$es.config.sizeScheme
 
@@ -18,24 +25,15 @@ export interface EsTextProps {
   lineClamp?: number
 }
 
-const props = withDefaults(defineProps<EsTextProps>(), {
-  color: 'base',
-  size: 'base'
-})
-
-const emits = defineEmits<{
-  (event: 'click'): void
-}>()
-
 const textStyle = computed(() => {
   const style = [
     `color: ${colorScheme[props.color] || props.color}`,
-    `fontSize:${(sizeScheme[props.size] || props.size) + config.unit}`
+    `fontSize:${(sizeScheme[props.size] || props.size) + config.unit}`,
   ]
 
   if (props.lineClamp) {
     style.push(
-      `display: -webkit-box;-webkit-box-orient: vertical; -webkit-line-clamp: ${props.lineClamp};overflow: hidden;text-overflow: ellipsis`
+      `display: -webkit-box;-webkit-box-orient: vertical; -webkit-line-clamp: ${props.lineClamp};overflow: hidden;text-overflow: ellipsis`,
     )
   }
 
@@ -44,7 +42,7 @@ const textStyle = computed(() => {
 </script>
 
 <template>
-  <text class="w-fit" :style="textStyle" @click="emits('click')">{{
-    text
-  }}</text>
+  <text class="w-fit" :style="textStyle" @click="emits('click')">
+    {{ text }}
+  </text>
 </template>

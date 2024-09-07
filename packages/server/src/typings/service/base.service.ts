@@ -7,7 +7,7 @@ export type FindPageResponse<T> = Promise<{
   list: T[]
 }>
 
-export type WhereOptions<T> = {
+export interface WhereOptions<T> {
   id?: number | IterateObject
   AND?: Partial<T> | Partial<T>[]
   OR?: Partial<T>[]

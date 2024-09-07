@@ -1,7 +1,8 @@
-import { Middleware, IMiddleware } from '@midwayjs/core'
-import { NextFunction, Context } from '@midwayjs/koa'
 import { LogService } from '@/modules/internal/log/log.service'
-import { HttpResponseResult } from '@akaiito/typings/src'
+import { Middleware } from '@midwayjs/core'
+import type { HttpResponseResult } from '@akaiito/typings/src'
+import type { IMiddleware } from '@midwayjs/core'
+import type { Context, NextFunction } from '@midwayjs/koa'
 
 @Middleware()
 export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
@@ -17,7 +18,7 @@ export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
         code: 200,
         status: 'success',
         data: result ?? null,
-        message: 'success'
+        message: 'success',
       }
 
       // 记录日志

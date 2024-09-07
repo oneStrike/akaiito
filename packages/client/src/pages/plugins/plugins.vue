@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import { getFunPluginApi } from '@/apis/funPlugin'
-import { useRouter } from '@/hooks/useRouter'
 
 defineOptions({
-  name: 'Plugins'
+  name: 'Plugins',
 })
 
 const tabs = ['小说', '漫画', '图片', '视频']
 const { requestRes, request, loading } = useRequest(getFunPluginApi, {
-  refresh: true
+  refresh: true,
 })
-const tabChange = (val: number) => {
+function tabChange(val: number) {
   request({ type: val + 1 })
 }
 
-const installPlugin = (item: any) => {
+function installPlugin(item: any) {
   console.log(item)
 }
 </script>
@@ -35,12 +34,12 @@ const installPlugin = (item: any) => {
             class="!w-10 !h-10 rounded mr-3"
             :src="$filePath(item.avatar)"
             mode="aspectFill"
-          ></image>
+          />
 
           <view class="flex flex-col justify-between">
             <es-text :text="item.name" />
             <es-text
-              :text="'积分：' + item.price"
+              :text="`积分：${item.price}`"
               size="xs"
               color="primary"
               class="mt-1"

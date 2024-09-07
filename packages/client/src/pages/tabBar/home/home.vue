@@ -1,23 +1,22 @@
 <script setup lang="ts">
-import { useSystemConfigStore } from '@/stores/modules/systemConfig'
 import EsNavBar from '@/components/es-nav-bar/es-nav-bar.vue'
 import { useRouter } from '@/hooks/useRouter'
+import { useSystemConfigStore } from '@/stores/modules/systemConfig'
 
-const systemConfigStore = useSystemConfigStore()
 defineOptions({
-  name: 'TabBarHomePage'
+  name: 'TabBarHomePage',
 })
-
-const searchPage = () => {
+const systemConfigStore = useSystemConfigStore()
+function searchPage() {
   useRouter()?.navigateTo({
-    name: 'search'
+    name: 'search',
   })
 }
 </script>
 
 <template>
   <es-page :border-top="false">
-    <es-nav-bar>
+    <EsNavBar>
       <template #content>
         <view class="flex items-center w-full px-4">
           <es-image
@@ -27,8 +26,8 @@ const searchPage = () => {
           <es-search mode="booth" @click="searchPage" />
         </view>
       </template>
-    </es-nav-bar>
-    <view></view>
+    </EsNavBar>
+    <view />
   </es-page>
 </template>
 

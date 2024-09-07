@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@midwayjs/core'
-import { SystemService } from './system.service'
+import type { SystemService } from './system.service'
 
 @Controller('/admin/system')
 export class SystemController {

@@ -21,12 +21,12 @@ export interface EsImageProps {
 defineOptions({
   name: 'EsImage',
   options: {
-    virtualHost: true
-  }
+    virtualHost: true,
+  },
 })
 
 const props = withDefaults(defineProps<EsImageProps>(), {
-  mode: 'scaleToFill'
+  mode: 'scaleToFill',
 })
 
 const imageSrc = computed(() => {
@@ -37,7 +37,7 @@ const imageSrc = computed(() => {
 </script>
 
 <template>
-  <image class="inline-block" :src="imageSrc" :mode="mode"></image>
+  <image class="inline-block" :src="imageSrc" :mode="mode" />
 </template>
 
 <style scoped></style>

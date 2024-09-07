@@ -1,9 +1,5 @@
-import {
-  Inject,
-  MidwayWebRouterService,
-  Provide,
-  type RouterInfo
-} from '@midwayjs/core'
+import type { MidwayWebRouterService } from '@midwayjs/core'
+import { Inject, Provide, type RouterInfo } from '@midwayjs/core'
 
 @Provide()
 export class RouterService {

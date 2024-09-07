@@ -15,16 +15,14 @@ export const requiredString = validateString.required()
  * 指定长度字符串
  * @param length
  */
-export const specifyLengthString = (length: number) =>
-  requiredString.length(length)
+export const specifyLengthString = (length: number) => requiredString.length(length)
 
 /**
  * 指定长度范围的字符串
  * @param min 最小长度，缺省 1
  * @param max 最大长度 缺省 99
  */
-export const scopeLengthString = (min = 1, max = 99) =>
-  requiredString.min(min).max(max)
+export const scopeLengthString = (min = 1, max = 99) => requiredString.min(min).max(max)
 
 /**
  * 多类型校验
@@ -66,13 +64,12 @@ export const requiredNumber = validateNumber.required()
 /**
  * 数字小于
  */
-export const validateNumberLess = (less: number) =>
-  RuleType.number().less(less).empty('')
+export const validateNumberLess = (less: number) => RuleType.number().less(less).empty('')
 
 /**
  * 限定为必传数字小于
  */
-export const requiredNumberLess = (less: number) => {
+export function requiredNumberLess(less: number) {
   return validateNumberLess(less).required()
 }
 
@@ -81,7 +78,7 @@ export const requiredNumberLess = (less: number) => {
  * @param values 给定值
  * @param isRequired 是否必须
  */
-export const givenValue = (values: any[], isRequired = true) => {
+export function givenValue(values: any[], isRequired = true) {
   values.push(...values.map((item) => item.toString()))
   const rule = RuleType.valid(...utils._.uniq(values))
   return isRequired ? rule.required() : rule.empty([''])
@@ -92,7 +89,7 @@ export const givenValue = (values: any[], isRequired = true) => {
  * @param values 给定值
  * @param isRequired 是否必须
  */
-export const givenRange = ([max, min]: [number, number], isRequired = true) => {
+export function givenRange([max, min]: [number, number], isRequired = true) {
   const rule = validateNumber.max(max).min(min)
   return isRequired ? rule.required() : rule
 }
@@ -114,6 +111,4 @@ export const validateNumberArray = RuleType.array().items(requiredNumber)
 /**
  * 限定为数字类型的数组
  */
-export const requiredNumberArray = RuleType.array()
-  .items(requiredNumber)
-  .required()
+export const requiredNumberArray = RuleType.array().items(requiredNumber).required()

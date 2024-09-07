@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import {
+import type { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
+import type {
   CreateFunPluginDto,
   FunPluginDto,
-  GetFunPluginDto
+  GetFunPluginDto,
 } from './dto/funPlugin.dto'
-import { FunPluginService } from './funPlugin.service'
-import { BasicIdStatusDto, BasicIdDto } from '@/basic/dto/basic.dto'
+import type { FunPluginService } from './funPlugin.service'
 
 @Controller('/admin/funPlugin')
 export class FunPluginController {
@@ -16,7 +16,7 @@ export class FunPluginController {
   async getFunPlugin(@Query() query: GetFunPluginDto) {
     return this.funPluginService.findList({
       ...query,
-      fuzzy: ['name']
+      fuzzy: ['name'],
     })
   }
 

@@ -7,7 +7,7 @@
  * @param path 请求的完整路径，例如 '/client/path' 或 '/admin/path'。
  * @returns 返回请求源的标识，例如 'client' 或 'admin'。
  */
-export const requestSource = (path: string) => {
+export function requestSource(path: string) {
   return path.split('/')[1]
 }
 
@@ -20,7 +20,7 @@ export const requestSource = (path: string) => {
  * @param path 请求的完整路径，例如 '/client/path' 或 '/admin/path'。
  * @returns 如果请求源是 'client'，则返回 true；否则返回 false。
  */
-export const isClientRequest = (path: string) => {
+export function isClientRequest(path: string) {
   return requestSource(path) === 'client'
 }
 
@@ -33,6 +33,6 @@ export const isClientRequest = (path: string) => {
  * @param path 请求的完整路径，例如 '/client/path' 或 '/admin/path'。
  * @returns 如果请求源是 'admin'，则返回 true；否则返回 false。
  */
-export const isAdminRequest = (path: string) => {
+export function isAdminRequest(path: string) {
   return requestSource(path) === 'admin'
 }

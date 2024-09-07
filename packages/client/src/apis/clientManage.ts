@@ -1,11 +1,11 @@
 import { httpClient } from '@/utils/request'
 import type { GetClientSystemConfigTypings } from './clientManage.d'
 
-export const getClientSystemConfigApi = (): Promise<
+export function getClientSystemConfigApi(): Promise<
   GetClientSystemConfigTypings['Response']
-> => {
+> {
   return httpClient({
     method: 'GET',
-    url: '/client/clientManage/getClientSystemConfig'
+    url: '/client/clientManage/getClientSystemConfig',
   })
 }

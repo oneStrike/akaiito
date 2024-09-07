@@ -1,7 +1,7 @@
 import type { Config } from '@/components/libs/typings/config'
 
 export const config: Config = {
-  //尺寸单位 rpx和px
+  // 尺寸单位 rpx和px
   unit: 'rpx',
 
   colorScheme: {
@@ -13,13 +13,13 @@ export const config: Config = {
     gray: '#f2f3f5',
     white: '#FFFFFF',
     transparent: 'transparent',
-    //字体颜色
+    // 字体颜色
     base: '#18191C',
     info: '#61666D',
     minor: '#9499A0',
 
-    //背景颜色
-    bgColor: '#f5f5f5'
+    // 背景颜色
+    bgColor: '#f5f5f5',
   },
 
   sizeScheme: {
@@ -27,8 +27,8 @@ export const config: Config = {
     sm: 28,
     base: 32,
     lg: 36,
-    xl: 40
+    xl: 40,
   },
 
-  tabBarHeight: 50
+  tabBarHeight: 50,
 }

@@ -66,8 +66,7 @@ export class GlobalModal {
     const opacity = options.opacity || 0.6 // mask透明度
     const modal_title = options.title || '提示' // 标题
     const model_content = options.content || '提示内容' // 提示内容
-    const maskClick =
-      typeof options.maskClick === 'undefined' ? false : options.maskClick // 是否可以点击mask关闭模态框
+    const maskClick = typeof options.maskClick === 'undefined' ? false : options.maskClick // 是否可以点击mask关闭模态框
     const cancelText = options.cancelText || '取消'
     const confirmText = options.confirmText || '确定'
     const cancelColor = options.cancelColor || '#000000'
@@ -78,31 +77,26 @@ export class GlobalModal {
     this.success = options.success // 成功返回模态框
     this.fail = options.fail // 失败返回模态框
 
-    //#ifdef APP-PLUS
-    this.creatView(
-      { height: `${this.screenHeight}px`, top: 0 },
-      opacity,
-      maskClick,
-      {
-        title: modal_title,
-        content: model_content,
-        cancelText,
-        confirmText,
-        confirmColor,
-        cancelColor,
-        showCancel,
-        align
-      }
-    )
-    //#endif
+    // #ifdef APP-PLUS
+    this.creatView({ height: `${this.screenHeight}px`, top: 0 }, opacity, maskClick, {
+      title: modal_title,
+      content: model_content,
+      cancelText,
+      confirmText,
+      confirmColor,
+      cancelColor,
+      showCancel,
+      align,
+    })
+    // #endif
   }
 
-  //生成提示框view
+  // 生成提示框view
   creatView(
     style: Record<string, any>,
     opa: number,
     maskClick = true,
-    modelInfo: GlobalModalOptions
+    modelInfo: GlobalModalOptions,
   ) {
     try {
       style = { left: '0px', width: '100%', ...style }
@@ -113,7 +107,7 @@ export class GlobalModal {
           tag: 'rect',
           id: 'modal',
           color: `rgba(0,0,0,${opa})`,
-          position: { top: '0px', left: '0px', width: '100%', height: '100%' }
+          position: { top: '0px', left: '0px', width: '100%', height: '100%' },
         },
         {
           tag: 'rect',
@@ -121,11 +115,11 @@ export class GlobalModal {
           color: `rgb(255, 255, 255)`,
           rectStyles: { borderWidth: '0px', radius: '8px' },
           position: {
-            top: this.modalTop + 'px',
-            left: this.modalLeft + 'px',
-            width: this.modalWidth + 'px',
-            height: this.modalHeight + 'px'
-          }
+            top: `${this.modalTop}px`,
+            left: `${this.modalLeft}px`,
+            width: `${this.modalWidth}px`,
+            height: `${this.modalHeight}px`,
+          },
         },
 
         {
@@ -134,11 +128,11 @@ export class GlobalModal {
           text: modelInfo.title,
           textStyles: { size: '18px', weight: 'bold', color: '#000000' },
           position: {
-            top: this.titleTop + 'px',
-            left: this.modalLeft + 'px',
-            width: this.modalWidth + 'px',
-            height: this.titleHeight + 'px'
-          }
+            top: `${this.titleTop}px`,
+            left: `${this.modalLeft}px`,
+            width: `${this.modalWidth}px`,
+            height: `${this.titleHeight}px`,
+          },
         },
 
         {
@@ -149,14 +143,14 @@ export class GlobalModal {
             size: '15px',
             color: '#666',
             whiteSpace: 'normal',
-            align: modelInfo.align
+            align: modelInfo.align,
           },
           position: {
-            top: this.contentTop + 'px',
-            left: this.contentLeft + 'px',
-            width: this.contentWidth + 'px',
-            height: this.contentHeight + 'px'
-          }
+            top: `${this.contentTop}px`,
+            left: `${this.contentLeft}px`,
+            width: `${this.contentWidth}px`,
+            height: `${this.contentHeight}px`,
+          },
         },
 
         {
@@ -164,33 +158,33 @@ export class GlobalModal {
           id: 'line',
           color: '#efeff1',
           position: {
-            top: this.footerBorderTop + 'px',
-            left: this.modalLeft + 'px',
-            width: this.modalWidth + 'px',
-            height: '1px'
-          }
+            top: `${this.footerBorderTop}px`,
+            left: `${this.modalLeft}px`,
+            width: `${this.modalWidth}px`,
+            height: '1px',
+          },
         },
         {
           tag: 'rect',
           id: 'line2',
           color: '#efeff1',
           position: {
-            top: this.footerBorderTop + 'px',
+            top: `${this.footerBorderTop}px`,
             left: '50%',
             width: modelInfo.showCancel ? '1px' : '0px',
-            height: modelInfo.showCancel ? this.footerHeight + 'px' : '0px'
-          }
-        }
+            height: modelInfo.showCancel ? `${this.footerHeight}px` : '0px',
+          },
+        },
       ])
 
       // 取消按钮
       if (modelInfo.showCancel) {
         // @ts-ignore
         const viewCancel = new plus.nativeObj.View('FyShowModalCancel', {
-          width: this.buttonWidth + 'px',
-          height: this.footerHeight + 'px',
-          top: this.footerBorderTop + 'px',
-          left: this.modalLeft + 'px'
+          width: `${this.buttonWidth}px`,
+          height: `${this.footerHeight}px`,
+          top: `${this.footerBorderTop}px`,
+          left: `${this.modalLeft}px`,
         })
         viewCancel.draw([
           {
@@ -198,14 +192,14 @@ export class GlobalModal {
             id: 'cancelBackground',
             color: `rgba(255, 255, 255, 0)`,
             rectStyles: { borderWidth: '0px', radius: '8px' },
-            position: { top: '0px', left: '0px', width: '100%', height: '100%' }
+            position: { top: '0px', left: '0px', width: '100%', height: '100%' },
           },
           {
             tag: 'font',
             id: 'cancel',
             text: modelInfo.cancelText,
-            textStyles: { color: modelInfo.cancelColor, size: '16px' }
-          }
+            textStyles: { color: modelInfo.cancelColor, size: '16px' },
+          },
         ])
         viewCancel.addEventListener(
           'click',
@@ -214,32 +208,31 @@ export class GlobalModal {
               {
                 color: 'rgba(255,255,255,0)',
                 borderWidth: '0px',
-                radius: '8px'
+                radius: '8px',
               },
               {},
-              'confirmBackground'
+              'confirmBackground',
             )
             viewCancel.drawRect(
               '#efeff1',
               { top: '0px', left: '0px', width: '100%', height: '100%' },
-              'cancelBackground'
+              'cancelBackground',
             )
-            this.success &&
-              this.success({ confirm: false, cancel: true, mask: false })
+            this.success && this.success({ confirm: false, cancel: true, mask: false })
             this.hide()
           },
-          false
+          false,
         )
         viewCancel.addEventListener('touchstart', () => {
           viewConfirm.drawRect(
             { color: 'rgba(255,255,255,0)', borderWidth: '0px', radius: '8px' },
             {},
-            'confirmBackground'
+            'confirmBackground',
           )
           viewCancel.drawRect(
             { color: '#efeff1', borderWidth: '0px', radius: '8px' },
             { top: '0px', left: '0px', width: '100%', height: '100%' },
-            'cancelBackground'
+            'cancelBackground',
           )
         })
         this.cancelModel = viewCancel
@@ -248,12 +241,10 @@ export class GlobalModal {
       // 确认
       // @ts-ignore
       const viewConfirm = new plus.nativeObj.View('FyShowModalConfirm', {
-        width: modelInfo.showCancel
-          ? this.buttonWidth + 'px'
-          : this.modalWidth + 'px',
-        height: this.footerHeight + 'px',
-        top: this.footerBorderTop + 'px',
-        left: modelInfo.showCancel ? '50%' : this.modalLeft + 'px'
+        width: modelInfo.showCancel ? `${this.buttonWidth}px` : `${this.modalWidth}px`,
+        height: `${this.footerHeight}px`,
+        top: `${this.footerBorderTop}px`,
+        left: modelInfo.showCancel ? '50%' : `${this.modalLeft}px`,
       })
       // 绘制确认
       viewConfirm.draw([
@@ -262,14 +253,14 @@ export class GlobalModal {
           id: 'confirmBackground',
           color: `rgba(255, 255, 255, 0)`,
           rectStyles: { borderWidth: '0px', radius: '8px' },
-          position: { top: '0px', left: '0px', width: '100%', height: '100%' }
+          position: { top: '0px', left: '0px', width: '100%', height: '100%' },
         },
         {
           tag: 'font',
           id: 'confirm',
           text: modelInfo.confirmText,
-          textStyles: { color: modelInfo.confirmColor, size: '16px' }
-        }
+          textStyles: { color: modelInfo.confirmColor, size: '16px' },
+        },
       ])
       // 点击确认
       viewConfirm.addEventListener(
@@ -280,68 +271,66 @@ export class GlobalModal {
               {
                 color: 'rgba(255,255,255,0)',
                 borderWidth: '0px',
-                radius: '8px'
+                radius: '8px',
               },
               {},
-              'cancelBackground'
+              'cancelBackground',
             )
           }
           viewConfirm.drawRect(
             '#efeff1',
             { top: '0px', left: '0px', width: '100%', height: '100%' },
-            'confirmBackground'
+            'confirmBackground',
           )
-          this.success &&
-            this.success({ confirm: true, cancel: false, mask: false })
+          this.success && this.success({ confirm: true, cancel: false, mask: false })
           this.hide()
         },
-        false
+        false,
       )
       viewConfirm.addEventListener('touchstart', () => {
         if (this.cancelModel) {
           this.cancelModel.drawRect(
             { color: 'rgba(255,255,255,0)', borderWidth: '0px', radius: '8px' },
             {},
-            'cancelBackground'
+            'cancelBackground',
           )
         }
         viewConfirm.drawRect(
           { color: '#efeff1', borderWidth: '0px', radius: '8px' },
           { top: '0px', left: '0px', width: '100%', height: '100%' },
-          'confirmBackground'
+          'confirmBackground',
         )
       })
 
-      //点击蒙布
+      // 点击蒙布
       if (maskClick) {
         view.addEventListener(
           'click',
           () => {
-            this.success &&
-              this.success({ confirm: false, cancel: true, mask: true })
+            this.success && this.success({ confirm: false, cancel: true, mask: true })
             this.hide()
             if (this.cancelModel) {
               this.cancelModel.drawRect(
                 {
                   color: 'rgba(255,255,255,0)',
                   borderWidth: '0px',
-                  radius: '8px'
+                  radius: '8px',
                 },
                 {},
-                'cancelBackground'
+                'cancelBackground',
               )
             }
             viewConfirm.drawRect(
               {
                 color: 'rgba(255,255,255,0)',
                 borderWidth: '0px',
-                radius: '8px'
+                radius: '8px',
               },
               {},
-              'confirmBackground'
+              'confirmBackground',
             )
           },
-          false
+          false,
         )
       } else {
         view.addEventListener(
@@ -352,23 +341,23 @@ export class GlobalModal {
                 {
                   color: 'rgba(255,255,255,0)',
                   borderWidth: '0px',
-                  radius: '8px'
+                  radius: '8px',
                 },
                 {},
-                'cancelBackground'
+                'cancelBackground',
               )
             }
             viewConfirm.drawRect(
               {
                 color: 'rgba(255,255,255,0)',
                 borderWidth: '0px',
-                radius: '8px'
+                radius: '8px',
               },
               {},
-              'confirmBackground'
+              'confirmBackground',
             )
           },
-          false
+          false,
         )
       }
       this.modalControl = view

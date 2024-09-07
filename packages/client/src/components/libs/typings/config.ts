@@ -1,4 +1,4 @@
-//主题色以及字体颜色
+// 主题色以及字体颜色
 import type { IterateObject } from '@akaiito/typings/src'
 
 export type ColorScheme = {
@@ -10,7 +10,7 @@ export type ColorScheme = {
   gray?: string
   white?: string
   transparent?: string
-  //字体颜色
+  // 字体颜色
   basis?: string
   info?: string
   minor?: string

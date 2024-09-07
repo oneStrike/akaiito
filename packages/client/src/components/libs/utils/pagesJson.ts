@@ -1,13 +1,14 @@
-import * as path from 'path'
+import * as path from 'node:path'
 
-import type { TransformPagesConf } from 'src/components/libs/typings'
 import type { Pages } from '@/components/libs/typings/hooks'
 import type { IterateObject } from '@akaiito/typings/src'
+import type { TransformPagesConf } from 'src/components/libs/typings'
 
 class TransformPages {
   private CONFIG: TransformPagesConf = {
-    includes: []
+    includes: [],
   }
+
   // pages.json地址
   private readonly pagesPath: string
   // Uni-app的pages.js导出的方法
@@ -26,7 +27,7 @@ class TransformPages {
     if (config?.includes) {
       this.CONFIG.includes = config.includes
     }
-    this.platform = process.env['UNI_PLATFORM']!
+    this.platform = process.env.UNI_PLATFORM!
     this.pagesPath = path.resolve(process.cwd(), pagesPath)
     this.uniPagesHandler = require('@dcloudio/uni-cli-shared/dist/json/pages.js')
     this.routes = this.getPages().concat(this.getNotMpRoutes())
@@ -44,7 +45,7 @@ class TransformPages {
    */
   getPages(pages = this.pagesJson.pages, root?: string): Pages[] {
     const tabBarPages = this.pagesJson.tabBar?.list.map(
-      (item: { pagePath: string }) => item.pagePath
+      (item: { pagePath: string }) => item.pagePath,
     )
     return pages.map((item: IterateObject) => {
       const route: Pages = {
@@ -54,7 +55,7 @@ class TransformPages {
         root: root || '',
         auth: item.auth || '',
         subPage: !!root,
-        tabBar: tabBarPages?.includes(item.path) ?? false
+        tabBar: tabBarPages?.includes(item.path) ?? false,
       }
       this.CONFIG.includes.forEach((key) => {
         route[key] = item[key] || ''
