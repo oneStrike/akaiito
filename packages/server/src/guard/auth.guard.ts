@@ -1,8 +1,8 @@
+import { Jwt } from '@/modules/internal/authentication/jwt.service'
 import { isAdminRequest } from '@/utils/requestSource'
-import { Config, Guard, httpError, Inject } from '@midwayjs/core'
-import type { Jwt } from '@/modules/internal/authentication/jwt.service'
+import { Config, Guard, httpError, Inject, MidwayWebRouterService } from '@midwayjs/core'
 import type { IterateObject } from '@akaiito/typings/src'
-import type { IGuard, MidwayWebRouterService } from '@midwayjs/core'
+import type { IGuard } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 
 @Guard()

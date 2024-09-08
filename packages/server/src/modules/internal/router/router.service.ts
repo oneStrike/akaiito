@@ -1,5 +1,5 @@
-import type { MidwayWebRouterService } from '@midwayjs/core'
-import { Inject, Provide, type RouterInfo } from '@midwayjs/core'
+import { Inject, MidwayWebRouterService, Provide } from '@midwayjs/core'
+import type { RouterInfo } from '@midwayjs/core'
 
 @Provide()
 export class RouterService {
@@ -14,7 +14,9 @@ export class RouterService {
   }
 
   getRoute(path: string) {
-    if (!Array.isArray(this.router) || !this.router.length) return ''
+    if (!Array.isArray(this.router) || !this.router.length) {
+      return ''
+    }
     return this.router.find((item) => item.fullUrl === path)
   }
 }

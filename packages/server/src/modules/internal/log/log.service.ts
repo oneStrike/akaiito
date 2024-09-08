@@ -2,10 +2,10 @@ import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
 import { Inject, Provide } from '@midwayjs/core'
 
+import { AdminLog, PrismaClient } from '@prisma/client'
 import type { HttpResponseResult, IterateObject } from '@akaiito/typings/src'
 import type { Context } from '@midwayjs/koa'
-import type { AdminLog, PrismaClient } from '@prisma/client'
-import type { RouterService } from '../router/router.service'
+import { RouterService } from '../router/router.service'
 
 @Provide()
 export class LogService extends BasicService<AdminLog> {

@@ -1,5 +1,5 @@
+import { CaptchaService as Captcha } from '@midwayjs/captcha'
 import { Inject, Provide } from '@midwayjs/core'
-import type { CaptchaService as Captcha } from '@midwayjs/captcha'
 
 @Provide()
 export class CaptchaService {

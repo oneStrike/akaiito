@@ -1,10 +1,10 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
 import { App, Inject, Provide } from '@midwayjs/core'
-import type { Application } from '@midwayjs/koa'
-import type { AdminUser, PrismaClient } from '@prisma/client'
-import type { CaptchaService } from '../../internal/authentication/captcha.service'
-import type { Jwt } from '../../internal/authentication/jwt.service'
+import { Application } from '@midwayjs/koa'
+import { AdminUser, PrismaClient } from '@prisma/client'
+import { CaptchaService } from '../../internal/authentication/captcha.service'
+import { Jwt } from '../../internal/authentication/jwt.service'
 import type { CreateUserDto, UpdateUserPwd, UserDto, UserLoginDto } from './dto/user.dto'
 
 @Provide()

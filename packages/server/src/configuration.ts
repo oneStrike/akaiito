@@ -52,6 +52,11 @@ export class MainConfiguration {
   async onReady(container: IMidwayContainer) {
     this.registerPrisma.register(container)
 
+    container.registerObject(
+      'router',
+      await this.webRouterService.getFlattenRouterTable(),
+    )
+
     this.app.useMiddleware([ReportMiddleware])
     this.app.useFilter([ExceptionFilter])
     this.app.useGuard(AuthGuard)

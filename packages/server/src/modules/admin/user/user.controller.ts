@@ -2,6 +2,7 @@ import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import type { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
 import type { Context } from '@midwayjs/koa'
+import { UserService } from './user.service'
 import type {
   CreateUserDto,
   RefreshAccessTokenDto,
@@ -10,7 +11,6 @@ import type {
   UserLoginDto,
   UserPageDto,
 } from './dto/user.dto'
-import type { UserService } from './user.service'
 
 @Controller('/admin/user', {
   tagName: '管理员',

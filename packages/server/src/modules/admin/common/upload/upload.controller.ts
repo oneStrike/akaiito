@@ -1,7 +1,7 @@
 import { UploadMiddleware } from '@midwayjs/busboy'
 import { Controller, Fields, Files, Inject, Post } from '@midwayjs/core'
 import type { UploadFileInfo } from '@midwayjs/busboy'
-import type { UploadService } from './upload.service'
+import { UploadService } from './upload.service'
 
 @Controller('/common/upload')
 export class HomeController {

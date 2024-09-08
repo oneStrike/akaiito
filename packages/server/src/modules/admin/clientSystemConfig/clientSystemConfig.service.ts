@@ -1,6 +1,6 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
-import type { ClientSystemConfig, PrismaClient } from '@prisma/client'
+import { ClientSystemConfig, PrismaClient } from '@prisma/client'
 
 @Provide()
 export class ClientSystemConfigService extends BasicService<ClientSystemConfig> {

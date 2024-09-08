@@ -1,6 +1,6 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
-import type { DataDictionary, PrismaClient } from '@prisma/client'
+import { DataDictionary, PrismaClient } from '@prisma/client'
 
 @Provide()
 export class DictionaryService extends BasicService<DataDictionary> {
