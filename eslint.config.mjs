@@ -2,25 +2,9 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
-    ignores: [
-      'node_modules',
-      '**/node_modules/**',
-      'public/',
-      'public/**/',
-      'dist',
-      '**/dist/**',
-      '.vscode',
-      '**/.vscode/**',
-      '.history',
-      '**/.history/**',
-      '.idea',
-      '**/.idea/**',
-      'src/types',
-      'src/types/**',
-      'postcss.config.js',
-      'postcss.config.js/**',
-    ],
+    ignores: ['packages/server/**'],
     vue: true,
+    typescript: true,
   },
   {
     rules: {
@@ -30,6 +14,12 @@ export default antfu(
       'style/operator-linebreak': 'off',
       'style/indent': 'off',
       'no-console': 'off',
+    },
+  },
+  {
+    files: ['packages/server/**'],
+    rules: {
+      'ts/consistent-type-imports': 'off',
     },
   },
 )

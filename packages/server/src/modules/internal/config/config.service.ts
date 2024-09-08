@@ -1,10 +1,9 @@
 import * as fs from 'node:fs/promises'
 import * as path from 'node:path'
 import { ConfigFilePathEnum } from '@/enum/configFilePath'
-import { Inject, Provide } from '@midwayjs/core'
+import { Inject, MidwayConfigService, Provide } from '@midwayjs/core'
 import * as yaml from 'yaml'
 import type { IterateObject } from '@akaiito/typings/src'
-import type { MidwayConfigService } from '@midwayjs/core'
 
 @Provide()
 export class ConfigService {

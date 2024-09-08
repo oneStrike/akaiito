@@ -1,6 +1,5 @@
 import { getUserInfoHandler, USERINFO_KEY } from '@/decorator/userinfo.decorator'
-import { Inject, Singleton } from '@midwayjs/core'
-import type { MidwayDecoratorService } from '@midwayjs/core'
+import { Inject, Singleton, MidwayDecoratorService } from '@midwayjs/core'
 
 @Singleton()
 export class DecoratorService {
