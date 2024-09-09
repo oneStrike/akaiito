@@ -9,6 +9,8 @@ export function setConfig(conf: Partial<Config>) {
 
 // 添加单位 px OR rpx
 export function useAddUnit(val: any) {
-  if (!val) return ''
+  if (!val) {
+    return ''
+  }
   return val + configRef.value.unit
 }

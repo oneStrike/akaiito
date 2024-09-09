@@ -36,11 +36,15 @@ function showUniModal(options: GlobalModalOptions) {
     cancelColor,
     confirmText,
     confirmColor,
-    success: (data) => {
-      success && success(data)
+    success: data => {
+      if (success) {
+        success(data)
+      }
     },
-    fail: (err) => {
-      fail && fail(err)
+    fail: err => {
+      if (fail) {
+        fail(err)
+      }
     },
   })
 }

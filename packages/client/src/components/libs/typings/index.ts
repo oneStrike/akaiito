@@ -1,6 +1,5 @@
 import type { setConfig } from '@/components/libs/hooks/useConfig'
 import type { useModal } from '@/components/libs/hooks/useModal'
-import type { EsRequest } from '@/components/libs/hooks/useRequest'
 import type { EsRouter } from '@/components/libs/hooks/useRouter'
 import type { IterateObject } from '@akaiito/typings/src'
 import type { Config } from './config'
@@ -36,7 +35,6 @@ declare global {
       platform: Platform
       modal: typeof useModal
       router: EsRouter
-      httpClient: typeof EsRequest
       setConfig: typeof setConfig
       env: ImportMetaEnv
     }

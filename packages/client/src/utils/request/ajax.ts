@@ -91,7 +91,7 @@ export class EsRequest {
             }
             return
           }
-          // @ts-ignore
+          // @ts-expect-error ignore
           resolve(responseData ? responseData?.data : res?.data?.data)
         },
         fail: err => {

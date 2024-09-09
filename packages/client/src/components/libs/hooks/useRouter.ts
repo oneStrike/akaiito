@@ -16,9 +16,9 @@ export class EsRouter {
     this.guard = config?.routerGuard
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
-    // @ts-ignore
+    // @ts-expect-error ignore
     this.pages = window?.ROUTES || ROUTES
-    // @ts-ignore
+    // @ts-expect-error ignore
     this.tabBarPage = (window?.ROUTES || ROUTES).filter(item => item.tabBar)
   }
 
@@ -26,7 +26,9 @@ export class EsRouter {
     if (!path && name) {
       path = `/${this.pages.find(item => item.name === name)?.path}`
     }
-    if (!path) return
+    if (!path) {
+      return
+    }
     const { tabBar = '', normal = '' } = this.prefix || {}
     let prefix = normal
     if (method === RouterJumpMethodEnum.RELAUNCH) {
@@ -36,15 +38,19 @@ export class EsRouter {
     }
     path = prefix + this.fullPath(path, query)
     const pass = this.guard ? await this.guard(path) : true
-    if (!method) method = RouterJumpMethodEnum.NAVIGATE
+    if (!method) {
+      method = RouterJumpMethodEnum.NAVIGATE
+    }
     if (pass) {
-      // @ts-ignore
+      // @ts-expect-error ignore
       uni[method]({
         url: path,
         success: () => Promise.resolve(),
         fail: (err: any) => Promise.reject(err),
         complete: (res: any) => {
-          this.enter && this.enter(res)
+          if (this.enter) {
+            this.enter(res)
+          }
         },
       })
     }
@@ -74,9 +80,11 @@ export class EsRouter {
   getQuery() {
     const pages = getCurrentPages()
     const currentPage = pages[pages.length - 1]
-    if (!currentPage?.route) return {}
+    if (!currentPage?.route) {
+      return {}
+    }
     const isTabBar = this.isTabBarPage(currentPage.route)
-
+    // @ts-expect-error ignore
     const options = currentPage.options
     if (isTabBar) {
       const result = this.routerStorage.get()

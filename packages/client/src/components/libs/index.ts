@@ -1,7 +1,6 @@
 import { config } from '@/components/libs/config/config.default'
 import { setConfig } from '@/components/libs/hooks/useConfig'
 import { useModal } from '@/components/libs/hooks/useModal'
-import { EsRequest } from '@/components/libs/hooks/useRequest'
 import { EsRouter } from '@/components/libs/hooks/useRouter'
 import type { Config } from '@/components/libs/typings/config'
 import type { Platform } from 'src/components/libs/typings'
@@ -24,7 +23,6 @@ export const useEs = {
         routerEnter: conf?.routerEnter,
         prefix: conf?.prefix,
       }),
-      httpClient: EsRequest,
       setConfig,
       env: import.meta.env,
     }

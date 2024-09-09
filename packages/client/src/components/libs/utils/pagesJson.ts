@@ -20,8 +20,8 @@ class TransformPages {
 
   /**
    * 构造函数
-   * @param config 保留字段配置
    * @param pagesPath pages.json 文件相对与项目根目录的位置
+   * @param config 保留字段配置
    */
   constructor(pagesPath = './src', config?: TransformPagesConf) {
     if (config?.includes) {
@@ -57,7 +57,7 @@ class TransformPages {
         subPage: !!root,
         tabBar: tabBarPages?.includes(item.path) ?? false,
       }
-      this.CONFIG.includes.forEach((key) => {
+      this.CONFIG.includes.forEach(key => {
         route[key] = item[key] || ''
       })
       return route
@@ -70,7 +70,7 @@ class TransformPages {
   getNotMpRoutes(): Pages[] {
     const { subPackages } = this.pagesJson
     let routes: Pages[] = []
-    if (subPackages == null || subPackages.length == 0) {
+    if (subPackages == null || subPackages.length === 0) {
       return []
     }
     subPackages.forEach((item: Record<string, never>) => {

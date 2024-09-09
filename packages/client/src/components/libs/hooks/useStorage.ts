@@ -15,7 +15,9 @@ export function useStorage<T>(key: string, defaultValue?: T, init = true) {
     uni.removeStorageSync(key)
   }
 
-  init && getStorage()
+  if (init) {
+    getStorage()
+  }
 
   if (!storageValue.value && typeof defaultValue !== 'undefined') {
     storageValue.value = defaultValue
@@ -23,7 +25,7 @@ export function useStorage<T>(key: string, defaultValue?: T, init = true) {
 
   watch(
     storageValue,
-    (newValue) => {
+    newValue => {
       setStorage(newValue)
     },
     { deep: true },
