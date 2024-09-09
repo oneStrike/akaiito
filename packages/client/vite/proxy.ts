@@ -1,7 +1,7 @@
-import type { ServerOptions } from 'vite'
 import type { IterateObject } from '@akaiito/typings/src'
+import type { ServerOptions } from 'vite'
 
-export const ViteProxy = (env: IterateObject<string>): ServerOptions => {
+export function ViteProxy(env: IterateObject<string>): ServerOptions {
   const proxyKeys = JSON.parse(env.VITE_PROXY_KEY)
   const proxyObj = {}
   proxyKeys.forEach((item: string) => {
@@ -9,11 +9,11 @@ export const ViteProxy = (env: IterateObject<string>): ServerOptions => {
     proxyObj[key] = {
       target: url,
       changeOrigin: true,
-      rewrite: (path: string) => path.replace(key, rewrite)
+      rewrite: (path: string) => path.replace(key, rewrite),
     }
   })
   return {
     proxy: proxyObj,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
   }
 }

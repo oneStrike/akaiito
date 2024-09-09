@@ -31,7 +31,9 @@ const navBarStyle = computed(() => {
   const { top, height, left } = uni.$es.menuRectInfo
   const { windowWidth } = uni.$es.systemInfo
   let paddingTop = top || uni.$es.systemInfo.safeAreaInsets!.top
-  if (uni.$es.platform === 'web') paddingTop += 8
+  if (uni.$es.platform === 'web') {
+    paddingTop += 8
+  }
   safeAreaWidth.value = `width:${windowWidth - left}px;`
   return {
     backgroundColor: props.backgroundColor,
@@ -42,7 +44,10 @@ const navBarStyle = computed(() => {
 </script>
 
 <template>
-  <view :style="navBarStyle" class="flex justify-between sticky top-0 box-content pb-2">
+  <view
+    :style="navBarStyle"
+    class="flex justify-between sticky top-0 box-content pb-2"
+  >
     <slot name="content">
       <view class="flex items-center w-60px">
         <slot name="left">

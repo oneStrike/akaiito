@@ -5,7 +5,7 @@ export const ViteBuild: BuildOptions = {
     output: {
       chunkFileNames: 'static/js/[name]-[hash].js',
       entryFileNames: 'static/js/[name]-[hash].js',
-      assetFileNames: (assetInfo) => {
+      assetFileNames: assetInfo => {
         if (
           assetInfo.type === 'asset' &&
           assetInfo.name &&
@@ -21,7 +21,7 @@ export const ViteBuild: BuildOptions = {
           return 'static/fonts/[name].[hash][ext]'
         }
         return 'static/[ext]/name-[hash].[ext]'
-      }
-    }
-  }
+      },
+    },
+  },
 }

@@ -19,12 +19,12 @@ export class EsRouter {
     // @ts-ignore
     this.pages = window?.ROUTES || ROUTES
     // @ts-ignore
-    this.tabBarPage = (window?.ROUTES || ROUTES).filter((item) => item.tabBar)
+    this.tabBarPage = (window?.ROUTES || ROUTES).filter(item => item.tabBar)
   }
 
   private async jump({ path, name, method, query }: IRouter) {
     if (!path && name) {
-      path = `/${this.pages.find((item) => item.name === name)?.path}`
+      path = `/${this.pages.find(item => item.name === name)?.path}`
     }
     if (!path) return
     const { tabBar = '', normal = '' } = this.prefix || {}
@@ -67,7 +67,7 @@ export class EsRouter {
   // 获取当前路由在pages.json的信息
   getRoute() {
     const currentPath = getCurrentPages().at(-1)?.route
-    return this.pages.find((item) => item.path === currentPath)
+    return this.pages.find(item => item.path === currentPath)
   }
 
   // 获取传递的query信息
@@ -97,7 +97,7 @@ export class EsRouter {
 
   // 是否为tabBar页面
   isTabBarPage(path: string) {
-    return !!this.tabBarPage.find((item) => item.path.includes(path))
+    return !!this.tabBarPage.find(item => item.path.includes(path))
   }
 
   async switchTab(options: IRouter) {

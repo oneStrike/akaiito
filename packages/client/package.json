@@ -43,6 +43,9 @@
     "build:quickapp-webview-union": "uni build -p quickapp-webview-union --minify",
     "type-check": "vue-tsc --noEmit"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "dependencies": {
     "@akaiito/utils": "workspace:*",
     "@dcloudio/uni-app": "3.0.0-4020420240722002",
@@ -90,8 +93,5 @@
     "vite-plugin-progress": "^0.0.7",
     "vite-plugin-restart": "^0.4.0",
     "vue-tsc": "^2.0.19"
-  },
-  "engines": {
-    "node": ">=16.0.0"
   }
 }

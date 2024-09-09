@@ -1,5 +1,8 @@
 import { useModal } from '@/components/libs/hooks/useModal'
-import type { RequestConfig, RequestOptions } from '@/components/libs/typings/hooks'
+import type {
+  RequestConfig,
+  RequestOptions,
+} from '@/components/libs/typings/hooks'
 
 export class EsRequest {
   baseUrl: RequestConfig['baseUrl']
@@ -22,13 +25,16 @@ export class EsRequest {
     this.loadingText = config.loadingText || '加载中...'
     this.handlerError = config.handlerError
     this.interceptor = config.interceptor
-    this.errorModal = typeof config.errorModal === 'boolean' ? config.errorModal : true
+    this.errorModal =
+      typeof config.errorModal === 'boolean' ? config.errorModal : true
     this.loadingStatus = false
   }
 
   request<T>(config: RequestOptions): Promise<T> {
     const errorModal =
-      typeof config.errorModal === 'boolean' ? config.errorModal : this.errorModal
+      typeof config.errorModal === 'boolean'
+        ? config.errorModal
+        : this.errorModal
 
     if (this.interceptor?.request) {
       config = this.interceptor.request(config)
@@ -54,8 +60,9 @@ export class EsRequest {
         header: config.header,
         timeout: config.timeout || this.timeout,
         responseType: config.responseType,
-        success: (res) => {
-          const errorPropagation = config.errorPropagation ?? this.errorPropagation
+        success: res => {
+          const errorPropagation =
+            config.errorPropagation ?? this.errorPropagation
           let responseData
           if (this.interceptor?.response) {
             responseData = this.interceptor.response(res.data)
@@ -87,7 +94,7 @@ export class EsRequest {
           // @ts-ignore
           resolve(responseData ? responseData?.data : res?.data?.data)
         },
-        fail: (err) => {
+        fail: err => {
           if (errorModal) {
             useModal({
               title: '提示',
@@ -99,7 +106,7 @@ export class EsRequest {
             })
           }
         },
-        complete: (res) => {
+        complete: res => {
           nextTick(() => {
             this.loadingStatus = false
             uni.hideLoading()

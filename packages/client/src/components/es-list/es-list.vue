@@ -31,7 +31,11 @@ const loadMoreStatus = computed(() => {
 <template>
   <view>
     <slot />
-    <uni-load-more v-if="data.length" icon-type="snow" :status="loadMoreStatus" />
+    <uni-load-more
+      v-if="data.length"
+      icon-type="snow"
+      :status="loadMoreStatus"
+    />
     <es-empty v-if="!data.length && !loading" />
   </view>
 </template>
