@@ -1,5 +1,5 @@
 import * as path from 'node:path'
-
+import * as process from 'node:process'
 import type { Pages } from '@/components/libs/typings/hooks'
 import type { IterateObject } from '@akaiito/typings/src'
 import type { TransformPagesConf } from 'src/components/libs/typings'
@@ -29,6 +29,7 @@ class TransformPages {
     }
     this.platform = process.env.UNI_PLATFORM!
     this.pagesPath = path.resolve(process.cwd(), pagesPath)
+    // eslint-disable-next-line ts/no-require-imports
     this.uniPagesHandler = require('@dcloudio/uni-cli-shared/dist/json/pages.js')
     this.routes = this.getPages().concat(this.getNotMpRoutes())
   }

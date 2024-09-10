@@ -1,4 +1,5 @@
 import * as path from 'node:path'
+import * as process from 'node:process'
 import type { AliasOptions, ResolveOptions } from 'vite'
 
 export const ViteResolve: ResolveOptions & { alias: AliasOptions } = {

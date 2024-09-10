@@ -1,9 +1,10 @@
 import * as fs from 'node:fs'
 import * as https from 'node:https'
 import * as path from 'node:path'
+import * as process from 'node:process'
 
-import { iconMapping } from '@/static/icons/icon-mapping'
 import type { IterateObject } from '@akaiito/typings/src'
+import { iconMapping } from '../../../static/icons/icon-mapping'
 
 const svgList: {
   local: boolean

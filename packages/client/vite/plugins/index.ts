@@ -1,5 +1,6 @@
 import uni from '@dcloudio/vite-plugin-uni'
 import { visualizer } from 'rollup-plugin-visualizer'
+import UnoCSS from 'unocss/vite'
 
 import ViteRestart from 'vite-plugin-restart'
 import type { Plugin } from 'vite'
@@ -7,9 +8,9 @@ import { AutoRegistryComponent } from './components'
 import { Compression } from './compression'
 import { autoImport } from './import'
 
-export async function VitePlugins() {
-  const UnoCSS = await import('unocss/vite').then(i => i.default)
-  const vitePlugins: (Plugin | Plugin[])[] = [UnoCSS(), uni()]
+export function VitePlugins() {
+  // @ts-expect-error ignore
+  const vitePlugins: (Plugin | Plugin[])[] = [UnoCSS(), uni.default()]
 
   // 打包分析视图
   vitePlugins.push(visualizer())
