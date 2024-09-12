@@ -195,7 +195,9 @@ export abstract class BasicService<T = IterateObject> {
     if (options?.omit) {
       where.omit = options.omit
     }
-    if (!where.where) where.where = {}
+    if (!where.where) {
+      where.where = {}
+    }
     if (options.startTime) {
       where.where.createdAt = {
         gte: options.startTime,
