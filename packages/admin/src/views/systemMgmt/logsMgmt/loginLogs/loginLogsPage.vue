@@ -6,22 +6,17 @@ import {
   tableColumns,
 } from '@/views/systemMgmt/logsMgmt/loginLogs/shared'
 
-const {
-  requestPage,
-  resetRequest,
-  sortChange,
-  requestData,
-  loading,
-  requestParams,
-} = useRequest(getRequestLogsApi, {
-  path: '/admin/user/login',
-})
-requestPage()
+const { sortChange, requestData, loading, requestParams, resetPage } =
+  useRequest(getRequestLogsApi, {
+    params: {
+      path: '/admin/user/login',
+    },
+  })
 </script>
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar :filter="filter" @query="resetRequest" />
+    <es-toolbar :filter="filter" @query="resetPage" />
     <es-table
       v-model:page-index="requestParams.pageIndex"
       v-model:page-size="requestParams.pageSize"

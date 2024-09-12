@@ -8,6 +8,6 @@ export class AuthorService extends BasicService<Author> {
   prismaClient: PrismaClient
 
   protected get model() {
-    return this.prismaClient.adminUser
+    return this.prismaClient.author
   }
 }

@@ -21,16 +21,8 @@ import type { ResolveListItem } from '@akaiito/typings/src'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const {
-  requestPage,
-  resetPage,
-  sortChange,
-  requestData,
-  loading,
-  requestParams,
-  resetRequest,
-} = useRequest(getUserPageApi)
-requestPage()
+const { resetPage, sortChange, requestData, loading, requestParams } =
+  useRequest(getUserPageApi)
 
 const userStore = useUserStore()
 const pwdModal = ref(false)
@@ -57,7 +49,7 @@ async function updateOrAddUserInfo(val: any) {
   await resetPage()
   if (val.id === userStore.userInfo?.id && requestData.value) {
     const target = requestData.value.list.filter(
-      (item) => item.id === userStore.userInfo?.id,
+      item => item.id === userStore.userInfo?.id,
     )[0]
     userStore.setUserInfo(target)
   }
@@ -96,7 +88,7 @@ async function switchStatus(val: any) {
     <es-toolbar
       :toolbar="toolbar"
       :filter="filter"
-      @query="resetRequest"
+      @query="resetPage"
       @handler="handlerToolbar"
     />
     <es-table
@@ -127,7 +119,11 @@ async function switchStatus(val: any) {
           编辑
         </el-button>
 
-        <el-button type="primary" link @click="(currentRow = row), (pwdModal = true)">
+        <el-button
+          type="primary"
+          link
+          @click="(currentRow = row), (pwdModal = true)"
+        >
           修改密码
         </el-button>
 

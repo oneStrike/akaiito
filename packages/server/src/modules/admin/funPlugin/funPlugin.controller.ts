@@ -27,7 +27,6 @@ export class FunPluginController {
 
   @Post('/updateFunPlugin', { summary: '更新功能插件' })
   async updateFunPlugin(@Body() body: FunPluginDto) {
-    console.log(body)
     return this.funPluginService.update({ id: body.id }, body)
   }
 
@@ -38,7 +37,6 @@ export class FunPluginController {
 
   @Post('/updateFunPluginStatus', { summary: '更新功能插件状态' })
   async updateFunPluginStatus(@Body() body: BasicIdStatusDto) {
-    console.log(body)
     return this.funPluginService.update({ id: body.id }, body)
   }
 }

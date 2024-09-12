@@ -1,58 +1,58 @@
 import { httpClient } from '@/utils/request'
 import type {
-  CreateFunPluginTypings,
-  DeleteFunPluginTypings,
   GetFunPluginTypings,
-  UpdateFunPluginStatusTypings,
+  CreateFunPluginTypings,
   UpdateFunPluginTypings,
+  DeleteFunPluginTypings,
+  UpdateFunPluginStatusTypings
 } from './funPlugin.d'
 
-export function getFunPluginApi(
-  params?: GetFunPluginTypings['Request'],
-): Promise<GetFunPluginTypings['Response']> {
+export const getFunPluginApi = (
+  params?: GetFunPluginTypings['Request']
+): Promise<GetFunPluginTypings['Response']> => {
   return httpClient({
     method: 'GET',
     url: '/admin/funPlugin/getFunPlugin',
-    params,
+    params
   })
 }
 
-export function createFunPluginApi(
-  data: CreateFunPluginTypings['Request'],
-): Promise<CreateFunPluginTypings['Response']> {
+export const createFunPluginApi = (
+  data: CreateFunPluginTypings['Request']
+): Promise<CreateFunPluginTypings['Response']> => {
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/createFunPlugin',
-    data,
+    data
   })
 }
 
-export function updateFunPluginApi(
-  data: UpdateFunPluginTypings['Request'],
-): Promise<UpdateFunPluginTypings['Response']> {
+export const updateFunPluginApi = (
+  data: UpdateFunPluginTypings['Request']
+): Promise<UpdateFunPluginTypings['Response']> => {
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/updateFunPlugin',
-    data,
+    data
   })
 }
 
-export function deleteFunPluginApi(
-  data: DeleteFunPluginTypings['Request'],
-): Promise<DeleteFunPluginTypings['Response']> {
+export const deleteFunPluginApi = (
+  data: DeleteFunPluginTypings['Request']
+): Promise<DeleteFunPluginTypings['Response']> => {
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/deleteFunPlugin',
-    data,
+    data
   })
 }
 
-export function updateFunPluginStatusApi(
-  data: UpdateFunPluginStatusTypings['Request'],
-): Promise<UpdateFunPluginStatusTypings['Response']> {
+export const updateFunPluginStatusApi = (
+  data: UpdateFunPluginStatusTypings['Request']
+): Promise<UpdateFunPluginStatusTypings['Response']> => {
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/updateFunPluginStatus',
-    data,
+    data
   })
 }

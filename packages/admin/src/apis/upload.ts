@@ -1,12 +1,12 @@
 import { httpClient } from '@/utils/request'
 import type { UploadFileTypings } from './upload.d'
 
-export function uploadFileApi(
-  data: UploadFileTypings['Request'],
-): Promise<UploadFileTypings['Response']> {
+export const uploadFileApi = (
+  data: UploadFileTypings['Request']
+): Promise<UploadFileTypings['Response']> => {
   return httpClient({
     method: 'POST',
     url: '/common/upload/uploadFile',
-    data,
+    data
   })
 }

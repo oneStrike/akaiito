@@ -2,7 +2,10 @@ import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
 import { utils } from '@/utils'
 import { App, Config, httpError, Inject } from '@midwayjs/core'
 import type { PrismaConfig } from '@/typings/config/prisma'
-import type { FindPageResponse, PrismaFindOptions } from '@/typings/service/base.service'
+import type {
+  FindPageResponse,
+  PrismaFindOptions,
+} from '@/typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
 import type { Context } from '@midwayjs/core'
 import type { Application } from '@midwayjs/koa'
@@ -87,8 +90,14 @@ export abstract class BasicService<T = IterateObject> {
   // 更新排序
   async updateOrder(info: BasicOrderDto) {
     await Promise.all([
-      this.update({ where: { id: info.targetId } }, { order: info.targetOrder }),
-      this.update({ where: { id: info.originId } }, { order: info.originOrder }),
+      this.update(
+        { where: { id: info.targetId } },
+        { order: info.targetOrder },
+      ),
+      this.update(
+        { where: { id: info.originId } },
+        { order: info.originOrder },
+      ),
     ])
     return info.targetId
   }
@@ -193,14 +202,16 @@ export abstract class BasicService<T = IterateObject> {
       }
     }
     if (options.endTime) {
-      if (!where.where.createdAt) where.where.createdAt = {}
+      if (!where.where.createdAt) {
+        where.where.createdAt = {}
+      }
       where.where.createdAt.lte = options.endTime
     }
 
     if (page) {
       const { pageIndex, pageSize } = this.pagination(options)
-      where.skip = pageIndex * pageSize
-      where.take = pageSize
+      where.skip = Number(pageIndex * pageSize)
+      where.take = Number(pageSize)
     }
     return where
   }
