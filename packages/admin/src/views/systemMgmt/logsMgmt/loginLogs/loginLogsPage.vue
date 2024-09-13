@@ -8,7 +8,7 @@ import {
 
 const { sortChange, requestData, loading, requestParams, resetPage } =
   useRequest(getRequestLogsApi, {
-    params: {
+    defaultParams: {
       path: '/admin/user/login',
     },
   })

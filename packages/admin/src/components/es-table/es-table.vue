@@ -66,18 +66,18 @@ onMounted(() => {
 })
 
 function computedTableHeight() {
-  useResizeObserver(tableBoxRef.value?.parentNode, (entries) => {
+  useResizeObserver(tableBoxRef.value?.parentNode, entries => {
     const entry = entries[0]
     elHeight.value.container = entry.contentRect.height
   })
 
-  useResizeObserver(paginationRef.value, (entries) => {
+  useResizeObserver(paginationRef.value, entries => {
     const entry = entries[0]
     const { height, y } = entry.contentRect
     elHeight.value.pagination = height + y
   })
 
-  useResizeObserver(document.getElementById('toolbar'), (entries) => {
+  useResizeObserver(document.getElementById('toolbar'), entries => {
     const entry = entries[0]
     const { height, y } = entry.contentRect
     elHeight.value.toolbar = height + y
@@ -86,7 +86,7 @@ function computedTableHeight() {
 
 watch(
   elHeight,
-  (val) => {
+  val => {
     tableHeight.value = val.container - val.pagination - val.toolbar
   },
   { deep: true, immediate: true },

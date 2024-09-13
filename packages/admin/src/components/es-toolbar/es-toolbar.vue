@@ -44,8 +44,8 @@ const esFormRef = ref<IterateObject>()
 const innerFilter = ref<ToolbarFilter>([])
 watch(
   () => props.filter,
-  (val) => {
-    innerFilter.value = utils._.cloneDeep(val!).map((item) => {
+  val => {
+    innerFilter.value = utils._.cloneDeep(val!).map(item => {
       if (!item.componentProps) {
         item.componentProps = {}
       }
@@ -103,7 +103,7 @@ function submit(val?: IterateObject) {
   }
   emits(
     'query',
-    pickBy(val, (item) => isBoolean(item) || isNumber(item) || item),
+    pickBy(val, item => isBoolean(item) || isNumber(item) || item),
   )
 }
 
