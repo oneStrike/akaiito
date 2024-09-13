@@ -1,5 +1,8 @@
-import { getUserInfoHandler, USERINFO_KEY } from '@/decorator/userinfo.decorator'
-import { Inject, Singleton, MidwayDecoratorService } from '@midwayjs/core'
+import {
+  getUserInfoHandler,
+  USERINFO_KEY,
+} from '@/decorator/userinfo.decorator'
+import { Inject, MidwayDecoratorService, Singleton } from '@midwayjs/core'
 
 @Singleton()
 export class DecoratorService {
@@ -8,6 +11,9 @@ export class DecoratorService {
 
   register() {
     // 从数据库获取最新用户信息
-    this.decoratorService.registerMethodHandler(USERINFO_KEY, getUserInfoHandler)
+    this.decoratorService.registerMethodHandler(
+      USERINFO_KEY,
+      getUserInfoHandler,
+    )
   }
 }

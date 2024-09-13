@@ -5,7 +5,12 @@ import { Application } from '@midwayjs/koa'
 import { AdminUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
 import { Jwt } from '../../internal/authentication/jwt.service'
-import type { CreateUserDto, UpdateUserPwd, UserDto, UserLoginDto } from './dto/user.dto'
+import {
+  CreateUserDto,
+  UpdateUserPwd,
+  UserDto,
+  UserLoginDto,
+} from './dto/user.dto'
 
 @Provide()
 export class UserService extends BasicService<AdminUser> {
@@ -54,7 +59,10 @@ export class UserService extends BasicService<AdminUser> {
     const userInfo = await this.model.findUnique({
       where: { mobile: info.mobile },
     })
-    if (!userInfo || !(await this.diffPassword(info.password, userInfo.password))) {
+    if (
+      !userInfo ||
+      !(await this.diffPassword(info.password, userInfo.password))
+    ) {
       this.throwError('手机号或密码错误')
     }
 
@@ -118,7 +126,9 @@ export class UserService extends BasicService<AdminUser> {
     if (!oldUserInfo) {
       this.throwError('用户不存在')
     }
-    if (!(await this.diffPassword(userInfo.oldPassword, oldUserInfo.password))) {
+    if (
+      !(await this.diffPassword(userInfo.oldPassword, oldUserInfo.password))
+    ) {
       this.throwError('原密码错误')
     }
 

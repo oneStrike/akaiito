@@ -9,7 +9,7 @@ import type {
 import type { IterateObject } from '@akaiito/typings/src'
 import type { Context } from '@midwayjs/core'
 import type { Application } from '@midwayjs/koa'
-import type { BasicOrderDto } from '../dto/basic.dto'
+import { BasicOrderDto } from '../dto/basic.dto'
 
 export abstract class BasicService<T = IterateObject> {
   // 注入应用实例

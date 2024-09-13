@@ -1,8 +1,12 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import type { BasicIdsDto, BasicIdsStatusDto, BasicOrderDto } from '@/basic/dto/basic.dto'
+import type {
+  BasicIdsDto,
+  BasicIdsStatusDto,
+  BasicOrderDto,
+} from '@/basic/dto/basic.dto'
 import { DictionaryService } from './dictionary.service'
 import { DictionaryServiceItems } from './dictionary-items.service'
-import type {
+import {
   CreateDictionaryDto,
   CreateDictionaryItemsDto,
   FindDictionDto,

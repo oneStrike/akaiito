@@ -1,6 +1,6 @@
 import { Controller, Get, Inject, Query } from '@midwayjs/core'
+import { LogDto } from './dto/log.dto'
 import { LogService } from './log.service'
-import type { LogDto } from './dto/log.dto'
 
 @Controller('/admin/logs')
 export class LogController {
