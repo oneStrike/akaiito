@@ -4,6 +4,7 @@ export default antfu(
   {
     ignores: ['**/.hbuilderx/**'],
     vue: true,
+    lessOpinionated: false,
   },
   {
     rules: {
@@ -14,7 +15,7 @@ export default antfu(
       'style/indent': 'off',
       'no-console': 'off',
       'style/quotes': 'off',
-      'antfu/ top-level-function': 'off',
+      'antfu/top-level-function': 'off',
     },
   },
   {
