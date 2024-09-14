@@ -3,23 +3,16 @@ import { getRequestLogsApi } from '@/apis/logs'
 import { useRequest } from '@/hooks/useRequest'
 import { filter, tableColumns } from './shared'
 
-const {
-  requestPage,
-  resetPage,
-  sortChange,
-  requestData,
-  loading,
-  requestParams,
-} = useRequest(getRequestLogsApi)
-requestPage()
+const { reset, sortChange, requestData, loading, params } =
+  useRequest(getRequestLogsApi)
 </script>
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar :filter="filter" @query="resetPage" />
+    <es-toolbar :filter="filter" @query="reset" />
     <es-table
-      v-model:page-index="requestParams.pageIndex"
-      v-model:page-size="requestParams.pageSize"
+      v-model:page-index="params.pageIndex"
+      v-model:page-size="params.pageSize"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"

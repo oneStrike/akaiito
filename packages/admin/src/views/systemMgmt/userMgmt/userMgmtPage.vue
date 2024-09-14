@@ -21,7 +21,7 @@ import type { ResolveListItem } from '@akaiito/typings/src'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const { resetPage, sortChange, requestData, loading, requestParams } =
+const { reset, sortChange, requestData, loading, params } =
   useRequest(getUserPageApi)
 
 const userStore = useUserStore()
@@ -46,7 +46,7 @@ async function updateOrAddUserInfo(val: any) {
   await api(val)
   useMessage.success(currentRow.value ? '修改成功!' : '添加成功!')
   formModal.value = false
-  await resetPage()
+  await reset()
   if (val.id === userStore.userInfo?.id && requestData.value) {
     const target = requestData.value.list.filter(
       item => item.id === userStore.userInfo?.id,
@@ -79,7 +79,7 @@ function handlerToolbar() {
 
 async function switchStatus(val: any) {
   await updateAdminUserInfoApi(val)
-  await resetPage()
+  await reset()
 }
 </script>
 
@@ -88,12 +88,12 @@ async function switchStatus(val: any) {
     <es-toolbar
       :toolbar="toolbar"
       :filter="filter"
-      @query="resetPage"
+      @query="reset"
       @handler="handlerToolbar"
     />
     <es-table
-      v-model:page-index="requestParams.pageIndex"
-      v-model:page-size="requestParams.pageSize"
+      v-model:page-index="params.pageIndex"
+      v-model:page-size="params.pageSize"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
@@ -131,7 +131,7 @@ async function switchStatus(val: any) {
           v-model:loading="loading"
           :request="deleteAdminUserApi"
           :row="row"
-          @success="resetPage()"
+          @success="reset()"
         />
       </template>
     </es-table>

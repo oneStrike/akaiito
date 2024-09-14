@@ -18,7 +18,6 @@ import {
 } from '@/views/systemMgmt/dataDictionary/shared'
 import type { EsModalProps } from '@/components/es-modal/es-modal.vue'
 import type { IterateObject, ResolveListItem } from '@typings/index'
-import { utils } from '@/utils'
 
 export interface RecordDetails extends EsModalProps {
   record: IterateObject | null
@@ -35,9 +34,12 @@ const esTableRef = ref()
 const esToolbarRef = ref()
 const formLoading = ref(false)
 const formModalShow = ref(false)
-const showModal = useVModel(props, 'modelValue', emits)
+const showModal = defineModel('modelValue', {
+  type: Boolean,
+  default: false,
+})
 const toolbarOptions = toolbar
-const filterOptions = filter().map((item) => {
+const filterOptions = filter().map(item => {
   if (item.props) {
     item.props.class = 'w-44'
   } else {
@@ -49,36 +51,41 @@ const filterOptions = filter().map((item) => {
 const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
 const dictionaryId = computed(() => ({ dictionaryId: props.record?.id }))
-const { requestData, resetPage, loading, requestParams } = useRequest(
+
+const { requestData, reset, loading, params } = useRequest(
   getDataDictionaryItemsApi,
+  {
+    init: false,
+  },
 )
 
 async function handlerToolbar(val: string) {
-  const ids = selectionItems.value?.map((item) => item.id)
+  if (val === 'add') {
+    formModalShow.value = true
+    return
+  }
+  const ids = selectionItems.value?.map(item => item.id)
   if (ids) {
     switch (val) {
-      case 'add':
-        formModalShow.value = true
-        break
       case 'delete':
         useConfirm(
           'delete',
           () => deleteDataDictionaryItemsApi({ ids }),
-          () => resetPage(dictionaryId.value),
+          () => reset(dictionaryId.value),
         )
         break
       case 'enable':
         useConfirm(
           'enable',
           () => updateDataDictionaryItemsStatusApi({ ids, status: 1 }),
-          () => resetPage(dictionaryId.value),
+          () => reset(dictionaryId.value),
         )
         break
       case 'disable':
         useConfirm(
           'disable',
           () => updateDataDictionaryItemsStatusApi({ ids, status: 0 }),
-          () => resetPage(dictionaryId.value),
+          () => reset(dictionaryId.value),
         )
         break
     }
@@ -87,9 +94,10 @@ async function handlerToolbar(val: string) {
 
 watch(
   () => showModal,
-  (val) => {
-    if (val) {
-      resetPage(dictionaryId.value)
+  ({ value }) => {
+    console.log(value)
+    if (value) {
+      reset(dictionaryId.value)
     } else {
       esToolbarRef.value?.resetFilter()
     }
@@ -110,7 +118,7 @@ async function addDictionary(value: any) {
     }
     formModalShow.value = false
     currentRow.value = null
-    resetPage(dictionaryId.value)
+    reset(dictionaryId.value)
   } catch (e) {
     console.log('🚀 ~ file:e method:addDictionary line:102 -----', e)
   }
@@ -141,14 +149,14 @@ function computedTableHeight() {
         :filter="filterOptions"
         :selection="!selectionItems?.length"
         @handler="handlerToolbar"
-        @query="(val) => resetPage({ ...val, ...dictionaryId })"
+        @query="val => reset({ ...val, ...dictionaryId })"
       />
 
       <es-table
         v-if="requestData"
         ref="esTableRef"
-        v-model:page-index="requestParams.pageIndex"
-        v-model:page-size="requestParams.pageSize"
+        v-model:page-index="params.pageIndex"
+        v-model:page-size="params.pageSize"
         v-model:selection-items="selectionItems"
         :columns="tableColumns"
         :data="requestData.list"
@@ -159,7 +167,11 @@ function computedTableHeight() {
           <span>{{ row.name }}</span>
         </template>
         <template #status="{ row }">
-          <es-switch :request="updateDataDictionaryItemsStatusApi" :row="row" ids />
+          <es-switch
+            :request="updateDataDictionaryItemsStatusApi"
+            :row="row"
+            ids
+          />
         </template>
         <template #action="{ row }">
           <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
@@ -168,7 +180,7 @@ function computedTableHeight() {
             :request="deleteDataDictionaryItemsApi"
             :row="row"
             ids
-            @success="resetPage(dictionaryId)"
+            @success="reset(dictionaryId)"
           />
         </template>
       </es-table>

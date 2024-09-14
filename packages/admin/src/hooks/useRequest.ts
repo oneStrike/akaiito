@@ -4,12 +4,9 @@ import type { IterateObject } from '@typings/index'
 
 interface RequestOptions {
   init?: boolean
-  params?: IterateObject
-  defaultParams?: {
-    pageIndex?: number
-    pageSize?: number
-    orderBy?: IterateObject
-  } & IterateObject
+  params?: IterateObject | globalThis.Ref<IterateObject>
+  type?: 'page' | 'list'
+  defaultParams?: IterateObject
 }
 
 /**
@@ -22,21 +19,38 @@ export function useRequest<T extends AsyncFn>(
   api: T,
   options?: RequestOptions,
 ) {
-  const { params = {}, defaultParams = {}, init = true } = options || {}
-
-  const loading = ref(false) // 表示请求的加载状态
-  const requestData = ref<ResolvedReturnType<T>>() // 存储请求返回的数据
-  const requestParams = ref<IterateObject>({ ...params, ...defaultParams }) // 存储请求时的额外参数配置
-
+  let {
+    type = 'page',
+    params = ref<ResolvedReturnType<T>>(),
+    defaultParams = {},
+    init = true,
+  } = options || {}
   const defaultPageParams = {
     // 默认的分页参数
     pageIndex: 0,
     pageSize: 15,
     orderBy: {},
-    ...defaultParams,
   }
 
   let skipNext = false
+  const loading = ref(false) // 表示请求的加载状态
+  const requestData = ref<ResolvedReturnType<T>>() // 存储请求返回的数据
+
+  if (!isRef(params)) {
+    params = ref<IterateObject>(params)
+  }
+  if (Object.keys(defaultParams)) {
+    params.value = { ...params.value, ...defaultParams }
+  }
+
+  if (type === 'page') {
+    params.value.pageSize = defaultPageParams.pageSize
+    params.value.pageIndex = defaultPageParams.pageIndex
+  }
+
+  if (!params.value.orderBy) {
+    params.value.orderBy = {}
+  }
 
   /**
    * 执行请求的函数，支持传入额外参数。
@@ -44,15 +58,20 @@ export function useRequest<T extends AsyncFn>(
    */
   const request = async <K>(p?: K) => {
     loading.value = true
+    skipNext = true
     if (p) {
-      skipNext = true
-      requestParams.value = { ...requestParams.value, ...p }
+      params.value = { ...params.value, ...p }
     }
-    const options: IterateObject = utils._.cloneDeep(requestParams.value)
+
+    if (type === 'page') {
+      params.value.pageIndex = params.value.pageIndex++
+    }
+
+    const options: IterateObject = utils._.cloneDeep(params.value)
 
     // 如果有排序参数，则将其转换为字符串
     if (options.orderBy && Object.keys(options.orderBy).length) {
-      options.orderBy = JSON.stringify(requestParams.value.orderBy)
+      options.orderBy = JSON.stringify(params.value.orderBy)
     }
 
     try {
@@ -61,6 +80,24 @@ export function useRequest<T extends AsyncFn>(
       console.log(e)
     }
     loading.value = false
+    skipNext = false
+  }
+
+  const reset = async <K>(p?: K) => {
+    skipNext = true
+    params.value = utils._.cloneDeep(defaultParams)
+    if (!params.value.orderBy) {
+      params.value.orderBy = {}
+    }
+    if (type === 'page') {
+      params.value.pageIndex = defaultPageParams.pageIndex
+      params.value.pageSize = defaultPageParams.pageSize
+    }
+    if (p) {
+      params.value = { ...params.value, ...p }
+    }
+
+    return await request()
   }
 
   if (init) {
@@ -68,10 +105,9 @@ export function useRequest<T extends AsyncFn>(
   }
 
   watch(
-    requestParams,
+    params,
     () => {
       if (skipNext) {
-        skipNext = false
         return
       }
       request()
@@ -80,50 +116,20 @@ export function useRequest<T extends AsyncFn>(
   )
 
   /**
-   * 执行分页请求的函数，支持传入额外参数。
-   * @param p 额外的请求参数，可选。
-   */
-  const requestPage = async <K>(p?: K) => {
-    const { pageIndex } = requestParams.value
-    let params: IterateObject = p || {}
-    if (typeof pageIndex === 'number') {
-      params.pageIndex = pageIndex + 1
-    } else {
-      params = Object.assign(params, defaultPageParams)
-    }
-
-    return await request(params)
-  }
-
-  /**
-   * 重置分页参数到默认状态，支持传入新的参数。
-   * @param p 新的分页参数，可选。
-   */
-  const resetPage = async <K>(p?: K) => {
-    if (p) {
-      skipNext = true
-      requestParams.value = { ...defaultPageParams, ...p }
-    }
-
-    return await request()
-  }
-
-  /**
    * 排序方式改变时的处理函数。
    * @param val 包含字段和排序顺序的对象。
    */
   const sortChange = (val: IterateObject) => {
-    requestParams.value.orderBy[val.field] = val.order // 更新排序参数
+    params.value.orderBy[val.field] = val.order // 更新排序参数
   }
 
   return {
     // 返回各种方法和状态
+    reset,
+    params: params as globalThis.Ref<IterateObject>,
     loading,
     request,
-    resetPage,
     sortChange,
-    requestPage,
     requestData,
-    requestParams,
   }
 }

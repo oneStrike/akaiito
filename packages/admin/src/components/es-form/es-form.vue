@@ -54,7 +54,7 @@ const formData = ref<IterateObject>({})
 
 watch(
   () => props.modelValue,
-  (val) => {
+  val => {
     formData.value = val
   },
   { immediate: true, deep: true },
@@ -62,14 +62,14 @@ watch(
 
 watch(
   formData,
-  (val) => {
+  val => {
     emits('update:modelValue', val)
   },
   { deep: true },
 )
 
 function submitForm() {
-  formRef.value?.validate((isValid) => {
+  formRef.value?.validate(isValid => {
     if (isValid) {
       emits('submit', toRaw(formData.value))
     }

@@ -14,6 +14,7 @@ export default antfu(
       'style/indent': 'off',
       'no-console': 'off',
       'style/quotes': 'off',
+      'antfu/ top-level-function': 'off',
     },
   },
   {

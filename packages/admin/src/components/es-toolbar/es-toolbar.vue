@@ -72,16 +72,14 @@ watch(
         item.componentProps.clearable = true
       }
 
-      if (!item.on.clear && item.component !== 'Select') {
+      if (bindChangeEventComponent.includes(item.component)) {
+        if (!item.on.change) {
+          item.on.change = innerSubmit
+        }
+      } else if (!item.on.clear) {
         item.on.clear = innerSubmit
       }
 
-      if (
-        bindChangeEventComponent.includes(item.component) &&
-        !item.on.change
-      ) {
-        item.on.change = innerSubmit
-      }
       return item
     })
   },
