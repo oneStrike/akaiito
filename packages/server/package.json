@@ -53,7 +53,7 @@
     "ci": "npm run cov",
     "build": "pnpm run prisma:generate && mwtsc --cleanOutDir && node ./scripts/index.js",
     "prisma:generate": "prisma generate --schema ./prisma/schema",
-    "prisma:init": "prisma db push && prisma db seed",
+    "prisma:init": "pnpm prisma:push && pnpm prisma:seed",
     "prisma:pull": "prisma db pull --schema ./prisma/schema",
     "prisma:push": "prisma db push --schema ./prisma/schema",
     "prisma:seed": "prisma db seed"

@@ -26,4 +26,21 @@ export const formOptions: EsFormOptions[] = [
       fileType: 'image',
     },
   },
+  {
+    field: 'contentModel',
+    component: 'Checkbox',
+    props: {
+      label: '启用的内容模型',
+      rules: [{ required: true, message: '请选择启用的内容模型' }],
+    },
+    componentProps: {
+      placeholder: '请选择启用的内容模型',
+      options: [
+        { label: '图片', value: 1 },
+        { label: '漫画', value: 2 },
+        { label: '小说', value: 3 },
+        { label: '视频', value: 4 },
+      ],
+    },
+  },
 ]

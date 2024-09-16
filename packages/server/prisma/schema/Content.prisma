@@ -1,7 +1,9 @@
 /// 中间表，联合内容和分类
 model ContentCategories {
-  contentId  Int       @map("content_id") /// 内容id
-  categoryId Int       @map("category_id") /// 分类id
+  /// 内容id
+  contentId  Int       @map("content_id")
+  /// 分类id
+  categoryId Int       @map("category_id")
   createdAt  DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt  DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
   Content    Content   @relation(fields: [contentId], references: [id])
@@ -12,29 +14,41 @@ model ContentCategories {
 
 /// 内容
 model Content {
-  id          Int                 @id @default(autoincrement()) /// 主键id
-  name        String              @unique(map: "name") @db.VarChar(50) /// 内容名称
-  cover       String?             @db.VarChar(50) /// 内容封面
-  description String              @db.VarChar(255) /// 内容描述信息
+  /// 主键id
+  id          Int                 @id @default(autoincrement())
+  /// 内容名称
+  name        String              @unique(map: "name") @db.VarChar(50)
+  /// 内容封面
+  cover       String?             @db.VarChar(50)
+  /// 内容描述信息
+  description String              @db.VarChar(255)
   createdAt   DateTime            @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt   DateTime?           @updatedAt @map("updated_at") @db.DateTime(0)
-  categories  ContentCategories[]
-  Category    Category?           @relation(fields: [categoryId], references: [id])
   categoryId  Int?
-  Author      Author?             @relation(fields: [authorId], references: [id])
   authorId    Int?
+  Author      Author?             @relation(fields: [authorId], references: [id])
+  Category    Category?           @relation(fields: [categoryId], references: [id])
+  categories  ContentCategories[]
 
+  @@index([authorId], map: "content_authorId_fkey")
+  @@index([categoryId], map: "content_categoryId_fkey")
   @@map("content")
 }
 
 /// 分类
 model Category {
-  id          Int       @id @default(autoincrement()) /// 主键id
-  name        String    @unique(map: "name") @db.VarChar(50) /// 分类名称
-  icon        String?   @db.VarChar(50) /// 分类图标
-  contentType Int?      @default(0) @map("content_type") @db.TinyInt /// 分类对应的内容类型 1==>小说 2==>漫画 3==>图片 4==>视频
-  status      Int?      @default(0) @db.TinyInt /// 状态 1：正常 0：禁用
-  description String    @db.VarChar(255) /// 分类描述
+  /// 主键id
+  id          Int       @id @default(autoincrement())
+  /// 分类名称
+  name        String    @unique(map: "name") @db.VarChar(50)
+  /// 分类图标
+  icon        String?   @db.VarChar(50)
+  /// 分类对应的内容类型 1==>小说 2==>漫画 3==>图片 4==>视频
+  contentType Int?      @default(0) @map("content_type") @db.TinyInt
+  /// 状态 1：正常 0：禁用
+  status      Int?      @default(0) @db.TinyInt
+  /// 分类描述
+  description String    @db.VarChar(255)
   createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
   contents    Content[]
@@ -44,13 +58,20 @@ model Category {
 
 /// 作者
 model Author {
-  id          Int       @id @default(autoincrement()) /// 主键id
-  name        String    @unique(map: "name") @db.VarChar(50) /// 作者名称
-  avatar      String?   @db.VarChar(255) /// 作者头像
-  description String?   @db.VarChar(255) /// 作者描述
-  status      Int?      @default(1) @db.TinyInt /// 状态 1：正常 0：禁用
-  website     String?   @db.VarChar(255) /// 作者主页
-  contentType Int       @default(0) @map("content_type") @db.TinyInt /// 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频
+  /// 主键id
+  id          Int       @id @default(autoincrement())
+  /// 作者名称
+  name        String    @db.VarChar(50)
+  /// 作者头像
+  avatar      String?   @db.VarChar(255)
+  /// 作者描述
+  description String?   @db.VarChar(255)
+  /// 状态 1：正常 0：禁用
+  status      Int?      @default(1) @db.TinyInt
+  /// 作者主页
+  website     String?   @db.VarChar(255)
+  /// 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频
+  contentType Int       @default(0) @map("content_type") @db.TinyInt
   createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
   contents    Content[]

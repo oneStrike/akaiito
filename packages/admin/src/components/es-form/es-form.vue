@@ -130,6 +130,14 @@ defineExpose({
           v-on="item.on || {}"
         />
 
+        <es-checkbox
+          v-if="item.component === 'Checkbox'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps"
+          :options="item.componentProps.options"
+          v-on="item.on || {}"
+        />
+
         <el-radio-group
           v-if="item.component === 'Radio'"
           v-model="formData[item.field]"

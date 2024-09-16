@@ -112,7 +112,7 @@ const showDetail = (row: TableItem) => {
         <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
+        <el-button type="primary" link @click="edit(row)">编辑</el-button>
         <es-pop-confirm
           v-model:loading="loading"
           :request="deleteDataDictionaryApi"

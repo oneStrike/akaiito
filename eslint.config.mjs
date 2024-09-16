@@ -16,6 +16,8 @@ export default antfu(
       'no-console': 'off',
       'style/quotes': 'off',
       'antfu/top-level-function': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
+      'style/member-delimiter-style': 'off',
     },
   },
   {

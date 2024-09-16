@@ -52,39 +52,27 @@ export abstract class BasicService<T = IterateObject> {
 
   // 更新数据
   async update(options: PrismaFindOptions<T>, data: IterateObject) {
-    try {
-      return await this.model.update({
-        where: this.handlerWhere(options).where,
-        data,
-      })
-    } catch (e) {
-      return null
-    }
+    return await this.model.update({
+      where: this.handlerWhere(options).where,
+      data,
+    })
   }
 
   // 更新或插入一条数据
   async upsert(options: PrismaFindOptions<T>, data: IterateObject) {
-    try {
-      return await this.model.upsert({
-        where: this.handlerWhere(options).where,
-        update: data,
-        create: data,
-      })
-    } catch (e) {
-      return null
-    }
+    return await this.model.upsert({
+      where: this.handlerWhere(options).where,
+      update: data,
+      create: data,
+    })
   }
 
   // 批量更新数据
   async updateBatch(options: PrismaFindOptions<T>, data: IterateObject) {
-    try {
-      return await this.model.updateMany({
-        where: this.handlerWhere(options).where,
-        data,
-      })
-    } catch (e) {
-      return null
-    }
+    return await this.model.updateMany({
+      where: this.handlerWhere(options).where,
+      data,
+    })
   }
 
   // 更新排序
@@ -113,9 +101,10 @@ export abstract class BasicService<T = IterateObject> {
   // 删除
   async delete(options?: PrismaFindOptions<T>) {
     try {
-      return await this.model.delete({
+      const deleteRes = await this.model.delete({
         where: this.handlerWhere(options).where,
       })
+      return deleteRes.id
     } catch (e) {
       this.throwError(prismaErrorMessage(e.code))
     }

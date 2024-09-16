@@ -10,4 +10,6 @@ export class AuthorService extends BasicService<Author> {
   protected get model() {
     return this.prismaClient.author
   }
+
+  formatLog() {}
 }
