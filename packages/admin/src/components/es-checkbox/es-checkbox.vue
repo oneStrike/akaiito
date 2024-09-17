@@ -78,6 +78,7 @@ const innerValue = computed({
       :key="item.value"
       :label="item.label"
       :value="item.value"
+      :disabled="item.disabled"
     >
       {{ item.label }}
     </el-checkbox>

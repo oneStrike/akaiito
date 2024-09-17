@@ -39,7 +39,7 @@ export const formOptions: EsFormOptions[] = [
         { label: '图片', value: 1 },
         { label: '漫画', value: 2 },
         { label: '小说', value: 3 },
-        { label: '视频', value: 4 },
+        { label: '视频', value: 4, disabled: true },
       ],
     },
   },

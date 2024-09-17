@@ -1,80 +1,69 @@
-/// 中间表，联合内容和分类
-model ContentCategories {
-  /// 内容id
-  contentId  Int       @map("content_id")
-  /// 分类id
-  categoryId Int       @map("category_id")
-  createdAt  DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt  DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
-  Content    Content   @relation(fields: [contentId], references: [id])
-
-  @@id([contentId, categoryId])
-  @@map("content_categorie")
-}
-
 /// 内容
 model Content {
   /// 主键id
-  id          Int                 @id @default(autoincrement())
-  /// 内容名称
-  name        String              @unique(map: "name") @db.VarChar(50)
+  id           Int       @id @default(autoincrement())
+  /// 内容标题
+  title        String    @unique(map: "name") @db.VarChar(50)
   /// 内容封面
-  cover       String?             @db.VarChar(50)
-  /// 内容描述信息
-  description String              @db.VarChar(255)
-  createdAt   DateTime            @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt   DateTime?           @updatedAt @map("updated_at") @db.DateTime(0)
-  categoryId  Int?
-  authorId    Int?
-  Author      Author?             @relation(fields: [authorId], references: [id])
-  Category    Category?           @relation(fields: [categoryId], references: [id])
-  categories  ContentCategories[]
+  cover        String?   @db.VarChar(50)
+  /// 摘要信息
+  summary      String    @db.VarChar(255)
+  /// 状态 1：正常 0：禁用
+  status       Int?      @default(1) @db.TinyInt
+  /// 浏览次数
+  views        Int?      @default(0) @db.MediumInt
+  /// 辅助浏览次数
+  assistsViews Int?      @default(0) @map("assists_views") @db.MediumInt
+  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  Author       Author?   @relation(fields: [authorId], references: [id])
+  authorId     Int?
 
-  @@index([authorId], map: "content_authorId_fkey")
-  @@index([categoryId], map: "content_categoryId_fkey")
   @@map("content")
 }
 
-/// 分类
 model Category {
   /// 主键id
-  id          Int       @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   /// 分类名称
-  name        String    @unique(map: "name") @db.VarChar(50)
-  /// 分类图标
-  icon        String?   @db.VarChar(50)
-  /// 分类对应的内容类型 1==>小说 2==>漫画 3==>图片 4==>视频
-  contentType Int?      @default(0) @map("content_type") @db.TinyInt
+  name       String    @unique(map: "name") @db.VarChar(50)
+  /// 热度
+  hot        Int?      @default(0) @db.MediumInt
+  /// 排序
+  sort       Int?      @default(0) @db.MediumInt
+  /// 小说数量
+  novelCount Int?      @default(0) @map("novel_count") @db.MediumInt
+  /// 漫画数量
+  comicCount Int?      @default(0) @map("comic_count") @db.MediumInt
+  /// 图片数量
+  imageCount Int?      @default(0) @map("image_count") @db.MediumInt
   /// 状态 1：正常 0：禁用
-  status      Int?      @default(0) @db.TinyInt
-  /// 分类描述
-  description String    @db.VarChar(255)
-  createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
-  contents    Content[]
+  status     Int?      @default(1) @db.TinyInt
+  createdAt  DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt  DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
 
-  @@map("categorie")
+  @@map("category")
 }
 
 /// 作者
 model Author {
   /// 主键id
-  id          Int       @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   /// 作者名称
-  name        String    @db.VarChar(50)
+  name         String    @db.VarChar(50)
   /// 作者头像
-  avatar      String?   @db.VarChar(255)
+  avatar       String?   @db.VarChar(255)
   /// 作者描述
-  description String?   @db.VarChar(255)
+  description  String?   @db.VarChar(255)
   /// 状态 1：正常 0：禁用
-  status      Int?      @default(1) @db.TinyInt
+  status       Int?      @default(1) @db.TinyInt
   /// 作者主页
-  website     String?   @db.VarChar(255)
-  /// 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频
-  contentType Int       @default(0) @map("content_type") @db.TinyInt
-  createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt   DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
-  contents    Content[]
+  website      String?   @db.VarChar(255)
+  /// 作者内容类型 1==>小说 2==>漫画 3==>图片
+  contentModel Int       @map("content_model") @db.TinyInt
+  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  contents     Content[]
 
   @@map("author")
 }

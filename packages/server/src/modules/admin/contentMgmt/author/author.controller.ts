@@ -1,8 +1,4 @@
-import {
-  BasicIdDto,
-  BasicIdStatusDto,
-  BasicPageDto,
-} from '@/basic/dto/basic.dto'
+import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
 import { AuthorService } from '@/modules/admin/contentMgmt/author/author.service'
 import {
   AuthorDto,
@@ -12,7 +8,7 @@ import {
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { Context } from '@midwayjs/koa'
 
-@Controller('/admin/author', {
+@Controller('/admin/contentMgmt/author', {
   tagName: '管理员',
   description: '管理平台的用户管理',
 })
@@ -24,8 +20,7 @@ export class AuthorController {
   ctx: Context
 
   @Get('/getAuthorPage', { summary: '获取作者分页列表' })
-  async getAuthorPage(@Query() query: GetAuthorPageDto & BasicPageDto) {
-    console.log(query)
+  async getAuthorPage(@Query() query: GetAuthorPageDto) {
     return this.authorService.findPage({
       ...query,
       fuzzy: ['name'],

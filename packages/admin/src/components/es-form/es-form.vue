@@ -169,6 +169,7 @@ defineExpose({
             :key="sub.value"
             :label="sub.label"
             :value="sub.value"
+            :disabled="sub.disabled"
           />
         </el-select>
 

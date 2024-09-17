@@ -1,10 +1,12 @@
 import {
   requiredNumber,
   requiredString,
+  validateNumber,
   validateNumberLess,
   validateString,
 } from '@/utils/validate'
-import { OmitDto, Rule, RuleType } from '@midwayjs/validate'
+import { OmitDto, Rule } from '@midwayjs/validate'
+import { BasicPageDto } from '@/basic/dto/basic.dto'
 
 export class AuthorDto {
   @Rule(requiredNumber)
@@ -23,7 +25,7 @@ export class AuthorDto {
   status!: number
 
   @Rule(validateNumberLess(4))
-  contentType!: number
+  contentModel!: number
 
   @Rule(validateString)
   website?: string
@@ -31,10 +33,13 @@ export class AuthorDto {
 
 export class CreateAuthorDto extends OmitDto(AuthorDto, ['id']) {}
 
-export class GetAuthorPageDto {
+export class GetAuthorPageDto extends BasicPageDto {
   @Rule(validateString)
-  name: string
+  name?: string
 
-  @Rule(RuleType.number().required())
+  @Rule(validateNumber)
   status?: number
+
+  @Rule(validateNumberLess(4))
+  contentModel?: number
 }

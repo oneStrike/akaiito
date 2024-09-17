@@ -3,7 +3,7 @@ import type { IterateObject } from '@typings/index'
 import type { TableColumnInstance } from 'element-plus'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
-  prop?: string
+  prop: string
   slotName?: string
   defaultValue?: string
 })[]
@@ -162,6 +162,22 @@ defineExpose({
               :column="column"
               :index="$index"
             />
+          </template>
+          <template v-else-if="item.type === 'image'">
+            <el-image
+              class="w-10"
+              :src="row[item.prop]"
+              :preview-src-list="[row[item.prop]]"
+              :z-index="999999"
+              preview-teleported
+            />
+          </template>
+          <template v-else-if="item.type === 'link'">
+            <el-tooltip :content="row[item.prop]" placement="top">
+              <el-link type="primary" :href="row[item.prop]" target="_blank">
+                {{ item.label }}
+              </el-link>
+            </el-tooltip>
           </template>
           <template v-else-if="item.type !== 'index'">
             {{

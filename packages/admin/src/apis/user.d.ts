@@ -304,15 +304,15 @@ export interface GetUserPageTypings {
 
   Response: {
     /*
-     * 单页数量
-     */
-    pageSize: number
-    /*
      * 页码
      */
     pageIndex: number
     /*
-     * 总记录条数
+     * 单页大小
+     */
+    pageSize: number
+    /*
+     * 总条数
      */
     total: number
     /*
