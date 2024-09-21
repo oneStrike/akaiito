@@ -1,19 +1,20 @@
 import fs from 'fs-extra'
 import prettier from 'prettier'
-import prettierConfig from './prettier.config'
+import type { IterateObject } from '@akaiito/typings/src'
 
-import { getConfig } from './config'
 import { apis } from './apis'
-import { IterateObject } from '@akaiito/typings/src'
-import { formatApi, formatSchema, conversion } from './utils'
+import { getConfig } from './config'
+import prettierConfig from './prettier.config'
+import { conversion, formatApi, formatSchema } from './utils'
+
 export const generate = async () => {
   const config = await getConfig()
 
-  //通用的schema
+  // 通用的schema
   const dataSchema: IterateObject = {}
-  //api列表
+  // api列表
   const apiList: IterateObject[] = []
-  //api接口的tags
+  // api接口的tags
   const apiTags: IterateObject = {}
 
   const apifoxApi = await apis()
@@ -25,7 +26,7 @@ export const generate = async () => {
   formatApi(apiList, apiTags, apiTree, config.exclude)
 
   console.log(
-    `************共抓取${apiList.length}条api，抓取详情信息中************`
+    `************共抓取${apiList.length}条api，抓取详情信息中************`,
   )
 
   const apiDetailArr = apiList.map((item: IterateObject) => {
@@ -37,20 +38,22 @@ export const generate = async () => {
   const api: IterateObject = {}
   const typings: IterateObject = {}
 
-  apiDetail.forEach((item) => {
+  apiDetail.forEach(item => {
     item.tags = apiTags[item.id]
     if (item.method === 'get') {
-      //请求
+      // 请求
       item.requestScheme = item.parameters.query
     } else if (item.method === 'post') {
-      //请求
-
+      // 请求
       const requestScheme =
         item.requestBody.type === 'multipart/form-data'
           ? item.requestBody.parameters
           : item.requestBody.jsonSchema
       if (requestScheme) {
         item.requestScheme = formatSchema(requestScheme, dataSchema)
+      }
+      if (item.path === '/admin/user/deleteAdminUser') {
+        console.log(requestScheme)
       }
     }
     item.responseScheme = formatSchema(item.responses[0].jsonSchema, dataSchema)
@@ -59,7 +62,7 @@ export const generate = async () => {
       api[options.apiFullPath] = {
         str: '',
         typings: [],
-        importTypings: options.importTypings
+        importTypings: options.importTypings,
       }
     }
     if (!typings[options.typingsFullPath]) {
@@ -71,16 +74,15 @@ export const generate = async () => {
   })
 
   for (const apiKey in api) {
-    const result =
-      `
+    const result = `
    ${config.http.import}
    import type { ${api[apiKey].typings.join(',')} } from '${
      api[apiKey].importTypings
    }'
-  ` + api[apiKey].str
+  ${api[apiKey].str}`
     const parse = await prettier.format(result, {
       parser: 'typescript',
-      ...prettierConfig
+      ...prettierConfig,
     })
 
     fs.outputFileSync(apiKey, parse, 'utf-8')
@@ -89,7 +91,7 @@ export const generate = async () => {
   for (const typingsKey in typings) {
     const parse = await prettier.format(typings[typingsKey].str, {
       parser: 'typescript',
-      ...prettierConfig
+      ...prettierConfig,
     })
     fs.outputFileSync(typingsKey, parse, 'utf-8')
   }

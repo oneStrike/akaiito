@@ -1,7 +1,7 @@
 import { httpClient } from '@/utils/request'
 import type {
   GetClientSystemConfigTypings,
-  UpdateClientSystemConfigTypings
+  UpdateClientSystemConfigTypings,
 } from './clientManage.d'
 
 export const getClientSystemConfigApi = (): Promise<
@@ -9,7 +9,7 @@ export const getClientSystemConfigApi = (): Promise<
 > => {
   return httpClient({
     method: 'GET',
-    url: '/admin/clientManage/getClientSystemConfig'
+    url: '/admin/clientManage/getClientSystemConfig',
   })
 }
 
@@ -18,6 +18,6 @@ export const updateClientSystemConfigApi = (): Promise<
 > => {
   return httpClient({
     method: 'POST',
-    url: '/admin/clientManage/updateClientSystemConfig'
+    url: '/admin/clientManage/updateClientSystemConfig',
   })
 }

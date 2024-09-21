@@ -56,7 +56,8 @@
     "prisma:init": "pnpm prisma:push && pnpm prisma:seed",
     "prisma:pull": "prisma db pull --schema ./prisma/schema",
     "prisma:push": "prisma db push --schema ./prisma/schema",
-    "prisma:seed": "prisma db seed"
+    "prisma:seed": "prisma db seed",
+    "prisma:update": "pnpm prisma:generate && pnpm prisma:push"
   },
   "midway-bin-clean": [
     ".vscode/.tsbuildinfo",

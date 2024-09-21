@@ -1,13 +1,15 @@
-import { IterateObject } from '@akaiito/typings/src'
+import type { IterateObject } from '@akaiito/typings/src'
 
 export const formatSchema = (
   schema: IterateObject | IterateObject[],
-  dataSchema?: IterateObject
+  dataSchema?: IterateObject,
 ) => {
   const schemaArr: IterateObject[] = []
   if (Array.isArray(schema)) {
-    schema.forEach((item) => {
-      if (item.type === 'file') item.type = 'string'
+    schema.forEach(item => {
+      if (item.type === 'file') {
+        item.type = 'string'
+      }
       schemaArr.push(item)
     })
     return schemaArr
@@ -16,7 +18,7 @@ export const formatSchema = (
     properties,
     required = [],
     'x-apifox-orders': apiOrders,
-    'x-apifox-refs': refs
+    'x-apifox-refs': refs,
   } = schema
   apiOrders?.forEach((item: string) => {
     if (refs && refs[item]) {
@@ -44,7 +46,7 @@ export const formatSchema = (
         type: Array.isArray(type) ? type.join(' | ') : type,
         description: properties[item].description,
         required: required.includes(item),
-        array: false
+        array: false,
       }
       if (Array.isArray(type)) {
         schema.type = type.join(' | ')
@@ -71,20 +73,19 @@ export const formatApi = (
   target: IterateObject[],
   tags: IterateObject,
   apis: IterateObject[],
-  exclude: string[]
+  exclude: string[],
 ) => {
-  apis.forEach((item) => {
+  apis.forEach(item => {
     if (item.type === 'apiDetailFolder' && !exclude.includes(item.folder?.id)) {
       tag.push({
         id: item.folder.id,
-        name: item.name
+        name: item.name,
       })
     }
     if (!exclude.includes(item.folder?.id) && item.type === 'apiDetail') {
-      const targetIdx = tag.findIndex((tag) => tag.id === item.api.folderId)
+      const targetIdx = tag.findIndex(tag => tag.id === item.api.folderId)
       tag.splice(targetIdx + 1)
-      tags[item.api.id] =
-        tag.map((item) => item.name).join('/') + '/' + item.name
+      tags[item.api.id] = `${tag.map(item => item.name).join('/')}/${item.name}`
       target.push(item)
     }
     if (
@@ -102,10 +103,10 @@ export const formatApi = (
 export const conversion = (api: IterateObject, config: IterateObject) => {
   const requestDoc = generateTyping(api.requestScheme)
   const requiredRequest = api.requestScheme?.find(
-    (item: IterateObject) => item.required
+    (item: IterateObject) => item.required,
   )
   const responseScheme = api.responseScheme?.find(
-    (item: IterateObject) => item.name === config.field
+    (item: IterateObject) => item.name === config.field,
   )
 
   const responseDoc = responseScheme?.type
@@ -123,7 +124,7 @@ export const conversion = (api: IterateObject, config: IterateObject) => {
  */
 
 export interface ${options.typingsName} {
-  Request: ${requestDoc ? requestDoc : null}
+  Request: ${requestDoc || null}
   ${
     responseScheme?.description
       ? `/*
@@ -134,7 +135,7 @@ export interface ${options.typingsName} {
   Response: ${
     responseDoc
       ? responseScheme.array
-        ? responseDoc + '[]'
+        ? `${responseDoc}[]`
         : responseDoc
       : null
   }
@@ -161,16 +162,16 @@ export interface ${options.typingsName} {
   return {
     typings: typingsStr,
     api: apiStr,
-    ...options
+    ...options,
   }
 }
 
 export const getName = (path: string, typings = false) => {
   const name = path.split('/').pop()!
   if (typings) {
-    return name.charAt(0).toUpperCase() + name.slice(1) + 'Typings'
+    return `${name.charAt(0).toUpperCase() + name.slice(1)}Typings`
   }
-  return name + 'Api'
+  return `${name}Api`
 }
 /**
  * 生成类型定义字符串
@@ -178,10 +179,12 @@ export const getName = (path: string, typings = false) => {
  * @returns 类型定义字符串
  */
 const generateTyping = (schema: IterateObject[] | string) => {
-  if (!schema) return ''
+  if (!schema) {
+    return ''
+  }
   let str = ''
   if (Array.isArray(schema)) {
-    schema.forEach((item) => {
+    schema.forEach(item => {
       str += `/*
       * ${item.description || ''}
       */
@@ -210,7 +213,7 @@ const generateTyping = (schema: IterateObject[] | string) => {
 export const getFileName = (
   path: string,
   config: IterateObject,
-  isTyping = false
+  isTyping = false,
 ) => {
   if (config.getFileName) {
     return config.getFileName(path, isTyping)
@@ -236,16 +239,16 @@ export const shared = (api: IterateObject, config: IterateObject) => {
     ? config.typingsFileName(api)
     : api.path.split('/').slice(-2)[0]
 
-  const apiRootPath = config.apiPath || process.cwd() + '/src/apis/'
-  const typingsRootPath = config.typingsPath || process.cwd() + '/src/apis/'
+  const apiRootPath = config.apiPath || `${process.cwd()}/src/apis/`
+  const typingsRootPath = config.typingsPath || `${process.cwd()}/src/apis/`
 
-  const apiFullPath = apiRootPath + apiFileName + '.ts'
-  const typingsFullPath = typingsRootPath + typingsFileName + '.d.ts'
+  const apiFullPath = `${apiRootPath + apiFileName}.ts`
+  const typingsFullPath = `${typingsRootPath + typingsFileName}.d.ts`
 
   const importTypings = config.importTypings
     ? config.importTypings(api)
     : apiRootPath === typingsRootPath
-      ? './' + typingsFileName + '.d'
+      ? `./${typingsFileName}.d`
       : typingsFullPath.replace('.ts', '')
 
   const payload = api.method === 'get' ? 'params' : 'data'
@@ -260,6 +263,6 @@ export const shared = (api: IterateObject, config: IterateObject) => {
     apiFullPath,
     typingsFullPath,
     importTypings,
-    payload
+    payload,
   }
 }

@@ -4,37 +4,37 @@ import type {
   CreateAuthorTypings,
   UpdateAuthorTypings,
   DeleteAuthorTypings,
-  UpdateAuthorStatusTypings
+  UpdateAuthorStatusTypings,
 } from './author.d'
 
 export const getAuthorPageApi = (
-  params?: GetAuthorPageTypings['Request']
+  params?: GetAuthorPageTypings['Request'],
 ): Promise<GetAuthorPageTypings['Response']> => {
   return httpClient({
     method: 'GET',
     url: '/admin/contentMgmt/author/getAuthorPage',
-    params
+    params,
   })
 }
 
 export const createAuthorApi = (): Promise<CreateAuthorTypings['Response']> => {
   return httpClient({
     method: 'POST',
-    url: '/admin/contentMgmt/author/createAuthor'
+    url: '/admin/contentMgmt/author/createAuthor',
   })
 }
 
 export const updateAuthorApi = (): Promise<UpdateAuthorTypings['Response']> => {
   return httpClient({
     method: 'POST',
-    url: '/admin/contentMgmt/author/updateAuthor'
+    url: '/admin/contentMgmt/author/updateAuthor',
   })
 }
 
 export const deleteAuthorApi = (): Promise<DeleteAuthorTypings['Response']> => {
   return httpClient({
     method: 'POST',
-    url: '/admin/contentMgmt/author/deleteAuthor'
+    url: '/admin/contentMgmt/author/deleteAuthor',
   })
 }
 
@@ -43,6 +43,6 @@ export const updateAuthorStatusApi = (): Promise<
 > => {
   return httpClient({
     method: 'POST',
-    url: '/admin/contentMgmt/author/updateAuthorStatus'
+    url: '/admin/contentMgmt/author/updateAuthorStatus',
   })
 }

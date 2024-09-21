@@ -1,43 +1,53 @@
 import { httpClient } from '@/utils/request'
 import type {
-  CreateAdminUserTypings,
+  GetUserPageTypings,
   GetUserInfoTypings,
+  CreateAdminUserTypings,
   UpdateAdminUserInfoTypings,
   UpdateAdminUserStatusTypings,
   UpdateAdminUserPasswordTypings,
   LoginTypings,
   RefreshAccessTokenTypings,
-  GetUserPageTypings,
-  DeleteAdminUserTypings
+  DeleteAdminUserTypings,
 } from './user.d'
 
-export const createAdminUserApi = (
-  data: CreateAdminUserTypings['Request']
-): Promise<CreateAdminUserTypings['Response']> => {
+export const getUserPageApi = (
+  params?: GetUserPageTypings['Request'],
+): Promise<GetUserPageTypings['Response']> => {
   return httpClient({
-    method: 'post',
-    url: '/admin/user/createAdminUser',
-    data
+    method: 'GET',
+    url: '/admin/user/getUserPage',
+    params,
   })
 }
 
 export const getUserInfoApi = (
-  params?: GetUserInfoTypings['Request']
+  params?: GetUserInfoTypings['Request'],
 ): Promise<GetUserInfoTypings['Response']> => {
   return httpClient({
-    method: 'get',
+    method: 'GET',
     url: '/admin/user/getUserInfo',
-    params
+    params,
+  })
+}
+
+export const createAdminUserApi = (
+  data: CreateAdminUserTypings['Request'],
+): Promise<CreateAdminUserTypings['Response']> => {
+  return httpClient({
+    method: 'POST',
+    url: '/admin/user/createAdminUser',
+    data,
   })
 }
 
 export const updateAdminUserInfoApi = (
-  data: UpdateAdminUserInfoTypings['Request']
+  data: UpdateAdminUserInfoTypings['Request'],
 ): Promise<UpdateAdminUserInfoTypings['Response']> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/user/updateAdminUserInfo',
-    data
+    data,
   })
 }
 
@@ -45,57 +55,46 @@ export const updateAdminUserStatusApi = (): Promise<
   UpdateAdminUserStatusTypings['Response']
 > => {
   return httpClient({
-    method: 'post',
-    url: '/admin/user/updateAdminUserStatus'
+    method: 'POST',
+    url: '/admin/user/updateAdminUserStatus',
   })
 }
 
 export const updateAdminUserPasswordApi = (
-  data: UpdateAdminUserPasswordTypings['Request']
+  data: UpdateAdminUserPasswordTypings['Request'],
 ): Promise<UpdateAdminUserPasswordTypings['Response']> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/user/updateAdminUserPassword',
-    data
+    data,
   })
 }
 
 export const loginApi = (
-  data: LoginTypings['Request']
+  data: LoginTypings['Request'],
 ): Promise<LoginTypings['Response']> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/user/login',
-    data
+    data,
   })
 }
 
 export const refreshAccessTokenApi = (
-  data: RefreshAccessTokenTypings['Request']
+  data: RefreshAccessTokenTypings['Request'],
 ): Promise<RefreshAccessTokenTypings['Response']> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/user/refreshAccessToken',
-    data
+    data,
   })
 }
 
-export const getUserPageApi = (
-  params?: GetUserPageTypings['Request']
-): Promise<GetUserPageTypings['Response']> => {
+export const deleteAdminUserApi = (): Promise<
+  DeleteAdminUserTypings['Response']
+> => {
   return httpClient({
-    method: 'get',
-    url: '/admin/user/getUserPage',
-    params
-  })
-}
-
-export const deleteAdminUserApi = (
-  data: DeleteAdminUserTypings['Request']
-): Promise<DeleteAdminUserTypings['Response']> => {
-  return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/user/deleteAdminUser',
-    data
   })
 }

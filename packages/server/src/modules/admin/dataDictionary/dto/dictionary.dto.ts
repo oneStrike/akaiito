@@ -21,14 +21,20 @@ export class DictionaryDto {
   status: number
 
   @Rule(requiredString)
-  desc: string
+  remark: string
 }
 
-export class CreateDictionaryDto extends OmitDto(DictionaryDto, ['id', 'status']) {}
+export class CreateDictionaryDto extends OmitDto(DictionaryDto, [
+  'id',
+  'status',
+]) {}
 
 export class UpdateDictionaryDto extends OmitDto(DictionaryDto, ['status']) {}
 
-export class CreateDictionaryItemsDto extends OmitDto(DictionaryDto, ['id', 'status']) {
+export class CreateDictionaryItemsDto extends OmitDto(DictionaryDto, [
+  'id',
+  'status',
+]) {
   @Rule(requiredNumber)
   dictionaryId: number
 }

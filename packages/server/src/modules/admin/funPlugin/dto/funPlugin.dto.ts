@@ -16,7 +16,7 @@ export class FunPluginDto {
   name: string
 
   @Rule(requiredString)
-  avatar: string
+  icon: string
 
   @Rule(requiredString)
   pluginFile: string
@@ -51,7 +51,11 @@ export class FunPluginDto {
 
 /* 获取功能插件列表 */
 
-export class GetFunPluginDto extends PickDto(FunPluginDto, ['type', 'status', 'isFree']) {
+export class GetFunPluginDto extends PickDto(FunPluginDto, [
+  'type',
+  'status',
+  'isFree',
+]) {
   @Rule(validateString)
   name: string
 }

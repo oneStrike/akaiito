@@ -1,23 +1,23 @@
 import { httpClient } from '@/utils/request'
 import type {
-  CreateAdminUserTypings,
+  GetUserPageTypings,
   GetUserInfoTypings,
+  CreateAdminUserTypings,
   UpdateAdminUserInfoTypings,
   UpdateAdminUserStatusTypings,
   UpdateAdminUserPasswordTypings,
   LoginTypings,
   RefreshAccessTokenTypings,
-  GetUserPageTypings,
   DeleteAdminUserTypings
 } from './user.d'
 
-export const createAdminUserApi = (
-  data: CreateAdminUserTypings['Request']
-): Promise<CreateAdminUserTypings['Response']> => {
+export const getUserPageApi = (
+  params?: GetUserPageTypings['Request']
+): Promise<GetUserPageTypings['Response']> => {
   return httpClient({
-    method: 'POST',
-    url: '/admin/user/createAdminUser',
-    data
+    method: 'GET',
+    url: '/admin/user/getUserPage',
+    params
   })
 }
 
@@ -28,6 +28,16 @@ export const getUserInfoApi = (
     method: 'GET',
     url: '/admin/user/getUserInfo',
     params
+  })
+}
+
+export const createAdminUserApi = (
+  data: CreateAdminUserTypings['Request']
+): Promise<CreateAdminUserTypings['Response']> => {
+  return httpClient({
+    method: 'POST',
+    url: '/admin/user/createAdminUser',
+    data
   })
 }
 
@@ -80,22 +90,11 @@ export const refreshAccessTokenApi = (
   })
 }
 
-export const getUserPageApi = (
-  params?: GetUserPageTypings['Request']
-): Promise<GetUserPageTypings['Response']> => {
-  return httpClient({
-    method: 'GET',
-    url: '/admin/user/getUserPage',
-    params
-  })
-}
-
-export const deleteAdminUserApi = (
-  data: DeleteAdminUserTypings['Request']
-): Promise<DeleteAdminUserTypings['Response']> => {
+export const deleteAdminUserApi = (): Promise<
+  DeleteAdminUserTypings['Response']
+> => {
   return httpClient({
     method: 'POST',
-    url: '/admin/user/deleteAdminUser',
-    data
+    url: '/admin/user/deleteAdminUser'
   })
 }

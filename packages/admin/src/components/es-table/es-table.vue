@@ -165,7 +165,7 @@ defineExpose({
           </template>
           <template v-else-if="item.type === 'image'">
             <el-image
-              class="w-10"
+              class="w-10 align-middle"
               :src="row[item.prop]"
               :preview-src-list="[row[item.prop]]"
               :z-index="999999"

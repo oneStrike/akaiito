@@ -52,10 +52,11 @@ export abstract class BasicService<T = IterateObject> {
 
   // 更新数据
   async update(options: PrismaFindOptions<T>, data: IterateObject) {
-    return await this.model.update({
+    const updateResult = await this.model.update({
       where: this.handlerWhere(options).where,
       data,
     })
+    return updateResult.id
   }
 
   // 更新或插入一条数据
@@ -141,15 +142,10 @@ export abstract class BasicService<T = IterateObject> {
 
   // 查询列表
   async findList(options?: PrismaFindOptions<T>) {
-    const result = await this.model.findMany({
+    return await this.model.findMany({
       ...this.handlerWhere(options),
       take: this.prismaConfig.maxListItemLimit,
     })
-
-    return {
-      data: result,
-      total: result.length,
-    }
   }
 
   // 处理where

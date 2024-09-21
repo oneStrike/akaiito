@@ -4,13 +4,13 @@ model FunPlugin {
   /// 插件名称
   name                String    @unique(map: "path") @db.VarChar(50)
   /// 插件图标
-  avatar              String    @db.VarChar(255)
-  /// 插件类型，1==>小说 2==>漫画 3==>图片 4==>视频
+  icon                String    @db.VarChar(255)
+  /// 插件类型，1==>小说 2==>漫画 3==>图片
   type                Int       @db.TinyInt
   /// 状态1==>启用  0==>禁用
   status              Int       @default(0) @db.TinyInt
   /// 插件描述信息
-  desc                String    @db.VarChar(255)
+  desc                String    @db.VarChar(2000)
   /// 下载次数
   downloadCount       Int       @default(0) @map("download_count")
   /// 已购买人数

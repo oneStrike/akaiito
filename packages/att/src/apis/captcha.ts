@@ -3,7 +3,7 @@ import type { GetCaptchaTypings } from './captcha.d'
 
 export const getCaptchaApi = (): Promise<GetCaptchaTypings['Response']> => {
   return httpClient({
-    method: 'get',
-    url: '/open/captcha/getCaptcha'
+    method: 'GET',
+    url: '/open/captcha/getCaptcha',
   })
 }

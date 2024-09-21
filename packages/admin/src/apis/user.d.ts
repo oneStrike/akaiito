@@ -1,45 +1,93 @@
 /**
- * 接口 [创建管理员用户↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131620160)
- * @标签 `管理端/用户/创建管理员用户`
- * @请求头 `POST /admin/user/createAdminUser`
- * @更新时间 `2023-12-07T13:39:24.000Z`
+ * 接口 [获取管理员列表↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-144286941)
+ * @标签 `管理端/用户/获取管理员列表`
+ * @请求头 `GET /admin/user/getUserPage`
+ * @更新时间 `2024-01-23T15:46:15.000Z`
  */
 
-export interface CreateAdminUserTypings {
+export interface GetUserPageTypings {
   Request: {
     /*
-     * 用户名
+     * 页码
      */
-    username: string
+    pageIndex?: string
     /*
-     * 用户头像
+     * 单页数量
      */
-    avatar?: string
+    pageSize?: string
     /*
-     * 手机号
+     * 排序
+     */
+    sortBy?: string
+    /*
+     * 管理员手机号
      */
     mobile?: string
     /*
-     * 用户状态，1启用0禁用
+     * 启用状态，1启用，0禁用
      */
-    status?: number
+    status?: string
     /*
-     * 是否为超管，1是0否
+     * 是否是超管，1是0否
      */
-    isRoot?: number
+    isRoot?: string
     /*
-     * 密码
+     * 姓名
      */
-    password: string
-    /*
-     * 确认密码
-     */
-    confirmPassword: string
+    username?: string
   }
-  /*
-   * 主键id
-   */
-  Response: number
+
+  Response: {
+    /*
+     * 页码
+     */
+    pageIndex: number
+    /*
+     * 单页大小
+     */
+    pageSize: number
+    /*
+     * 总条数
+     */
+    total: number
+    /*
+     *
+     */
+    list: {
+      /*
+       * 主键id
+       */
+      id: number
+      /*
+       * 用户名
+       */
+      username: string
+      /*
+       * 手机号
+       */
+      mobile: string
+      /*
+       * 用户头像
+       */
+      avatar?: string | null
+      /*
+       * 管理员状态，1启用0禁用
+       */
+      status: number
+      /*
+       * 是否为超管，1是0否
+       */
+      isRoot: number
+      /*
+       * 创建时间
+       */
+      createdAt: string
+      /*
+       * 更新时间
+       */
+      updatedAt: string
+    }[]
+  }
 }
 /**
  * 接口 [获取用户信息↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131964178)
@@ -92,6 +140,29 @@ export interface GetUserInfoTypings {
   }
 }
 /**
+ * 接口 [创建管理员用户↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131620160)
+ * @标签 `管理端/用户/创建管理员用户`
+ * @请求头 `POST /admin/user/createAdminUser`
+ * @更新时间 `2024-09-17T14:48:52.000Z`
+ */
+
+export interface CreateAdminUserTypings {
+  Request: {
+    /*
+     * 密码
+     */
+    password: string
+    /*
+     * 确认密码
+     */
+    confirmPassword: string
+  }
+  /*
+   * 主键id
+   */
+  Response: number
+}
+/**
  * 接口 [更新用户信息↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131972458)
  * @标签 `管理端/用户/更新用户信息`
  * @请求头 `POST /admin/user/updateAdminUserInfo`
@@ -122,7 +193,7 @@ export interface UpdateAdminUserInfoTypings {
  * 接口 [启用或禁用↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-131972472)
  * @标签 `管理端/用户/启用或禁用`
  * @请求头 `POST /admin/user/updateAdminUserStatus`
- * @更新时间 `2023-12-09T07:37:29.000Z`
+ * @更新时间 `2024-09-17T15:16:50.000Z`
  */
 
 export interface UpdateAdminUserStatusTypings {
@@ -264,110 +335,14 @@ export interface RefreshAccessTokenTypings {
   Response: string
 }
 /**
- * 接口 [获取管理员列表↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-144286941)
- * @标签 `管理端/用户/获取管理员列表`
- * @请求头 `GET /admin/user/getUserPage`
- * @更新时间 `2024-01-23T15:46:15.000Z`
- */
-
-export interface GetUserPageTypings {
-  Request: {
-    /*
-     * 页码
-     */
-    pageIndex?: string
-    /*
-     * 单页数量
-     */
-    pageSize?: string
-    /*
-     * 排序
-     */
-    sortBy?: string
-    /*
-     * 管理员手机号
-     */
-    mobile?: string
-    /*
-     * 启用状态，1启用，0禁用
-     */
-    status?: string
-    /*
-     * 是否是超管，1是0否
-     */
-    isRoot?: string
-    /*
-     * 姓名
-     */
-    username?: string
-  }
-
-  Response: {
-    /*
-     * 页码
-     */
-    pageIndex: number
-    /*
-     * 单页大小
-     */
-    pageSize: number
-    /*
-     * 总条数
-     */
-    total: number
-    /*
-     *
-     */
-    list: {
-      /*
-       * 主键id
-       */
-      id: number
-      /*
-       * 用户名
-       */
-      username: string
-      /*
-       * 手机号
-       */
-      mobile: string
-      /*
-       * 用户头像
-       */
-      avatar?: string | null
-      /*
-       * 管理员状态，1启用0禁用
-       */
-      status: number
-      /*
-       * 是否为超管，1是0否
-       */
-      isRoot: number
-      /*
-       * 创建时间
-       */
-      createdAt: string
-      /*
-       * 更新时间
-       */
-      updatedAt: string
-    }[]
-  }
-}
-/**
  * 接口 [删除管理员↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-144631484)
  * @标签 `管理端/用户/删除管理员`
  * @请求头 `POST /admin/user/deleteAdminUser`
- * @更新时间 `2024-01-24T13:51:12.000Z`
+ * @更新时间 `2024-09-17T15:17:48.000Z`
  */
 
 export interface DeleteAdminUserTypings {
-  Request: {
-    /*
-     * 主键id
-     */
-    id: number
-  }
+  Request: null
   /*
    * 删除的主键id
    */
