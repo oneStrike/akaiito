@@ -20,9 +20,7 @@ import type { ResolveListItem } from '@akaiito/typings/src'
 
 const toolbarOptions = toolbar
 
-const { requestPage, requestData, resetPage, loading, requestParams } =
-  useRequest(getDataDictionaryApi)
-requestPage()
+const { requestData, reset, loading, params } = useRequest(getDataDictionaryApi)
 type TableItem = ResolveListItem<typeof requestData.value>
 
 const formLoading = ref(false)
@@ -32,27 +30,28 @@ const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
 
 async function handlerToolbar(val: string) {
-  const ids = selectionItems.value?.map((item) => item.id)
+  if (val === 'add') {
+    formModalShow.value = true
+    return
+  }
+  const ids = selectionItems.value?.map(item => item.id)
   if (Array.isArray(ids)) {
     switch (val) {
-      case 'add':
-        formModalShow.value = true
-        break
       case 'delete':
-        useConfirm('delete', () => deleteDataDictionaryApi({ ids }), resetPage)
+        useConfirm('delete', () => deleteDataDictionaryApi({ ids }), reset)
         break
       case 'enable':
         useConfirm(
           'enable',
           () => updateDataDictionaryStatusApi({ ids, status: 1 }),
-          resetPage,
+          reset,
         )
         break
       case 'disable':
         useConfirm(
           'disable',
           () => updateDataDictionaryStatusApi({ ids, status: 0 }),
-          resetPage,
+          reset,
         )
         break
     }
@@ -71,12 +70,17 @@ async function addDictionary(value: any) {
   formModalShow.value = false
   formLoading.value = false
   currentRow.value = null
-  resetPage()
+  reset()
 }
 
 function edit(val: TableItem) {
   currentRow.value = val
   formModalShow.value = true
+}
+
+const showDetail = (row: TableItem) => {
+  detailModalShow.value = true
+  currentRow.value = row
 }
 </script>
 
@@ -87,12 +91,12 @@ function edit(val: TableItem) {
       :filter="filter()"
       :selection="!selectionItems?.length"
       @handler="handlerToolbar"
-      @query="resetPage"
+      @query="reset"
     />
     <es-table
       v-if="requestData"
-      v-model:page-index="requestParams.pageIndex"
-      v-model:page-size="requestParams.pageSize"
+      v-model:page-index="params.pageIndex"
+      v-model:page-size="params.pageSize"
       v-model:selection-items="selectionItems"
       :columns="tableColumns"
       :data="requestData.list"
@@ -100,7 +104,7 @@ function edit(val: TableItem) {
       :total="requestData?.total"
     >
       <template #name="{ row }">
-        <el-link type="primary" @click="(detailModalShow = true), (currentRow = row)">
+        <el-link type="primary" @click="showDetail(row)">
           {{ row.name }}
         </el-link>
       </template>
@@ -108,13 +112,13 @@ function edit(val: TableItem) {
         <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
+        <el-button type="primary" link @click="edit(row)">编辑</el-button>
         <es-pop-confirm
           v-model:loading="loading"
           :request="deleteDataDictionaryApi"
           :row="row"
           ids
-          @success="resetPage()"
+          @success="reset()"
         />
       </template>
     </es-table>

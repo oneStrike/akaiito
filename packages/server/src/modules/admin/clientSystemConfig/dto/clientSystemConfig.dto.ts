@@ -10,4 +10,7 @@ export class ClientSystemConfigDto {
 
   @Rule(requiredString)
   logo: string
+
+  @Rule(requiredString)
+  contentModel!: string
 }

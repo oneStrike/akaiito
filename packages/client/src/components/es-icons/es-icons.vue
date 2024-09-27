@@ -8,6 +8,7 @@ export interface EsIconProps {
   width?: number
   height?: number
   color?: string
+  type?: 'normal' | 'colorful'
 }
 
 defineOptions({
@@ -26,17 +27,13 @@ const emits = defineEmits<{
   (event: 'click'): void
 }>()
 
-const colour = ref(false)
 const iconStyle = computed(() => {
   const iconSize = config.sizeScheme[props.size] ?? props.size
   const width = iconSize || props.width
   const height = iconSize || props.height
   const unit = config.unit
   const color = config.colorScheme[props.color] || props.color
-  const icon = icons[props.name]
-  if (!icon.local) {
-    colour.value = !icon.data.includes('currentColor')
-  }
+
   return `
   width:  ${width + unit};
   height: ${height + unit};
@@ -47,7 +44,7 @@ const iconStyle = computed(() => {
 
 <template>
   <view
-    :class="colour ? 'icon-colour' : 'icon'"
+    :class="type === 'colorful' ? 'icon-colour' : 'icon'"
     :style="iconStyle"
     :name="name"
     @click="emits('click')"

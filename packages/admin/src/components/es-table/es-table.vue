@@ -3,7 +3,7 @@ import type { IterateObject } from '@typings/index'
 import type { TableColumnInstance } from 'element-plus'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
-  prop?: string
+  prop: string
   slotName?: string
   defaultValue?: string
 })[]
@@ -66,18 +66,18 @@ onMounted(() => {
 })
 
 function computedTableHeight() {
-  useResizeObserver(tableBoxRef.value?.parentNode, (entries) => {
+  useResizeObserver(tableBoxRef.value?.parentNode, entries => {
     const entry = entries[0]
     elHeight.value.container = entry.contentRect.height
   })
 
-  useResizeObserver(paginationRef.value, (entries) => {
+  useResizeObserver(paginationRef.value, entries => {
     const entry = entries[0]
     const { height, y } = entry.contentRect
     elHeight.value.pagination = height + y
   })
 
-  useResizeObserver(document.getElementById('toolbar'), (entries) => {
+  useResizeObserver(document.getElementById('toolbar'), entries => {
     const entry = entries[0]
     const { height, y } = entry.contentRect
     elHeight.value.toolbar = height + y
@@ -86,7 +86,7 @@ function computedTableHeight() {
 
 watch(
   elHeight,
-  (val) => {
+  val => {
     tableHeight.value = val.container - val.pagination - val.toolbar
   },
   { deep: true, immediate: true },
@@ -162,6 +162,22 @@ defineExpose({
               :column="column"
               :index="$index"
             />
+          </template>
+          <template v-else-if="item.type === 'image'">
+            <el-image
+              class="w-10 align-middle"
+              :src="row[item.prop]"
+              :preview-src-list="[row[item.prop]]"
+              :z-index="999999"
+              preview-teleported
+            />
+          </template>
+          <template v-else-if="item.type === 'link'">
+            <el-tooltip :content="row[item.prop]" placement="top">
+              <el-link type="primary" :href="row[item.prop]" target="_blank">
+                {{ item.label }}
+              </el-link>
+            </el-tooltip>
           </template>
           <template v-else-if="item.type !== 'index'">
             {{

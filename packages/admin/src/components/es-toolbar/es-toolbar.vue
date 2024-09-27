@@ -36,6 +36,7 @@ const props = withDefaults(defineProps<EsToolbarProps>(), {
 const emits = defineEmits<{
   (event: 'handler', data: any): void
   (event: 'query', data: IterateObject): void
+  (event: 'reset'): void
 }>()
 
 const bindChangeEventComponent = ['Select', 'DateTime']
@@ -44,8 +45,8 @@ const esFormRef = ref<IterateObject>()
 const innerFilter = ref<ToolbarFilter>([])
 watch(
   () => props.filter,
-  (val) => {
-    innerFilter.value = utils._.cloneDeep(val!).map((item) => {
+  val => {
+    innerFilter.value = utils._.cloneDeep(val!).map(item => {
       if (!item.componentProps) {
         item.componentProps = {}
       }
@@ -72,16 +73,14 @@ watch(
         item.componentProps.clearable = true
       }
 
-      if (!item.on.clear && item.component !== 'Select') {
+      if (bindChangeEventComponent.includes(item.component)) {
+        if (!item.on.change) {
+          item.on.change = innerSubmit
+        }
+      } else if (!item.on.clear) {
         item.on.clear = innerSubmit
       }
-
-      if (
-        bindChangeEventComponent.includes(item.component) &&
-        !item.on.change
-      ) {
-        item.on.change = innerSubmit
-      }
+      console.log(item)
       return item
     })
   },
@@ -90,7 +89,6 @@ watch(
 
 function submit(val?: IterateObject) {
   val = utils._.cloneDeep(val)
-  const { pickBy, isBoolean, isNumber } = utils._
   if (Array.isArray(val?.dateTimePicker) && val?.dateTimePicker.length === 2) {
     const start = val.dateTimePicker[0]
     const end = val.dateTimePicker[1]
@@ -101,10 +99,11 @@ function submit(val?: IterateObject) {
     delete val.endTime
     delete val.dateTimePicker
   }
-  emits(
-    'query',
-    pickBy(val, (item) => isBoolean(item) || isNumber(item) || item),
-  )
+  emits('query', val!)
+}
+
+const reset = () => {
+  emits('reset')
 }
 
 function resetFilter() {
@@ -167,7 +166,7 @@ defineExpose({
       :form-props="{ inline: true }"
       submit-text="查询"
       @submit="submit"
-      @reset="submit()"
+      @reset="reset"
     />
   </div>
 </template>

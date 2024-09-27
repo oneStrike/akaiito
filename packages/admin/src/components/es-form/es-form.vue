@@ -54,7 +54,7 @@ const formData = ref<IterateObject>({})
 
 watch(
   () => props.modelValue,
-  (val) => {
+  val => {
     formData.value = val
   },
   { immediate: true, deep: true },
@@ -62,14 +62,14 @@ watch(
 
 watch(
   formData,
-  (val) => {
+  val => {
     emits('update:modelValue', val)
   },
   { deep: true },
 )
 
 function submitForm() {
-  formRef.value?.validate((isValid) => {
+  formRef.value?.validate(isValid => {
     if (isValid) {
       emits('submit', toRaw(formData.value))
     }
@@ -130,6 +130,14 @@ defineExpose({
           v-on="item.on || {}"
         />
 
+        <es-checkbox
+          v-if="item.component === 'Checkbox'"
+          v-model="formData[item.field]"
+          v-bind="item.componentProps"
+          :options="item.componentProps.options"
+          v-on="item.on || {}"
+        />
+
         <el-radio-group
           v-if="item.component === 'Radio'"
           v-model="formData[item.field]"
@@ -161,6 +169,7 @@ defineExpose({
             :key="sub.value"
             :label="sub.label"
             :value="sub.value"
+            :disabled="sub.disabled"
           />
         </el-select>
 

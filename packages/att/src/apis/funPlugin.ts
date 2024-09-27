@@ -4,55 +4,51 @@ import type {
   CreateFunPluginTypings,
   UpdateFunPluginTypings,
   DeleteFunPluginTypings,
-  UpdateFunPluginStatusTypings
+  UpdateFunPluginStatusTypings,
 } from './funPlugin.d'
 
 export const getFunPluginApi = (
-  params?: GetFunPluginTypings['Request']
+  params?: GetFunPluginTypings['Request'],
 ): Promise<GetFunPluginTypings['Response']> => {
   return httpClient({
-    method: 'get',
+    method: 'GET',
     url: '/admin/funPlugin/getFunPlugin',
-    params
+    params,
   })
 }
 
-export const createFunPluginApi = (
-  data: CreateFunPluginTypings['Request']
-): Promise<CreateFunPluginTypings['Response']> => {
+export const createFunPluginApi = (): Promise<
+  CreateFunPluginTypings['Response']
+> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/funPlugin/createFunPlugin',
-    data
   })
 }
 
-export const updateFunPluginApi = (
-  data: UpdateFunPluginTypings['Request']
-): Promise<UpdateFunPluginTypings['Response']> => {
+export const updateFunPluginApi = (): Promise<
+  UpdateFunPluginTypings['Response']
+> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/funPlugin/updateFunPlugin',
-    data
   })
 }
 
-export const deleteFunPluginApi = (
-  data: DeleteFunPluginTypings['Request']
-): Promise<DeleteFunPluginTypings['Response']> => {
+export const deleteFunPluginApi = (): Promise<
+  DeleteFunPluginTypings['Response']
+> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/funPlugin/deleteFunPlugin',
-    data
   })
 }
 
-export const updateFunPluginStatusApi = (
-  data: UpdateFunPluginStatusTypings['Request']
-): Promise<UpdateFunPluginStatusTypings['Response']> => {
+export const updateFunPluginStatusApi = (): Promise<
+  UpdateFunPluginStatusTypings['Response']
+> => {
   return httpClient({
-    method: 'post',
+    method: 'POST',
     url: '/admin/funPlugin/updateFunPluginStatus',
-    data
   })
 }

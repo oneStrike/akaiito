@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { utils } from '@/utils'
-import type { EsFormOptions, EsFormProps } from '@/components/es-form/es-form.vue'
+import type {
+  EsFormOptions,
+  EsFormProps,
+} from '@/components/es-form/es-form.vue'
 import type { IterateObject } from '@typings/index'
 
 export interface FormModalProps {
   modelValue?: IterateObject
   defaultValue?: IterateObject | null
-  modal?: boolean
   options: EsFormOptions[]
   title?: string
   loading?: boolean
@@ -23,7 +25,6 @@ const emits = defineEmits<{
   (event: 'closed'): void
   (event: 'submit', data: IterateObject): void
   (event: 'change', data: IterateObject): void
-  (event: 'update:modal', data: IterateObject): void
   (event: 'update:loading', data: boolean): void
   (event: 'update:modelValue', data: IterateObject): void
 }>()
@@ -48,18 +49,20 @@ onMounted(() => {
   })
 })
 
-const show = useVModel(props, 'modal', emits)
-
+const showForm = defineModel('modal', {
+  type: Boolean,
+  default: false,
+})
 watch(
   () => props.loading,
-  (val) => {
+  val => {
     btnLoading.value = !!val
   },
   { immediate: true },
 )
 
-watch(show, (val) => {
-  if (!val) {
+watch(showForm, value => {
+  if (!value) {
     formValue.value = {}
     esFormRef.value.resetForm()
     btnLoading.value = false
@@ -67,7 +70,9 @@ watch(show, (val) => {
   }
 })
 
-const formProps = computed(() => Object.assign(props.formProps, { labelPosition: 'top' }))
+const formProps = computed(() =>
+  Object.assign(props.formProps, { labelPosition: 'top' }),
+)
 
 function handler() {
   esFormRef.value?.submitForm()
@@ -82,7 +87,7 @@ function formSubmit(val: IterateObject) {
 
 <template>
   <es-modal
-    v-model="show"
+    v-model="showForm"
     :loading="btnLoading"
     :width="width"
     :title="title"

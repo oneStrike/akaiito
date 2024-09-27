@@ -66,7 +66,8 @@ export class GlobalModal {
     const opacity = options.opacity || 0.6 // mask透明度
     const modal_title = options.title || '提示' // 标题
     const model_content = options.content || '提示内容' // 提示内容
-    const maskClick = typeof options.maskClick === 'undefined' ? false : options.maskClick // 是否可以点击mask关闭模态框
+    const maskClick =
+      typeof options.maskClick === 'undefined' ? false : options.maskClick // 是否可以点击mask关闭模态框
     const cancelText = options.cancelText || '取消'
     const confirmText = options.confirmText || '确定'
     const cancelColor = options.cancelColor || '#000000'
@@ -78,16 +79,21 @@ export class GlobalModal {
     this.fail = options.fail // 失败返回模态框
 
     // #ifdef APP-PLUS
-    this.creatView({ height: `${this.screenHeight}px`, top: 0 }, opacity, maskClick, {
-      title: modal_title,
-      content: model_content,
-      cancelText,
-      confirmText,
-      confirmColor,
-      cancelColor,
-      showCancel,
-      align,
-    })
+    this.creatView(
+      { height: `${this.screenHeight}px`, top: 0 },
+      opacity,
+      maskClick,
+      {
+        title: modal_title,
+        content: model_content,
+        cancelText,
+        confirmText,
+        confirmColor,
+        cancelColor,
+        showCancel,
+        align,
+      },
+    )
     // #endif
   }
 
@@ -100,7 +106,7 @@ export class GlobalModal {
   ) {
     try {
       style = { left: '0px', width: '100%', ...style }
-      // @ts-ignore
+      // @ts-expect-error ignore
       const view = new plus.nativeObj.View('FyShowModalView', style)
       view.draw([
         {
@@ -176,10 +182,19 @@ export class GlobalModal {
           },
         },
       ])
-
+      // 确认
+      // @ts-expect-error ignore
+      const viewConfirm = new plus.nativeObj.View('FyShowModalConfirm', {
+        width: modelInfo.showCancel
+          ? `${this.buttonWidth}px`
+          : `${this.modalWidth}px`,
+        height: `${this.footerHeight}px`,
+        top: `${this.footerBorderTop}px`,
+        left: modelInfo.showCancel ? '50%' : `${this.modalLeft}px`,
+      })
       // 取消按钮
       if (modelInfo.showCancel) {
-        // @ts-ignore
+        // @ts-expect-error ignore
         const viewCancel = new plus.nativeObj.View('FyShowModalCancel', {
           width: `${this.buttonWidth}px`,
           height: `${this.footerHeight}px`,
@@ -192,7 +207,12 @@ export class GlobalModal {
             id: 'cancelBackground',
             color: `rgba(255, 255, 255, 0)`,
             rectStyles: { borderWidth: '0px', radius: '8px' },
-            position: { top: '0px', left: '0px', width: '100%', height: '100%' },
+            position: {
+              top: '0px',
+              left: '0px',
+              width: '100%',
+              height: '100%',
+            },
           },
           {
             tag: 'font',
@@ -218,7 +238,9 @@ export class GlobalModal {
               { top: '0px', left: '0px', width: '100%', height: '100%' },
               'cancelBackground',
             )
-            this.success && this.success({ confirm: false, cancel: true, mask: false })
+            if (this.success) {
+              this.success({ confirm: false, cancel: true, mask: false })
+            }
             this.hide()
           },
           false,
@@ -238,14 +260,6 @@ export class GlobalModal {
         this.cancelModel = viewCancel
       }
 
-      // 确认
-      // @ts-ignore
-      const viewConfirm = new plus.nativeObj.View('FyShowModalConfirm', {
-        width: modelInfo.showCancel ? `${this.buttonWidth}px` : `${this.modalWidth}px`,
-        height: `${this.footerHeight}px`,
-        top: `${this.footerBorderTop}px`,
-        left: modelInfo.showCancel ? '50%' : `${this.modalLeft}px`,
-      })
       // 绘制确认
       viewConfirm.draw([
         {
@@ -282,7 +296,9 @@ export class GlobalModal {
             { top: '0px', left: '0px', width: '100%', height: '100%' },
             'confirmBackground',
           )
-          this.success && this.success({ confirm: true, cancel: false, mask: false })
+          if (this.success) {
+            this.success({ confirm: true, cancel: false, mask: false })
+          }
           this.hide()
         },
         false,
@@ -307,7 +323,9 @@ export class GlobalModal {
         view.addEventListener(
           'click',
           () => {
-            this.success && this.success({ confirm: false, cancel: true, mask: true })
+            if (this.success) {
+              this.success({ confirm: false, cancel: true, mask: true })
+            }
             this.hide()
             if (this.cancelModel) {
               this.cancelModel.drawRect(
@@ -363,7 +381,9 @@ export class GlobalModal {
       this.modalControl = view
       this.confirmModel = viewConfirm
     } catch (err) {
-      this.fail && this.fail(err)
+      if (this.fail) {
+        this.fail(err)
+      }
     }
   }
 
@@ -385,13 +405,13 @@ export class GlobalModal {
     if (this.backButton) {
       plus.key.removeEventListener('backbutton', this.handlerBackButton)
     }
-    // @ts-ignore
+    // @ts-expect-error ignore
     this.modalControl!.clear()
     if (this.cancelModel) {
-      // @ts-ignore
+      // @ts-expect-error ignore
       this.cancelModel!.clear()
     }
-    // @ts-ignore
+    // @ts-expect-error ignore
     this.confirmModel!.clear()
   }
 

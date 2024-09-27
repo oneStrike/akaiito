@@ -3,7 +3,7 @@ import { PrismaFindOptions } from '@/typings/service/base.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { DataDictionaryItems, PrismaClient } from '@prisma/client'
 import { DictionaryService } from './dictionary.service'
-import type { CreateDictionaryItemsDto } from './dto/dictionary.dto'
+import { CreateDictionaryItemsDto } from './dto/dictionary.dto'
 
 @Provide()
 export class DictionaryServiceItems extends BasicService<DataDictionaryItems> {

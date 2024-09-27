@@ -26,7 +26,8 @@ export class ExceptionFilter {
         responseErrorInfo.message = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
       }
     } else {
-      if (err.name === 'MultipartInvalidFilenameError') err.message = '不受支持的文件类型'
+      if (err.name === 'MultipartInvalidFilenameError')
+        err.message = '不受支持的文件类型'
       responseErrorInfo.code = err.status
       switch (err.status) {
         case 400:

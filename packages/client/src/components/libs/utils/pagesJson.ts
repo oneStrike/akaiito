@@ -1,5 +1,5 @@
 import * as path from 'node:path'
-
+import * as process from 'node:process'
 import type { Pages } from '@/components/libs/typings/hooks'
 import type { IterateObject } from '@akaiito/typings/src'
 import type { TransformPagesConf } from 'src/components/libs/typings'
@@ -20,8 +20,8 @@ class TransformPages {
 
   /**
    * 构造函数
-   * @param config 保留字段配置
    * @param pagesPath pages.json 文件相对与项目根目录的位置
+   * @param config 保留字段配置
    */
   constructor(pagesPath = './src', config?: TransformPagesConf) {
     if (config?.includes) {
@@ -29,6 +29,7 @@ class TransformPages {
     }
     this.platform = process.env.UNI_PLATFORM!
     this.pagesPath = path.resolve(process.cwd(), pagesPath)
+    // eslint-disable-next-line ts/no-require-imports
     this.uniPagesHandler = require('@dcloudio/uni-cli-shared/dist/json/pages.js')
     this.routes = this.getPages().concat(this.getNotMpRoutes())
   }
@@ -57,7 +58,7 @@ class TransformPages {
         subPage: !!root,
         tabBar: tabBarPages?.includes(item.path) ?? false,
       }
-      this.CONFIG.includes.forEach((key) => {
+      this.CONFIG.includes.forEach(key => {
         route[key] = item[key] || ''
       })
       return route
@@ -70,7 +71,7 @@ class TransformPages {
   getNotMpRoutes(): Pages[] {
     const { subPackages } = this.pagesJson
     let routes: Pages[] = []
-    if (subPackages == null || subPackages.length == 0) {
+    if (subPackages == null || subPackages.length === 0) {
       return []
     }
     subPackages.forEach((item: Record<string, never>) => {

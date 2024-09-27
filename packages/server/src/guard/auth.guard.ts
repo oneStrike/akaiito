@@ -1,6 +1,12 @@
 import { Jwt } from '@/modules/internal/authentication/jwt.service'
 import { isAdminRequest } from '@/utils/requestSource'
-import { Config, Guard, httpError, Inject, MidwayWebRouterService } from '@midwayjs/core'
+import {
+  Config,
+  Guard,
+  httpError,
+  Inject,
+  MidwayWebRouterService,
+} from '@midwayjs/core'
 import type { IterateObject } from '@akaiito/typings/src'
 import type { IGuard } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
@@ -33,7 +39,8 @@ export class AuthGuard implements IGuard<Context> {
           const token = ctx.headers.authorization
           try {
             const payload = await this.jwtService.verify(token)
-            if (typeof payload === 'string' || payload.refresh) throw new Error()
+            if (typeof payload === 'string' || payload.refresh)
+              throw new Error()
             this.setUserInfoToCtx(ctx, payload)
           } catch (e) {
             throw new httpError.UnauthorizedError('登录状态失效')
@@ -55,7 +62,6 @@ export class AuthGuard implements IGuard<Context> {
 
   // 配置忽略鉴权的路由地址
   public permit(ctx: Context): boolean {
-    console.log(ctx)
     if (Array.isArray(this.whiteList) && this.whiteList.length) {
       return this.whiteList.includes(ctx.request.path)
     }

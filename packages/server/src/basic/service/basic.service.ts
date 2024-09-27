@@ -2,11 +2,14 @@ import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
 import { utils } from '@/utils'
 import { App, Config, httpError, Inject } from '@midwayjs/core'
 import type { PrismaConfig } from '@/typings/config/prisma'
-import type { FindPageResponse, PrismaFindOptions } from '@/typings/service/base.service'
+import type {
+  FindPageResponse,
+  PrismaFindOptions,
+} from '@/typings/service/base.service'
 import type { IterateObject } from '@akaiito/typings/src'
 import type { Context } from '@midwayjs/core'
 import type { Application } from '@midwayjs/koa'
-import type { BasicOrderDto } from '../dto/basic.dto'
+import { BasicOrderDto } from '../dto/basic.dto'
 
 export abstract class BasicService<T = IterateObject> {
   // 注入应用实例
@@ -49,46 +52,41 @@ export abstract class BasicService<T = IterateObject> {
 
   // 更新数据
   async update(options: PrismaFindOptions<T>, data: IterateObject) {
-    try {
-      return await this.model.update({
-        where: this.handlerWhere(options).where,
-        data,
-      })
-    } catch (e) {
-      return null
-    }
+    const updateResult = await this.model.update({
+      where: this.handlerWhere(options).where,
+      data,
+    })
+    return updateResult.id
   }
 
   // 更新或插入一条数据
   async upsert(options: PrismaFindOptions<T>, data: IterateObject) {
-    try {
-      return await this.model.upsert({
-        where: this.handlerWhere(options).where,
-        update: data,
-        create: data,
-      })
-    } catch (e) {
-      return null
-    }
+    return await this.model.upsert({
+      where: this.handlerWhere(options).where,
+      update: data,
+      create: data,
+    })
   }
 
   // 批量更新数据
   async updateBatch(options: PrismaFindOptions<T>, data: IterateObject) {
-    try {
-      return await this.model.updateMany({
-        where: this.handlerWhere(options).where,
-        data,
-      })
-    } catch (e) {
-      return null
-    }
+    return await this.model.updateMany({
+      where: this.handlerWhere(options).where,
+      data,
+    })
   }
 
   // 更新排序
   async updateOrder(info: BasicOrderDto) {
     await Promise.all([
-      this.update({ where: { id: info.targetId } }, { order: info.targetOrder }),
-      this.update({ where: { id: info.originId } }, { order: info.originOrder }),
+      this.update(
+        { where: { id: info.targetId } },
+        { order: info.targetOrder },
+      ),
+      this.update(
+        { where: { id: info.originId } },
+        { order: info.originOrder },
+      ),
     ])
     return info.targetId
   }
@@ -104,9 +102,10 @@ export abstract class BasicService<T = IterateObject> {
   // 删除
   async delete(options?: PrismaFindOptions<T>) {
     try {
-      return await this.model.delete({
+      const deleteRes = await this.model.delete({
         where: this.handlerWhere(options).where,
       })
+      return deleteRes.id
     } catch (e) {
       this.throwError(prismaErrorMessage(e.code))
     }
@@ -143,15 +142,10 @@ export abstract class BasicService<T = IterateObject> {
 
   // 查询列表
   async findList(options?: PrismaFindOptions<T>) {
-    const result = await this.model.findMany({
+    return await this.model.findMany({
       ...this.handlerWhere(options),
       take: this.prismaConfig.maxListItemLimit,
     })
-
-    return {
-      data: result,
-      total: result.length,
-    }
   }
 
   // 处理where
@@ -186,21 +180,25 @@ export abstract class BasicService<T = IterateObject> {
     if (options?.omit) {
       where.omit = options.omit
     }
-    if (!where.where) where.where = {}
+    if (!where.where) {
+      where.where = {}
+    }
     if (options.startTime) {
       where.where.createdAt = {
         gte: options.startTime,
       }
     }
     if (options.endTime) {
-      if (!where.where.createdAt) where.where.createdAt = {}
+      if (!where.where.createdAt) {
+        where.where.createdAt = {}
+      }
       where.where.createdAt.lte = options.endTime
     }
 
     if (page) {
       const { pageIndex, pageSize } = this.pagination(options)
-      where.skip = pageIndex * pageSize
-      where.take = pageSize
+      where.skip = Number(pageIndex * pageSize)
+      where.take = Number(pageSize)
     }
     return where
   }

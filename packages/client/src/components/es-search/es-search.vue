@@ -64,7 +64,9 @@ function clear() {
 
 // 确认搜索
 function confirm() {
-  const emitsData = props.trim ? searchValue.value.replace(/\s+/g, '') : searchValue.value
+  const emitsData = props.trim
+    ? searchValue.value.replace(/\s+/g, '')
+    : searchValue.value
   emits('confirm', emitsData)
 }
 </script>
@@ -81,6 +83,7 @@ function confirm() {
     </slot>
     <es-swiper
       v-if="mode === 'booth'"
+      mode="text"
       :text="Array.isArray(placeholder) ? placeholder : [placeholder]"
       class="pl-1"
     />

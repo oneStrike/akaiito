@@ -17,10 +17,15 @@ default:
 
 .build_job:
   before_script:
-    - pnpm install --filter @akaiito/utils --frozen-lockfile && pnpm install --filter @akaiito/apifox-to-typescript --frozen-lockfile && pnpm run build:pt
-    - pnpm install --filter @akaiito/$CURRENT_PROJECT --frozen-lockfile && pnpm run build:pt && pnpm run -C packages/$CURRENT_PROJECT build
-    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS $DOCKER_REGISTRY
-    - docker rm -f $CURRENT_PROJECT || true && docker rmi -f $CURRENT_IMAGE || true
+    - pnpm install --filter @akaiito/utils --frozen-lockfile && pnpm install
+      --filter @akaiito/apifox-to-typescript --frozen-lockfile && pnpm run
+      build:pt
+    - pnpm install --filter @akaiito/$CURRENT_PROJECT --frozen-lockfile && pnpm
+      run build:pt && pnpm run -C packages/$CURRENT_PROJECT build
+    - docker login --username=$DOCKER_USER --password=$DOCKER_PASS
+      $DOCKER_REGISTRY
+    - docker rm -f $CURRENT_PROJECT || true && docker rmi -f $CURRENT_IMAGE ||
+      true
     - docker build . --target $CURRENT_PROJECT --tag $CURRENT_IMAGE
     - docker tag $CURRENT_IMAGE $CURRENT_IMAGE:latest
     - docker push $CURRENT_IMAGE:latest
@@ -30,7 +35,8 @@ admin_jon:
   extends:
     - .build_job
   script:
-    - docker run --restart always -d -p 80:80 --name $CURRENT_PROJECT $CURRENT_IMAGE
+    - docker run --restart always -d -p 80:80 --name $CURRENT_PROJECT
+      $CURRENT_IMAGE
   variables:
     CURRENT_PROJECT: 'admin'
     CURRENT_IMAGE: $DOCKER_REGISTRY/asherith/admin
@@ -46,7 +52,8 @@ client_jon:
   extends:
     - .build_job
   script:
-    - docker run --restart always -d -p 82:80 --name $CURRENT_PROJECT $CURRENT_IMAGE
+    - docker run --restart always -d -p 82:80 --name $CURRENT_PROJECT
+      $CURRENT_IMAGE
   variables:
     CURRENT_PROJECT: 'client'
     CURRENT_IMAGE: $DOCKER_REGISTRY/asherith/client
@@ -62,7 +69,8 @@ server_jon:
   extends:
     - .build_job
   script:
-    - docker run --restart always --add-host akaiito:172.26.95.99 -d -p 7001:7001 --name $CURRENT_PROJECT $CURRENT_IMAGE
+    - docker run --restart always --add-host akaiito:172.26.95.99 -d -p
+      7001:7001 --name $CURRENT_PROJECT $CURRENT_IMAGE
   variables:
     CURRENT_PROJECT: 'server'
     CURRENT_IMAGE: $DOCKER_REGISTRY/asherith/server

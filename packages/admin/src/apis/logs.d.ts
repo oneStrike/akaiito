@@ -14,7 +14,7 @@ export interface GetLogsTypings {
  * 接口 [获取请求日志↗](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-141609528)
  * @标签 `管理端/用户/数据字典/系统/获取请求日志`
  * @请求头 `GET /admin/logs/getRequestLogs`
- * @更新时间 `2024-01-21T07:26:59.000Z`
+ * @更新时间 `2024-09-17T16:18:40.000Z`
  */
 
 export interface GetRequestLogsTypings {
@@ -55,15 +55,15 @@ export interface GetRequestLogsTypings {
 
   Response: {
     /*
-     * 单页数量
-     */
-    pageSize: number
-    /*
      * 页码
      */
     pageIndex: number
     /*
-     * 总记录条数
+     * 单页大小
+     */
+    pageSize: number
+    /*
+     * 总条数
      */
     total: number
     /*
@@ -71,13 +71,9 @@ export interface GetRequestLogsTypings {
      */
     list: {
       /*
-       * 创建时间
+       * 主键id
        */
-      createdAt: string
-      /*
-       * 更新时间
-       */
-      updatedAt: string
+      id: number
       /*
        * 发起请求的用户名
        */
@@ -127,9 +123,13 @@ export interface GetRequestLogsTypings {
        */
       params: string | null
       /*
-       * 主键id
+       * 创建时间
        */
-      id: number
+      createdAt: string
+      /*
+       * 更新时间
+       */
+      updatedAt: string
     }[]
   }
 }

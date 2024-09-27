@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import type { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
-import { FunPluginService } from './funPlugin.service'
-import type {
+import {
   CreateFunPluginDto,
   FunPluginDto,
   GetFunPluginDto,
 } from './dto/funPlugin.dto'
+import { FunPluginService } from './funPlugin.service'
 
 @Controller('/admin/funPlugin')
 export class FunPluginController {
@@ -27,7 +27,6 @@ export class FunPluginController {
 
   @Post('/updateFunPlugin', { summary: '更新功能插件' })
   async updateFunPlugin(@Body() body: FunPluginDto) {
-    console.log(body)
     return this.funPluginService.update({ id: body.id }, body)
   }
 
@@ -38,7 +37,6 @@ export class FunPluginController {
 
   @Post('/updateFunPluginStatus', { summary: '更新功能插件状态' })
   async updateFunPluginStatus(@Body() body: BasicIdStatusDto) {
-    console.log(body)
     return this.funPluginService.update({ id: body.id }, body)
   }
 }

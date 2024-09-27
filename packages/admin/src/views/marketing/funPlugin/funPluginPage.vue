@@ -9,7 +9,11 @@ import {
 import { useMessage } from '@/hooks/useFeedback'
 import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, toolbar } from '@/views/marketing/funPlugin/shared'
+import {
+  filter,
+  formOptions,
+  toolbar,
+} from '@/views/marketing/funPlugin/shared'
 import type { GetFunPluginTypings } from '@/apis/funPlugin.d'
 import type { IterateObject } from '@akaiito/typings/src'
 
@@ -18,8 +22,7 @@ type record = GetFunPluginTypings['Response']['data'][number]
 const formScheme = useFormTool(formOptions)
 const formModal = ref(false)
 const currentRow = ref<record | null>()
-const { request, loading, resetRequest, requestData } = useRequest(getFunPluginApi)
-request()
+const { request, loading, requestData } = useRequest(getFunPluginApi)
 
 const pluginType = ['', '小说', '漫画', '图片', '视频']
 
@@ -61,7 +64,7 @@ function formChange(val: IterateObject) {
     <es-toolbar
       :toolbar="toolbar"
       :filter="filter"
-      @query="resetRequest"
+      @query="request"
       @handler="formModal = true"
     />
 
@@ -75,7 +78,11 @@ function formChange(val: IterateObject) {
       <el-card v-for="item in requestData.data" :key="item.id" shadow="hover">
         <div class="flex justify-between w-260px">
           <div class="flex">
-            <el-image :src="item.avatar" fit="cover" class="w12 h12 rounded-md mr-2" />
+            <el-image
+              :src="item.avatar"
+              fit="cover"
+              class="w12 h12 rounded-md mr-2"
+            />
             <div class="flex flex-col flex-auto">
               <div class="flex justify-between">
                 <span class="truncate w-170px">{{ item.name }}</span>

@@ -1,24 +1,23 @@
 import { httpClient } from '@/utils/request'
 import type {
   GetClientSystemConfigTypings,
-  UpdateClientSystemConfigTypings,
+  UpdateClientSystemConfigTypings
 } from './clientManage.d'
 
-export function getClientSystemConfigApi(): Promise<
+export const getClientSystemConfigApi = (): Promise<
   GetClientSystemConfigTypings['Response']
-> {
+> => {
   return httpClient({
     method: 'GET',
-    url: '/admin/clientManage/getClientSystemConfig',
+    url: '/admin/clientManage/getClientSystemConfig'
   })
 }
 
-export function updateClientSystemConfigApi(
-  data: UpdateClientSystemConfigTypings['Request'],
-): Promise<UpdateClientSystemConfigTypings['Response']> {
+export const updateClientSystemConfigApi = (): Promise<
+  UpdateClientSystemConfigTypings['Response']
+> => {
   return httpClient({
     method: 'POST',
-    url: '/admin/clientManage/updateClientSystemConfig',
-    data,
+    url: '/admin/clientManage/updateClientSystemConfig'
   })
 }

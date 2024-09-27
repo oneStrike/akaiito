@@ -16,17 +16,19 @@ export class EsRouter {
     this.guard = config?.routerGuard
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
-    // @ts-ignore
+    // @ts-expect-error ignore
     this.pages = window?.ROUTES || ROUTES
-    // @ts-ignore
-    this.tabBarPage = (window?.ROUTES || ROUTES).filter((item) => item.tabBar)
+    // @ts-expect-error ignore
+    this.tabBarPage = (window?.ROUTES || ROUTES).filter(item => item.tabBar)
   }
 
   private async jump({ path, name, method, query }: IRouter) {
     if (!path && name) {
-      path = `/${this.pages.find((item) => item.name === name)?.path}`
+      path = `/${this.pages.find(item => item.name === name)?.path}`
     }
-    if (!path) return
+    if (!path) {
+      return
+    }
     const { tabBar = '', normal = '' } = this.prefix || {}
     let prefix = normal
     if (method === RouterJumpMethodEnum.RELAUNCH) {
@@ -36,15 +38,19 @@ export class EsRouter {
     }
     path = prefix + this.fullPath(path, query)
     const pass = this.guard ? await this.guard(path) : true
-    if (!method) method = RouterJumpMethodEnum.NAVIGATE
+    if (!method) {
+      method = RouterJumpMethodEnum.NAVIGATE
+    }
     if (pass) {
-      // @ts-ignore
+      // @ts-expect-error ignore
       uni[method]({
         url: path,
         success: () => Promise.resolve(),
         fail: (err: any) => Promise.reject(err),
         complete: (res: any) => {
-          this.enter && this.enter(res)
+          if (this.enter) {
+            this.enter(res)
+          }
         },
       })
     }
@@ -67,16 +73,18 @@ export class EsRouter {
   // 获取当前路由在pages.json的信息
   getRoute() {
     const currentPath = getCurrentPages().at(-1)?.route
-    return this.pages.find((item) => item.path === currentPath)
+    return this.pages.find(item => item.path === currentPath)
   }
 
   // 获取传递的query信息
   getQuery() {
     const pages = getCurrentPages()
     const currentPage = pages[pages.length - 1]
-    if (!currentPage?.route) return {}
+    if (!currentPage?.route) {
+      return {}
+    }
     const isTabBar = this.isTabBarPage(currentPage.route)
-
+    // @ts-expect-error ignore
     const options = currentPage.options
     if (isTabBar) {
       const result = this.routerStorage.get()
@@ -97,7 +105,7 @@ export class EsRouter {
 
   // 是否为tabBar页面
   isTabBarPage(path: string) {
-    return !!this.tabBarPage.find((item) => item.path.includes(path))
+    return !!this.tabBarPage.find(item => item.path.includes(path))
   }
 
   async switchTab(options: IRouter) {

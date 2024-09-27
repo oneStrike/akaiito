@@ -2,9 +2,9 @@ import antfu from '@antfu/eslint-config'
 
 export default antfu(
   {
-    ignores: ['packages/server/**'],
+    ignores: ['**/.hbuilderx/**'],
     vue: true,
-    typescript: true,
+    lessOpinionated: false,
   },
   {
     rules: {
@@ -14,6 +14,10 @@ export default antfu(
       'style/operator-linebreak': 'off',
       'style/indent': 'off',
       'no-console': 'off',
+      'style/quotes': 'off',
+      'antfu/top-level-function': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
+      'style/member-delimiter-style': 'off',
     },
   },
   {

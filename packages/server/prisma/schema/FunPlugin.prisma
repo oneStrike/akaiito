@@ -1,20 +1,36 @@
 model FunPlugin {
-  id                  Int       @id @default(autoincrement()) /// 主键id
-  name                String    @unique(map: "path") @db.VarChar(50) /// 插件名称
-  avatar              String    @db.VarChar(255) ///插件图标
-  type                Int       @db.TinyInt ///插件类型，1==>小说 2==>漫画 3==>图片 4==>视频
-  status              Int       @default(0) @db.TinyInt ///状态1==>启用  0==>禁用
-  desc                String    @db.VarChar(255) ///插件描述信息
-  downloadCount       Int       @default(0) @map("download_count") ///下载次数
-  purchaseCount       Int       @default(0) @map("purchase_count") /// 已购买人数
-  assistPurchaseCount Int       @default(0) @map("assist_purchase_count") /// 辅助购买人数
-  price               Decimal?  @default(0.00) @db.Decimal(10, 2) /// 价格
-  sourceName          String    @map("source_name") @db.VarChar(50) /// 数据源名称
-  sourceUrl           String    @map("source_url") @db.VarChar(255) /// 数据源地址
-  isFree              Int       @default(1) @map("is_free") /// 是否免费使用，1==>免费  0==>收费
-  isRecommend         Int       @default(0) @map("is_recommend") /// 是否推荐，1==>推荐  0==>不推荐
-  pluginFile          String    @map("plugin_file") @db.VarChar(255) /// 插件的js文件压缩包
-  version             String    @db.VarChar(50) /// 插件版本
+  /// 主键id
+  id                  Int       @id @default(autoincrement())
+  /// 插件名称
+  name                String    @unique(map: "path") @db.VarChar(50)
+  /// 插件图标
+  icon                String    @db.VarChar(255)
+  /// 插件类型，1==>小说 2==>漫画 3==>图片
+  type                Int       @db.TinyInt
+  /// 状态1==>启用  0==>禁用
+  status              Int       @default(0) @db.TinyInt
+  /// 插件描述信息
+  desc                String    @db.VarChar(2000)
+  /// 下载次数
+  downloadCount       Int       @default(0) @map("download_count")
+  /// 已购买人数
+  purchaseCount       Int       @default(0) @map("purchase_count")
+  /// 辅助购买人数
+  assistPurchaseCount Int       @default(0) @map("assist_purchase_count")
+  /// 价格
+  price               Decimal?  @default(0.00) @db.Decimal(10, 2)
+  /// 数据源名称
+  sourceName          String    @map("source_name") @db.VarChar(50)
+  /// 数据源地址
+  sourceUrl           String    @map("source_url") @db.VarChar(255)
+  /// 是否免费使用，1==>免费  0==>收费
+  isFree              Int       @default(1) @map("is_free")
+  /// 是否推荐，1==>推荐  0==>不推荐
+  isRecommend         Int       @default(0) @map("is_recommend")
+  /// 插件的js文件压缩包
+  pluginFile          String    @map("plugin_file") @db.VarChar(255)
+  /// 插件版本
+  version             String    @db.VarChar(50)
   createdAt           DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt           DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
 

@@ -6,6 +6,9 @@ export default <Config>{
   tabWidth: 2,
   printWidth: 80,
   singleQuote: true,
-  trailingComma: 'none',
-  semi: false
+  semi: false,
+  trailingComma: 'all',
+  arrowParens: 'avoid',
+  proseWrap: 'always',
+  quoteProps: 'preserve',
 }

@@ -1,9 +1,10 @@
 import * as fs from 'node:fs'
 import * as https from 'node:https'
 import * as path from 'node:path'
+import * as process from 'node:process'
 
 import type { IterateObject } from '@akaiito/typings/src'
-import { iconMapping } from '../../es-icons/icon-mapping'
+import { iconMapping } from '../../../static/icons/icon-mapping'
 
 const svgList: {
   local: boolean
@@ -17,7 +18,9 @@ function encodeSvg(svg: string) {
   const res = svg
     .replace(
       '<svg',
-      ~svg.indexOf('xmlns') ? '<svg' : '<svg xmlns="http://www.w3.org/2000/svg"',
+      ~svg.indexOf('xmlns')
+        ? '<svg'
+        : '<svg xmlns="http://www.w3.org/2000/svg"',
     )
     .replace(/"/g, "'")
     .replace(/%/g, '%25')
@@ -31,14 +34,14 @@ function encodeSvg(svg: string) {
 
 // 下载svg数据
 function downloadSvg(url: string): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     https
-      .get(url, (res) => {
+      .get(url, res => {
         // 初始化一个空的data字符串来存储响应数据
         let data = ''
 
         // 每当有数据块（chunk）可读时，就会触发'data'事件
-        res.on('data', (chunk) => {
+        res.on('data', chunk => {
           data += chunk // 将接收到的数据块拼接到data字符串上
         })
 
@@ -52,7 +55,7 @@ function downloadSvg(url: string): Promise<string> {
           console.error(`请求失败，状态码: ${res.statusCode}`)
         }
       })
-      .on('error', (err) => {
+      .on('error', err => {
         // 处理请求过程中可能出现的错误
         console.error(`请求发生错误: ${err.message}`)
       })
@@ -61,7 +64,9 @@ function downloadSvg(url: string): Promise<string> {
 
 // 解析远程svg数据
 async function parasRemoteSvg() {
-  if (!Object.keys(iconMapping).length) return
+  if (!Object.keys(iconMapping).length) {
+    return
+  }
   console.log(iconMapping)
   for (const iconMappingKey in iconMapping) {
     const sourceName = iconMapping[iconMappingKey as keyof typeof iconMapping]
@@ -85,8 +90,8 @@ function parseLocalSvg(iconPath: string) {
   const svgFiles = fs.readdirSync(iconFolderPath)
 
   svgFiles
-    .filter((fileName) => path.extname(fileName) === '.svg')
-    .forEach((fileName) => {
+    .filter(fileName => path.extname(fileName) === '.svg')
+    .forEach(fileName => {
       const filePath = path.join(iconFolderPath, fileName)
       try {
         const svgContent = fs.readFileSync(filePath, 'utf-8')
@@ -95,7 +100,7 @@ function parseLocalSvg(iconPath: string) {
           name: fileName.split('.')[0],
           sourceName: '',
           data: encodeSvg(svgContent),
-          url: filePath,
+          url: '',
         })
       } catch (error) {
         console.error(`无法读取文件 ${filePath}:`, error)
@@ -107,14 +112,16 @@ function parseLocalSvg(iconPath: string) {
 function persistData() {
   const filePath = path.join(__dirname, '../../es-icons/es-icons.json')
   const jsonData: IterateObject = {}
-  svgList.forEach((item) => {
+  svgList.forEach(item => {
     jsonData[item.name] = item
   })
   fs.writeFileSync(filePath, JSON.stringify(jsonData, null, 2), 'utf-8')
 }
 
 export async function generateIcon(iconPath: string) {
-  iconPath && parseLocalSvg(iconPath)
+  if (iconPath) {
+    parseLocalSvg(iconPath)
+  }
   await parasRemoteSvg()
   persistData()
 }

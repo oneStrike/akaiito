@@ -1,6 +1,7 @@
 {
   "name": "@akaiito/client",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "att": "att",
     "dev": "pnpm run dev:h5",
@@ -43,6 +44,9 @@
     "build:quickapp-webview-union": "uni build -p quickapp-webview-union --minify",
     "type-check": "vue-tsc --noEmit"
   },
+  "engines": {
+    "node": ">=16.0.0"
+  },
   "dependencies": {
     "@akaiito/utils": "workspace:*",
     "@dcloudio/uni-app": "3.0.0-4020420240722002",
@@ -81,7 +85,7 @@
     "eslint-plugin-vue": "^9.26.0",
     "rollup-plugin-visualizer": "^5.12.0",
     "sass": "^1.77.2",
-    "unocss": "^0.60.2",
+    "unocss": "^0.62.3",
     "unocss-applet": "^0.8.1",
     "unocss-preset-weapp": "^0.59.2",
     "unplugin-auto-import": "^0.17.6",
@@ -90,8 +94,5 @@
     "vite-plugin-progress": "^0.0.7",
     "vite-plugin-restart": "^0.4.0",
     "vue-tsc": "^2.0.19"
-  },
-  "engines": {
-    "node": ">=16.0.0"
   }
 }

@@ -9,6 +9,7 @@ const tabs = ['小说', '漫画', '图片', '视频']
 const { requestRes, request, loading } = useRequest(getFunPluginApi, {
   refresh: true,
 })
+
 function tabChange(val: number) {
   request({ type: val + 1 })
 }

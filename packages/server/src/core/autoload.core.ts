@@ -1,6 +1,6 @@
+import { ConfigService } from '@/modules/internal/config/config.service'
 import { Autoload, Config, Init, Inject, Provide } from '@midwayjs/core'
 import * as fs from 'fs-extra'
-import { ConfigService } from '@/modules/internal/config/config.service'
 
 @Autoload()
 @Provide()
