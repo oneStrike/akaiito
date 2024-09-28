@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
 import type { IterateObject } from '@auy/types'
+import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
 
 export type EsFormComponent =
   | 'Input'

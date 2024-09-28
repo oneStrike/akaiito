@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { utils } from '@/utils'
 import type { EsFormOptions, EsFormProps } from '@/components/es-form/es-form.vue'
 import type { IterateObject } from '@auy/types'
+import { utils } from '@/utils'
 
 export interface FormModalProps {
   modelValue?: IterateObject
