@@ -1,4 +1,4 @@
-import type { ConfigService } from '@/modules/internal/config/config.service'
+import { ConfigService } from '@/modules/internal/config/config.service'
 import { Autoload, Config, Init, Inject, Provide } from '@midwayjs/core'
 import * as fs from 'fs-extra'
 

@@ -1,7 +1,7 @@
-import type { BasicIdsDto, BasicIdsStatusDto, BasicOrderDto } from '@/basic/dto/basic.dto'
-import type { DictionaryService } from './dictionary.service'
-import type { DictionaryServiceItems } from './dictionary-items.service'
-import type {
+import { BasicIdsDto, BasicIdsStatusDto, BasicOrderDto } from '@/basic/dto/basic.dto'
+import { DictionaryService } from './dictionary.service'
+import { DictionaryServiceItems } from './dictionary-items.service'
+import {
   CreateDictionaryDto,
   CreateDictionaryItemsDto,
   FindDictionDto,

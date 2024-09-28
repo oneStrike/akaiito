@@ -1,12 +1,9 @@
 import type { PrismaConfig } from '@/typings/config/prisma'
-import type {
-  FindPageResponse,
-  PrismaFindOptions,
-} from '@/typings/service/base.service'
+import type { FindPageResponse, PrismaFindOptions } from '@/typings/service/base.service'
 import type { IterateObject } from '@auy/types'
-import type { Context } from '@midwayjs/core'
-import type { Application } from '@midwayjs/koa'
-import type { BasicOrderDto } from '../dto/basic.dto'
+import { Context } from '@midwayjs/core'
+import { Application } from '@midwayjs/koa'
+import { BasicOrderDto } from '../dto/basic.dto'
 import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
 import { utils } from '@/utils'
 import { App, Config, httpError, Inject } from '@midwayjs/core'
@@ -80,24 +77,15 @@ export abstract class BasicService<T = IterateObject> {
   // 更新排序
   async updateOrder(info: BasicOrderDto) {
     await Promise.all([
-      this.update(
-        { where: { id: info.targetId } },
-        { order: info.targetOrder },
-      ),
-      this.update(
-        { where: { id: info.originId } },
-        { order: info.originOrder },
-      ),
+      this.update({ where: { id: info.targetId } }, { order: info.targetOrder }),
+      this.update({ where: { id: info.originId } }, { order: info.originOrder }),
     ])
     return info.targetId
   }
 
   // 软删除
   async softDeletion(options?: PrismaFindOptions<T>) {
-    return await this.update(
-      { where: this.handlerWhere(options).where },
-      { deletedAt: new Date() },
-    )
+    return await this.update({ where: this.handlerWhere(options).where }, { deletedAt: new Date() })
   }
 
   // 删除
@@ -129,10 +117,7 @@ export abstract class BasicService<T = IterateObject> {
   async findPage(options?: PrismaFindOptions<T>): FindPageResponse<T> {
     const where = this.handlerWhere(options, true)
     // 并行查询总数和数据
-    const [total, record] = await Promise.all([
-      this.getCount({ where: where.where }),
-      this.model.findMany(where),
-    ])
+    const [total, record] = await Promise.all([this.getCount({ where: where.where }), this.model.findMany(where)])
     return {
       pageSize: record?.length ?? 0,
       pageIndex: where.skip ? where.skip / where.take + 1 : 1,
@@ -151,16 +136,7 @@ export abstract class BasicService<T = IterateObject> {
 
   // 处理where
   handlerWhere(options: PrismaFindOptions<T>, page?: boolean) {
-    const optionsKeys = [
-      'orderBy',
-      'pageSize',
-      'pageIndex',
-      'fuzzy',
-      'where',
-      'startTime',
-      'endTime',
-      'omit',
-    ]
+    const optionsKeys = ['orderBy', 'pageSize', 'pageIndex', 'fuzzy', 'where', 'startTime', 'endTime', 'omit']
 
     const where: IterateObject = {
       where: utils._.omit(options, optionsKeys) || {},
@@ -173,10 +149,7 @@ export abstract class BasicService<T = IterateObject> {
     where.orderBy = this.orderBy(options.orderBy)
 
     if (options?.fuzzy) {
-      where.where = this.fuzzyQuery(
-        options.fuzzy,
-        Object.assign(where.where, options.where),
-      )
+      where.where = this.fuzzyQuery(options.fuzzy, Object.assign(where.where, options.where))
     }
     if (options?.omit) {
       where.omit = options.omit
@@ -232,10 +205,7 @@ export abstract class BasicService<T = IterateObject> {
    * @param where - 查询条件
    * @returns 返回模糊查询条件
    */
-  fuzzyQuery(
-    options: PrismaFindOptions<T>['fuzzy'],
-    where: PrismaFindOptions<T>['where'],
-  ) {
+  fuzzyQuery(options: PrismaFindOptions<T>['fuzzy'], where: PrismaFindOptions<T>['where']) {
     if (!Array.isArray(options)) return where
     options.forEach((item: PrismaFindOptions<T>['fuzzy'][number]) => {
       if (typeof item === 'string') {

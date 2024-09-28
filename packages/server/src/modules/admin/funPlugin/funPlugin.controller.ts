@@ -1,6 +1,6 @@
-import type { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
-import type { CreateFunPluginDto, FunPluginDto, GetFunPluginDto } from './dto/funPlugin.dto'
-import type { FunPluginService } from './funPlugin.service'
+import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
+import { CreateFunPluginDto, FunPluginDto, GetFunPluginDto } from './dto/funPlugin.dto'
+import { FunPluginService } from './funPlugin.service'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 
 @Controller('/admin/funPlugin')

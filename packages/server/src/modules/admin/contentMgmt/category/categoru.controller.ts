@@ -1,6 +1,6 @@
-import type { BasicIdDto } from '@/basic/dto/basic.dto'
-import type { CategoryService } from '@/modules/admin/contentMgmt/category/category.service'
-import type {
+import { BasicIdDto } from '@/basic/dto/basic.dto'
+import { CategoryService } from '@/modules/admin/contentMgmt/category/category.service'
+import {
   CategoryListDto,
   CreateCategoryDto,
   UpdateCategoryDto,

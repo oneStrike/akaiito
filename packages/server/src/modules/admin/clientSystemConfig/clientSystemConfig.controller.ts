@@ -1,5 +1,5 @@
-import type { ClientSystemConfigService } from './clientSystemConfig.service'
-import type { ClientSystemConfigDto } from './dto/clientSystemConfig.dto'
+import { ClientSystemConfigService } from './clientSystemConfig.service'
+import { ClientSystemConfigDto } from './dto/clientSystemConfig.dto'
 import { Body, Controller, Get, Inject, Post } from '@midwayjs/core'
 
 @Controller('/admin/clientManage')

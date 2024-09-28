@@ -7,7 +7,7 @@ export default antfu(
     vue: true,
     typescript: true,
     lessOpinionated: false,
-    ignores: ['**/.hbuilderx/**', '**/apis/**', './packages/server'],
+    ignores: ['**/.hbuilderx/**', '**/apis/**', 'packages/server'],
   },
   {
     rules: {

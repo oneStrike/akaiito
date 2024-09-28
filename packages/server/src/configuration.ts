@@ -1,15 +1,10 @@
-import type { DecoratorService } from '@/basic/service/decorator.service'
-import type { ILogger, IMidwayContainer, MidwayWebRouterService } from '@midwayjs/core'
-import type { RegisterPrisma } from './prisma'
+import { DecoratorService } from '@/basic/service/decorator.service'
+import { ILogger, IMidwayContainer, MidwayWebRouterService } from '@midwayjs/core'
+import { RegisterPrisma } from './prisma'
 import { join } from 'node:path'
 import * as busboy from '@midwayjs/busboy'
 import * as captcha from '@midwayjs/captcha'
-import {
-  App,
-  Configuration,
-  Inject,
-  Logger,
-} from '@midwayjs/core'
+import { App, Configuration, Inject, Logger } from '@midwayjs/core'
 import * as info from '@midwayjs/info'
 import * as koa from '@midwayjs/koa'
 import * as staticFile from '@midwayjs/static-file'
@@ -51,10 +46,7 @@ export class MainConfiguration {
   async onReady(container: IMidwayContainer) {
     this.registerPrisma.register(container)
 
-    container.registerObject(
-      'router',
-      await this.webRouterService.getFlattenRouterTable(),
-    )
+    container.registerObject('router', await this.webRouterService.getFlattenRouterTable())
 
     this.app.useMiddleware([ReportMiddleware])
     this.app.useFilter([ExceptionFilter])

@@ -1,8 +1,8 @@
-import type { PrismaFindOptions } from '@/typings/service/base.service'
+import { PrismaFindOptions } from '@/typings/service/base.service'
 
 import type { DataDictionaryItems, PrismaClient } from '@prisma/client'
-import type { DictionaryService } from './dictionary.service'
-import type { CreateDictionaryItemsDto } from './dto/dictionary.dto'
+import { DictionaryService } from './dictionary.service'
+import { CreateDictionaryItemsDto } from './dto/dictionary.dto'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 

@@ -1,5 +1,5 @@
 import { Controller, Get, Inject } from '@midwayjs/core'
-import type { ClientSystemConfigService } from '@/modules/admin/clientSystemConfig/clientSystemConfig.service'
+import { ClientSystemConfigService } from '@/modules/admin/clientSystemConfig/clientSystemConfig.service'
 
 @Controller('/client/clientManage')
 export class ClientManageController {

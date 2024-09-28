@@ -1,19 +1,12 @@
 import * as path from 'node:path'
 import * as process from 'node:process'
+import { pathToFileURL } from 'node:url'
 
-// 将本地路径转换为有效的 file:// URL
-function toFileUrl(filePath: string): string {
-  // 将路径转换为绝对路径
-  const absolutePath = path.resolve(filePath)
-  // 将绝对路径转换为 file:// URL
-  return `file://${absolutePath.replace(/\\/g, '/')}`
-}
-
-const configFilePath = path.join(process.cwd(), 'api.config.js')
-const fileUrl = toFileUrl(configFilePath)
+const configFilePath = pathToFileURL(path.join(process.cwd(), 'api.config.js'))
 
 export async function getConfig(key?: string) {
-  const config = (await import(fileUrl)).default
+  // @ts-expect-error ignore
+  const config = (await import(configFilePath)).default
   if (key) {
     return config[key]
   }

@@ -1,33 +1,36 @@
-/**
- * 辅助docker部署，将所需的文件都移动至dist目录下，
- * 同时调整packages.json文件，删除但仓库依赖包
- */
+// 导入必要的模块
+import { join } from 'node:path';
+import fs from 'fs-extra';
 
-const path = require('node:path')
-const fs = require('fs-extra')
+// 定义辅助函数用于 Docker 部署
+export default async function deployHelper() {
+  // 设置目标和源目录路径
+  const target = join(import.meta.url, '../dist/').replace(/\\/g, '/');
+  const source = join(import.meta.url, '../').replace(/\\/g, '/');
 
-module.exports = () => {
-  const target = path.join(__dirname, '../dist/') // 目标文件夹
-  const source = path.join(__dirname, '../')
+  // 需要复制的文件列表
+  const dependencies = ['src', 'prisma', 'package.json', 'bootstrap.js', '.env'];
 
-  const depend = ['src', 'prisma', 'package.json', 'bootstrap.js', '.env']
+  // 复制指定文件到目标目录
+  dependencies.forEach((item) => {
+    fs.copySync(`${source}${item}`, `${target}${item}`);
+  });
 
-  depend.forEach((item) => {
-    fs.copySync(source + item, target + item)
-  })
+  // 读取 dist 目录下的 package.json 文件
+  let packageJson = await fs.readJson(join(target, 'package.json'));
 
-  const packageJson = require(path.join(__dirname, '../dist/package.json'))
-
-  for (const dependencyKey in packageJson.dependencies) {
-    if (dependencyKey.includes('@akaiito')) {
-      delete packageJson.dependencies[dependencyKey]
+  // 删除 package.json 中包含 '@akaiito' 的依赖项
+  for (const key in packageJson.dependencies) {
+    if (key.includes('@akaiito')) {
+      delete packageJson.dependencies[key];
     }
   }
-  for (const dependencyKey in packageJson.devDependencies) {
-    if (dependencyKey.includes('@akaiito')) {
-      delete packageJson.devDependencies[dependencyKey]
+  for (const key in packageJson.devDependencies) {
+    if (key.includes('@akaiito')) {
+      delete packageJson.devDependencies[key];
     }
   }
 
-  fs.writeJsonSync(path.join(__dirname, '../dist/package.json'), packageJson)
+  // 写回更新后的 package.json 文件
+  await fs.writeJson(join(target, 'package.json'), packageJson, { spaces: 2 });
 }

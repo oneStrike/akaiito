@@ -1,6 +1,6 @@
-import type { Jwt } from '@/modules/internal/authentication/jwt.service'
+import { Jwt } from '@/modules/internal/authentication/jwt.service'
 import type { IterateObject } from '@auy/types'
-import type { IGuard, MidwayWebRouterService } from '@midwayjs/core'
+import { IGuard, MidwayWebRouterService } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { isAdminRequest } from '@/utils/requestSource'
 import { Config, Guard, httpError, Inject } from '@midwayjs/core'

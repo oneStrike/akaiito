@@ -1,6 +1,6 @@
 import { Inject, Singleton } from '@midwayjs/core'
 import { PrismaClient } from '@prisma/client'
-import type { ILogger, IMidwayContainer } from '@midwayjs/core'
+import { ILogger, IMidwayContainer } from '@midwayjs/core'
 
 @Singleton()
 export class RegisterPrisma {
