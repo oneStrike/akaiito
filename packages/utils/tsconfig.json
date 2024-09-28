@@ -1,0 +1,49 @@
+{
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "preserveConstEnums": true,
+    "resolveJsonModule": true,
+    "target": "ESNEXT",
+    "module": "ESNEXT",
+    "lib": [
+      "es5",
+      "es6",
+      "es2022",
+      "dom"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "allowJs": true,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "src",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "node_modules/@types",
+      "types"
+    ],
+    "esModuleInterop": true
+  },
+  "include": [
+    "**/*.ts",
+    "dist/**/*"
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/test",
+    "**/types",
+    "**/apis",
+    "api.config.js"
+  ]
+}

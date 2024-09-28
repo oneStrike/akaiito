@@ -1,0 +1,23 @@
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model AdminUser {
+  /// 主键id
+  id        Int       @id @default(autoincrement())
+  /// 账号
+  username  String?   @unique(map: "username") @db.VarChar(50)
+  /// 密码
+  password  String?   @db.VarChar(100)
+  /// 头像
+  avatar    String?   @db.VarChar(100)
+  /// 手机号
+  mobile    String?   @unique(map: "mobile") @db.VarChar(20)
+  /// 状态 0禁用 1正常
+  status    Int?      @default(1) @db.TinyInt
+  /// 是否是超级管理员 1是0否
+  isRoot    Int?      @default(0) @map("is_root") @db.TinyInt
+  /// 创建时间
+  createdAt DateTime? @default(now()) @map("created_at") @db.DateTime(0)
+  /// 更新时间
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+
+  @@map("admin_user")
+}

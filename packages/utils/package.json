@@ -1,0 +1,38 @@
+{
+  "name": "@auy/utils",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "exports": {
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
+    },
+    "import": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    }
+  },
+  "scripts": {
+    "build": "rimraf dist --glob && pkgroll",
+    "dev": "tsx watch ./src/index.ts",
+    "clean": "node -e \"var { rmdirSync, existsSync } = require('fs'), path = require('path'); ['./.nyc_output', './coverage', './dist'].forEach(fPath => {if (existsSync(path.join(__dirname, fPath))) rmdirSync(path.join(__dirname, fPath), { recursive: true })}); process.exit(0);\"",
+    "clean:all": "pnpm run clean && (rm -r ./node_modules || true)",
+    "cover": "nyc pnpm run test",
+    "cover:check": "nyc --check-coverage --reporter=lcov pnpm run test",
+    "preversion": "pnpm run build && pnpm run cover:check",
+    "postversion": "git push && git push --tags",
+    "test": "mocha",
+    "upgrade": "pnpx npm-check -u"
+  },
+  "devDependencies": {
+    "pkgroll": "^2.5.0",
+    "tsx": "^4.19.1"
+  },
+  "engines": {
+    "node": ">=14.21.3"
+  }
+}
