@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { RouteRecordName, RouteRecordRaw } from 'vue-router'
 import layoutSubMenu from '@/layouts/components/layoutSubMenu.vue'
 import { routes } from '@/router/routes'
 import { useLayoutStore } from '@/stores/modules/layout'
-import type { RouteRecordName, RouteRecordRaw } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
@@ -47,10 +47,7 @@ function menuSelect(menu: RouteRecordName) {
 </script>
 
 <template>
-  <div
-    class="transition-width h-full"
-    :class="layoutStore.collapsed ? 'w-65px' : 'w-260px'"
-  >
+  <div class="transition-width h-full" :class="layoutStore.collapsed ? 'w-65px' : 'w-260px'">
     <el-menu
       class="h-full !w-full"
       :collapse="layoutStore.collapsed"

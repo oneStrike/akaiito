@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { utils } from '@/utils'
 import type { EsFormProps } from '@/components/es-form/es-form.vue'
-import type { IterateObject } from '@typings/index'
+import type { IterateObject } from '@auy/types'
 import type { ButtonProps } from 'element-plus'
+import { utils } from '@/utils'
 
 export type ToolbarFilter = EsFormProps['options']
 
@@ -45,8 +45,8 @@ const esFormRef = ref<IterateObject>()
 const innerFilter = ref<ToolbarFilter>([])
 watch(
   () => props.filter,
-  val => {
-    innerFilter.value = utils._.cloneDeep(val!).map(item => {
+  (val) => {
+    innerFilter.value = utils._.cloneDeep(val!).map((item) => {
       if (!item.componentProps) {
         item.componentProps = {}
       }
@@ -102,7 +102,7 @@ function submit(val?: IterateObject) {
   emits('query', val!)
 }
 
-const reset = () => {
+function reset() {
   emits('reset')
 }
 
@@ -119,11 +119,7 @@ defineExpose({
   <div id="toolbar" class="flex justify-between flex-wrap">
     <div class="flex pb-4">
       <div v-for="(item, index) in toolbar" :key="index" class="mr-4">
-        <el-button
-          v-if="item.type === 'button'"
-          v-bind="item.props"
-          @click="emits('handler', item.value)"
-        >
+        <el-button v-if="item.type === 'button'" v-bind="item.props" @click="emits('handler', item.value)">
           {{ item.label }}
         </el-button>
 
@@ -133,10 +129,7 @@ defineExpose({
           :disabled="followSelection ? selection : item?.props.disabled"
           @command="(val: any) => emits('handler', val)"
         >
-          <el-button
-            v-bind="item.buttonProps"
-            :disabled="followSelection ? selection : item.buttonProps!.disabled"
-          >
+          <el-button v-bind="item.buttonProps" :disabled="followSelection ? selection : item.buttonProps!.disabled">
             {{ item.label }}
           </el-button>
           <template #dropdown>

@@ -23,8 +23,7 @@ export default {
     {
       name: 'ClientSystemConfig',
       path: '/clientSystemConfig',
-      component: () =>
-        import('@/views/marketing/clientSystemConfig/clientSystemConfig.vue'),
+      component: () => import('@/views/marketing/clientSystemConfig/clientSystemConfig.vue'),
       meta: {
         title: '客户端配置',
         icon: 'settings',

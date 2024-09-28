@@ -1,7 +1,8 @@
+import type { Router } from 'vue-router'
 import { config } from '@/config'
 import { useUserStore } from '@/stores/modules/user'
+// @ts-expect-error ignore
 import nProgress from 'nprogress'
-import type { Router } from 'vue-router'
 
 export const guard = function (router: Router) {
   // 在路由跳转前执行的函数

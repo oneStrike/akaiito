@@ -13,8 +13,7 @@ export default {
     {
       name: 'ContentMgmtPage',
       path: '/contentMgmt/contentMgmt',
-      component: () =>
-        import('@/views/contentMgmt/contentMgmt/contentMgmt.vue'),
+      component: () => import('@/views/contentMgmt/contentMgmt/contentMgmt.vue'),
       meta: {
         title: '内容列表',
         icon: 'textbox',
@@ -25,8 +24,7 @@ export default {
     {
       name: 'AuthorsMgmtPage',
       path: '/contentMgmt/authorsMgmt',
-      component: () =>
-        import('@/views/contentMgmt/authorsMgmt/authorsMgmtPage.vue'),
+      component: () => import('@/views/contentMgmt/authorsMgmt/authorsMgmtPage.vue'),
       meta: {
         title: '作者管理',
         icon: 'userEdit',
@@ -37,8 +35,7 @@ export default {
     {
       name: 'ClassifyMgmtPage',
       path: '/contentMgmt/classifyMgmtPage',
-      component: () =>
-        import('@/views/contentMgmt/classifyMgmt/classifyMgmtPage.vue'),
+      component: () => import('@/views/contentMgmt/classifyMgmt/classifyMgmtPage.vue'),
       meta: {
         title: '分类管理',
         icon: 'scale',
@@ -49,8 +46,7 @@ export default {
     {
       name: 'modelMgmtPage',
       path: '/contentMgmt/modelMgmtPage',
-      component: () =>
-        import('@/views/contentMgmt/modelMgmt/modelMgmtPage.vue'),
+      component: () => import('@/views/contentMgmt/modelMgmt/modelMgmtPage.vue'),
       meta: {
         title: '模型管理',
         icon: 'cube',

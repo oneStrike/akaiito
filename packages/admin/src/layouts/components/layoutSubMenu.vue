@@ -9,10 +9,7 @@ withDefaults(defineProps<LayoutSubMenuProps>(), {})
 </script>
 
 <template>
-  <el-sub-menu
-    v-if="menuInfo.children?.length"
-    :index="menuInfo.name as string"
-  >
+  <el-sub-menu v-if="menuInfo.children?.length" :index="menuInfo.name as string">
     <template #title>
       <es-icons :name="menuInfo?.meta?.icon" unset />
       <span>{{ menuInfo?.meta?.title }}</span>

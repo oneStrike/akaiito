@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { AsyncFn, IterateObject } from '@auy/types'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
-import type { AsyncFn, IterateObject } from '@typings/index'
 
 export interface EsPopConfirmProps<T = IterateObject> {
   request: AsyncFn
@@ -50,7 +50,9 @@ async function deleteRow() {
   >
     <template #reference>
       <slot>
-        <el-button type="danger" link> 删除 </el-button>
+        <el-button type="danger" link>
+          删除
+        </el-button>
       </slot>
     </template>
   </el-popconfirm>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { IterateObject } from '@typings/index'
+import type { IterateObject } from '@auy/types'
 import type { TableColumnInstance } from 'element-plus'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
@@ -66,18 +66,18 @@ onMounted(() => {
 })
 
 function computedTableHeight() {
-  useResizeObserver(tableBoxRef.value?.parentNode, entries => {
+  useResizeObserver(tableBoxRef.value?.parentNode, (entries) => {
     const entry = entries[0]
     elHeight.value.container = entry.contentRect.height
   })
 
-  useResizeObserver(paginationRef.value, entries => {
+  useResizeObserver(paginationRef.value, (entries) => {
     const entry = entries[0]
     const { height, y } = entry.contentRect
     elHeight.value.pagination = height + y
   })
 
-  useResizeObserver(document.getElementById('toolbar'), entries => {
+  useResizeObserver(document.getElementById('toolbar'), (entries) => {
     const entry = entries[0]
     const { height, y } = entry.contentRect
     elHeight.value.toolbar = height + y
@@ -86,7 +86,7 @@ function computedTableHeight() {
 
 watch(
   elHeight,
-  val => {
+  (val) => {
     tableHeight.value = val.container - val.pagination - val.toolbar
   },
   { deep: true, immediate: true },
@@ -142,26 +142,11 @@ defineExpose({
       @selection-change="handlerSelectionChange"
       @sort-change="handlerSortChange"
     >
-      <el-table-column
-        v-if="selection"
-        type="selection"
-        width="55"
-        class-name="leading-9"
-      />
-      <el-table-column
-        v-for="item in innerColumns"
-        :key="item.columnKey"
-        v-bind="item"
-        class-name="leading-9"
-      >
+      <el-table-column v-if="selection" type="selection" width="55" class-name="leading-9" />
+      <el-table-column v-for="item in innerColumns" :key="item.columnKey" v-bind="item" class-name="leading-9">
         <template #default="{ row, column, $index }">
           <template v-if="item.slotName">
-            <slot
-              :name="item.slotName"
-              :row="row"
-              :column="column"
-              :index="$index"
-            />
+            <slot :name="item.slotName" :row="row" :column="column" :index="$index" />
           </template>
           <template v-else-if="item.type === 'image'">
             <el-image
@@ -182,12 +167,7 @@ defineExpose({
           <template v-else-if="item.type !== 'index'">
             {{
               item.formatter
-                ? item.formatter(
-                    row,
-                    column,
-                    item.prop ? row[item.prop] : null,
-                    $index,
-                  )
+                ? item.formatter(row, column, item.prop ? row[item.prop] : null, $index)
                 : item.prop
                   ? row[item.prop]
                   : item.defaultValue || defaultValue

@@ -24,8 +24,7 @@ export default {
     {
       name: 'DataDictionary',
       path: '/dataDictionary',
-      component: () =>
-        import('@/views/systemMgmt/dataDictionary/dataDictionaryPage.vue'),
+      component: () => import('@/views/systemMgmt/dataDictionary/dataDictionaryPage.vue'),
       meta: {
         title: '数据字典',
         icon: 'dataMinus',
@@ -42,8 +41,7 @@ export default {
         {
           name: 'LoginLogs',
           path: '/logsMgmt/loginLogs',
-          component: () =>
-            import('@/views/systemMgmt/logsMgmt/loginLogs/loginLogsPage.vue'),
+          component: () => import('@/views/systemMgmt/logsMgmt/loginLogs/loginLogsPage.vue'),
           meta: {
             title: '登录日志',
             icon: 'login',
@@ -52,10 +50,7 @@ export default {
         {
           name: 'OperationLogs',
           path: '/logsMgmt/operationLogs',
-          component: () =>
-            import(
-              '@/views/systemMgmt/logsMgmt/operationLogs/operationLogsPage.vue'
-            ),
+          component: () => import('@/views/systemMgmt/logsMgmt/operationLogs/operationLogsPage.vue'),
           meta: {
             title: '操作日志',
             icon: 'handPointer',
@@ -64,8 +59,7 @@ export default {
         {
           name: 'UpdateLogs',
           path: '/logsMgmt/updateLogs',
-          component: () =>
-            import('@/views/systemMgmt/logsMgmt/updateLogs/updateLogsPage.vue'),
+          component: () => import('@/views/systemMgmt/logsMgmt/updateLogs/updateLogsPage.vue'),
           meta: {
             title: '更新日志',
             icon: 'reload',
@@ -86,8 +80,7 @@ export default {
     {
       name: 'ServerStatus',
       path: '/serverStatus',
-      component: () =>
-        import('@/views/systemMgmt/serverStatus/serverStatusPage.vue'),
+      component: () => import('@/views/systemMgmt/serverStatus/serverStatusPage.vue'),
       meta: {
         title: '系统状态',
         icon: 'server',

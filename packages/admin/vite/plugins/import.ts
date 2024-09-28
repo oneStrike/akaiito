@@ -1,8 +1,8 @@
 import AutoImport from 'unplugin-auto-import/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-export const autoImport = () =>
-  AutoImport({
+export function autoImport() {
+  return AutoImport({
     resolvers: [ElementPlusResolver()],
     imports: [
       'vue',
@@ -10,7 +10,7 @@ export const autoImport = () =>
       'pinia',
       '@vueuse/core',
       {
-        axios: [['default', 'axios']],
+        'axios': [['default', 'axios']],
         '@vueuse/core': [['useImage', 'useVueUseImage']],
       },
     ],
@@ -22,3 +22,4 @@ export const autoImport = () =>
     dts: './src/typings/auto-import.d.ts',
     vueTemplate: true,
   })
+}

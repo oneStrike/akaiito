@@ -16,6 +16,8 @@ export default antfu(
       'antfu/if-newline': 'off',
       'style/brace-style': 'off',
       'style/arrow-parens': 'off',
+      'style/indent': 'off',
+      'unused-imports/no-unused-vars': 'off',
     },
   },
 )

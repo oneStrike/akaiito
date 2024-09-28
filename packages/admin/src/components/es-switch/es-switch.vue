@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { AsyncFn, IterateObject } from '@auy/types'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
-import type { AsyncFn, IterateObject } from '@typings/index'
 
 export interface EsSwitchProps<T = IterateObject> {
   row: T

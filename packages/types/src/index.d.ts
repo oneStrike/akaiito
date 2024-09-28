@@ -23,13 +23,10 @@ export type AsyncFn = (p?: any) => Promise<any>
 type ResolveParameters<T> = T extends (arg: infer P) => void ? P : string
 
 // 获取函数的返回值
-export type InferReturnType<T> = T extends (...args: any[]) => any
-  ? ReturnType<T>
-  : T
+export type InferReturnType<T> = T extends (...args: any[]) => any ? ReturnType<T> : T
 
 // 获取异步函数的解析值
-export type ResolvedReturnType<T> =
-  InferReturnType<T> extends Promise<infer R> ? R : InferReturnType<T>
+export type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R> ? R : InferReturnType<T>
 
 // 拼接loading
 export type JoinLoading<T> = T & { loading: boolean }
@@ -38,6 +35,11 @@ export type JoinLoading<T> = T & { loading: boolean }
 export type OmitLoading<T> = Omit<T, 'loading'>
 
 // 获取列表数据的item
-export type ResolveListItem<T> = T extends { list: infer L }
-  ? JoinLoading<L extends any[] ? L[number] : L>
-  : never
+export type ResolveListItem<T> = T extends { list: infer L } ? JoinLoading<L extends any[] ? L[number] : L> : never
+
+// 通用选项
+export interface AuyOptions {
+  label: string
+  value: string | number
+  disabled?: boolean
+}

@@ -12,10 +12,10 @@ import { Icons } from './icons'
 import { autoImport } from './import'
 
 export function VitePlugins() {
-  const vitePlugins: (Plugin | Plugin[])[] = [vue(), vueJsx(), UnoCSS()]
+  const vitePlugins: (Plugin | Plugin[])[] = [vue(), vueJsx(), UnoCSS() as unknown as Plugin]
 
   // 打包分析视图
-  vitePlugins.push(visualizer())
+  vitePlugins.push(visualizer() as Plugin)
 
   // 自动注册组件
   vitePlugins.push(AutoRegistryComponent())
@@ -35,13 +35,7 @@ export function VitePlugins() {
   // 配置文件变更自动重启服务
   vitePlugins.push(
     ViteRestart({
-      restart: [
-        'vite.config.js',
-        '../**/*/.ts',
-        '.env',
-        '.env.production',
-        '.env.development',
-      ],
+      restart: ['vite.config.js', '../**/*/.ts', '.env', '.env.production', '.env.development'],
     }),
   )
 

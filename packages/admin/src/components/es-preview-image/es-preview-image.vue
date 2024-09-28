@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { UploadFileTypings } from '@/apis/upload.d'
+import type { UploadFileTypesRes } from '@/apis/types/upload'
 
 export interface PreviewImageProps {
-  urlList: string[] | UploadFileTypings['Response']
+  urlList: string[] | UploadFileTypesRes
   zIndex?: number
   initialIndex?: number
   infinite?: boolean
@@ -28,12 +28,7 @@ const imageList = computed(() => {
 </script>
 
 <template>
-  <el-image-viewer
-    :url-list="imageList"
-    :initial-index="initialIndex"
-    :infinite="true"
-    @close="emits('close')"
-  />
+  <el-image-viewer :url-list="imageList" :initial-index="initialIndex" :infinite="true" @close="emits('close')" />
 </template>
 
 <style scoped></style>

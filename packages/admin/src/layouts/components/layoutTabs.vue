@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { SessionCacheEnum } from '@/enum/cache'
-import type { IterateObject } from '@typings/index'
 import type { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router'
+import { SessionCacheEnum } from '@/enum/cache'
+import type { IterateObject } from '@auy/types'
 
 const route = useRoute()
 const router = useRouter()
@@ -9,10 +9,7 @@ const currentRouter = ref()
 
 const defaultHistory = { name: 'Dashboard', title: '工作台' }
 
-const routerHistory = useSessionStorage<IterateObject[]>(
-  SessionCacheEnum.HISTORY_ROUTER,
-  [defaultHistory],
-)
+const routerHistory = useSessionStorage<IterateObject[]>(SessionCacheEnum.HISTORY_ROUTER, [defaultHistory])
 
 // 移除指定路由
 function removeRouter(name: any) {
@@ -35,6 +32,7 @@ function removeLeft() {
   const idx = findIdx(currentRouter.value)
   routerHistory.value.splice(1, idx - 1)
 }
+
 // 移除右侧
 function removeRight() {
   const idx = findIdx(currentRouter.value)
@@ -51,6 +49,7 @@ function removeAllRouter() {
 function findIdx(name = route.name) {
   return routerHistory.value.findIndex((item) => item.name === name)
 }
+
 // 判断是否已经存在
 function isExits(name: RouteRecordName) {
   return !!routerHistory.value.find((item) => item.name === name)
@@ -67,6 +66,7 @@ function addRouter(route: RouteLocationNormalizedLoaded) {
 
 // 刷新当前路由
 const reloadFlag = ref(false)
+
 function reload() {
   if (reloadFlag.value) return
   reloadFlag.value = true
@@ -119,44 +119,27 @@ watch(
       </el-tab-pane>
     </el-tabs>
     <div class="flex-center">
-      <es-icons
-        name="pinwheel"
-        class="mr-4"
-        :rotate="reloadFlag"
-        @click="reload"
-      />
+      <es-icons name="pinwheel" class="mr-4" :rotate="reloadFlag" @click="reload" />
       <el-dropdown class="flex-center">
         <es-icons name="dotsHorizontal" />
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item
-              :disabled="currentRouter === defaultHistory.name"
-              @click="removeRouter(currentRouter)"
-            >
+            <el-dropdown-item :disabled="currentRouter === defaultHistory.name" @click="removeRouter(currentRouter)">
               <es-icons name="multiply" />
               <span>关闭当前</span>
             </el-dropdown-item>
             <el-dropdown-item
-              :disabled="
-                currentRouter === defaultHistory.name ||
-                findIdx(currentRouter) === 1
-              "
+              :disabled="currentRouter === defaultHistory.name || findIdx(currentRouter) === 1"
               @click="removeLeft"
             >
               <es-icons name="chevronLeft" />
               <span>关闭左侧</span>
             </el-dropdown-item>
-            <el-dropdown-item
-              :disabled="findIdx(currentRouter) + 1 === routerHistory.length"
-              @click="removeRight"
-            >
+            <el-dropdown-item :disabled="findIdx(currentRouter) + 1 === routerHistory.length" @click="removeRight">
               <es-icons name="chevronRight" />
               <span>关闭右侧</span>
             </el-dropdown-item>
-            <el-dropdown-item
-              :disabled="currentRouter === defaultHistory.name"
-              @click="removeAllRouter"
-            >
+            <el-dropdown-item :disabled="currentRouter === defaultHistory.name" @click="removeAllRouter">
               <es-icons name="code" />
               <span>关闭所有</span>
             </el-dropdown-item>

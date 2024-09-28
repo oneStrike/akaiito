@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UploadFileTypings } from '@/apis/upload.d'
+import type { UploadFileTypesRes } from '@/apis/types/upload'
 import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from 'element-plus'
 import { config } from '@/config'
 import { useMessage } from '@/hooks/useFeedback'
@@ -7,7 +7,7 @@ import { useUpload } from '@/hooks/useUpload'
 import { utils } from '@/utils'
 
 export interface EsUploadProps {
-  modelValue?: UploadFileTypings['Response'] | UploadUserFile[] | string | string[]
+  modelValue?: UploadFileTypesRes | UploadUserFile[] | string | string[]
   fileType?: 'image' | 'video' | 'audio' | 'compressed'
   listType?: UploadProps['listType']
   multiple?: UploadProps['multiple']

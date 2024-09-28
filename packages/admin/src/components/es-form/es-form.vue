@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { IterateObject } from '@typings/index'
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
+import type { IterateObject } from '@auy/types'
 
 export type EsFormComponent =
   | 'Input'
@@ -54,7 +54,7 @@ const formData = ref<IterateObject>({})
 
 watch(
   () => props.modelValue,
-  val => {
+  (val) => {
     formData.value = val
   },
   { immediate: true, deep: true },
@@ -62,14 +62,14 @@ watch(
 
 watch(
   formData,
-  val => {
+  (val) => {
     emits('update:modelValue', val)
   },
   { deep: true },
 )
 
 function submitForm() {
-  formRef.value?.validate(isValid => {
+  formRef.value?.validate((isValid) => {
     if (isValid) {
       emits('submit', toRaw(formData.value))
     }
@@ -90,11 +90,7 @@ defineExpose({
 <template>
   <el-form v-bind="formProps" ref="formRef" :model="formData">
     <template v-for="item in options" :key="item.field">
-      <el-form-item
-        v-if="item.show !== false"
-        :prop="item.field"
-        v-bind="item.props"
-      >
+      <el-form-item v-if="item.show !== false" :prop="item.field" v-bind="item.props">
         <es-upload
           v-if="item.component === 'Upload'"
           v-model="formData[item.field]"
@@ -134,7 +130,7 @@ defineExpose({
           v-if="item.component === 'Checkbox'"
           v-model="formData[item.field]"
           v-bind="item.componentProps"
-          :options="item.componentProps.options"
+          :options="item.componentProps?.options"
           v-on="item.on || {}"
         />
 
@@ -144,11 +140,7 @@ defineExpose({
           v-bind="item.componentProps"
           v-on="item.on || {}"
         >
-          <el-radio
-            v-for="child in item.componentProps?.options"
-            :key="child.value"
-            :value="child.value"
-          >
+          <el-radio v-for="child in item.componentProps?.options" :key="child.value" :value="child.value">
             {{ child.label }}
           </el-radio>
         </el-radio-group>
@@ -156,11 +148,7 @@ defineExpose({
         <el-select
           v-if="item.component === 'Select'"
           v-model="formData[item.field]"
-          :clearable="
-            typeof item.componentProps?.clearable === 'boolean'
-              ? item.componentProps?.clearable
-              : true
-          "
+          :clearable="typeof item.componentProps?.clearable === 'boolean' ? item.componentProps?.clearable : true"
           v-bind="item.componentProps"
           v-on="item.on || {}"
         >

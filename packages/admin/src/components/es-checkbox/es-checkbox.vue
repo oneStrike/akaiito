@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import type { IterateObject } from '@auy/types'
-import type { ElCheckboxGroup } from 'element-plus'
+import type { AuyOptions, IterateObject } from '@auy/types'
 
 export interface EsCheckboxProps {
-  modelValue?: string[] | string
+  modelValue?: string | (string | number)[]
   valueType?: 'string' | 'array'
-  options: { label: string; value: string | number; disabled?: boolean }[]
+  options: AuyOptions[]
   disabled?: boolean
 }
 
@@ -23,7 +22,7 @@ const emits = defineEmits<{
 
 const optionsValueType = computed(() => {
   const typeObject: IterateObject = {}
-  props.options.forEach(item => {
+  props.options.forEach((item) => {
     typeObject[item.value] = typeof item.value
   })
 
@@ -36,7 +35,7 @@ const innerValue = computed({
       return props.modelValue
     } else {
       return (
-        props.modelValue?.split(',').map(item => {
+        props.modelValue?.split(',').map((item) => {
           if (optionsValueType.value[item] === 'number') {
             return Number(item)
           } else {
@@ -47,14 +46,13 @@ const innerValue = computed({
     }
   },
   set(value) {
-    console.log(value)
     if (props.valueType === 'string') {
       emits('update:modelValue', value.join(','))
     } else {
       let emitData
 
       if (props.valueType === 'array') {
-        emitData = value.map(item => {
+        emitData = value.map((item) => {
           if (optionsValueType.value[item] === 'number') {
             return Number(item)
           } else {
@@ -64,7 +62,6 @@ const innerValue = computed({
       } else {
         emitData = value.length ? value.join(',') : ''
       }
-      console.log(emitData)
       emits('update:modelValue', emitData)
     }
   },

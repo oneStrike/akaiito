@@ -1,6 +1,6 @@
-import { utils } from '@/utils'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type { ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
+import { utils } from '@/utils'
 
 export const tableColumns: EsTableColumn = [
   {

@@ -11,62 +11,41 @@ const { userInfo } = storeToRefs(userStore)
 </script>
 
 <template>
-  <div
-    class="h-60px pl-4 pr-4 flex items-center justify-between border-bottom"
-  >
+  <div class="h-60px pl-4 pr-4 flex items-center justify-between border-bottom">
     <div class="flex items-center">
       <es-icons
-        :name="
-          layoutStore.collapsed ? 'chevronDoubleRight' : 'chevronDoubleLeft'
-        "
+        :name="layoutStore.collapsed ? 'chevronDoubleRight' : 'chevronDoubleLeft'"
         color="!text-info"
         class="mr-4"
         @click="layoutStore.toggleMenuCollapsed"
       />
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item
-          v-for="item in route.matched"
-          :key="item.name"
-          :to="{ path: route.path }"
-        >
+        <el-breadcrumb-item v-for="item in route.matched" :key="item.name" :to="{ path: route.path }">
           {{ item.meta.title }}
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <el-space size="large">
       <es-icons
-        :name="
-          layoutStore.fullScreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'
-        "
+        :name="layoutStore.fullScreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'"
         @click="layoutStore.toggleFullScreen"
       />
-      <es-icons
-        :name="layoutStore.theme === 'light' ? 'sunLoop' : 'moonLoop'"
-        @click="layoutStore.toggleThemeMode"
-      />
+      <es-icons :name="layoutStore.theme === 'light' ? 'sunLoop' : 'moonLoop'" @click="layoutStore.toggleThemeMode" />
       <el-dropdown>
         <div class="cursor-pointer flex items-center">
           <el-avatar
             :size="30"
-            :src="
-              userInfo?.avatar
-                ? userInfo.avatar
-                : getAssetsFile('images/default-avatar.png')
-            "
+            :src="userInfo?.avatar ? userInfo.avatar : getAssetsFile('images/default-avatar.png')"
           />
           <es-icons name="chevronDown" color="#606266" />
         </div>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item>
-              <span>登录角色：{{
-                userInfo?.isRoot ? '超级管理员' : '普通管理员'
-              }}</span>
+              <span>登录角色：{{ userInfo?.isRoot ? '超级管理员' : '普通管理员' }}</span>
             </el-dropdown-item>
             <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item @click="userStore.signOut">
-              退出登录
-            </el-dropdown-item>
+            <el-dropdown-item @click="userStore.signOut"> 退出登录 </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

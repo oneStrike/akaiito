@@ -1,11 +1,11 @@
+import type { UploadFileTypesRes } from '@/apis/types/upload'
+import type { UploadFiles } from 'element-plus'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
 import { httpClient } from '@/utils/request'
-import type { UploadFileTypings } from '@/apis/upload.d'
-import type { UploadFiles } from 'element-plus'
 
 type files = string | Blob
-type UploadFileRes = UploadFileTypings['Response']
+type UploadFileRes = UploadFileTypesRes
 
 export async function useUpload(
   files: UploadFiles | files | files[],

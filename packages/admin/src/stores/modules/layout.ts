@@ -22,9 +22,7 @@ export const useLayoutStore = defineStore('useLayoutStore', {
 
     // 切换全屏状态
     toggleFullScreen() {
-      this.fullScreen
-        ? document.exitFullscreen()
-        : document.documentElement.requestFullscreen()
+      this.fullScreen ? document.exitFullscreen() : document.documentElement.requestFullscreen()
     },
 
     // 切换暗黑或者明亮模式

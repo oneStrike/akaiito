@@ -1,6 +1,6 @@
+import type { RouteRecordRaw } from 'vue-router'
 // 导入必要的模块
 import router from '@/router/index'
-import type { RouteRecordRaw } from 'vue-router'
 
 // 基础路由
 const BasicRoutes: RouteRecordRaw[] = [
@@ -51,10 +51,7 @@ const BasicRoutes: RouteRecordRaw[] = [
 ]
 
 // 自动加载路由
-const modules: Record<string, { [key: string]: never }> = import.meta.glob(
-  './modules/**/*.ts',
-  { eager: true },
-) // 获取所有模块
+const modules: Record<string, { [key: string]: never }> = import.meta.glob('./modules/**/*.ts', { eager: true }) // 获取所有模块
 const autoRoutes: RouteRecordRaw[] = []
 Object.keys(modules).forEach((key) => {
   autoRoutes.push(modules[key].default) // 将模块添加到自动路由数组中

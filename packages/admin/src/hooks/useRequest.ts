@@ -1,6 +1,5 @@
+import type { AsyncFn, IterateObject, ResolvedReturnType } from '@auy/types'
 import { utils } from '@/utils'
-import type { AsyncFn, ResolvedReturnType } from '@auy/types'
-import type { IterateObject } from '@typings/index'
 
 interface RequestOptions {
   init?: boolean
@@ -15,16 +14,8 @@ interface RequestOptions {
  * @param options
  * @returns 返回一个对象，包含加载状态、请求方法、重置方法、排序改变方法及请求数据等属性。
  */
-export function useRequest<T extends AsyncFn>(
-  api: T,
-  options?: RequestOptions,
-) {
-  let {
-    type = 'page',
-    params = ref<ResolvedReturnType<T>>(),
-    defaultParams = {},
-    init = true,
-  } = options || {}
+export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) {
+  let { type = 'page', params = ref<ResolvedReturnType<T>>(), defaultParams = {}, init = true } = options || {}
   const defaultPageParams = {
     // 默认的分页参数
     pageIndex: 0,

@@ -7,9 +7,8 @@ export function parseQuery(str: string) {
   // 将查询字符串按照 '?' 进行分割
   const query = str.split('?')
 
-  // 如果只有一个元素，说明没有查询字符串，直接返回空字符串
-  if (query.length === 1)
-    return ''
+  // 如果只有一个元素，说明没有查询字符串，直接返回空对象
+  if (query.length === 1) return {}
 
   let queryStr = ''
 
@@ -23,8 +22,7 @@ export function parseQuery(str: string) {
 
     // 去除最后一个多余的 '&'
     queryStr = queryStr.slice(0, queryStr.length - 1)
-  }
-  else {
+  } else {
     // 如果只有两个元素，说明只有一个查询参数，直接将其赋值给 queryStr
     queryStr = query[1]
   }
