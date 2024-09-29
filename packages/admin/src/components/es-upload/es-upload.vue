@@ -51,15 +51,13 @@ function transformModelValue() {
       const filePath = typeof item === 'string' ? item : item.filePath || item.url
       return filePathToObj(filePath, item.fileName)
     })
-  }
-  else if (utils.isJson(props.modelValue)) {
+  } else if (utils.isJson(props.modelValue)) {
     return JSON.parse(props.modelValue).map((item: any) => ({
       ...item,
       name: item.fileName,
       url: item.filePath,
     }))
-  }
-  else {
+  } else {
     return [filePathToObj(props.modelValue)]
   }
 }
@@ -101,12 +99,10 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   if (fileList.value?.length >= props.maxCount) {
     useMessage.error(`【${rawFile.name}】超出最大数量限制`)
     return false
-  }
-  else if (rawFile.size > props.maxSize * 1024 * 1024) {
+  } else if (rawFile.size > props.maxSize * 1024 * 1024) {
     useMessage.error(`【${rawFile.name}】超出文件大小限制`)
     return false
-  }
-  else if (!accept.value.includes(rawFile.type)) {
+  } else if (!accept.value.includes(rawFile.type)) {
     useMessage.error(`【${rawFile.name}】文件格式错误`)
     return
   }
@@ -114,7 +110,10 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
 }
 
 function onPreview(uploadFile: UploadFile) {
-  previewImages.value = [uploadFile]
+  const fileType = uploadFile.url?.split('.').at(-1) ?? ''
+  if (config.upload.allowFileType.image.includes(fileType)) {
+    previewImages.value = [uploadFile]
+  }
 }
 
 const upload: UploadProps['httpRequest'] = async ({ file }) => {
@@ -135,8 +134,7 @@ function change() {
     let res = emitData
     if (props.structure === 'string') {
       res = JSON.stringify(emitData)
-    }
-    else if (props.structure === 'field') {
+    } else if (props.structure === 'field') {
       res = emitData[0].filePath
     }
     emits('update:modelValue', res)
@@ -145,7 +143,7 @@ function change() {
 </script>
 
 <template>
-  <div class="es-upload w-full">
+  <div class="w-full es-upload">
     <el-upload
       ref="uploadRef"
       v-model:file-list="fileList"

@@ -58,17 +58,11 @@ function formChange(val: IterateObject) {
   <div v-loading="loading" class="main-page">
     <es-toolbar :toolbar="toolbar" :filter="filter" @query="request" @handler="formModal = true" />
 
-    <el-space
-      v-if="requestData && requestData.data && requestData.data.length"
-      wrap
-      alignment="stretch"
-      size="default"
-      class="overflow-auto"
-    >
-      <el-card v-for="item in requestData.data" :key="item.id" shadow="hover">
+    <el-space v-if="requestData && requestData.length" wrap alignment="stretch" size="default" class="overflow-auto">
+      <el-card v-for="item in requestData" :key="item.id" shadow="hover">
         <div class="flex justify-between w-260px">
           <div class="flex">
-            <el-image :src="item.avatar" fit="cover" class="w12 h12 rounded-md mr-2" />
+            <el-image :src="item.icon" fit="cover" class="w12 h12 rounded-md mr-2" />
             <div class="flex flex-col flex-auto">
               <div class="flex justify-between">
                 <span class="truncate w-170px">{{ item.name }}</span>

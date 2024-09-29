@@ -43,6 +43,10 @@ async function switchStatus(val: any) {
   await updateAuthorStatusApi(val)
   await reset()
 }
+
+function blank(record: Record) {
+  window.open(record.website, '_blank')
+}
 </script>
 
 <template>
@@ -64,14 +68,12 @@ async function switchStatus(val: any) {
         <span>{{ contentModel[row.contentModel] }}</span>
       </template>
 
-      <template #action="{ row }">
-        <el-button type="primary" link>
-          详情
-        </el-button>
+      <template #website="{ row }">
+        <el-link type="primary" @click="blank(row)">外部主页</el-link>
+      </template>
 
-        <el-button type="primary" link @click="(currentRow = row), (formModal = true)">
-          编辑
-        </el-button>
+      <template #action="{ row }">
+        <el-button type="primary" link @click="(currentRow = row), (formModal = true)"> 编辑</el-button>
 
         <es-pop-confirm v-model:loading="loading" :request="deleteAuthorApi" :row="row" @success="reset()" />
       </template>

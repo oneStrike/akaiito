@@ -28,6 +28,7 @@ const props = withDefaults(defineProps<EsTableProps>(), {
   total: 15,
 })
 const emits = defineEmits<{
+  (event: 'link', data: any): void
   (event: 'update:selectionItems', data: any): void
   (event: 'update:pageIndex', data: number): void
   (event: 'update:pageSize', data: number): void
@@ -158,10 +159,10 @@ defineExpose({
             />
           </template>
           <template v-else-if="item.type === 'link'">
-            <el-tooltip :content="row[item.prop]" placement="top">
-              <el-link type="primary" :href="row[item.prop]" target="_blank">
-                {{ item.label }}
-              </el-link>
+            <el-tooltip :content="row[item.prop]" :show-after="200" placement="top">
+              <el-button type="primary" link @click="emits('link', row)">
+                {{ row[item.prop] }}
+              </el-button>
             </el-tooltip>
           </template>
           <template v-else-if="item.type !== 'index'">

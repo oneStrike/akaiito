@@ -18,6 +18,7 @@ export default antfu(
       'style/arrow-parens': 'off',
       'style/indent': 'off',
       'unused-imports/no-unused-vars': 'off',
+      'vue/singleline-html-element-content-newline': 'off',
     },
   },
 )

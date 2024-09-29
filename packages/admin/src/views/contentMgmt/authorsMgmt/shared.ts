@@ -1,9 +1,6 @@
 import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type {
-  EsToolbarProps,
-  ToolbarFilter,
-} from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 import { utils } from '@/utils'
 
 const pluginType = [
@@ -31,6 +28,7 @@ export const tableColumns: EsTableColumn = [
     label: '姓名',
     prop: 'name',
     align: 'center',
+    type: 'link',
   },
   {
     label: '头像',
@@ -54,7 +52,7 @@ export const tableColumns: EsTableColumn = [
     label: '外部主页',
     prop: 'website',
     align: 'center',
-    type: 'link',
+    slotName: 'website',
   },
   {
     label: '创建时间',

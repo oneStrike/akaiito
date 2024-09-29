@@ -25,7 +25,7 @@ const pluginType = [
 
 export const formOptions: EsFormOptions[] = [
   {
-    field: 'avatar',
+    field: 'icon',
     component: 'Upload',
     props: {
       label: '封面',
