@@ -140,7 +140,12 @@ defineExpose({
           v-bind="item.componentProps"
           v-on="item.on || {}"
         >
-          <el-radio v-for="child in item.componentProps?.options" :key="child.value" :value="child.value">
+          <el-radio
+            v-for="child in item.componentProps?.options"
+            :key="child.value"
+            :value="child.value"
+            :disabled="child.disabled"
+          >
             {{ child.label }}
           </el-radio>
         </el-radio-group>
