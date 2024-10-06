@@ -1,0 +1,35 @@
+/// 管理端接口调用记录
+model AdminLog {
+  /// 主键id
+  id         Int      @id @default(autoincrement())
+  /// 用户名
+  username   String?  @db.VarChar(50)
+  /// 用户主键Id
+  userId     Int?     @map("user_id")
+  /// 用户手机号
+  mobile     String?  @db.VarChar(50)
+  /// 请求类型
+  method     String?  @db.VarChar(50)
+  /// 调用ip
+  ip         String?  @db.VarChar(20)
+  /// ip映射地址
+  ipAddress  String?  @map("ip_address") @db.VarChar(300)
+  /// 响应状态码
+  statusCode Int?     @default(1) @map("status_code")
+  /// 响应描述
+  statusDesc String?  @map("status_desc") @db.VarChar(300)
+  /// 请求地址
+  path       String?  @db.VarChar(255)
+  /// 请求地址描述信息
+  summary    String?  @db.VarChar(255)
+  /// 操作记录
+  record     String?  @db.VarChar(255)
+  /// 浏览器信息标识
+  userAgent  String?  @map("user_agent") @db.VarChar(1000)
+  /// 请求参数
+  params     String?  @db.LongText
+  createdAt  DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+
+  @@map("admin_log")
+}

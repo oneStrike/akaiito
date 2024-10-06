@@ -1,0 +1,13 @@
+/// 客户端系统配置
+model ClientSystemConfig {
+  /// 主键id
+  id           Int     @id @default(autoincrement())
+  /// 客户端logo
+  logo         String? @db.VarChar(200)
+  /// 客户端名字
+  clientName   String? @map("client_name") @db.VarChar(50)
+  /// 启用的内容模型 1==>小说 2==>漫画 3==>图片 4==>视频
+  contentModel String? @default("1,2,3,4") @map("content_model") @db.VarChar(200)
+
+  @@map("client_system_config")
+}

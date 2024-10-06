@@ -1,0 +1,33 @@
+{
+  "name": "@akaiito/utils",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "pnpm run clean && pnpm run lint && tsc",
+    "clean": "node -e \"var { rmdirSync, existsSync } = require('fs'), path = require('path'); ['./.nyc_output', './coverage', './dist'].forEach(fPath => {if (existsSync(path.join(__dirname, fPath))) rmdirSync(path.join(__dirname, fPath), { recursive: true })}); process.exit(0);\"",
+    "clean:all": "pnpm run clean && (rm -r ./node_modules || true)",
+    "cover": "nyc pnpm run test",
+    "cover:check": "nyc --check-coverage --reporter=lcov pnpm run test",
+    "lint": "eslint --ext .ts --fix src/**/*.ts",
+    "preversion": "pnpm run build && pnpm run cover:check",
+    "postversion": "git push && git push --tags",
+    "serve": "nodemon ./src/index.ts",
+    "test": "mocha",
+    "upgrade": "pnpx npm-check -u"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.12.12",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "nodemon": "^3.0.1",
+    "nyc": "^15.1.0",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.1"
+  },
+  "engines": {
+    "node": ">=14.21.3"
+  }
+}

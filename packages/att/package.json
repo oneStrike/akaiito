@@ -1,0 +1,48 @@
+{
+  "name": "@akaiito/att",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "build": "pnpm run clean && pnpm run lint && tsc",
+    "clean": "node -e \"var { rmdirSync, existsSync } = require('fs'), path = require('path'); ['./.nyc_output', './coverage', './dist'].forEach(fPath => {if (existsSync(path.join(__dirname, fPath))) rmdirSync(path.join(__dirname, fPath), { recursive: true })}); process.exit(0);\"",
+    "clean:all": "pnpm run clean && (rm -r ./node_modules || true)",
+    "cover": "nyc pnpm run test",
+    "cover:check": "nyc --check-coverage --reporter=lcov pnpm run test",
+    "lint": "eslint --ext .ts --fix src/**/*.ts",
+    "preversion": "pnpm run build && pnpm run cover:check",
+    "postversion": "git push && git push --tags",
+    "serve": "nodemon --ignore /src/apis/ ./src/index.ts",
+    "test": "mocha",
+    "upgrade": "pnpx npm-check -u"
+  },
+  "devDependencies": {
+    "@akaiito/typings": "workspace:*",
+    "@types/chai": "^4.3.16",
+    "@types/fs-extra": "^11.0.4",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.12.12",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "chai": "^5.1.1",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0",
+    "nyc": "^15.1.0",
+    "prettier": "^3.2.5",
+    "source-map-support": "^0.5.21",
+    "ts-node": "^10.9.2"
+  },
+  "exports": {
+    "import": "./dist/index.js"
+  },
+  "bin": {
+    "att": "dist/index.js"
+  },
+  "engines": {
+    "node": ">=14.21.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "fs-extra": "^11.2.0"
+  }
+}

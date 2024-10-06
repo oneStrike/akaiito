@@ -1,0 +1,82 @@
+{
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue",
+      "^es-(.*)": "components/es-$1/es-$1.vue"
+    }
+  },
+  "pages": [
+    {
+      "path": "pages/tabBar/home/home",
+      "name": "home",
+      "style": {
+        "navigationBarTitleText": "首页",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tabBar/dynamic/dynamic",
+      "name": "dynamic",
+      "style": {
+        "navigationBarTitleText": "动态"
+      }
+    },
+    {
+      "path": "pages/tabBar/profile/profile",
+      "name": "profile",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/plugins/plugins",
+      "name": "plugins",
+      "style": {
+        "navigationBarTitleText": "插件",
+        "enablePullDownRefresh": true,
+        "backgroundColor": "#ffffff"
+      }
+    },
+    {
+      "path": "pages/search/search",
+      "name": "search",
+      "style": {
+        "navigationBarTitleText": "搜索",
+        "backgroundColor": "#ffffff"
+      }
+    }
+  ],
+  "tabBar": {
+    "color": "#18191C",
+    "selectedColor": "#e87949",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/tabBar/home/home",
+        "iconPath": "static/tabBar/home.png",
+        "selectedIconPath": "static/tabBar/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tabBar/dynamic/dynamic",
+        "iconPath": "static/tabBar/dynamic.png",
+        "selectedIconPath": "static/tabBar/dynamic-active.png",
+        "text": "动态"
+      },
+      {
+        "pagePath": "pages/tabBar/profile/profile",
+        "iconPath": "static/tabBar/profile.png",
+        "selectedIconPath": "static/tabBar/profile-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "Akaiito",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#ffffff"
+  }
+}
