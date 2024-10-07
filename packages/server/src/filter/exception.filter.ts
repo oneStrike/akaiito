@@ -3,6 +3,7 @@ import type { MidwayHttpError } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { LogService } from '@/modules/internal/log/log.service'
 import { Catch } from '@midwayjs/core'
+import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
 
 @Catch()
 export class ExceptionFilter {
@@ -14,9 +15,9 @@ export class ExceptionFilter {
     } as HttpResponseResult
 
     ctx.logger.error(err)
-    if (err.name === 'PrismaClientKnownRequestError' && err.code === 'P2002') {
+    if (err.name === 'PrismaClientKnownRequestError') {
       responseErrorInfo.code = 0
-      responseErrorInfo.message = '重复数据'
+      responseErrorInfo.message = prismaErrorMessage(err)
     } else if (cause) {
       responseErrorInfo.code = 0
       const { context, type } = cause.details[0]

@@ -4,7 +4,6 @@ import type { IterateObject } from '@auy/types'
 import { Context } from '@midwayjs/core'
 import { Application } from '@midwayjs/koa'
 import { BasicOrderDto } from '../dto/basic.dto'
-import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
 import { utils } from '@/utils'
 import { App, Config, httpError, Inject } from '@midwayjs/core'
 
@@ -90,14 +89,10 @@ export abstract class BasicService<T = IterateObject> {
 
   // 删除
   async delete(options?: PrismaFindOptions<T>) {
-    try {
-      const deleteRes = await this.model.delete({
-        where: this.handlerWhere(options).where,
-      })
-      return deleteRes.id
-    } catch (e) {
-      this.throwError(prismaErrorMessage(e.code))
-    }
+    const deleteRes = await this.model.delete({
+      where: this.handlerWhere(options).where,
+    })
+    return deleteRes.id
   }
 
   // 批量删除

@@ -1,4 +1,4 @@
-import { BasicIdDto } from '@/basic/dto/basic.dto'
+import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
 import { CategoryService } from '@/modules/admin/contentMgmt/category/category.service'
 import {
   CategoryListDto,
@@ -26,8 +26,12 @@ export class CategoryController {
   }
 
   @Post('/updateCategory', { summary: '更新内容分类' })
-  @Post('/updateCategoryStatus', { summary: '更新内容分类状态' })
   async updateCategory(@Body() body: UpdateCategoryDto) {
+    return this.categoryService.update({ id: body.id }, body)
+  }
+
+  @Post('/updateCategoryStatus', { summary: '更新内容分类状态' })
+  async updateCategoryStatus(@Body() body: BasicIdStatusDto) {
     return this.categoryService.update({ id: body.id }, body)
   }
 

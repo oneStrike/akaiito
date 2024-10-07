@@ -1,10 +1,5 @@
 import { BasicIdStatusDto } from '@/basic/dto/basic.dto'
-import {
-  requiredString,
-  validateNumber,
-  validateNumberLess,
-  validateString,
-} from '@/utils/validate'
+import { givenValue, requiredString, validateNumber, validateString } from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
 
 export class CategoryDto extends BasicIdStatusDto {
@@ -17,8 +12,14 @@ export class CategoryDto extends BasicIdStatusDto {
   @Rule(validateNumber)
   sort?: number
 
-  @Rule(validateNumberLess(3))
-  contentModel?: number
+  @Rule(givenValue([0, 1]))
+  novelModel!: number
+
+  @Rule(givenValue([0, 1]))
+  mangaModel!: number
+
+  @Rule(givenValue([0, 1]))
+  imageModel!: number
 }
 
 export class CategoryListDto {
@@ -28,8 +29,14 @@ export class CategoryListDto {
   @Rule(validateNumber)
   status?: number
 
-  @Rule(validateNumberLess(3))
-  contentModel?: number
+  @Rule(givenValue([0, 1], false))
+  novelModel?: number
+
+  @Rule(givenValue([0, 1], false))
+  mangaModel?: number
+
+  @Rule(givenValue([0, 1], false))
+  imageModel?: number
 }
 
 export class CreateCategoryDto extends OmitDto(CategoryDto, ['id', 'status']) {}

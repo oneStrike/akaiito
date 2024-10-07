@@ -29,6 +29,7 @@
     "lint-staged": "^15.2.10",
     "pnpm": "^9.11.0",
     "simple-git-hooks": "^2.11.1",
+    "typescript": "~5.4.5",
     "unocss": "^0.62.4"
   },
   "simple-git-hooks": {
