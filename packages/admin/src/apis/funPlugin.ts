@@ -3,9 +3,13 @@ import type {
   GetFunPluginTypesRes,
   GetFunPluginTypesReq,
   CreateFunPluginTypesRes,
+  CreateFunPluginTypesReq,
   UpdateFunPluginTypesRes,
+  UpdateFunPluginTypesReq,
   DeleteFunPluginTypesRes,
+  DeleteFunPluginTypesReq,
   UpdateFunPluginStatusTypesRes,
+  UpdateFunPluginStatusTypesReq,
 } from './types/funPlugin.d'
 
 /**

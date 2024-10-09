@@ -80,7 +80,6 @@ watch(
       } else if (!item.on.clear) {
         item.on.clear = innerSubmit
       }
-      console.log(item)
       return item
     })
   },

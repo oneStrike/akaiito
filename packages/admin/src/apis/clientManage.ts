@@ -1,5 +1,9 @@
 import { httpClient } from '@/utils/request'
-import type { GetClientSystemConfigTypesRes, UpdateClientSystemConfigTypesRes } from './types/clientManage.d'
+import type {
+  GetClientSystemConfigTypesRes,
+  UpdateClientSystemConfigTypesRes,
+  UpdateClientSystemConfigTypesReq,
+} from './types/clientManage.d'
 
 /**
  *  接口 [获取客户端系统配置信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-199384357)

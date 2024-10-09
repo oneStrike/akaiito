@@ -95,7 +95,7 @@ export async function formatApiTree(
         // 生成接口的类型信息
         const types = generateTypes(detail, request, response, dataModel, config)
         apiList[folderName].import.push(response)
-        if (Object.keys(detail.parameters).length) {
+        if (detail.method === 'post' || Object.keys(detail.parameters).length) {
           apiList[folderName].import.push(request)
         }
         apiList[folderName].apis.push({

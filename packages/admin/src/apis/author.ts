@@ -3,9 +3,13 @@ import type {
   GetAuthorPageTypesRes,
   GetAuthorPageTypesReq,
   CreateAuthorTypesRes,
+  CreateAuthorTypesReq,
   UpdateAuthorTypesRes,
+  UpdateAuthorTypesReq,
   DeleteAuthorTypesRes,
+  DeleteAuthorTypesReq,
   UpdateAuthorStatusTypesRes,
+  UpdateAuthorStatusTypesReq,
 } from './types/author.d'
 
 /**

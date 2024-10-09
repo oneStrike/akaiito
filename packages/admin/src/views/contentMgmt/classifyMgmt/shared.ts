@@ -1,10 +1,6 @@
 import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type {
-  EsToolbarProps,
-  ToolbarFilter,
-} from '@/components/es-toolbar/es-toolbar.vue'
-import { utils } from '@/utils'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 
 const pluginType = [
   {
@@ -21,117 +17,9 @@ const pluginType = [
   },
 ]
 
-export const tableColumns: EsTableColumn = [
-  {
-    label: '姓名',
-    prop: 'name',
-    align: 'center',
-  },
-  {
-    label: '头像',
-    prop: 'avatar',
-    align: 'center',
-    type: 'image',
-  },
-  {
-    label: '内容模型',
-    prop: 'contentModel',
-    align: 'center',
-    slotName: 'contentModel',
-  },
-  {
-    label: '状态',
-    prop: 'status',
-    align: 'center',
-    slotName: 'status',
-  },
-  {
-    label: '外部主页',
-    prop: 'website',
-    align: 'center',
-    type: 'link',
-  },
-  {
-    label: '创建时间',
-    prop: 'createdAt',
-    align: 'center',
-    formatter: utils.formatter,
-    sortable: 'custom',
-    sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt',
-  },
-  {
-    label: '操作',
-    prop: 'action',
-    align: 'center',
-    slotName: 'action',
-  },
-]
+export const tableColumns: EsTableColumn = []
 
-export const formOptions: EsFormOptions[] = [
-  {
-    field: 'avatar',
-    component: 'Upload',
-    props: {
-      label: '头像',
-      rules: [{ required: true, message: '请上传作者头像' }],
-    },
-    componentProps: {
-      placeholder: '请上传作者头像',
-      scenario: 'shared',
-      multiple: false,
-      fileType: 'image',
-    },
-  },
-  {
-    field: 'name',
-    component: 'Input',
-    props: {
-      label: '作者',
-      rules: [{ required: true, message: '请输入作者名称' }],
-    },
-    componentProps: {
-      placeholder: '请输入作者名称',
-      maxlength: 50,
-    },
-  },
-  {
-    field: 'description',
-    component: 'Textarea',
-    props: {
-      label: '作者描述',
-      rules: [{ required: true, message: '请输入作者描述' }],
-    },
-    componentProps: {
-      placeholder: '请输入作者描述',
-    },
-  },
-  {
-    field: 'website',
-    component: 'Input',
-    props: {
-      label: '作者外部主页',
-      rules: [{ required: true, message: '请输入作者外部主页' }],
-    },
-    componentProps: {
-      placeholder: '请输入作者外部主页',
-      maxlength: 50,
-    },
-  },
-
-  {
-    field: 'contentModel',
-    component: 'Radio',
-    props: {
-      label: '内容类型',
-      rules: [{ required: true, message: '请选择内容类型' }],
-    },
-    componentProps: {
-      placeholder: '请选择内容类型',
-      options: pluginType,
-    },
-  },
-]
+export const formOptions: EsFormOptions[] = []
 
 export const filter: ToolbarFilter = [
   {
@@ -141,6 +29,9 @@ export const filter: ToolbarFilter = [
       placeholder: '内容模型',
       clearable: true,
       options: pluginType,
+      multiple: true,
+      collapseTags: true,
+      collapseTagsTooltip: true,
     },
   },
   {

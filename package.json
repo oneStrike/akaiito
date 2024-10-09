@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "npx only-allow pnpm",
-    "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install && pnpm run -C packages/server prisma:generate"
+    "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install && pnpm run -C packages/server prisma:generate",
+    "upgrade:client": "pnpm run -C packages/client upgrade:uni"
   },
   "keywords": [],
   "author": "",
