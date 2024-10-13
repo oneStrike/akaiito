@@ -90,7 +90,7 @@ export function givenValue(values: any[], isRequired = true) {
  * @param isRequired 是否必须
  */
 export function givenRange([max, min]: [number, number], isRequired = true) {
-  const rule = validateNumber.max(max).min(min)
+  const rule = RuleType.number().max(max).min(min)
   return isRequired ? rule.required() : rule
 }
 

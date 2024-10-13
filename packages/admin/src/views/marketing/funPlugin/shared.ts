@@ -1,8 +1,5 @@
 import type { EsFormOptions } from '@/components/es-form/es-form.vue'
-import type {
-  EsToolbarProps,
-  ToolbarFilter,
-} from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 
 const pluginType = [
   {
@@ -43,7 +40,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '插件名称',
-      class: 'w-6/12!',
+      class: 'w-1/2!',
       rules: [{ required: true, message: '请输入插件名称' }],
     },
     componentProps: {
@@ -56,7 +53,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Upload',
     props: {
       label: '插件包',
-      class: 'w-6/12!',
+      class: 'w-1/2!',
       rules: [{ required: true, message: '请上传插件包' }],
     },
     componentProps: {
@@ -73,7 +70,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '插件版本',
-      class: 'w-6/12!',
+      class: 'w-1/2!',
       rules: [{ required: true, message: '请输入插件版本' }],
     },
     componentProps: {
@@ -120,6 +117,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'InputNumber',
     props: {
       label: '价格',
+      class: 'w-1/2!',
     },
     componentProps: {
       placeholder: '请输入价格',
@@ -130,6 +128,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'InputNumber',
     props: {
       label: '辅助购买人次',
+      class: 'w-1/2!',
     },
     componentProps: {
       placeholder: '请输入辅助购买人次',
@@ -140,7 +139,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '数据源名称',
-      class: 'w-6/12!',
+      class: 'w-1/2!',
       rules: [{ required: true, message: '请输入数据源名称' }],
     },
     componentProps: {
@@ -152,7 +151,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '数据源地址',
-      class: 'w-6/12!',
+      class: 'w-1/2!',
       rules: [{ required: true, message: '请输入数据源地址' }],
     },
     componentProps: {
@@ -164,6 +163,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Textarea',
     props: {
       label: '描述信息',
+      class: 'w-1/2!',
       rules: [{ required: true, message: '请输入插件描述信息' }],
     },
     componentProps: {

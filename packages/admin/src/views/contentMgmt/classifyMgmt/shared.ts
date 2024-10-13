@@ -17,9 +17,122 @@ const pluginType = [
   },
 ]
 
-export const tableColumns: EsTableColumn = []
+export const tableColumns: EsTableColumn = [
+  {
+    label: '分类',
+    prop: 'name',
+    align: 'center',
+    type: 'link',
+  },
+  {
+    label: '图标',
+    prop: 'icon',
+    align: 'center',
+    type: 'image',
+  },
+  {
+    label: '热度',
+    prop: 'hot',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'hot',
+  },
+  {
+    label: '小说数量',
+    prop: 'novelCount',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'novelCount',
+  },
+  {
+    label: '漫画数量',
+    prop: 'mangaCount',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'mangaCount',
+  },
+  {
+    label: '图片数量',
+    prop: 'imageCount',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'imageCount',
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    align: 'center',
+    slotName: 'status',
+  },
+  {
+    label: '操作',
+    prop: 'action',
+    align: 'center',
+    slotName: 'action',
+  },
+]
 
-export const formOptions: EsFormOptions[] = []
+export const formOptions: EsFormOptions[] = [
+  {
+    field: 'name',
+    component: 'Input',
+    props: {
+      label: '分类名称',
+      class: 'w-1/2',
+      rules: [{ required: true, message: '请输入分类名称' }],
+    },
+
+    componentProps: {
+      placeholder: '请输入分类名称',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'icon',
+    component: 'Upload',
+    props: {
+      label: '分类图标',
+      class: 'w-1/2',
+      rules: [{ required: true, message: '请上传分类图标' }],
+    },
+    componentProps: {
+      placeholder: '请上传分类图标',
+      scenario: 'shared',
+      multiple: false,
+      fileType: 'image',
+    },
+  },
+  {
+    field: 'auxiliaryHot',
+    component: 'InputNumber',
+    props: {
+      label: '辅助热度',
+      class: 'w-1/2',
+    },
+    componentProps: {
+      placeholder: '请输入辅助热度',
+      min: 1,
+      max: 999999,
+      type: 'number',
+    },
+  },
+  {
+    field: 'contentModel',
+    component: 'Checkbox',
+    props: {
+      label: '内容类型',
+      rules: [{ required: true, message: '请选择内容类型' }],
+    },
+    componentProps: {
+      placeholder: '请选择内容类型',
+      options: pluginType,
+    },
+  },
+]
 
 export const filter: ToolbarFilter = [
   {

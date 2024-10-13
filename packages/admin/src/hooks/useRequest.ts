@@ -48,7 +48,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
    * @param p 额外的请求参数，可选。
    */
   const request = async <K>(p?: K) => {
-    console.log(p)
     loading.value = true
     skipNext = true
     if (p) {
@@ -112,7 +111,9 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
    * @param val 包含字段和排序顺序的对象。
    */
   const sortChange = (val: IterateObject) => {
-    params.value.orderBy[val.field] = val.order // 更新排序参数
+    params.value.orderBy = {
+      [val.field]: val.order,
+    } // 更新排序参数
   }
 
   return {

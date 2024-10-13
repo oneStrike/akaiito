@@ -33,6 +33,8 @@ model Category {
   id            Int             @id @default(autoincrement())
   /// 分类名称
   name          String          @unique(map: "name") @db.VarChar(50)
+  /// 分类图标
+  icon          String          @db.MediumText
   /// 热度
   hot           Int?            @default(0) @db.MediumInt
   /// 辅助热度
@@ -62,16 +64,16 @@ model Category {
 
 model NovelCategory {
   /// 主键id
-  id         Int @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   /// 内容id
-  contentId  Int @map("content_id")
-  ///分类id
-  categoryId Int @map("category_id")
-
-  Novel    Novel    @relation(fields: [contentId], references: [id])
-  Category Category @relation(fields: [categoryId], references: [id])
+  contentId  Int      @map("content_id")
+  /// 分类id
+  categoryId Int      @map("category_id")
+  Category   Category @relation(fields: [categoryId], references: [id])
+  Novel      Novel    @relation(fields: [contentId], references: [id])
 
   @@unique([contentId, categoryId])
+  @@index([categoryId], map: "novel_category_category_id_fkey")
   @@map("novel_category")
 }
 

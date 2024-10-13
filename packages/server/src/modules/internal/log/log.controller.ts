@@ -9,6 +9,7 @@ export class LogController {
 
   @Get('/getRequestLogs', { summary: '获取请求日志' })
   async getRequestLogs(@Query() query: LogDto) {
+    console.log(query)
     return await this.logServer.getRequestLogs(query)
   }
 }

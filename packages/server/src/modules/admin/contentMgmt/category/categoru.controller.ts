@@ -12,9 +12,10 @@ export class CategoryController {
   @Inject()
   categoryService: CategoryService
 
-  @Get('/getCategoryList', { summary: '获取内容分类' })
+  @Get('/getCategoryPage', { summary: '获取内容分类' })
   async getCategoryPage(@Query() params: CategoryListDto) {
-    return this.categoryService.findList({
+    console.log(params)
+    return this.categoryService.findPage({
       ...params,
       fuzzy: ['name'],
     })

@@ -111,7 +111,7 @@ defineExpose({
           v-if="item.component === 'InputNumber'"
           v-model="formData[item.field]"
           v-bind="item.componentProps"
-          :class="item.props?.class || 'w-54!'"
+          class="w-full!"
           @keydown.enter="submitForm"
           v-on="item.on || {}"
         />
