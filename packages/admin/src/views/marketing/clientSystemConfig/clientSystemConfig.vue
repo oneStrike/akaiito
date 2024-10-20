@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import {
-  getClientSystemConfigApi,
-  updateClientSystemConfigApi,
-} from '@/apis/clientManage'
+import { getClientSystemConfigApi, updateClientSystemConfigApi } from '@/apis/clientManage'
 import { useMessage } from '@/hooks/useFeedback'
 import { formOptions } from './shared'
 
@@ -25,12 +22,7 @@ getConfigData()
 
 <template>
   <div class="main-page">
-    <es-form
-      v-model="configData"
-      :form-props="{ labelPosition: 'top' }"
-      :options="formOptions"
-      @submit="formSubmit"
-    />
+    <es-form v-model="configData" :form-props="{ labelPosition: 'top' }" :options="formOptions" @submit="formSubmit" />
   </div>
 </template>
 

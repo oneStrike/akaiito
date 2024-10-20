@@ -10,7 +10,12 @@ import {
 import { useMessage } from '@/hooks/useFeedback'
 import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/contentMgmt/authorsMgmt/shared'
+import {
+  filter,
+  formOptions,
+  tableColumns,
+  toolbar,
+} from '@/views/contentMgmt/authorsMgmt/shared'
 
 defineOptions({
   name: 'AuthorsMgmtPage',
@@ -20,7 +25,8 @@ type Record = GetAuthorPageTypesRes['list'][number]
 const formModal = ref(false)
 const currentRow = ref<Record | null>(null)
 const formScheme = useFormTool(formOptions)
-const { request, loading, requestData, params, sortChange, reset } = useRequest(getAuthorPageApi)
+const { request, loading, requestData, params, sortChange, reset } =
+  useRequest(getAuthorPageApi)
 
 const contentModel = ['', '小说', '漫画', '图片', '视频']
 
@@ -51,7 +57,13 @@ function blank(record: Record) {
 
 <template>
   <div v-loading="loading" class="main-page pb-6">
-    <es-toolbar :toolbar="toolbar" :filter="filter" @reset="reset" @query="request" @handler="formModal = true" />
+    <es-toolbar
+      :toolbar="toolbar"
+      :filter="filter"
+      @reset="reset"
+      @query="request"
+      @handler="formModal = true"
+    />
     <es-table
       v-model:page-index="params.pageIndex"
       v-model:page-size="params.pageSize"
@@ -73,9 +85,20 @@ function blank(record: Record) {
       </template>
 
       <template #action="{ row }">
-        <el-button type="primary" link @click="(currentRow = row), (formModal = true)"> 编辑</el-button>
+        <el-button
+          type="primary"
+          link
+          @click="(currentRow = row), (formModal = true)"
+        >
+          编辑
+        </el-button>
 
-        <es-pop-confirm v-model:loading="loading" :request="deleteAuthorApi" :row="row" @success="reset()" />
+        <es-pop-confirm
+          v-model:loading="loading"
+          :request="deleteAuthorApi"
+          :row="row"
+          @success="reset()"
+        />
       </template>
     </es-table>
     <es-modal-form

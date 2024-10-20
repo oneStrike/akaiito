@@ -23,7 +23,7 @@ const { requestData, params, sortChange, reset, request, loading } = useRequest(
 
 async function switchStatus(val: any) {
   await updateCategoryStatusApi(val)
-  await reset()
+  await request()
 }
 
 const openEditForm = (row: Record) => {
@@ -43,11 +43,11 @@ const openEditForm = (row: Record) => {
   formModal.value = true
 }
 
-const formatModelType = (contentModel: string) => {
+const formatModelType = (contentModel: string, d: number | string = 0) => {
   return {
-    novelModel: contentModel.includes('1') ? 1 : 0,
-    mangaModel: contentModel.includes('2') ? 1 : 0,
-    imageModel: contentModel.includes('3') ? 1 : 0,
+    novelModel: contentModel.includes('1') ? 1 : d,
+    mangaModel: contentModel.includes('2') ? 1 : d,
+    imageModel: contentModel.includes('3') ? 1 : d,
   }
 }
 
@@ -68,24 +68,7 @@ async function submitForm(val: Record) {
 }
 
 const filterCategory = (val: IterateObject) => {
-  const cloneQuery = utils._.cloneDeep(val)
-  delete cloneQuery.contentModel
-  if (val.contentModel.includes(1)) {
-    cloneQuery.novelModel = 1
-  } else {
-    cloneQuery.novelModel = ''
-  }
-  if (val.contentModel.includes(2)) {
-    cloneQuery.mangaModel = 1
-  } else {
-    cloneQuery.mangaModel = ''
-  }
-  if (val.contentModel.includes(3)) {
-    cloneQuery.imageModel = 1
-  } else {
-    cloneQuery.imageModel = ''
-  }
-  request(cloneQuery)
+  request(Object.assign(utils._.cloneDeep(val), formatModelType(val.contentModel?.join(',') ?? '', '')))
 }
 </script>
 

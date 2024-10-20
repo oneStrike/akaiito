@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import type { IterateObject } from '@auy/types'
 import { getCaptchaApi } from '@/apis/captcha'
 import { loginApi } from '@/apis/user'
+import { useStorage } from '@/hooks/useStorage'
 import { useValidate } from '@/hooks/useValidate'
 import { useUserStore } from '@/stores/modules/user'
 
@@ -8,10 +10,11 @@ const router = useRouter()
 
 const userStore = useUserStore()
 const ruleFormRef = ref()
-
+const storageAccount = useStorage<IterateObject>('ACCOUNT_INFO', {})
+const isRememberAccount = ref(storageAccount.value?.isRememberAccount)
 const loginForm = reactive({
-  mobile: '',
-  password: '',
+  mobile: storageAccount.value?.mobile,
+  password: storageAccount.value?.password,
   captcha: '',
   captchaId: '',
 })
@@ -41,10 +44,18 @@ async function login() {
       submitLoading.value = true
       loginForm.captchaId = captchaInfo.value.id
       const loginRes = await loginApi(loginForm)
+      if (isRememberAccount.value) {
+        storageAccount.value = {
+          mobile: loginForm.mobile,
+          password: loginForm.password,
+          isRememberAccount: isRememberAccount.value,
+        }
+      } else {
+        storageAccount.value = {}
+      }
       userStore.setAuth(loginRes)
       router.replace({ name: 'Dashboard' })
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e)
     }
 
@@ -57,9 +68,7 @@ async function login() {
   <div class="login h-screen flex justify-center items-center">
     <div class="content">
       <div class="login_card ml-auto p-4">
-        <div class="text-center text-2xl mb-4">
-          登录
-        </div>
+        <div class="text-center text-2xl mb-4">登录</div>
         <el-form ref="ruleFormRef" :model="loginForm" :rules="rules">
           <el-form-item prop="mobile" class="mt-8">
             <el-input
@@ -73,8 +82,8 @@ async function login() {
               v-model.trim="loginForm.password"
               type="password"
               placeholder="请输入密码"
-              @keyup.enter="login"
               show-password
+              @keyup.enter="login"
             />
           </el-form-item>
           <el-form-item prop="captcha" class="mt-8">
@@ -89,10 +98,12 @@ async function login() {
               :src="captchaInfo.data"
               class="captcha_img ml-8"
               @click="getCaptchaFn"
-            >
+            />
           </el-form-item>
           <el-form-item>
-            <el-checkbox>记住我，以后自动登录</el-checkbox>
+            <el-checkbox v-model="isRememberAccount"
+              >记住我，以后自动登录
+            </el-checkbox>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -107,9 +118,7 @@ async function login() {
             </el-button>
           </el-form-item>
         </el-form>
-        <div class="text-center text-sm text-slate-500">
-          忘记密码？
-        </div>
+        <div class="text-center text-sm text-slate-500">忘记密码？</div>
       </div>
     </div>
   </div>

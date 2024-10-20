@@ -1,5 +1,11 @@
 import { BasicIdStatusDto, BasicPageDto } from '@/basic/dto/basic.dto'
-import { givenRange, requiredString, validateNumber, validateNumberLess, validateString } from '@/utils/validate'
+import {
+  requiredNumberLess,
+  requiredString,
+  validateNumber,
+  validateNumberLess,
+  validateString,
+} from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
 
 export class CategoryDto extends BasicIdStatusDto {
@@ -15,13 +21,13 @@ export class CategoryDto extends BasicIdStatusDto {
   @Rule(validateNumber)
   sort?: number
 
-  @Rule(givenRange([0, 1]))
+  @Rule(requiredNumberLess(2))
   novelModel!: number
 
-  @Rule(givenRange([0, 1]))
+  @Rule(requiredNumberLess(2))
   mangaModel!: number
 
-  @Rule(givenRange([0, 1]))
+  @Rule(requiredNumberLess(2))
   imageModel!: number
 }
 
