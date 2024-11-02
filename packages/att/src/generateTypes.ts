@@ -27,7 +27,11 @@ function extractRefs(refs: IterateObject, dataModel: IterateObject) {
   return typesStr
 }
 
-function handlerJsonScheme(jsonSchema: IterateObject, dataModel: IterateObject, isRes = false) {
+function handlerJsonScheme(
+  jsonSchema: IterateObject,
+  dataModel: IterateObject,
+  isRes = false,
+) {
   let typesStr = ''
   if (jsonSchema) {
     const { properties, 'x-apifox-refs': refs } = jsonSchema
@@ -69,6 +73,17 @@ function handlerJsonScheme(jsonSchema: IterateObject, dataModel: IterateObject, 
   return typesStr
 }
 
+function handlerForm(parameters: any[]) {
+  let typeStr = ''
+  parameters.forEach((item) => {
+    typeStr += `
+              /* ${item.description} */
+              ${item.name + (item.required ? '' : '?')}: ${item.type}
+            `
+  })
+  return typeStr
+}
+
 export function generateTypes(
   api: IterateObject,
   reqName: string,
@@ -89,8 +104,12 @@ export function generateTypes(
     })
   } else if (method === 'post' && requestBody.tyep !== 'none') {
     // 处理post请求
-    const { jsonSchema } = requestBody
-    requestStr = handlerJsonScheme(jsonSchema, dataModel)
+    const { jsonSchema, type, parameters } = requestBody
+    if (type === 'application/x-www-form-urlencoded') {
+      requestStr = handlerForm(parameters)
+    } else {
+      requestStr = handlerJsonScheme(jsonSchema, dataModel)
+    }
   }
 
   // 处理响应结果
@@ -113,7 +132,7 @@ export function generateTypes(
     } else if (dataType !== 'object') {
       responseStr = `
       /* ${responseData?.description || ''} */
-      export type ${resName} = ${dataType}
+      export type ${resName} = ${dataType || 'any'}
       `
     } else {
       responseStr = `

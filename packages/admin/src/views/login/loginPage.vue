@@ -101,8 +101,8 @@ async function login() {
             />
           </el-form-item>
           <el-form-item>
-            <el-checkbox v-model="isRememberAccount"
-              >记住我，以后自动登录
+            <el-checkbox v-model="isRememberAccount">
+              记住我，以后自动登录
             </el-checkbox>
           </el-form-item>
           <el-form-item>

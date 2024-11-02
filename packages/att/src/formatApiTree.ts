@@ -41,12 +41,14 @@ function formatApiHandler(api: IterateObject) {
   } else if (api.method === 'post') {
     payload = `data:${request}`
   }
-
   return `
   export const ${handler} = (${payload}):Promise<${response}> =>{
       return ${api.http.client}({
         method: '${api.method.toUpperCase()}',
         url: '${api.path}',
+        header:{
+          'content-type': '${api.requestBody.type}'
+        },
         ${payload ? (api.method === 'get' ? 'params' : 'data') : ''}
       })
     }
@@ -69,7 +71,11 @@ export async function formatApiTree(
     for (const apisKey in apis) {
       const { type, folder, children, api } = apis[apisKey]
       if (exclude.includes(folder?.id)) return
-      if (type === 'apiDetailFolder' && Array.isArray(children) && children.length) {
+      if (
+        type === 'apiDetailFolder' &&
+        Array.isArray(children) &&
+        children.length
+      ) {
         apiPath.push(folder.name)
         if (Array.isArray(children) && children.length) {
           await formatApi(children)
@@ -89,11 +95,20 @@ export async function formatApiTree(
         // 获取接口的详细数据
         const detail = await getApiDetail(api.id)
         // 生成接口注释信息
-        const comments = formatApiIntroduce({ ...detail, folderPath: `${apiPath.join('/')}/${api.name}` })
+        const comments = formatApiIntroduce({
+          ...detail,
+          folderPath: `${apiPath.join('/')}/${api.name}`,
+        })
         // 生成接口的请求方法
         const handler = formatApiHandler({ ...detail, ...config })
         // 生成接口的类型信息
-        const types = generateTypes(detail, request, response, dataModel, config)
+        const types = generateTypes(
+          detail,
+          request,
+          response,
+          dataModel,
+          config,
+        )
         apiList[folderName].import.push(response)
         if (detail.method === 'post' || Object.keys(detail.parameters).length) {
           apiList[folderName].import.push(request)

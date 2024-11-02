@@ -6,6 +6,6 @@ export default {
   field: 'data',
   http: {
     client: 'httpClient',
-    import: "import { httpClient } from '@/utils/request';",
+    import: 'import { httpClient } from \'@/utils/request\';',
   },
 }
