@@ -41,16 +41,20 @@ const sendRequest = async (p?: IterateObject) => {
     params.value.pageSize = 15
   }
 
-  const data = await props.api(params.value)
+  const data = await props.api({
+    ...params.value,
+    limit: params.value.pageSize,
+    offset: (params.value.pageIndex + 1) * params.value.pageSize,
+  })
   if (params.value.pageIndex === 0) {
     listData.value = {
       ...data,
-      data: data.data,
+      data: data.list,
     }
   } else {
     listData.value = {
       ...data,
-      data: listData.value?.data?.concat(data.data),
+      data: listData.value?.data?.concat(data.list),
     }
   }
 

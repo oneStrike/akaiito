@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { launch } from '@/core/launch'
+
 onLaunch(() => {
+  launch()
   console.log('App Launch')
 })
 onShow(() => {

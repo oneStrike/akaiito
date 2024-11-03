@@ -312,6 +312,9 @@ importers:
       '@dcloudio/vite-plugin-uni':
         specifier: 3.0.0-4020920240930001
         version: 3.0.0-4020920240930001(@nuxt/kit@3.13.2(rollup@4.24.3)(webpack-sources@3.2.3))(@vueuse/core@11.1.0(vue@3.5.12(typescript@5.6.3)))(postcss@8.4.47)(rollup@4.24.3)(ts-node@10.9.2(@swc/core@1.4.14)(@types/node@22.8.5)(typescript@5.6.3))(vite@5.4.6(@types/node@22.8.5)(less@4.2.0)(sass@1.78.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))(webpack-sources@3.2.3)
+      '@types/opencc-js':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@uni-helper/uni-types':
         specifier: 1.0.0-alpha.4
         version: 1.0.0-alpha.4(@uni-helper/uni-app-types@1.0.0-alpha.4(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3)))(@uni-helper/uni-cloud-types@1.0.0-alpha.4(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3)))(@uni-helper/uni-ui-types@1.0.0-alpha.4(@uni-helper/uni-app-types@1.0.0-alpha.4(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3)))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3)))(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
@@ -339,6 +342,9 @@ importers:
       miniprogram-ci:
         specifier: ^2.0.10
         version: 2.0.10(eslint@9.13.0(jiti@2.3.3))
+      opencc-js:
+        specifier: ^1.0.5
+        version: 1.0.5
       rollup-plugin-visualizer:
         specifier: ^5.12.0
         version: 5.12.0(rollup@4.24.3)
@@ -477,7 +483,7 @@ importers:
         version: 5.21.1
       ts-jest:
         specifier: ^29.2.5
-        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.23.1)(jest@29.7.0(@types/node@20.16.13)(ts-node@10.9.2(@swc/core@1.4.14)(@types/node@20.16.13)(typescript@4.9.5)))(typescript@4.9.5)
+        version: 29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.16.13)(ts-node@10.9.2(@swc/core@1.4.14)(@types/node@20.16.13)(typescript@4.9.5)))(typescript@4.9.5)
 
   packages/types: {}
 
@@ -3924,6 +3930,9 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/opencc-js@1.0.3':
+    resolution: {integrity: sha512-TENp7YkI2hNlc4dplhivSHj0hU4DORCK56VY7rniaSfA5f87uD3uv+kPIRuH9h64TGv976iVFi4gEHZZtS2y8Q==}
 
   '@types/qs@6.9.16':
     resolution: {integrity: sha512-7i+zxXdPD0T4cKDuxCUXJ4wHcsJLwENa6Z3dCu8cfCK743OGy5Nu1RmAGqDPsoTDINVEcdXKRvR/zre+P2Ku1A==}
@@ -8603,6 +8612,9 @@ packages:
   open@8.4.2:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
+
+  opencc-js@1.0.5:
+    resolution: {integrity: sha512-LD+1SoNnZdlRwtYTjnQdFrSVCAaYpuDqL5CkmOaHOkKoKh7mFxUicLTRVNLU5C+Jmi1vXQ3QL4jWdgSaa4sKjg==}
 
   opentype.js@0.7.3:
     resolution: {integrity: sha512-Veui5vl2bLonFJ/SjX/WRWJT3SncgiZNnKUyahmXCc2sa1xXW15u3R/3TN5+JFiP7RsjK5ER4HA5eWaEmV9deA==}
@@ -15678,6 +15690,8 @@ snapshots:
 
   '@types/normalize-package-data@2.4.4': {}
 
+  '@types/opencc-js@1.0.3': {}
+
   '@types/qs@6.9.16': {}
 
   '@types/range-parser@1.2.7': {}
@@ -22306,6 +22320,8 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
+  opencc-js@1.0.5: {}
+
   opentype.js@0.7.3:
     dependencies:
       tiny-inflate: 1.0.3
@@ -23934,7 +23950,7 @@ snapshots:
     dependencies:
       typescript: 5.6.3
 
-  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(esbuild@0.23.1)(jest@29.7.0(@types/node@20.16.13)(ts-node@10.9.2(@swc/core@1.4.14)(@types/node@20.16.13)(typescript@4.9.5)))(typescript@4.9.5):
+  ts-jest@29.2.5(@babel/core@7.26.0)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.0))(jest@29.7.0(@types/node@20.16.13)(ts-node@10.9.2(@swc/core@1.4.14)(@types/node@20.16.13)(typescript@4.9.5)))(typescript@4.9.5):
     dependencies:
       bs-logger: 0.2.6
       ejs: 3.1.10
@@ -23952,7 +23968,6 @@ snapshots:
       '@jest/transform': 29.7.0
       '@jest/types': 29.6.3
       babel-jest: 29.7.0(@babel/core@7.26.0)
-      esbuild: 0.23.1
 
   ts-node@10.9.2(@swc/core@1.4.14)(@types/node@20.16.13)(typescript@4.9.5):
     dependencies:

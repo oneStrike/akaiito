@@ -2,6 +2,7 @@
 import { loginApi } from '@/apis/v3'
 import { regexpMapping } from '@/hooks/form/rules'
 import { useUserStore } from '@/stores/modules/user'
+import { useRouter } from '@/hooks/useRouter'
 
 const formData = reactive({
   username: '',
@@ -35,6 +36,7 @@ const signUp = async () => {
     return
   }
   await useUserStore().login(formData)
+  useRouter.reLaunch({ name: 'home' })
 }
 </script>
 

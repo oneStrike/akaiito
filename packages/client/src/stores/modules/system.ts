@@ -1,5 +1,3 @@
-import type { IterateObject } from '@/types/global'
-
 export interface UseSystemStoreState {
   systemStatus: 'normal' | 'disable' | 'crash'
   systemInfo: IterateObject

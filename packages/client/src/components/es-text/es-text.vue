@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { EsTextProps } from '@/components/es-text/types'
 import { useConfig } from '@/components/libs/hooks/useConfig'
+import * as OpenCC from 'opencc-js'
 
 defineOptions({
   name: 'EsText',
@@ -12,10 +13,13 @@ defineOptions({
 const props = withDefaults(defineProps<EsTextProps>(), {
   color: 'base',
   size: 'base',
+  cn: false,
 })
 const emits = defineEmits<{
   (event: 'click'): void
 }>()
+
+const converter = OpenCC.Converter({ from: 'twp', to: 'cn' })
 
 const textStyle = computed(() => {
   const style = [
@@ -39,6 +43,6 @@ const textStyle = computed(() => {
     :style="textStyle"
     @click="emits('click')"
   >
-    {{ text }}
+    {{ cn ? converter(text as string) : text }}
   </text>
 </template>

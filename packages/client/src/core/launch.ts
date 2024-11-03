@@ -1,3 +1,9 @@
+import { useRouter } from '@/hooks/useRouter'
+import { useUserStore } from '@/stores/modules/user'
+
 export const launch = async () => {
-  // await useUserStore().login()
+  const userStore = useUserStore()
+  if (!userStore.token) {
+    useRouter.reLaunch({ name: 'login' })
+  }
 }

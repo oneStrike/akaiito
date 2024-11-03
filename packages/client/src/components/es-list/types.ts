@@ -1,4 +1,4 @@
-import type { AsyncFn, IterateObject } from '@/types/global'
+import type { AsyncFn } from '@/types/global'
 
 /**
  * 定义了EsList组件的属性接口。
@@ -46,11 +46,11 @@ export interface EsListInstance {
     /**
      * 当前页码
      */
-    pageIndex: number
+    offset: number
 
     /**
      * 每页显示的条目数量
      */
-    pageSize: number
+    limit: number
   }
 }

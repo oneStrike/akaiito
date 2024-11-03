@@ -16,7 +16,6 @@ defineOptions({
 const props = withDefaults(defineProps<EsTabsProps>(), {
   bold: true,
   sticky: true,
-  positionTop: () => (uni.$es.platform === 'web' ? '44px' : '0'),
   scrollable: 4,
   activeColor: 'primary',
   inactiveColor: 'base',
@@ -38,6 +37,9 @@ onMounted(async () => {
 })
 
 const stickyTop = computed(() => {
+  if (props.positionTop !== undefined) {
+    return props.positionTop
+  }
   const currentPage = uni.$es.router.getRoute()
   const customNavigation = currentPage?.style?.navigationStyle === 'custom'
   const { top, height } = uni.$es.menuRectInfo
@@ -196,8 +198,7 @@ const change = (item: EsTabsProps['tabs'][number], idx: number) => {
               width: lineStyle.width,
               left: lineStyle.left,
             }"
-          >
-          </view>
+          />
         </view>
       </scroll-view>
       <view
@@ -206,7 +207,7 @@ const change = (item: EsTabsProps['tabs'][number], idx: number) => {
         :style="`transform: rotate(${showMap ? 180 : 0}deg);`"
         @click="showMap = !showMap"
       >
-        <es-icons name="down" type="uni" size="xl"></es-icons>
+        <es-icons name="down" type="uni" size="xl" />
       </view>
     </view>
     <uni-popup ref="popup" type="top" @mask-click="showMap = false">
@@ -221,7 +222,7 @@ const change = (item: EsTabsProps['tabs'][number], idx: number) => {
           class="mb-3 ml-3"
           :type="idx === currentIdx ? 'primary' : 'default'"
           @click="change(item, idx)"
-        ></es-button>
+        />
       </view>
     </uni-popup>
   </view>
@@ -232,5 +233,6 @@ const change = (item: EsTabsProps['tabs'][number], idx: number) => {
 :deep(.uni-scroll-view)::-webkit-scrollbar {
   display: none;
 }
+
 /* #endif */
 </style>
