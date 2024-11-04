@@ -29,6 +29,16 @@ const getList = async (params: any) => {
 const tabChange = ({ idx }: { idx: number }) => {
   console.log(idx)
 }
+
+const goDetail = (item: any) => {
+  useRouter.navigateTo({
+    name: 'mangaDetail',
+    query: {
+      apiPath: item.comic.path_word,
+      id: item.comic.uuid,
+    },
+  })
+}
 </script>
 
 <template>
@@ -40,6 +50,7 @@ const tabChange = ({ idx }: { idx: number }) => {
           v-for="item in listData.data"
           :key="item.id"
           class="relative mb-2 w-31%"
+          @click="goDetail(item)"
         >
           <image
             :src="item.comic.cover"

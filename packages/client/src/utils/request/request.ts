@@ -42,13 +42,14 @@ export class EsRequest {
     if (config.interceptor?.request) {
       config = await config.interceptor.request(config)
     }
-
-    if ((this.loading || config.loading) && this.consecutiveRequests === 0) {
+    if (this.loading || config.loading) {
+      if (this.consecutiveRequests === 0) {
+        uni.showLoading({
+          mask: true,
+          title: config.loadingText || this.loadingText,
+        })
+      }
       this.consecutiveRequests++
-      uni.showLoading({
-        mask: true,
-        title: config.loadingText || this.loadingText,
-      })
     }
 
     const baseUrl = config.baseUrl || this.baseUrl

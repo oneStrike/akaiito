@@ -6,7 +6,6 @@ defineOptions({
 
 <template>
   <view role="img" class="wheel-and-hamster">
-    <view class="wheel" />
     <view class="hamster">
       <view class="hamster__body">
         <view class="hamster__head">
@@ -21,7 +20,6 @@ defineOptions({
         <view class="hamster__tail" />
       </view>
     </view>
-    <view class="spoke" />
   </view>
 </template>
 
@@ -34,29 +32,10 @@ defineOptions({
   font-size: 8px;
 }
 
-.wheel,
 .hamster,
 .hamster view,
 .spoke {
   position: absolute;
-}
-
-.wheel,
-.spoke {
-  border-radius: 50%;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.wheel {
-  background: radial-gradient(
-    100% 100% at center,
-    hsla(0, 0%, 60%, 0) 47.8%,
-    hsl(0, 0%, 60%) 48%
-  );
-  z-index: 2;
 }
 
 .hamster {

@@ -38,7 +38,7 @@ navBarStyle.height = '44px'
 navBarStyle.padding = '0'
 // #endif
 
-onPageScroll(res => {
+onPageScroll((res) => {
   if (props.fade) {
     backgroundStyle.opacity = res.scrollTop / 100
   }
@@ -60,11 +60,11 @@ function back() {
     <view
       v-if="borderBottom"
       class="absolute bottom-0 z-50 w-full border-bottom"
-    ></view>
+    />
     <view
       class="absolute left-0 top-0 z--1 h-full w-full"
       :style="backgroundStyle"
-    ></view>
+    />
 
     <view class="h-full w-full flex items-center justify-center px-3">
       <view
@@ -82,11 +82,11 @@ function back() {
       </view>
       <view class="px-8" :style="{ textAlign: titleAlign }">
         <view class="inline-block">
-          <es-text :text="title" :color="titleColor" :size="titleSize" />
+          <es-text :text="title" :color="titleColor" :size="titleSize" cn />
         </view>
       </view>
       <view class="absolute z-1" :style="rightAreaPosition">
-        <slot name="right"></slot>
+        <slot name="right" />
       </view>
     </view>
   </view>

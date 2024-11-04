@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { loginApi } from '@/apis/v3'
-import { regexpMapping } from '@/hooks/form/rules'
-import { useUserStore } from '@/stores/modules/user'
 import { useRouter } from '@/hooks/useRouter'
+import { useUserStore } from '@/stores/modules/user'
 
 const formData = reactive({
   username: '',
@@ -65,7 +63,7 @@ const signUp = async () => {
             type="text"
             placeholder="请输入账号"
             class="flex-1"
-          />
+          >
         </view>
       </view>
       <view class="mb-7">
@@ -82,7 +80,7 @@ const signUp = async () => {
             placeholder="请输入密码"
             class="flex-1"
             :password="passwordType"
-          />
+          >
           <es-icons
             class="ml-4"
             :name="passwordType ? 'watchOff' : 'watch'"
