@@ -22,6 +22,7 @@ export default antfu(
       'antfu/top-level-function': 'off',
       'style/member-delimiter-style': 'off',
       'style/operator-linebreak': 'off',
+      'format/prettier': 'off',
     },
   },
 )
