@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { EsPickerProps } from '@/components/es-picker/types'
-import type { IterateObject } from '@/types/global'
 
 defineOptions({
   name: 'EsPicker',
@@ -46,7 +45,7 @@ const innerValue = computed({
       text: '',
     }
   },
-  set: newVal => {
+  set: (newVal) => {
     emits('update:modelValue', newVal.value)
   },
 })

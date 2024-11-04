@@ -47,7 +47,7 @@ const tabChange = ({ idx }: { idx: number }) => {
             mode="aspectFill"
           />
           <view class="w-full">
-            <es-text :text="item.comic.name" cn :line-clamp="1" size="sm" />
+            <es-text :text="item.comic.name" cn :line-clamp="2" size="sm" />
           </view>
         </view>
       </view>

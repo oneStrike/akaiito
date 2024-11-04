@@ -5,7 +5,9 @@ defineOptions({
 </script>
 
 <template>
-  <view>我是首页</view>
+  <view>
+    <es-loading />
+  </view>
 </template>
 
 <style scoped lang="scss"></style>
