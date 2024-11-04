@@ -1,19 +1,17 @@
-import type { IterateObject } from '@/types/global'
-
 export const useQuery = {
   serialization(query: IterateObject): string {
     // 序列化查询参数
     return Object.entries(query)
       .map(([key, value]) => {
         if (Array.isArray(value)) {
-          return value.map(v => `${key}=${encodeURIComponent(v)}`).join('&')
+          return value.map((v) => `${key}=${encodeURIComponent(v)}`).join('&')
         } else if (value) {
           return `${key}=${encodeURIComponent(value)}`
         } else {
           return ''
         }
       })
-      .filter(item => item)
+      .filter((item) => item)
       .join('&')
   },
 
@@ -30,7 +28,7 @@ export const useQuery = {
     }
 
     try {
-      query.split('&').forEach(param => {
+      query.split('&').forEach((param) => {
         const parts = param.replace(/\+/g, ' ').split('=')
         const key = decodeURIComponent(parts.shift() || '')
         const val: string | null =

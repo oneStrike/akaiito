@@ -5,11 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <view
-    aria-label="Orange and tan hamster running in a metal wheel"
-    role="img"
-    class="wheel-and-hamster"
-  >
+  <view role="img" class="wheel-and-hamster">
     <view class="wheel" />
     <view class="hamster">
       <view class="hamster__body">
@@ -36,7 +32,7 @@ defineOptions({
   position: relative;
   width: 12em;
   height: 12em;
-  font-size: 14px;
+  font-size: 8px;
 }
 
 .wheel,
@@ -56,7 +52,11 @@ defineOptions({
 }
 
 .wheel {
-  background: radial-gradient(100% 100% at center, hsla(0, 0%, 60%, 0) 47.8%, hsl(0, 0%, 60%) 48%);
+  background: radial-gradient(
+    100% 100% at center,
+    hsla(0, 0%, 60%, 0) 47.8%,
+    hsl(0, 0%, 60%) 48%
+  );
   z-index: 2;
 }
 
@@ -156,7 +156,16 @@ defineOptions({
 .hamster__limb--br,
 .hamster__limb--bl {
   border-radius: 0.75em 0.75em 0 0;
-  clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 90%, 70% 100%, 30% 100%, 40% 90%, 0% 30%);
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% 30%,
+    70% 90%,
+    70% 100%,
+    30% 100%,
+    40% 90%,
+    0% 30%
+  );
   top: 1em;
   left: 2.8em;
   width: 1.5em;
@@ -192,9 +201,17 @@ defineOptions({
 .spoke {
   animation: spoke var(--dur) linear infinite;
   background:
-    radial-gradient(100% 100% at center, hsl(0, 0%, 60%) 4.8%, hsla(0, 0%, 60%, 0) 5%),
-    linear-gradient(hsla(0, 0%, 55%, 0) 46.9%, hsl(0, 0%, 65%) 47% 52.9%, hsla(0, 0%, 65%, 0) 53%) 50% 50% / 99% 99%
-      no-repeat;
+    radial-gradient(
+      100% 100% at center,
+      hsl(0, 0%, 60%) 4.8%,
+      hsla(0, 0%, 60%, 0) 5%
+    ),
+    linear-gradient(
+        hsla(0, 0%, 55%, 0) 46.9%,
+        hsl(0, 0%, 65%) 47% 52.9%,
+        hsla(0, 0%, 65%, 0) 53%
+      )
+      50% 50% / 99% 99% no-repeat;
 }
 
 /* Animations */
