@@ -26,7 +26,6 @@ defineOptions({
 </template>
 
 <style scoped lang="scss">
-/* From Uiverse.io by Nawsome */
 .wheel-and-hamster {
   --dur: 1s;
   position: relative;
