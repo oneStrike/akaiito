@@ -4,17 +4,19 @@ import { useUserStore } from '@/stores/modules/user'
 
 export const interceptor: EsRequest['interceptor'] = {
   request: async (config) => {
-    if (config?.header) {
-      config!.header.authorization = `Token ${useUserStore().token}`
-    } else {
-      config!.header = {
-        authorization: `Token ${useUserStore().token}`,
-      }
-    }
+    config!.header = Object.assign(config?.header ?? {}, {
+      authorization: `Token ${useUserStore().token}`,
+      platform: 3,
+      version: '2.2.5',
+    })
+
+    config!.params = Object.assign(config?.params ?? {}, {
+      in_mainland: true,
+    })
+
     return config
   },
   response: (response, url) => {
-    console.log(response, 12123123)
     if (response.data.code === 401) {
       useRouter.reLaunch({ name: 'login' })
       throw new Error('token过期')

@@ -1,62 +1,68 @@
 import { httpClient } from '@/utils/request'
 
-/**
- *  接口 [漫画详情]
- * @param path
- */
-export const getMangaDetailApi = (path: string): Promise<any> => {
-  return httpClient({
-    method: 'GET',
-    url: `/api/v3/comic2/${path}`,
-    data: { in_mainland: true },
-  })
-}
+export class WorkApi {
+  wordPath: string
+  wordId: string
+  limit: number
+  offset: number
+  wordType: 'comic' | 'book' | 'photos'
+  apiPath: IterateObject
 
-/**
- *  接口 [用户和漫画关联情况]
- * @param path
- */
-export const getMangaRelationApi = (path: string): Promise<any> => {
-  return httpClient({
-    method: 'GET',
-    url: `/api/v3/comic2/${path}/query`,
-  })
-}
+  constructor(path: string, id: string, type: WorkApi['wordType']) {
+    this.wordType = type
+    this.wordPath = path
+    this.wordId = id
+    this.limit = 500
+    this.offset = 0
+    this.apiPath = {
+      detail: {
+        comic: `/api/v3/comic2/${this.wordPath}`,
+      },
+      relation: {
+        comic: `/api/v3/comic2/${this.wordPath}/query`,
+      },
+      chapters: {
+        comic: `/api/v3/comic/${this.wordPath}/group/default/chapters`,
+      },
+      content: {
+        comic: `/api/v3/comic/${this.wordPath}/chapter2/${this.wordId}`,
+      },
+    }
+  }
 
-/**
- *  接口 [漫画章节列表]
- * @param path
- */
-export const getMangaChaptersApi = (path: string): Promise<any> => {
-  return httpClient({
-    method: 'GET',
-    url: `/api/v3/comic/${path}/group/default/chapters`,
-    data: {
-      in_mainland: true,
-      limit: 500,
-      offset: 0,
-    },
-    header: {
-      platform: 3,
-      version: '2.2.5',
-    },
-  })
-}
+  // 详情
+  detail(): Promise<any> {
+    return httpClient({
+      method: 'GET',
+      url: this.apiPath.detail[this.wordType],
+    })
+  }
 
-/**
- *  接口 [漫画章节列表]
- * @param path
- * @param chapters
- */
-export const getMangaChaptersContentApi = (
-  path: string,
-  chapters: string,
-): Promise<any> => {
-  return httpClient({
-    method: 'GET',
-    url: `/api/v3/comic/${path}/chapter2/${chapters}`,
-    data: {
-      in_mainland: true,
-    },
-  })
+  // 作品和用户关联关系
+  relation(): Promise<any> {
+    return httpClient({
+      method: 'GET',
+      url: this.apiPath.relation[this.wordType],
+    })
+  }
+
+  // 章节列表
+  chapters(): Promise<any> {
+    return httpClient({
+      method: 'GET',
+      url: this.apiPath.chapters[this.wordType],
+      data: {
+        limit: this.limit,
+        offset: this.offset,
+      },
+    })
+  }
+
+  // 内容
+  content(): Promise<any> {
+    return httpClient({
+      method: 'GET',
+      url: this.apiPath.content[this.wordType],
+    })
+  }
 }

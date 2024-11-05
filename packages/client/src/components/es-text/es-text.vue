@@ -43,6 +43,6 @@ const textStyle = computed(() => {
     :style="textStyle"
     @click="emits('click')"
   >
-    {{ cn ? converter(text as string) : text }}
+    {{ cn && typeof text === 'string' ? converter(text) : text }}
   </text>
 </template>

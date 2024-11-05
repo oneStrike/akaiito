@@ -65,8 +65,8 @@
       }
     },
     {
-      "path": "pages/manga-detail/index",
-      "name": "mangaDetail",
+      "path": "pages/word-detail/index",
+      "name": "wordDetail",
       "style": {
         "navigationBarTitleText": "",
         "navigationStyle": "custom"
