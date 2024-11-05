@@ -1,7 +1,6 @@
 import type { RouterConfig } from '@/components/libs/types/config'
 import type { BackOptions, IRouter, Pages } from '@/components/libs/types/hooks'
 import type { WindowExtensions } from '@/env'
-import type { IterateObject } from '@/types/global'
 import { RouterJumpMethodEnum } from '@/components/libs/enum/router'
 import { useModal } from '@/components/libs/hooks/useModal'
 import { useStorage } from '@/components/libs/hooks/useStorage'
@@ -23,12 +22,12 @@ export class EsRouter {
     this.enter = config?.routerEnter
     this.prefix = config?.prefix
     this.pages = allPageInfo
-    this.tabBarPage = allPageInfo.filter(item => item.tabBar)
+    this.tabBarPage = allPageInfo.filter((item) => item.tabBar)
   }
 
   private async jump({ path, name, method, query }: IRouter) {
     if (!path && name) {
-      path = `/${this.pages.find(item => item.name === name)?.path}`
+      path = `/${this.pages.find((item) => item.name === name)?.path}`
     }
     if (!path || path === '/undefined') {
       useModal({
@@ -50,6 +49,7 @@ export class EsRouter {
     if (!method) {
       method = RouterJumpMethodEnum.NavigateTo
     }
+    console.log(path)
     if (pass) {
       // @ts-expect-error ignore
       uni[method]({
@@ -81,13 +81,13 @@ export class EsRouter {
 
   // 通过路径或者name获取页面信息
   getRouteByNameOrPath({ name = '', path = '' }) {
-    return this.pages.find(item => item.name === name || item.path === path)
+    return this.pages.find((item) => item.name === name || item.path === path)
   }
 
   // 获取当前路由在pages.json的信息
   getRoute() {
     const currentPath = this.currentPageInfo()?.route
-    return this.pages.find(item => item.path === currentPath)
+    return this.pages.find((item) => item.path === currentPath)
   }
 
   // 获取传递的query信息
@@ -120,7 +120,7 @@ export class EsRouter {
 
   // 是否为tabBar页面
   isTabBarPage(path: string) {
-    return !!this.tabBarPage.find(item => item.path.includes(path))
+    return !!this.tabBarPage.find((item) => item.path.includes(path))
   }
 
   // 当前页面信息

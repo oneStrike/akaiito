@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { collectBooksApi, collectComicsApi, collectPostsApi } from '@/apis/collect'
+import {
+  collectBooksApi,
+  collectComicsApi,
+  collectPostsApi,
+} from '@/apis/collect'
 
 defineOptions({
   name: 'BookShelfPage',
@@ -7,7 +11,7 @@ defineOptions({
 const tabs = reactive([
   {
     text: '漫画',
-    value: 1,
+    value: 'comic',
   },
   {
     text: '小说',
@@ -32,10 +36,11 @@ const tabChange = ({ idx }: { idx: number }) => {
 
 const goDetail = (item: any) => {
   useRouter.navigateTo({
-    name: 'mangaDetail',
+    name: 'wordDetail',
     query: {
       apiPath: item.comic.path_word,
       id: item.comic.uuid,
+      type: tabs[currentTabIdx.value].value,
     },
   })
 }
