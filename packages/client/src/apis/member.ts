@@ -1,5 +1,5 @@
 import { httpClient } from '@/utils/request'
-import type { MemberinfoTypesRes } from './types/member.d'
+import type { MemberInfoTypesRes } from './types/member.d'
 
 /**
  *  接口 [用户信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-229460675)
@@ -9,7 +9,7 @@ import type { MemberinfoTypesRes } from './types/member.d'
  *  @更新时间 2024-11-02 23:47:10
  */
 
-export const memberinfoApi = (): Promise<MemberinfoTypesRes> => {
+export const memberInfoApi = (): Promise<MemberInfoTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/api/v3/member/info',

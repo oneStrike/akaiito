@@ -6,7 +6,7 @@
  *  @更新时间 2024-11-02 11:44:35
  */
 
-export interface V3registerTypesReq {
+export interface V3RegisterTypesReq {
   /* 用户名 */
   username: string
 
@@ -15,7 +15,7 @@ export interface V3registerTypesReq {
 }
 
 /*  */
-export type V3registerTypesRes = any
+export type V3RegisterTypesRes = any
 
 /**
  *  接口 [登录](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-229415236)
@@ -25,7 +25,7 @@ export type V3registerTypesRes = any
  *  @更新时间 2024-11-02 15:34:19
  */
 
-export interface V3loginTypesReq {
+export interface V3LoginTypesReq {
   /* 用户名 */
   username: string
 
@@ -37,7 +37,7 @@ export interface V3loginTypesReq {
 }
 
 /*  */
-export type V3loginTypesRes = any
+export type V3LoginTypesRes = any
 
 /**
  *  接口 [获取作品评论](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-229938929)
@@ -47,7 +47,7 @@ export type V3loginTypesRes = any
  *  @更新时间 2024-11-05 09:26:27
  */
 
-export interface V3commentsTypesReq {
+export interface V3CommentsTypesReq {
   /* 漫画id */
   comic_id?: string
 
@@ -62,7 +62,7 @@ export interface V3commentsTypesReq {
 }
 
 /*  */
-export type V3commentsTypesRes = any
+export type V3CommentsTypesRes = any
 
 /**
  *  接口 [获取某一话评论](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-229940124)
@@ -72,7 +72,7 @@ export type V3commentsTypesRes = any
  *  @更新时间 2024-11-05 09:26:28
  */
 
-export interface V3roastsTypesReq {
+export interface V3RoastsTypesReq {
   /* 章节id */
   chapter_id?: string
 
@@ -84,4 +84,4 @@ export interface V3roastsTypesReq {
 }
 
 /*  */
-export type V3roastsTypesRes = any
+export type V3RoastsTypesRes = any

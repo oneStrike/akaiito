@@ -1,9 +1,9 @@
 import { httpClient } from '@/utils/request'
 import type {
-  CollectcomicsTypesRes,
-  CollectcomicsTypesReq,
-  CollectbooksTypesRes,
-  CollectpostsTypesRes,
+  CollectComicsTypesRes,
+  CollectComicsTypesReq,
+  CollectBooksTypesRes,
+  CollectPostsTypesRes,
 } from './types/collect.d'
 
 /**
@@ -14,7 +14,7 @@ import type {
  *  @更新时间 2024-11-03 00:27:03
  */
 
-export const collectcomicsApi = (params: CollectcomicsTypesReq): Promise<CollectcomicsTypesRes> => {
+export const collectComicsApi = (params: CollectComicsTypesReq): Promise<CollectComicsTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/api/v3/member/collect/comics',
@@ -31,7 +31,7 @@ export const collectcomicsApi = (params: CollectcomicsTypesReq): Promise<Collect
  *  @更新时间 2024-11-03 00:26:20
  */
 
-export const collectbooksApi = (): Promise<CollectbooksTypesRes> => {
+export const collectBooksApi = (): Promise<CollectBooksTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/api/v3/member/collect/books',
@@ -47,7 +47,7 @@ export const collectbooksApi = (): Promise<CollectbooksTypesRes> => {
  *  @更新时间 2024-11-03 00:26:30
  */
 
-export const collectpostsApi = (): Promise<CollectpostsTypesRes> => {
+export const collectPostsApi = (): Promise<CollectPostsTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/api/v3/member/collect/posts',

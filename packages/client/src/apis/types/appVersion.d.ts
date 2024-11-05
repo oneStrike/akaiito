@@ -6,7 +6,7 @@
  *  @更新时间 2024-11-05 09:26:48
  */
 
-export interface AppVersionlastTypesReq {}
+export interface AppVersionLastTypesReq {}
 
 /*  */
-export type AppVersionlastTypesRes = any
+export type AppVersionLastTypesRes = any

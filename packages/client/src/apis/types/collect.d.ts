@@ -6,10 +6,10 @@
  *  @更新时间 2024-11-03 00:27:03
  */
 
-export interface CollectcomicsTypesReq {}
+export interface CollectComicsTypesReq {}
 
 /*  */
-export type CollectcomicsTypesRes = any
+export type CollectComicsTypesRes = any
 
 /**
  *  接口 [小说](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-229461584)
@@ -19,10 +19,10 @@ export type CollectcomicsTypesRes = any
  *  @更新时间 2024-11-03 00:26:20
  */
 
-export interface CollectbooksTypesReq {}
+export interface CollectBooksTypesReq {}
 
 /*  */
-export type CollectbooksTypesRes = any
+export type CollectBooksTypesRes = any
 
 /**
  *  接口 [写真](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-229461587)
@@ -32,7 +32,7 @@ export type CollectbooksTypesRes = any
  *  @更新时间 2024-11-03 00:26:30
  */
 
-export interface CollectpostsTypesReq {}
+export interface CollectPostsTypesReq {}
 
 /*  */
-export type CollectpostsTypesRes = any
+export type CollectPostsTypesRes = any

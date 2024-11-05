@@ -1,13 +1,13 @@
 import { httpClient } from '@/utils/request'
 import type {
-  V3registerTypesRes,
-  V3registerTypesReq,
-  V3loginTypesRes,
-  V3loginTypesReq,
-  V3commentsTypesRes,
-  V3commentsTypesReq,
-  V3roastsTypesRes,
-  V3roastsTypesReq,
+  V3RegisterTypesRes,
+  V3RegisterTypesReq,
+  V3LoginTypesRes,
+  V3LoginTypesReq,
+  V3CommentsTypesRes,
+  V3CommentsTypesReq,
+  V3RoastsTypesRes,
+  V3RoastsTypesReq,
 } from './types/v3.d'
 
 /**
@@ -18,7 +18,7 @@ import type {
  *  @更新时间 2024-11-02 11:44:35
  */
 
-export const v3registerApi = (data: V3registerTypesReq): Promise<V3registerTypesRes> => {
+export const v3RegisterApi = (data: V3RegisterTypesReq): Promise<V3RegisterTypesRes> => {
   return httpClient({
     method: 'POST',
     url: '/api/v3/register',
@@ -37,7 +37,7 @@ export const v3registerApi = (data: V3registerTypesReq): Promise<V3registerTypes
  *  @更新时间 2024-11-02 15:34:19
  */
 
-export const v3loginApi = (data: V3loginTypesReq): Promise<V3loginTypesRes> => {
+export const v3LoginApi = (data: V3LoginTypesReq): Promise<V3LoginTypesRes> => {
   return httpClient({
     method: 'POST',
     url: '/api/v3/login',
@@ -56,7 +56,7 @@ export const v3loginApi = (data: V3loginTypesReq): Promise<V3loginTypesRes> => {
  *  @更新时间 2024-11-05 09:26:27
  */
 
-export const v3commentsApi = (params: V3commentsTypesReq): Promise<V3commentsTypesRes> => {
+export const v3CommentsApi = (params: V3CommentsTypesReq): Promise<V3CommentsTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/api/v3/comments',
@@ -73,7 +73,7 @@ export const v3commentsApi = (params: V3commentsTypesReq): Promise<V3commentsTyp
  *  @更新时间 2024-11-05 09:26:28
  */
 
-export const v3roastsApi = (params: V3roastsTypesReq): Promise<V3roastsTypesRes> => {
+export const v3RoastsApi = (params: V3RoastsTypesReq): Promise<V3RoastsTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/api/v3/roasts',

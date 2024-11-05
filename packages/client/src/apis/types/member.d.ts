@@ -6,7 +6,7 @@
  *  @更新时间 2024-11-02 23:47:10
  */
 
-export interface MemberinfoTypesReq {}
+export interface MemberInfoTypesReq {}
 
 /*  */
-export type MemberinfoTypesRes = any
+export type MemberInfoTypesRes = any

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { booksApi, comicsApi, postsApi } from '@/apis/collect'
+import { collectBooksApi, collectComicsApi, collectPostsApi } from '@/apis/collect'
 
 defineOptions({
   name: 'BookShelfPage',
@@ -22,7 +22,7 @@ const params = ref({})
 const listData = ref<IterateObject>({})
 const currentTabIdx = ref(0)
 
-const apis = [comicsApi, booksApi, postsApi]
+const apis = [collectComicsApi, collectBooksApi, collectPostsApi]
 const getList = async (params: any) => {
   return apis[currentTabIdx.value](params)
 }

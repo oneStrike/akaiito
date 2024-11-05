@@ -21,7 +21,9 @@ function formatApiIntroduce(api: IterateObject) {
 const getName = (path: string, depth = 1): string => {
   const pathArr = path.split('/')
   const applyArr = pathArr.slice(-depth)
-  const pathName = applyArr.join('')
+  const pathName = applyArr
+    .map((item, idx) => (idx === 0 ? item : capitalizeFirstLetter(item)))
+    .join('')
   if (Number.isNaN(Number(pathName))) {
     return pathName
   } else if (pathArr.length === applyArr.length) {

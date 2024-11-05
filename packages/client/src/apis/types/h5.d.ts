@@ -6,7 +6,7 @@
  *  @更新时间 2024-11-02 17:32:05
  */
 
-export interface H5homeIndex2TypesReq {}
+export interface H5HomeIndex2TypesReq {}
 
 /*  */
-export type H5homeIndex2TypesRes = any
+export type H5HomeIndex2TypesRes = any

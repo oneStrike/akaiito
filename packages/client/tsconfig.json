@@ -21,7 +21,8 @@
       "@dcloudio/types",
       "@uni-helper/uni-types",
       "@types/node",
-      "miniprogram-api-typings"
+      "miniprogram-api-typings",
+      "@auy/types"
     ],
     "strict": true,
     "sourceMap": true,
