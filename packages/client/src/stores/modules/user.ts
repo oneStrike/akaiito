@@ -1,7 +1,7 @@
-import type { LoginTypesReq } from '@/apis/types/v3'
-import { loginApi } from '@/apis/v3'
+import type { V3loginTypesReq } from '@/apis/types/v3'
+import { memberinfoApi } from '@/apis/member'
+import { v3loginApi } from '@/apis/v3'
 import { useRouter } from '@/hooks/useRouter'
-import { infoApi } from '@/apis/member'
 
 export interface UseUserStoreState {
   userInfo: IterateObject
@@ -27,8 +27,8 @@ export const useUserStore = defineStore('useUserStore', {
   },
 
   actions: {
-    async login(params: Omit<LoginTypesReq, 'salt'>) {
-      const data = await loginApi({
+    async login(params: Omit<V3loginTypesReq, 'salt'>) {
+      const data = await v3loginApi({
         username: params.username,
         password: btoa(`${params.password}-1086`),
         salt: '1086',
@@ -42,7 +42,7 @@ export const useUserStore = defineStore('useUserStore', {
         useRouter.reLaunch({ name: 'login' })
         return
       }
-      this.userInfo = await infoApi()
+      this.userInfo = await memberinfoApi()
     },
   },
 })

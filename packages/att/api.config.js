@@ -4,6 +4,7 @@ export default {
   typingsPath: 'src/apis/types',
   apiPath: 'src/apis/',
   field: 'data',
+  nameDepth: 2,
   http: {
     client: 'httpClient',
     import: "import { httpClient } from '@/utils/request';",

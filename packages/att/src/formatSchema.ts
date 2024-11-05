@@ -1,5 +1,3 @@
-import type { IterateObject } from '@auy/types'
-
 export function formatSchema(schemas: IterateObject[]) {
   const schemaArr: IterateObject = {}
   schemas.forEach((item) => {

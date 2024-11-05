@@ -1,4 +1,4 @@
-import type { AsyncFn, IterateObject } from '@auy/types'
+import type { AsyncFn } from '@auy/types'
 import { generateTypes } from '@/generateTypes'
 import dayjs from 'dayjs'
 
@@ -18,20 +18,32 @@ function formatApiIntroduce(api: IterateObject) {
       `
 }
 
-function formatName(path: string) {
+const getName = (path: string, depth = 1): string => {
   const pathArr = path.split('/')
-  const lastPath = pathArr[pathArr.length - 1]
-  const apiName = `${lastPath}Api`
+  const applyArr = pathArr.slice(-depth)
+  const pathName = applyArr.join('')
+  if (Number.isNaN(Number(pathName))) {
+    return pathName
+  } else if (pathArr.length === applyArr.length) {
+    return `remedy${pathName}`
+  } else {
+    return getName(path, depth + 1)
+  }
+}
+
+function formatName(path: string, nameDepth: number) {
+  const name = getName(path, nameDepth)
+  const apiName = `${name}Api`
 
   return {
     handler: apiName,
-    request: `${capitalizeFirstLetter(lastPath)}TypesReq`,
-    response: `${capitalizeFirstLetter(lastPath)}TypesRes`,
+    request: `${capitalizeFirstLetter(name)}TypesReq`,
+    response: `${capitalizeFirstLetter(name)}TypesRes`,
   }
 }
 
 function formatApiHandler(api: IterateObject) {
-  const { handler, request, response } = formatName(api.path)
+  const { handler, request, response } = formatName(api.path, api.nameDepth)
 
   let payload = ''
   if (api.method === 'get') {
@@ -41,14 +53,18 @@ function formatApiHandler(api: IterateObject) {
   } else if (api.method === 'post') {
     payload = `data:${request}`
   }
+  let header = '{}'
+  if (api.requestBody.type !== 'none') {
+    header = `{
+      'Content-Type':'${api.requestBody.type}'
+    }`
+  }
   return `
   export const ${handler} = (${payload}):Promise<${response}> =>{
       return ${api.http.client}({
         method: '${api.method.toUpperCase()}',
         url: '${api.path}',
-        header:{
-          'content-type': '${api.requestBody.type}'
-        },
+        header:${header},
         ${payload ? (api.method === 'get' ? 'params' : 'data') : ''}
       })
     }
@@ -91,7 +107,7 @@ export async function formatApiTree(
         }
 
         // 获取接口类型的请求和相应类型名称
-        const { request, response } = formatName(api.path)
+        const { request, response } = formatName(api.path, config.nameDepth)
         // 获取接口的详细数据
         const detail = await getApiDetail(api.id)
         // 生成接口注释信息

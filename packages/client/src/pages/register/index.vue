@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { registerApi } from '@/apis/v3'
-import { regexpMapping } from '@/hooks/form/rules'
+import { v3registerApi } from '@/apis/v3'
 
 const formData = reactive({
   username: '',
@@ -41,20 +40,6 @@ const signUp = async () => {
     return
   }
 
-  if (!regexpMapping.password.regexp.test(formData.password)) {
-    uni.showToast({
-      icon: 'error',
-      title: '密码格式不正确',
-    })
-    return
-  }
-  if (!regexpMapping.password.regexp.test(formData.confirmPassword)) {
-    uni.showToast({
-      icon: 'error',
-      title: '确认密码不正确',
-    })
-    return
-  }
   if (!agree.value) {
     uni.showToast({
       icon: 'error',
@@ -62,7 +47,7 @@ const signUp = async () => {
     })
     return
   }
-  const data = await registerApi({
+  const data = await v3registerApi({
     password: formData.password,
     username: formData.username,
   })
