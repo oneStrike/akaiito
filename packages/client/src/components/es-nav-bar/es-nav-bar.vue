@@ -22,12 +22,10 @@ const props = withDefaults(defineProps<EsNavBarProps>(), {
 })
 const { safeArea } = uni.$es.systemInfo
 const { top, width, height, right } = uni.$es.menuRectInfo
-
 const navBarStyle = reactive({
   height: `${height}px`,
-  padding: `${top || 8}px 0 8px 0`,
+  padding: `${top || safeArea!.top || 8}px 0 8px 0`,
 })
-
 const backgroundStyle = reactive({
   background: `${props.background}`,
   opacity: props.fade ? 0 : 1,
@@ -56,7 +54,7 @@ function back() {
 </script>
 
 <template>
-  <view class="sticky top-0 z-99 box-content" :style="navBarStyle">
+  <view class="sticky top-0 z-99 box-content es-nav-bar" :style="navBarStyle">
     <view
       v-if="borderBottom"
       class="absolute bottom-0 z-50 w-full border-bottom"

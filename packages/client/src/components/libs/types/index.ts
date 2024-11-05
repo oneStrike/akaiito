@@ -2,7 +2,6 @@ import type { setConfig } from '@/components/libs/hooks/useConfig'
 import type { useModal } from '@/components/libs/hooks/useModal'
 import type { useRect } from '@/components/libs/hooks/useRect'
 import type { EsRouter } from '@/components/libs/hooks/useRouter'
-import type { IterateObject } from '@/types/global'
 import type { Config } from './config'
 
 // 扩展android和ios类型

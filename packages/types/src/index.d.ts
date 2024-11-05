@@ -13,9 +13,6 @@ export interface RecordPaginationOptions {
   orderBy?: string // 排序配置
 }
 
-// 异步函数
-export type AsyncFn = (p?: any) => Promise<any>
-
 // 获取函数的参数
 type ResolveParameters<T> = T extends (arg: infer P) => void ? P : string
 
@@ -48,4 +45,6 @@ export interface AuyOptions {
 
 declare global {
   type IterateObject<T = any> = Record<string, T>
+  // 异步函数
+  type AsyncFn<T = any> = (p?: T) => Promise<T>
 }

@@ -97,16 +97,15 @@ export class EsRouter {
       return {}
     }
     const isTabBar = this.isTabBarPage(currentPage.route)
-
     // @ts-expect-error ignore
-    const options = currentPage.options
+    const options = currentPage?.$page?.options || currentPage.options || {}
     const storeQuery = this.routerStorage.get()
     if (isTabBar || (!Object.keys(options).length && storeQuery)) {
       const result = storeQuery
       nextTick(this.routerStorage.remove)
       return result || {}
     }
-
+    console.log(options)
     // #ifdef MP
     for (const optionsKey in options) {
       if (typeof options[optionsKey] === 'string') {

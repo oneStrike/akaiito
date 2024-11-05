@@ -30,29 +30,22 @@ const emits = defineEmits<{
 const { proxy } = getCurrentInstance() as any
 
 const mapTop = ref(0)
+const stickyTop = ref('0px')
+const getStickyTop = (top: number) => {
+  if (props.positionTop !== undefined) {
+    stickyTop.value = useConfig.addUnit(props.positionTop)
+  }
+  const currentPage = uni.$es.router.getRoute()
+  const customNavigation = currentPage?.style?.navigationStyle === 'custom'
+  if (customNavigation) {
+    stickyTop.value = `${top}px`
+  }
+}
 
 onMounted(async () => {
   const { height, top } = await useRect('.tabs-container', false, proxy)
   mapTop.value = height! + top! + 10
-})
-
-const stickyTop = computed(() => {
-  if (props.positionTop !== undefined) {
-    return props.positionTop
-  }
-  const currentPage = uni.$es.router.getRoute()
-  const customNavigation = currentPage?.style?.navigationStyle === 'custom'
-  const { top, height } = uni.$es.menuRectInfo
-  if (customNavigation) {
-    // #ifdef MP
-    return `${top + height + 8}px`
-    // #endif
-    // #ifndef MP
-    return '44px'
-    // #endif
-  } else {
-    return props.positionTop
-  }
+  getStickyTop(top!)
 })
 
 const currentIdx = defineModel({

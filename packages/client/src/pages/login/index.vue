@@ -63,7 +63,7 @@ const signUp = async () => {
             type="text"
             placeholder="请输入账号"
             class="flex-1"
-          >
+          />
         </view>
       </view>
       <view class="mb-7">
@@ -80,7 +80,7 @@ const signUp = async () => {
             placeholder="请输入密码"
             class="flex-1"
             :password="passwordType"
-          >
+          />
           <es-icons
             class="ml-4"
             :name="passwordType ? 'watchOff' : 'watch'"
@@ -90,18 +90,16 @@ const signUp = async () => {
         </view>
       </view>
 
-      <view class="mb-10 flex">
-        <checkbox :checked="agree" class="scale-70" />
-        <view>
-          <es-text
-            text="我以阅读并同意"
-            size="xs"
-            color="minor"
-            @click="agree = !agree"
-          />
-          <es-text text="《用户协议》" color="primary" size="xs" />
-          <es-text text="《隐私协议》" color="primary" size="xs" />
-        </view>
+      <view class="mb-10 flex items-center">
+        <checkbox :checked="agree" class="scale-60" />
+        <es-text
+          text="我以阅读并同意"
+          size="xs"
+          color="minor"
+          @click="agree = !agree"
+        />
+        <es-text text="《用户协议》" color="primary" size="xs" />
+        <es-text text="《隐私协议》" color="primary" size="xs" />
       </view>
 
       <es-button text="登录" size="large" type="primary" @click="signUp" />

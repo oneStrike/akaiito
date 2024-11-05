@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { v3registerApi } from '@/apis/v3'
+import { v3RegisterApi } from '@/apis/v3'
+import { useRouter } from '@/hooks/useRouter'
+import { useUserStore } from '@/stores/modules/user'
 
 const formData = reactive({
   username: '',
@@ -47,11 +49,13 @@ const signUp = async () => {
     })
     return
   }
-  const data = await v3registerApi({
+  const params = {
     password: formData.password,
     username: formData.username,
-  })
-  console.log(data)
+  }
+  await v3RegisterApi(params)
+  await useUserStore().login(params)
+  await useRouter.reLaunch({ name: 'home' })
 }
 </script>
 
@@ -129,7 +133,7 @@ const signUp = async () => {
           />
         </view>
       </view>
-      <view class="mb-10 flex">
+      <view class="mb-10 flex bg-red">
         <checkbox :checked="agree" class="scale-70" />
         <view>
           <es-text

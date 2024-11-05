@@ -30,7 +30,9 @@ export const useUserStore = defineStore('useUserStore', {
     async login(params: Omit<V3LoginTypesReq, 'salt'>) {
       const data = await v3LoginApi({
         username: params.username,
-        password: btoa(`${params.password}-1086`),
+        password: uni.arrayBufferToBase64(
+          new TextEncoder().encode(`${params.password}-1086`),
+        ),
         salt: '1086',
       })
       this.token = data.token

@@ -1,11 +1,11 @@
-import type { AsyncFn } from '@/types/global'
-
 export interface RequestResponse {
   error?: boolean
   desc?: string
   data?: any
   message?: string
 }
+
+export type RequestOptions = RequestConfig & UniNamespace.RequestOptions
 
 export interface RequestConfig {
   baseUrl?: string
@@ -24,5 +24,3 @@ export interface RequestConfig {
   handlerError?: (data: any) => any
   cancelRequest?: boolean
 }
-
-export type RequestOptions = RequestConfig & UniNamespace.RequestOptions

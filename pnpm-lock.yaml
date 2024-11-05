@@ -293,6 +293,9 @@ importers:
       vue-i18n:
         specifier: ^9.14.1
         version: 9.14.1(vue@3.5.12(typescript@5.6.3))
+      weapp-cookie:
+        specifier: ^1.4.8
+        version: 1.4.8
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^3.7.3
@@ -9680,6 +9683,9 @@ packages:
   set-blocking@2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
 
+  set-cookie-parser@2.7.1:
+    resolution: {integrity: sha512-IOc8uWeOZgnb3ptbCURJWNjWUPcO3ZnTTdzsurqERrP6nPyv+paC55vJM0LpOlT2ne+Ix+9+CRG1MNLlyZ4GjQ==}
+
   set-function-length@1.2.2:
     resolution: {integrity: sha512-pgRc4hJ4/sNjWCSS9AmnS40x3bNMDTknHgL5UaMBTMyJnU90EgWh1Rz+MC9eFu4BuN/UwZjKQuY/1v3rM7HMfg==}
     engines: {node: '>= 0.4'}
@@ -10877,6 +10883,9 @@ packages:
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
+
+  weapp-cookie@1.4.8:
+    resolution: {integrity: sha512-YksOnCI4mM+MAlAf/5iL0aSzwfePHZTUS9NorL0RerAxJMOpzzrEZrMBF+wKS1usH/UQqkZTMSxjiWs0ZcAE9g==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -23430,6 +23439,8 @@ snapshots:
 
   set-blocking@2.0.0: {}
 
+  set-cookie-parser@2.7.1: {}
+
   set-function-length@1.2.2:
     dependencies:
       define-data-property: 1.1.4
@@ -24806,6 +24817,10 @@ snapshots:
   wcwidth@1.0.1:
     dependencies:
       defaults: 1.0.4
+
+  weapp-cookie@1.4.8:
+    dependencies:
+      set-cookie-parser: 2.7.1
 
   webidl-conversions@3.0.1: {}
 

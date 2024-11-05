@@ -10,31 +10,34 @@ const word = ref<IterateObject>({
   relation: {},
   chapters: {},
 })
-const query = useRouter.getQuery()
-const apiInst = new WorkApi(query!.apiPath, query!.id, query!.type)
 
-const formatDetailData = (data: IterateObject) => {
-  if (query.type === 'comic') {
-    return {
-      name: data.comic?.name,
-      introduce: data.comic?.brief,
-      cover: data.comic?.cover,
+onMounted(() => {
+  const query = useRouter.getQuery()
+
+  const apiInst = new WorkApi(query!.apiPath, query!.id, query!.type)
+  const formatDetailData = (data: IterateObject) => {
+    if (query.type === 'comic') {
+      return {
+        name: data.comic?.name,
+        introduce: data.comic?.brief,
+        cover: data.comic?.cover,
+      }
     }
   }
-}
 
-const initPage = async () => {
-  const [detail, relation, chapters] = await Promise.all([
-    apiInst.detail(),
-    apiInst.relation(),
-    apiInst.chapters(),
-  ])
-  word.value.detail = formatDetailData(detail)
-  word.value.relation = relation
-  word.value.chapters = chapters
-}
+  const initPage = async () => {
+    const [detail, relation, chapters] = await Promise.all([
+      apiInst.detail(),
+      apiInst.relation(),
+      apiInst.chapters(),
+    ])
+    word.value.detail = formatDetailData(detail)
+    word.value.relation = relation
+    word.value.chapters = chapters
+  }
 
-initPage()
+  initPage()
+})
 </script>
 
 <template>

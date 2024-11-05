@@ -7,6 +7,7 @@ import App from './App.vue'
 import { bootstrap } from './core/bootstrap'
 import { pinia } from './stores'
 import 'uno.css'
+import 'weapp-cookie'
 
 export function createApp() {
   const app = createSSRApp(App)
