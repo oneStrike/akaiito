@@ -241,8 +241,13 @@ export class EsRouter {
       }, delay)
       return
     }
+    // #ifdef H5
+    window.history.go(-delta)
+    // #endif
+    // #ifndef H5
     uni.navigateBack({
       delta,
     })
+    // #endif
   }
 }
