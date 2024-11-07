@@ -22,8 +22,8 @@ import * as passport from '@midwayjs/passport'
 
 @Configuration({
   imports: [
-    jwt,
     koa,
+    jwt,
     busboy,
     captcha,
     passport,

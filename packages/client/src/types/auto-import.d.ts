@@ -88,22 +88,17 @@ declare global {
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const useAttrs: typeof import('vue')['useAttrs']
-  const useBackTop: typeof import('../hooks/useBackTop')['useBackTop']
+  const useCookies: typeof import('../hooks/useCookies')['useCookies']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
-  const useDataDict: typeof import('../hooks/useDataDict')['useDataDict']
-  const useFormTools: typeof import('../hooks/useFormTools')['useFormTools']
-  const useFormValidator: typeof import('../hooks/useFormValidator')['useFormValidator']
   const useId: typeof import('vue')['useId']
   const useModel: typeof import('vue')['useModel']
   const usePreview: typeof import('../hooks/usePreview')['usePreview']
   const useQuery: typeof import('../hooks/useQuery')['useQuery']
   const useRefresh: typeof import('../hooks/useRefresh')['useRefresh']
-  const useRequest: typeof import('../hooks/useRequest')['useRequest']
   const useRouter: typeof import('../hooks/useRouter')['useRouter']
   const useSlots: typeof import('vue')['useSlots']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
-  const useWebView: typeof import('../hooks/useWebView')['useWebView']
   const useWx: typeof import('../hooks/useWx')['useWx']
   const watch: typeof import('vue')['watch']
   const watchEffect: typeof import('vue')['watchEffect']
@@ -203,6 +198,7 @@ declare module 'vue' {
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useCookies: UnwrapRef<typeof import('../hooks/useCookies')['useCookies']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>

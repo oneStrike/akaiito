@@ -51,7 +51,6 @@ export class EsRequest {
       }
       this.consecutiveRequests++
     }
-
     const baseUrl = config.baseUrl || this.baseUrl
     const fullUrl = baseUrl + config.url
     const params = Object.assign(config.data || {}, config.params || {})

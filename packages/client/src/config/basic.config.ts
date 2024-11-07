@@ -2,7 +2,7 @@ import { useWx } from '@/hooks/useWx'
 
 const platformConfig = {
   APPID: useWx.getWxAppId(),
-  BASIC_URL: 'https://api.mangacopy.com',
+  BASIC_URL: 'http://172.28.32.1:7001/',
 }
 
 // #ifdef H5

@@ -22,10 +22,10 @@ export default ({ mode }) => {
       port: 9099,
       proxy: {
         '/api': {
-          target: 'https://api.mangacopy.com',
+          target: 'http://172.28.32.1:7001',
           changeOrigin: true,
           secure: false,
-          rewrite: path => path.replace(/^\/api/, ''),
+          rewrite: (path) => path.replace(/^\/api/, ''),
         },
       },
     },

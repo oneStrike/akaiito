@@ -1,4 +1,4 @@
-import { Post, Inject, Controller } from '@midwayjs/core'
+import { Post, Inject, Controller, Get } from '@midwayjs/core'
 import { Context } from '@midwayjs/koa'
 import { JwtService } from '@midwayjs/jwt'
 import { JwtPassportMiddleware } from '@/middleware/jwt.middleware'
@@ -17,8 +17,10 @@ export class JwtController {
     return this.ctx.state.user
   }
 
+  @Get('/jwt')
   @Post('/jwt')
   async genJwt() {
+    this.ctx.rotateCsrfSecret()
     return {
       t: await this.jwt.sign({ msg: 'Hello Midway' }),
     }

@@ -19,6 +19,16 @@ export default {
   passport: {
     session: false,
   },
+  security: {
+    csrf: {},
+    hsts: {
+      enable: true,
+      includeSubdomains: true,
+    },
+    nosniff: {
+      enable: true,
+    },
+  },
   busboy: uploadConfig,
   staticFile: staticFileConfig,
   projectConfig: utils.getProjectConfig(),
