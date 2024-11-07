@@ -27,20 +27,18 @@ export const useCookies = {
     cookieStorage.storageValue.value![key] = value
   },
   parse: (cookie: string[]) => {
+    let cookieData = {}
     if (cookie && !document) {
-      const cookieData = {}
       cookie.forEach((item) => {
         Object.assign(cookieData, parseCookies(item))
       })
-      cookieStorage.storageValue.value = {
-        ...cookieStorage.storageValue.value,
-        ...cookieData,
-      }
     } else if (document) {
-      cookieStorage.storageValue.value = {
-        ...cookieStorage.storageValue.value,
-        ...parseCookies(document.cookie),
-      }
+      cookieData = parseCookies(document.cookie)
+    }
+
+    cookieStorage.storageValue.value = {
+      ...cookieStorage.storageValue.value,
+      ...cookieData,
     }
   },
 }

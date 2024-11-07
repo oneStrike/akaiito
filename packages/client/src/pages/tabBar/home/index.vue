@@ -7,7 +7,7 @@ defineOptions({
 
 httpClient({
   url: 'jwt',
-  method: 'GET',
+  method: 'POST',
 })
 </script>
 

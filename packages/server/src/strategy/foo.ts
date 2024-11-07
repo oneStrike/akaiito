@@ -2,6 +2,8 @@ import { Post, Inject, Controller, Get } from '@midwayjs/core'
 import { Context } from '@midwayjs/koa'
 import { JwtService } from '@midwayjs/jwt'
 import { JwtPassportMiddleware } from '@/middleware/jwt.middleware'
+import * as fs from 'fs'
+import { join } from 'path'
 
 @Controller('/')
 export class JwtController {
@@ -21,8 +23,18 @@ export class JwtController {
   @Post('/jwt')
   async genJwt() {
     this.ctx.rotateCsrfSecret()
+    console.log(__dirname)
+    const privateKey = fs.readFileSync(
+      join(__dirname, 'ecc-private-key.pem'),
+      'utf8',
+    )
+
     return {
-      t: await this.jwt.sign({ msg: 'Hello Midway' }),
+      t: this.jwt.decodeSync(
+        this.jwt.signSync({ msg: 'Hello Midway' }, privateKey, {
+          algorithm: 'ES256',
+        }),
+      ),
     }
   }
 }

@@ -46,6 +46,7 @@
     "@midwayjs/static-file": "^3.18.2",
     "@midwayjs/validate": "^3.18.2",
     "@prisma/client": "^5.21.1",
+    "crypto-js": "^4.2.0",
     "fs-extra": "^11.2.0",
     "ip2region": "^2.3.0",
     "lodash": "^4.17.21",

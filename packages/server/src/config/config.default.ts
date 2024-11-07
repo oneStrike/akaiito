@@ -1,6 +1,5 @@
 import type { MidwayConfig } from '@midwayjs/core'
 import { utils } from '@/utils'
-import { jwtConfig } from './modules/jwt'
 import { staticFileConfig } from './modules/staticFile'
 import { uploadConfig } from './modules/upload'
 
@@ -9,7 +8,16 @@ export default {
   koa: {
     port: 7001,
   },
-  jwt: jwtConfig,
+  jwt: {
+    secret: 'auy',
+    sign: {
+      expiresIn: '2h',
+      algorithm: 'ES256',
+    },
+    verify: {
+      complete: true,
+    },
+  },
   validate: {
     validationOptions: {
       stripUnknown: true, // 全局生效
