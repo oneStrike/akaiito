@@ -1,5 +1,3 @@
-import type { IterateObject } from '@auy/types'
-
 export type FindPageResponse<T> = Promise<{
   pageSize: number
   pageIndex: number

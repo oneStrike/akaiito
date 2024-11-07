@@ -1,6 +1,5 @@
 import { Config, Provide, Scope, ScopeEnum } from '@midwayjs/core'
 import * as jwt from 'jsonwebtoken'
-import type { IterateObject } from '@auy/types'
 import type { JwtPayload } from 'jsonwebtoken'
 
 @Provide()
@@ -19,7 +18,11 @@ export class Jwt {
     return jwt.sign(payload, secret, options)
   }
 
-  async verify(token: string, secretOrPublicKey?: string, options?: jwt.VerifyOptions) {
+  async verify(
+    token: string,
+    secretOrPublicKey?: string,
+    options?: jwt.VerifyOptions,
+  ) {
     const secret = secretOrPublicKey || this.jwtConfig.secret
     const opts = Object.assign(this.jwtConfig.verifyOptions, options)
     const { payload } = jwt.verify(token, secret, opts) as {

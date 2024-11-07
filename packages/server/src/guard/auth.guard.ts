@@ -1,5 +1,4 @@
 import { Jwt } from '@/modules/internal/authentication/jwt.service'
-import type { IterateObject } from '@auy/types'
 import { IGuard, MidwayWebRouterService } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { isAdminRequest } from '@/utils/requestSource'
@@ -33,7 +32,8 @@ export class AuthGuard implements IGuard<Context> {
           const token = ctx.headers.authorization
           try {
             const payload = await this.jwtService.verify(token)
-            if (typeof payload === 'string' || payload.refresh) throw new Error()
+            if (typeof payload === 'string' || payload.refresh)
+              throw new Error()
             this.setUserInfoToCtx(ctx, payload)
           } catch (e) {
             throw new httpError.UnauthorizedError('登录状态失效')

@@ -1,6 +1,5 @@
 import type { PrismaConfig } from '@/typings/config/prisma'
 import type { FindPageResponse, PrismaFindOptions } from '@/typings/service/base.service'
-import type { IterateObject } from '@auy/types'
 import { Context } from '@midwayjs/core'
 import { Application } from '@midwayjs/koa'
 import { BasicOrderDto } from '../dto/basic.dto'

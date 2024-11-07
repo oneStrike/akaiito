@@ -1,4 +1,4 @@
-import type { IterateObject, RecordPaginationOptions } from '@auy/types'
+import type { RecordPaginationOptions } from '@auy/types'
 
 export interface PrismaConfig {
   pagination: Omit<RecordPaginationOptions, 'orderBy'>

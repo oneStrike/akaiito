@@ -1,4 +1,3 @@
-import type { IterateObject } from '@auy/types'
 import { utils } from '@/utils'
 import { Config, httpError, Provide } from '@midwayjs/core'
 import * as fs from 'fs-extra'

@@ -3,7 +3,6 @@ import * as path from 'node:path'
 import { ConfigFilePathEnum } from '@/enum/configFilePath'
 import { Inject, MidwayConfigService, Provide } from '@midwayjs/core'
 import * as yaml from 'yaml'
-import type { IterateObject } from '@auy/types'
 
 @Provide()
 export class ConfigService {

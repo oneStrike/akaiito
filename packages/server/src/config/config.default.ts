@@ -16,6 +16,9 @@ export default {
       noDefaults: false,
     },
   },
+  passport: {
+    session: false,
+  },
   busboy: uploadConfig,
   staticFile: staticFileConfig,
   projectConfig: utils.getProjectConfig(),

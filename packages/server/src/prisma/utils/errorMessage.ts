@@ -1,5 +1,3 @@
-import { IterateObject } from '@auy/types'
-
 export function prismaErrorMessage(err: IterateObject) {
   switch (err.code) {
     case 'P2002':
