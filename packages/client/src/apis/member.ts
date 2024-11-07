@@ -1,5 +1,5 @@
 import { httpClient } from '@/utils/request'
-import type { MemberInfoTypesRes } from './types/member.d'
+import type { MemberInfoTypesRes, MemberCommentTypesRes, MemberCommentTypesReq } from './types/member.d'
 
 /**
  *  接口 [用户信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-229460675)
@@ -14,5 +14,24 @@ export const memberInfoApi = (): Promise<MemberInfoTypesRes> => {
     method: 'GET',
     url: '/api/v3/member/info',
     header: {},
+  })
+}
+
+/**
+ *  接口 [评论](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-230881793)
+ *  @标签 作品/评论
+ *  @方式 POST
+ *  @地址 /api/v3/member/comment
+ *  @更新时间 2024-11-06 21:18:40
+ */
+
+export const memberCommentApi = (data: MemberCommentTypesReq): Promise<MemberCommentTypesRes> => {
+  return httpClient({
+    method: 'POST',
+    url: '/api/v3/member/comment',
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    data,
   })
 }

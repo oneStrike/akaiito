@@ -13,6 +13,7 @@ const props = withDefaults(defineProps<EsPageProps>(), {
   backgroundColor: '#ffffff',
   padding: false,
   empty: false,
+  navBar: true,
   borderTop: true,
   tabBar: false,
   fixedButton: false,
@@ -38,13 +39,14 @@ const pageStyle = computed(() => {
 
 <template>
   <view class="es-page" :style="pageStyle">
-    <slot name="nabBar">
+    <slot v-if="navBar" name="nabBar">
       <es-nav-bar
         v-if="customNavigation"
         :left="!currentPage?.tabBar"
         :title="navigationBarTitleText || title"
         :back="!currentPage?.tabBar"
         :border-bottom="borderTop"
+        :background="navBarBackground"
       />
     </slot>
     <template v-if="!customNavigation">
