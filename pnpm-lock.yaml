@@ -396,6 +396,9 @@ importers:
       '@midwayjs/busboy':
         specifier: ^3.18.2
         version: 3.18.2
+      '@midwayjs/cache-manager':
+        specifier: ^3.18.2
+        version: 3.18.2
       '@midwayjs/captcha':
         specifier: 3.18.0
         version: 3.18.0

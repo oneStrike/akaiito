@@ -1,9 +1,8 @@
-import { Post, Inject, Controller, Get } from '@midwayjs/core'
+import { Post, Inject, Controller, Get, InjectClient } from '@midwayjs/core'
 import { Context } from '@midwayjs/koa'
-import { JwtService } from '@midwayjs/jwt'
 import { JwtPassportMiddleware } from '@/middleware/jwt.middleware'
-import * as fs from 'fs'
-import { join } from 'path'
+import { CachingFactory, MidwayCache } from '@midwayjs/cache-manager'
+import { JwtService } from '@/basic/service/jwt.service'
 
 @Controller('/')
 export class JwtController {
@@ -13,6 +12,9 @@ export class JwtController {
   @Inject()
   ctx: Context
 
+  @InjectClient(CachingFactory, 'default')
+  cache: MidwayCache
+
   @Post('/passport/jwt', { middleware: [JwtPassportMiddleware] })
   async jwtPassport() {
     console.log('jwt user: ', this.ctx.state.user)
@@ -20,21 +22,7 @@ export class JwtController {
   }
 
   @Get('/jwt')
-  @Post('/jwt')
   async genJwt() {
-    this.ctx.rotateCsrfSecret()
-    console.log(__dirname)
-    const privateKey = fs.readFileSync(
-      join(__dirname, 'ecc-private-key.pem'),
-      'utf8',
-    )
-
-    return {
-      t: this.jwt.decodeSync(
-        this.jwt.signSync({ msg: 'Hello Midway' }, privateKey, {
-          algorithm: 'ES256',
-        }),
-      ),
-    }
+    return await this.jwt.sign({ msg: 'hello' })
   }
 }

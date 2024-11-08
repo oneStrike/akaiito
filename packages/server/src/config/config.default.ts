@@ -18,6 +18,13 @@ export default {
       complete: true,
     },
   },
+  cacheManager: {
+    clients: {
+      default: {
+        store: 'memory',
+      },
+    },
+  },
   validate: {
     validationOptions: {
       stripUnknown: true, // 全局生效

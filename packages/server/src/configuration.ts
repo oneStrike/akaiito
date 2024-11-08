@@ -19,6 +19,7 @@ import { ReportMiddleware } from './middleware/report.middleware'
 import * as security from '@midwayjs/security'
 import * as jwt from '@midwayjs/jwt'
 import * as passport from '@midwayjs/passport'
+import * as cacheManager from '@midwayjs/cache-manager'
 
 @Configuration({
   imports: [
@@ -30,6 +31,7 @@ import * as passport from '@midwayjs/passport'
     validate,
     security,
     staticFile,
+    cacheManager,
     {
       component: info,
       enabledEnvironment: ['local'],

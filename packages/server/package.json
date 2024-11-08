@@ -33,6 +33,7 @@
     "@auy/utils": "workspace:*",
     "@midwayjs/bootstrap": "^3.18.2",
     "@midwayjs/busboy": "^3.18.2",
+    "@midwayjs/cache-manager": "^3.18.2",
     "@midwayjs/captcha": "3.18.0",
     "@midwayjs/casbin": "^3.18.2",
     "@midwayjs/core": "^3.18.0",
