@@ -16,7 +16,7 @@ export class CaptchaService {
       noise: 3,
       type: 'letter',
     })
-    this.ctx.rotateCsrfSecret()
+    // this.ctx.rotateCsrfSecret()
     return { id, data }
   }
 

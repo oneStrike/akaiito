@@ -8,6 +8,6 @@ export class ClientManageController {
 
   @Get('/getClientSystemConfig', { summary: '获取客户端系统配置' })
   async getClientSystemConfig() {
-    return this.clientSystemConfig.findUnique({ id: 1 })
+    return this.clientSystemConfig.findUnique({ where: { id: 1 } })
   }
 }

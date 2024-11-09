@@ -1,5 +1,6 @@
 import type { IMethodAspect, JoinPoint } from '@midwayjs/core'
 import { UserService } from '@/modules/admin/user/user.service'
+import { ClientUserService } from '@/modules/client/user/user.service'
 import {
   createCustomMethodDecorator,
   REQUEST_OBJ_CTX_KEY,
@@ -25,9 +26,22 @@ export function getUserInfoHandler(): IMethodAspect {
       if (authorization) {
         const jwt = await ctx.requestContext.getAsync(JwtService)
         const userService = await ctx.requestContext.getAsync(UserService)
+        const clientUserService =
+          await ctx.requestContext.getAsync(ClientUserService)
         const payload = await jwt.verify(authorization)
         if (payload) {
-          const userInfo = await userService.findUnique({ id: payload.id })
+          let userInfo = {}
+          if (payload.purpost === 'admin') {
+            userInfo = await userService.findUnique({
+              where: { id: payload.id },
+              omit: 'password',
+            })
+          } else {
+            userInfo = await clientUserService.findUnique({
+              where: { id: payload.id },
+              omit: 'password',
+            })
+          }
           ctx.setAttr('userInfo', userInfo)
         }
       }

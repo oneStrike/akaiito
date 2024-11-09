@@ -17,7 +17,12 @@ export default {
     verify: {
       complete: true,
     },
-    whiteList: ['/open/captcha/getCaptcha', '/admin/user/login'],
+    whiteList: [
+      '/open/captcha/getCaptcha',
+      '/admin/user/login',
+      '/client/user/createClientUser',
+      '/client/user/login',
+    ],
   },
   cacheManager: {
     clients: {
@@ -36,7 +41,9 @@ export default {
     session: false,
   },
   security: {
-    csrf: {},
+    csrf: {
+      enable: false,
+    },
     hsts: {
       enable: true,
       includeSubdomains: true,

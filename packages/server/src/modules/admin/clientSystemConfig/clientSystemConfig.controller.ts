@@ -9,11 +9,15 @@ export class ClientSystemConfigController {
 
   @Get('/getClientSystemConfig', { summary: '获取客户端系统配置信息' })
   async getClientSystemConfig() {
-    return this.clientSystemConfig.findUnique({ id: 1 })
+    return this.clientSystemConfig.findUnique({ where: { id: 1 } })
   }
 
   @Post('/updateClientSystemConfig', { summary: '更新客户端系统配置信息' })
   async updateClientSystemConfig(@Body() body: ClientSystemConfigDto) {
-    return this.clientSystemConfig.upsert({ id: 1 }, body)
+    return this.clientSystemConfig.upsert({
+      where: { id: 1 },
+      create: body,
+      update: body,
+    })
   }
 }

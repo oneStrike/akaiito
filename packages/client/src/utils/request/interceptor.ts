@@ -6,7 +6,7 @@ import { useUserStore } from '@/stores/modules/user'
 export const interceptor: EsRequest['interceptor'] = {
   request: async (config) => {
     config!.header = Object.assign(config?.header ?? {}, {
-      'authorization': `Token ${useUserStore().token}`,
+      'authorization': useUserStore().token.accessToken,
       'platform': 3,
       'version': '2.2.5',
       'x-csrf-token': useCookies.get('csrfToken'),
@@ -29,7 +29,7 @@ export const interceptor: EsRequest['interceptor'] = {
       }
     }
     return {
-      data: response.data.results,
+      data: response.data.data,
     }
   },
 }

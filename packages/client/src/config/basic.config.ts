@@ -2,7 +2,7 @@ import { useWx } from '@/hooks/useWx'
 
 const platformConfig = {
   APPID: useWx.getWxAppId(),
-  BASIC_URL: 'http://172.28.32.1:7001/',
+  BASIC_URL: 'http://192.168.31.215:7001/',
 }
 
 // #ifdef H5
@@ -22,4 +22,6 @@ export const basicConfig = {
   }`,
   // TOKEN有效期
   TOKEN_EXPIRE_TIME: 1.8 * 60 * 60 * 1000,
+  // refresh token 有效期
+  REFRESH_TOKEN_EXPIRE_TIME: 24 * 60 * 60 * 1000,
 }

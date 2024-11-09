@@ -11,6 +11,8 @@ model ClientUser {
   mobile    String?   @unique(map: "mobile") @db.VarChar(20)
   /// 状态 0禁用 1正常
   status    Int?      @default(1) @db.TinyInt
+  /// 性别 0未知 1男 2女
+  sex       Int?      @default(0) @db.TinyInt
   createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
 

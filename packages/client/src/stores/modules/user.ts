@@ -1,18 +1,29 @@
-import type { V3LoginTypesReq } from '@/apis/types/v3'
-import { memberInfoApi } from '@/apis/member'
-import { v3LoginApi } from '@/apis/v3'
+import type { UserLoginTypesReq, UserUserInfoTypesRes } from '@/apis/types/user'
+import { userLoginApi, userRefreshTokenApi, userUserInfoApi } from '@/apis/user'
+import { basicConfig } from '@/config/basic.config'
 import { useRouter } from '@/hooks/useRouter'
+import { utils } from '@/utils'
 
 export interface UseUserStoreState {
-  userInfo: IterateObject
-  token: string
+  userInfo: UserUserInfoTypesRes | null
+  token: {
+    accessToken: string
+    refreshToken: string
+    accessExpiresIn: number
+    refreshExpiresIn: number
+  }
 }
 
 export const useUserStore = defineStore('useUserStore', {
   state() {
     return {
       userInfo: {},
-      token: '',
+      token: {
+        accessToken: '',
+        refreshToken: '',
+        accessExpiresIn: 0,
+        refreshExpiresIn: 0,
+      },
     } as UseUserStoreState
   },
   persist: {
@@ -27,16 +38,55 @@ export const useUserStore = defineStore('useUserStore', {
   },
 
   actions: {
-    async login(params: Omit<V3LoginTypesReq, 'salt'>) {
-      const data = await v3LoginApi({
-        username: params.username,
-        password: uni.arrayBufferToBase64(
-          new TextEncoder().encode(`${params.password}-1086`),
-        ),
-        salt: '1086',
-      })
-      this.token = data.token
+    async login(params: UserLoginTypesReq) {
+      const data = await userLoginApi(params)
+      const { TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME } = basicConfig
+      const timestamp = utils.dayjs().unix()
+      this.token = {
+        accessToken: data.token.accessToken,
+        refreshToken: data.token.refreshToken,
+        accessExpiresIn: TOKEN_EXPIRE_TIME + timestamp,
+        refreshExpiresIn: REFRESH_TOKEN_EXPIRE_TIME + timestamp,
+      }
       this.getUserInfo()
+    },
+
+    // 获取认证信息
+    getAuthStatus(type: 'access' | 'refresh' = 'access') {
+      const timestamp = utils.dayjs().unix()
+      if (type === 'access') {
+        return this.token.accessExpiresIn > timestamp
+      }
+      return this.token.refreshExpiresIn > timestamp
+    },
+
+    // 刷新token
+    async renewToken() {
+      if (!this.getAuthStatus()) {
+        try {
+          this.token.accessToken = await userRefreshTokenApi({
+            accessToken: this.token.accessToken,
+            refreshToken: this.token.refreshToken,
+          })
+          const { TOKEN_EXPIRE_TIME } = basicConfig
+          const timestamp = utils.dayjs().unix()
+          this.token.accessExpiresIn = TOKEN_EXPIRE_TIME + timestamp
+        } catch (e) {
+          this.signOut()
+          throw new Error('token失效')
+        }
+      }
+    },
+
+    signOut() {
+      this.token = {
+        accessToken: '',
+        refreshToken: '',
+        accessExpiresIn: 0,
+        refreshExpiresIn: 0,
+      }
+      this.userInfo = null
+      useRouter.reLaunch({ name: 'login' })
     },
 
     async getUserInfo() {
@@ -44,7 +94,7 @@ export const useUserStore = defineStore('useUserStore', {
         useRouter.reLaunch({ name: 'login' })
         return
       }
-      this.userInfo = await memberInfoApi()
+      this.userInfo = await userUserInfoApi()
     },
   },
 })

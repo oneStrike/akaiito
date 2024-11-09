@@ -1,5 +1,3 @@
-import type { IterateObject } from '@/types/global'
-
 export const consoleInfo = (
   url: string,
   params: AnyObject | string,

@@ -1,13 +1,6 @@
 import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
 import { Context } from '@midwayjs/koa'
-import {
-  CreateUserDto,
-  RefreshAccessTokenDto,
-  UpdateUserPwd,
-  UserDto,
-  UserLoginDto,
-  UserPageDto,
-} from './dto/user.dto'
+import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto, UserPageDto } from './dto/user.dto'
 import { UserService } from './user.service'
 import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
@@ -42,8 +35,11 @@ export class UserController {
   @Get('/getUserPage', { summary: '获取管理员列表' })
   async getUserPage(@Query() query: UserPageDto) {
     return this.userService.findPage({
-      ...query,
-      fuzzy: ['username', 'mobile'],
+      where: query,
+      like: {
+        username: 'contains',
+        mobile: 'startsWith',
+      },
       omit: {
         password: true,
       },

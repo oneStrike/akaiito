@@ -1,6 +1,6 @@
 export default {
-  key: '8d7e013d-5af0-4ceb-919e-780dea252b66',
-  exclude: [35250369],
+  key: '2222281e-f529-4e28-9ebf-a4b667d2982c',
+  exclude: [23213174],
   typingsPath: 'src/apis/types',
   apiPath: 'src/apis/',
   field: 'data',

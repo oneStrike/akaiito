@@ -19,20 +19,22 @@ export class DictionaryServiceItems extends BasicService<DataDictionaryItems> {
   }
 
   async getItems(items: PrismaFindOptions<DataDictionaryItems>) {
-    return this.findPage({ ...items })
+    return this.findPage({ where: items })
   }
 
   async createItems(items: CreateDictionaryItemsDto) {
     const dict = await this.dictionaryService.findUnique({
-      id: items.dictionaryId,
+      where: { id: items.dictionaryId },
     })
     if (!dict) {
       return this.throwError('暂未查询到对应的数据字典')
     }
     return this.create({
-      ...items,
-      dictionaryName: dict.name,
-      order: await this.getCount(),
+      data: {
+        ...items,
+        dictionaryName: dict.name,
+        order: await this.getCount(),
+      },
     })
   }
 }

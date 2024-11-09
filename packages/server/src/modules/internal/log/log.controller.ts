@@ -9,7 +9,6 @@ export class LogController {
 
   @Get('/getRequestLogs', { summary: '获取请求日志' })
   async getRequestLogs(@Query() query: LogDto) {
-    console.log(query)
-    return await this.logServer.getRequestLogs(query)
+    return await this.logServer.findPage({ where: query, like: { mobile: 'startsWith' } })
   }
 }

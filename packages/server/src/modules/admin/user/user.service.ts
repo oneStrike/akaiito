@@ -36,7 +36,7 @@ export class UserService extends BasicService<AdminUser> {
     if (info.password !== info.confirmPassword) {
       this.throwError('密码不一致')
     }
-    const isExists = await this.exists({
+    const isExists = await this.isExists({
       where: { OR: [{ mobile: info.mobile }, { username: info.username }] },
     })
     this.model.findFirst({ where: {} })
@@ -46,7 +46,7 @@ export class UserService extends BasicService<AdminUser> {
     delete info.confirmPassword
     // 加密密码
     info.password = await utils.encryption(info.password)
-    return this.create(info)
+    return this.create({ data: info })
   }
 
   // 登录
@@ -110,8 +110,10 @@ export class UserService extends BasicService<AdminUser> {
     if (userInfo.id === user.id && type !== 'info') {
       this.throwError('权限不足')
     }
-    console.log(typeof userInfo)
-    const result = await this.update({ where: { id: userInfo.id } }, userInfo)
+    const result = await this.update({
+      where: { id: userInfo.id },
+      data: userInfo,
+    })
     return result?.id || result
   }
 
@@ -135,12 +137,12 @@ export class UserService extends BasicService<AdminUser> {
       this.throwError('原密码错误')
     }
 
-    const result = await this.update(
-      { where: { id: userInfo.id } },
-      {
+    const result = await this.update({
+      where: { id: userInfo.id },
+      data: {
         password: await utils.encryption(userInfo.newPassword),
       },
-    )
+    })
 
     return result?.id || result
   }

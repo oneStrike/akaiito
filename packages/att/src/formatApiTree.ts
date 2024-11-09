@@ -1,4 +1,3 @@
-import type { AsyncFn } from '@auy/types'
 import { generateTypes } from '@/generateTypes'
 import dayjs from 'dayjs'
 
@@ -81,14 +80,11 @@ export async function formatApiTree(
 ) {
   const apiPath: string[] = []
   const apiList: IterateObject = {}
-
-  const { exclude } = config
   const { getApiDetail } = apis
 
   async function formatApi(apis: IterateObject[]) {
-    for (const apisKey in apis) {
-      const { type, folder, children, api } = apis[apisKey]
-      if (exclude.includes(folder?.id)) return
+    for (let i = 0; i < apis.length; i++) {
+      const { type, folder, children, api } = apis[i]
       if (
         type === 'apiDetailFolder' &&
         Array.isArray(children) &&
@@ -138,7 +134,7 @@ export async function formatApiTree(
           name: api.name,
         })
       }
-      if (Number(apisKey) + 1 === apis.length) {
+      if (Number(i) + 1 === apis.length) {
         apiPath.length = 0
       }
     }

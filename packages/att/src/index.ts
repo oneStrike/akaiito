@@ -14,7 +14,13 @@ getConfig().then(async (attConfig) => {
   const dataModel = formatSchema(await apiFoxApi.getSchemas())
   console.log('数据模型生成完毕...')
   console.log('接口生成中...')
-  const apiList = await formatApiTree(await apiFoxApi.getApiTree(), attConfig, apiFoxApi, dataModel)
+  const apiTree = await apiFoxApi.getApiTree()
+  const apiList = await formatApiTree(
+    apiTree.filter((item: any) => !attConfig?.exclude.includes(item.folder.id)),
+    attConfig,
+    apiFoxApi,
+    dataModel,
+  )
 
   for (const apiListKey in apiList) {
     let handlerValue = ''
@@ -33,18 +39,29 @@ getConfig().then(async (attConfig) => {
       typesValue += item.comments + item.types
       console.log(`******************${item.name}********************`)
     }
-    const handlerPrettierValue = await prettier.format(importContent + handlerValue, {
-      parser: 'typescript',
-      ...prettierConfig,
-    })
+    const handlerPrettierValue = await prettier.format(
+      importContent + handlerValue,
+      {
+        parser: 'typescript',
+        ...prettierConfig,
+      },
+    )
     const typesPrettierValue = await prettier.format(typesValue, {
       parser: 'typescript',
       ...prettierConfig,
     })
     // 写入请求文件数据
-    fs.outputFileSync(`${attConfig.apiPath}/${apiListKey}.ts`, handlerPrettierValue, 'utf-8')
+    fs.outputFileSync(
+      `${attConfig.apiPath}/${apiListKey}.ts`,
+      handlerPrettierValue,
+      'utf-8',
+    )
     // 写入请求类型数据
-    fs.outputFileSync(`${attConfig.typingsPath}/${apiListKey}.d.ts`, typesPrettierValue, 'utf-8')
+    fs.outputFileSync(
+      `${attConfig.typingsPath}/${apiListKey}.d.ts`,
+      typesPrettierValue,
+      'utf-8',
+    )
   }
 
   console.log('文件写入完成...')

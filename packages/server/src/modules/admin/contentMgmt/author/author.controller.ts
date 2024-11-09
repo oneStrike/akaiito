@@ -18,24 +18,24 @@ export class AuthorController {
   @Get('/getAuthorPage', { summary: '获取作者分页列表' })
   async getAuthorPage(@Query() query: GetAuthorPageDto) {
     return this.authorService.findPage({
-      ...query,
-      fuzzy: ['name'],
+      where: query,
+      like: { name: 'contains' },
     })
   }
 
   @Post('/createAuthor', { summary: '创建作者' })
   async createAuthor(@Body() body: CreateAuthorDto) {
-    return this.authorService.create(body)
+    return this.authorService.create({ data: body })
   }
 
   @Post('/updateAuthorStatus', { summary: '启用禁用作者' })
   @Post('/updateAuthor', { summary: '更新作者信息' })
   async updateAuthor(@Body() body: AuthorDto | BasicIdStatusDto) {
-    return this.authorService.update({ id: body.id }, body)
+    return this.authorService.update({ where: { id: body.id }, data: body })
   }
 
   @Post('/deleteAuthor', { summary: '更新作者信息' })
   async deleteAuthor(@Body() body: BasicIdDto) {
-    return this.authorService.delete({ id: body.id })
+    return this.authorService.delete({ where: { id: body.id } })
   }
 }
