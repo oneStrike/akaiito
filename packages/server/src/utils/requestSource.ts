@@ -36,3 +36,7 @@ export function isClientRequest(path: string) {
 export function isAdminRequest(path: string) {
   return requestSource(path) === 'admin'
 }
+
+export function isOpenRequest(path: string) {
+  return requestSource(path) === 'open'
+}

@@ -9,7 +9,10 @@ export class HomeController {
   uploadService: UploadService
 
   @Post('/uploadFile', { middleware: [UploadMiddleware] })
-  async upload(@Files() files: Array<UploadFileInfo>, @Fields() fields: Record<string, string>) {
+  async upload(
+    @Files() files: Array<UploadFileInfo>,
+    @Fields() fields: Record<string, string>,
+  ) {
     return this.uploadService.local(files, fields)
   }
 }

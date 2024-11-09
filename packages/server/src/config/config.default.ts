@@ -17,6 +17,7 @@ export default {
     verify: {
       complete: true,
     },
+    whiteList: ['/open/captcha/getCaptcha', '/admin/user/login'],
   },
   cacheManager: {
     clients: {

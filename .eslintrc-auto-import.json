@@ -306,6 +306,9 @@
     "watchThrottled": "readonly",
     "watchTriggerable": "readonly",
     "watchWithFilter": "readonly",
-    "whenever": "readonly"
+    "whenever": "readonly",
+    "DirectiveBinding": "readonly",
+    "MaybeRef": "readonly",
+    "MaybeRefOrGetter": "readonly"
   }
 }

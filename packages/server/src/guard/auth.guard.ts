@@ -1,8 +1,8 @@
-import { Jwt } from '@/modules/internal/authentication/jwt.service'
 import { IGuard, MidwayWebRouterService } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
-import { isAdminRequest } from '@/utils/requestSource'
+import { isAdminRequest, isClientRequest } from '@/utils/requestSource'
 import { Config, Guard, httpError, Inject } from '@midwayjs/core'
+import { JwtService } from '@/basic/service/jwt.service'
 
 @Guard()
 export class AuthGuard implements IGuard<Context> {
@@ -10,36 +10,25 @@ export class AuthGuard implements IGuard<Context> {
   webRouterService: MidwayWebRouterService
 
   @Inject()
-  jwtService: Jwt
+  jwtService: JwtService
 
   @Config('jwt.whiteList')
   whiteList: string[]
 
   async canActivate(ctx: Context) {
-    if (isAdminRequest(ctx.url)) {
-      const refreshToken = ctx.headers.refresh_token as string
-      if (refreshToken && ctx.url.includes('/admin/user/refreshAccessToken')) {
-        const payload = await this.jwtService.verify(refreshToken)
-        if (typeof payload === 'string' || !payload.refresh) throw new Error()
-        this.setUserInfoToCtx(ctx, payload)
-      } else {
-        // 判断下有没有校验信息
-        const permit = this.permit(ctx)
-        if (!ctx.headers.authorization && !permit) {
-          throw new httpError.UnauthorizedError()
-        }
-        if (!permit) {
-          const token = ctx.headers.authorization
-          try {
-            const payload = await this.jwtService.verify(token)
-            if (typeof payload === 'string' || payload.refresh)
-              throw new Error()
-            this.setUserInfoToCtx(ctx, payload)
-          } catch (e) {
-            throw new httpError.UnauthorizedError('登录状态失效')
-          }
-        }
-      }
+    if (this.permit(ctx)) {
+      return true
+    }
+    const token = ctx.headers.authorization
+    const verifyRes = await this.jwtService.verify(token)
+    if (!token || !verifyRes) {
+      throw new httpError.UnauthorizedError()
+    }
+    if (isAdminRequest(ctx.url) && verifyRes.purpose === 'admin') {
+      this.setUserInfoToCtx(ctx, verifyRes)
+    } else if (isClientRequest(ctx.url) && verifyRes.purpose === 'client') {
+    } else {
+      throw new httpError.UnauthorizedError()
     }
 
     return true

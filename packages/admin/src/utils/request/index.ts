@@ -1,5 +1,9 @@
 import type { HttpResponseResult } from '@auy/types'
-import type { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
+import type {
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+} from 'axios'
 import { config } from '@/config'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
@@ -22,7 +26,9 @@ function response(data: any) {
   }
 }
 
-const request: HttpClientOptions['requestInterceptor'] = async (conf): Promise<InternalAxiosRequestConfig> => {
+const request: HttpClientOptions['requestInterceptor'] = async (
+  conf,
+): Promise<InternalAxiosRequestConfig> => {
   const userStore = useUserStore()
   let accessToken = userStore.token.accessToken
   if (!accessToken && !config.auth.httpWhiteList.includes(conf.url || '')) {
@@ -35,7 +41,13 @@ const request: HttpClientOptions['requestInterceptor'] = async (conf): Promise<I
       throw new Error('token过期')
     }
   }
-
+  const cookies = document.cookie.split(';')
+  for (let i = 0; i < cookies.length; i++) {
+    const item = cookies[i]
+    if (item.includes('csrfToken')) {
+      conf.headers['x-csrf-token'] = item.split('=')[1]
+    }
+  }
   conf.headers.authorization = accessToken
   return conf
 }
@@ -52,7 +64,9 @@ interface extended {
   errorMessage?: boolean
 }
 
-export function httpClient<T>(axiosConfig: AxiosRequestConfig & extended): Promise<T> {
+export function httpClient<T>(
+  axiosConfig: AxiosRequestConfig & extended,
+): Promise<T> {
   if (axiosConfig.method?.toLocaleLowerCase() === 'get') {
     return http.get<T>({
       ...axiosConfig,

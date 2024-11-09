@@ -4,13 +4,13 @@ import { App, Inject, Provide } from '@midwayjs/core'
 import { Application } from '@midwayjs/koa'
 import { AdminUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
-import { Jwt } from '../../internal/authentication/jwt.service'
 import {
   CreateUserDto,
   UpdateUserPwd,
   UserDto,
   UserLoginDto,
 } from './dto/user.dto'
+import { JwtService } from '@/basic/service/jwt.service'
 
 @Provide()
 export class UserService extends BasicService<AdminUser> {
@@ -21,7 +21,7 @@ export class UserService extends BasicService<AdminUser> {
   app: Application
 
   @Inject()
-  jwt: Jwt
+  jwt: JwtService
 
   @Inject()
   captchaServer: CaptchaService
@@ -75,10 +75,11 @@ export class UserService extends BasicService<AdminUser> {
         id: userInfo.id,
         username: userInfo.username,
         mobile: userInfo.mobile,
+        purpose: 'admin',
       }),
       refreshToken: await this.jwt.sign(
-        { id: userInfo.id, refresh: true },
-        { expiresIn: 1000 * 60 * 60 * 24 * 2 },
+        { id: userInfo.id, refresh: true, purpose: 'admin' },
+        '2d',
       ),
     }
 
@@ -145,10 +146,14 @@ export class UserService extends BasicService<AdminUser> {
 
   async refreshAccessToken(token: string, userInfo: UserDto) {
     const accessToken = await this.jwt.verify(token)
+    if (!accessToken) {
+      this.throwError('token过期')
+      return
+    }
     if (typeof accessToken === 'string' || accessToken.id !== userInfo.id) {
       this.throwError('权限不足')
     }
-    return await this.jwt.sign({ id: userInfo.id })
+    return await this.jwt.sign({ id: userInfo.id, purpose: 'admin' })
   }
 
   // 比对密码
