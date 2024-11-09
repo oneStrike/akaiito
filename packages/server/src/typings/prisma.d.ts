@@ -8,7 +8,7 @@ export type PrismaInstanceModel = {
   deletedAt?: any
 }
 type ExtendProperty<T> = {
-  [P in keyof T]: T[P] | { in: T[P][] } | { gte: string }
+  [P in keyof T]: T[P] | { in: T[P][] } | { gte: T[P] } | { lte: T[P] }
 }
 
 export type WhereOptions<T> = Partial<ExtendProperty<T>> & {
