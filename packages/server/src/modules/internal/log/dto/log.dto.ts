@@ -10,7 +10,7 @@ export class LogDto extends BasicPageDto {
   statusCode?: number
 
   @Rule(validateString)
-  path?: number
+  path?: string
 
   @Rule(validateString)
   mobile?: string

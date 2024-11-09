@@ -3,27 +3,29 @@ import { BasicOrderDto, BasicPageDto } from '@/basic/dto/basic.dto'
 export type PrismaInstanceModel = {
   id?: number
   order?: number
-  createdAt?: Date
-  updatedAt?: Date
-  deletedAt?: Date
+  createdAt?: any
+  updatedAt?: any
+  deletedAt?: any
+}
+type ExtendProperty<T> = {
+  [P in keyof T]: T[P] | { in: T[P][] } | { gte: string }
 }
 
-export type WhereOptions<T extends PrismaInstanceModel> = {
-  id?: number | IterateObject
-  AND?: Partial<T> | Partial<T>[]
-  OR?: Partial<T>[]
-  NOT?: Partial<T> | Partial<T>[]
+export type WhereOptions<T> = Partial<ExtendProperty<T>> & {
+  AND?: Partial<ExtendProperty<T>> | Partial<ExtendProperty<T>>[]
+  OR?: Partial<ExtendProperty<T>>[]
+  NOT?: Partial<ExtendProperty<T>> | Partial<ExtendProperty<T>>[]
 }
 
-export type PrismaGetCountOptions<T extends PrismaInstanceModel> = {
+export type PrismaGetCountOptions<T> = {
   where: WhereOptions<T>
 }
 
-export type PrismaIsExistsOptions<T extends PrismaInstanceModel> = {
-  where: WhereOptions<T>
+export type PrismaIsExistsOptions<T> = {
+  where: WhereOptions<Partial<T>>
 }
 
-export type PrismaCreateOptions<T extends PrismaInstanceModel> = {
+export type PrismaCreateOptions<T> = {
   data: Partial<T>
   select?: {
     [P in keyof T]?: boolean
@@ -33,7 +35,7 @@ export type PrismaCreateOptions<T extends PrismaInstanceModel> = {
   }
 }
 
-export type PrismaUpdateOptions<T extends PrismaInstanceModel> = {
+export type PrismaUpdateOptions<T> = {
   where: WhereOptions<T>
   data: Partial<T>
   select?: {
@@ -44,7 +46,7 @@ export type PrismaUpdateOptions<T extends PrismaInstanceModel> = {
   }
 }
 
-export type PrismaUpsertOptions<T extends PrismaInstanceModel> = {
+export type PrismaUpsertOptions<T> = {
   where: WhereOptions<T>
   create: Partial<T>
   update: Partial<T>
@@ -56,21 +58,21 @@ export type PrismaUpsertOptions<T extends PrismaInstanceModel> = {
   }
 }
 
-export type PrismaUpsertBatchOptions<T extends PrismaInstanceModel> = {
+export type PrismaUpsertBatchOptions<T> = {
   where: WhereOptions<T>
   data: Partial<T>
 }
 
 export type PrismaUpdateOrderOptions = BasicOrderDto
 
-export type PrismaDeleteOptions<T extends PrismaInstanceModel> = {
+export type PrismaDeleteOptions<T> = {
   where: WhereOptions<T>
   select?: {
     [P in keyof T]?: boolean
   }
 }
 
-export type PrismaFindUniqueOptions<T extends PrismaInstanceModel> = {
+export type PrismaFindUniqueOptions<T> = {
   where: WhereOptions<T>
   select?: {
     [P in keyof T]?: boolean
@@ -80,7 +82,7 @@ export type PrismaFindUniqueOptions<T extends PrismaInstanceModel> = {
   }
 }
 
-export type PrismaFindPageOptions<T extends PrismaInstanceModel> = {
+export type PrismaFindPageOptions<T> = {
   where: WhereOptions<T> & BasicPageDto & IterateObject
   like?: {
     [P in keyof T]?: 'contains' | 'startsWith' | 'endsWith'

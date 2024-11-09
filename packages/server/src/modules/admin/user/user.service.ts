@@ -1,7 +1,6 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
-import { App, httpError, Inject, Provide } from '@midwayjs/core'
-import { Application } from '@midwayjs/koa'
+import {  httpError, Inject, Provide } from '@midwayjs/core'
 import { AdminUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
 import {
@@ -17,9 +16,6 @@ import { JwtService } from '@/basic/service/jwt.service'
 export class UserService extends BasicService<AdminUser> {
   @Inject()
   prismaClient: PrismaClient
-
-  @App()
-  app: Application
 
   @Inject()
   jwt: JwtService
@@ -51,10 +47,7 @@ export class UserService extends BasicService<AdminUser> {
 
   // 登录
   async login(info: UserLoginDto) {
-    if (
-      (await this.captchaServer.verifyCaptcha(info.captchaId, info.captcha)) &&
-      this.app.getEnv() === 'prod'
-    ) {
+    if ((await this.captchaServer.verifyCaptcha(info.captchaId, info.captcha)) && this.app.getEnv() === 'prod') {
       this.throwError('验证码错误')
     }
     const userInfo = await this.model.findUnique({

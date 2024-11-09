@@ -1,10 +1,9 @@
-import { PrismaFindOptions } from '@/typings/service/base.service'
-
 import type { DataDictionaryItems, PrismaClient } from '@prisma/client'
 import { DictionaryService } from './dictionary.service'
 import { CreateDictionaryItemsDto } from './dto/dictionary.dto'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
+import { PrismaFindPageOptions } from '@/typings/prisma'
 
 @Provide()
 export class DictionaryServiceItems extends BasicService<DataDictionaryItems> {
@@ -18,8 +17,8 @@ export class DictionaryServiceItems extends BasicService<DataDictionaryItems> {
     return this.prismaClient.dataDictionaryItems
   }
 
-  async getItems(items: PrismaFindOptions<DataDictionaryItems>) {
-    return this.findPage({ where: items })
+  async getItems(items: PrismaFindPageOptions<DataDictionaryItems>) {
+    return this.findPage(items)
   }
 
   async createItems(items: CreateDictionaryItemsDto) {

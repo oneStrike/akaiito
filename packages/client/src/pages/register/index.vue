@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { v3RegisterApi } from '@/apis/v3'
 import { useRouter } from '@/hooks/useRouter'
 import { useUserStore } from '@/stores/modules/user'
 import { userCreateClientUserApi } from '@/apis/user'
@@ -62,10 +61,7 @@ const signUp = async () => {
 
 <template>
   <view>
-    <image
-      src="../../static/images/loginHead.png"
-      class="w-full h-360rpx fixed left-0 top-0"
-    />
+    <image src="../../static/images/loginHead.png" class="w-full h-360rpx fixed left-0 top-0" />
     <view class="top-24 relative z-1 px-6">
       <view class="mb-8">
         <es-text text="现在开始" block bold class="mb-2" size="2xl" />
@@ -74,35 +70,15 @@ const signUp = async () => {
       <view class="mb-7">
         <es-text text="账号" block class="mb-3" />
         <view class="flex items-center rounded-lg p-3 bg-slate-50">
-          <es-icons
-            name="user"
-            class="shrink-0 mr-2"
-            color="placeholder"
-            size="2xl"
-          />
-          <input
-            v-model="formData.username"
-            type="text"
-            placeholder="请输入账号"
-            class="flex-1"
-          />
+          <es-icons name="user" class="shrink-0 mr-2" color="placeholder" size="2xl" />
+          <input v-model="formData.username" type="text" placeholder="请输入账号" class="flex-1" />
         </view>
       </view>
       <view class="mb-7">
         <es-text text="密码" block class="mb-3" />
         <view class="flex items-center rounded-lg p-3 bg-slate-50">
-          <es-icons
-            name="lock"
-            class="shrink-0 mr-2"
-            color="placeholder"
-            size="2xl"
-          />
-          <input
-            v-model="formData.password"
-            placeholder="请输入密码"
-            class="flex-1"
-            :password="passwordType"
-          />
+          <es-icons name="lock" class="shrink-0 mr-2" color="placeholder" size="2xl" />
+          <input v-model="formData.password" placeholder="请输入密码" class="flex-1" :password="passwordType" />
           <es-icons
             class="ml-4"
             :name="passwordType ? 'watchOff' : 'watch'"
@@ -114,12 +90,7 @@ const signUp = async () => {
       <view class="mb-3">
         <es-text text="确认密码" block class="mb-3" />
         <view class="flex items-center rounded-lg p-3 bg-slate-50">
-          <es-icons
-            name="lock"
-            class="shrink-0 mr-2"
-            color="placeholder"
-            size="2xl"
-          />
+          <es-icons name="lock" class="shrink-0 mr-2" color="placeholder" size="2xl" />
           <input
             v-model="formData.confirmPassword"
             placeholder="请输入确认密码"
@@ -134,15 +105,10 @@ const signUp = async () => {
           />
         </view>
       </view>
-      <view class="mb-10 flex bg-red">
+      <view class="mb-10 flex">
         <checkbox :checked="agree" class="scale-70" />
         <view>
-          <es-text
-            text="我以阅读并同意"
-            size="xs"
-            color="minor"
-            @click="agree = !agree"
-          />
+          <es-text text="我以阅读并同意" size="xs" color="minor" @click="agree = !agree" />
           <es-text text="《用户协议》" color="primary" size="xs" />
           <es-text text="《隐私协议》" color="primary" size="xs" />
         </view>
@@ -152,12 +118,7 @@ const signUp = async () => {
     </view>
     <view class="fixed bottom-50rpx left-1/2 -translate-x-1/2">
       <es-text text="已经拥有账号？" color="info" size="sm" />
-      <es-text
-        text="登录"
-        color="primary"
-        size="sm"
-        @click="useRouter.navigateTo({ name: 'login' })"
-      />
+      <es-text text="登录" color="primary" size="sm" @click="useRouter.navigateTo({ name: 'login' })" />
     </view>
   </view>
 </template>

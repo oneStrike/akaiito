@@ -32,8 +32,11 @@ export class DictionaryController {
   @Get('/getDataDictionaryItems', { summary: '获取数据字典子项列表' })
   async getDataDictionaryItems(@Query() query: FindDictionItemsDto) {
     return this.dictionaryItemsService.getItems({
-      ...query,
-      fuzzy: ['name', 'code'],
+      where: query,
+      like: {
+        name: 'contains',
+        code: 'contains',
+      },
     })
   }
 
@@ -77,7 +80,7 @@ export class DictionaryController {
   @Post('/updateDataDictionaryStatus', { summary: '更新数据字典状态' })
   async updateDataDictionaryStatus(@Body() body: BasicIdsStatusDto) {
     return this.dictionaryService.updateBatch({
-      where: { id: body.ids },
+      where: { id: { in: body.ids } },
       data: { status: body.status },
     })
   }
