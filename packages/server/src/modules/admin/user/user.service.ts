@@ -1,11 +1,12 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
-import { App, Inject, Provide } from '@midwayjs/core'
+import { App, httpError, Inject, Provide } from '@midwayjs/core'
 import { Application } from '@midwayjs/koa'
 import { AdminUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
 import {
   CreateUserDto,
+  RefreshAccessTokenDto,
   UpdateUserPwd,
   UserDto,
   UserLoginDto,
@@ -144,16 +145,15 @@ export class UserService extends BasicService<AdminUser> {
     return result?.id || result
   }
 
-  async refreshAccessToken(token: string, userInfo: UserDto) {
-    const accessToken = await this.jwt.verify(token)
-    if (!accessToken) {
-      this.throwError('token过期')
-      return
+  async refreshAccessToken({
+    accessToken,
+    refreshToken,
+  }: RefreshAccessTokenDto) {
+    const newToken = await this.jwt.renewToken(accessToken, refreshToken)
+    if (!newToken) {
+      throw new httpError.UnauthorizedError()
     }
-    if (typeof accessToken === 'string' || accessToken.id !== userInfo.id) {
-      this.throwError('权限不足')
-    }
-    return await this.jwt.sign({ id: userInfo.id, purpose: 'admin' })
+    return newToken
   }
 
   // 比对密码

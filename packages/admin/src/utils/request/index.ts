@@ -4,10 +4,10 @@ import type {
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from 'axios'
-import { config } from '@/config'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
 import { HttpClient, type HttpClientOptions } from '@/utils/request/request'
+import { config } from '@/config'
 
 function responseError(err: AxiosError) {
   useMessage.error(err.message || '未知错误')
@@ -30,17 +30,12 @@ const request: HttpClientOptions['requestInterceptor'] = async (
   conf,
 ): Promise<InternalAxiosRequestConfig> => {
   const userStore = useUserStore()
-  let accessToken = userStore.token.accessToken
-  if (!accessToken && !config.auth.httpWhiteList.includes(conf.url || '')) {
-    try {
-      await userStore.refreshAccessToken()
-      accessToken = userStore.token.accessToken
-    } catch (e) {
-      console.log(e)
-      await useRouter().replace({ name: 'Login' })
-      throw new Error('token过期')
-    }
+  if (!config.auth.httpWhiteList.includes(conf.url as string)) {
+    await userStore.renewToken()
   }
+
+  const accessToken = userStore.token.accessToken
+
   const cookies = document.cookie.split(';')
   for (let i = 0; i < cookies.length; i++) {
     const item = cookies[i]

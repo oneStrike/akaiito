@@ -43,7 +43,7 @@ async function login() {
     try {
       submitLoading.value = true
       loginForm.captchaId = captchaInfo.value.id
-      const loginRes = await loginApi(loginForm)
+      await userStore.signIn(loginForm)
       if (isRememberAccount.value) {
         storageAccount.value = {
           mobile: loginForm.mobile,
@@ -53,7 +53,6 @@ async function login() {
       } else {
         storageAccount.value = {}
       }
-      userStore.setAuth(loginRes)
       router.replace({ name: 'Dashboard' })
     } catch (e) {
       console.log(e)

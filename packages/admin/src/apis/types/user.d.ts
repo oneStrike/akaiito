@@ -266,12 +266,15 @@ export interface LoginTypesRes {
  *  @标签 管理端/用户/刷新accessToken
  *  @方式 POST
  *  @地址 /admin/user/refreshAccessToken
- *  @更新时间 2023-12-16 23:32:51
+ *  @更新时间 2024-11-09 14:07:28
  */
 
 export interface RefreshAccessTokenTypesReq {
   /* accessToken */
   accessToken: string
+
+  /* refreshToken */
+  refreshToken: string
 }
 
 /* accessToken */

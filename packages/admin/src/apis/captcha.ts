@@ -13,5 +13,6 @@ export const getCaptchaApi = (): Promise<GetCaptchaTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/open/captcha/getCaptcha',
+    header: {},
   })
 }

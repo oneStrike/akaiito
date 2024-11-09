@@ -262,7 +262,7 @@ export interface UpdateDataDictionaryItemsTypesReq {
 }
 
 /*  */
-export type UpdateDataDictionaryItemsTypesRes = undefined
+export type UpdateDataDictionaryItemsTypesRes = any
 
 /**
  *  接口 [更新数据字典状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691434)

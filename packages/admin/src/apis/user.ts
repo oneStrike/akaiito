@@ -32,6 +32,7 @@ export const getUserPageApi = (params: GetUserPageTypesReq): Promise<GetUserPage
   return httpClient({
     method: 'GET',
     url: '/admin/user/getUserPage',
+    header: {},
     params,
   })
 }
@@ -48,6 +49,7 @@ export const getUserInfoApi = (params: GetUserInfoTypesReq): Promise<GetUserInfo
   return httpClient({
     method: 'GET',
     url: '/admin/user/getUserInfo',
+    header: {},
     params,
   })
 }
@@ -64,6 +66,9 @@ export const createAdminUserApi = (data: CreateAdminUserTypesReq): Promise<Creat
   return httpClient({
     method: 'POST',
     url: '/admin/user/createAdminUser',
+    header: {
+      'Content-Type': 'application/json',
+    },
     data,
   })
 }
@@ -80,6 +85,9 @@ export const updateAdminUserInfoApi = (data: UpdateAdminUserInfoTypesReq): Promi
   return httpClient({
     method: 'POST',
     url: '/admin/user/updateAdminUserInfo',
+    header: {
+      'Content-Type': 'application/json',
+    },
     data,
   })
 }
@@ -98,6 +106,9 @@ export const updateAdminUserStatusApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/user/updateAdminUserStatus',
+    header: {
+      'Content-Type': 'application/json',
+    },
     data,
   })
 }
@@ -116,6 +127,9 @@ export const updateAdminUserPasswordApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/user/updateAdminUserPassword',
+    header: {
+      'Content-Type': 'application/json',
+    },
     data,
   })
 }
@@ -132,6 +146,9 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
   return httpClient({
     method: 'POST',
     url: '/admin/user/login',
+    header: {
+      'Content-Type': 'application/json',
+    },
     data,
   })
 }
@@ -141,13 +158,16 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
  *  @标签 管理端/用户/刷新accessToken
  *  @方式 POST
  *  @地址 /admin/user/refreshAccessToken
- *  @更新时间 2023-12-16 23:32:51
+ *  @更新时间 2024-11-09 14:07:28
  */
 
 export const refreshAccessTokenApi = (data: RefreshAccessTokenTypesReq): Promise<RefreshAccessTokenTypesRes> => {
   return httpClient({
     method: 'POST',
     url: '/admin/user/refreshAccessToken',
+    header: {
+      'Content-Type': 'application/json',
+    },
     data,
   })
 }
@@ -164,6 +184,9 @@ export const deleteAdminUserApi = (data: DeleteAdminUserTypesReq): Promise<Delet
   return httpClient({
     method: 'POST',
     url: '/admin/user/deleteAdminUser',
+    header: {
+      'Content-Type': 'application/json',
+    },
     data,
   })
 }

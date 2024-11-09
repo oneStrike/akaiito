@@ -9,7 +9,7 @@
 export interface GetLogsTypesReq {}
 
 /*  */
-export type GetLogsTypesRes = undefined
+export type GetLogsTypesRes = any
 
 /**
  *  接口 [获取请求日志](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-141609528)

@@ -1,6 +1,13 @@
 import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
 import { Context } from '@midwayjs/koa'
-import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto, UserPageDto } from './dto/user.dto'
+import {
+  CreateUserDto,
+  RefreshAccessTokenDto,
+  UpdateUserPwd,
+  UserDto,
+  UserLoginDto,
+  UserPageDto,
+} from './dto/user.dto'
 import { UserService } from './user.service'
 import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
@@ -72,9 +79,7 @@ export class UserController {
   }
 
   @Post('/refreshAccessToken', { summary: '刷新accessToken' })
-  @UserInfo()
-  async refreshAccessToken(@Body() body: RefreshAccessTokenDto): Promise<string> {
-    const userInfo = this.ctx.getAttr('userInfo') as UserDto
-    return this.userService.refreshAccessToken(body.accessToken, userInfo)
+  async refreshAccessToken(@Body() body: RefreshAccessTokenDto) {
+    return this.userService.refreshAccessToken(body)
   }
 }

@@ -75,4 +75,7 @@ export class UserPageDto extends BasicPageDto {
 export class RefreshAccessTokenDto {
   @Rule(requiredString)
   accessToken: string
+
+  @Rule(requiredString)
+  refreshToken: string
 }

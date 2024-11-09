@@ -13,6 +13,9 @@ export const uploadFileApi = (data: UploadFileTypesReq): Promise<UploadFileTypes
   return httpClient({
     method: 'POST',
     url: '/common/upload/uploadFile',
+    header: {
+      'Content-Type': 'multipart/form-data',
+    },
     data,
   })
 }

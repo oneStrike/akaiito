@@ -25,6 +25,9 @@ export interface GetCategoryPageTypesRes {
     /* 分类名称 */
     name: string
 
+    /* 分类图标 */
+    icon: string
+
     /* 分类热度 */
     hot: number
 
@@ -83,6 +86,9 @@ export interface CreateCategoryTypesReq {
   /* 分类名称 */
   name: string
 
+  /* 分类图标 */
+  icon: string
+
   /* 辅助分类热度 */
   auxiliaryHot: number
 
@@ -117,6 +123,9 @@ export interface UpdateCategoryTypesReq {
   /* 分类名称 */
   name: string
 
+  /* 分类图标 */
+  icon: string
+
   /* 辅助分类热度 */
   auxiliaryHot: number
 
@@ -147,6 +156,9 @@ export type UpdateCategoryTypesRes = number
 export interface UpdateCategoryStatusTypesReq {
   /* 主键id */
   id: number
+
+  /* 分类图标 */
+  icon: string
 
   /* 状态 1：正常 0：禁用 */
   status: number

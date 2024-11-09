@@ -15,17 +15,7 @@ export const guard = function (router: Router) {
       return true
     }
 
-    const userStore = useUserStore()
-    // 获取用户 token 的状态
-    let authStatus = userStore.getAuth('access')
-    if (!authStatus) {
-      await userStore.refreshAccessToken()
-      authStatus = userStore.getAuth('access')
-      // 如果目标路由不是登录页且用户未登录，跳转到登录页
-      if (!authStatus) {
-        return { path: '/login', replace: true }
-      }
-    }
+    await useUserStore().renewToken()
     return true
   })
 
