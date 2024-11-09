@@ -3,7 +3,7 @@ import type { MidwayHttpError } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { LogService } from '@/modules/internal/log/log.service'
 import { Catch } from '@midwayjs/core'
-import { prismaErrorMessage } from '@/prisma/utils/errorMessage'
+import { prismaErrorMessage } from '@/prisma/errorMessage'
 
 @Catch()
 export class ExceptionFilter {

@@ -14,7 +14,6 @@ export class RegisterPrisma {
         { level: 'error', emit: 'event' },
       ],
     })
-
     container.registerObject('prismaClient', prisma)
   }
 }

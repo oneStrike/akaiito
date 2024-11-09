@@ -129,7 +129,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'desc',
+    field: 'remark',
     component: 'Textarea',
     props: {
       label: '描述信息',

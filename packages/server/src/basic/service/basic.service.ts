@@ -178,7 +178,6 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
       }
       delete options.like
     }
-    console.log(options)
     // 并行查询总数和数据
     const [total, record] = await Promise.all([this.getCount({ where: options.where }), this.model.findMany(options)])
     return {
