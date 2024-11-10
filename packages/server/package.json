@@ -31,6 +31,7 @@
   "dependencies": {
     "@auy/types": "workspace:*",
     "@auy/utils": "workspace:*",
+    "@midwayjs/axios": "^3.19.0",
     "@midwayjs/bootstrap": "^3.18.2",
     "@midwayjs/busboy": "^3.18.2",
     "@midwayjs/cache-manager": "^3.18.2",

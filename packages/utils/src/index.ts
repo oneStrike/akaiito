@@ -1,4 +1,3 @@
-// @ts-expect-error ignore
 import _ from 'lodash'
 import { downloadBlob } from './downloadBlob'
 import { fillFormOptions } from './fillFormOptions'

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@types/lodash':
+        specifier: ^4.17.12
+        version: 4.17.12
       dayjs:
         specifier: ^1.11.13
         version: 1.11.13
@@ -390,6 +393,9 @@ importers:
       '@auy/utils':
         specifier: workspace:*
         version: link:../utils
+      '@midwayjs/axios':
+        specifier: ^3.19.0
+        version: 3.19.0
       '@midwayjs/bootstrap':
         specifier: ^3.18.2
         version: 3.18.2
@@ -402,9 +408,6 @@ importers:
       '@midwayjs/captcha':
         specifier: 3.18.0
         version: 3.18.0
-      '@midwayjs/casbin':
-        specifier: ^3.18.2
-        version: 3.18.2
       '@midwayjs/core':
         specifier: ^3.18.0
         version: 3.18.0
@@ -423,9 +426,6 @@ importers:
       '@midwayjs/logger':
         specifier: ^3.4.2
         version: 3.4.2
-      '@midwayjs/passport':
-        specifier: ^3.18.2
-        version: 3.18.2
       '@midwayjs/security':
         specifier: ^3.18.2
         version: 3.18.2
@@ -450,9 +450,6 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
-      passport-jwt:
-        specifier: ^4.0.1
-        version: 4.0.1
       yaml:
         specifier: ^2.6.0
         version: 2.6.0
@@ -481,9 +478,6 @@ importers:
       '@types/node':
         specifier: ^20.16.13
         version: 20.16.13
-      '@types/passport-jwt':
-        specifier: ^4.0.1
-        version: 4.0.1
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -3100,6 +3094,10 @@ packages:
     resolution: {integrity: sha512-mZ9VyCKlX5oR5L9G0/Jsoex+LOIpqg2gsHrr6iYRMirMaRD3S5pHDvWhSrpHPuLqyoxsAHBdszSTkpWaQAy2rg==}
     engines: {node: '>=12.17.0'}
 
+  '@midwayjs/axios@3.19.0':
+    resolution: {integrity: sha512-dEHoqqCnTYOmejRDZTM4rZyQTlXUWb9DtwiJOMaGOZ8XoRvHaZ6TSTO5cc1zzTk5PyL0sJ3rzcYDaPMR3RVMfA==}
+    engines: {node: '>=12'}
+
   '@midwayjs/bootstrap@3.18.2':
     resolution: {integrity: sha512-DWMZ3Hl/iHUsuWESPkZHKdMyoPzgG9IHjjpiHeEHjnCYc1lgBSpRbD5ZSVK3wzvyn0yHqaWFIgsS3EB/6dDJPg==}
     engines: {node: '>=12.11.0'}
@@ -3114,10 +3112,6 @@ packages:
 
   '@midwayjs/captcha@3.18.0':
     resolution: {integrity: sha512-zhG3tMbGowIVwleeVS6MRJ5LiRO6tXYb2x3oxHjvaEatir9bkXU/wW9g/aC7WjclWGd43YTU2VdRjiJTj1Of5w==}
-    engines: {node: '>=12'}
-
-  '@midwayjs/casbin@3.18.2':
-    resolution: {integrity: sha512-2zCcQXsrqu+om1yehyor3eOHAmAiCtsiF4UXULj11WZBnShZNjmZezIKdtliVoBvKh2KFhoXOPQG1vZVNueJYg==}
     engines: {node: '>=12'}
 
   '@midwayjs/cli-plugin-build@2.1.0':
@@ -3205,9 +3199,6 @@ packages:
   '@midwayjs/mock@3.18.2':
     resolution: {integrity: sha512-wK6VH7hvoKRCVTghS+1/+KZVDfRmYmMKGw/TXY49oWYscU6h8O1YOVPJZXLVPDpem2O/KHggcysR2O3JpKyINQ==}
     engines: {node: '>=12'}
-
-  '@midwayjs/passport@3.18.2':
-    resolution: {integrity: sha512-YXQ9YsaPcE/4aSJbSBM/HqjpZ9qDSXY9cdlQvgaj5z9SW8AyX/VjN836SDWLyq9w8EtV9RUpv/Kf4uYqAcbHwA==}
 
   '@midwayjs/security@3.18.2':
     resolution: {integrity: sha512-RGYG8Qcmb2CfLTnVo06P1zNwP8T820mB6bjkd/AaSvLaM9ARSaBcvYdQnAOd0FCxu/FSLMonhqhLXJWC8fgSrw==}
@@ -3965,15 +3956,6 @@ packages:
 
   '@types/opencc-js@1.0.3':
     resolution: {integrity: sha512-TENp7YkI2hNlc4dplhivSHj0hU4DORCK56VY7rniaSfA5f87uD3uv+kPIRuH9h64TGv976iVFi4gEHZZtS2y8Q==}
-
-  '@types/passport-jwt@4.0.1':
-    resolution: {integrity: sha512-Y0Ykz6nWP4jpxgEUYq8NoVZeCQPo1ZndJLfapI249g1jHChvRfZRO/LS3tqu26YgAS/laI1qx98sYGz0IalRXQ==}
-
-  '@types/passport-strategy@0.2.38':
-    resolution: {integrity: sha512-GC6eMqqojOooq993Tmnmp7AUTbbQSgilyvpCYQjT+H6JfG/g6RGc7nXEniZlp0zyKJ0WUdOiZWLBZft9Yug1uA==}
-
-  '@types/passport@1.0.17':
-    resolution: {integrity: sha512-aciLyx+wDwT2t2/kJGJR2AEeBz0nJU4WuRX04Wu9Dqc5lSUtwu0WERPHYsLhF9PtseiAMPBGNUOtFjxZ56prsg==}
 
   '@types/qs@6.9.16':
     resolution: {integrity: sha512-7i+zxXdPD0T4cKDuxCUXJ4wHcsJLwENa6Z3dCu8cfCK743OGy5Nu1RmAGqDPsoTDINVEcdXKRvR/zre+P2Ku1A==}
@@ -4922,9 +4904,6 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
 
-  await-lock@2.2.2:
-    resolution: {integrity: sha512-aDczADvlvTGajTDjcjpJMqRkOF6Qdz3YbPZm/PyW6tKPkx2hlYBzxMhEywM/tU72HrVZjgl5VCdRuMlA7pZ8Gw==}
-
   aws-sign2@0.7.0:
     resolution: {integrity: sha512-08kcGqnYf/YmjoRhfxyu+CLxBjUtHLXLXX/vUfx9l2LYzG3c1m61nrpyFUZI6zeS+Li/wWMMidD9KgrqtGq3mA==}
 
@@ -5415,9 +5394,6 @@ packages:
   caniuse-lite@1.0.30001676:
     resolution: {integrity: sha512-Qz6zwGCiPghQXGJvgQAem79esjitvJ+CxSbSQkW9H/UX5hg8XM88d4lp2W+MEQ81j+Hip58Il+jGVdazk1z9cw==}
 
-  casbin@5.31.0:
-    resolution: {integrity: sha512-hA3be1bCfZEg4/uNOBw/fAJghEzU1YKODT9lIP5y50puyQwzRF5re1wztSP/fPdv8602z3sWBCdAcMZpkQuYAw==}
-
   caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
 
@@ -5848,9 +5824,6 @@ packages:
 
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
-
-  csv-parse@5.5.6:
-    resolution: {integrity: sha512-uNpm30m/AGSkLxxy7d9yRXpJQFrZzVWLFBkS+6ngPcZkw/5k3L/jjFuj7tVnEpRn+QgmiXr21nDlhCiUK4ij2A==}
 
   cwise-compiler@1.1.3:
     resolution: {integrity: sha512-WXlK/m+Di8DMMcCjcWr4i+XzcQra9eCdXIJrgh4TUgh0pIS/yJduLxS9JgefsHJ/YVLdgPtXm9r62W92MvanEQ==}
@@ -6636,10 +6609,6 @@ packages:
   express@4.21.1:
     resolution: {integrity: sha512-YSFlK1Ee0/GC8QaO91tHcDxJiE/X4FbpAyQWkxAvG6AXCuR65YzK8ua6D9hvi/TzUfZMpc+BwuM1IPw8fmQBiQ==}
     engines: {node: '>= 0.10.0'}
-
-  expression-eval@5.0.1:
-    resolution: {integrity: sha512-7SL4miKp19lI834/F6y156xlNg+i9Q41tteuGNCq9C06S78f1bm3BXuvf0+QpQxv369Pv/P2R7Hb17hzxLpbDA==}
-    deprecated: The expression-eval npm package is no longer maintained. The package was originally published as part of a now-completed personal project, and I do not have incentives to continue maintenance.
 
   ext-list@2.2.2:
     resolution: {integrity: sha512-u+SQgsubraE6zItfVA0tBuCBhfU9ogSRnsvygI7wht9TS510oLkBRXBsqopeUG/GBOIQyKZO9wjTqIu/sf5zFA==}
@@ -7706,10 +7675,6 @@ packages:
     resolution: {integrity: sha512-Hicd6JK5Njt2QB6XYFS7ok9e37O8AYk3jTcppG4YVQnYjOemymvTcmc7OWsmq/Qqj5TdRFO5/x/tIPmBeRtGHg==}
     engines: {node: '>=12.0.0'}
 
-  jsep@0.3.5:
-    resolution: {integrity: sha512-AoRLBDc6JNnKjNcmonituEABS5bcfqDhQAWWXNTFrqu6nVXBpBAGfcoTGZMFlIrh9FjmE1CQyX9CTNwZrXMMDA==}
-    engines: {node: '>= 6.0.0'}
-
   jsesc@0.5.0:
     resolution: {integrity: sha512-uZz5UnB7u4T9LvwmFqXii7pZSouaRPorGs5who1Ip7VO0wxanFvBL7GkM6dTHlgX+jhBApRetaWpnDabOeTcnA==}
     hasBin: true
@@ -8370,10 +8335,6 @@ packages:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
 
-  minimatch@7.4.6:
-    resolution: {integrity: sha512-sBz8G/YjVniEz6lKPNpKxXwazJe4c19fEfV2GDMX6AjFz+MX9uDWIZW8XreVhkFW3fkIdTv/gxWr/Kks5FFAVw==}
-    engines: {node: '>=10'}
-
   minimatch@8.0.4:
     resolution: {integrity: sha512-W0Wvr9HyFXZRGIDgCicunpQ299OKXs9RgZfaukz4qAW/pJhcpUfupc9c+OObPOFueNy8VSrZgEmDtk6Kh4WzDA==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -8822,13 +8783,6 @@ packages:
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
-
-  passport-jwt@4.0.1:
-    resolution: {integrity: sha512-UCKMDYhNuGOBE9/9Ycuoyh7vP6jpeTp/+sfMJl7nLff/t6dps+iaeE0hhNkKN8/HZHcJ7lCdOyDxHdDoxoSvdQ==}
-
-  passport-strategy@1.0.0:
-    resolution: {integrity: sha512-CB97UUvDKJde2V0KDWWB3lyf6PC3FaZP7YxZ2G8OAtn9p4HI9j9JLP9qjOGZFvyl8uwNT8qM+hGnz/n16NI7oA==}
-    engines: {node: '>= 0.4.0'}
 
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
@@ -14928,6 +14882,12 @@ snapshots:
 
   '@midwayjs/async-hooks-context-manager@3.18.0': {}
 
+  '@midwayjs/axios@3.19.0':
+    dependencies:
+      axios: 1.7.7
+    transitivePeerDependencies:
+      - debug
+
   '@midwayjs/bootstrap@3.18.2':
     dependencies:
       '@midwayjs/async-hooks-context-manager': 3.18.0
@@ -14950,10 +14910,6 @@ snapshots:
       mini-svg-data-uri: 1.4.4
       nanoid: 3.3.7
       svg-captcha: 1.4.0
-
-  '@midwayjs/casbin@3.18.2':
-    dependencies:
-      casbin: 5.31.0
 
   '@midwayjs/cli-plugin-build@2.1.0':
     dependencies:
@@ -15131,8 +15087,6 @@ snapshots:
       supertest: 6.3.3
     transitivePeerDependencies:
       - supports-color
-
-  '@midwayjs/passport@3.18.2': {}
 
   '@midwayjs/security@3.18.2':
     dependencies:
@@ -15804,20 +15758,6 @@ snapshots:
   '@types/normalize-package-data@2.4.4': {}
 
   '@types/opencc-js@1.0.3': {}
-
-  '@types/passport-jwt@4.0.1':
-    dependencies:
-      '@types/jsonwebtoken': 9.0.7
-      '@types/passport-strategy': 0.2.38
-
-  '@types/passport-strategy@0.2.38':
-    dependencies:
-      '@types/express': 5.0.0
-      '@types/passport': 1.0.17
-
-  '@types/passport@1.0.17':
-    dependencies:
-      '@types/express': 5.0.0
 
   '@types/qs@6.9.16': {}
 
@@ -17233,8 +17173,6 @@ snapshots:
       postcss: 8.4.47
       postcss-value-parser: 4.2.0
 
-  await-lock@2.2.2: {}
-
   aws-sign2@0.7.0: {}
 
   aws4@1.13.2: {}
@@ -18108,14 +18046,6 @@ snapshots:
 
   caniuse-lite@1.0.30001676: {}
 
-  casbin@5.31.0:
-    dependencies:
-      await-lock: 2.2.2
-      buffer: 6.0.3
-      csv-parse: 5.5.6
-      expression-eval: 5.0.1
-      minimatch: 7.4.6
-
   caseless@0.12.0: {}
 
   ccount@2.0.1: {}
@@ -18578,8 +18508,6 @@ snapshots:
       css-tree: 1.1.3
 
   csstype@3.1.3: {}
-
-  csv-parse@5.5.6: {}
 
   cwise-compiler@1.1.3:
     dependencies:
@@ -19737,10 +19665,6 @@ snapshots:
       vary: 1.1.2
     transitivePeerDependencies:
       - supports-color
-
-  expression-eval@5.0.1:
-    dependencies:
-      jsep: 0.3.5
 
   ext-list@2.2.2:
     dependencies:
@@ -21095,8 +21019,6 @@ snapshots:
 
   jsdoc-type-pratt-parser@4.1.0: {}
 
-  jsep@0.3.5: {}
-
   jsesc@0.5.0: {}
 
   jsesc@1.3.0: {}
@@ -21937,10 +21859,6 @@ snapshots:
     dependencies:
       brace-expansion: 2.0.1
 
-  minimatch@7.4.6:
-    dependencies:
-      brace-expansion: 2.0.1
-
   minimatch@8.0.4:
     dependencies:
       brace-expansion: 2.0.1
@@ -22622,13 +22540,6 @@ snapshots:
   parse-node-version@1.0.1: {}
 
   parseurl@1.3.3: {}
-
-  passport-jwt@4.0.1:
-    dependencies:
-      jsonwebtoken: 9.0.2
-      passport-strategy: 1.0.0
-
-  passport-strategy@1.0.0: {}
 
   path-browserify@1.0.1: {}
 

@@ -29,7 +29,6 @@ export class ClientUserController {
   @Get('/userInfo', { summary: '获取用户详细信息' })
   @UserInfo()
   async getClientUserInfo() {
-    const userInfo = this.ctx.getAttr('userInfo') as UserDto
-    return userInfo
+    return this.ctx.getAttr('userInfo') as UserDto
   }
 }

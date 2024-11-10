@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { EsFormProps } from '@/components/es-form/es-form.vue'
-import type { IterateObject } from '@auy/types'
 import type { ButtonProps } from 'element-plus'
 import { utils } from '@/utils'
 
@@ -46,42 +45,44 @@ const innerFilter = ref<ToolbarFilter>([])
 watch(
   () => props.filter,
   (val) => {
-    innerFilter.value = utils._.cloneDeep(val!).map((item) => {
-      if (!item.componentProps) {
-        item.componentProps = {}
-      }
-      if (!item.on) {
-        item.on = {}
-      }
-      if (!item.props) {
-        item.props = {}
-      }
-      if (!item.props.class) {
-        switch (item.component) {
-          case 'DateTime':
-            item.props.class = 'w-96'
-            break
-          default:
-            item.props.class = 'w-44'
+    if (Array.isArray(val)) {
+      innerFilter.value = utils._.cloneDeep(val).map((item: ToolbarFilter[number]) => {
+        if (!item.componentProps) {
+          item.componentProps = {}
         }
-      }
-      const innerSubmit = () => {
-        nextTick(() => submit(filterData.value))
-      }
-
-      if (typeof item.componentProps.clearable !== 'boolean') {
-        item.componentProps.clearable = true
-      }
-
-      if (bindChangeEventComponent.includes(item.component)) {
-        if (!item.on.change) {
-          item.on.change = innerSubmit
+        if (!item.on) {
+          item.on = {}
         }
-      } else if (!item.on.clear) {
-        item.on.clear = innerSubmit
-      }
-      return item
-    })
+        if (!item.props) {
+          item.props = {}
+        }
+        if (!item.props.class) {
+          switch (item.component) {
+            case 'DateTime':
+              item.props.class = 'w-96'
+              break
+            default:
+              item.props.class = 'w-44'
+          }
+        }
+        const innerSubmit = () => {
+          nextTick(() => submit(filterData.value))
+        }
+
+        if (typeof item.componentProps.clearable !== 'boolean') {
+          item.componentProps.clearable = true
+        }
+
+        if (bindChangeEventComponent.includes(item.component)) {
+          if (!item.on.change) {
+            item.on.change = innerSubmit
+          }
+        } else if (!item.on.clear) {
+          item.on.clear = innerSubmit
+        }
+        return item
+      })
+    }
   },
   { deep: true, immediate: true },
 )
