@@ -21,11 +21,9 @@ export class ClientUserService extends BasicService<ClientUser> {
     if (info.password !== info.confirmPassword) {
       this.throwError('密码不一致')
     }
-    console.log(info)
     const isExists = await this.isExists({
       where: { username: info.username },
     })
-    console.log(isExists)
 
     if (isExists) {
       this.throwError('用户信息已被注册')

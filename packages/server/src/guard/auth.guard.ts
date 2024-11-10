@@ -21,6 +21,7 @@ export class AuthGuard implements IGuard<Context> {
     }
     const token = ctx.headers.authorization
     const verifyRes = await this.jwtService.verify(token)
+    console.log(token, verifyRes)
     if (!token || !verifyRes) {
       throw new httpError.UnauthorizedError()
     }

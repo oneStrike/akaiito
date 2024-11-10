@@ -50,7 +50,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
 
   // 是否存在
   async isExists(options: PrismaIsExistsOptions<T>): Promise<boolean> {
-    return !!this.model.findFirst({ where: options.where })
+    return !!(await this.model.findFirst({ where: options.where }))
   }
 
   // 创建数据
