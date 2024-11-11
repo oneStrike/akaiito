@@ -37,17 +37,16 @@ export class CopyMangaService {
   }
 
   async parseWord(id: string) {
-    // const detailData = await this.wordDetail(id)
-    const chapterData = await this.chapterList(id)
-
-    return chapterData
+    const detailData = await this.wordDetail(id)
+    // const chapterData = await this.chapterList(id)
+    return detailData
   }
 
   async wordDetail(path: string) {
     const { data } = await this.httpService.get(`${baseUrl}/api/v3/comic2/${path}?in_mainland=true&platform=3`, {
       headers,
     })
-
+    console.log(data)
     return data.code !== 200 ? { code: 201 } : { code: 200, data: data.results }
   }
 

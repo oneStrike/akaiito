@@ -19,6 +19,8 @@ model Comic {
   description  String   @db.VarChar(255)
   /// 章节数量
   chapterCount Int      @default(0) @map("chapter_count") @db.MediumInt
+  /// 是否已经完结
+  isFinished   Boolean  @default(false) @map("is_finished")
   /// 来源
   source       String   @db.VarChar(50)
   createdAt    DateTime @default(now()) @map("created_at") @db.DateTime(0)
@@ -29,33 +31,34 @@ model Comic {
 
 model Category {
   /// 主键id
-  id           Int       @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   /// 分类名称
-  name         String    @unique(map: "name") @db.VarChar(50)
+  name         String @unique(map: "name") @db.VarChar(50)
   /// 分类图标
-  icon         String    @db.MediumText
+  icon         String @db.MediumText
   /// 热度
-  hot          Int?      @default(0) @db.MediumInt
+  hot          Int?   @default(0) @db.MediumInt
   /// 辅助热度
-  auxiliaryHot Int?      @default(0) @map("auxiliary_hot") @db.MediumInt
+  auxiliaryHot Int?   @default(0) @map("auxiliary_hot") @db.MediumInt
   /// 排序
-  sort         Int?      @default(0) @db.MediumInt
+  sort         Int?   @default(0) @db.MediumInt
   /// 小说数量
-  novelCount   Int?      @default(0) @map("novel_count") @db.MediumInt
+  novelCount   Int?   @default(0) @map("novel_count") @db.MediumInt
   /// 漫画数量
-  mangaCount   Int?      @default(0) @map("manga_count") @db.MediumInt
+  mangaCount   Int?   @default(0) @map("manga_count") @db.MediumInt
   /// 图片数量
-  imageCount   Int?      @default(0) @map("image_count") @db.MediumInt
+  imageCount   Int?   @default(0) @map("image_count") @db.MediumInt
   /// 状态 1：正常 0：禁用
-  status       Int?      @default(1) @db.TinyInt
+  status       Int?   @default(1) @db.TinyInt
   /// 分类是否适用于小说 1：适用 0：不适用
-  novelModel   Int       @default(1) @map("novel_model") @db.TinyInt
+  novelModel   Int    @default(1) @map("novel_model") @db.TinyInt
   /// 分类是否适用于漫画 1：适用 0：不适用
-  mangaModel   Int       @default(1) @map("manga_model") @db.TinyInt
+  mangaModel   Int    @default(1) @map("manga_model") @db.TinyInt
   /// 分类是否适用于图片 1：适用 0：不适用
-  imageModel   Int       @default(1) @map("image_model") @db.TinyInt
-  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  imageModel   Int    @default(1) @map("image_model") @db.TinyInt
+
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
 
   @@map("category")
 }
@@ -75,13 +78,13 @@ model Author {
   /// 作者主页
   website     String? @db.VarChar(255)
   /// coser身份 1是0否
-  coser       Int     @default(0) @db.TinyInt
+  coser       Boolean @default(false)
   /// 小说家身份 1是0否
-  novelist    Int     @default(0) @db.TinyInt
+  novelist    Boolean @default(false)
   /// 漫画家身份 1是0否
-  mangaArtist Int     @default(0) @db.TinyInt
+  mangaArtist Boolean @default(false)
   /// 插画师身份 1是0否
-  illustrator Int     @default(0) @db.TinyInt
+  illustrator Boolean @default(false)
 
   createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
