@@ -181,7 +181,7 @@ defineExpose({
         <el-empty description="暂无数据" />
       </template>
     </el-table>
-    <div ref="paginationRef" class="w-full flex justify-end pt-3 pr-3">
+    <div v-if="Array.isArray(data) && data.length > pageSize" ref="paginationRef" class="flex justify-end pt-3 pr-3">
       <el-pagination
         v-model:current-page="currentPageIndex"
         v-model:page-size="currentPageSize"

@@ -123,7 +123,7 @@ model Author {
   status       Int?      @default(1) @db.TinyInt
   /// 作者主页
   website      String?   @db.VarChar(255)
-  /// 作者内容类型 1==>小说 2==>漫画 3==>图片
+  /// 作者内容类型 1==>小说 2==>漫画 3==>插画 4==>coser
   contentModel Int       @map("content_model") @db.TinyInt
   createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt    DateTime? @updatedAt @map("updated_at") @db.DateTime(0)

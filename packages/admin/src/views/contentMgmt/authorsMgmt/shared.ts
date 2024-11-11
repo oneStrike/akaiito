@@ -13,7 +13,11 @@ const pluginType = [
     value: 2,
   },
   {
-    label: '图片',
+    label: '插画',
+    value: 3,
+  },
+  {
+    label: '插画',
     value: 3,
   },
   {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { EsModalProps } from '@/components/es-modal/es-modal.vue'
 
-import type { IterateObject, ResolveListItem } from '@auy/types'
+import type { ResolveListItem } from '@auy/types'
 import {
   createDataDictionaryItemsApi,
   deleteDataDictionaryItemsApi,
@@ -157,7 +157,7 @@ function computedTableHeight() {
           <es-switch :request="updateDataDictionaryItemsStatusApi" :row="row" ids />
         </template>
         <template #action="{ row }">
-          <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
+          <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
           <es-pop-confirm
             v-model:loading="loading"
             :request="deleteDataDictionaryItemsApi"

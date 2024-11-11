@@ -85,22 +85,15 @@ function toggleFullScreenStatus() {
         </div>
       </div>
     </template>
-    <div
-      class="overflow-auto"
-      :class="fullscreen ? ['max-h-[80vh]', 'h-[80vh]'] : 'max-h-[70vh]'"
-    >
+    <div class="overflow-y-auto" :class="fullscreen ? ['max-h-[80vh]', 'h-[80vh]'] : 'max-h-[70vh]'">
       <div :style="contentStyle" class="h-full">
         <slot />
       </div>
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button :loading="loading" @click="(modalShow = false), close('close')">
-          关闭
-        </el-button>
-        <el-button type="primary" :loading="loading" @click="emits('handler')">
-          确定
-        </el-button>
+        <el-button :loading="loading" @click="(modalShow = false), close('close')"> 关闭</el-button>
+        <el-button type="primary" :loading="loading" @click="emits('handler')"> 确定</el-button>
       </div>
     </template>
   </el-dialog>

@@ -9,4 +9,5 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
   </ElConfigProvider>
 </template>
 
-<style></style>
+<style>
+</style>
