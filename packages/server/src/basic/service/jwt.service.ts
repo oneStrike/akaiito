@@ -1,11 +1,4 @@
-import {
-  Config,
-  Inject,
-  InjectClient,
-  Provide,
-  Scope,
-  ScopeEnum,
-} from '@midwayjs/core'
+import { Config, Inject, InjectClient, Provide, Scope, ScopeEnum } from '@midwayjs/core'
 import { CachingFactory, MidwayCache } from '@midwayjs/cache-manager'
 import * as crypto from 'crypto'
 import { JwtService as InnerJwtService, type JwtConfig } from '@midwayjs/jwt'
@@ -29,25 +22,18 @@ export class JwtService {
       namedCurve: 'P-256', // ES256 使用 P-256 曲线
     })
     await this.cache.set('jwt_encrypt_key', {
-      privateKey,
-      publicKey,
+      privateKey: privateKey.export({ type: 'pkcs8', format: 'pem' }),
+      publicKey: publicKey.export({ type: 'spki', format: 'pem' }),
     })
   }
 
   // 获取证书内容
   async getKey(type: 'public' | 'private') {
-    const { privateKey, publicKey } = (await this.cache.get(
-      'jwt_encrypt_key',
-    )) as any
-    return type === 'public'
-      ? publicKey.export({ type: 'spki', format: 'pem' })
-      : privateKey.export({ type: 'pkcs8', format: 'pem' })
+    const { privateKey, publicKey } = (await this.cache.get('jwt_encrypt_key')) as any
+    return type === 'public' ? publicKey : privateKey
   }
 
-  async sign(
-    data: JwtPayload & { id: number; purpose: 'admin' | 'client' },
-    expiresIn?: string | number,
-  ) {
+  async sign(data: JwtPayload & { id: number; purpose: 'admin' | 'client' }, expiresIn?: string | number) {
     expiresIn = expiresIn || this.jwtConfig.sign.expiresIn
     const privateKey = await this.getKey('private')
     const token = await this.jwt.sign(data, privateKey, {
@@ -64,9 +50,7 @@ export class JwtService {
     const publicKey = await this.getKey('public')
     try {
       const { payload } = this.jwt.verifySync(token, publicKey) as any
-      const cacheToken = await this.cache.get(
-        `user_token_${payload.purpose}_${payload.id}`,
-      )
+      const cacheToken = await this.cache.get(`user_token_${payload.purpose}_${payload.id}`)
       return token === cacheToken ? payload : false
     } catch (e) {
       return false
@@ -74,10 +58,7 @@ export class JwtService {
   }
 
   async renewToken(token: string, refreshToken: string) {
-    const [tokenRes, refreshTokenRes] = await Promise.all([
-      this.verify(token),
-      this.verify(refreshToken),
-    ])
+    const [tokenRes, refreshTokenRes] = await Promise.all([this.verify(token), this.verify(refreshToken)])
     if (tokenRes && refreshTokenRes && tokenRes.id === refreshTokenRes.id) {
       return await this.sign(tokenRes)
     } else {
