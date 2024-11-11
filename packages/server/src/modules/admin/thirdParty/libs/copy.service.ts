@@ -44,7 +44,9 @@ export class CopyMangaService {
   }
 
   async wordDetail(path: string) {
-    const { data } = await this.httpService.get(`${baseUrl}/api/v3/comic2/${path}?in_mainland=true&platform=3`)
+    const { data } = await this.httpService.get(`${baseUrl}/api/v3/comic2/${path}?in_mainland=true&platform=3`, {
+      headers,
+    })
 
     return data.code !== 200 ? { code: 201 } : { code: 200, data: data.results }
   }
@@ -52,13 +54,19 @@ export class CopyMangaService {
   async chapterList(path: string) {
     const { data } = await this.httpService.get(
       `${baseUrl}/api/v3/comic/${path}/group/default/chapters?limit=500&offset=0&in_mainland=true&platform=3`,
+      {
+        headers,
+      },
     )
     return data.code !== 200 ? { code: 201 } : { code: 200, data: data.results.list }
   }
 
   async chapterContent(path: string, chapterId: string) {
     const { data } = await this.httpService.get(
-      `${baseUrl}//api/v3/comic/${path}/chapter2/${chapterId}?in_mainland=true&platform=3`,
+      `${baseUrl}/api/v3/comic/${path}/chapter2/${chapterId}?in_mainland=true&platform=3`,
+      {
+        headers,
+      },
     )
     return data.code !== 200 ? { code: 201 } : { code: 200, data: data.results }
   }
