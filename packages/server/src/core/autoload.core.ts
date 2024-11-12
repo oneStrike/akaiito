@@ -1,4 +1,4 @@
-import { ConfigService } from '@/modules/internal/config/config.service'
+import { ConfigService } from '@/basic/service/config.service'
 import {
   Autoload,
   Config,

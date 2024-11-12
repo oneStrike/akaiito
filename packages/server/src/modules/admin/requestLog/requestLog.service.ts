@@ -5,7 +5,7 @@ import { Inject, Provide } from '@midwayjs/core'
 import { AdminRequestLog, PrismaClient } from '@prisma/client'
 import type { HttpResponseResult } from '@auy/types'
 import type { Context } from '@midwayjs/koa'
-import { RouterService } from '@/modules/internal/router/router.service'
+import { RouterService } from '@/basic/service/router.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'
 
 @Provide()
