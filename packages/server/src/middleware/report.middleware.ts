@@ -1,8 +1,8 @@
 import type { HttpResponseResult } from '@auy/types'
 import type { IMiddleware } from '@midwayjs/core'
 import type { Context, NextFunction } from '@midwayjs/koa'
-import { LogService } from '@/modules/internal/log/log.service'
 import { Middleware } from '@midwayjs/core'
+import { RequestLogService } from '@/modules/admin/requestLog/requestLog.service'
 
 @Middleware()
 export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
@@ -12,7 +12,7 @@ export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
       const result = await next()
 
       // 获取日志服务实例
-      const sysLogService = await ctx.requestContext.getAsync(LogService)
+      const adminRequestLogService = await ctx.requestContext.getAsync(RequestLogService)
 
       const reportRes: HttpResponseResult = {
         code: 200,
@@ -22,7 +22,7 @@ export class ReportMiddleware implements IMiddleware<Context, NextFunction> {
       }
 
       // 记录日志
-      await sysLogService.recordLogs(ctx, reportRes)
+      await adminRequestLogService.recordLogs(ctx, reportRes)
 
       if (result === null) {
         ctx.status = 200

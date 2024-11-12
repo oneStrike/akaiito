@@ -1,0 +1,20 @@
+model ClientUser {
+  /// 主键id
+  id        Int      @id @default(autoincrement())
+  /// 插件名称
+  username  String   @unique(map: "path") @db.VarChar(50)
+  /// 密码
+  password  String   @db.VarChar(100)
+  /// 头像
+  avatar    String   @db.VarChar(100)
+  /// 手机号
+  mobile    String?  @unique(map: "mobile") @db.VarChar(20)
+  /// 状态 0禁用 1正常
+  status    Int      @default(1) @db.TinyInt
+  /// 性别 0未知 1男 2女
+  sex       Int      @default(0) @db.TinyInt
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+
+  @@map("client_user")
+}

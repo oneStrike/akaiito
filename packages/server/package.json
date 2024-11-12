@@ -21,10 +21,10 @@
     "lint:fix": "mwts fix",
     "ci": "npm run cov",
     "build": "pnpm run prisma:generate && mwtsc --cleanOutDir && node ./scripts/index.js",
-    "prisma:generate": "prisma generate --schema ./prisma/schema",
+    "prisma:generate": "prisma generate",
     "prisma:init": "pnpm prisma:push && pnpm prisma:seed",
-    "prisma:pull": "prisma db pull --schema ./prisma/schema",
-    "prisma:push": "prisma db push --schema ./prisma/schema",
+    "prisma:pull": "prisma db pull",
+    "prisma:push": "prisma db push",
     "prisma:seed": "prisma db seed",
     "prisma:update": "pnpm prisma:generate && pnpm prisma:push"
   },
@@ -74,7 +74,7 @@
     "dist"
   ],
   "prisma": {
-    "seed": "pnpx ts-node prisma/seed.ts",
-    "schema": "prisma/schema/Main.prisma"
+    "schema": "prisma/schema",
+    "seed": "tsx prisma/seed"
   }
 }

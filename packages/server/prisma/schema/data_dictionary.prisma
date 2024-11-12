@@ -1,0 +1,28 @@
+model Dictionary {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique(map: "name") @db.VarChar(50)
+  code      String   @unique(map: "code") @db.VarChar(50)
+  status    Int      @default(0) @db.TinyInt
+  remark    String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+
+  items DictionaryItem[]
+
+  @@map("dictionary")
+}
+
+model DictionaryItem {
+  id           Int        @id @default(autoincrement())
+  dictionary   Dictionary @relation(fields: [dictionaryId], references: [id])
+  dictionaryId Int        @map("dictionary_id")
+  name         String     @db.VarChar(50)
+  code         String     @unique(map: "code") @db.VarChar(50)
+  order        Int?       @default(0) @db.SmallInt
+  status       Int        @default(0) @db.TinyInt
+  remark       String?    @db.VarChar(255)
+  createdAt    DateTime   @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt    DateTime   @updatedAt @map("updated_at") @db.DateTime(0)
+
+  @@map("dictionary_item")
+}

@@ -7,6 +7,11 @@ import { utils } from './index'
 export const validateString = RuleType.string().empty('')
 
 /**
+ * 限定为布尔类型
+ */
+export const validateBoolean = RuleType.boolean()
+
+/**
  * 限定为必传字符串类型
  */
 export const requiredString = validateString.required()

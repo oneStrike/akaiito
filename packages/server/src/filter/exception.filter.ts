@@ -1,9 +1,9 @@
 import type { HttpResponseResult } from '@auy/types'
 import type { MidwayHttpError } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
-import { LogService } from '@/modules/internal/log/log.service'
 import { Catch } from '@midwayjs/core'
 import { prismaErrorMessage } from '@/prisma/errorMessage'
+import { RequestLogService } from '@/modules/admin/requestLog/requestLog.service'
 
 @Catch()
 export class ExceptionFilter {
@@ -56,8 +56,8 @@ export class ExceptionFilter {
     err.status = 200
 
     ctx.setAttr('responseRes', responseErrorInfo)
-    const baseSysLogService = await ctx.requestContext.getAsync(LogService)
-    await baseSysLogService.recordLogs(ctx, responseErrorInfo)
+    const adminRequestLogService = await ctx.requestContext.getAsync(RequestLogService)
+    await adminRequestLogService.recordLogs(ctx, responseErrorInfo)
     return responseErrorInfo
   }
 }
