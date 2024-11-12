@@ -3,7 +3,7 @@ import { getUserInfoHandler, USERINFO_KEY } from '@/decorator/userinfo.decorator
 import { Inject, Singleton } from '@midwayjs/core'
 
 @Singleton()
-export class DecoratorService {
+export class RegisterService {
   @Inject()
   decoratorService: MidwayDecoratorService
 

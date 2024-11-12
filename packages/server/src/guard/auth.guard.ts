@@ -2,7 +2,7 @@ import { IGuard, MidwayWebRouterService } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { isAdminRequest, isClientRequest } from '@/utils/requestSource'
 import { Config, Guard, httpError, Inject } from '@midwayjs/core'
-import { JwtService } from '@/basic/service/jwt.service'
+import { JwtService } from '@/auth/jwt.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'
 
 @Guard()

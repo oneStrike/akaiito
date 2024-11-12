@@ -2,7 +2,7 @@ import type { IMethodAspect, JoinPoint } from '@midwayjs/core'
 import { UserService } from '@/modules/admin/user/user.service'
 import { ClientUserService } from '@/modules/client/user/user.service'
 import { createCustomMethodDecorator, REQUEST_OBJ_CTX_KEY } from '@midwayjs/core'
-import { JwtService } from '@/basic/service/jwt.service'
+import { JwtService } from '@/auth/jwt.service'
 
 export const USERINFO_KEY = 'decorator:userinfo_key'
 

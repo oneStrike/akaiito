@@ -4,7 +4,7 @@ import { httpError, Inject, Provide } from '@midwayjs/core'
 import { AdminUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
 import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto } from './dto/user.dto'
-import { JwtService } from '@/basic/service/jwt.service'
+import { JwtService } from '@/auth/jwt.service'
 
 @Provide()
 export class UserService extends BasicService<AdminUser> {

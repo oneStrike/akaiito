@@ -1,4 +1,4 @@
-import { DecoratorService } from '@/basic/service/decorator.service'
+import { RegisterService } from '@/decorator/register.service'
 import { ILogger, IMidwayContainer, MidwayWebRouterService } from '@midwayjs/core'
 import { RegisterPrisma } from './prisma'
 import { join } from 'node:path'
@@ -46,7 +46,7 @@ export class MainConfiguration {
   registerPrisma: RegisterPrisma
 
   @Inject()
-  decoratorService: DecoratorService
+  decoratorService: RegisterService
 
   @Inject()
   webRouterService: MidwayWebRouterService

@@ -3,7 +3,7 @@ import { BasicService } from '@/basic/service/basic.service'
 import { ClientUser, PrismaClient } from '@prisma/client'
 import { CreateUserDto, LoginUserDto } from '@/modules/client/user/dto/user.dto'
 import { utils } from '@/utils'
-import { JwtService } from '@/basic/service/jwt.service'
+import { JwtService } from '@/auth/jwt.service'
 
 @Provide()
 export class ClientUserService extends BasicService<ClientUser> {

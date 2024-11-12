@@ -9,7 +9,7 @@ import {
 } from '@midwayjs/core'
 import * as fs from 'fs-extra'
 import { CachingFactory, MidwayCache } from '@midwayjs/cache-manager'
-import { JwtService } from '@/basic/service/jwt.service'
+import { JwtService } from '@/auth/jwt.service'
 
 @Autoload()
 @Provide()
