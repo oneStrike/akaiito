@@ -3,13 +3,7 @@ import { utils } from '@/utils'
 import { httpError, Inject, Provide } from '@midwayjs/core'
 import { AdminUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
-import {
-  CreateUserDto,
-  RefreshAccessTokenDto,
-  UpdateUserPwd,
-  UserDto,
-  UserLoginDto,
-} from './dto/user.dto'
+import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto } from './dto/user.dto'
 import { JwtService } from '@/basic/service/jwt.service'
 
 @Provide()
@@ -53,10 +47,7 @@ export class UserService extends BasicService<AdminUser> {
     const userInfo = await this.model.findUnique({
       where: { mobile: info.mobile },
     })
-    if (
-      !userInfo ||
-      !(await this.diffPassword(info.password, userInfo.password))
-    ) {
+    if (!userInfo || !(await this.diffPassword(info.password, userInfo.password))) {
       this.throwError('手机号或密码错误')
     }
 
@@ -71,10 +62,7 @@ export class UserService extends BasicService<AdminUser> {
         mobile: userInfo.mobile,
         purpose: 'admin',
       }),
-      refreshToken: await this.jwt.sign(
-        { id: userInfo.id, refresh: true, purpose: 'admin' },
-        '2d',
-      ),
+      refreshToken: await this.jwt.sign({ id: userInfo.id, refresh: true, purpose: 'admin' }, '2d'),
     }
 
     return {
@@ -124,9 +112,7 @@ export class UserService extends BasicService<AdminUser> {
     if (!oldUserInfo) {
       this.throwError('用户不存在')
     }
-    if (
-      !(await this.diffPassword(userInfo.oldPassword, oldUserInfo.password))
-    ) {
+    if (!(await this.diffPassword(userInfo.oldPassword, oldUserInfo.password))) {
       this.throwError('原密码错误')
     }
 
@@ -140,10 +126,7 @@ export class UserService extends BasicService<AdminUser> {
     return result?.id || result
   }
 
-  async refreshAccessToken({
-                             accessToken,
-                             refreshToken,
-                           }: RefreshAccessTokenDto) {
+  async refreshAccessToken({ accessToken, refreshToken }: RefreshAccessTokenDto) {
     const newToken = await this.jwt.renewToken(accessToken, refreshToken)
     if (!newToken) {
       throw new httpError.UnauthorizedError()
@@ -157,4 +140,6 @@ export class UserService extends BasicService<AdminUser> {
     const currentPassword = await utils.encryption(newPwd, salt)
     return currentPassword === oldPwd
   }
+
+  // 判断用户权限
 }

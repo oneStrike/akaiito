@@ -30,7 +30,7 @@ export class UserController {
   @Get('/getUserInfo', { summary: '获取管理员信息' })
   async getUserInfo(@Query() query: { id?: number }) {
     const adminUserinfo = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as any
-    const id = query.id || adminUserinfo.userId
+    const id = Number(query.id || adminUserinfo.userId)
     return this.userService.findUnique({ where: { id } })
   }
 
