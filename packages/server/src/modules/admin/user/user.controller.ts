@@ -51,7 +51,8 @@ export class UserController {
   @Post('/updateAdminUserInfo', { summary: '更新用户信息' })
   @UserInfo()
   async updateUser(@Body() body: UserDto) {
-    const user = this.ctx.getAttr('userInfo') as UserDto
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
+    console.log(user, body)
     return this.userService.updateUserInfo(body, user, 'info')
   }
 

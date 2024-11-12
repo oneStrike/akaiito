@@ -3,6 +3,7 @@ import { UserService } from '@/modules/admin/user/user.service'
 import { ClientUserService } from '@/modules/client/user/user.service'
 import { createCustomMethodDecorator, REQUEST_OBJ_CTX_KEY } from '@midwayjs/core'
 import { JwtService } from '@/auth/jwt.service'
+import { CtxAttrEnum } from '@/enum/ctxAttr'
 
 export const USERINFO_KEY = 'decorator:userinfo_key'
 
@@ -25,7 +26,7 @@ export function getUserInfoHandler(): IMethodAspect {
         const payload = await jwt.verify(authorization)
         if (payload) {
           let userInfo = {}
-          if (payload.purpost === 'admin') {
+          if (payload.purpose === 'admin') {
             const userService = await ctx.requestContext.getAsync(UserService)
             userInfo = await userService.findUnique({
               where: { id: payload.id },
@@ -33,6 +34,7 @@ export function getUserInfoHandler(): IMethodAspect {
                 password: true,
               },
             })
+            ctx.setAttr(CtxAttrEnum.ADMIN_USER_INFO, userInfo)
           } else {
             const clientUserService = await ctx.requestContext.getAsync(ClientUserService)
             userInfo = await clientUserService.findUnique({
@@ -41,8 +43,8 @@ export function getUserInfoHandler(): IMethodAspect {
                 password: true,
               },
             })
+            ctx.setAttr(CtxAttrEnum.CLIENT_USER_INFO, userInfo)
           }
-          ctx.setAttr('userInfo', userInfo)
         }
       }
     },

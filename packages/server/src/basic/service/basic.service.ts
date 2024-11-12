@@ -70,7 +70,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
         id: true,
       }
     }
-    return await this.model.update({ options })
+    return await this.model.update(options)
   }
 
   // 更新或插入一条数据
