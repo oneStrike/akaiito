@@ -5,7 +5,7 @@ import { utils } from '@/utils'
 export const tableColumns: EsTableColumn = [
   {
     label: '手机号',
-    prop: 'mobile',
+    prop: 'userMobile',
     align: 'center',
   },
   {
@@ -15,19 +15,19 @@ export const tableColumns: EsTableColumn = [
   },
   {
     label: '登录IP',
-    prop: 'ip',
+    prop: 'targetIp',
     align: 'center',
   },
   {
     label: '登录地址',
-    prop: 'ipAddress',
+    prop: 'ipMappingAddress',
     align: 'center',
   },
   {
     label: '登录结果',
-    prop: 'statusCode',
+    prop: 'responseCode',
     align: 'center',
-    slotName: 'statusCode',
+    slotName: 'responseCode',
   },
   {
     label: '登录时间',
@@ -49,7 +49,7 @@ export const filter: ToolbarFilter = [
     },
   },
   {
-    field: 'status',
+    field: 'responseCode',
     component: 'Select',
     componentProps: {
       placeholder: '登录结果',
@@ -57,17 +57,17 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: '成功',
-          value: 1,
+          value: 200,
         },
         {
           label: '失败',
-          value: 0,
+          value: 400,
         },
       ],
     },
   },
   {
-    field: 'mobile',
+    field: 'userMobile',
     component: 'Input',
     componentProps: {
       placeholder: '手机号',

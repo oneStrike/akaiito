@@ -5,42 +5,44 @@ import { utils } from '@/utils'
 export const tableColumns: EsTableColumn = [
   {
     label: '手机号',
-    prop: 'mobile',
+    prop: 'userMobile',
     align: 'center',
+    defaultValue: '-',
   },
   {
     label: '操作者',
     prop: 'username',
     align: 'center',
+    defaultValue: '-',
   },
 
   {
     label: '请求信息',
-    prop: 'summary',
+    prop: 'apiSummary',
     align: 'center',
   },
   {
     label: '请求方式',
-    prop: 'method',
+    prop: 'requestMethod',
     align: 'center',
   },
 
   {
     label: '操作IP',
-    prop: 'ip',
+    prop: 'targetIp',
     align: 'center',
   },
   {
     label: '操作IP地址',
-    prop: 'ipAddress',
+    prop: 'ipMappingAddress',
     align: 'center',
   },
 
   {
     label: '操作结果',
-    prop: 'statusCode',
+    prop: 'responseCode',
     align: 'center',
-    slotName: 'statusCode',
+    slotName: 'responseCode',
   },
   {
     label: '操作时间',
@@ -62,24 +64,40 @@ export const filter: ToolbarFilter = [
     },
   },
   {
-    field: 'status',
+    field: 'responseCode',
     component: 'Select',
     componentProps: {
       placeholder: '操作结果',
       options: [
         {
-          label: '成功',
-          value: 1,
+          label: '200',
+          value: 200,
         },
         {
-          label: '失败',
-          value: 0,
+          label: '401',
+          value: 401,
+        },
+        {
+          label: '403',
+          value: 403,
+        },
+        {
+          label: '404',
+          value: 404,
+        },
+        {
+          label: '413',
+          value: 413,
+        },
+        {
+          label: '500',
+          value: 500,
         },
       ],
     },
   },
   {
-    field: 'method',
+    field: 'requestMethod',
     component: 'Select',
     componentProps: {
       placeholder: '请求方式',
@@ -96,7 +114,7 @@ export const filter: ToolbarFilter = [
     },
   },
   {
-    field: 'mobile',
+    field: 'userMobile',
     component: 'Input',
     componentProps: {
       placeholder: '手机号',

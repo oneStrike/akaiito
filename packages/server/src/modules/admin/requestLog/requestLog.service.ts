@@ -44,7 +44,7 @@ export class RequestLogService extends BasicService<AdminRequestLog> {
         apiSummary: typeof route !== 'string' && route ? route.summary : '',
         username: summaryUserInfo.username,
         userId: summaryUserInfo.id,
-        userMobile: summaryUserInfo.mobile,
+        userMobile: summaryUserInfo.mobile || params.mobile,
         requestParams: JSON.stringify(params),
         targetIp: ip,
         ipMappingAddress: ipAddress,

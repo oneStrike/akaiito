@@ -4,14 +4,14 @@ import { Rule } from '@midwayjs/validate'
 
 export class LogDto extends BasicPageDto {
   @Rule(givenValue(['POST', 'GET'], false))
-  method?: 'POST' | 'GET'
+  requestMethod?: 'POST' | 'GET'
 
   @Rule(validateNumber)
-  statusCode?: number
+  responseCode?: number
 
   @Rule(validateString)
-  path?: string
+  apiPath?: string
 
   @Rule(validateString)
-  mobile?: string
+  userMobile?: string
 }

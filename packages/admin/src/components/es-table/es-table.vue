@@ -129,6 +129,7 @@ function handlerSortChange(val: any) {
   })
 }
 
+console.log(props)
 defineExpose({
   computedTableHeight,
 })
@@ -169,7 +170,7 @@ defineExpose({
             {{
               item.formatter
                 ? item.formatter(row, column, item.prop ? row[item.prop] : null, $index)
-                : item.prop
+                : row[item.prop] || row[item.prop] === 0
                   ? row[item.prop]
                   : item.defaultValue || defaultValue
             }}
@@ -181,7 +182,7 @@ defineExpose({
         <el-empty description="暂无数据" />
       </template>
     </el-table>
-    <div v-if="Array.isArray(data) && data.length > pageSize" ref="paginationRef" class="flex justify-end pt-3 pr-3">
+    <div v-if="Array.isArray(data) && data.length < total" ref="paginationRef" class="flex justify-end pt-3 pr-3">
       <el-pagination
         v-model:current-page="currentPageIndex"
         v-model:page-size="currentPageSize"

@@ -9,7 +9,7 @@ const { reset, sortChange, requestData, loading, params } =
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar :filter="filter" @query="reset" />
+    <es-toolbar :filter="filter" @query="reset" @reset="reset" />
     <es-table
       v-model:page-index="params.pageIndex"
       v-model:page-size="params.pageSize"
@@ -18,12 +18,12 @@ const { reset, sortChange, requestData, loading, params } =
       :total="requestData?.total"
       @sort-change="sortChange"
     >
-      <template #statusCode="{ row }">
-        <el-text v-if="row.statusCode === 200" class="mx-1" type="success">
+      <template #responseCode="{ row }">
+        <el-text v-if="row.responseCode === 200" class="mx-1" type="success">
           操作成功
         </el-text>
         <el-text v-else class="mx-1" type="danger">
-          {{ row.statusDesc }}
+          {{ row.responseDesc }}
         </el-text>
       </template>
     </es-table>
