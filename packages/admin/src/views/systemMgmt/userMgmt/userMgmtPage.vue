@@ -11,18 +11,11 @@ import { useMessage } from '@/hooks/useFeedback'
 import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
 import { useUserStore } from '@/stores/modules/user'
-import {
-  filter,
-  formOptions,
-  pwdFormOptions,
-  tableColumns,
-  toolbar,
-} from '@/views/systemMgmt/userMgmt/shared'
+import { filter, formOptions, pwdFormOptions, tableColumns, toolbar } from '@/views/systemMgmt/userMgmt/shared'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const { reset, sortChange, requestData, loading, params }
-  = useRequest(getUserPageApi)
+const { reset, sortChange, requestData, loading, params } = useRequest(getUserPageApi)
 
 const userStore = useUserStore()
 const pwdModal = ref(false)
@@ -48,9 +41,7 @@ async function updateOrAddUserInfo(val: any) {
   formModal.value = false
   await reset()
   if (val.id === userStore.userInfo?.id && requestData.value) {
-    const target = requestData.value.list.filter(
-      item => item.id === userStore.userInfo?.id,
-    )[0]
+    const target = requestData.value.list.filter((item) => item.id === userStore.userInfo?.id)[0]
     userStore.setUserInfo(target)
   }
 }
@@ -85,12 +76,7 @@ async function switchStatus(val: any) {
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar
-      :toolbar="toolbar"
-      :filter="filter"
-      @query="reset"
-      @handler="handlerToolbar"
-    />
+    <es-toolbar :toolbar="toolbar" :filter="filter" @query="reset" @reset="reset" @handler="handlerToolbar" />
     <es-table
       v-model:page-index="params.pageIndex"
       v-model:page-size="params.pageSize"
@@ -107,36 +93,19 @@ async function switchStatus(val: any) {
       </template>
 
       <template #isRoot="{ row }">
-        <el-text v-if="row.isRoot === 1" type="primary">
-          超级管理员
-        </el-text>
-        <el-text v-else>
-          普通管理员
-        </el-text>
+        <el-text v-if="row.isRoot === 1" type="primary"> 超级管理员 </el-text>
+        <el-text v-else> 普通管理员 </el-text>
       </template>
 
       <template #status="{ row }">
         <es-switch :request="switchStatus" :row="row" />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="openUpdateUserInfoModal(row)">
-          编辑
-        </el-button>
+        <el-button type="primary" link @click="openUpdateUserInfoModal(row)"> 编辑 </el-button>
 
-        <el-button
-          type="primary"
-          link
-          @click="(currentRow = row), (pwdModal = true)"
-        >
-          修改密码
-        </el-button>
+        <el-button type="primary" link @click="(currentRow = row), (pwdModal = true)"> 修改密码 </el-button>
 
-        <es-pop-confirm
-          v-model:loading="loading"
-          :request="deleteAdminUserApi"
-          :row="row"
-          @success="reset()"
-        />
+        <es-pop-confirm v-model:loading="loading" :request="deleteAdminUserApi" :row="row" @success="reset()" />
       </template>
     </es-table>
 

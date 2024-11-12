@@ -1,6 +1,6 @@
 import { IGuard, MidwayWebRouterService } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
-import { isAdminRequest, isClientRequest } from '@/utils/requestSource'
+import { isAdminRequest, isClientRequest, isOpenRequest } from '@/utils/requestSource'
 import { Config, Guard, httpError, Inject } from '@midwayjs/core'
 import { JwtService } from '@/auth/jwt.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'
@@ -25,18 +25,23 @@ export class AuthGuard implements IGuard<Context> {
     if (!token || !verifyRes) {
       throw new httpError.UnauthorizedError()
     }
-    if (isAdminRequest(ctx.url) && verifyRes.purpose === 'admin') {
-      ctx.setAttr(CtxAttrEnum.ADMIN_USER_INFO, {
-        userId: verifyRes.id,
-        username: verifyRes.username,
-        mobile: verifyRes.mobile,
-      })
-    } else if (isClientRequest(ctx.url) && verifyRes.purpose === 'client') {
-      ctx.setAttr(CtxAttrEnum.CLIENT_USER_INFO, {
-        userId: verifyRes.id,
-        username: verifyRes.username,
-        mobile: verifyRes.mobile,
-      })
+
+    if (verifyRes.purpose === 'admin') {
+      if (isAdminRequest(ctx.url) || isOpenRequest(ctx.url)) {
+        ctx.setAttr(CtxAttrEnum.ADMIN_USER_INFO, {
+          userId: verifyRes.id,
+          username: verifyRes.username,
+          mobile: verifyRes.mobile,
+        })
+      }
+    } else if (verifyRes.purpose === 'client') {
+      if (isClientRequest(ctx.url) || isOpenRequest(ctx.url)) {
+        ctx.setAttr(CtxAttrEnum.CLIENT_USER_INFO, {
+          userId: verifyRes.id,
+          username: verifyRes.username,
+          mobile: verifyRes.mobile,
+        })
+      }
     } else {
       throw new httpError.UnauthorizedError()
     }

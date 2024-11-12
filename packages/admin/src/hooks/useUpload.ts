@@ -25,7 +25,6 @@ export async function useUpload(
       formData.append('file', file)
       formData.append('scenario', scenario)
       formData.append('name', file.name)
-
       httpClient({
         method: 'post',
         url: '/common/upload/uploadFile',
