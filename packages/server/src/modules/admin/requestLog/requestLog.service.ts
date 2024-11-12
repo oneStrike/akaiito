@@ -6,6 +6,7 @@ import { AdminRequestLog, PrismaClient } from '@prisma/client'
 import type { HttpResponseResult } from '@auy/types'
 import type { Context } from '@midwayjs/koa'
 import { RouterService } from '@/modules/internal/router/router.service'
+import { CtxAttrEnum } from '@/enum/ctxAttr'
 
 @Provide()
 export class RequestLogService extends BasicService<AdminRequestLog> {
@@ -22,13 +23,14 @@ export class RequestLogService extends BasicService<AdminRequestLog> {
   async recordLogs(context: Context, report: HttpResponseResult) {
     const { path, method, header, query, request } = context
     const params: IterateObject = (method === 'POST' ? request.body : query) || {}
-    console.log(report.data)
-    const summaryUserInfo: IterateObject = context.getAttr('summaryUserInfo') || {}
-    if (path === '/admin/user/login' && report.data) {
-      summaryUserInfo.id = report.data.userInfo.id
-      summaryUserInfo.username = report.data.userInfo.username
-      summaryUserInfo.mobile = report.data.userInfo.mobile
-      params.password = params.password.replace(/./g, '*')
+    const summaryUserInfo: IterateObject = context.getAttr(CtxAttrEnum.ADMIN_USER_INFO) || {}
+    if (path === '/admin/user/login') {
+      if (report.data) {
+        summaryUserInfo.id = report.data.userInfo.id
+        summaryUserInfo.username = report.data.userInfo.username
+        summaryUserInfo.mobile = report.data.userInfo.mobile
+        params.password = params.password.replace(/./g, '*')
+      }
     }
     if (path === '/admin/user/createAdminUser') {
       params.password = params.password?.replace(/./g, '*')
@@ -51,6 +53,7 @@ export class RequestLogService extends BasicService<AdminRequestLog> {
         responseCode: report.code,
         responseDesc: report.message,
         userAgent: header['user-agent'],
+        record: '',
       },
     })
   }

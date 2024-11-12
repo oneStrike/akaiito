@@ -1,6 +1,6 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
-import {  httpError, Inject, Provide } from '@midwayjs/core'
+import { httpError, Inject, Provide } from '@midwayjs/core'
 import { AdminUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '../../internal/authentication/captcha.service'
 import {
@@ -141,9 +141,9 @@ export class UserService extends BasicService<AdminUser> {
   }
 
   async refreshAccessToken({
-    accessToken,
-    refreshToken,
-  }: RefreshAccessTokenDto) {
+                             accessToken,
+                             refreshToken,
+                           }: RefreshAccessTokenDto) {
     const newToken = await this.jwt.renewToken(accessToken, refreshToken)
     if (!newToken) {
       throw new httpError.UnauthorizedError()

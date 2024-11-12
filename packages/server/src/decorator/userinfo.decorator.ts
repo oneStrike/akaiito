@@ -22,12 +22,11 @@ export function getUserInfoHandler(): IMethodAspect {
       const authorization = ctx.request.headers.authorization
       if (authorization) {
         const jwt = await ctx.requestContext.getAsync(JwtService)
-        const userService = await ctx.requestContext.getAsync(UserService)
-        const clientUserService = await ctx.requestContext.getAsync(ClientUserService)
         const payload = await jwt.verify(authorization)
         if (payload) {
           let userInfo = {}
           if (payload.purpost === 'admin') {
+            const userService = await ctx.requestContext.getAsync(UserService)
             userInfo = await userService.findUnique({
               where: { id: payload.id },
               omit: {
@@ -35,6 +34,7 @@ export function getUserInfoHandler(): IMethodAspect {
               },
             })
           } else {
+            const clientUserService = await ctx.requestContext.getAsync(ClientUserService)
             userInfo = await clientUserService.findUnique({
               where: { id: payload.id },
               omit: {

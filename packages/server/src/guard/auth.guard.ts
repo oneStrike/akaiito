@@ -3,6 +3,7 @@ import type { Context } from '@midwayjs/koa'
 import { isAdminRequest, isClientRequest } from '@/utils/requestSource'
 import { Config, Guard, httpError, Inject } from '@midwayjs/core'
 import { JwtService } from '@/basic/service/jwt.service'
+import { CtxAttrEnum } from '@/enum/ctxAttr'
 
 @Guard()
 export class AuthGuard implements IGuard<Context> {
@@ -25,21 +26,21 @@ export class AuthGuard implements IGuard<Context> {
       throw new httpError.UnauthorizedError()
     }
     if (isAdminRequest(ctx.url) && verifyRes.purpose === 'admin') {
-      this.setUserInfoToCtx(ctx, verifyRes)
+      ctx.setAttr(CtxAttrEnum.ADMIN_USER_INFO, {
+        userId: verifyRes.id,
+        username: verifyRes.username,
+        mobile: verifyRes.mobile,
+      })
     } else if (isClientRequest(ctx.url) && verifyRes.purpose === 'client') {
+      ctx.setAttr(CtxAttrEnum.CLIENT_USER_INFO, {
+        userId: verifyRes.id,
+        username: verifyRes.username,
+        mobile: verifyRes.mobile,
+      })
     } else {
       throw new httpError.UnauthorizedError()
     }
-
     return true
-  }
-
-  setUserInfoToCtx(ctx: Context, payload: IterateObject) {
-    ctx.setAttr('summaryUserInfo', {
-      userId: payload.id,
-      username: payload.username,
-      mobile: payload.mobile,
-    })
   }
 
   // 配置忽略鉴权的路由地址
