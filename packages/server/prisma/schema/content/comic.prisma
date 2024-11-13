@@ -1,0 +1,29 @@
+/// 作者
+model Author {
+  /// 主键id
+  id          Int     @id @default(autoincrement())
+  /// 作者名称
+  name        String  @db.VarChar(50)
+  /// 作者头像
+  avatar      String? @db.VarChar(255)
+  /// 作者描述
+  description String? @db.VarChar(255)
+  /// 状态 1：正常 0：禁用
+  status      Int?    @default(1) @db.TinyInt
+  /// 作者主页
+  website     String? @db.VarChar(255)
+  /// coser身份 1是0否
+  coser       Boolean @default(false)
+  /// 小说家身份 1是0否
+  novelist    Boolean @default(false)
+  /// 漫画家身份 1是0否
+  mangaArtist Boolean @default(false)
+  /// 插画师身份 1是0否
+  illustrator Boolean @default(false)
+
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+
+  @@unique([name, coser, novelist, mangaArtist, illustrator])
+  @@map("author")
+}
