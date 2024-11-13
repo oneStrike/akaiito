@@ -2,6 +2,7 @@
 import type { SearchWordTypesRes, ServiceTypesRes } from '@/apis/types/thirdParty'
 import { searchWordApi, serviceApi } from '@/apis/thirdParty'
 import { toolbar } from '@/views/contentMgmt/contentMgmt/shared'
+import { useMessage } from '@/hooks/useFeedback'
 
 defineOptions({
   name: 'ContentMgmtPage',
@@ -24,9 +25,21 @@ const handlerToolbar = async (val: string) => {
 }
 
 const search = async () => {
+  if (!parseWord.keyword) {
+    useMessage.error('请输入作品名字')
+    return
+  }
+  if (!parseWord.serviceCode) {
+    useMessage.error('请选择服务')
+    return
+  }
   if (parseWord.keyword) {
-    parseWord.loading = true
-    parseWord.list = await searchWordApi({ keyword: parseWord.keyword, service: parseWord.serviceCode })
+    try {
+      parseWord.loading = true
+      parseWord.list = await searchWordApi({ keyword: parseWord.keyword, service: parseWord.serviceCode })
+    } catch (e) {
+      console.log(e)
+    }
     parseWord.loading = false
   }
 }
@@ -56,7 +69,7 @@ const search = async () => {
       </div>
       <div class="mt-4 h-540px overflow-auto">
         <el-empty v-if="!parseWord.loading && !parseWord.list.length" />
-        <div v-else class="px-3">
+        <div v-else v-loading="parseWord.loading" class="px-3 h-full">
           <el-row :gutter="20" justify="space-around">
             <el-col v-for="item in parseWord.list" :key="item.id" :span="8">
               <el-card shadow="hover" class="mb-5">

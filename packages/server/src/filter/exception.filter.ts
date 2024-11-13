@@ -19,12 +19,17 @@ export class ExceptionFilter {
       responseErrorInfo.code = 0
       responseErrorInfo.message = prismaErrorMessage(err)
     } else if (cause) {
-      responseErrorInfo.code = 0
-      const { context, type } = cause.details[0]
-      if (type === 'any.required') {
-        responseErrorInfo.message = `【 ${context.label} 】参数丢失`
+      if (cause.code === 'ETIMEDOUT' && cause.syscall === 'connect') {
+        responseErrorInfo.code = 503
+        responseErrorInfo.message = '内部服务请求超时'
       } else {
-        responseErrorInfo.message = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
+        responseErrorInfo.code = 0
+        const { context, type } = cause.details[0]
+        if (type === 'any.required') {
+          responseErrorInfo.message = `【 ${context.label} 】参数丢失`
+        } else {
+          responseErrorInfo.message = `【 ${context.label} 】校验失败！请确认【 ${context.value} 】是否正确`
+        }
       }
     } else {
       if (err.name === 'MultipartInvalidFilenameError') err.message = '不受支持的文件类型'
@@ -55,7 +60,6 @@ export class ExceptionFilter {
     }
     err.status = 200
 
-    ctx.setAttr('responseRes', responseErrorInfo)
     const adminRequestLogService = await ctx.requestContext.getAsync(RequestLogService)
     await adminRequestLogService.recordLogs(ctx, responseErrorInfo)
     return responseErrorInfo
