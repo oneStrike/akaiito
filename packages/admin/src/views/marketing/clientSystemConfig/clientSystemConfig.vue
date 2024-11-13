@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getClientSystemConfigApi, updateClientSystemConfigApi } from '@/apis/clientManage'
+import { getClientConfigApi, updateSystemConfigApi } from '@/apis/clientManage'
 import { useMessage } from '@/hooks/useFeedback'
 import { formOptions } from './shared'
 
@@ -9,12 +9,12 @@ defineOptions({
 const configData = ref()
 
 async function formSubmit() {
-  await updateClientSystemConfigApi(configData.value)
+  await updateSystemConfigApi(configData.value)
   useMessage.success('更新成功')
 }
 
 async function getConfigData() {
-  configData.value = (await getClientSystemConfigApi()) || {}
+  configData.value = (await getClientConfigApi()) || {}
 }
 
 getConfigData()

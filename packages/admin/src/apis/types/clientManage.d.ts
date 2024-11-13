@@ -2,13 +2,13 @@
  *  接口 [获取客户端系统配置信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-199384357)
  *  @标签 客户端管理/获取客户端系统配置信息
  *  @方式 GET
- *  @地址 /admin/clientManage/getClientSystemConfig
- *  @更新时间 2024-09-16 01:18:07
+ *  @地址 /admin/clientManage/getClientConfig
+ *  @更新时间 2024-11-14 00:28:00
  */
 
-export interface GetClientSystemConfigTypesReq {}
+export interface GetClientConfigTypesReq {}
 
-export interface GetClientSystemConfigTypesRes {
+export interface GetClientConfigTypesRes {
   /* 主键id */
   id: number
 
@@ -27,11 +27,11 @@ export interface GetClientSystemConfigTypesRes {
  *  接口 [更新客户端系统配置信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-199390132)
  *  @标签 客户端管理/更新客户端系统配置信息
  *  @方式 POST
- *  @地址 /admin/clientManage/updateClientSystemConfig
- *  @更新时间 2024-09-17 22:55:13
+ *  @地址 /admin/clientManage/updateSystemConfig
+ *  @更新时间 2024-11-14 00:28:09
  */
 
-export interface UpdateClientSystemConfigTypesReq {
+export interface UpdateSystemConfigTypesReq {
   /* 客户端名称 */
   clientName: string
 
@@ -44,4 +44,4 @@ export interface UpdateClientSystemConfigTypesReq {
 }
 
 /* 主键id */
-export type UpdateClientSystemConfigTypesRes = number
+export type UpdateSystemConfigTypesRes = number
