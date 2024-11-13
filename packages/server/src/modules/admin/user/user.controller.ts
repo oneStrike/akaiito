@@ -59,21 +59,21 @@ export class UserController {
   @Post('/deleteAdminUser', { summary: '删除管理员' })
   @UserInfo()
   async deleteAdminUser(@Body() body: BasicIdDto) {
-    const user = this.ctx.getAttr('userInfo') as UserDto
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
     return this.userService.deleteAdminUser(body, user)
   }
 
   @Post('/updateAdminUserPassword', { summary: '修改密码' })
   @UserInfo()
   async updateAdminUserPassword(@Body() body: UpdateUserPwd) {
-    const user = this.ctx.getAttr('userInfo') as UserDto
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
     return this.userService.updateUserPwd(body, user)
   }
 
   @Post('/updateAdminUserStatus', { summary: '启用或者禁用管理员' })
   @UserInfo()
   async updateUserStatus(@Body() body: BasicIdStatusDto) {
-    const user = this.ctx.getAttr('userInfo') as UserDto
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
     return this.userService.updateUserInfo(body, user)
   }
 

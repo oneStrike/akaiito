@@ -42,7 +42,7 @@ export class RequestLogService extends BasicService<AdminRequestLog> {
     await this.create({
       data: {
         apiSummary: typeof route !== 'string' && route ? route.summary : '',
-        username: summaryUserInfo.username,
+        username: summaryUserInfo.username || '',
         userId: summaryUserInfo.id,
         userMobile: summaryUserInfo.mobile || params.mobile,
         requestParams: JSON.stringify(params),
