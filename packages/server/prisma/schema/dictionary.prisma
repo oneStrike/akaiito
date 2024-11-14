@@ -24,5 +24,6 @@ model DictionaryItem {
   createdAt    DateTime   @default(now()) @map("created_at") @db.DateTime(0)
   updatedAt    DateTime   @updatedAt @map("updated_at") @db.DateTime(0)
 
+  @@index([dictionaryId])
   @@map("dictionary_item")
 }
