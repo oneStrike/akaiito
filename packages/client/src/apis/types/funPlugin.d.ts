@@ -6,7 +6,7 @@
  *  @更新时间 2024-06-04 21:50:18
  */
 
-export interface FunPluginGetFunPluginTypesReq {
+export interface GetFunPluginTypesReq {
   /* 插件名称 */
   name?: string
 
@@ -20,7 +20,7 @@ export interface FunPluginGetFunPluginTypesReq {
   isFree?: number
 }
 
-export interface FunPluginGetFunPluginTypesRes {
+export interface GetFunPluginTypesRes {
   list: {
     /* 插件名称 */
     name: string
@@ -79,12 +79,12 @@ export interface FunPluginGetFunPluginTypesRes {
  *  @更新时间 2024-07-23 21:14:05
  */
 
-export interface FunPluginGetFunPluginDetailTypesReq {
+export interface GetFunPluginDetailTypesReq {
   /* 主键id */
   id: string
 }
 
-export interface FunPluginGetFunPluginDetailTypesRes {
+export interface GetFunPluginDetailTypesRes {
   /* 插件名称 */
   name: string
 

@@ -1,5 +1,3 @@
-import type { IterateObject } from '@auy/types'
-
 function joinType(item: IterateObject) {
   return `
           /* ${item.description || ''} */
@@ -27,11 +25,7 @@ function extractRefs(refs: IterateObject, dataModel: IterateObject) {
   return typesStr
 }
 
-function handlerJsonScheme(
-  jsonSchema: IterateObject,
-  dataModel: IterateObject,
-  isRes = false,
-) {
+function handlerJsonScheme(jsonSchema: IterateObject, dataModel: IterateObject, isRes = false) {
   let typesStr = ''
   if (jsonSchema) {
     const { properties, 'x-apifox-refs': refs } = jsonSchema

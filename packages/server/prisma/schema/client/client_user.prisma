@@ -6,7 +6,7 @@ model ClientUser {
   /// 密码
   password  String   @db.VarChar(100)
   /// 头像
-  avatar    String   @db.VarChar(100)
+  avatar    String?  @db.VarChar(100)
   /// 手机号
   mobile    String?  @unique(map: "mobile") @db.VarChar(20)
   /// 状态 0禁用 1正常

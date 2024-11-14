@@ -6,10 +6,10 @@
  *  @更新时间 2024-01-30 23:37:25
  */
 
-export interface UploadUploadFileTypesReq {}
+export interface UploadFileTypesReq {}
 
 /*  */
-export type UploadUploadFileTypesRes = {
+export type UploadFileTypesRes = {
   /* 文件名称 */
   fileName: string
 

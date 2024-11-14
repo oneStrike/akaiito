@@ -1,12 +1,12 @@
 import { httpClient } from '@/utils/request'
 import type {
-  UserCreateClientUserTypesRes,
-  UserCreateClientUserTypesReq,
-  UserLoginTypesRes,
-  UserLoginTypesReq,
-  UserUserInfoTypesRes,
-  UserRefreshTokenTypesRes,
-  UserRefreshTokenTypesReq,
+  CreateClientUserTypesRes,
+  CreateClientUserTypesReq,
+  LoginTypesRes,
+  LoginTypesReq,
+  UserInfoTypesRes,
+  RefreshTokenTypesRes,
+  RefreshTokenTypesReq,
 } from './types/user.d'
 
 /**
@@ -17,7 +17,7 @@ import type {
  *  @更新时间 2024-11-09 15:58:43
  */
 
-export const userCreateClientUserApi = (data: UserCreateClientUserTypesReq): Promise<UserCreateClientUserTypesRes> => {
+export const createClientUserApi = (data: CreateClientUserTypesReq): Promise<CreateClientUserTypesRes> => {
   return httpClient({
     method: 'POST',
     url: '/client/user/createClientUser',
@@ -36,7 +36,7 @@ export const userCreateClientUserApi = (data: UserCreateClientUserTypesReq): Pro
  *  @更新时间 2024-11-09 16:21:45
  */
 
-export const userLoginApi = (data: UserLoginTypesReq): Promise<UserLoginTypesRes> => {
+export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
   return httpClient({
     method: 'POST',
     url: '/client/user/login',
@@ -55,7 +55,7 @@ export const userLoginApi = (data: UserLoginTypesReq): Promise<UserLoginTypesRes
  *  @更新时间 2024-11-09 16:31:15
  */
 
-export const userUserInfoApi = (): Promise<UserUserInfoTypesRes> => {
+export const userInfoApi = (): Promise<UserInfoTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/client/user/userInfo',
@@ -71,7 +71,7 @@ export const userUserInfoApi = (): Promise<UserUserInfoTypesRes> => {
  *  @更新时间 2024-11-09 17:25:38
  */
 
-export const userRefreshTokenApi = (data: UserRefreshTokenTypesReq): Promise<UserRefreshTokenTypesRes> => {
+export const refreshTokenApi = (data: RefreshTokenTypesReq): Promise<RefreshTokenTypesRes> => {
   return httpClient({
     method: 'POST',
     url: '/client/user/refreshToken',

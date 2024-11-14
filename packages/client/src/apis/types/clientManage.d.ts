@@ -6,9 +6,9 @@
  *  @更新时间 2024-07-31 21:39:15
  */
 
-export interface ClientManageGetClientSystemConfigTypesReq {}
+export interface GetClientSystemConfigTypesReq {}
 
-export interface ClientManageGetClientSystemConfigTypesRes {
+export interface GetClientSystemConfigTypesRes {
   /* 客户端名称 */
   clientName: string
 

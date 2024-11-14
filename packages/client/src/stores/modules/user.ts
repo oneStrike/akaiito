@@ -1,11 +1,11 @@
-import type { UserLoginTypesReq, UserUserInfoTypesRes } from '@/apis/types/user'
-import { userLoginApi, userRefreshTokenApi, userUserInfoApi } from '@/apis/user'
+import type { LoginTypesReq, UserInfoTypesRes } from '@/apis/types/user'
+import { loginApi, refreshTokenApi, userInfoApi } from '@/apis/user'
 import { basicConfig } from '@/config/basic.config'
 import { useRouter } from '@/hooks/useRouter'
 import { utils } from '@/utils'
 
 export interface UseUserStoreState {
-  userInfo: UserUserInfoTypesRes | null
+  userInfo: UserInfoTypesRes | null
   token: {
     accessToken: string
     refreshToken: string
@@ -38,8 +38,8 @@ export const useUserStore = defineStore('useUserStore', {
   },
 
   actions: {
-    async login(params: UserLoginTypesReq) {
-      const data = await userLoginApi(params)
+    async login(params: LoginTypesReq) {
+      const data = await loginApi(params)
       const { TOKEN_EXPIRE_TIME, REFRESH_TOKEN_EXPIRE_TIME } = basicConfig
       const timestamp = utils.dayjs().unix()
       this.token = {
@@ -64,7 +64,7 @@ export const useUserStore = defineStore('useUserStore', {
     async renewToken() {
       if (!this.getAuthStatus()) {
         try {
-          this.token.accessToken = await userRefreshTokenApi({
+          this.token.accessToken = await refreshTokenApi({
             accessToken: this.token.accessToken,
             refreshToken: this.token.refreshToken,
           })
@@ -94,7 +94,7 @@ export const useUserStore = defineStore('useUserStore', {
         useRouter.reLaunch({ name: 'login' })
         return
       }
-      this.userInfo = await userUserInfoApi()
+      this.userInfo = await userInfoApi()
     },
   },
 })

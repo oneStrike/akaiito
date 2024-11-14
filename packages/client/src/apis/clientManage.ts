@@ -1,5 +1,5 @@
 import { httpClient } from '@/utils/request'
-import type { ClientManageGetClientSystemConfigTypesRes } from './types/clientManage.d'
+import type { GetClientSystemConfigTypesRes } from './types/clientManage.d'
 
 /**
  *  接口 [系统管理](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-199830259)
@@ -9,7 +9,7 @@ import type { ClientManageGetClientSystemConfigTypesRes } from './types/clientMa
  *  @更新时间 2024-07-31 21:39:15
  */
 
-export const clientManageGetClientSystemConfigApi = (): Promise<ClientManageGetClientSystemConfigTypesRes> => {
+export const getClientSystemConfigApi = (): Promise<GetClientSystemConfigTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/client/clientManage/getClientSystemConfig',

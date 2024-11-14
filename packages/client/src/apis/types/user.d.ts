@@ -6,7 +6,7 @@
  *  @更新时间 2024-11-09 15:58:43
  */
 
-export interface UserCreateClientUserTypesReq {
+export interface CreateClientUserTypesReq {
   /* 用户昵称 */
   username: string
 
@@ -17,8 +17,10 @@ export interface UserCreateClientUserTypesReq {
   confirmPassword: string
 }
 
-/* 主键id */
-export type UserCreateClientUserTypesRes = number
+export interface CreateClientUserTypesRes {
+  /* 主键id */
+  id: number
+}
 
 /**
  *  接口 [登录](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-231863976)
@@ -28,7 +30,7 @@ export type UserCreateClientUserTypesRes = number
  *  @更新时间 2024-11-09 16:21:45
  */
 
-export interface UserLoginTypesReq {
+export interface LoginTypesReq {
   /* 用户名 */
   username: string
 
@@ -36,7 +38,7 @@ export interface UserLoginTypesReq {
   password: string
 }
 
-export interface UserLoginTypesRes {
+export interface LoginTypesRes {
   /* undefined */
   token: {
     /* 账号token */
@@ -82,9 +84,9 @@ export interface UserLoginTypesRes {
  *  @更新时间 2024-11-09 16:31:15
  */
 
-export interface UserUserInfoTypesReq {}
+export interface UserInfoTypesReq {}
 
-export interface UserUserInfoTypesRes {
+export interface UserInfoTypesRes {
   /* 主键id */
   id: number
 
@@ -118,7 +120,7 @@ export interface UserUserInfoTypesRes {
  *  @更新时间 2024-11-09 17:25:38
  */
 
-export interface UserRefreshTokenTypesReq {
+export interface RefreshTokenTypesReq {
   /* 账号token */
   accessToken: string
 
@@ -127,4 +129,4 @@ export interface UserRefreshTokenTypesReq {
 }
 
 /* 账号token */
-export type UserRefreshTokenTypesRes = string
+export type RefreshTokenTypesRes = string

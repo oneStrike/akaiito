@@ -1,9 +1,9 @@
 import { httpClient } from '@/utils/request'
 import type {
-  FunPluginGetFunPluginTypesRes,
-  FunPluginGetFunPluginTypesReq,
-  FunPluginGetFunPluginDetailTypesRes,
-  FunPluginGetFunPluginDetailTypesReq,
+  GetFunPluginTypesRes,
+  GetFunPluginTypesReq,
+  GetFunPluginDetailTypesRes,
+  GetFunPluginDetailTypesReq,
 } from './types/funPlugin.d'
 
 /**
@@ -14,9 +14,7 @@ import type {
  *  @更新时间 2024-06-04 21:50:18
  */
 
-export const funPluginGetFunPluginApi = (
-  params: FunPluginGetFunPluginTypesReq,
-): Promise<FunPluginGetFunPluginTypesRes> => {
+export const getFunPluginApi = (params: GetFunPluginTypesReq): Promise<GetFunPluginTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/client/funPlugin/getFunPlugin',
@@ -33,9 +31,7 @@ export const funPluginGetFunPluginApi = (
  *  @更新时间 2024-07-23 21:14:05
  */
 
-export const funPluginGetFunPluginDetailApi = (
-  params: FunPluginGetFunPluginDetailTypesReq,
-): Promise<FunPluginGetFunPluginDetailTypesRes> => {
+export const getFunPluginDetailApi = (params: GetFunPluginDetailTypesReq): Promise<GetFunPluginDetailTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/client/funPlugin/getFunPluginDetail',
