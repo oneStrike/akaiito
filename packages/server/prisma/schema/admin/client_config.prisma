@@ -25,27 +25,31 @@ model ClientPageConfig {
 /// 系统通知公告
 model ClientNotification {
   /// 主键id
-  id           Int       @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   /// 内容
-  content      String    @db.MediumText
+  content         String    @db.MediumText
   /// 是否发布  1发布 0 取消
-  isPublish    Int       @default(1) @map("is_publish") @db.TinyInt
+  status          Int       @default(1) @map("is_publish") @db.TinyInt
   /// 发布开始时间
-  startTime    DateTime? @map("start_time") @db.DateTime(0)
+  startTime       DateTime? @map("start_time") @db.DateTime(0)
   /// 发布结束时间
-  endTime      DateTime? @map("end_time") @db.DateTime(0)
+  endTime         DateTime? @map("end_time") @db.DateTime(0)
   /// 页面代码，点击公告跳转的页面
-  pageCode     String?   @map("page_code") @db.TinyText
+  pageCode        String?   @map("page_code") @db.TinyText
+  /// 页面代码，点击公告跳转的页面
+  pageName        String?   @map("page_name") @db.TinyText
+  /// 通知弹窗的背景图片
+  backgroundImage String?   @map("background_image") @db.VarChar(200)
   /// 是否启用小程序   1 启用 0 禁用
-  enableApplet Int       @default(1) @map("enable_wechat")
+  enableApplet    Int       @default(1) @map("enable_wechat")
   /// 是否启用H5   1 启用 0 禁用
-  enableH5     Int       @default(1) @map("enable_h5")
+  enableH5        Int       @default(1) @map("enable_h5")
   /// 是否启用APP   1 启用 0 禁用
-  enableApp    Int       @default(1) @map("enable_app")
+  enableApp       Int       @default(1) @map("enable_app")
   /// 创建时间
-  createdAt    DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt       DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   /// 更新时间
-  updatedAt    DateTime  @updatedAt @map("updated_at") @db.DateTime(0)
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.DateTime(0)
 
   @@map("client_notification")
 }

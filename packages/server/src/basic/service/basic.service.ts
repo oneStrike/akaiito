@@ -146,7 +146,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
           break
         case 'orderBy':
           if (options.where.orderBy) {
-            options.orderBy = utils.getJson(options.where.orderBy )
+            options.orderBy = utils.getJson(options.where.orderBy)
           } else {
             options.orderBy = this.prismaConfig.orderBy
           }
@@ -185,5 +185,12 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
       total,
       list: record,
     }
+  }
+
+  // 获取列表数据
+  async findList(options?: PrismaFindPageOptions<T>): FindPageResponse<T> {
+    options.where.pageIndex = 0
+    options.where.pageSize = 500
+    return await this.findPage(options)
   }
 }

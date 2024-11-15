@@ -5,6 +5,8 @@ import { Catch } from '@midwayjs/core'
 import { prismaErrorMessage } from '@/prisma/errorMessage'
 import { RequestLogService } from '@/modules/admin/requestLog/requestLog.service'
 
+const prismaError = ['PrismaClientValidationError', 'PrismaClientKnownRequestError']
+
 @Catch()
 export class ExceptionFilter {
   async catch(err: MidwayHttpError, ctx: Context) {
@@ -15,7 +17,7 @@ export class ExceptionFilter {
     } as HttpResponseResult
 
     ctx.logger.error(err)
-    if (err.name === 'PrismaClientKnownRequestError') {
+    if (prismaError.includes(err.name)) {
       responseErrorInfo.code = 0
       responseErrorInfo.message = prismaErrorMessage(err)
     } else if (cause) {

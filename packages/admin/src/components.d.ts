@@ -71,7 +71,6 @@ declare module 'vue' {
     IconMajestLoginHalfCircleLine: typeof import('~icons/majesticons/login-half-circle-line')['default']
     IconMajestMaximizeLine: typeof import('~icons/majesticons/maximize-line')['default']
     IconMajestMinimizeLine: typeof import('~icons/majesticons/minimize-line')['default']
-    IconMajestMobileLine: typeof import('~icons/majesticons/mobile-line')['default']
     IconMajestMultiplyLine: typeof import('~icons/majesticons/multiply-line')['default']
     IconMajestPinwheelLine: typeof import('~icons/majesticons/pinwheel-line')['default']
     IconMajestPlanetLine: typeof import('~icons/majesticons/planet-line')['default']
