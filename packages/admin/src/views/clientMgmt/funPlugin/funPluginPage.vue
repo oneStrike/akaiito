@@ -11,7 +11,7 @@ import {
 import { useMessage } from '@/hooks/useFeedback'
 import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, toolbar } from '@/views/marketing/funPlugin/shared'
+import { filter, formOptions, toolbar } from '@/views/clientMgmt/funPlugin/shared'
 
 type record = GetFunPluginTypesRes[number]
 

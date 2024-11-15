@@ -1,7 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
 
 export default {
-  name: 'Marketing',
+  name: '                                                                        ',
   path: '/marketing',
   component: () => import('@/layouts/layoutMain.vue'),
   meta: {
@@ -13,7 +13,7 @@ export default {
     {
       name: 'FunPlugin',
       path: '/funPlugin',
-      component: () => import('@/views/marketing/funPlugin/funPluginPage.vue'),
+      component: () => import('@/views/clientMgmt/funPlugin/funPluginPage.vue'),
       meta: {
         title: '功能插件',
         icon: 'puzzle',
@@ -23,7 +23,7 @@ export default {
     {
       name: 'ClientSystemConfig',
       path: '/clientSystemConfig',
-      component: () => import('@/views/marketing/clientSystemConfig/clientSystemConfig.vue'),
+      component: () => import('@/views/clientMgmt/systemConfig/systemConfig.vue'),
       meta: {
         title: '客户端配置',
         icon: 'settings',
