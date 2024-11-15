@@ -33,7 +33,6 @@ export class ClientNotificationController {
 
   @Post('/updateClientNotification', { summary: '编辑客户端通知消息' })
   async updateClientNotification(@Body() body: NotificationDto & BasicIdDto) {
-    delete body.status
     return await this.notificationService.update({ where: { id: body.id }, data: body })
   }
 

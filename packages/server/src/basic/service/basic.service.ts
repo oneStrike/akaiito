@@ -118,8 +118,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
         id: true,
       }
     }
-    const deleteRes = await this.model.delete(options)
-    return deleteRes.id
+    return await this.model.delete(options)
   }
 
   // 批量删除

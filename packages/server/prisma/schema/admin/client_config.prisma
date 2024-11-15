@@ -8,11 +8,11 @@ model ClientPageConfig {
   pagePath    String   @unique @map("page_path") @db.VarChar(200)
   /// 页面名称
   pageName    String   @unique @map("page_name") @db.VarChar(200)
-  /// 状态  1启用  0禁用
+  /// 页面权限 1普通 2vip 3登录
+  pageRule    Int      @default(0) @map("page_rule") @db.TinyInt
+  /// 状态  1启用  0禁用 2开发中 3维护中
   status      Int      @default(1) @db.TinyInt
-  /// 是否vip才能查看 1是 0否
-  isVip       Int      @default(0) @map("is_vip") @db.TinyInt
-  /// 是否vip才能查看 1是 0否
+  /// 页面描述信息
   description String?  @db.VarChar(200)
   /// 创建时间
   createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)

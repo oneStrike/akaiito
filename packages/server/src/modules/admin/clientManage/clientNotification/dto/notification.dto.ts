@@ -15,9 +15,6 @@ export class NotificationDto {
   backgroundImage?: string
 
   @Rule(validateNumberLess(2))
-  status?: number
-
-  @Rule(validateNumberLess(2))
   enableApplet?: number
 
   @Rule(validateNumberLess(2))
@@ -27,9 +24,7 @@ export class NotificationDto {
   enableApp?: number
 }
 
-export class getNotificationListDto extends PickDto(NotificationDto, [
-  'status',
-  'enableApplet',
-  'enableH5',
-  'enableApp',
-]) {}
+export class getNotificationListDto extends PickDto(NotificationDto, ['enableApplet', 'enableH5', 'enableApp']) {
+  @Rule(validateNumberLess(2))
+  status?: number
+}
