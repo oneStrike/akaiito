@@ -55,7 +55,7 @@ export const useUserStore = defineStore('useUserStore', {
 
     // 刷新token
     async renewToken() {
-      if (!this.getAuthStatus()) {
+      if (!this.getAuthStatus() && this.token.accessToken) {
         try {
           this.token.accessToken = await refreshAccessTokenApi({
             accessToken: this.token.accessToken,

@@ -99,6 +99,8 @@ watch(
     <icon-majest-book-open-line v-if="name === 'book'" />
     <icon-majest-textbox-line v-if="name === 'textbox'" />
     <icon-majest-cube-line v-if="name === 'cube'" />
+    <icon-majest-device-mobile-line v-if="name === 'mobile'" />
+    <icon-majest-speakerphone-line v-if="name === 'speakerphone'" />
 
     <icon-tabler-user-edit v-if="name === 'userEdit'" />
   </el-icon>
