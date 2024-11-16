@@ -10,4 +10,6 @@ export class ClientConfigService extends BasicService<ClientConfig> {
   protected get model() {
     return this.prismaClient.clientConfig
   }
+
+
 }

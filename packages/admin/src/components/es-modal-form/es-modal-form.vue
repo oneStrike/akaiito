@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { EsFormOptions, EsFormProps } from '@/components/es-form/es-form.vue'
-import type { IterateObject } from '@auy/types'
 import { utils } from '@/utils'
 
 export interface FormModalProps {
-  modelValue?: IterateObject
-  defaultValue?: IterateObject | null
+  defaultValue: IterateObject
   options: EsFormOptions[]
   title?: string
   loading?: boolean
@@ -21,49 +19,46 @@ const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
   (event: 'submit', data: IterateObject): void
-  (event: 'change', data: IterateObject): void
-  (event: 'update:loading', data: boolean): void
-  (event: 'update:modelValue', data: IterateObject): void
 }>()
 
-const btnLoading = ref(false)
-const esFormRef = ref()
-
-const formValue = computed({
-  get() {
-    return props.modelValue || utils._.cloneDeep(props.defaultValue || {})
-  },
-  set(val) {
-    emits('update:modelValue', val)
-    emits('change', val)
-  },
+const formData = defineModel({
+  type: Object,
+  default: () => ({}),
 })
 
-onMounted(() => {
-  window.addEventListener('unhandledrejection', () => {
-    btnLoading.value = false
-    emits('update:loading', false)
-  })
-})
-
-const showForm = defineModel('modal', {
+const showForm = defineModel('show', {
   type: Boolean,
   default: false,
 })
+
+const formLoading = defineModel('loading', {
+  type: Boolean,
+  default: false,
+})
+
 watch(
-  () => props.loading,
-  (val) => {
-    btnLoading.value = !!val
+  () => props.defaultValue,
+  (value) => {
+    if (value && Object.keys(value).length) {
+      formData.value = utils._.cloneDeep(value)
+    }
   },
-  { immediate: true },
+  { deep: true },
 )
+
+const esFormRef = ref()
+
+onMounted(() => {
+  window.addEventListener('unhandledrejection', () => {
+    formLoading.value = false
+  })
+})
 
 watch(showForm, (value) => {
   if (!value) {
-    formValue.value = {}
+    formData.value = {}
     esFormRef.value.resetForm()
-    btnLoading.value = false
-    emits('update:loading', false)
+    formLoading.value = false
   }
 })
 
@@ -74,16 +69,15 @@ function handler() {
 }
 
 function formSubmit(val: IterateObject) {
-  btnLoading.value = true
+  formLoading.value = true
   emits('submit', val)
-  emits('update:loading', true)
 }
 </script>
 
 <template>
   <es-modal
     v-model="showForm"
-    :loading="btnLoading"
+    :loading="formLoading"
     :width="width"
     :title="title"
     destroy-on-close
@@ -93,7 +87,7 @@ function formSubmit(val: IterateObject) {
   >
     <es-form
       ref="esFormRef"
-      v-model="formValue"
+      v-model="formData"
       :options="options"
       :show-btn="false"
       :form-props="formProps"

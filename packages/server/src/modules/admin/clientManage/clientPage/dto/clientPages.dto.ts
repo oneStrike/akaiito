@@ -15,6 +15,9 @@ export class ClientPagesDto {
   @Rule(requiredNumberLess(4))
   pageRule!: number
 
+  @Rule(requiredNumberLess(4))
+  status!: number
+
   @Rule(validateString)
   description?: string
 }

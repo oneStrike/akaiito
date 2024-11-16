@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { IterateObject } from '@auy/types'
 import type { TableColumnInstance } from 'element-plus'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
@@ -145,7 +144,12 @@ defineExpose({
       @sort-change="handlerSortChange"
     >
       <el-table-column v-if="selection" type="selection" width="55" class-name="leading-9" />
-      <el-table-column v-for="item in innerColumns" :key="item.columnKey" v-bind="item" class-name="leading-9">
+      <el-table-column
+        v-for="item in innerColumns"
+        :key="item.columnKey"
+        v-bind="item"
+        class-name="leading-9"
+      >
         <template #default="{ row, column, $index }">
           <template v-if="item.slotName">
             <slot :name="item.slotName" :row="row" :column="column" :index="$index" />

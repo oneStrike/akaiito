@@ -1,4 +1,3 @@
-import type { AsyncFn, IterateObject, ResolvedReturnType } from '@auy/types'
 import { utils } from '@/utils'
 
 interface RequestOptions {
