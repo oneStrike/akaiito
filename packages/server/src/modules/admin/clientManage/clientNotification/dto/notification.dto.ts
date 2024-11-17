@@ -18,13 +18,10 @@ export class NotificationDto {
   enableApplet?: number
 
   @Rule(validateNumberLess(2))
-  enableH5?: number
+  enableWeb?: number
 
   @Rule(validateNumberLess(2))
   enableApp?: number
 }
 
-export class getNotificationListDto extends PickDto(NotificationDto, ['enableApplet', 'enableH5', 'enableApp']) {
-  @Rule(validateNumberLess(2))
-  status?: number
-}
+export class getNotificationListDto extends PickDto(NotificationDto, ['enableApplet', 'enableWeb', 'enableApp']) {}

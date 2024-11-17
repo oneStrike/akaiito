@@ -62,7 +62,7 @@ export const tableColumns: EsTableColumn = [
     label: '创建时间',
     prop: 'createdAt',
     align: 'center',
-    formatter: utils.formatter,
+    formatter: utils.formatTime,
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',

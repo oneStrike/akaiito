@@ -85,7 +85,7 @@ function toggleFullScreenStatus() {
         </div>
       </div>
     </template>
-    <div class="overflow-y-auto" :class="fullscreen ? ['max-h-[80vh]', 'h-[80vh]'] : 'max-h-[70vh]'">
+    <div class="overflow-y-auto pr-2" :class="fullscreen ? ['max-h-[80vh]', 'h-[80vh]'] : 'max-h-[70vh]'">
       <div :style="contentStyle" class="h-full">
         <slot />
       </div>

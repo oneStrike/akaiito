@@ -22,7 +22,7 @@ const modalFrom = reactive({
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params, request } = useRequest(getClientPagesApi, {
+const { loading, reset, requestData, params } = useRequest(getClientPagesApi, {
   type: 'page',
 })
 

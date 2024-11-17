@@ -3,7 +3,7 @@ import type { EsFormOptions, EsFormProps } from '@/components/es-form/es-form.vu
 import { utils } from '@/utils'
 
 export interface FormModalProps {
-  defaultValue: IterateObject
+  defaultValue: IterateObject | null
   options: EsFormOptions[]
   title?: string
   loading?: boolean
@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<FormModalProps>(), {
 const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
-  (event: 'submit', data: IterateObject): void
+  (event: 'submit', data: any): void
 }>()
 
 const formData = defineModel({

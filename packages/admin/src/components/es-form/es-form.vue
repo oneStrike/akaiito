@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { IterateObject } from '@auy/types'
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
 
 export type EsFormComponent =
@@ -16,6 +15,7 @@ export type EsFormComponent =
 
 export type FormComponentProps = Partial<FormItemProps> & {
   class?: string
+  style?: IterateObject
   defaultValue?: any
 }
 
@@ -176,6 +176,8 @@ defineExpose({
           v-bind="item.componentProps"
           v-on="item.on || {}"
         />
+
+        <es-editor v-if="item.component === 'RichText'" v-model="formData[item.field]" v-bind="item.componentProps" />
       </el-form-item>
     </template>
     <div class="es-form-button">

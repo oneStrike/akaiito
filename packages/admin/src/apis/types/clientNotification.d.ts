@@ -3,7 +3,7 @@
  *  @标签 通知公告/获取客户端通知公告
  *  @方式 GET
  *  @地址 /admin/clientNotification/getClientNotificationList
- *  @更新时间 2024-11-15 23:30:57
+ *  @更新时间 2024-11-17 00:59:00
  */
 
 export interface GetClientNotificationListTypesReq {
@@ -14,7 +14,7 @@ export interface GetClientNotificationListTypesReq {
   enableApplet: string
 
   /* 是否在H5平台启用  1是  0否 */
-  enableH5: string
+  enableWeb: string
 
   /* 是否APP平台启用  1是  0否 */
   enableApp: string
@@ -25,8 +25,8 @@ export interface GetClientNotificationListTypesRes {
     /* 主键id */
     id: number
 
-    /* 启用状态 1启用  0禁用 */
-    status: number
+    /* 标题 */
+    title: string
 
     /* 开始时间 */
     startTime: string | null
@@ -38,7 +38,7 @@ export interface GetClientNotificationListTypesRes {
     enableApplet: number
 
     /* 是否在H5平台启用  1启用 0禁用 */
-    enableH5: number
+    enableWeb: number
 
     /* 是否在APP平台启用  1启用 0禁用 */
     enableApp: number
@@ -90,6 +90,9 @@ export type GetClientNotificationDetailTypesRes = any
  */
 
 export interface CreateClientNotificationTypesReq {
+  /* 标题 */
+  title: string
+
   /* 通知内容 */
   content: string
 
@@ -106,7 +109,7 @@ export interface CreateClientNotificationTypesReq {
   enableApplet: number
 
   /* 是否在H5平台启用  1启用 0禁用 */
-  enableH5: number
+  enableWeb: number
 
   /* 是否在APP平台启用  1启用 0禁用 */
   enableApp: number
@@ -149,11 +152,11 @@ export interface UpdateClientNotificationTypesReq {
   /* 主键id */
   id: number
 
+  /* 标题 */
+  title: string
+
   /* 通知内容 */
   content: string
-
-  /* 启用状态 1启用  0禁用 */
-  status: number
 
   /* 开始时间 */
   startTime: string | null
@@ -168,7 +171,7 @@ export interface UpdateClientNotificationTypesReq {
   enableApplet: number
 
   /* 是否在H5平台启用  1启用 0禁用 */
-  enableH5: number
+  enableWeb: number
 
   /* 是否在APP平台启用  1启用 0禁用 */
   enableApp: number
@@ -181,27 +184,6 @@ export interface UpdateClientNotificationTypesReq {
 }
 
 export interface UpdateClientNotificationTypesRes {
-  /* 主键id */
-  id: number
-}
-
-/**
- *  接口 [更新通知公告发布状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234290667)
- *  @标签 通知公告/更新通知公告发布状态
- *  @方式 POST
- *  @地址 /admin/clientNotification/updateClientNotificationStatus
- *  @更新时间 2024-11-15 23:46:11
- */
-
-export interface UpdateClientNotificationStatusTypesReq {
-  /* 主键id */
-  id: number
-
-  /* 发布状态 1发布 0不发布 */
-  status: number
-}
-
-export interface UpdateClientNotificationStatusTypesRes {
   /* 主键id */
   id: number
 }

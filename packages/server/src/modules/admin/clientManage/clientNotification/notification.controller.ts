@@ -4,7 +4,7 @@ import {
   getNotificationListDto,
   NotificationDto,
 } from '@/modules/admin/clientManage/clientNotification/dto/notification.dto'
-import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
+import { BasicIdDto } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/clientNotification')
 export class ClientNotificationController {
@@ -34,10 +34,5 @@ export class ClientNotificationController {
   @Post('/updateClientNotification', { summary: '编辑客户端通知消息' })
   async updateClientNotification(@Body() body: NotificationDto & BasicIdDto) {
     return await this.notificationService.update({ where: { id: body.id }, data: body })
-  }
-
-  @Post('/updateClientNotificationStatus', { summary: '启用或禁用客户端通知消息' })
-  async updateClientNotificationStatus(@Body() body: BasicIdStatusDto) {
-    return await this.notificationService.updateStatus(body)
   }
 }

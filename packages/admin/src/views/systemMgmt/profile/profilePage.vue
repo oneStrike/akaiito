@@ -23,7 +23,7 @@ const { userInfo } = storeToRefs(useUserStore())
                 {{ userInfo?.isRoot ? '是' : '否' }}
               </el-descriptions-item>
               <el-descriptions-item label="创建日期">
-                {{ utils.formatter(userInfo!.createdAt) }}
+                {{ utils.formatTime(userInfo!.createdAt) }}
               </el-descriptions-item>
             </el-descriptions>
           </div>

@@ -13,6 +13,11 @@ export class ClientPageController {
     return await this.pageService.findPage({ where: query })
   }
 
+  @Get('/getClientPageDetail', { summary: '获取客户端页面详情' })
+  async getClientPageDetail(@Query() query: BasicIdDto) {
+    return await this.pageService.findUnique({ where: query })
+  }
+
   @Post('/createClientPage', { summary: '创建客户端页面' })
   async createClientPage(@Body() body: ClientPagesDto) {
     return await this.pageService.create({ data: body })

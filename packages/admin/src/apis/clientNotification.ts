@@ -10,8 +10,6 @@ import type {
   DeleteClientNotificationTypesReq,
   UpdateClientNotificationTypesRes,
   UpdateClientNotificationTypesReq,
-  UpdateClientNotificationStatusTypesRes,
-  UpdateClientNotificationStatusTypesReq,
 } from './types/clientNotification.d'
 
 /**
@@ -19,7 +17,7 @@ import type {
  *  @标签 通知公告/获取客户端通知公告
  *  @方式 GET
  *  @地址 /admin/clientNotification/getClientNotificationList
- *  @更新时间 2024-11-15 23:30:57
+ *  @更新时间 2024-11-17 00:59:00
  */
 
 export const getClientNotificationListApi = (
@@ -108,27 +106,6 @@ export const updateClientNotificationApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/clientNotification/updateClientNotification',
-    header: {
-      'Content-Type': 'application/json',
-    },
-    data,
-  })
-}
-
-/**
- *  接口 [更新通知公告发布状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234290667)
- *  @标签 通知公告/更新通知公告发布状态
- *  @方式 POST
- *  @地址 /admin/clientNotification/updateClientNotificationStatus
- *  @更新时间 2024-11-15 23:46:11
- */
-
-export const updateClientNotificationStatusApi = (
-  data: UpdateClientNotificationStatusTypesReq,
-): Promise<UpdateClientNotificationStatusTypesRes> => {
-  return httpClient({
-    method: 'POST',
-    url: '/admin/clientNotification/updateClientNotificationStatus',
     header: {
       'Content-Type': 'application/json',
     },

@@ -33,7 +33,7 @@ export const tableColumns: EsTableColumn = [
     label: '登录时间',
     prop: 'createdAt',
     align: 'center',
-    formatter: utils.formatter,
+    formatter: utils.formatTime,
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',
