@@ -6,7 +6,8 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "vite/**/*"
+    "vite/**/*",
+    "src/global.d.ts"
   ],
   "compilerOptions": {
     "composite": true,

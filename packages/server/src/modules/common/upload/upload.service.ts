@@ -1,5 +1,5 @@
 import { utils } from '@/utils'
-import { Config, httpError, Provide } from '@midwayjs/core'
+import { Config, Provide } from '@midwayjs/core'
 import * as fs from 'fs-extra'
 
 @Provide()
@@ -11,9 +11,9 @@ export class UploadService {
   staticFileConfig
 
   async local(files: IterateObject[], fields: IterateObject) {
-    if (!this.projectConfig.upload.resourceScenario.includes(fields.scenario)) {
-      throw new httpError.BadRequestError('不受支持的场景文件')
-    }
+    // if (!this.projectConfig.upload.resourceScenario.includes(fields.scenario)) {
+    //   throw new httpError.BadRequestError('不受支持的场景文件')
+    // }
     const date = utils.dayjs().format('YYYYMMDD')
     const reportData = []
     files.forEach((item) => {

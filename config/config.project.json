@@ -6,6 +6,7 @@
       "adminResourceLibrary",
       "userAvatar",
       "plugin",
+      "editor",
       "shared"
     ],
     "allowFileType": {
