@@ -14,7 +14,9 @@
   "dependencies": {
     "@akaiito/utils": "workspace:^*",
     "ant-design-vue": "^4.2.6",
+    "nprogress": "^0.2.0",
     "pinia": "^2.2.6",
+    "pinia-plugin-persistedstate": "^4.0.2",
     "vue": "^3.5.13",
     "vue-router": "^4.4.5"
   },
@@ -23,6 +25,7 @@
     "@akaiito/types": "workspace:^*",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.9.0",
+    "@types/nprogress": "^0.2.3",
     "@vitejs/plugin-vue": "^5.2.0",
     "@vitejs/plugin-vue-jsx": "^4.1.0",
     "@vue/tsconfig": "^0.5.1",

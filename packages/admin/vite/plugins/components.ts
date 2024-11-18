@@ -4,11 +4,14 @@ import Components from 'unplugin-vue-components/vite'
 
 export const autoRegistryComponent = (): any => {
   return Components({
-    dts: 'src/typings/components.d.ts',
+    dts: 'src/types/components.d.ts',
     dirs: ['src/components'],
     directoryAsNamespace: false,
     resolvers: [
-      AntDesignVueResolver(),
+      AntDesignVueResolver({
+        resolveIcons: true,
+        importStyle: false,
+      }),
       IconsResolver({
         prefix: 'icon',
       }),

@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import { useLayoutMenuProvide } from '~/components/page-container/context'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
 
-const appStore = useAppStore()
-const { theme } = storeToRefs(appStore)
-const { antd } = useI18nLocale()
-const layoutMenu = useLayoutMenu()
-useLayoutMenuProvide(layoutMenu, appStore)
+dayjs.locale('zh-cn')
 </script>
 
 <template>
-  <a-config-provider :theme="theme" :locale="antd">
-    <a-app class="h-full font-chinese antialiased">
-      <TokenProvider>
-        <RouterView />
-      </TokenProvider>
-    </a-app>
-  </a-config-provider>
+  <div class="app">
+    <a-config-provider
+      :locale="zhCN"
+      :theme="{
+        token: {
+          colorPrimary: '#00b96b',
+          borderRadius: 4,
+        },
+      }"
+    >
+      <a-app>
+        <router-view />
+      </a-app>
+    </a-config-provider>
+  </div>
 </template>
+<style></style>
