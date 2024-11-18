@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { ElConfigProvider } from 'element-plus'
-import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import { useLayoutMenuProvide } from '~/components/page-container/context'
+
+const appStore = useAppStore()
+const { theme } = storeToRefs(appStore)
+const { antd } = useI18nLocale()
+const layoutMenu = useLayoutMenu()
+useLayoutMenuProvide(layoutMenu, appStore)
 </script>
 
 <template>
-  <ElConfigProvider :locale="zhCn">
-    <router-view />
-  </ElConfigProvider>
+  <a-config-provider :theme="theme" :locale="antd">
+    <a-app class="h-full font-chinese antialiased">
+      <TokenProvider>
+        <RouterView />
+      </TokenProvider>
+    </a-app>
+  </a-config-provider>
 </template>
-
-<style>
-</style>

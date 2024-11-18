@@ -1,28 +1,16 @@
-import process from 'node:process'
-import { defineConfig, loadEnv } from 'vite'
-import { ViteBuild } from './vite/build'
-import { VitePlugins } from './vite/plugins'
-import { ViteProxy } from './vite/proxy'
-import { ViteResolve } from './vite/resolve'
+import { fileURLToPath, URL } from 'node:url'
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import vueDevTools from 'vite-plugin-vue-devtools'
 
-  return {
-    base: './',
-    plugins: VitePlugins(),
-    resolve: ViteResolve,
-    build: ViteBuild,
-    server: ViteProxy(env),
-    optimizeDeps: {
-      include: ['element-plus/es'],
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [vue(), vueJsx(), vueDevTools()],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: 'modern-compiler', // or 'modern'
-        },
-      },
-    },
-  }
+  },
 })
