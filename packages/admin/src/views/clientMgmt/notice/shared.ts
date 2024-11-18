@@ -76,6 +76,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'pageCode',
     component: 'Select',
     props: {
+      span: 2,
       label: '跳转页面',
       rules: [{ required: true, message: '请选择跳转页面' }],
     },
@@ -88,6 +89,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'backgroundImage',
     component: 'Upload',
     props: {
+      span: 2,
       label: '弹窗背景',
       rules: [{ required: false, message: '请上传弹窗背景图片' }],
     },
@@ -113,6 +115,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'enable',
     component: 'Checkbox',
     props: {
+      span: 2,
       label: '发布平台',
       rules: [{ required: true, message: '请选择发布平台' }],
     },
@@ -138,6 +141,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'startTime',
     component: 'DateTime',
     props: {
+      span: 2,
       label: '通知时间',
       rules: [{ required: false, message: '请选择通知时间' }],
     },

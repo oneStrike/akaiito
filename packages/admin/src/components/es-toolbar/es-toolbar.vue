@@ -56,13 +56,14 @@ watch(
         if (!item.props) {
           item.props = {}
         }
-        if (!item.props.class) {
+        item.props.style = item.props.style || {}
+        if (!item.props.style.width) {
           switch (item.component) {
             case 'DateTime':
-              item.props.class = 'w-96'
+              item.props.style.width = '300px'
               break
             default:
-              item.props.class = 'w-44'
+              item.props.style.width = '160px'
           }
         }
         const innerSubmit = () => {

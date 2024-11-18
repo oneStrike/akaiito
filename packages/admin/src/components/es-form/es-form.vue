@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
+import { utils } from '@/utils'
 
 export type EsFormComponent =
   | 'Input'
@@ -14,6 +15,7 @@ export type EsFormComponent =
   | 'Upload'
 
 export type FormComponentProps = Partial<FormItemProps> & {
+  span?: number
   class?: string
   style?: IterateObject
   defaultValue?: any
@@ -51,6 +53,26 @@ const emits = defineEmits<{
 }>()
 const formRef = ref<FormInstance>()
 const formData = ref<IterateObject>({})
+const formOptions = computed(() => {
+  return props.options.map((item) => {
+    if (!item.props) {
+      item.props = {}
+    }
+    item.props.style = item.props.style || {}
+    if (!item.props.style?.width) {
+      if (!item.props.span || item.props.span === 1) {
+        item.props.style!.width = '100%'
+      } else if (item.props.span === 2) {
+        item.props.style!.width = '48%'
+      } else if (item.props.span === 3) {
+        item.props.style!.width = '32.66%'
+      } else if (item.props.span === 4) {
+        item.props.style!.width = '24.5%'
+      }
+    }
+    return item
+  })
+})
 
 watch(
   () => props.modelValue,
@@ -88,7 +110,7 @@ defineExpose({
 </script>
 
 <template>
-  <el-form v-bind="formProps" ref="formRef" :model="formData">
+  <el-form v-bind="formProps" ref="formRef" :model="formOptions" class="flex flex-wrap justify-between">
     <template v-for="item in options" :key="item.field">
       <el-form-item v-if="item.show !== false" :prop="item.field" v-bind="item.props">
         <es-upload
@@ -173,6 +195,7 @@ defineExpose({
           range-separator="-"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
+          :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
           v-bind="item.componentProps"
           v-on="item.on || {}"
         />
