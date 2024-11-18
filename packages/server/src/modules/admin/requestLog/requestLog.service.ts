@@ -3,7 +3,7 @@ import { utils } from '@/utils'
 import { Inject, Provide } from '@midwayjs/core'
 
 import { AdminRequestLog, PrismaClient } from '@prisma/client'
-import type { HttpResponseResult } from '@auy/types'
+import type { HttpResponseResult } from '@akaiito/types'
 import type { Context } from '@midwayjs/koa'
 import { RouterService } from '@/basic/service/router.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'

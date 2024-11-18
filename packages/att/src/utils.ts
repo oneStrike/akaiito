@@ -1,5 +1,3 @@
-import type { IterateObject } from '@auy/types'
-
 export function formatSchema(schema: IterateObject | IterateObject[], dataSchema?: IterateObject) {
   const schemaArr: IterateObject[] = []
   if (Array.isArray(schema)) {
@@ -11,12 +9,7 @@ export function formatSchema(schema: IterateObject | IterateObject[], dataSchema
     })
     return schemaArr
   }
-  const {
-    properties,
-    required = [],
-    'x-apifox-orders': apiOrders,
-    'x-apifox-refs': refs,
-  } = schema
+  const { properties, required = [], 'x-apifox-orders': apiOrders, 'x-apifox-refs': refs } = schema
   apiOrders?.forEach((item: string) => {
     if (refs && refs[item]) {
       const { $ref: ref, 'x-apifox-overrides': overrides } = refs[item]
@@ -26,13 +19,11 @@ export function formatSchema(schema: IterateObject | IterateObject[], dataSchema
           for (const overridesKey in overrides) {
             if (overrides[overridesKey]) {
               dataSchema[refId].forEach((item: IterateObject) => {
-                if (item.name === overridesKey)
-                  schemaArr.push(item)
+                if (item.name === overridesKey) schemaArr.push(item)
               })
             }
           }
-        }
-        else {
+        } else {
           schemaArr.push(...dataSchema[refId])
         }
       }
@@ -49,16 +40,13 @@ export function formatSchema(schema: IterateObject | IterateObject[], dataSchema
       }
       if (Array.isArray(type)) {
         schema.type = type.join(' | ')
-      }
-      else if (type === 'integer') {
+      } else if (type === 'integer') {
         schema.type = 'number'
-      }
-      else if (type === 'object') {
+      } else if (type === 'object') {
         schema.type = [...formatSchema(properties[item], dataSchema)]
-      }
-      else if (type === 'array') {
-        schema.type
-          = properties[item].items.type === 'object'
+      } else if (type === 'array') {
+        schema.type =
+          properties[item].items.type === 'object'
             ? [...formatSchema(properties[item].items, dataSchema)]
             : properties[item].items.type
         schema.array = true
@@ -71,6 +59,7 @@ export function formatSchema(schema: IterateObject | IterateObject[], dataSchema
 }
 
 let tag: IterateObject[] = []
+
 export function formatApi(target: IterateObject[], tags: IterateObject, apis: IterateObject[], exclude: string[]) {
   apis.forEach((item) => {
     if (item.type === 'apiDetailFolder' && !exclude.includes(item.folder?.id)) {
@@ -80,19 +69,14 @@ export function formatApi(target: IterateObject[], tags: IterateObject, apis: It
       })
     }
     if (!exclude.includes(item.folder?.id) && item.type === 'apiDetail') {
-      const targetIdx = tag.findIndex(tag => tag.id === item.api.folderId)
+      const targetIdx = tag.findIndex((tag) => tag.id === item.api.folderId)
       tag.splice(targetIdx + 1)
-      tags[item.api.id] = `${tag.map(item => item.name).join('/')}/${item.name}`
+      tags[item.api.id] = `${tag.map((item) => item.name).join('/')}/${item.name}`
       target.push(item)
     }
-    if (
-      item.type === 'apiDetailFolder'
-      && item.children.length
-      && !exclude.includes(item.folder?.id)
-    ) {
+    if (item.type === 'apiDetailFolder' && item.children.length && !exclude.includes(item.folder?.id)) {
       formatApi(target, tags, item.children, exclude)
-      if (item.folder.parentId === 0)
-        tag = []
+      if (item.folder.parentId === 0) tag = []
     }
   })
   return {}
@@ -100,22 +84,14 @@ export function formatApi(target: IterateObject[], tags: IterateObject, apis: It
 
 export function conversion(api: IterateObject, config: IterateObject) {
   const requestDoc = generateTyping(api.requestScheme)
-  const requiredRequest = api.requestScheme?.find(
-    (item: IterateObject) => item.required,
-  )
-  const responseScheme = api.responseScheme?.find(
-    (item: IterateObject) => item.name === config.field,
-  )
+  const requiredRequest = api.requestScheme?.find((item: IterateObject) => item.required)
+  const responseScheme = api.responseScheme?.find((item: IterateObject) => item.name === config.field)
 
-  const responseDoc = responseScheme?.type
-    ? generateTyping(responseScheme.type)
-    : null
+  const responseDoc = responseScheme?.type ? generateTyping(responseScheme.type) : null
 
   const options = shared(api, config)
   const typingsStr = `/**
- * 接口 [${api.name}↗](https://apifox.com/apidoc/shared-${config.key}/api-${
-  api.id
-})
+ * 接口 [${api.name}↗](https://apifox.com/apidoc/shared-${config.key}/api-${api.id})
  * @标签 \`${api.tags}\`
  * @请求头 \`${api.method.toUpperCase()} ${api.path}\`
  * @更新时间 \`${api.updatedAt}\`
@@ -130,25 +106,13 @@ export interface ${options.typingsName} {
           */`
       : ''
   }
-  Response: ${
-  responseDoc
-    ? responseScheme.array
-      ? `${responseDoc}[]`
-      : responseDoc
-    : null
-}
+  Response: ${responseDoc ? (responseScheme.array ? `${responseDoc}[]` : responseDoc) : null}
 }
 `
-  const payload = requestDoc
-    ? `${options.payload}${requiredRequest ? '' : '?'}: ${
-      options.typingsName
-    }['Request']`
-    : ''
+  const payload = requestDoc ? `${options.payload}${requiredRequest ? '' : '?'}: ${options.typingsName}['Request']` : ''
 
   const apiStr = `
-    export const ${options.apiName} = (${payload}):Promise<${
-  options.typingsName
-}['Response']> =>{
+    export const ${options.apiName} = (${payload}):Promise<${options.typingsName}['Response']> =>{
       return ${config.http.client}({
         method: '${api.method.toUpperCase()}',
         url: '${api.path}',
@@ -171,6 +135,7 @@ export function getName(path: string, typings = false) {
   }
   return `${name}Api`
 }
+
 /**
  * 生成类型定义字符串
  * @param schema - 类型定义数组
@@ -187,17 +152,16 @@ function generateTyping(schema: IterateObject[] | string) {
       * ${item.description || ''}
       */
      ${item.name + (item.required ? '' : '?')}: ${
-  typeof item.type !== 'string'
-    ? `
+       typeof item.type !== 'string'
+         ? `
          ${generateTyping(item.type)}${item.array ? '[]' : ''}
        `
-    : item.type + (item.array ? '[]' : '')
-}
+         : item.type + (item.array ? '[]' : '')
+     }
 `
     })
     return str ? `{${str}}` : null
-  }
-  else {
+  } else {
     return schema
   }
 }
@@ -226,13 +190,9 @@ export function shared(api: IterateObject, config: IterateObject) {
   const apiName = getName(api.path)
   const typingsName = getName(api.path, true)
 
-  const apiFileName = config.apiFileName
-    ? config.apiFileName(api)
-    : api.path.split('/').slice(-2)[0]
+  const apiFileName = config.apiFileName ? config.apiFileName(api) : api.path.split('/').slice(-2)[0]
 
-  const typingsFileName = config.typingsFileName
-    ? config.typingsFileName(api)
-    : api.path.split('/').slice(-2)[0]
+  const typingsFileName = config.typingsFileName ? config.typingsFileName(api) : api.path.split('/').slice(-2)[0]
 
   const apiRootPath = config.apiPath || `${process.cwd()}/src/apis/`
   const typingsRootPath = config.typingsPath || `${process.cwd()}/src/apis/`

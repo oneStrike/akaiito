@@ -16,7 +16,7 @@ getConfig().then(async (attConfig) => {
   console.log('接口生成中...')
   const apiTree = await apiFoxApi.getApiTree()
   const apiList = await formatApiTree(
-    apiTree.filter((item: any) => !attConfig?.exclude.includes(item.folder.id)),
+    apiTree.filter((item: any) => !attConfig?.exclude.includes(item.folder?.id)),
     attConfig,
     apiFoxApi,
     dataModel,

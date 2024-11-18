@@ -1,9 +1,10 @@
 {
-  "name": "@auy/admin",
+  "name": "@akaiito/admin",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
+    "att": "att",
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
@@ -11,20 +12,30 @@
     "type-check": "vue-tsc --build --force"
   },
   "dependencies": {
+    "@akaiito/utils": "workspace:^*",
     "ant-design-vue": "^4.2.6",
     "pinia": "^2.2.6",
     "vue": "^3.5.13",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
+    "@akaiito/att": "workspace:^*",
+    "@akaiito/types": "workspace:^*",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.9.0",
     "@vitejs/plugin-vue": "^5.2.0",
     "@vitejs/plugin-vue-jsx": "^4.1.0",
     "@vue/tsconfig": "^0.5.1",
     "npm-run-all2": "^7.0.1",
+    "sass": "1.78.0",
     "typescript": "~5.6.3",
+    "unocss": "^0.64.1",
+    "unplugin-auto-import": "^0.18.4",
+    "unplugin-icons": "^0.20.1",
+    "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.11",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-restart": "^0.4.1",
     "vite-plugin-vue-devtools": "^7.6.4",
     "vue-tsc": "^2.1.10"
   }

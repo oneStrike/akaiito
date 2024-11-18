@@ -22,7 +22,7 @@
       "@uni-helper/uni-types",
       "@types/node",
       "miniprogram-api-typings",
-      "@auy/types"
+      "@akaiito/types"
     ],
     "strict": true,
     "sourceMap": true,
@@ -34,10 +34,6 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/**/*.nvue"
-  ],
-  "exclude": [
-    "src/pages/obsolete/**",
-    "src/obsolete-components/**"
   ],
   "vueCompilerOptions": {
     "plugins": [

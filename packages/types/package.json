@@ -1,5 +1,5 @@
 {
-  "name": "@auy/types",
+  "name": "@akaiito/types",
   "version": "1.0.0",
   "description": "",
   "types": "src/index.d.ts",

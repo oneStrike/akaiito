@@ -1,4 +1,4 @@
-import { auyUtils } from '@auy/utils'
+import { auyUtils } from '@akaiito/utils'
 
 import * as dayjs from 'dayjs'
 import { encryption } from './encryption'

@@ -38,7 +38,6 @@ declare global {
   type AsyncFn<T = any> = (p?: T) => Promise<T>
   // 获取列表数据的item
   type ResolveListItem<T> = T extends { list: infer L } ? JoinLoading<L extends any[] ? L[number] : L> : never
-
   // 获取异步函数的解析值
   type ResolvedReturnType<T> = InferReturnType<T> extends Promise<infer R> ? R : InferReturnType<T>
 }

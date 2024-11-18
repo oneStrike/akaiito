@@ -1,5 +1,5 @@
 {
-  "name": "@auy/server",
+  "name": "@akaiito/server",
   "version": "1.0.0",
   "private": true,
   "description": "",
@@ -29,8 +29,8 @@
     "prisma:update": "pnpm prisma:generate && pnpm prisma:push"
   },
   "dependencies": {
-    "@auy/types": "workspace:*",
-    "@auy/utils": "workspace:*",
+    "@akaiito/types": "workspace:*",
+    "@akaiito/utils": "workspace:*",
     "@midwayjs/axios": "^3.19.0",
     "@midwayjs/bootstrap": "^3.19.0",
     "@midwayjs/busboy": "^3.19.0",

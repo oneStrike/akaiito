@@ -10,11 +10,6 @@
     "rootDir": "src",
     "module": "ESNEXT",
     "moduleResolution": "node",
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ]
-    },
     "resolveJsonModule": true,
     "typeRoots": [
       "node_modules/@types",
@@ -33,11 +28,15 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": [
+    "@akaiito/types/src/index.d.ts"
+    ]
   },
   "include": [
     "**/*.ts",
-    "dist/**/*"
+    "dist/**/*",
+    "@akaiito/types/src/index.d.ts"
   ],
   "exclude": [
     "**/node_modules",
