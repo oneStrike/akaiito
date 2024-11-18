@@ -86,7 +86,7 @@ const login = async () => {
             </a-button>
           </a-form-item>
         </a-form>
-        <div class="fs14 fc_link pointer">忘记密码？</div>
+        <a-button type="link" class="fs14 cursor-pointer">忘记密码？</a-button>
       </div>
     </div>
   </div>

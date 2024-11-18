@@ -12,6 +12,7 @@ dayjs.locale('zh-cn')
       :locale="zhCN"
       :theme="{
         token: {
+          colorInfo: '#00b96b',
           colorPrimary: '#00b96b',
           borderRadius: 4,
         },
@@ -23,4 +24,3 @@ dayjs.locale('zh-cn')
     </a-config-provider>
   </div>
 </template>
-<style></style>
