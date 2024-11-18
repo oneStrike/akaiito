@@ -66,7 +66,7 @@ const login = async () => {
                 @keyup.enter="login"
               />
               <div class="captcha_img">
-                <img v-if="captchaSrc" :src="captchaSrc" class="w_100 h_100" @click="getCaptcha" />
+                <img v-if="captchaSrc" :src="captchaSrc" class="w_100 h_100" alt="captcha" @click="getCaptcha">
               </div>
             </div>
           </a-form-item>

@@ -2,6 +2,27 @@ import type { Rule } from 'ant-design-vue/es/form'
 import type { ValidatorRule } from 'ant-design-vue/es/form/interface'
 import { validEmail, validPhone, validPsw } from '@/utils/regexp'
 
+const validateOptions = {
+  password: {
+    trigger: 'blur',
+    reg: '',
+    requiredMessage: '密码不能为空',
+    errorMessage: '密码规则不符合',
+  },
+  phone: {
+    trigger: 'blur',
+    reg: '',
+    requiredMessage: '手机号不能为空',
+    errorMessage: '请输入正确的手机号',
+  },
+  email: {
+    trigger: 'blur',
+    reg: '',
+    requiredMessage: '邮箱不能为空',
+    errorMessage: '请输入正确的邮箱',
+  },
+}
+
 const normal = (tips: string, trigger: 'blur' | 'change' = 'blur'): Rule[] => [
   { required: true, message: `${tips}不能为空`, trigger },
 ]
