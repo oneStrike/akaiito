@@ -16,6 +16,10 @@
       "@/*": [
         "./src/*"
       ]
-    }
+    },
+    "types": [
+      "node",
+      "@akaiito/types"
+    ]
   }
 }

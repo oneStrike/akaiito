@@ -14,6 +14,7 @@
   "dependencies": {
     "@akaiito/utils": "workspace:^*",
     "ant-design-vue": "^4.2.6",
+    "axios": "^1.7.7",
     "nprogress": "^0.2.0",
     "pinia": "^2.2.6",
     "pinia-plugin-persistedstate": "^4.0.2",
