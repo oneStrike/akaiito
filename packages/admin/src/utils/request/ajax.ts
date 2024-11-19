@@ -1,5 +1,5 @@
 import type { Interceptors, RequestConfig } from '@/utils/request/types'
-import { type AxiosInstance, type AxiosRequestConfig } from 'axios'
+import type { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { useMessage } from '@/hooks/useMessage'
 
 export class Ajax {
