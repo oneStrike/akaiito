@@ -4,8 +4,8 @@ import { getCaptchaApi } from '@/apis/captcha'
 import { useMessage } from '@/hooks/useMessage'
 import { useValidator } from '@/hooks/useValidator'
 
-import { useUserStore } from '@/stores'
 import type { GetCaptchaTypesRes } from '@/apis/types/captcha'
+import { useUserStore } from '@/stores/modules/userStore'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -36,7 +36,7 @@ const login = async () => {
     await formRef.value?.validateFields()
     btnLoading.value = true
     ruleForm.captchaId = captcha.value!.id
-    await userStore.login(ruleForm)
+    await userStore.signIn(ruleForm)
     btnLoading.value = false
     await router.replace('/')
     useMessage.success('登录成功')
