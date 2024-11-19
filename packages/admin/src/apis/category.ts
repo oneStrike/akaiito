@@ -24,7 +24,7 @@ export const getCategoryPageApi = (params: GetCategoryPageTypesReq): Promise<Get
   return httpClient({
     method: 'GET',
     url: '/admin/contentMgmt/category/getCategoryPage',
-    headers: {},
+    header: {},
     params,
   })
 }
@@ -41,7 +41,7 @@ export const createCategoryApi = (data: CreateCategoryTypesReq): Promise<CreateC
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/category/createCategory',
-    headers: {
+    header: {
       'Content-Type': 'application/json',
     },
     data,
@@ -60,7 +60,7 @@ export const updateCategoryApi = (data: UpdateCategoryTypesReq): Promise<UpdateC
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/category/updateCategory',
-    headers: {
+    header: {
       'Content-Type': 'application/json',
     },
     data,
@@ -79,7 +79,7 @@ export const updateCategoryStatusApi = (data: UpdateCategoryStatusTypesReq): Pro
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/category/updateCategoryStatus',
-    headers: {
+    header: {
       'Content-Type': 'application/json',
     },
     data,
@@ -98,7 +98,7 @@ export const deleteCategoryApi = (data: DeleteCategoryTypesReq): Promise<DeleteC
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/category/deleteCategory',
-    headers: {
+    header: {
       'Content-Type': 'application/json',
     },
     data,

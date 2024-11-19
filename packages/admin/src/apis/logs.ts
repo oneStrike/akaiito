@@ -13,7 +13,7 @@ export const getRequestLogsApi = (params: GetRequestLogsTypesReq): Promise<GetRe
   return httpClient({
     method: 'GET',
     url: '/admin/logs/getRequestLogs',
-    headers: {},
+    header: {},
     params,
   })
 }

@@ -3,10 +3,31 @@ import type { RouteRecordRaw } from 'vue-router'
 // 基础路由
 const BasicRoutes: RouteRecordRaw[] = [
   {
+    path: '/',
+    name: 'admin',
+    component: () => import('@/layout/index.vue'),
+    meta: { title: '工作台', icon: 'support', hideParent: true },
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/dashboard/index.vue'),
+        meta: { roles: [], title: '工作台', icon: 'support' },
+      },
+    ],
+  },
+  {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/login/index.vue'), // 登录页组件
-    meta: { title: '登录', hideMenu: true }, // 元数据，用于路由守卫等
+    component: () => import('@/views/login/index.vue'),
+    meta: { roles: [], title: '登录', hideAllMenu: true },
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('@/views/exception/404.vue'),
+    meta: { title: '404', hideAllMenu: true },
   },
 ]
 
