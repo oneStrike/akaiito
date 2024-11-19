@@ -21,13 +21,13 @@ const BasicRoutes: RouteRecordRaw[] = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index.vue'),
-    meta: { roles: [], title: '登录', hideAllMenu: true },
+    meta: { roles: [], title: '登录', hideMenu: true },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     component: () => import('@/views/exception/404.vue'),
-    meta: { title: '404', hideAllMenu: true },
+    meta: { title: '404', hideMenu: true },
   },
 ]
 

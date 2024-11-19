@@ -4,6 +4,7 @@ export interface ThemeStoreState {
   theme: (typeof themeConfig)[keyof typeof themeConfig]
   pageMode: 'light' | 'dark'
   fullScreen: boolean
+  menuCollapsed: boolean
 }
 
 export const useThemeStore = defineStore('useThemeStore', {
@@ -14,6 +15,7 @@ export const useThemeStore = defineStore('useThemeStore', {
     theme: themeConfig.turquoise,
     pageMode: 'light',
     fullScreen: false,
+    menuCollapsed: false,
   }),
 
   actions: {

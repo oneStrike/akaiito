@@ -26,6 +26,7 @@ declare module 'vue' {
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     EsIcon: typeof import('./../components/es-icon/index.vue')['default']
     IconLineMdSunRisingLoop: typeof import('~icons/line-md/sun-rising-loop')['default']
+    PieChartOutlined: typeof import('@ant-design/icons-vue')['PieChartOutlined']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
