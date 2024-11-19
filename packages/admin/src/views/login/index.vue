@@ -32,7 +32,6 @@ const getCaptcha = async () => {
 getCaptcha()
 
 const login = async () => {
-  console.log(21312321)
   try {
     await formRef.value?.validateFields()
     btnLoading.value = true

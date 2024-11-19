@@ -8,7 +8,6 @@ export class Ajax {
 
   constructor(config: AxiosRequestConfig & Interceptors) {
     this.baseURL = config.baseURL ?? ''
-    config.responseType = 'json'
     this.instance = axios.create(config)
 
     if (config.requestInterceptor) {
