@@ -1,18 +1,6 @@
-import type { Interceptors, RequestConfig } from '@/utils/request/types'
+import type { RequestConfig } from '@/utils/request/types'
 import { Ajax } from '@/utils/request/ajax'
-
-const interceptors: Interceptors = {
-  requestInterceptor(config) {
-    return config
-  },
-  responseInterceptor(data) {
-    return {
-      error: data.data.code !== 200,
-      errorMessage: data.data.message,
-      data: data.data.data,
-    }
-  },
-}
+import { interceptors } from './interceptors'
 
 export const ajax = new Ajax({
   baseURL: import.meta.env.VITE_BASE_URL,

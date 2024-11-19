@@ -18,7 +18,7 @@ export class Ajax {
     }
   }
 
-  async request<T>(config: RequestConfig): Promise<any> {
+  async request<T>(config: RequestConfig): Promise<T> {
     try {
       const response = (await this.instance.request(config)) as any
       if (response.error) {
@@ -27,6 +27,7 @@ export class Ajax {
       return response.data
     } catch (err: any) {
       useMessage.error(err.message)
+      return Promise.reject(err)
     }
   }
 
