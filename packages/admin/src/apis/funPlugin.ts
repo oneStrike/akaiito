@@ -24,7 +24,7 @@ export const getFunPluginApi = (params: GetFunPluginTypesReq): Promise<GetFunPlu
   return httpClient({
     method: 'GET',
     url: '/admin/funPlugin/getFunPlugin',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -41,7 +41,7 @@ export const createFunPluginApi = (data: CreateFunPluginTypesReq): Promise<Creat
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/createFunPlugin',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -60,7 +60,7 @@ export const updateFunPluginApi = (data: UpdateFunPluginTypesReq): Promise<Updat
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/updateFunPlugin',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -79,7 +79,7 @@ export const deleteFunPluginApi = (data: DeleteFunPluginTypesReq): Promise<Delet
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/deleteFunPlugin',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -100,7 +100,7 @@ export const updateFunPluginStatusApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/funPlugin/updateFunPluginStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

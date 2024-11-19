@@ -36,7 +36,7 @@ export const getDataDictionaryApi = (params: GetDataDictionaryTypesReq): Promise
   return httpClient({
     method: 'GET',
     url: '/admin/dictionary/getDataDictionary',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -55,7 +55,7 @@ export const getDataDictionaryItemsApi = (
   return httpClient({
     method: 'GET',
     url: '/admin/dictionary/getDataDictionaryItems',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -72,7 +72,7 @@ export const createDataDictionaryApi = (data: CreateDataDictionaryTypesReq): Pro
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/createDataDictionary',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -93,7 +93,7 @@ export const createDataDictionaryItemsApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/createDataDictionaryItems',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -112,7 +112,7 @@ export const deleteDataDictionaryApi = (data: DeleteDataDictionaryTypesReq): Pro
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/deleteDataDictionary',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -133,7 +133,7 @@ export const deleteDataDictionaryItemsApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/deleteDataDictionaryItems',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -152,7 +152,7 @@ export const updateDataDictionaryApi = (data: UpdateDataDictionaryTypesReq): Pro
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionary',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -173,7 +173,7 @@ export const updateDataDictionaryItemsApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItems',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -194,7 +194,7 @@ export const updateDataDictionaryStatusApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -215,7 +215,7 @@ export const updateDataDictionaryItemsStatusApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItemsStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -236,7 +236,7 @@ export const updateDataDictionaryItemsOrderApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItemsOrder',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

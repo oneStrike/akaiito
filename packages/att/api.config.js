@@ -5,6 +5,7 @@ export default {
   apiPath: 'src/apis/',
   field: 'data',
   nameDepth: 2,
+  headerField: 'headers',
   http: {
     client: 'httpClient',
     import: "import { httpClient } from '@/utils/request';",

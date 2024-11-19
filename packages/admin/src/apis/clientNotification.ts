@@ -26,7 +26,7 @@ export const getClientNotificationListApi = (
   return httpClient({
     method: 'GET',
     url: '/admin/clientNotification/getClientNotificationList',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -45,7 +45,7 @@ export const getClientNotificationDetailApi = (
   return httpClient({
     method: 'GET',
     url: '/admin/clientNotification/getClientNotificationDetail',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -64,7 +64,7 @@ export const createClientNotificationApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/clientNotification/createClientNotification',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -85,7 +85,7 @@ export const deleteClientNotificationApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/clientNotification/deleteClientNotification',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -106,7 +106,7 @@ export const updateClientNotificationApi = (
   return httpClient({
     method: 'POST',
     url: '/admin/clientNotification/updateClientNotification',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
