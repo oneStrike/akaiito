@@ -2,7 +2,7 @@
 import type { FormInstance } from 'ant-design-vue'
 import { getCaptchaApi } from '@/apis/captcha'
 import { useMessage } from '@/hooks/useMessage'
-import { useValidate } from '@/hooks/useValidator'
+import { useValidator } from '@/hooks/useValidator'
 
 import { useUserStore } from '@/stores'
 
@@ -20,9 +20,9 @@ const captchaSrc = ref('')
 
 // 表单验证规则
 const rules = {
-  account: useValidate.normal('用户名'),
-  password: useValidate.pwd,
-  captcha: useValidate.normal('验证码'),
+  account: useValidator.validator('用户名'),
+  password: useValidator.password,
+  captcha: useValidator.validator('验证码'),
 }
 // //获取验证码
 const getCaptcha = async () => {
@@ -66,7 +66,7 @@ const login = async () => {
                 @keyup.enter="login"
               />
               <div class="captcha_img">
-                <img v-if="captchaSrc" :src="captchaSrc" class="w_100 h_100" alt="captcha" @click="getCaptcha">
+                <img v-if="captchaSrc" :src="captchaSrc" class="w_100 h_100" alt="captcha" @click="getCaptcha" />
               </div>
             </div>
           </a-form-item>

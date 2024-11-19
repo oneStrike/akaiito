@@ -1,68 +1,51 @@
 import type { Rule } from 'ant-design-vue/es/form'
-import type { ValidatorRule } from 'ant-design-vue/es/form/interface'
-import { validEmail, validPhone, validPsw } from '@/utils/regexp'
+
+enum TRIGGER_ENUM {
+  BLUR = 'blur',
+  CHANGE = 'change',
+}
 
 const validateOptions = {
   password: {
-    trigger: 'blur',
-    reg: '',
+    trigger: TRIGGER_ENUM.BLUR,
+    reg: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\da-z\s]).{8,18}$/,
     requiredMessage: '密码不能为空',
     errorMessage: '密码规则不符合',
   },
   phone: {
-    trigger: 'blur',
-    reg: '',
+    trigger: TRIGGER_ENUM.BLUR,
+    reg: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
     requiredMessage: '手机号不能为空',
     errorMessage: '请输入正确的手机号',
   },
   email: {
-    trigger: 'blur',
-    reg: '',
+    trigger: TRIGGER_ENUM.BLUR,
+    reg: /^[A-Z0-9\u4E00-\u9FA5]+@[\w-]+(\.[\w-]+)+$/i,
     requiredMessage: '邮箱不能为空',
     errorMessage: '请输入正确的邮箱',
   },
 }
 
-const normal = (tips: string, trigger: 'blur' | 'change' = 'blur'): Rule[] => [
+const validator = (tips: string, trigger: TRIGGER_ENUM = TRIGGER_ENUM.BLUR): Rule[] => [
   { required: true, message: `${tips}不能为空`, trigger },
 ]
 
-const validator = (validator: ValidatorRule['validator'], trigger: 'blur' | 'change' = 'blur'): Rule[] => [
-  { required: true, validator, trigger },
-]
+const validateHandler = {
+  validator,
+} as Record<keyof typeof validateOptions, Rule[]> & { validator: typeof validator }
 
-const passwordRule = (rule: any, value: any) => {
-  if (!value) {
-    return Promise.reject(new Error('密码不能为空'))
-  } else if (!validPsw.test(value)) {
-    return Promise.reject(new Error('密码规则不符合'))
-  } else {
-    return Promise.resolve()
+Object.keys(validateOptions).forEach((item) => {
+  const { reg, requiredMessage, errorMessage, trigger } = validateOptions[item as keyof typeof validateOptions]
+  const validator = (rule: any, value: any) => {
+    if (!value) {
+      return Promise.reject(new Error(requiredMessage))
+    } else if (!reg.test(value)) {
+      return Promise.reject(new Error(errorMessage))
+    } else {
+      return Promise.resolve()
+    }
   }
-}
+  validateHandler[item as keyof typeof validateOptions] = [{ required: true, validator, trigger }]
+})
 
-const mobileRule = (rule: any, value: any) => {
-  if (!value) {
-    return Promise.reject(new Error('手机号不能为空'))
-  } else if (!validPhone.test(value)) {
-    return Promise.reject(new Error('请输入正确的手机号'))
-  } else {
-    return Promise.resolve()
-  }
-}
-
-const emailRule = (rule: any, value: any) => {
-  if (!value) {
-    return Promise.reject(new Error('邮箱不能为空'))
-  } else if (!validEmail.test(value)) {
-    return Promise.reject(new Error('请输入正确的邮箱'))
-  } else {
-    return Promise.resolve()
-  }
-}
-export const useValidate = {
-  normal,
-  pwd: validator(passwordRule),
-  mobile: validator(mobileRule),
-  email: validator(emailRule),
-}
+export const useValidator = validateHandler
