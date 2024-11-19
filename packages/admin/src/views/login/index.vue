@@ -5,35 +5,38 @@ import { useMessage } from '@/hooks/useMessage'
 import { useValidator } from '@/hooks/useValidator'
 
 import { useUserStore } from '@/stores'
+import type { GetCaptchaTypesRes } from '@/apis/types/captcha'
 
 const router = useRouter()
 const userStore = useUserStore()
 const formRef = ref<FormInstance>()
 const btnLoading = ref<boolean>(false) // 表单数据
 const ruleForm = reactive({
-  account: '',
+  mobile: '',
   password: '',
   captcha: '',
+  captchaId: '',
 })
-// //验证码svg代码
-const captchaSrc = ref('')
+const captcha = ref<GetCaptchaTypesRes>()
 
 // 表单验证规则
 const rules = {
-  account: useValidator.validator('用户名'),
+  mobile: useValidator.validator('用户名'),
   password: useValidator.password,
   captcha: useValidator.validator('验证码'),
 }
 // //获取验证码
 const getCaptcha = async () => {
-  captchaSrc.value = (await getCaptchaApi()).data
+  captcha.value = await getCaptchaApi()
 }
 getCaptcha()
 
 const login = async () => {
+  console.log(21312321)
   try {
     await formRef.value?.validateFields()
     btnLoading.value = true
+    ruleForm.captchaId = captcha.value!.id
     await userStore.login(ruleForm)
     btnLoading.value = false
     await router.replace('/')
@@ -51,8 +54,8 @@ const login = async () => {
       <div class="login_card flex flex-col items-center justify-around">
         <div class="text-2xl">登录</div>
         <a-form ref="formRef" :model="ruleForm" :rules="rules" @finish="login">
-          <a-form-item name="account">
-            <a-input v-model:value="ruleForm.account" placeholder="请输入用户名" @keyup.enter="login" />
+          <a-form-item name="mobile">
+            <a-input v-model:value="ruleForm.mobile" placeholder="请输入用户名" @keyup.enter="login" />
           </a-form-item>
           <a-form-item name="password">
             <a-input v-model:value="ruleForm.password" type="password" placeholder="请输入密码" @keyup.enter="login" />
@@ -66,7 +69,7 @@ const login = async () => {
                 @keyup.enter="login"
               />
               <div class="captcha_img">
-                <img v-if="captchaSrc" :src="captchaSrc" class="w_100 h_100" alt="captcha" @click="getCaptcha" />
+                <img v-if="captcha?.data" :src="captcha.data" class="w_100 h_100" alt="captcha" @click="getCaptcha" />
               </div>
             </div>
           </a-form-item>
@@ -74,14 +77,7 @@ const login = async () => {
             <a-checkbox>记住我，以后自动登录</a-checkbox>
           </a-form-item>
           <a-form-item>
-            <a-button
-              type="primary"
-              class="w-full h-10"
-              :loading="btnLoading"
-              shape="round"
-              html-type="submit"
-              @click="login"
-            >
+            <a-button type="primary" class="w-full h-10" :loading="btnLoading" shape="round" @click="login">
               登录
             </a-button>
           </a-form-item>
