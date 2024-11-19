@@ -1,27 +1,33 @@
-import type { RequestConfig } from '@/utils/request/types'
-import { Axios, type AxiosRequestConfig } from 'axios'
+import type { Interceptors, RequestConfig } from '@/utils/request/types'
+import { type AxiosInstance, type AxiosRequestConfig } from 'axios'
+import { useMessage } from '@/hooks/useMessage'
 
 export class Ajax {
-  instance: Axios
+  instance: AxiosInstance
   baseURL?: string
-  timeout?: number
-  headers: IterateObject
 
-  constructor(config: AxiosRequestConfig) {
+  constructor(config: AxiosRequestConfig & Interceptors) {
     this.baseURL = config.baseURL ?? ''
-    this.timeout = config.timeout ?? 6000
-    this.headers = config.headers || {}
+    config.responseType = 'json'
+    this.instance = axios.create(config)
 
-    this.instance = new Axios(config)
+    if (config.requestInterceptor) {
+      this.instance.interceptors.request.use(config.requestInterceptor)
+    }
+    if (config.responseInterceptor) {
+      this.instance.interceptors.response.use(config.responseInterceptor)
+    }
   }
 
-  async request<T>(config: RequestConfig): Promise<T> {
+  async request<T>(config: RequestConfig): Promise<any> {
     try {
-      const response = await this.instance.request(config)
-      console.log(response)
+      const response = (await this.instance.request(config)) as any
+      if (response.error) {
+        useMessage.error(response.errorMessage)
+      }
       return response.data
-    } catch (e) {
-      console.log(e)
+    } catch (err: any) {
+      useMessage.error(err.message)
     }
   }
 

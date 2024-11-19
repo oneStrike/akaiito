@@ -1,7 +1,7 @@
 import { message } from 'ant-design-vue'
 
-const [messageApi, contextHolder] = message.useMessage()
-
 export const useMessage = {
-  success: (msg: string) => messageApi.success(msg),
+  success: (msg: string) => message.success(msg),
+  error: (msg: string) => message.error(msg),
+  warning: (msg: string) => message.warning(msg),
 }
