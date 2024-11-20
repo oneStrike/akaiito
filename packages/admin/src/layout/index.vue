@@ -8,8 +8,8 @@ const themeStore = useThemeStore()
 </script>
 
 <template>
-  <a-layout>
-    <a-layout-sider :theme="themeStore.pageMode">
+  <a-layout class="h-screen overflow-hidden">
+    <a-layout-sider :theme="themeStore.pageMode" class="overflow-auto hide-scrollbar">
       <SideLayout />
     </a-layout-sider>
     <a-layout>

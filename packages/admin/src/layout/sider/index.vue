@@ -9,20 +9,23 @@ defineOptions({
 
 function filterMenus(routes: RouteRecordRaw[]): RouteRecordRaw[] {
   const tempRoutes: RouteRecordRaw[] = []
-  return routes
-    .filter((item) => !item.meta?.hideMenu)
-    .map((item) => {
-      if (item.meta?.hideMenu && Array.isArray(item.children)) {
-        tempRoutes.push(...item.children)
-        return false
-      }
-      return item
-    })
-    .filter((item) => item)
-    .concat(tempRoutes) as RouteRecordRaw[]
+  routes.forEach((item) => {
+    if (item.meta?.hideAllMenu) {
+      return
+    }
+    if (item.meta?.hide && !item.children?.length) {
+      return
+    }
+    if ((!item.meta || item.meta?.hideMenu) && Array.isArray(item.children)) {
+      tempRoutes.push(...item.children)
+    } else {
+      tempRoutes.push(item)
+    }
+  })
+  return tempRoutes
 }
 
-function serializeRoutes(route: RouteRecordRaw[]) {
+function serializeRoutes(route: RouteRecordRaw[]): any[] {
   return filterMenus(route)
     .map((item, index) => {
       if (Array.isArray(item.children)) {
@@ -31,7 +34,7 @@ function serializeRoutes(route: RouteRecordRaw[]) {
       item.meta!.order = item.meta!.order || index
       return {
         key: item.name,
-        icon: h(EsIcon, { name: item.meta?.icon }),
+        icon: h(EsIcon, { name: item.meta!.icon! }),
         children: item.children,
         label: item.meta?.title,
         order: item.meta?.order,
@@ -45,12 +48,10 @@ function serializeRoutes(route: RouteRecordRaw[]) {
 }
 
 const menus = ref(serializeRoutes(routes))
-
-console.log(menus.value)
 </script>
 
 <template>
-  <a-menu :items="menus" />
+  <a-menu :items="menus" mode="inline" />
 </template>
 
 <style scoped lang="scss"></style>

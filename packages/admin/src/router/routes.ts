@@ -6,7 +6,6 @@ const BasicRoutes: RouteRecordRaw[] = [
     path: '/',
     name: 'admin',
     component: () => import('@/layout/index.vue'),
-    meta: { title: '工作台', icon: 'support', hideParent: true },
     redirect: '/dashboard',
     children: [
       {
@@ -21,13 +20,13 @@ const BasicRoutes: RouteRecordRaw[] = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index.vue'),
-    meta: { roles: [], title: '登录', hideMenu: true },
+    meta: { roles: [], title: '登录', hide: true },
   },
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
     component: () => import('@/views/exception/404.vue'),
-    meta: { title: '404', hideMenu: true },
+    meta: { title: '404', hide: true },
   },
 ]
 

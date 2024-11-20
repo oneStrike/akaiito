@@ -24,7 +24,7 @@ export const getAuthorPageApi = (params: GetAuthorPageTypesReq): Promise<GetAuth
   return httpClient({
     method: 'GET',
     url: '/admin/contentMgmt/author/getAuthorPage',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -41,7 +41,7 @@ export const createAuthorApi = (data: CreateAuthorTypesReq): Promise<CreateAutho
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/author/createAuthor',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -60,7 +60,7 @@ export const updateAuthorApi = (data: UpdateAuthorTypesReq): Promise<UpdateAutho
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/author/updateAuthor',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -79,7 +79,7 @@ export const deleteAuthorApi = (data: DeleteAuthorTypesReq): Promise<DeleteAutho
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/author/deleteAuthor',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -98,7 +98,7 @@ export const updateAuthorStatusApi = (data: UpdateAuthorStatusTypesReq): Promise
   return httpClient({
     method: 'POST',
     url: '/admin/contentMgmt/author/updateAuthorStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

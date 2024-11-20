@@ -17,7 +17,7 @@ export const getClientConfigApi = (): Promise<GetClientConfigTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/admin/clientManage/getClientConfig',
-    header: {},
+    headers: {},
   })
 }
 
@@ -33,7 +33,7 @@ export const updateSystemConfigApi = (data: UpdateSystemConfigTypesReq): Promise
   return httpClient({
     method: 'POST',
     url: '/admin/clientManage/updateSystemConfig',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

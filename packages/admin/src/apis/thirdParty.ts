@@ -19,7 +19,7 @@ export const serviceApi = (): Promise<ServiceTypesRes> => {
   return httpClient({
     method: 'GET',
     url: '/admin/thirdParty/service',
-    header: {},
+    headers: {},
   })
 }
 
@@ -35,7 +35,7 @@ export const searchWordApi = (params: SearchWordTypesReq): Promise<SearchWordTyp
   return httpClient({
     method: 'GET',
     url: '/admin/thirdParty/searchWord',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -52,7 +52,7 @@ export const parseWordApi = (data: ParseWordTypesReq): Promise<ParseWordTypesRes
   return httpClient({
     method: 'POST',
     url: '/admin/thirdParty/parseWord',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

@@ -1,0 +1,10 @@
+
+.hide-scrollbar {
+  overflow: -moz-scrollbars-none; /* Older Firefox browsers */
+  -ms-overflow-style: none; /* IE 和 Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}

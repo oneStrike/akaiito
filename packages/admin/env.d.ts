@@ -6,9 +6,10 @@ import 'vue-router'
 export {}
 declare module 'vue-router' {
   interface RouteMeta {
-    hideMenu?: boolean
+    hide?: boolean
+    hideAll?: boolean
     title?: string
-    icon?: IconName
+    icon?: string
     roles?: string[]
     cache?: boolean
     order?: number
