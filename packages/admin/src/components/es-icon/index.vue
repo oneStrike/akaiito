@@ -39,7 +39,7 @@ watch(
 <template>
   <div
     :size="size"
-    class="cursor-pointer"
+    class="cursor-pointer flex items-center justify-center"
     :class="[unset ? '!text-unset' : '', rotate ? 'rotate_animation' : '', iconClass]"
     :style="{ fontSize: `${size}px` }"
     @click="emits('click')"
