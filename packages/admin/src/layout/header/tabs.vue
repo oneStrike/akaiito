@@ -30,10 +30,9 @@ const edit = (val: any) => {
 const navigator = (val: any) => {
   router.push({ name: val })
 }
-onMounted(() => {
-  const reloadRoute = inject('reload', null)
-  console.log(reloadRoute)
-})
+const reloadRoute = () => {
+  useEventBus('reloadRoute').emit()
+}
 </script>
 
 <template>
@@ -49,7 +48,7 @@ onMounted(() => {
       <template #tab>
         <div class="flex-inline">
           <span>{{ item.label }}</span>
-          <es-icon v-if="activeKey === item.name" rotate class="ml-2" :size="16" name="update" />
+          <es-icon v-if="activeKey === item.name" rotate class="ml-2" :size="16" name="update" @click="reloadRoute" />
         </div>
       </template>
     </a-tab-pane>

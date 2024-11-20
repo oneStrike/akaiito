@@ -9,11 +9,11 @@ const themeStore = useThemeStore()
 const isRouterAlive = ref(true)
 const reloadRoute = () => {
   isRouterAlive.value = false
-  nextTick(() => {
+  setTimeout(() => {
     isRouterAlive.value = true
-  })
+  }, 100)
 }
-provide('reload', reloadRoute)
+useEventBus('reloadRoute').on(reloadRoute)
 </script>
 
 <template>
