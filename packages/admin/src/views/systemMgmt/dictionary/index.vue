@@ -2,6 +2,9 @@
 defineOptions({
   name: 'Dictionary',
 })
+onMounted(() => {
+  console.log(2143)
+})
 </script>
 
 <template>

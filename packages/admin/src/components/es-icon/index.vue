@@ -36,7 +36,7 @@ watch(
 )
 
 const iconBox = ref<HTMLElement>()
-const clickHandler = () => {
+const clickHandler = useDebounceFn(() => {
   if (props.rotate) {
     iconBox.value?.classList.add('rotate_animation')
     const timer = window.setTimeout(() => {
@@ -45,7 +45,7 @@ const clickHandler = () => {
     }, 1000)
   }
   emits('click')
-}
+}, 200)
 </script>
 
 <template>
