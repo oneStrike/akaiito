@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useThemeStore } from '@/stores/modules/themeStore'
+import nProgress from 'nprogress'
 
 defineOptions({
   name: 'ContentLayout',
@@ -8,9 +9,11 @@ defineOptions({
 const themeStore = useThemeStore()
 const isRouterAlive = ref(true)
 const reloadRoute = () => {
+  nProgress.start()
   isRouterAlive.value = false
   setTimeout(() => {
     isRouterAlive.value = true
+    nProgress.done()
   }, 100)
 }
 useEventBus('reloadRoute').on(reloadRoute)
