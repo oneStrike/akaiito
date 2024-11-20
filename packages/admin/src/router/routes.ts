@@ -12,7 +12,7 @@ const BasicRoutes: RouteRecordRaw[] = [
         path: 'dashboard',
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index.vue'),
-        meta: { roles: [], title: '工作台', icon: 'support' },
+        meta: { roles: [], title: '工作台', icon: 'dashboard' },
       },
     ],
   },

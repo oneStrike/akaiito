@@ -37,7 +37,7 @@ watch(
 </script>
 
 <template>
-  <a-icon
+  <div
     :size="size"
     class="cursor-pointer"
     :class="[unset ? '!text-unset' : '', rotate ? 'rotate_animation' : '', iconClass]"
@@ -90,9 +90,7 @@ watch(
     <icon-majest-cube-line v-if="name === 'cube'" />
     <icon-majest-device-mobile-line v-if="name === 'mobile'" />
     <icon-majest-speakerphone-line v-if="name === 'speakerphone'" />
-
-    <icon-tabler-user-edit v-if="name === 'userEdit'" />
-  </a-icon>
+  </div>
 </template>
 
 <style scoped lang="scss">
