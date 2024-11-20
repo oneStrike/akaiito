@@ -31,9 +31,11 @@ export const useThemeStore = defineStore('useThemeStore', {
       if (this.pageMode === 'light') {
         this.pageMode = 'dark'
         this.theme.algorithm = theme.darkAlgorithm
+        document.documentElement.setAttribute('class', 'dark')
       } else {
         this.pageMode = 'light'
         this.theme.algorithm = theme.defaultAlgorithm
+        document.documentElement.setAttribute('class', 'light')
       }
     },
 

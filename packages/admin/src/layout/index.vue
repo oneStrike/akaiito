@@ -11,7 +11,7 @@ const themeStore = useThemeStore()
 <template>
   <a-layout class="h-screen overflow-hidden">
     <a-layout-sider
-      :width="280"
+      :width="240"
       :theme="themeStore.pageMode"
       :collapsed="themeStore.menuCollapsed"
       class="overflow-auto hide-scrollbar"
@@ -20,7 +20,6 @@ const themeStore = useThemeStore()
     </a-layout-sider>
     <a-layout>
       <HeaderLayout />
-      <a-divider class="m0!"/>
       <TabsLayout />
       <a-layout-content>
         <ContentLayout />

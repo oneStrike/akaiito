@@ -6,7 +6,7 @@ export const guard = function (router: Router) {
   router.beforeEach(async (to) => {
     // 开始进度条
     nProgress.start()
-
+    console.log(123)
     return true
   })
 

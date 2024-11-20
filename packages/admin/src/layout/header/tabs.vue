@@ -30,12 +30,16 @@ const edit = (val: any) => {
 const navigator = (val: any) => {
   router.push({ name: val })
 }
+onMounted(() => {
+  const reloadRoute = inject('reload', null)
+  console.log(reloadRoute)
+})
 </script>
 
 <template>
   <a-tabs
     v-model:active-key="activeKey"
-    class="bg-transparent! mt-2"
+    class="bg-white! dark:bg-[#141414]!"
     type="editable-card"
     hide-add
     @edit="edit"
@@ -43,9 +47,9 @@ const navigator = (val: any) => {
   >
     <a-tab-pane v-for="(item, idx) in historyRoute" :key="item.name" :closable="idx !== 0">
       <template #tab>
-        <div class="flex">
+        <div class="flex-inline">
           <span>{{ item.label }}</span>
-          <es-icon v-if="activeKey === item.name" rotate class="ml-2" :size="14" name="update" />
+          <es-icon v-if="activeKey === item.name" rotate class="ml-2" :size="16" name="update" />
         </div>
       </template>
     </a-tab-pane>
@@ -57,5 +61,9 @@ const navigator = (val: any) => {
   margin: 0 !important;
   padding: 0 14px;
   box-sizing: border-box;
+
+  &::before {
+    border-bottom: none !important;
+  }
 }
 </style>

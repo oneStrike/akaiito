@@ -6,6 +6,14 @@ defineOptions({
 })
 
 const themeStore = useThemeStore()
+const isRouterAlive = ref(true)
+const reloadRoute = () => {
+  isRouterAlive.value = false
+  nextTick(() => {
+    isRouterAlive.value = true
+  })
+}
+provide('reload', reloadRoute)
 </script>
 
 <template>
@@ -13,16 +21,17 @@ const themeStore = useThemeStore()
     <router-view v-slot="{ Component, route }">
       <keep-alive v-if="route.meta?.cache">
         <Transition mode="out-in" :name="`${themeStore.pageAnim}-transform`">
-          <component :is="Component" :key="route.path" />
+          <component :is="Component" v-if="isRouterAlive" :key="route.path" />
         </Transition>
       </keep-alive>
 
-      <Transition mode="out-in" :name="`${themeStore.pageAnim}-transform`" v-else>
-        <component :is="Component" :key="route.path" />
+      <Transition v-else mode="out-in" :name="`${themeStore.pageAnim}-transform`">
+        <component :is="Component" v-if="isRouterAlive" :key="route.path" />
       </Transition>
     </router-view>
   </div>
 </template>
+
 <style scoped lang="scss">
 /*渐变过渡*/
 .fade-transform-enter-active,
