@@ -7,7 +7,6 @@ export interface ThemeStoreState {
   pageMode: 'light' | 'dark'
   menuMode: 'light' | 'dark'
   pageAnim: 'fade' | 'scale'
-  fullScreen: boolean
   menuCollapsed: boolean
 }
 
@@ -23,7 +22,6 @@ export const useThemeStore = defineStore('useThemeStore', {
     menuMode: 'dark',
     pageMode: 'light',
     pageAnim: 'scale',
-    fullScreen: false,
     menuCollapsed: false,
   }),
 
@@ -37,12 +35,6 @@ export const useThemeStore = defineStore('useThemeStore', {
         this.pageMode = 'light'
         this.theme.algorithm = theme.defaultAlgorithm
       }
-    },
-
-    // 进入或推出全屏
-    changeFullScreen() {
-      this.fullScreen ? document.exitFullscreen() : document.documentElement.requestFullscreen()
-      this.fullScreen = !this.fullScreen
     },
 
     // 修改菜单折叠状态

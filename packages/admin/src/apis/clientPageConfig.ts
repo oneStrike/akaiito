@@ -24,7 +24,7 @@ export const getClientPagesApi = (params: GetClientPagesTypesReq): Promise<GetCl
   return httpClient({
     method: 'GET',
     url: '/admin/clientPageConfig/getClientPages',
-    headers: {},
+    header: {},
     params,
   })
 }
@@ -41,7 +41,7 @@ export const createClientPageApi = (data: CreateClientPageTypesReq): Promise<Cre
   return httpClient({
     method: 'POST',
     url: '/admin/clientPageConfig/createClientPage',
-    headers: {
+    header: {
       'Content-Type': 'application/json',
     },
     data,
@@ -60,7 +60,7 @@ export const updateClientPageApi = (data: UpdateClientPageTypesReq): Promise<Upd
   return httpClient({
     method: 'POST',
     url: '/admin/clientPageConfig/updateClientPage',
-    headers: {
+    header: {
       'Content-Type': 'application/json',
     },
     data,
@@ -79,7 +79,7 @@ export const deleteClientPageApi = (data: DeleteClientPageTypesReq): Promise<Del
   return httpClient({
     method: 'POST',
     url: '/admin/clientPageConfig/deleteClientPage',
-    headers: {
+    header: {
       'Content-Type': 'application/json',
     },
     data,
@@ -98,7 +98,7 @@ export const getClientPageDetailApi = (params: GetClientPageDetailTypesReq): Pro
   return httpClient({
     method: 'GET',
     url: '/admin/clientPageConfig/getClientPageDetail',
-    headers: {},
+    header: {},
     params,
   })
 }

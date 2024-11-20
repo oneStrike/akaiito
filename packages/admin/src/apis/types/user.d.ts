@@ -41,7 +41,7 @@ export interface GetUserPageTypesRes {
     mobile: string
 
     /* 用户头像 */
-    avatar: string | null
+    avatar: string
 
     /* 管理员状态，1启用0禁用 */
     status: number
@@ -89,7 +89,7 @@ export interface GetUserInfoTypesRes {
   mobile: string
 
   /* 用户头像 */
-  avatar: string | null
+  avatar: string
 
   /* 管理员状态，1启用0禁用 */
   status: number
@@ -126,7 +126,7 @@ export interface CreateAdminUserTypesReq {
   mobile: string
 
   /* 用户头像 */
-  avatar: string | null
+  avatar: string
 
   /* 管理员状态，1启用0禁用 */
   status: number
@@ -245,7 +245,7 @@ export interface LoginTypesRes {
     mobile: string
 
     /* 用户头像 */
-    avatar: string | null
+    avatar: string
 
     /* 管理员状态，1启用0禁用 */
     status: number

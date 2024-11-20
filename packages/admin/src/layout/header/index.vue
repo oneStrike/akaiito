@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { RouteLocationMatched, RouteRecordRaw } from 'vue-router'
 import { useThemeStore } from '@/stores/modules/themeStore'
 import { useUserStore } from '@/stores/modules/userStore'
 
@@ -8,9 +9,15 @@ defineOptions({
 
 const router = useRouter()
 const route = useRoute()
-console.log(route)
 const userStore = useUserStore()
 const themeStore = useThemeStore()
+
+const navigator = (val: RouteLocationMatched | RouteRecordRaw) => {
+  if (!val.children?.length) {
+    router.push({ name: val.name })
+  }
+}
+const { isFullscreen, toggle } = useFullscreen(document.documentElement)
 </script>
 
 <template>
@@ -21,15 +28,22 @@ const themeStore = useThemeStore()
         @click="themeStore.changeMenuCollapsed"
       />
       <a-breadcrumb class="ml-6">
-        <a-breadcrumb-item v-for="(item, idx) in route.matched">{{ item.meta?.title}}</a-breadcrumb-item>
+        <a-breadcrumb-item v-for="(item, idx) in route.matched" :key="idx" @click="navigator(item)">
+          <span v-if="idx + 1 === route.matched.length">{{ item.meta?.title }}</span>
+          <a v-else>{{ item.meta?.title }}</a>
+          <template v-if="item.children.length" #overlay>
+            <a-menu>
+              <a-menu-item v-for="menu in item.children" :key="menu.name" @click="navigator(menu)">
+                <a>{{ menu.meta?.title }}</a>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-breadcrumb-item>
       </a-breadcrumb>
     </div>
 
     <div class="flex items-center">
-      <es-icon
-        :name="themeStore.fullScreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'"
-        @click="themeStore.changeFullScreen()"
-      />
+      <es-icon :name="isFullscreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'" @click="toggle()" />
       <es-icon
         class="ml-6"
         :name="themeStore.pageMode === 'light' ? 'sunLoop' : 'moonLoop'"
