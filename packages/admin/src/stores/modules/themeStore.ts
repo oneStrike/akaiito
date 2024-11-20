@@ -4,18 +4,20 @@ export interface ThemeStoreState {
   theme: (typeof themeConfig)[keyof typeof themeConfig]
   pageMode: 'light' | 'dark'
   menuMode: 'light' | 'dark'
+  pageAnim: 'fade' | 'scale'
   fullScreen: boolean
   menuCollapsed: boolean
 }
 
 export const useThemeStore = defineStore('useThemeStore', {
   persist: {
-    storage: sessionStorage,
+    storage: localStorage,
   },
   state: (): ThemeStoreState => ({
     theme: themeConfig.turquoise,
-    menuMode: 'light',
+    menuMode: 'dark',
     pageMode: 'light',
+    pageAnim: 'scale',
     fullScreen: false,
     menuCollapsed: false,
   }),

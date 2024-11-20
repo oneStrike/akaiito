@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div>我是内容作者管理页面</div>
+  <es-page>我是内容作者管理页面</es-page>
 </template>
 
 <style scoped lang="scss"></style>

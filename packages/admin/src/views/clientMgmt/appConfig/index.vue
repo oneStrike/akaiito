@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div class="main-page">我是客户端系统配置页面</div>
+  <es-page>我是客户端系统配置页面</es-page>
 </template>
 
 <style scoped lang="scss"></style>

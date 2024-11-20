@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AApp: typeof import('ant-design-vue/es')['App']
     AButton: typeof import('ant-design-vue/es')['Button']
+    ACard: typeof import('ant-design-vue/es')['Card']
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
     ALayout: typeof import('ant-design-vue/es')['Layout']
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
@@ -16,6 +17,7 @@ declare module 'vue' {
     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
     AMenu: typeof import('ant-design-vue/es')['Menu']
     EsIcon: typeof import('./../components/es-icon/index.vue')['default']
+    EsPage: typeof import('./../components/es-page/index.vue')['default']
     IconLineMdSunRisingLoop: typeof import('~icons/line-md/sun-rising-loop')['default']
     IconMajestArrowsCollapseFull: typeof import('~icons/majesticons/arrows-collapse-full')['default']
     IconMajestArrowsExpandFull: typeof import('~icons/majesticons/arrows-expand-full')['default']

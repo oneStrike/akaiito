@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div>我是操作日志页面</div>
+  <es-page>我是操作日志页面</es-page>
 </template>
 
 <style scoped lang="scss"></style>

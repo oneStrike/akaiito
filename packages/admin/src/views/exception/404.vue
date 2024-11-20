@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div>我是404</div>
+  <es-page>我是404</es-page>
 </template>
 
 <style scoped lang="scss"></style>

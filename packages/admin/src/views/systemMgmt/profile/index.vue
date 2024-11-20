@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <div>我是用户中心</div>
+  <es-page>我是用户中心</es-page>
 </template>
 
 <style scoped lang="scss"></style>

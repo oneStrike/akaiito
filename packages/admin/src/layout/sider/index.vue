@@ -62,11 +62,12 @@ function serializeRoutes(route: RouteRecordRaw[]): any[] {
     })
 }
 
-const menus = ref(serializeRoutes(routes))
+const menus = ref(serializeRoutes(JSON.parse(JSON.stringify(routes))))
 
 const selectMenu: SelectEventHandler = ({ key }) => {
   router.push({ name: key as string })
 }
+console.log(themeStore.menuMode)
 </script>
 
 <template>
@@ -77,6 +78,7 @@ const selectMenu: SelectEventHandler = ({ key }) => {
     mode="inline"
     :theme="themeStore.menuMode"
     :items="menus"
+    @select="selectMenu"
   ></a-menu>
 </template>
 
