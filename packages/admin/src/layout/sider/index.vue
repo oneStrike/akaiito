@@ -1,13 +1,27 @@
 <script setup lang="ts">
+import type { SelectEventHandler } from 'ant-design-vue/es/menu/src/interface'
 import type { RouteRecordRaw } from 'vue-router'
 import EsIcon from '@/components/es-icon/index.vue'
 import { routes } from '@/router/routes'
-import type { SelectEventHandler } from 'ant-design-vue/es/menu/src/interface'
 import { useThemeStore } from '@/stores/modules/themeStore'
 
 defineOptions({
   name: 'SideLayout',
 })
+
+const historyRoute = useSessionStorage<
+  {
+    label: string
+    name: string
+    icon: string
+  }[]
+>('history_route', [
+  {
+    label: '工作台',
+    name: 'Dashboard',
+    icon: 'dashboard',
+  },
+])
 
 const themeStore = useThemeStore()
 
@@ -64,22 +78,26 @@ function serializeRoutes(route: RouteRecordRaw[]): any[] {
 
 const menus = ref(serializeRoutes(JSON.parse(JSON.stringify(routes))))
 
-const selectMenu: SelectEventHandler = ({ key }) => {
-  router.push({ name: key as string })
+const selectMenu: SelectEventHandler = (val) => {
+  const { label, key, icon } = val.item.originItemValue as any
+  if (!historyRoute.value.find((item) => item.name === key)) {
+    historyRoute.value.push({ label, name: key, icon: icon.props.name })
+  }
+  router.push({ name: val.key as string })
 }
 console.log(themeStore.menuMode)
 </script>
 
 <template>
   <a-menu
+    v-model:open-keys="openKeys"
+    v-model:selected-keys="selectedKeys"
     class="h-full"
-    v-model:openKeys="openKeys"
-    v-model:selectedKeys="selectedKeys"
     mode="inline"
     :theme="themeStore.menuMode"
     :items="menus"
     @select="selectMenu"
-  ></a-menu>
+  />
 </template>
 
 <style scoped lang="scss"></style>

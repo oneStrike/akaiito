@@ -19,7 +19,7 @@ export const useThemeStore = defineStore('useThemeStore', {
       ...themeConfig.turquoise,
       algorithm: theme.defaultAlgorithm,
     },
-    menuMode: 'dark',
+    menuMode: 'light',
     pageMode: 'light',
     pageAnim: 'scale',
     menuCollapsed: false,

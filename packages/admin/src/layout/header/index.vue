@@ -21,7 +21,7 @@ const { isFullscreen, toggle } = useFullscreen(document.documentElement)
 </script>
 
 <template>
-  <a-layout-header class="bg-transparent! h-12! leading-12! px-6! shadow-md flex justify-between">
+  <a-layout-header class="bg-transparent! h-14! leading-12! px-6! flex justify-between">
     <div class="flex items-center">
       <es-icon
         :name="themeStore.menuCollapsed ? 'unfoldLeft' : 'unfoldRight'"

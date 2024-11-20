@@ -34,15 +34,28 @@ watch(
   },
   { immediate: true },
 )
+
+const iconBox = ref<HTMLElement>()
+const clickHandler = () => {
+  if (props.rotate) {
+    iconBox.value?.classList.add('rotate_animation')
+    const timer = window.setTimeout(() => {
+      iconBox.value?.classList.remove('rotate_animation')
+      clearTimeout(timer)
+    }, 1000)
+  }
+  emits('click')
+}
 </script>
 
 <template>
   <div
+    ref="iconBox"
     :size="size"
     class="cursor-pointer flex items-center justify-center"
-    :class="[unset ? '!text-unset' : '', rotate ? 'rotate_animation' : '', iconClass]"
+    :class="[unset ? '!text-unset' : '', iconClass]"
     :style="{ fontSize: `${size}px` }"
-    @click="emits('click')"
+    @click="clickHandler"
   >
     <!--   https://icones.netlify.app/collection/line-md -->
     <icon-md-chevron-double-left v-if="name === 'chevronDoubleLeft'" />
@@ -53,6 +66,7 @@ watch(
     <icon-md-uploading-loop v-if="name === 'uploading'" />
     <icon-md-menu-unfold-left v-if="name === 'unfoldLeft'" />
     <icon-md-menu-unfold-right v-if="name === 'unfoldRight'" />
+    <icon-md-rotate-270 v-if="name === 'update'" />
 
     <!-- https://icones.netlify.app/collection/majesticons    -->
 
