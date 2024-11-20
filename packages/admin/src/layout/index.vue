@@ -14,12 +14,12 @@ const themeStore = useThemeStore()
       :collapsed="themeStore.menuCollapsed"
       class="overflow-auto hide-scrollbar"
     >
-      <SideLayout />
+      <side-layout />
     </a-layout-sider>
     <a-layout>
-      <HeaderLayout />
+      <header-layout />
       <a-layout-content>
-        <ContentLayout />
+        <content-layout />
       </a-layout-content>
     </a-layout>
   </a-layout>

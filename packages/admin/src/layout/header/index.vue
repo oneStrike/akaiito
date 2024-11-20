@@ -7,13 +7,24 @@ defineOptions({
 })
 
 const router = useRouter()
+const route = useRoute()
+console.log(route)
 const userStore = useUserStore()
 const themeStore = useThemeStore()
 </script>
 
 <template>
   <a-layout-header class="bg-transparent! h-12! leading-12! px-6! shadow-md flex justify-between">
-    <es-icon :name="themeStore.menuCollapsed ? 'unfoldLeft' : 'unfoldRight'" @click="themeStore.changeMenuCollapsed" />
+    <div class="flex items-center">
+      <es-icon
+        :name="themeStore.menuCollapsed ? 'unfoldLeft' : 'unfoldRight'"
+        @click="themeStore.changeMenuCollapsed"
+      />
+      <a-breadcrumb class="ml-6">
+        <a-breadcrumb-item v-for="(item, idx) in route.matched">{{ item.meta?.title}}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
+
     <div class="flex items-center">
       <es-icon
         :name="themeStore.fullScreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'"
