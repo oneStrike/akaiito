@@ -3,6 +3,7 @@ import { themeConfig } from '@/theme'
 export interface ThemeStoreState {
   theme: (typeof themeConfig)[keyof typeof themeConfig]
   pageMode: 'light' | 'dark'
+  menuMode: 'light' | 'dark'
   fullScreen: boolean
   menuCollapsed: boolean
 }
@@ -13,6 +14,7 @@ export const useThemeStore = defineStore('useThemeStore', {
   },
   state: (): ThemeStoreState => ({
     theme: themeConfig.turquoise,
+    menuMode: 'light',
     pageMode: 'light',
     fullScreen: false,
     menuCollapsed: false,
@@ -24,5 +26,10 @@ export const useThemeStore = defineStore('useThemeStore', {
 
     // 进入或推出全屏
     changeFullScreen() {},
+
+    // 修改菜单折叠状态
+    changeMenuCollapsed() {
+      this.menuCollapsed = !this.menuCollapsed
+    },
   },
 })

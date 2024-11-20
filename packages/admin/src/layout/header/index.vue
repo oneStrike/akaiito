@@ -12,5 +12,10 @@ const layoutStore = useThemeStore()
 </script>
 
 <template>
-  <a-layout-header class="bg-transparent! h-12! leading-12! shadow-md"></a-layout-header>
+  <a-layout-header class="bg-transparent! h-12! leading-12! px-6! shadow-md">
+    <es-icon
+      :name="layoutStore.menuCollapsed ? 'unfoldLeft' : 'unfoldRight'"
+      @click="layoutStore.changeMenuCollapsed"
+    />
+  </a-layout-header>
 </template>

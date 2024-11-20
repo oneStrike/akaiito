@@ -9,7 +9,11 @@ const themeStore = useThemeStore()
 
 <template>
   <a-layout class="h-screen overflow-hidden">
-    <a-layout-sider :theme="themeStore.pageMode" class="overflow-auto hide-scrollbar">
+    <a-layout-sider
+      :theme="themeStore.pageMode"
+      :collapsed="themeStore.menuCollapsed"
+      class="overflow-auto hide-scrollbar"
+    >
       <SideLayout />
     </a-layout-sider>
     <a-layout>

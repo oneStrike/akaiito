@@ -40,12 +40,8 @@ watch(
   <a-icon
     :size="size"
     class="cursor-pointer"
-    :class="[
-      unset ? '!text-unset' : '',
-      rotate ? 'rotate_animation' : '',
-      hover ? 'hover:(!text-theme)' : '',
-      iconClass,
-    ]"
+    :class="[unset ? '!text-unset' : '', rotate ? 'rotate_animation' : '', iconClass]"
+    :style="{ fontSize: `${size}px` }"
     @click="emits('click')"
   >
     <!--   https://icones.netlify.app/collection/line-md -->
@@ -55,6 +51,8 @@ watch(
     <icon-md-moon-loop v-if="name === 'moonLoop'" />
     <icon-md-downloading-loop v-if="name === 'downloading'" />
     <icon-md-uploading-loop v-if="name === 'uploading'" />
+    <icon-md-menu-unfold-left v-if="name === 'unfoldLeft'" />
+    <icon-md-menu-unfold-right v-if="name === 'unfoldRight'" />
 
     <!-- https://icones.netlify.app/collection/majesticons    -->
 

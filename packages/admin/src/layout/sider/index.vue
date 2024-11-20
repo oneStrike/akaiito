@@ -3,14 +3,18 @@ import type { RouteRecordRaw } from 'vue-router'
 import EsIcon from '@/components/es-icon/index.vue'
 import { routes } from '@/router/routes'
 import type { SelectEventHandler } from 'ant-design-vue/es/menu/src/interface'
+import { useThemeStore } from '@/stores/modules/themeStore'
 
 defineOptions({
   name: 'SideLayout',
 })
 
+const themeStore = useThemeStore()
+
 const router = useRouter()
 const selectedKeys = ref<string[]>([])
 const openKeys = useSessionStorage<string[]>('openKeys', [])
+
 useRoute().matched.forEach((item) => {
   selectedKeys.value.push(item.name! as string)
   if (!openKeys.value.length) {
@@ -67,12 +71,13 @@ const selectMenu: SelectEventHandler = ({ key }) => {
 
 <template>
   <a-menu
-    :items="menus"
-    v-model:open-keys="openKeys"
+    class="h-full"
+    v-model:openKeys="openKeys"
     v-model:selectedKeys="selectedKeys"
     mode="inline"
-    @select="selectMenu"
-  />
+    :theme="themeStore.menuMode"
+    :items="menus"
+  ></a-menu>
 </template>
 
 <style scoped lang="scss"></style>

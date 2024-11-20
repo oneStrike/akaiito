@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AApp: typeof import('ant-design-vue/es')['App']
+    AButton: typeof import('ant-design-vue/es')['Button']
     AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
     ALayout: typeof import('ant-design-vue/es')['Layout']
     ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
@@ -52,9 +53,13 @@ declare module 'vue' {
     IconMajestUsersLine: typeof import('~icons/majesticons/users-line')['default']
     IconMdChevronDoubleLeft: typeof import('~icons/line-md/chevron-double-left')['default']
     IconMdDownloadingLoop: typeof import('~icons/line-md/downloading-loop')['default']
+    IconMdMenuUnfoldLeft: typeof import('~icons/line-md/menu-unfold-left')['default']
+    IconMdMenuUnfoldRight: typeof import('~icons/line-md/menu-unfold-right')['default']
     IconMdMoonLoop: typeof import('~icons/line-md/moon-loop')['default']
     IconMdSunRisingLoop: typeof import('~icons/line-md/sun-rising-loop')['default']
     IconMdUploadingLoop: typeof import('~icons/line-md/uploading-loop')['default']
+    MenuFoldOutlined: typeof import('@ant-design/icons-vue')['MenuFoldOutlined']
+    MenuUnfoldOutlined: typeof import('@ant-design/icons-vue')['MenuUnfoldOutlined']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
