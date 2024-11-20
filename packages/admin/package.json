@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@akaiito/utils": "workspace:^*",
+    "@vueuse/core": "^11.2.0",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.7.7",
     "nprogress": "^0.2.0",
@@ -25,6 +26,7 @@
     "@akaiito/att": "workspace:^*",
     "@akaiito/types": "workspace:^*",
     "@iconify-json/line-md": "^1.2.2",
+    "@iconify-json/majesticons": "^1.1.6",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.9.0",
     "@types/nprogress": "^0.2.3",

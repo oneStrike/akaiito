@@ -2,9 +2,20 @@
 import type { RouteRecordRaw } from 'vue-router'
 import EsIcon from '@/components/es-icon/index.vue'
 import { routes } from '@/router/routes'
+import type { SelectEventHandler } from 'ant-design-vue/es/menu/src/interface'
 
 defineOptions({
   name: 'SideLayout',
+})
+
+const router = useRouter()
+const selectedKeys = ref<string[]>([])
+const openKeys = useSessionStorage<string[]>('openKeys', [])
+useRoute().matched.forEach((item) => {
+  selectedKeys.value.push(item.name! as string)
+  if (!openKeys.value.length) {
+    openKeys.value.push(item.name! as string)
+  }
 })
 
 function filterMenus(routes: RouteRecordRaw[]): RouteRecordRaw[] {
@@ -48,10 +59,20 @@ function serializeRoutes(route: RouteRecordRaw[]): any[] {
 }
 
 const menus = ref(serializeRoutes(routes))
+
+const selectMenu: SelectEventHandler = ({ key }) => {
+  router.push({ name: key as string })
+}
 </script>
 
 <template>
-  <a-menu :items="menus" mode="inline" />
+  <a-menu
+    :items="menus"
+    v-model:open-keys="openKeys"
+    v-model:selectedKeys="selectedKeys"
+    mode="inline"
+    @select="selectMenu"
+  />
 </template>
 
 <style scoped lang="scss"></style>

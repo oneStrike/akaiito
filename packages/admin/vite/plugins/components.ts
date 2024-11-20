@@ -14,7 +14,12 @@ export const autoRegistryComponent = (): any => {
       }),
       IconsResolver({
         prefix: 'icon',
+        alias: {
+          majest: 'majesticons',
+          md: 'line-md',
+        },
         enabledCollections: ['line-md', 'majesticons'],
+        customCollections: ['akaiito'],
       }),
     ],
   })

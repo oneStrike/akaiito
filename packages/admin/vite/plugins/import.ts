@@ -8,6 +8,7 @@ export const autoImport = () =>
       'vue',
       'vue-router',
       'pinia',
+      '@vueuse/core',
       {
         axios: [['default', 'axios']],
       },
