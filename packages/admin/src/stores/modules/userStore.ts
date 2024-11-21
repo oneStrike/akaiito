@@ -14,73 +14,80 @@ export interface UserState {
   userInfo: LoginTypesRes['userInfo'] | null
 }
 
-export const useUserStore = defineStore('useUserStore', {
-  persist: {
-    storage: sessionStorage,
-  },
-  state: (): UserState => ({
-    userInfo: null,
-    token: {
+export const useUserStore = defineStore(
+  'useUserStore',
+  () => {
+    const userInfo = ref<UserState['userInfo'] | null>(null)
+    const token = ref<UserState['token']>({
       accessToken: '',
       refreshToken: '',
       accessExpiresIn: 0,
       refreshExpiresIn: 0,
-    },
-  }),
+    })
 
-  actions: {
     // 登录
-    async signIn(data: LoginTypesReq) {
+    const signIn = async (data: LoginTypesReq) => {
       const res = await loginApi(data)
-      this.userInfo = res.userInfo
+      userInfo.value = res.userInfo
 
       const { expiresIn } = config.auth
       const timestamp = utils.dayjs().unix()
-      this.token = {
+      token.value = {
         accessToken: res.token.accessToken,
         refreshToken: res.token.refreshToken,
         accessExpiresIn: expiresIn.accessToken + timestamp,
         refreshExpiresIn: expiresIn.refreshToken + timestamp,
       }
-    },
+    }
 
     // 获取认证信息
-    getAuthStatus(type: 'access' | 'refresh' = 'access') {
+    const getAuthStatus = (type: 'access' | 'refresh' = 'access') => {
       const timestamp = utils.dayjs().unix()
       if (type === 'access') {
-        return this.token.accessExpiresIn > timestamp
+        return token.value.accessExpiresIn > timestamp
       }
-      return this.token.refreshExpiresIn > timestamp
-    },
-
-    // 刷新token
-    async renewToken() {
-      if (!this.getAuthStatus() && this.token.accessToken) {
-        try {
-          this.token.accessToken = await refreshAccessTokenApi({
-            accessToken: this.token.accessToken,
-            refreshToken: this.token.refreshToken,
-          })
-          const { expiresIn } = config.auth
-          const timestamp = utils.dayjs().unix()
-          this.token.accessExpiresIn = expiresIn.accessToken + timestamp
-        } catch (e) {
-          this.signOut()
-          throw new Error('token失效')
-        }
-      }
-    },
-
+      return token.value.refreshExpiresIn > timestamp
+    }
     // 退出登录
-    signOut() {
-      this.token = {
+    const signOut = () => {
+      token.value = {
         accessToken: '',
         refreshToken: '',
         accessExpiresIn: 0,
         refreshExpiresIn: 0,
       }
-      this.userInfo = null
+      userInfo.value = null
       router.replace({ name: 'Login' })
+    }
+    // 刷新token
+    const renewToken = async () => {
+      if (!getAuthStatus() && token.value.accessToken) {
+        try {
+          token.value.accessToken = await refreshAccessTokenApi({
+            accessToken: token.value.accessToken,
+            refreshToken: token.value.refreshToken,
+          })
+          const { expiresIn } = config.auth
+          const timestamp = utils.dayjs().unix()
+          token.value.accessExpiresIn = expiresIn.accessToken + timestamp
+        } catch (e) {
+          signOut()
+          throw new Error('token失效')
+        }
+      }
+    }
+    return {
+      userInfo,
+      token,
+      signIn,
+      getAuthStatus,
+      signOut,
+      renewToken,
+    }
+  },
+  {
+    persist: {
+      storage: sessionStorage,
     },
   },
-})
+)

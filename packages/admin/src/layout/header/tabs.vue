@@ -78,5 +78,4 @@ const closeOtherTab = () => {
     border-bottom: none !important;
   }
 }
-
 </style>

@@ -1,19 +1,20 @@
 <script lang="ts" setup>
+import type { GetCaptchaTypesRes } from '@/apis/types/captcha'
 import type { FormInstance } from 'ant-design-vue'
 import { getCaptchaApi } from '@/apis/captcha'
 import { useMessage } from '@/hooks/useMessage'
-import { useValidator } from '@/hooks/useValidator'
 
-import type { GetCaptchaTypesRes } from '@/apis/types/captcha'
+import { useValidator } from '@/hooks/useValidator'
 import { useUserStore } from '@/stores/modules/userStore'
 
 const router = useRouter()
 const userStore = useUserStore()
 const formRef = ref<FormInstance>()
 const btnLoading = ref<boolean>(false) // 表单数据
+const rememberInfo = useLocalStorage<IterateObject>('ACCOUNT_INFO', {})
 const ruleForm = reactive({
-  mobile: '',
-  password: '',
+  mobile: rememberInfo.value.mobile ?? '',
+  password: rememberInfo.value.password ?? '',
   captcha: '',
   captchaId: '',
 })

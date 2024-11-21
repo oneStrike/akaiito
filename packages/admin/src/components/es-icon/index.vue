@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineOptions({
+  name: 'EsIcon',
+})
+
 export interface AsIconsProps {
   name: string
   size?: number
@@ -104,6 +108,9 @@ const clickHandler = useDebounceFn(() => {
     <icon-majest-cube-line v-if="name === 'cube'" />
     <icon-majest-device-mobile-line v-if="name === 'mobile'" />
     <icon-majest-speakerphone-line v-if="name === 'speakerphone'" />
+
+    <!-- https://icones.js.org/collection/svg-spinners?icon=svg-spinners:dot-revolve   -->
+    <icon-spinners-270-ring-with-bg v-if="name === 'loading'" />
   </div>
 </template>
 

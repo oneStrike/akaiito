@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { getUserPageApi } from '@/apis/user'
+import { tableColumns } from '@/views/systemMgmt/userMgmt/shared'
+
 defineOptions({
   name: 'UserMgmt',
 })
 </script>
 
 <template>
-  <es-page>我是用户管理页面</es-page>
+  <es-page>
+    <es-table :columns="tableColumns" :api="getUserPageApi" />
+  </es-page>
 </template>
 
 <style scoped lang="scss"></style>

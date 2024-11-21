@@ -17,8 +17,9 @@ export const autoRegistryComponent = (): any => {
         alias: {
           majest: 'majesticons',
           md: 'line-md',
+          spinners: 'svg-spinners',
         },
-        enabledCollections: ['line-md', 'majesticons'],
+        enabledCollections: ['line-md', 'majesticons', 'svg-spinners'],
         customCollections: ['akaiito'],
       }),
     ],

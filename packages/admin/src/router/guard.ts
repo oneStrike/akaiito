@@ -20,7 +20,7 @@ export const guard = function (router: Router) {
   router.afterEach((form) => {
     // 设置页面标题
     document.title = form.meta.title ?? ''
-    if (!historyRoute.value.find((item) => item.name === form.name)) {
+    if (!historyRoute.value.find((item) => item.name === form.name) && form.name !== 'Login') {
       historyRoute.value.push({
         title: form.meta.title!,
         icon: form.meta.icon!,
