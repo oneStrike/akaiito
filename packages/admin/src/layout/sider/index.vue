@@ -9,20 +9,6 @@ defineOptions({
   name: 'SideLayout',
 })
 
-const historyRoute = useSessionStorage<
-  {
-    label: string
-    name: string
-    icon: string
-  }[]
->('history_route', [
-  {
-    label: '工作台',
-    name: 'Dashboard',
-    icon: 'dashboard',
-  },
-])
-
 const themeStore = useThemeStore()
 
 const router = useRouter()
@@ -79,13 +65,12 @@ function serializeRoutes(route: RouteRecordRaw[]): any[] {
 const menus = ref(serializeRoutes(JSON.parse(JSON.stringify(routes))))
 
 const selectMenu: SelectEventHandler = (val) => {
-  const { label, key, icon } = val.item.originItemValue as any
-  if (!historyRoute.value.find((item) => item.name === key)) {
-    historyRoute.value.push({ label, name: key, icon: icon.props.name })
-  }
   router.push({ name: val.key as string })
 }
-console.log(themeStore.menuMode)
+const route = useRoute()
+watch(route, (val) => {
+  selectedKeys.value = [val.name as string]
+})
 </script>
 
 <template>

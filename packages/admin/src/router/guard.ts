@@ -1,12 +1,18 @@
 import type { Router } from 'vue-router'
 import nProgress from 'nprogress'
 
+const historyRoute = useSessionStorage('history_route', [
+  {
+    title: '工作台',
+    name: 'Dashboard',
+    icon: 'dashboard',
+  },
+])
 export const guard = function (router: Router) {
   // 在路由跳转前执行的函数
   router.beforeEach(async (to) => {
     // 开始进度条
     nProgress.start()
-    console.log(123)
     return true
   })
 
@@ -14,7 +20,13 @@ export const guard = function (router: Router) {
   router.afterEach((form) => {
     // 设置页面标题
     document.title = form.meta.title ?? ''
-
+    if (!historyRoute.value.find((item) => item.name === form.name)) {
+      historyRoute.value.push({
+        title: form.meta.title!,
+        icon: form.meta.icon!,
+        name: form.name! as string,
+      })
+    }
     // 完成进度条
     nProgress.done()
   })
