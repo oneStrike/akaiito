@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { formatDate } from '@/formatDate'
 import { downloadBlob } from './downloadBlob'
 import { fillFormOptions } from './fillFormOptions'
 import { getProjectConfig } from './getProjectConfig'
@@ -7,7 +7,7 @@ import { isValueInStringEnum } from './isValueInStringEnum'
 import { parseQuery } from './parseQuery'
 import { validate } from './validate'
 
-export const auyUtils = {
+export const AkaiitoUtils = {
   parseQuery,
   isJson,
   getJson,
@@ -16,5 +16,5 @@ export const auyUtils = {
   downloadBlob,
   fillFormOptions,
   getProjectConfig,
-  _,
+  formatDate,
 }

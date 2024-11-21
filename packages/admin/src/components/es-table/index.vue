@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { EsTableProps } from '@/components/es-table/types'
+import { utils } from '@/utils'
 
 const props = withDefaults(defineProps<EsTableProps>(), {})
 
@@ -15,8 +16,8 @@ props.api().then((res) => {
   <es-loading v-model="loading">
     <a-table :columns="columns" :data-source="tableData">
       <template #bodyCell="{ column, text }">
-        <template v-if="column.dataIndex === 'username'">
-          <a>{{ text }}</a>
+        <template v-if="column.type === 'dateTime'">
+          {{ utils.formatDate(text) }}
         </template>
       </template>
     </a-table>

@@ -25,6 +25,7 @@ export const tableColumns: EsTableColumn = [
   {
     title: '创建时间',
     dataIndex: 'createdAt',
+    type: 'dateTime',
   },
   {
     title: '操作',
