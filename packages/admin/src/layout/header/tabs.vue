@@ -19,7 +19,9 @@ const activeKey = ref<string>(route.name as string)
 const tabsLayoutRef = ref()
 const rightClickTab = ref('')
 const rightClickMenu = ref('')
-
+if (!historyRoute.value.length) {
+  historyRoute.value = [defaultTab]
+}
 watch(route, (val) => {
   activeKey.value = val.name as string
 })
@@ -45,13 +47,7 @@ const edit = (val: any) => {
 }
 
 const reloadRoute = () => {
-  rightClickTab.value = ''
   useEventBus('reloadRoute').emit()
-}
-
-const closeOtherTab = () => {
-  const currentTab = historyRoute.value[tabIndex()]
-  historyRoute.value = [defaultTab, currentTab]
 }
 
 onMounted(() => {
@@ -76,8 +72,10 @@ onMounted(() => {
     }
   }
   window.onclick = (e) => {
-    console.log(e)
-    rightClickTab.value = ''
+    // @ts-expect-error ignore
+    if (e.target.getAttribute('data-right-click-menu') !== 'self') {
+      rightClickTab.value = ''
+    }
   }
 })
 
@@ -86,13 +84,40 @@ const rightClickHandler: MenuClickEventHandler = ({ key }) => {
     case '1':
       reloadRoute()
       break
+    case '2':
+      let targetIdx = tabIndex(rightClickTab.value)
+      let activeIdx = tabIndex()
+      historyRoute.value.splice(1, targetIdx - 1)
+      if (activeIdx < targetIdx) {
+        navigator(rightClickTab.value)
+      }
+      break
+    case '3':
+      historyRoute.value.splice(tabIndex(rightClickTab.value) + 1)
+      navigator(rightClickTab.value)
+      break
+    case '4':
+      if (rightClickTab.value === defaultTab.name) {
+        historyRoute.value = [defaultTab]
+      } else {
+        historyRoute.value = [defaultTab, historyRoute.value[tabIndex(rightClickTab.value)]]
+      }
+      navigator(rightClickTab.value)
+      break
+    case '5':
+      historyRoute.value = [defaultTab]
+      navigator(defaultTab.name)
   }
-  // rightClickTab.value = ''
+  rightClickTab.value = ''
 }
 </script>
 
 <template>
-  <div class="w-full bg-white! dark:bg-[#141414]! flex px-4 justify-between" ref="tabsLayoutRef">
+  <div
+    v-if="Array.isArray(historyRoute) && historyRoute.length"
+    class="w-full bg-white! dark:bg-[#141414]! flex px-4 justify-between"
+    ref="tabsLayoutRef"
+  >
     <a-tabs
       ref="tabsRef"
       v-model:active-key="activeKey"
@@ -112,37 +137,40 @@ const rightClickHandler: MenuClickEventHandler = ({ key }) => {
     <a-menu
       v-if="rightClickTab"
       ref="rightClickMenu"
-      dir="rtl"
       class="absolute z-9999 shadow-2xl! border-e-0! border-slate-200 border-solid border-px rounded-2"
-      @click.native="rightClickHandler"
+      @click="rightClickHandler"
     >
-      <a-menu-item key="1" :disabled="rightClickTab !== activeKey" data-set-state="123">
-        <div class="flex items-center">
-          <es-icon name="refresh" :size="14" />
+      <a-menu-item key="1" :disabled="rightClickTab !== activeKey" data-right-click-menu="self">
+        <div class="flex items-center" data-right-click-menu="self">
+          <es-icon name="refresh" :size="14" class="mr-1" />
           重新加载
         </div>
       </a-menu-item>
-      <a-menu-item key="2">
-        <div class="flex items-center">
-          <es-icon name="chevronsLeft" :size="14" />
+      <a-menu-item key="2" data-right-click-menu="self" :disabled="tabIndex(rightClickTab) <= 1">
+        <div class="flex items-center" data-right-click-menu="self">
+          <es-icon name="chevronsLeft" :size="14" class="mr-1" />
           关闭左侧
         </div>
       </a-menu-item>
-      <a-menu-item key="3">
-        <div class="flex items-center">
-          <es-icon name="chevronsRight" :size="14" />
+      <a-menu-item
+        key="3"
+        data-right-click-menu="self"
+        :disabled="historyRoute.length <= 1 || tabIndex(rightClickTab) + 1 === historyRoute.length"
+      >
+        <div class="flex items-center" data-right-click-menu="self">
+          <es-icon name="chevronsRight" :size="14" class="mr-1" />
           关闭右侧
         </div>
       </a-menu-item>
-      <a-menu-item key="4">
-        <div class="flex items-center">
-          <es-icon name="close" :size="16" />
+      <a-menu-item key="4" data-right-click-menu="self" :disabled="historyRoute.length <= 2">
+        <div class="flex items-center" data-right-click-menu="self">
+          <es-icon name="close" :size="16" class="mr-1" />
           关闭其他
         </div>
       </a-menu-item>
-      <a-menu-item key="5">
-        <div class="flex items-center">
-          <es-icon name="closeCircle" :size="16" />
+      <a-menu-item key="5" data-right-click-menu="self" :disabled="historyRoute.length <= 1">
+        <div class="flex items-center" data-right-click-menu="self">
+          <es-icon name="closeCircle" :size="16" class="mr-1" />
           关闭全部
         </div>
       </a-menu-item>
