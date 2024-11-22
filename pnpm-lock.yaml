@@ -79,8 +79,8 @@ importers:
         specifier: ^1.7.7
         version: 1.7.7
       element-plus:
-        specifier: ^2.8.3
-        version: 2.8.7(vue@3.5.12(typescript@5.4.5))
+        specifier: ^2.8.8
+        version: 2.8.8(vue@3.5.12(typescript@5.4.5))
       normalize.css:
         specifier: ^8.0.1
         version: 8.0.1
@@ -5927,8 +5927,8 @@ packages:
   electron-to-chromium@1.5.55:
     resolution: {integrity: sha512-6maZ2ASDOTBtjt9FhqYPRnbvKU5tjG0IN9SztUOWYw2AzNDNpKJYLJmlK0/En4Hs/aiWnB+JZ+gW19PIGszgKg==}
 
-  element-plus@2.8.7:
-    resolution: {integrity: sha512-oGQyFRufFOgjd872tZc+T4xQAYLlX4hj6d3ixeY13L4fFNUuc1N49JHAqJGPda0tdx3qCnjceZoh1kqqj2+tXQ==}
+  element-plus@2.8.8:
+    resolution: {integrity: sha512-MLAH1x2PGTnOT7Iwqh9ASgfZhvgqQqrdbxuJH0w2fGjzE4ZjryyLQj24HXoQO7Zon66U3lrYxbdLI57M6OX0qw==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -18362,7 +18362,7 @@ snapshots:
 
   electron-to-chromium@1.5.55: {}
 
-  element-plus@2.8.7(vue@3.5.12(typescript@5.4.5)):
+  element-plus@2.8.8(vue@3.5.12(typescript@5.4.5)):
     dependencies:
       '@ctrl/tinycolor': 3.6.1
       '@element-plus/icons-vue': 2.3.1(vue@3.5.12(typescript@5.4.5))

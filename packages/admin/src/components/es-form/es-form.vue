@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
-import { utils } from '@/utils'
 
 export type EsFormComponent =
   | 'Input'

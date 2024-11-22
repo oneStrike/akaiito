@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { AuyOptions, IterateObject } from '@akaiito/types'
+import type { AuyOptions } from '@akaiito/types'
 
 export interface EsCheckboxProps {
   modelValue?: string | (string | number)[]
