@@ -1,5 +1,4 @@
 import type { EsTableColumn } from '@/components/es-table/types'
-import { utils } from '@/utils'
 
 export const tableColumns: EsTableColumn = [
   {
@@ -26,10 +25,12 @@ export const tableColumns: EsTableColumn = [
     title: '创建时间',
     dataIndex: 'createdAt',
     type: 'dateTime',
+    align: 'center',
   },
   {
     title: '操作',
     dataIndex: 'action',
     align: 'center',
+    slotName: 'action',
   },
 ]

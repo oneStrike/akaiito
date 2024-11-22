@@ -85,7 +85,7 @@ export function requiredNumberLess(less: number) {
  */
 export function givenValue(values: any[], isRequired = true) {
   values.push(...values.map((item) => item.toString()))
-  const rule = RuleType.valid(values)
+  const rule = RuleType.valid(...values)
   return isRequired ? rule.required() : rule.empty([''])
 }
 
