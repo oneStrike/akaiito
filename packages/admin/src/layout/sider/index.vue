@@ -4,6 +4,7 @@ import type { RouteRecordRaw } from 'vue-router'
 import EsIcon from '@/components/es-icon/index.vue'
 import { routes } from '@/router/routes'
 import { useThemeStore } from '@/stores/modules/themeStore'
+import { StorageEnum } from '@/enum/storage'
 
 defineOptions({
   name: 'SideLayout',
@@ -13,7 +14,7 @@ const themeStore = useThemeStore()
 
 const router = useRouter()
 const selectedKeys = ref<string[]>([])
-const openKeys = useSessionStorage<string[]>('openKeys', [])
+const openKeys = useSessionStorage<string[]>(StorageEnum.MENU_OPEN_KEYS, [])
 
 useRoute().matched.forEach((item) => {
   selectedKeys.value.push(item.name! as string)

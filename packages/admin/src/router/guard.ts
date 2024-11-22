@@ -1,7 +1,8 @@
 import type { Router } from 'vue-router'
 import nProgress from 'nprogress'
+import { StorageEnum } from '@/enum/storage'
 
-const historyRoute = useSessionStorage('history_route', [
+const historyRoute = useSessionStorage(StorageEnum.HISTORY_ROUTER, [
   {
     title: '工作台',
     name: 'Dashboard',

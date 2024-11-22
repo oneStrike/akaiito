@@ -6,12 +6,13 @@ import { useMessage } from '@/hooks/useMessage'
 
 import { useValidator } from '@/hooks/useValidator'
 import { useUserStore } from '@/stores/modules/userStore'
+import { StorageEnum } from '@/enum/storage'
 
 const router = useRouter()
 const userStore = useUserStore()
 const formRef = ref<FormInstance>()
 const btnLoading = ref<boolean>(false) // 表单数据
-const rememberInfo = useLocalStorage<IterateObject>('ACCOUNT_INFO', {})
+const rememberInfo = useLocalStorage<IterateObject>(StorageEnum.ACCOUNT_INFO, {})
 const ruleForm = reactive({
   mobile: rememberInfo.value.mobile ?? '',
   password: rememberInfo.value.password ?? '',

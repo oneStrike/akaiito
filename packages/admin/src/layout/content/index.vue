@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useThemeStore } from '@/stores/modules/themeStore'
 import nProgress from 'nprogress'
+import { useReloadRouterEventBus } from '@/hooks/useEventBus'
 
 defineOptions({
   name: 'ContentLayout',
@@ -16,7 +17,7 @@ const reloadRoute = () => {
     nProgress.done()
   }, 100)
 }
-useEventBus('reloadRoute').on(reloadRoute)
+useReloadRouterEventBus.on(reloadRoute)
 </script>
 
 <template>

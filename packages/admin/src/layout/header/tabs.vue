@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import router from '@/router'
 import type { MenuClickEventHandler } from 'ant-design-vue/es/menu/src/interface'
+import { StorageEnum } from '@/enum/storage'
+import { useReloadRouterEventBus } from '@/hooks/useEventBus'
 
 defineOptions({
   name: 'TabsLayout',
@@ -12,7 +14,7 @@ const defaultTab = {
   icon: 'dashboard',
 }
 
-const historyRoute = useSessionStorage('history_route', [defaultTab])
+const historyRoute = useSessionStorage(StorageEnum.HISTORY_ROUTER, [defaultTab])
 const route = useRoute()
 const tabsRef = ref()
 const activeKey = ref<string>(route.name as string)
@@ -47,7 +49,7 @@ const edit = (val: any) => {
 }
 
 const reloadRoute = () => {
-  useEventBus('reloadRoute').emit()
+  useReloadRouterEventBus.emit()
 }
 
 onMounted(() => {
