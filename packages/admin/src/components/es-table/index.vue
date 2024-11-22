@@ -4,7 +4,7 @@ import { utils } from '@/utils'
 
 const props = withDefaults(defineProps<EsTableProps>(), {
   pageIndex: 0,
-  pageSize: 15,
+  pageSize: 25,
   defaultParams: () => ({}),
 })
 
@@ -47,16 +47,22 @@ const refreshTableData = () => {
 </script>
 
 <template>
-  <es-loading v-model="loading">
-    <a-table :columns="columns" :data-source="tableData">
-      <template #bodyCell="{ column, text, record, index }">
-        <template v-if="column.type === 'dateTime'">
-          {{ utils.formatDate(text) }}
-        </template>
-        <template v-if="column.slotName">
-          <slot :name="column.slotName" :column="column" :text="text" :record="record" :index="index"></slot>
-        </template>
+  <a-table
+    :columns="columns"
+    :data-source="tableData"
+    :loading="loading"
+    :pagination="false"
+    :scroll="{
+      scrollToFirstRowOnChange: true,
+      x: '1000px',
+      y: '700px',
+    }"
+  >
+    <template #bodyCell="slotData">
+      <slot v-if="slotData.column.slotName" name="customRender" v-bind="slotData" />
+      <template v-else>
+        <span v-if="slotData.column.type === 'dateTime'">{{ utils.formatDate(slotData.text) }}</span>
       </template>
-    </a-table>
-  </es-loading>
+    </template>
+  </a-table>
 </template>
