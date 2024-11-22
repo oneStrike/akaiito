@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
+import type { MenuClickEventHandler } from 'ant-design-vue/es/menu/src/interface'
 
 defineOptions({
   name: 'TabsLayout',
@@ -74,13 +75,18 @@ onMounted(() => {
       })
     }
   }
-
-  window.onclick = () => {
+  window.onclick = (e) => {
+    console.log(e)
     rightClickTab.value = ''
   }
 })
 
-const rightClickHandler = (val) => {
+const rightClickHandler: MenuClickEventHandler = ({ key }) => {
+  switch (key) {
+    case '1':
+      reloadRoute()
+      break
+  }
   // rightClickTab.value = ''
 }
 </script>
@@ -108,9 +114,9 @@ const rightClickHandler = (val) => {
       ref="rightClickMenu"
       dir="rtl"
       class="absolute z-9999 shadow-2xl! border-e-0! border-slate-200 border-solid border-px rounded-2"
-      @click="rightClickHandler"
+      @click.native="rightClickHandler"
     >
-      <a-menu-item key="1">
+      <a-menu-item key="1" :disabled="rightClickTab !== activeKey" data-set-state="123">
         <div class="flex items-center">
           <es-icon name="refresh" :size="14" />
           重新加载
