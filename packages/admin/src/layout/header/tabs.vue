@@ -188,6 +188,11 @@ const rightClickHandler: MenuClickEventHandler = ({ key }) => {
   }
 }
 
+:deep(.ant-menu-item) {
+  width: auto;
+  margin: 0 !important;
+}
+
 /*渐变过渡*/
 .fade-transform-enter-active,
 .fade-transform-leave-active {
