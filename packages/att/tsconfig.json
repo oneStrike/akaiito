@@ -37,7 +37,8 @@
   },
   "include": [
     "**/*.ts",
-    "dist/**/*"
+    "dist/**/*",
+    "../types/src/index.d.ts"
   ],
   "exclude": [
     "**/node_modules",

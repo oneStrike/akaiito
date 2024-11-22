@@ -57,7 +57,7 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
       params.value.pageIndex = params.value.pageIndex++
     }
 
-    const options: IterateObject = utils._.cloneDeep(params.value)
+    const options: IterateObject = JSON.parse(JSON.stringify(params.value))
 
     // 如果有排序参数，则将其转换为字符串
     if (options.orderBy && Object.keys(options.orderBy).length) {
@@ -75,7 +75,7 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
 
   const reset = async <K>(p?: K) => {
     skipNext = true
-    params.value = utils._.cloneDeep(defaultParams)
+    params.value = JSON.parse(JSON.stringify(defaultParams))
     if (!params.value.orderBy) {
       params.value.orderBy = {}
     }

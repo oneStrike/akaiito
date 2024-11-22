@@ -21,7 +21,7 @@ export const useStorage = <T>(key: string, defaultValue?: T): Ref<T | null> => {
   const get = (key: string) => {
     const value = storage.getItem(key)
     skipWatch = true
-    storageValue.value = value ? utils.getJson(value) : defaultValue
+    storageValue.value = value ? utils.parseJson(value) : defaultValue
     skipWatch = false
     return value
   }

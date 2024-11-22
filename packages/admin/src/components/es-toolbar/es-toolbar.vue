@@ -46,7 +46,7 @@ watch(
   () => props.filter,
   (val) => {
     if (Array.isArray(val)) {
-      innerFilter.value = utils._.cloneDeep(val).map((item: ToolbarFilter[number]) => {
+      innerFilter.value = JSON.parse(JSON.stringify(val)).map((item: ToolbarFilter[number]) => {
         if (!item.componentProps) {
           item.componentProps = {}
         }
@@ -89,7 +89,7 @@ watch(
 )
 
 function submit(val?: IterateObject) {
-  val = utils._.cloneDeep(val)
+  val = JSON.parse(JSON.stringify(val))
   if (Array.isArray(val?.dateTimePicker) && val?.dateTimePicker.length === 2) {
     const start = val.dateTimePicker[0]
     const end = val.dateTimePicker[1]

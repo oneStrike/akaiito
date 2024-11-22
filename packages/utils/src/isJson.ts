@@ -29,7 +29,7 @@ export function isJson(str: string) {
  * @param str 待转换的字符串
  * @returns 如果字符串是有效的JSON格式，则返回对应的JSON对象；否则返回原始字符串
  */
-export function getJson(str: string) {
+export function parseJson(str: string) {
   // 尝试判断字符串是否为有效的JSON格式
   const parseValue = isJson(str)
   // 根据判断结果，返回相应的值

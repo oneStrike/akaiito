@@ -68,7 +68,7 @@ async function submitForm(val: Record) {
 }
 
 const filterCategory = (val: IterateObject) => {
-  request(Object.assign(utils._.cloneDeep(val), formatModelType(val.contentModel?.join(',') ?? '', '')))
+  request(Object.assign(JSON.parse(JSON.stringify(val)), formatModelType(val.contentModel?.join(',') ?? '', '')))
 }
 </script>
 

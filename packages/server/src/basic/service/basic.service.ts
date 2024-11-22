@@ -145,7 +145,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
           break
         case 'orderBy':
           if (options.where.orderBy) {
-            options.orderBy = utils.getJson(options.where.orderBy)
+            options.orderBy = utils.parseJson(options.where.orderBy)
           } else {
             options.orderBy = this.prismaConfig.orderBy
           }

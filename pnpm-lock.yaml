@@ -106,13 +106,13 @@ importers:
         specifier: ^4.4.5
         version: 4.4.5(vue@3.5.12(typescript@5.4.5))
     devDependencies:
-      '@auy/att':
+      '@akaiito/att':
         specifier: workspace:^*
         version: link:../att
-      '@auy/types':
+      '@akaiito/types':
         specifier: workspace:^*
         version: link:../types
-      '@auy/utils':
+      '@akaiito/utils':
         specifier: workspace:^*
         version: link:../utils
       '@iconify-json/line-md':
@@ -191,7 +191,7 @@ importers:
         specifier: ^11.2.0
         version: 11.2.0
     devDependencies:
-      '@auy/types':
+      '@akaiito/types':
         specifier: workspace:*
         version: link:../types
       '@types/chai':
@@ -227,13 +227,13 @@ importers:
 
   packages/client:
     dependencies:
-      '@auy/att':
+      '@akaiito/att':
         specifier: workspace:^*
         version: link:../att
-      '@auy/types':
+      '@akaiito/types':
         specifier: workspace:^*
         version: link:../types
-      '@auy/utils':
+      '@akaiito/utils':
         specifier: workspace:^*
         version: link:../utils
       '@dcloudio/uni-app':
@@ -396,10 +396,10 @@ importers:
 
   packages/server:
     dependencies:
-      '@auy/types':
+      '@akaiito/types':
         specifier: workspace:*
         version: link:../types
-      '@auy/utils':
+      '@akaiito/utils':
         specifier: workspace:*
         version: link:../utils
       '@midwayjs/axios':

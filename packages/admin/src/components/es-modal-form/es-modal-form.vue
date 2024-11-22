@@ -40,7 +40,7 @@ watch(
   () => props.defaultValue,
   (value) => {
     if (value && Object.keys(value).length) {
-      formData.value = utils._.cloneDeep(value)
+      formData.value = JSON.parse(JSON.stringify(value))
     }
   },
   { deep: true },
