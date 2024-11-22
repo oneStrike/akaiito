@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { HomeOutlined } from '@ant-design/icons-vue'
+
 defineOptions({
   name: 'EsIcon',
 })
@@ -53,17 +55,14 @@ const clickHandler = useDebounceFn(() => {
 </script>
 
 <template>
-  <div
+  <span
     ref="iconBox"
-    :size="size"
-    class="cursor-pointer flex items-center justify-center"
+    class="cursor-pointer flex-inline items-center"
     :class="[unset ? '!text-unset' : '', iconClass]"
     :style="{ fontSize: `${size}px` }"
     @click="clickHandler"
   >
     <!--   https://icones.netlify.app/collection/line-md -->
-    <icon-md-chevron-double-left v-if="name === 'chevronDoubleLeft'" />
-    <icon-md-chevron-double-left v-if="name === 'chevronDoubleRight'" class="rotate-180" />
     <icon-md-sun-rising-loop v-if="name === 'sunLoop'" />
     <icon-md-moon-loop v-if="name === 'moonLoop'" />
     <icon-md-downloading-loop v-if="name === 'downloading'" />
@@ -108,13 +107,26 @@ const clickHandler = useDebounceFn(() => {
     <icon-majest-cube-line v-if="name === 'cube'" />
     <icon-majest-device-mobile-line v-if="name === 'mobile'" />
     <icon-majest-speakerphone-line v-if="name === 'speakerphone'" />
+    <icon-majest-chevron-double-left-line v-if="name === 'chevronsLeft'" />
+    <icon-majest-chevron-double-right-line v-if="name === 'chevronsRight'" />
+    <icon-majest-close-line v-if="name === 'close'" />
+    <icon-majest-close-circle-line v-if="name === 'closeCircle'" />
 
     <!-- https://icones.js.org/collection/svg-spinners?icon=svg-spinners:dot-revolve   -->
     <icon-spinners-270-ring-with-bg v-if="name === 'loading'" />
-  </div>
+
+    <!-- https://icones.netlify.app/collection/tabler   -->
+
+    <icon-tabler-refresh v-if="name === 'refresh'" />
+  </span>
 </template>
 
 <style scoped lang="scss">
+svg {
+  width: 1em;
+  height: 1em;
+}
+
 .rotate_animation {
   animation: rotate 1s infinite ease-in-out;
 }
