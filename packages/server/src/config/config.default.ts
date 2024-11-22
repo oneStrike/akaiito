@@ -9,7 +9,7 @@ export default {
     port: 7001,
   },
   jwt: {
-    secret: 'auy',
+    secret: 'akaiito',
     sign: {
       expiresIn: '2h',
       algorithm: 'ES256',

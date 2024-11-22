@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { GetCategoryPageTypesRes } from '@/apis/types/category'
-import type { IterateObject } from '@auy/types'
+import type { IterateObject } from '@akaiito/types'
 import {
   createCategoryApi,
   deleteCategoryApi,

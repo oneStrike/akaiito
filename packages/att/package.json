@@ -1,5 +1,5 @@
 {
-  "name": "@auy/att",
+  "name": "@akaiito/att",
   "version": "1.0.0",
   "description": "",
   "private": true,
@@ -10,7 +10,7 @@
     "upgrade": "pnpx npm-check -u"
   },
   "devDependencies": {
-    "@auy/types": "workspace:*",
+    "@akaiito/types": "workspace:*",
     "@types/chai": "^4.3.20",
     "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.8",

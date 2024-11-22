@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { IterateObject } from '@auy/types'
+import type { IterateObject } from '@akaiito/types'
 import { getCaptchaApi } from '@/apis/captcha'
 import { loginApi } from '@/apis/user'
 import { useStorage } from '@/hooks/useStorage'

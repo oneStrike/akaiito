@@ -13,14 +13,14 @@ cache:
 
 default:
   tags:
-    - auy
+    - akaiito
 
 .build_job:
   before_script:
-    - pnpm install --filter @auy/utils --frozen-lockfile && pnpm install
-      --filter @auy/apifox-to-typescript --frozen-lockfile && pnpm run
+    - pnpm install --filter @akaiito/utils --frozen-lockfile && pnpm install
+      --filter @akaiito/apifox-to-typescript --frozen-lockfile && pnpm run
       build:pt
-    - pnpm install --filter @auy/$CURRENT_PROJECT --frozen-lockfile && pnpm
+    - pnpm install --filter @akaiito/$CURRENT_PROJECT --frozen-lockfile && pnpm
       run build:pt && pnpm run -C packages/$CURRENT_PROJECT build
     - docker login --username=$DOCKER_USER --password=$DOCKER_PASS
       $DOCKER_REGISTRY
@@ -69,7 +69,7 @@ server_jon:
   extends:
     - .build_job
   script:
-    - docker run --restart always --add-host auy:172.26.95.99 -d -p
+    - docker run --restart always --add-host akaiito:172.26.95.99 -d -p
       7001:7001 --name $CURRENT_PROJECT $CURRENT_IMAGE
   variables:
     CURRENT_PROJECT: 'server'
@@ -193,4 +193,4 @@ server_jon:
 # extends:
 # - .server
 # script:
-# - docker run --add-host auy:172.26.95.99 -d -p 7001:7001 $DOCKER_REGISTRY/$SERVER
+# - docker run --add-host akaiito:172.26.95.99 -d -p 7001:7001 $DOCKER_REGISTRY/$SERVER

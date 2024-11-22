@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AsyncFn, IterateObject } from '@auy/types'
+import type { AsyncFn, IterateObject } from '@akaiito/types'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 

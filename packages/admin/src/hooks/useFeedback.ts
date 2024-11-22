@@ -1,4 +1,4 @@
-import type { AsyncFn } from '@auy/types'
+import type { AsyncFn } from '@akaiito/types'
 import { PromptsEnum } from '@/enum/prompts'
 import { ElMessage, ElMessageBox } from 'element-plus'
 

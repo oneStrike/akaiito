@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router'
 import { SessionCacheEnum } from '@/enum/cache'
-import type { IterateObject } from '@auy/types'
+import type { IterateObject } from '@akaiito/types'
 
 const route = useRoute()
 const router = useRouter()

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { EsModalProps } from '@/components/es-modal/es-modal.vue'
 
-import type { ResolveListItem } from '@auy/types'
+import type { ResolveListItem } from '@akaiito/types'
 import {
   createDataDictionaryItemsApi,
   deleteDataDictionaryItemsApi,

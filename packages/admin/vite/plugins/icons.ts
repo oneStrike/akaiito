@@ -7,7 +7,7 @@ export function Icons() {
     compiler: 'vue3',
     autoInstall: true,
     customCollections: {
-      auy: FileSystemIconLoader('./src/assets/svg', (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')),
+      akaiito: FileSystemIconLoader('./src/assets/svg', (svg) => svg.replace(/^<svg /, '<svg fill="currentColor" ')),
     },
   }) as Plugin<any>
 }

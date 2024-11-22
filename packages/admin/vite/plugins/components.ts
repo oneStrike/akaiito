@@ -18,7 +18,7 @@ export function AutoRegistryComponent() {
           bx: 'bx',
         },
         enabledCollections: ['line-md', 'majesticons', 'tabler'],
-        customCollections: ['auy'],
+        customCollections: ['akaiito'],
       }),
     ],
   }) as Plugin

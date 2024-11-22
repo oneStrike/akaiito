@@ -1,4 +1,4 @@
-import type { HttpResponseResult } from '@auy/types'
+import type { HttpResponseResult } from '@akaiito/types'
 import type { MidwayHttpError } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { Catch } from '@midwayjs/core'

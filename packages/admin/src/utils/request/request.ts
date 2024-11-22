@@ -1,4 +1,4 @@
-import type { HttpResponseResult } from '@auy/types'
+import type { HttpResponseResult } from '@akaiito/types'
 import type {
   AxiosError,
   AxiosInstance,

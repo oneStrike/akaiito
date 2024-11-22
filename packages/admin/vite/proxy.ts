@@ -1,4 +1,4 @@
-import type { IterateObject } from '@auy/types'
+import type { IterateObject } from '@akaiito/types'
 import type { ServerOptions } from 'vite'
 
 export function ViteProxy(env: IterateObject<string>): ServerOptions {

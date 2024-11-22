@@ -1,4 +1,4 @@
-import type { HttpResponseResult } from '@auy/types'
+import type { HttpResponseResult } from '@akaiito/types'
 import type { IMiddleware } from '@midwayjs/core'
 import type { Context, NextFunction } from '@midwayjs/koa'
 import { Middleware } from '@midwayjs/core'

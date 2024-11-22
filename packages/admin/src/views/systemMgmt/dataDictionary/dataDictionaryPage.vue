@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ResolveListItem } from '@auy/types'
+import type { ResolveListItem } from '@akaiito/types'
 import {
   createDataDictionaryApi,
   deleteDataDictionaryApi,

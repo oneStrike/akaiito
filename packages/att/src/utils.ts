@@ -1,4 +1,4 @@
-import type { IterateObject } from '@auy/types'
+import type { IterateObject } from '@akaiito/types'
 
 export function formatSchema(schema: IterateObject | IterateObject[], dataSchema?: IterateObject) {
   const schemaArr: IterateObject[] = []
