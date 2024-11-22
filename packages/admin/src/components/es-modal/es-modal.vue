@@ -81,7 +81,7 @@ function toggleFullScreenStatus() {
             class="mr-4"
             @click="toggleFullScreenStatus"
           />
-          <es-icons name="multiply" color="!text-info" hover @click="close" />
+          <es-icons name="multiply" color="info" hover @click="close" />
         </div>
       </div>
     </template>

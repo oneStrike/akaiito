@@ -1,6 +1,4 @@
 import type { RouteRecordRaw } from 'vue-router'
-// 导入必要的模块
-import router from '@/router/index'
 
 // 基础路由
 const BasicRoutes: RouteRecordRaw[] = [
@@ -29,24 +27,6 @@ const BasicRoutes: RouteRecordRaw[] = [
     name: 'notFound',
     component: () => import('@/views/shared/notFoundPage.vue'), // 404页组件
     meta: { title: '404', hideMenu: true }, // 元数据，用于路由守卫等
-  },
-  {
-    path: '/redirect',
-    name: 'redirect',
-    component: () => import('@/layouts/layoutMain.vue'),
-    meta: { hideMenu: true },
-    beforeEnter: (to) => {
-      const { query } = to
-      const timer = window.setTimeout(() => {
-        router
-          .replace({
-            path: query.path as string,
-          })
-          .then(() => {
-            clearTimeout(timer)
-          })
-      }, 100)
-    },
   },
 ]
 

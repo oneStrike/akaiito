@@ -1,13 +1,22 @@
 <script setup lang="ts">
+import { useReloadRouterEventBus } from '@/hooks/useEventBus'
 import { useLayoutStore } from '@/stores/modules/layout'
 
 const layoutStore = useLayoutStore()
+
+const activeRouterView = ref(true)
+useReloadRouterEventBus.on(() => {
+  activeRouterView.value = false
+  useTimeoutFn(() => {
+    activeRouterView.value = true
+  }, 200)
+})
 </script>
 
 <template>
   <router-view v-slot="{ Component, route }" class="h-full rounded-md">
     <transition :name="`${layoutStore.pageAnim}-transform`" mode="out-in">
-      <component :is="Component" :key="route.fullPath" />
+      <component :is="Component" v-if="activeRouterView" :key="route.fullPath" />
     </transition>
   </router-view>
 </template>

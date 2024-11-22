@@ -57,6 +57,7 @@ const props = withDefaults(defineProps<EsEditorProps>(), {
 const emits = defineEmits(['update:modelValue', 'setHtml'])
 const loading = ref(false)
 const tinymceId = ref(`vue-tinymce-${+new Date()}${(Math.random() * 1000).toFixed(0)}`)
+const modelValue = defineModel({ type: String, default: '' })
 
 // 定义一个对象 init初始化
 const init = reactive({
@@ -124,8 +125,6 @@ const init = reactive({
     })
   },
 })
-
-const modelValue = defineModel({ type: String, default: '' })
 
 // 设置编辑器只读模式
 watch(

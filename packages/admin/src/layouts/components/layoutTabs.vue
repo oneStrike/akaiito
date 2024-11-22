@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RouteLocationNormalizedLoaded, RouteRecordName } from 'vue-router'
-import { SessionCacheEnum } from '@/enum/cache'
-import type { IterateObject } from '@akaiito/types'
+import { StorageEnum } from '@/enum/storage'
+import { useReloadRouterEventBus } from '@/hooks/useEventBus'
 
 const route = useRoute()
 const router = useRouter()
@@ -9,7 +9,7 @@ const currentRouter = ref()
 
 const defaultHistory = { name: 'Dashboard', title: '工作台' }
 
-const routerHistory = useSessionStorage<IterateObject[]>(SessionCacheEnum.HISTORY_ROUTER, [defaultHistory])
+const routerHistory = useSessionStorage<IterateObject[]>(StorageEnum.HISTORY_ROUTER, [defaultHistory])
 
 // 移除指定路由
 function removeRouter(name: any) {
@@ -64,23 +64,6 @@ function addRouter(route: RouteLocationNormalizedLoaded) {
   })
 }
 
-// 刷新当前路由
-const reloadFlag = ref(false)
-
-function reload() {
-  if (reloadFlag.value) return
-  reloadFlag.value = true
-  router.replace({
-    name: 'redirect',
-    query: {
-      path: router.currentRoute.value.fullPath,
-    },
-  })
-  window.setTimeout(() => {
-    reloadFlag.value = false
-  }, 1000)
-}
-
 function navigation(name: any) {
   router.push({ name })
 }
@@ -119,7 +102,7 @@ watch(
       </el-tab-pane>
     </el-tabs>
     <div class="flex-center">
-      <es-icons name="pinwheel" class="mr-4" :rotate="reloadFlag" @click="reload" />
+      <es-icons name="pinwheel" class="mr-4" rotate rotate-type="click" @click="useReloadRouterEventBus.emit" />
       <el-dropdown class="flex-center">
         <es-icons name="dotsHorizontal" />
         <template #dropdown>

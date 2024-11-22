@@ -1,65 +1,56 @@
 <script setup lang="ts">
-export interface AsIconsProps {
-  name: string
-  size?: number
-  color?:
-    | 'text-primary'
-    | 'text-error'
-    | 'text-info'
-    | 'text-success'
-    | 'text-warning'
-    | string
-  rotate?: boolean
-  hover?: boolean
-  unset?: boolean
-}
+import type { EsIconProps } from '@/components/es-icons/types'
 
-const props = withDefaults(defineProps<AsIconsProps>(), {
+const props = withDefaults(defineProps<EsIconProps>(), {
   color: '',
   size: 18,
   rotate: false,
-  hover: false,
+  hover: true,
   unset: false,
+  rotateType: 'always',
 })
 
 const emits = defineEmits<{
   (event: 'click'): void
 }>()
-const iconClass = ref('')
+const colorClass = ref('')
+const rotateClass = ref(props.rotateType === 'always' && props.rotate ? 'rotate-animation' : '')
 
 watch(
   () => props.color,
   (val) => {
     if (!props.unset && val) {
       if (val.includes('#')) {
-        iconClass.value = `text-[${val}]`
+        colorClass.value = `text-[${val}]`
       } else {
-        iconClass.value = val === '!text-primary' ? '!text-theme' : val
+        colorClass.value = val === 'primary' ? 'text-theme!' : `text-${val}!`
       }
     }
   },
   { immediate: true },
 )
+
+const clickHandler = useDebounceFn(() => {
+  if (props.rotateType === 'click' && props.rotate) {
+    rotateClass.value = 'rotate-animation'
+    useTimeoutFn(() => {
+      rotateClass.value = ''
+    }, 1000)
+  }
+  emits('click')
+}, 200)
 </script>
 
 <template>
   <el-icon
     :size="size"
     class="cursor-pointer"
-    :class="[
-      unset ? '!text-unset' : '',
-      rotate ? 'rotate_animation' : '',
-      hover ? 'hover:(!text-theme)' : '',
-      iconClass,
-    ]"
-    @click="emits('click')"
+    :class="[unset ? '!text-unset' : '', hover ? 'hover:(!text-theme)' : '', rotateClass, colorClass]"
+    @click="clickHandler"
   >
     <!--   https://icones.netlify.app/collection/line-md -->
     <icon-md-chevron-double-left v-if="name === 'chevronDoubleLeft'" />
-    <icon-md-chevron-double-left
-      v-if="name === 'chevronDoubleRight'"
-      class="rotate-180"
-    />
+    <icon-md-chevron-double-left v-if="name === 'chevronDoubleRight'" class="rotate-180" />
     <icon-md-sun-rising-loop v-if="name === 'sunLoop'" />
     <icon-md-moon-loop v-if="name === 'moonLoop'" />
     <icon-md-downloading-loop v-if="name === 'downloading'" />
@@ -107,7 +98,7 @@ watch(
 </template>
 
 <style scoped lang="scss">
-.rotate_animation {
+.rotate-animation {
   animation: rotate 1s infinite ease-in-out;
 }
 
