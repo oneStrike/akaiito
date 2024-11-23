@@ -144,12 +144,7 @@ defineExpose({
       @sort-change="handlerSortChange"
     >
       <el-table-column v-if="selection" type="selection" width="55" class-name="leading-9" />
-      <el-table-column
-        v-for="item in innerColumns"
-        :key="item.columnKey"
-        v-bind="item"
-        class-name="leading-9"
-      >
+      <el-table-column v-for="item in innerColumns" :key="item.columnKey" v-bind="item" class-name="leading-9">
         <template #default="{ row, column, $index }">
           <template v-if="item.slotName">
             <slot :name="item.slotName" :row="row" :column="column" :index="$index" />
@@ -186,7 +181,7 @@ defineExpose({
         <el-empty description="暂无数据" />
       </template>
     </el-table>
-    <div v-if="Array.isArray(data) && data.length < total" ref="paginationRef" class="flex justify-end pt-3 pr-3">
+    <div ref="paginationRef" class="flex justify-end pt-3 pr-3">
       <el-pagination
         v-model:current-page="currentPageIndex"
         v-model:page-size="currentPageSize"

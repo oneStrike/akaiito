@@ -80,55 +80,96 @@ watch(
   },
   { deep: true, immediate: true },
 )
+
+const dropdownRef = ref()
+const visibleChange = (tab: routerHistory[number], idx: number) => {
+  dropdownRef.value.forEach((item, index) => {
+    if (idx !== index) {
+      item.handleClose()
+    }
+  })
+}
+
+onMounted(() => {
+  const inner = document.querySelector('.tab-box')
+  inner.addEventListener('wheel', (event) => {
+    const { scrollLeft, scrollWidth, clientWidth } = inner
+    const { deltaY } = event
+    const maxScrollLeft = scrollWidth - clientWidth
+    const left = inner.scrollLeft + event.deltaY
+
+    if ((deltaY < 0 && left >= 0) || (deltaY > 0 && left <= maxScrollLeft)) {
+      event.preventDefault()
+    }
+
+    // event.preventDefault();
+    inner.scrollLeft = left
+  })
+})
 </script>
 
 <template>
-  <div class="h-40px main-center pr-4">
-    <el-tabs
-      v-model="currentRouter"
-      type="card"
-      class="flex-auto h-40px"
-      @tab-remove="removeRouter"
-      @tab-change="navigation"
-    >
-      <el-tab-pane
-        v-for="item in routerHistory"
-        :key="item.name"
-        :label="item.title"
-        :name="item.name"
-        :closable="item.name !== defaultHistory.name"
-      >
-        {{ item.content }}
-      </el-tab-pane>
-    </el-tabs>
-    <div class="flex-center">
+  <div class="h-42px main-center px-4">
+    <el-scrollbar wrap-class="w-98% tab-box" class="w-98%">
+      <div class="w-fit">
+        <el-tabs
+          v-model="currentRouter"
+          type="card"
+          class="flex-auto h-42px"
+          @tab-remove="removeRouter"
+          @tab-change="navigation"
+        >
+          <el-tab-pane
+            v-for="(item, idx) in routerHistory"
+            :key="item.name"
+            :name="item.name"
+            :closable="item.name !== defaultHistory.name"
+          >
+            <template #label>
+              <el-dropdown
+                ref="dropdownRef"
+                class="flex-center"
+                trigger="contextmenu"
+                @visible-change="(e) => e && visibleChange(item, idx)"
+              >
+                {{ item.title }}
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      :disabled="currentRouter === defaultHistory.name"
+                      @click="removeRouter(currentRouter)"
+                    >
+                      <es-icons name="multiply" />
+                      <span>关闭当前</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      :disabled="currentRouter === defaultHistory.name || findIdx(currentRouter) === 1"
+                      @click="removeLeft"
+                    >
+                      <es-icons name="chevronLeft" />
+                      <span>关闭左侧</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      :disabled="findIdx(currentRouter) + 1 === routerHistory.length"
+                      @click="removeRight"
+                    >
+                      <es-icons name="chevronRight" />
+                      <span>关闭右侧</span>
+                    </el-dropdown-item>
+                    <el-dropdown-item :disabled="currentRouter === defaultHistory.name" @click="removeAllRouter">
+                      <es-icons name="code" />
+                      <span>关闭所有</span>
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </template>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </el-scrollbar>
+    <div class="flex-center ml-4">
       <es-icons name="pinwheel" class="mr-4" rotate rotate-type="click" @click="useReloadRouterEventBus.emit" />
-      <el-dropdown class="flex-center">
-        <es-icons name="dotsHorizontal" />
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item :disabled="currentRouter === defaultHistory.name" @click="removeRouter(currentRouter)">
-              <es-icons name="multiply" />
-              <span>关闭当前</span>
-            </el-dropdown-item>
-            <el-dropdown-item
-              :disabled="currentRouter === defaultHistory.name || findIdx(currentRouter) === 1"
-              @click="removeLeft"
-            >
-              <es-icons name="chevronLeft" />
-              <span>关闭左侧</span>
-            </el-dropdown-item>
-            <el-dropdown-item :disabled="findIdx(currentRouter) + 1 === routerHistory.length" @click="removeRight">
-              <es-icons name="chevronRight" />
-              <span>关闭右侧</span>
-            </el-dropdown-item>
-            <el-dropdown-item :disabled="currentRouter === defaultHistory.name" @click="removeAllRouter">
-              <es-icons name="code" />
-              <span>关闭所有</span>
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
     </div>
   </div>
 </template>
@@ -141,5 +182,9 @@ watch(
 
 :deep(.el-tabs__nav) {
   border: 0 !important;
+}
+
+:deep(.el-scrollbar__bar) {
+  height: 2px;
 }
 </style>

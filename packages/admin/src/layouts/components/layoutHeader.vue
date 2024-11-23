@@ -25,8 +25,8 @@ const breadcrumbNavigator = (val) => {
       />
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="(item, idx) in route.matched" :key="idx">
-          <el-text v-if="item.name === route.name" tag="b" size="large">{{ item.meta?.title }}</el-text>
-          <el-dropdown v-else-if="item.children?.length" @command="breadcrumbNavigator" popper-class="z-99999!">
+          <el-text v-if="item.name === route.name" type="primary" tag="b" size="large">{{ item.meta?.title }}</el-text>
+          <el-dropdown v-else-if="item.children?.length" popper-class="z-99999!" @command="breadcrumbNavigator">
             <span class="flex items-center">
               <el-text>{{ item.meta?.title }}</el-text>
               <es-icons name="chevronDown" color="#606266" />
