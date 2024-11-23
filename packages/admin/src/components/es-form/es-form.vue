@@ -1,42 +1,6 @@
 <script setup lang="ts">
-import type { FormInstance, FormItemProps, FormProps } from 'element-plus'
-
-export type EsFormComponent =
-  | 'Input'
-  | 'InputNumber'
-  | 'Textarea'
-  | 'RichText'
-  | 'Radio'
-  | 'Checkbox'
-  | 'Select'
-  | 'Date'
-  | 'DateTime'
-  | 'Upload'
-
-export type FormComponentProps = Partial<FormItemProps> & {
-  span?: number
-  class?: string
-  style?: IterateObject
-  defaultValue?: any
-}
-
-export interface EsFormOptions {
-  show?: boolean
-  field: string
-  props?: FormComponentProps
-  component: EsFormComponent
-  componentProps?: IterateObject
-  on?: IterateObject
-}
-
-export interface EsFormProps {
-  modelValue: IterateObject
-  options: EsFormOptions[]
-  formProps?: Partial<Omit<FormProps, 'model'>>
-  showBtn?: boolean
-  submitText?: string
-  resetText?: string
-}
+import type { EsFormProps } from '@/components/es-form/types'
+import type { FormInstance } from 'element-plus'
 
 const props = withDefaults(defineProps<EsFormProps>(), {
   modelValue: () => ({}),
@@ -52,26 +16,6 @@ const emits = defineEmits<{
 }>()
 const formRef = ref<FormInstance>()
 const formData = ref<IterateObject>({})
-const formOptions = computed(() => {
-  return props.options.map((item) => {
-    if (!item.props) {
-      item.props = {}
-    }
-    item.props.style = item.props.style || {}
-    if (!item.props.style?.width) {
-      if (!item.props.span || item.props.span === 1) {
-        item.props.style!.width = '100%'
-      } else if (item.props.span === 2) {
-        item.props.style!.width = '48%'
-      } else if (item.props.span === 3) {
-        item.props.style!.width = '32.66%'
-      } else if (item.props.span === 4) {
-        item.props.style!.width = '24.5%'
-      }
-    }
-    return item
-  })
-})
 
 watch(
   () => props.modelValue,
@@ -109,110 +53,110 @@ defineExpose({
 </script>
 
 <template>
-  <el-form v-bind="formProps" ref="formRef" :model="formOptions" class="flex flex-wrap justify-between">
-    <template v-for="item in options" :key="item.field">
-      <el-form-item v-if="item.show !== false" :prop="item.field" v-bind="item.props">
-        <es-upload
-          v-if="item.component === 'Upload'"
-          v-model="formData[item.field]"
-          v-bind="item.componentProps"
-          v-on="item.on || {}"
-        />
-
-        <el-input
-          v-if="item.component === 'Input'"
-          v-model="formData[item.field]"
-          autocomplete="new-password"
-          v-bind="item.componentProps"
-          @keydown.enter="submitForm"
-          v-on="item.on || {}"
-        />
-
-        <el-input-number
-          v-if="item.component === 'InputNumber'"
-          v-model="formData[item.field]"
-          v-bind="item.componentProps"
-          class="w-full!"
-          @keydown.enter="submitForm"
-          v-on="item.on || {}"
-        />
-
-        <el-input
-          v-if="item.component === 'Textarea'"
-          v-model="formData[item.field]"
-          v-bind="item.componentProps"
-          type="textarea"
-          :rows="3"
-          @keydown.enter="submitForm"
-          v-on="item.on || {}"
-        />
-
-        <es-checkbox
-          v-if="item.component === 'Checkbox'"
-          v-model="formData[item.field]"
-          v-bind="item.componentProps"
-          :options="item.componentProps?.options"
-          v-on="item.on || {}"
-        />
-
-        <el-radio-group
-          v-if="item.component === 'Radio'"
-          v-model="formData[item.field]"
-          v-bind="item.componentProps"
-          v-on="item.on || {}"
-        >
-          <el-radio
-            v-for="child in item.componentProps?.options"
-            :key="child.value"
-            :value="child.value"
-            :disabled="child.disabled"
-          >
-            {{ child.label }}
-          </el-radio>
-        </el-radio-group>
-
-        <el-select
-          v-if="item.component === 'Select'"
-          v-model="formData[item.field]"
-          :clearable="typeof item.componentProps?.clearable === 'boolean' ? item.componentProps?.clearable : true"
-          v-bind="item.componentProps"
-          v-on="item.on || {}"
-        >
-          <el-option
-            v-for="sub in item.componentProps?.options"
-            :key="sub.value"
-            :label="sub.label"
-            :value="sub.value"
-            :disabled="sub.disabled"
+  <el-row :gutter="20" class="mx-2!">
+    <el-form v-bind="formProps" ref="formRef" :model="formData" inline>
+      <el-col v-for="item in options" :key="item.field" :span="item.props?.span || 24">
+        <el-form-item v-if="item.show !== false" :prop="item.field" v-bind="item.props" class="mr-0!">
+          <es-upload
+            v-if="item.component === 'Upload'"
+            v-model="formData[item.field]"
+            v-bind="item.componentProps"
+            v-on="item.on || {}"
           />
-        </el-select>
 
-        <el-date-picker
-          v-if="item.component === 'DateTime'"
-          v-model="formData[item.field]"
-          type="datetimerange"
-          range-separator="-"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-          :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
-          v-bind="item.componentProps"
-          v-on="item.on || {}"
-        />
+          <el-input
+            v-if="item.component === 'Input'"
+            v-model="formData[item.field]"
+            autocomplete="new-password"
+            v-bind="item.componentProps"
+            @keydown.enter="submitForm"
+            v-on="item.on || {}"
+          />
 
-        <es-editor v-if="item.component === 'RichText'" v-model="formData[item.field]" v-bind="item.componentProps" />
-      </el-form-item>
-    </template>
-    <div class="es-form-button">
-      <el-form-item v-if="showBtn">
-        <el-button @click="resetForm">
-          {{ resetText }}
-        </el-button>
-        <el-button type="primary" @click="submitForm">
-          {{ submitText }}
-        </el-button>
-      </el-form-item>
-    </div>
-  </el-form>
+          <el-input-number
+            v-if="item.component === 'InputNumber'"
+            v-model="formData[item.field]"
+            v-bind="item.componentProps"
+            class="w-full!"
+            @keydown.enter="submitForm"
+            v-on="item.on || {}"
+          />
+
+          <el-input
+            v-if="item.component === 'Textarea'"
+            v-model="formData[item.field]"
+            v-bind="item.componentProps"
+            type="textarea"
+            :rows="3"
+            @keydown.enter="submitForm"
+            v-on="item.on || {}"
+          />
+
+          <es-checkbox
+            v-if="item.component === 'Checkbox'"
+            v-model="formData[item.field]"
+            v-bind="item.componentProps"
+            :options="item.componentProps?.options"
+            v-on="item.on || {}"
+          />
+
+          <el-radio-group
+            v-if="item.component === 'Radio'"
+            v-model="formData[item.field]"
+            v-bind="item.componentProps"
+            v-on="item.on || {}"
+          >
+            <el-radio
+              v-for="child in item.componentProps?.options"
+              :key="child.value"
+              :value="child.value"
+              :disabled="child.disabled"
+            >
+              {{ child.label }}
+            </el-radio>
+          </el-radio-group>
+
+          <el-select
+            v-if="item.component === 'Select'"
+            v-model="formData[item.field]"
+            :clearable="typeof item.componentProps?.clearable === 'boolean' ? item.componentProps?.clearable : true"
+            v-bind="item.componentProps"
+            v-on="item.on || {}"
+          >
+            <el-option
+              v-for="sub in item.componentProps?.options"
+              :key="sub.value"
+              :label="sub.label"
+              :value="sub.value"
+              :disabled="sub.disabled"
+            />
+          </el-select>
+
+          <el-date-picker
+            v-if="item.component === 'DateTime'"
+            v-model="formData[item.field]"
+            type="datetimerange"
+            range-separator="-"
+            start-placeholder="开始时间"
+            end-placeholder="结束时间"
+            :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
+            v-bind="item.componentProps"
+            v-on="item.on || {}"
+          />
+
+          <es-editor v-if="item.component === 'RichText'" v-model="formData[item.field]" v-bind="item.componentProps" />
+        </el-form-item>
+      </el-col>
+      <div class="es-form-button">
+        <el-form-item v-if="showBtn">
+          <el-button @click="resetForm">
+            {{ resetText }}
+          </el-button>
+          <el-button type="primary" @click="submitForm">
+            {{ submitText }}
+          </el-button>
+        </el-form-item>
+      </div>
+    </el-form>
+  </el-row>
 </template>
-
-<style scoped></style>

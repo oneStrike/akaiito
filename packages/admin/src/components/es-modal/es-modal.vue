@@ -12,6 +12,7 @@ export interface EsModalProps {
 const props = withDefaults(defineProps<EsModalProps>(), {
   modelValue: false,
   title: '',
+  height: 680,
   loading: false,
 })
 const emits = defineEmits<{
@@ -85,11 +86,10 @@ function toggleFullScreenStatus() {
         </div>
       </div>
     </template>
-    <div class="overflow-y-auto pr-2" :class="fullscreen ? ['max-h-[80vh]', 'h-[80vh]'] : 'max-h-[70vh]'">
-      <div :style="contentStyle" class="h-full">
-        <slot />
-      </div>
-    </div>
+    <el-scrollbar :height="fullscreen ? '80vh' : `${height}px`">
+      <slot />
+    </el-scrollbar>
+
     <template #footer>
       <div class="dialog-footer">
         <el-button :loading="loading" @click="(modalShow = false), close('close')"> 关闭</el-button>

@@ -1,6 +1,6 @@
-import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsFormOptions } from '@/components/es-form/types'
 
 export const formOptions: EsFormOptions[] = [
   {
@@ -128,6 +128,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'pageName',
     component: 'Input',
+    props: {
+      span: 8,
+    },
     componentProps: {
       placeholder: '页面名称',
     },
@@ -135,6 +138,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'pageRule',
     component: 'Select',
+    props: {
+      span: 8,
+    },
     componentProps: {
       placeholder: '访问权限',
       clearable: true,
@@ -157,6 +163,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'status',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '页面状态',
       clearable: true,

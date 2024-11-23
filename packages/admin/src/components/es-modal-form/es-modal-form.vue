@@ -13,7 +13,7 @@ export interface FormModalProps {
 
 const props = withDefaults(defineProps<FormModalProps>(), {
   formProps: () => ({}),
-  width: 880,
+  width: 980,
 })
 const emits = defineEmits<{
   (event: 'close'): void

@@ -1,4 +1,4 @@
-import type { EsFormOptions } from '@/components/es-form/es-form.vue'
+import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type { EsToolbarProps } from '@/components/es-toolbar/es-toolbar.vue'
 import { utils } from '@/utils'
@@ -76,7 +76,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'pageCode',
     component: 'Select',
     props: {
-      span: 2,
+      span: 12,
       label: '跳转页面',
       rules: [{ required: true, message: '请选择跳转页面' }],
     },
@@ -86,36 +86,10 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'backgroundImage',
-    component: 'Upload',
-    props: {
-      span: 2,
-      label: '弹窗背景',
-      rules: [{ required: false, message: '请上传弹窗背景图片' }],
-    },
-    componentProps: {
-      placeholder: '请上传弹窗背景图片',
-      scenario: 'shared',
-      multiple: false,
-      fileType: 'image',
-    },
-  },
-  {
-    field: 'content',
-    component: 'RichText',
-    props: {
-      label: '内容',
-      rules: [{ required: true, message: '请输入内容' }],
-    },
-    componentProps: {
-      placeholder: '请输入内容...',
-    },
-  },
-  {
     field: 'enable',
     component: 'Checkbox',
     props: {
-      span: 2,
+      span: 12,
       label: '发布平台',
       rules: [{ required: true, message: '请选择发布平台' }],
     },
@@ -137,11 +111,38 @@ export const formOptions: EsFormOptions[] = [
       ],
     },
   },
+
+  {
+    field: 'content',
+    component: 'RichText',
+    props: {
+      label: '内容',
+      rules: [{ required: true, message: '请输入内容' }],
+    },
+    componentProps: {
+      placeholder: '请输入内容...',
+    },
+  },
+  {
+    field: 'backgroundImage',
+    component: 'Upload',
+    props: {
+      span: 12,
+      label: '弹窗背景',
+      rules: [{ required: false, message: '请上传弹窗背景图片' }],
+    },
+    componentProps: {
+      placeholder: '请上传弹窗背景图片',
+      scenario: 'shared',
+      multiple: false,
+      fileType: 'image',
+    },
+  },
   {
     field: 'startTime',
     component: 'DateTime',
     props: {
-      span: 2,
+      span: 12,
       label: '通知时间',
       rules: [{ required: false, message: '请选择通知时间' }],
     },

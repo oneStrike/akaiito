@@ -56,16 +56,7 @@ watch(
         if (!item.props) {
           item.props = {}
         }
-        item.props.style = item.props.style || {}
-        if (!item.props.style.width) {
-          switch (item.component) {
-            case 'DateTime':
-              item.props.style.width = '300px'
-              break
-            default:
-              item.props.style.width = '160px'
-          }
-        }
+
         const innerSubmit = () => {
           nextTick(() => submit(filterData.value))
         }
@@ -156,8 +147,8 @@ defineExpose({
       v-if="Array.isArray(filter) && filter.length"
       ref="esFormRef"
       v-model="filterData"
+      class="flex-1"
       :options="innerFilter"
-      :form-props="{ inline: true }"
       submit-text="查询"
       @submit="submit"
       @reset="reset"

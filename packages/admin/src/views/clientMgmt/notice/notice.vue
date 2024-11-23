@@ -89,7 +89,6 @@ const submitForm = async (value: TableItem) => {
     <es-modal-form
       v-model:show="modalFrom.show"
       v-model:loading="modalFrom.loading"
-      width="680"
       :default-value="currentRow"
       :title="currentRow ? '编辑' : '添加'"
       :options="formOptions"
