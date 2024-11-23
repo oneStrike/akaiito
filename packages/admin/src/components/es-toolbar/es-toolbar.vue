@@ -150,6 +150,8 @@ defineExpose({
       class="flex-1"
       :options="innerFilter"
       submit-text="查询"
+      :form-props="{ labelPosition: 'top' }"
+      :box-border="false"
       @submit="submit"
       @reset="reset"
     />
@@ -160,6 +162,7 @@ defineExpose({
 :deep(.el-form--inline) {
   position: relative;
   padding-right: 130px !important;
+  justify-content: end;
 }
 
 :deep(.es-form-button) {

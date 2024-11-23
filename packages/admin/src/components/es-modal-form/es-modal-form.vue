@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { EsFormOptions, EsFormProps } from '@/components/es-form/es-form.vue'
-import { utils } from '@/utils'
 
 export interface FormModalProps {
   defaultValue: IterateObject | null

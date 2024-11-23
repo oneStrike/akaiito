@@ -35,4 +35,5 @@ export interface EsFormProps {
   showBtn?: boolean
   submitText?: string
   resetText?: string
+  boxBorder?: boolean
 }

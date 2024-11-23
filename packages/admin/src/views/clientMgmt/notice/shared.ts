@@ -1,6 +1,6 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type { EsToolbarProps } from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 import { utils } from '@/utils'
 
 export const tableColumns: EsTableColumn = [
@@ -76,7 +76,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'pageCode',
     component: 'Select',
     props: {
-      span: 12,
+      span: 2,
       label: '跳转页面',
       rules: [{ required: true, message: '请选择跳转页面' }],
     },
@@ -89,7 +89,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'enable',
     component: 'Checkbox',
     props: {
-      span: 12,
+      span: 2,
       label: '发布平台',
       rules: [{ required: true, message: '请选择发布平台' }],
     },
@@ -127,7 +127,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'backgroundImage',
     component: 'Upload',
     props: {
-      span: 12,
+      span: 2,
       label: '弹窗背景',
       rules: [{ required: false, message: '请上传弹窗背景图片' }],
     },
@@ -142,12 +142,79 @@ export const formOptions: EsFormOptions[] = [
     field: 'startTime',
     component: 'DateTime',
     props: {
-      span: 12,
+      span: 2,
       label: '通知时间',
       rules: [{ required: false, message: '请选择通知时间' }],
     },
     componentProps: {
       placeholder: '请选择通知时间',
+    },
+  },
+]
+
+export const filter: ToolbarFilter = [
+  {
+    field: 'pageName',
+    component: 'Input',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '页面名称',
+    },
+  },
+  {
+    field: 'pageRule',
+    component: 'Select',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '访问权限',
+      clearable: true,
+      options: [
+        {
+          label: '普通',
+          value: 1,
+        },
+        {
+          label: '登录',
+          value: 2,
+        },
+        {
+          label: '会员',
+          value: 3,
+        },
+      ],
+    },
+  },
+  {
+    field: 'status',
+    component: 'Select',
+    props: {
+      span: 6
+    },
+    componentProps: {
+      placeholder: '页面状态',
+      clearable: true,
+      options: [
+        {
+          label: '普通',
+          value: 0,
+        },
+        {
+          label: '启用',
+          value: 1,
+        },
+        {
+          label: '开发',
+          value: 2,
+        },
+        {
+          label: '维护',
+          value: 3,
+        },
+      ],
     },
   },
 ]

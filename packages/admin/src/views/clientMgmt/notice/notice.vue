@@ -8,8 +8,7 @@ import {
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
-import { formOptions, tableColumns } from '@/views/clientMgmt/notice/shared'
-import { filter, toolbar } from '@/views/clientMgmt/pageConfig/shared'
+import { filter, formOptions, tableColumns, toolbar } from '@/views/clientMgmt/notice/shared'
 
 defineOptions({
   name: 'NoticePage',

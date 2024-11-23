@@ -1,12 +1,13 @@
+import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
-import type { EsFormOptions } from '@/components/es-form/types'
 
 export const formOptions: EsFormOptions[] = [
   {
     field: 'pageName',
     component: 'Input',
     props: {
+      span: 2,
       label: '页面名称',
       rules: [{ required: true, message: '请输入页面名称' }],
     },
@@ -18,6 +19,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'pageCode',
     component: 'Input',
     props: {
+      span: 2,
       label: '页面编码',
       rules: [{ required: true, message: '请输入页面编码' }],
     },
@@ -29,6 +31,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'pagePath',
     component: 'Input',
     props: {
+      span: 2,
       label: '页面地址',
       rules: [{ required: true, message: '请输入页面地址' }],
     },
@@ -40,6 +43,7 @@ export const formOptions: EsFormOptions[] = [
     field: 'pageRule',
     component: 'Radio',
     props: {
+      span: 2,
       label: '页面权限',
       rules: [{ required: true, message: '请选择页面权限' }],
     },
@@ -78,6 +82,7 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请输入描述信息',
+      rows: 14,
     },
   },
 ]
@@ -129,7 +134,7 @@ export const filter: ToolbarFilter = [
     field: 'pageName',
     component: 'Input',
     props: {
-      span: 8,
+      span: 6,
     },
     componentProps: {
       placeholder: '页面名称',
@@ -139,7 +144,7 @@ export const filter: ToolbarFilter = [
     field: 'pageRule',
     component: 'Select',
     props: {
-      span: 8,
+      span: 6,
     },
     componentProps: {
       placeholder: '访问权限',
