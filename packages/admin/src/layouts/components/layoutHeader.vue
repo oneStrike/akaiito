@@ -9,7 +9,7 @@ const userStore = useUserStore()
 const layoutStore = useLayoutStore()
 const { userInfo } = storeToRefs(userStore)
 
-const breadcrumbNavigator = (val) => {
+const breadcrumbNavigator = (val: string) => {
   router.push({ name: val })
 }
 </script>
@@ -25,15 +25,26 @@ const breadcrumbNavigator = (val) => {
       />
       <el-breadcrumb separator="/">
         <el-breadcrumb-item v-for="(item, idx) in route.matched" :key="idx">
-          <el-text v-if="item.name === route.name" type="primary" tag="b" size="large">{{ item.meta?.title }}</el-text>
-          <el-dropdown v-else-if="item.children?.length" popper-class="z-99999!" @command="breadcrumbNavigator">
+          <div v-if="item.name === route.name" class="flex items-center h-4">
+            <el-text type="primary" tag="b">{{ item.meta?.title }}</el-text>
+          </div>
+          <el-dropdown
+            v-else-if="item.children?.length && item.children?.length > 1"
+            popper-class="z-99999!"
+            @command="breadcrumbNavigator"
+          >
             <span class="flex items-center">
               <el-text>{{ item.meta?.title }}</el-text>
               <es-icons name="chevronDown" color="#606266" />
             </span>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-for="menu in item.children" :key="menu.name" :command="menu.name">
+                <el-dropdown-item
+                  v-for="menu in item.children"
+                  :key="menu.name"
+                  :command="menu.name as string"
+                  :disabled="menu.name === route.name"
+                >
                   <es-icons :name="menu.meta?.icon" />
                   {{ menu.meta?.title }}
                 </el-dropdown-item>
