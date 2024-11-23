@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import type { IterateObject } from '@akaiito/types'
 import { getCaptchaApi } from '@/apis/captcha'
-import { loginApi } from '@/apis/user'
 import { useStorage } from '@/hooks/useStorage'
 import { useValidate } from '@/hooks/useValidate'
 import { useUserStore } from '@/stores/modules/user'
@@ -70,11 +68,7 @@ async function login() {
         <div class="text-center text-2xl mb-4">登录</div>
         <el-form ref="ruleFormRef" :model="loginForm" :rules="rules">
           <el-form-item prop="mobile" class="mt-8">
-            <el-input
-              v-model.trim="loginForm.mobile"
-              placeholder="请输入手机号"
-              @keyup.enter="login"
-            />
+            <el-input v-model.trim="loginForm.mobile" placeholder="请输入手机号" @keyup.enter="login" />
           </el-form-item>
           <el-form-item prop="password" class="mt-8">
             <el-input
@@ -86,23 +80,11 @@ async function login() {
             />
           </el-form-item>
           <el-form-item prop="captcha" class="mt-8">
-            <el-input
-              v-model.trim="loginForm.captcha"
-              placeholder="验证码"
-              style="width: 140px"
-              @keyup.enter="login"
-            />
-            <img
-              v-if="captchaInfo.data"
-              :src="captchaInfo.data"
-              class="captcha_img ml-8"
-              @click="getCaptchaFn"
-            />
+            <el-input v-model.trim="loginForm.captcha" placeholder="验证码" style="width: 140px" @keyup.enter="login" />
+            <img v-if="captchaInfo.data" :src="captchaInfo.data" class="captcha_img ml-8" @click="getCaptchaFn" />
           </el-form-item>
           <el-form-item>
-            <el-checkbox v-model="isRememberAccount">
-              记住我，以后自动登录
-            </el-checkbox>
+            <el-checkbox v-model="isRememberAccount"> 记住我，以后自动登录</el-checkbox>
           </el-form-item>
           <el-form-item>
             <el-button

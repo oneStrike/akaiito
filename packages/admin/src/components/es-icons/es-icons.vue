@@ -92,6 +92,7 @@ const clickHandler = useDebounceFn(() => {
     <icon-majest-cube-line v-if="name === 'cube'" />
     <icon-majest-device-mobile-line v-if="name === 'mobile'" />
     <icon-majest-speakerphone-line v-if="name === 'speakerphone'" />
+    <icon-majest-close-line v-if="name === 'close'" />
 
     <icon-tabler-user-edit v-if="name === 'userEdit'" />
   </el-icon>

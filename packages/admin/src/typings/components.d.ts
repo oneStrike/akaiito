@@ -75,6 +75,7 @@ declare module 'vue' {
     IconMajestChevronDownLine: typeof import('~icons/majesticons/chevron-down-line')['default']
     IconMajestChevronLeftLine: typeof import('~icons/majesticons/chevron-left-line')['default']
     IconMajestChevronRightLine: typeof import('~icons/majesticons/chevron-right-line')['default']
+    IconMajestCloseLine: typeof import('~icons/majesticons/close-line')['default']
     IconMajestCodeLine: typeof import('~icons/majesticons/code-line')['default']
     IconMajestCubeLine: typeof import('~icons/majesticons/cube-line')['default']
     IconMajestDashboardLine: typeof import('~icons/majesticons/dashboard-line')['default']
