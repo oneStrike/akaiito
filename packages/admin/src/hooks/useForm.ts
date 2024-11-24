@@ -1,4 +1,4 @@
-import type { EsFormOptions } from '@/components/es-form/es-form.vue'
+import type { EsFormOptions } from '@/components/es-form/types'
 
 export function useFormTool(options: EsFormOptions[]): {
   getItem: (filed: string | string[]) => EsFormOptions[]

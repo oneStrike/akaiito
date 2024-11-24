@@ -2,6 +2,7 @@ import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 import { utils } from '@/utils'
+import { useValidate } from '@/hooks/useValidate'
 
 export const tableColumns: EsTableColumn = [
   {
@@ -65,7 +66,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '标题',
-      rules: [{ required: true, message: '请输入通知标题' }],
+      rules: useValidate.required('标题'),
     },
     componentProps: {
       placeholder: '请输入通知标题',
@@ -78,7 +79,7 @@ export const formOptions: EsFormOptions[] = [
     props: {
       span: 2,
       label: '跳转页面',
-      rules: [{ required: true, message: '请选择跳转页面' }],
+      rules: useValidate.required('跳转页面'),
     },
     componentProps: {
       placeholder: '请选择跳转页面',
@@ -91,7 +92,7 @@ export const formOptions: EsFormOptions[] = [
     props: {
       span: 2,
       label: '发布平台',
-      rules: [{ required: true, message: '请选择发布平台' }],
+      rules: useValidate.required('发布平台'),
     },
     componentProps: {
       placeholder: '请选择发布平台',
@@ -117,7 +118,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'RichText',
     props: {
       label: '内容',
-      rules: [{ required: true, message: '请输入内容' }],
+      rules: useValidate.required('内容'),
     },
     componentProps: {
       placeholder: '请输入内容...',
@@ -144,7 +145,6 @@ export const formOptions: EsFormOptions[] = [
     props: {
       span: 2,
       label: '通知时间',
-      rules: [{ required: false, message: '请选择通知时间' }],
     },
     componentProps: {
       placeholder: '请选择通知时间',
@@ -192,7 +192,7 @@ export const filter: ToolbarFilter = [
     field: 'status',
     component: 'Select',
     props: {
-      span: 6
+      span: 6,
     },
     componentProps: {
       placeholder: '页面状态',

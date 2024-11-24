@@ -1,5 +1,3 @@
-import { utils } from '@/utils'
-
 interface RequestOptions {
   init?: boolean
   params?: IterateObject | globalThis.Ref<IterateObject>

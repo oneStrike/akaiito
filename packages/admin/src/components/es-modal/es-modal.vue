@@ -70,7 +70,7 @@ function toggleFullScreenStatus() {
     @closed="close('closed')"
   >
     <template #header="{ close, titleId, titleClass }">
-      <div class="flex justify-between">
+      <div class="flex justify-between border-bottom pb-4">
         <h4 :id="titleId" :class="titleClass">
           {{ title }}
         </h4>
@@ -86,12 +86,13 @@ function toggleFullScreenStatus() {
         </div>
       </div>
     </template>
+
     <el-scrollbar :height="fullscreen ? '80vh' : `${height}px`">
       <slot />
     </el-scrollbar>
 
     <template #footer>
-      <div class="dialog-footer">
+      <div class="dialog-footer border-top pt-4">
         <el-button :loading="loading" @click="(modalShow = false), close('close')"> 关闭</el-button>
         <el-button type="primary" :loading="loading" @click="emits('handler')"> 确定</el-button>
       </div>

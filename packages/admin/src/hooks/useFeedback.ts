@@ -1,14 +1,9 @@
-import type { AsyncFn } from '@akaiito/types'
 import { PromptsEnum } from '@/enum/prompts'
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 export const useMessage: typeof ElMessage = ElMessage
 
-export type UseConfirm = (
-  type: 'delete' | 'disable' | 'enable',
-  handler: AsyncFn,
-  callback?: () => void,
-) => void
+export type UseConfirm = (type: 'delete' | 'disable' | 'enable', handler: AsyncFn, callback?: () => void) => void
 
 export const useConfirm: UseConfirm = (type, handler, callback) => {
   let message = ''
