@@ -4,10 +4,10 @@ import type {
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
 } from 'axios'
+import { config } from '@/config'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
-import { HttpClient, type HttpClientOptions } from '@/utils/request/request'
-import { config } from '@/config'
+import { HttpHandler, type HttpHandlerOptions } from '@/utils/request/request'
 
 function responseError(err: AxiosError) {
   useMessage.error(err.message || '未知错误')
@@ -26,7 +26,7 @@ function response(data: any) {
   }
 }
 
-const request: HttpClientOptions['requestInterceptor'] = async (
+const request: HttpHandlerOptions['requestInterceptor'] = async (
   conf,
 ): Promise<InternalAxiosRequestConfig> => {
   const userStore = useUserStore()
@@ -47,7 +47,7 @@ const request: HttpClientOptions['requestInterceptor'] = async (
   return conf
 }
 
-const http = new HttpClient({
+const http = new HttpHandler({
   loading: false,
   baseURL: import.meta.env.VITE_BASE_URL,
   requestInterceptor: request,
@@ -59,7 +59,7 @@ interface extended {
   errorMessage?: boolean
 }
 
-export function httpClient<T>(
+export function httpHandler<T>(
   axiosConfig: AxiosRequestConfig & extended,
 ): Promise<T> {
   if (axiosConfig.method?.toLocaleLowerCase() === 'get') {

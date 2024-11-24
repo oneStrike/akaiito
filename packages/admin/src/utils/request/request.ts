@@ -11,11 +11,11 @@ import axios from 'axios'
 
 import { ElLoading } from 'element-plus'
 
-export type HttpClientOptions = {
+export type HttpHandlerOptions = {
   loading?: boolean
   source?: boolean
   requestInterceptor?: (
-    config: HttpClientOptions & InternalAxiosRequestConfig,
+    config: HttpHandlerOptions & InternalAxiosRequestConfig,
   ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>
   responseInterceptor?: (
     config: AxiosResponse,
@@ -23,16 +23,16 @@ export type HttpClientOptions = {
   responseInterceptorError?: (error: AxiosError) => any
 } & AxiosRequestConfig
 
-export class HttpClient {
-  private readonly options: HttpClientOptions
-  private readonly basicOptions: HttpClientOptions = {
+export class HttpHandler {
+  private readonly options: HttpHandlerOptions
+  private readonly basicOptions: HttpHandlerOptions = {
     loading: true,
   }
 
   axiosInst: AxiosInstance
   loading: boolean
 
-  constructor(options: HttpClientOptions) {
+  constructor(options: HttpHandlerOptions) {
     this.options = Object.assign(this.basicOptions, options)
     this.loading = true
     this.axiosInst = axios.create(this.options)
@@ -47,7 +47,7 @@ export class HttpClient {
 
   private request<T>(
     config: Omit<
-      HttpClientOptions,
+      HttpHandlerOptions,
       'requestInterceptor' | 'responseInterceptor' | 'responseInterceptorError'
     >,
   ): Promise<T> {
@@ -77,11 +77,11 @@ export class HttpClient {
     })
   }
 
-  get<T>(config: HttpClientOptions): Promise<T> {
+  get<T>(config: HttpHandlerOptions): Promise<T> {
     return this.request<T>({ ...config, method: 'GET' })
   }
 
-  post<T>(config: HttpClientOptions): Promise<T> {
+  post<T>(config: HttpHandlerOptions): Promise<T> {
     return this.request<T>({ ...config, method: 'POST' })
   }
 }

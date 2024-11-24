@@ -6,7 +6,7 @@ export default {
   field: 'data',
   nameDepth: 2,
   http: {
-    client: 'httpClient',
+    handler: 'httpClient',
     import: "import { httpClient } from '@/utils/request';",
   },
 }

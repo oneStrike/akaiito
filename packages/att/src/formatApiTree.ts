@@ -62,7 +62,7 @@ function formatApiHandler(api: IterateObject) {
   }
   return `
   export const ${handler} = (${payload}):Promise<${response}> =>{
-      return ${api.http.client}({
+      return ${api.http.handler}({
         method: '${api.method.toUpperCase()}',
         url: '${api.path}',
         header:${header},

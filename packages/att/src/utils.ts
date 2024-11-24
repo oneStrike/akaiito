@@ -113,7 +113,7 @@ export interface ${options.typingsName} {
 
   const apiStr = `
     export const ${options.apiName} = (${payload}):Promise<${options.typingsName}['Response']> =>{
-      return ${config.http.client}({
+      return ${config.http.handler}({
         method: '${api.method.toUpperCase()}',
         url: '${api.path}',
         ${payload ? options.payload : ''}

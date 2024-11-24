@@ -1,5 +1,5 @@
 {
-  "name": "@akaiito/client",
+  "name": "@akaiito/app",
   "type": "module",
   "version": "1.0.0",
   "packageManager": "pnpm@8.15.9",

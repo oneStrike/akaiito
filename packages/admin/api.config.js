@@ -5,7 +5,7 @@ export default {
   apiPath: 'src/apis/',
   field: 'data',
   http: {
-    client: 'httpClient',
-    import: "import { httpClient } from '@/utils/request';",
+    handler: 'httpHandler',
+    import: "import { httpHandler } from '@/utils/request';",
   },
 }
