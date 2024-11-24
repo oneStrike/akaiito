@@ -68,8 +68,8 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
     if (Array.isArray(options.dateTimePicker) && options.dateTimePicker.length) {
       const start = options.dateTimePicker[0]
       const end = options.dateTimePicker[1]
-      options.startTime = utils.dayjs(start).format('YYYY-MM-DD HH:mm:ss')
-      options.endTime = utils.dayjs(end).format('YYYY-MM-DD HH:mm:ss')
+      options.startTime = start
+      options.endTime = end
     } else {
       delete options.startTime
       delete options.endTime
