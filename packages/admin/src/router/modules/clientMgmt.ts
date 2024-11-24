@@ -23,7 +23,7 @@ export default {
     {
       name: 'PageConfig',
       path: '/pageConfig',
-      component: () => import('@/views/appMgmt/pageConfig/pageConfig.vue'),
+      component: () => import('@/views/appMgmt/pageMgmt/pageConfig.vue'),
       meta: {
         title: '页面配置',
         icon: 'textbox',

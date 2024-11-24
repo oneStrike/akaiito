@@ -20,9 +20,7 @@ function formatApiIntroduce(api: IterateObject) {
 const getName = (path: string, depth = 1): string => {
   const pathArr = path.split('/')
   const applyArr = pathArr.slice(-depth)
-  const pathName = applyArr
-    .map((item, idx) => (idx === 0 ? item : capitalizeFirstLetter(item)))
-    .join('')
+  const pathName = applyArr.map((item, idx) => (idx === 0 ? item : capitalizeFirstLetter(item))).join('')
   if (Number.isNaN(Number(pathName))) {
     return pathName
   } else if (pathArr.length === applyArr.length) {
@@ -65,7 +63,7 @@ function formatApiHandler(api: IterateObject) {
       return ${api.http.handler}({
         method: '${api.method.toUpperCase()}',
         url: '${api.path}',
-        header:${header},
+        ${api.headerField}:${header},
         ${payload ? (api.method === 'get' ? 'params' : 'data') : ''}
       })
     }
@@ -85,11 +83,7 @@ export async function formatApiTree(
   async function formatApi(apis: IterateObject[]) {
     for (let i = 0; i < apis.length; i++) {
       const { type, folder, children, api } = apis[i]
-      if (
-        type === 'apiDetailFolder' &&
-        Array.isArray(children) &&
-        children.length
-      ) {
+      if (type === 'apiDetailFolder' && Array.isArray(children) && children.length) {
         apiPath.push(folder.name)
         if (Array.isArray(children) && children.length) {
           await formatApi(children)
@@ -116,13 +110,7 @@ export async function formatApiTree(
         // 生成接口的请求方法
         const handler = formatApiHandler({ ...detail, ...config })
         // 生成接口的类型信息
-        const types = generateTypes(
-          detail,
-          request,
-          response,
-          dataModel,
-          config,
-        )
+        const types = generateTypes(detail, request, response, dataModel, config)
         apiList[folderName].import.push(response)
         if (detail.method === 'post' || Object.keys(detail.parameters).length) {
           apiList[folderName].import.push(request)

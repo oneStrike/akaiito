@@ -1,4 +1,4 @@
-import type { EsFormOptions } from '@/components/es-form/es-form.vue'
+import type { EsFormOptions } from '@/components/es-form/types'
 
 export const formOptions: EsFormOptions[] = [
   {

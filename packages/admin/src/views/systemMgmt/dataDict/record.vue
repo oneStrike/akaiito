@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { EsModalProps } from '@/components/es-modal/es-modal.vue'
 
-import type { ResolveListItem } from '@akaiito/types'
 import {
   createDataDictionaryItemsApi,
   deleteDataDictionaryItemsApi,
@@ -12,7 +11,18 @@ import {
 import { PromptsEnum } from '@/enum/prompts'
 import { useConfirm, useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/systemMgmt/dataDictionary/shared'
+import { filter, formOptions, tableColumns, toolbar } from '@/views/systemMgmt/dataDict/shared'
+
+defineOptions({
+  name: 'RecordDetails',
+})
+
+const props = withDefaults(defineProps<RecordDetails>(), {})
+
+const emits = defineEmits<{
+  (event: 'update:modelValue', data: boolean): void
+  (event: 'closed'): void
+}>()
 
 export interface RecordDetails extends EsModalProps {
   record: IterateObject | null
@@ -20,11 +30,6 @@ export interface RecordDetails extends EsModalProps {
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const props = withDefaults(defineProps<RecordDetails>(), {})
-const emits = defineEmits<{
-  (event: 'update:modelValue', data: boolean): void
-  (event: 'closed'): void
-}>()
 const esTableRef = ref()
 const esToolbarRef = ref()
 const formLoading = ref(false)

@@ -16,10 +16,10 @@ import type {
  */
 
 export const serviceApi = (): Promise<ServiceTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/thirdParty/service',
-    header: {},
+    headers: {},
   })
 }
 
@@ -32,10 +32,10 @@ export const serviceApi = (): Promise<ServiceTypesRes> => {
  */
 
 export const searchWordApi = (params: SearchWordTypesReq): Promise<SearchWordTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/thirdParty/searchWord',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -49,10 +49,10 @@ export const searchWordApi = (params: SearchWordTypesReq): Promise<SearchWordTyp
  */
 
 export const parseWordApi = (data: ParseWordTypesReq): Promise<ParseWordTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/thirdParty/parseWord',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

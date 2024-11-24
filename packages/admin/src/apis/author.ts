@@ -21,10 +21,10 @@ import type {
  */
 
 export const getAuthorPageApi = (params: GetAuthorPageTypesReq): Promise<GetAuthorPageTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/contentMgmt/author/getAuthorPage',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -38,10 +38,10 @@ export const getAuthorPageApi = (params: GetAuthorPageTypesReq): Promise<GetAuth
  */
 
 export const createAuthorApi = (data: CreateAuthorTypesReq): Promise<CreateAuthorTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/author/createAuthor',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -57,10 +57,10 @@ export const createAuthorApi = (data: CreateAuthorTypesReq): Promise<CreateAutho
  */
 
 export const updateAuthorApi = (data: UpdateAuthorTypesReq): Promise<UpdateAuthorTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/author/updateAuthor',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -76,10 +76,10 @@ export const updateAuthorApi = (data: UpdateAuthorTypesReq): Promise<UpdateAutho
  */
 
 export const deleteAuthorApi = (data: DeleteAuthorTypesReq): Promise<DeleteAuthorTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/author/deleteAuthor',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -95,10 +95,10 @@ export const deleteAuthorApi = (data: DeleteAuthorTypesReq): Promise<DeleteAutho
  */
 
 export const updateAuthorStatusApi = (data: UpdateAuthorStatusTypesReq): Promise<UpdateAuthorStatusTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/author/updateAuthorStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

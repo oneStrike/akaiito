@@ -21,10 +21,10 @@ import type {
  */
 
 export const getAppPagesApi = (params: GetAppPagesTypesReq): Promise<GetAppPagesTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/appPageConfig/getAppPages',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -38,10 +38,10 @@ export const getAppPagesApi = (params: GetAppPagesTypesReq): Promise<GetAppPages
  */
 
 export const createAppPageApi = (data: CreateAppPageTypesReq): Promise<CreateAppPageTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/appPageConfig/createAppPage',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -57,10 +57,10 @@ export const createAppPageApi = (data: CreateAppPageTypesReq): Promise<CreateApp
  */
 
 export const updateAppPageApi = (data: UpdateAppPageTypesReq): Promise<UpdateAppPageTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/appPageConfig/updateAppPage',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -76,10 +76,10 @@ export const updateAppPageApi = (data: UpdateAppPageTypesReq): Promise<UpdateApp
  */
 
 export const deleteAppPageApi = (data: DeleteAppPageTypesReq): Promise<DeleteAppPageTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/appPageConfig/deleteAppPage',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -95,10 +95,10 @@ export const deleteAppPageApi = (data: DeleteAppPageTypesReq): Promise<DeleteApp
  */
 
 export const getAppPageDetailApi = (params: GetAppPageDetailTypesReq): Promise<GetAppPageDetailTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/appPageConfig/getAppPageDetail',
-    header: {},
+    headers: {},
     params,
   })
 }

@@ -24,7 +24,7 @@ export default {
     {
       name: 'DataDictionary',
       path: '/dataDictionary',
-      component: () => import('@/views/systemMgmt/dataDictionary/dataDictionaryPage.vue'),
+      component: () => import('@/views/systemMgmt/dataDict/dataDictionaryPage.vue'),
       meta: {
         title: '数据字典',
         icon: 'dataMinus',

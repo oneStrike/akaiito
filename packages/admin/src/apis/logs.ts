@@ -10,10 +10,10 @@ import type { GetRequestLogsTypesRes, GetRequestLogsTypesReq } from './types/log
  */
 
 export const getRequestLogsApi = (params: GetRequestLogsTypesReq): Promise<GetRequestLogsTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/logs/getRequestLogs',
-    header: {},
+    headers: {},
     params,
   })
 }

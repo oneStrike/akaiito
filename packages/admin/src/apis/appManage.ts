@@ -10,10 +10,10 @@ import type { GetAppConfigTypesRes, UpdateSystemConfigTypesRes, UpdateSystemConf
  */
 
 export const getAppConfigApi = (): Promise<GetAppConfigTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/appManage/getAppConfig',
-    header: {},
+    headers: {},
   })
 }
 
@@ -26,10 +26,10 @@ export const getAppConfigApi = (): Promise<GetAppConfigTypesRes> => {
  */
 
 export const updateSystemConfigApi = (data: UpdateSystemConfigTypesReq): Promise<UpdateSystemConfigTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/appManage/updateSystemConfig',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

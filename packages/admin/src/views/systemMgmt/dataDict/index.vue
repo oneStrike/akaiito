@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ResolveListItem } from '@akaiito/types'
 import {
   createDataDictionaryApi,
   deleteDataDictionaryApi,
@@ -10,8 +9,12 @@ import {
 import { PromptsEnum } from '@/enum/prompts'
 import { useConfirm, useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
-import RecordDetails from '@/views/systemMgmt/dataDictionary/recordDetails.vue'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/systemMgmt/dataDictionary/shared'
+import RecordDetails from '@/views/systemMgmt/dataDict/recordDetails.vue'
+import { filter, formOptions, tableColumns, toolbar } from '@/views/systemMgmt/dataDict/shared'
+
+defineOptions({
+  name: 'DataDict',
+})
 
 const toolbarOptions = toolbar
 
@@ -99,7 +102,7 @@ function showDetail(row: TableItem) {
         <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="edit(row)"> 编辑 </el-button>
+        <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
         <es-pop-confirm
           v-model:loading="loading"
           :request="deleteDataDictionaryApi"

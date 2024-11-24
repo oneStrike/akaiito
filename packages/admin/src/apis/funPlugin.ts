@@ -21,10 +21,10 @@ import type {
  */
 
 export const getFunPluginApi = (params: GetFunPluginTypesReq): Promise<GetFunPluginTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/funPlugin/getFunPlugin',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -38,10 +38,10 @@ export const getFunPluginApi = (params: GetFunPluginTypesReq): Promise<GetFunPlu
  */
 
 export const createFunPluginApi = (data: CreateFunPluginTypesReq): Promise<CreateFunPluginTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/funPlugin/createFunPlugin',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -57,10 +57,10 @@ export const createFunPluginApi = (data: CreateFunPluginTypesReq): Promise<Creat
  */
 
 export const updateFunPluginApi = (data: UpdateFunPluginTypesReq): Promise<UpdateFunPluginTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/funPlugin/updateFunPlugin',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -76,10 +76,10 @@ export const updateFunPluginApi = (data: UpdateFunPluginTypesReq): Promise<Updat
  */
 
 export const deleteFunPluginApi = (data: DeleteFunPluginTypesReq): Promise<DeleteFunPluginTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/funPlugin/deleteFunPlugin',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -97,10 +97,10 @@ export const deleteFunPluginApi = (data: DeleteFunPluginTypesReq): Promise<Delet
 export const updateFunPluginStatusApi = (
   data: UpdateFunPluginStatusTypesReq,
 ): Promise<UpdateFunPluginStatusTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/funPlugin/updateFunPluginStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

@@ -1,4 +1,4 @@
-import type { EsFormOptions } from '@/components/es-form/es-form.vue'
+import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type {
   EsToolbarProps,

@@ -21,10 +21,10 @@ import type {
  */
 
 export const getCategoryPageApi = (params: GetCategoryPageTypesReq): Promise<GetCategoryPageTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/contentMgmt/category/getCategoryPage',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -38,10 +38,10 @@ export const getCategoryPageApi = (params: GetCategoryPageTypesReq): Promise<Get
  */
 
 export const createCategoryApi = (data: CreateCategoryTypesReq): Promise<CreateCategoryTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/category/createCategory',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -57,10 +57,10 @@ export const createCategoryApi = (data: CreateCategoryTypesReq): Promise<CreateC
  */
 
 export const updateCategoryApi = (data: UpdateCategoryTypesReq): Promise<UpdateCategoryTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/category/updateCategory',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -76,10 +76,10 @@ export const updateCategoryApi = (data: UpdateCategoryTypesReq): Promise<UpdateC
  */
 
 export const updateCategoryStatusApi = (data: UpdateCategoryStatusTypesReq): Promise<UpdateCategoryStatusTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/category/updateCategoryStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -95,10 +95,10 @@ export const updateCategoryStatusApi = (data: UpdateCategoryStatusTypesReq): Pro
  */
 
 export const deleteCategoryApi = (data: DeleteCategoryTypesReq): Promise<DeleteCategoryTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/contentMgmt/category/deleteCategory',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

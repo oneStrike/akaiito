@@ -1,6 +1,6 @@
-import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsFormOptions } from '@/components/es-form/types'
 
 const pluginType = [
   {

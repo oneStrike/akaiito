@@ -13,7 +13,7 @@ export interface GetAppConfigTypesRes {
   id: number
 
   /* 客户端名称 */
-  appName: string
+  clientName: string
 
   /* 客户端logo图片
    */
@@ -33,7 +33,7 @@ export interface GetAppConfigTypesRes {
 
 export interface UpdateSystemConfigTypesReq {
   /* 客户端名称 */
-  appName: string
+  clientName: string
 
   /* 客户端logo图片
    */

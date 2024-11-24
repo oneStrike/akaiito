@@ -29,10 +29,10 @@ import type {
  */
 
 export const getUserPageApi = (params: GetUserPageTypesReq): Promise<GetUserPageTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/user/getUserPage',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -46,10 +46,10 @@ export const getUserPageApi = (params: GetUserPageTypesReq): Promise<GetUserPage
  */
 
 export const getUserInfoApi = (params: GetUserInfoTypesReq): Promise<GetUserInfoTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/user/getUserInfo',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -63,10 +63,10 @@ export const getUserInfoApi = (params: GetUserInfoTypesReq): Promise<GetUserInfo
  */
 
 export const createAdminUserApi = (data: CreateAdminUserTypesReq): Promise<CreateAdminUserTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/user/createAdminUser',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -82,10 +82,10 @@ export const createAdminUserApi = (data: CreateAdminUserTypesReq): Promise<Creat
  */
 
 export const updateAdminUserInfoApi = (data: UpdateAdminUserInfoTypesReq): Promise<UpdateAdminUserInfoTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/user/updateAdminUserInfo',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -103,10 +103,10 @@ export const updateAdminUserInfoApi = (data: UpdateAdminUserInfoTypesReq): Promi
 export const updateAdminUserStatusApi = (
   data: UpdateAdminUserStatusTypesReq,
 ): Promise<UpdateAdminUserStatusTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/user/updateAdminUserStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -124,10 +124,10 @@ export const updateAdminUserStatusApi = (
 export const updateAdminUserPasswordApi = (
   data: UpdateAdminUserPasswordTypesReq,
 ): Promise<UpdateAdminUserPasswordTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/user/updateAdminUserPassword',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -143,10 +143,10 @@ export const updateAdminUserPasswordApi = (
  */
 
 export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/user/login',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -162,10 +162,10 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
  */
 
 export const refreshAccessTokenApi = (data: RefreshAccessTokenTypesReq): Promise<RefreshAccessTokenTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/user/refreshAccessToken',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -181,10 +181,10 @@ export const refreshAccessTokenApi = (data: RefreshAccessTokenTypesReq): Promise
  */
 
 export const deleteAdminUserApi = (data: DeleteAdminUserTypesReq): Promise<DeleteAdminUserTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/user/deleteAdminUser',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

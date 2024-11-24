@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import {
-  createAppPageApi,
-  deleteAppPageApi,
-  getAppPagesApi,
-  updateAppPageApi,
-} from '@/apis/appPageConfig'
+  createAppNotificationApi,
+  deleteAppNotificationApi,
+  getAppNotificationListApi,
+  updateAppNotificationApi,
+} from '@/apis/appNotification'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/pageConfig/shared'
+import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
 
 defineOptions({
-  name: 'PageConfig',
+  name: 'NoticePage',
 })
-type TableItem = ResolveListItem<typeof requestData.value>
+type TableItem = ResolveListItem<typeof requestData.value> & { content: string; backgroundImage: string }
 
 const modalFrom = reactive({
   show: false,
@@ -22,7 +22,7 @@ const modalFrom = reactive({
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getAppPagesApi, {
+const { loading, reset, requestData, params } = useRequest(getAppNotificationListApi, {
   type: 'page',
 })
 
@@ -36,9 +36,9 @@ const submitForm = async (value: TableItem) => {
   modalFrom.loading = true
   if (currentRow.value?.id) {
     value.id = currentRow.value.id
-    await updateAppPageApi(value)
+    await updateAppNotificationApi(value)
   } else {
-    await createAppPageApi(value)
+    await createAppNotificationApi(value)
   }
   useMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
   currentRow.value = null
@@ -58,10 +58,14 @@ const submitForm = async (value: TableItem) => {
       :data="requestData?.list ?? []"
       :total="requestData?.total"
     >
-      <template #pageRule="{ row }">
-        <el-text v-if="row.pageRule === 1" type="info">普通</el-text>
-        <el-text v-if="row.pageRule === 2" type="primary">登录</el-text>
-        <el-text v-if="row.pageRule === 3" type="danger">会员</el-text>
+      <template #enableApplet="{ row }">
+        <es-switch :row="row" field="enableApplet" :request="updateAppNotificationApi" />
+      </template>
+      <template #enableWeb="{ row }">
+        <es-switch :row="row" field="enableWeb" :request="updateAppNotificationApi" />
+      </template>
+      <template #enableApp="{ row }">
+        <es-switch :row="row" field="enableApp" :request="updateAppNotificationApi" />
       </template>
 
       <template #status="{ row }">
@@ -72,7 +76,7 @@ const submitForm = async (value: TableItem) => {
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openFormModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteAppPageApi" :row="row" @success="reset()" />
+        <es-pop-confirm v-model:loading="loading" :request="deleteAppNotificationApi" :row="row" @success="reset()" />
       </template>
     </es-table>
 

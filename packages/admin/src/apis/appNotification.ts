@@ -23,10 +23,10 @@ import type {
 export const getAppNotificationListApi = (
   params: GetAppNotificationListTypesReq,
 ): Promise<GetAppNotificationListTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/appNotification/getAppNotificationList',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -42,10 +42,10 @@ export const getAppNotificationListApi = (
 export const getAppNotificationDetailApi = (
   params: GetAppNotificationDetailTypesReq,
 ): Promise<GetAppNotificationDetailTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/appNotification/getAppNotificationDetail',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -61,10 +61,10 @@ export const getAppNotificationDetailApi = (
 export const createAppNotificationApi = (
   data: CreateAppNotificationTypesReq,
 ): Promise<CreateAppNotificationTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/appNotification/createAppNotification',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -82,10 +82,10 @@ export const createAppNotificationApi = (
 export const deleteAppNotificationApi = (
   data: DeleteAppNotificationTypesReq,
 ): Promise<DeleteAppNotificationTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/appNotification/deleteAppNotification',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -103,10 +103,10 @@ export const deleteAppNotificationApi = (
 export const updateAppNotificationApi = (
   data: UpdateAppNotificationTypesReq,
 ): Promise<UpdateAppNotificationTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/appNotification/updateAppNotification',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

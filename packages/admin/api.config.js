@@ -4,6 +4,7 @@ export default {
   typingsPath: 'src/apis/types',
   apiPath: 'src/apis/',
   field: 'data',
+  headerField: 'headers',
   http: {
     handler: 'httpHandler',
     import: "import { httpHandler } from '@/utils/request';",

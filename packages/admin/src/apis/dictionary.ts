@@ -33,10 +33,10 @@ import type {
  */
 
 export const getDataDictionaryApi = (params: GetDataDictionaryTypesReq): Promise<GetDataDictionaryTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/dictionary/getDataDictionary',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -52,10 +52,10 @@ export const getDataDictionaryApi = (params: GetDataDictionaryTypesReq): Promise
 export const getDataDictionaryItemsApi = (
   params: GetDataDictionaryItemsTypesReq,
 ): Promise<GetDataDictionaryItemsTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/admin/dictionary/getDataDictionaryItems',
-    header: {},
+    headers: {},
     params,
   })
 }
@@ -69,10 +69,10 @@ export const getDataDictionaryItemsApi = (
  */
 
 export const createDataDictionaryApi = (data: CreateDataDictionaryTypesReq): Promise<CreateDataDictionaryTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/createDataDictionary',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -90,10 +90,10 @@ export const createDataDictionaryApi = (data: CreateDataDictionaryTypesReq): Pro
 export const createDataDictionaryItemsApi = (
   data: CreateDataDictionaryItemsTypesReq,
 ): Promise<CreateDataDictionaryItemsTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/createDataDictionaryItems',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -109,10 +109,10 @@ export const createDataDictionaryItemsApi = (
  */
 
 export const deleteDataDictionaryApi = (data: DeleteDataDictionaryTypesReq): Promise<DeleteDataDictionaryTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/deleteDataDictionary',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -130,10 +130,10 @@ export const deleteDataDictionaryApi = (data: DeleteDataDictionaryTypesReq): Pro
 export const deleteDataDictionaryItemsApi = (
   data: DeleteDataDictionaryItemsTypesReq,
 ): Promise<DeleteDataDictionaryItemsTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/deleteDataDictionaryItems',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -149,10 +149,10 @@ export const deleteDataDictionaryItemsApi = (
  */
 
 export const updateDataDictionaryApi = (data: UpdateDataDictionaryTypesReq): Promise<UpdateDataDictionaryTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionary',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -170,10 +170,10 @@ export const updateDataDictionaryApi = (data: UpdateDataDictionaryTypesReq): Pro
 export const updateDataDictionaryItemsApi = (
   data: UpdateDataDictionaryItemsTypesReq,
 ): Promise<UpdateDataDictionaryItemsTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItems',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -191,10 +191,10 @@ export const updateDataDictionaryItemsApi = (
 export const updateDataDictionaryStatusApi = (
   data: UpdateDataDictionaryStatusTypesReq,
 ): Promise<UpdateDataDictionaryStatusTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -212,10 +212,10 @@ export const updateDataDictionaryStatusApi = (
 export const updateDataDictionaryItemsStatusApi = (
   data: UpdateDataDictionaryItemsStatusTypesReq,
 ): Promise<UpdateDataDictionaryItemsStatusTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItemsStatus',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,
@@ -233,10 +233,10 @@ export const updateDataDictionaryItemsStatusApi = (
 export const updateDataDictionaryItemsOrderApi = (
   data: UpdateDataDictionaryItemsOrderTypesReq,
 ): Promise<UpdateDataDictionaryItemsOrderTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/admin/dictionary/updateDataDictionaryItemsOrder',
-    header: {
+    headers: {
       'Content-Type': 'application/json',
     },
     data,

@@ -4,7 +4,7 @@ import { useMessage } from '@/hooks/useFeedback'
 import { formOptions } from './shared'
 
 defineOptions({
-  name: 'AppSystemMgmtPage',
+  name: 'AppSystemConfig',
 })
 const configData = ref()
 
