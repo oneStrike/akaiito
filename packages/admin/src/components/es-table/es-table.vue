@@ -1,24 +1,6 @@
 <script setup lang="ts">
-import type { TableColumnInstance } from 'element-plus'
+import type { EsTableProps } from '@/components/es-table/types'
 import { getAssetsFile } from '@/utils/getAssetsFile'
-
-export type EsTableColumn = (Partial<TableColumnInstance> & {
-  prop: string
-  slotName?: string
-  defaultValue?: string
-})[]
-
-export interface EsTableProps<T = IterateObject> {
-  data: T[]
-  columns: EsTableColumn
-  index?: boolean
-  pageSize?: number
-  pageIndex?: number
-  total?: number
-  selection?: boolean
-  selectionItems?: T[] | null
-  defaultValue?: string
-}
 
 const props = withDefaults(defineProps<EsTableProps>(), {
   index: true,
@@ -129,7 +111,6 @@ function handlerSortChange(val: any) {
   })
 }
 
-console.log(props)
 defineExpose({
   computedTableHeight,
 })

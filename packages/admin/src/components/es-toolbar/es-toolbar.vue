@@ -1,33 +1,6 @@
 <script setup lang="ts">
-import type { EsFormProps } from '@/components/es-form/es-form.vue'
-import type { ButtonProps } from 'element-plus'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
 import { utils } from '@/utils'
-
-export type ToolbarFilter = EsFormProps['options']
-
-export interface Toolbar {
-  type: 'dropdown' | 'button'
-  label: string
-  value?: any
-  slotName?: string
-  props?: any
-  buttonProps?: Partial<ButtonProps>
-  options?: {
-    label: string
-    value: any
-    props?: {
-      disabled?: boolean
-      divided?: boolean
-    }
-  }[]
-}
-
-export interface EsToolbarProps {
-  toolbar?: Toolbar[]
-  filter?: ToolbarFilter
-  selection?: boolean
-  followSelection?: boolean
-}
 
 const props = withDefaults(defineProps<EsToolbarProps>(), {
   followSelection: true,

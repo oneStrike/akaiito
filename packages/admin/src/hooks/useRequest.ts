@@ -45,6 +45,7 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
    * @param p 额外的请求参数，可选。
    */
   const request = async <K>(p?: K) => {
+    console.log(p)
     loading.value = true
     skipNext = true
     if (p) {
