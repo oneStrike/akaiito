@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ResolveListItem } from '@akaiito/types'
 import {
   createAdminUserApi,
   deleteAdminUserApi,
@@ -12,6 +11,10 @@ import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
 import { useUserStore } from '@/stores/modules/user'
 import { filter, formOptions, pwdFormOptions, tableColumns, toolbar } from '@/views/systemMgmt/userMgmt/shared'
+
+defineOptions({
+  name: 'UserMgmt',
+})
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
@@ -93,17 +96,17 @@ async function switchStatus(val: any) {
       </template>
 
       <template #isRoot="{ row }">
-        <el-text v-if="row.isRoot === 1" type="primary"> 超级管理员 </el-text>
-        <el-text v-else> 普通管理员 </el-text>
+        <el-text v-if="row.isRoot === 1" type="primary"> 超级管理员</el-text>
+        <el-text v-else> 普通管理员</el-text>
       </template>
 
       <template #status="{ row }">
         <es-switch :request="switchStatus" :row="row" />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="openUpdateUserInfoModal(row)"> 编辑 </el-button>
+        <el-button type="primary" link @click="openUpdateUserInfoModal(row)"> 编辑</el-button>
 
-        <el-button type="primary" link @click="(currentRow = row), (pwdModal = true)"> 修改密码 </el-button>
+        <el-button type="primary" link @click="(currentRow = row), (pwdModal = true)"> 修改密码</el-button>
 
         <es-pop-confirm v-model:loading="loading" :request="deleteAdminUserApi" :row="row" @success="reset()" />
       </template>

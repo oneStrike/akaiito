@@ -5,7 +5,7 @@ const BasicRoutes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('@/views/login/loginPage.vue'), // 登录页组件
+    component: () => import('@/views/login/index.vue'), // 登录页组件
     meta: { title: '登录', hideMenu: true }, // 元数据，用于路由守卫等
   },
   {
@@ -17,7 +17,7 @@ const BasicRoutes: RouteRecordRaw[] = [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/dashboardPage.vue'),
+        component: () => import('@/views/dashboard/index.vue'),
         meta: { title: '仪表盘', icon: 'dashboard', order: 1 },
       },
     ],
@@ -25,7 +25,7 @@ const BasicRoutes: RouteRecordRaw[] = [
   {
     path: '/:pathMatch(.*)*',
     name: 'notFound',
-    component: () => import('@/views/shared/notFoundPage.vue'), // 404页组件
+    component: () => import('@/views/shared/notFound.vue'), // 404页组件
     meta: { title: '404', hideMenu: true }, // 元数据，用于路由守卫等
   },
 ]

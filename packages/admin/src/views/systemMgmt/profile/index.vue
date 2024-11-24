@@ -2,6 +2,9 @@
 import { useUserStore } from '@/stores/modules/user'
 import { utils } from '@/utils'
 
+defineOptions({
+  name: 'Profile',
+})
 const { userInfo } = storeToRefs(useUserStore())
 </script>
 

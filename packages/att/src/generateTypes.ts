@@ -29,6 +29,7 @@ function handlerJsonScheme(jsonSchema: IterateObject, dataModel: IterateObject, 
   let typesStr = ''
   if (jsonSchema) {
     const { properties, 'x-apifox-refs': refs } = jsonSchema
+
     if (Object.keys(properties).length) {
       for (const propertiesKey in properties) {
         const item = properties[propertiesKey]
@@ -48,7 +49,13 @@ function handlerJsonScheme(jsonSchema: IterateObject, dataModel: IterateObject, 
             }
           }
         } else if (item.type === 'array') {
-          typesStr += `${propertiesKey}:{${handlerJsonScheme(item.items, dataModel, isRes)}}[]`
+          if (item.items.type === 'object') {
+            typesStr += `${propertiesKey}:{${handlerJsonScheme(item.items, dataModel, isRes)}}[]`
+          } else {
+            typesStr += `
+              /* ${item.description || ''} */
+            ${propertiesKey}:${item.items.type}[]`
+          }
         } else {
           typesStr += joinType({
             name: propertiesKey,
