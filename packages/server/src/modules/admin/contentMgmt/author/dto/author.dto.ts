@@ -9,8 +9,8 @@ export class AuthorDto {
   @Rule(requiredString)
   name!: string
 
-  @Rule(requiredString)
-  avatar!: string
+  @Rule(validateString)
+  avatar?: string
 
   @Rule(requiredString)
   description!: string

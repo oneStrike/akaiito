@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TableColumnInstance } from 'element-plus'
+import { getAssetsFile } from '@/utils/getAssetsFile'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
   prop: string
@@ -151,12 +152,17 @@ defineExpose({
           </template>
           <template v-else-if="item.type === 'image'">
             <el-image
+              fit="contain"
               class="w-10 align-middle"
-              :src="row[item.prop]"
-              :preview-src-list="[row[item.prop]]"
+              :src="row[item.prop] || getAssetsFile('images/image.svg')"
+              :preview-src-list="row[item.prop] ? [row[item.prop]] : []"
               :z-index="999999"
               preview-teleported
-            />
+            >
+              <template #error>
+                <el-text type="danger">加载失败</el-text>
+              </template>
+            </el-image>
           </template>
           <template v-else-if="item.type === 'link'">
             <el-tooltip :content="row[item.prop]" :show-after="200" placement="top">

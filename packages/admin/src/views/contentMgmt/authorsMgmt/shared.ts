@@ -77,7 +77,6 @@ export const formOptions: EsFormOptions[] = [
     component: 'Upload',
     props: {
       label: '头像',
-      rules: useValidate.required('作者头像'),
     },
     componentProps: {
       placeholder: '请上传作者头像',

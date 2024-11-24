@@ -31,7 +31,10 @@ async function submitForm(val: any) {
   val.mangaArtist = val.contentModel.includes('2') ? 1 : 0
   val.illustrator = val.contentModel.includes('3') ? 1 : 0
   val.coser = val.contentModel.includes('4') ? 1 : 0
-
+  val.website = encodeURIComponent(val.website)
+  if (!val.avatar) {
+    delete val.avatar
+  }
   if (currentRow.value?.id) {
     val.id = currentRow.value.id
     await updateAuthorApi(val)
@@ -83,7 +86,9 @@ const openModal = (val?: Record) => {
   if (val) {
     currentRow.value = val
     currentRow.value.contentModel = identityHandler(val, 'code').join(',')
-    console.log(currentRow.value.contentModel)
+    if (val.website) {
+      currentRow.value.website = decodeURIComponent(val.website)
+    }
   }
   modalFrom.show = true
 }

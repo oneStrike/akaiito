@@ -43,12 +43,12 @@ export const validateEmail = requiredString.email()
 /**
  * 限定为密码（至少包含大小写字母、数字、特殊字符、8~16位！）
  */
-export const validatePwd = requiredString.pattern(utils.validate.validPwd)
+export const validatePwd = requiredString.pattern(utils.regexp.validPwd)
 
 /**
  * 限定为国内手机号
  */
-export const validatePhone = requiredString.pattern(utils.validate.validPhone)
+export const validatePhone = requiredString.pattern(utils.regexp.validPhone)
 
 /**
  /**

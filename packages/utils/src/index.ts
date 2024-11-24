@@ -4,13 +4,13 @@ import { getProjectConfig } from './getProjectConfig'
 import { isJson, parseJson } from './isJson'
 import { isValueInStringEnum } from './isValueInStringEnum'
 import { parseQuery } from './parseQuery'
-import { validate } from './validate'
+import { regexp } from './regexp'
 
 export const akaiitoUtils = {
   parseQuery,
   isJson,
   parseJson,
-  validate,
+  regexp,
   isValueInStringEnum,
   downloadBlob,
   fillFormOptions,

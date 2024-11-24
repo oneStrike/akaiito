@@ -1,7 +1,7 @@
 import { utils } from '@/utils'
 
 // 导入验证函数
-const { validEmail, validPhone, validPwd, validUrl } = utils.validate
+const { validEmail, validPhone, validPwd, validUrl } = utils.regexp
 
 // 必填验证规则
 function required(label: string, trigger?: 'blue' | 'change') {
@@ -32,7 +32,7 @@ function validator(reg: RegExp, message: string, required = true) {
 export const useValidate = {
   required, // 必填验证
   password: (required = true, text = '密码') => validator(validPwd, text, required), // 密码验证
-  mobile: (required = true, text = '密码') => validator(validPhone, text, required), // 手机号验证
-  email: (required = true, text = '密码') => validator(validEmail, text, required), // 邮箱验证
-  url: (required = true, text = '密码') => validator(validUrl, text, required), // 链接验证
+  mobile: (required = true, text = '手机号') => validator(validPhone, text, required), // 手机号验证
+  email: (required = true, text = '邮箱') => validator(validEmail, text, required), // 邮箱验证
+  url: (required = true, text = '链接') => validator(validUrl, text, required), // 链接验证
 }
