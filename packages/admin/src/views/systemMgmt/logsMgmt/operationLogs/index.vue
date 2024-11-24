@@ -9,10 +9,9 @@ const { reset, sortChange, requestData, loading, params } = useRequest(getReques
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar :filter="filter" @query="reset" @reset="reset" />
     <es-table
-      v-model:page-index="params.pageIndex"
-      v-model:page-size="params.pageSize"
+      v-model:params="params"
+      :filter="filter"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"

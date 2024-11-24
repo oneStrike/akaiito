@@ -3,17 +3,13 @@ import type { EsTableProps } from '@/components/es-table/types'
 import { getAssetsFile } from '@/utils/getAssetsFile'
 
 const props = withDefaults(defineProps<EsTableProps>(), {
-  index: true,
+  tableIndex: true,
   defaultValue: '-',
-  pageSize: 15,
-  pageIndex: 0,
   total: 15,
 })
 const emits = defineEmits<{
   (event: 'link', data: any): void
   (event: 'update:selectionItems', data: any): void
-  (event: 'update:pageIndex', data: number): void
-  (event: 'update:pageSize', data: number): void
   (
     event: 'sortChange',
     data: {
@@ -23,16 +19,13 @@ const emits = defineEmits<{
   ): void
 }>()
 
-const currentPageIndex = computed({
-  get() {
-    return props.pageIndex + 1
-  },
-  set(val) {
-    emits('update:pageIndex', val - 1)
-  },
+const params = defineModel('params', {
+  type: Object,
+  default: () => ({
+    pageIndex: 0,
+    pageSize: 15,
+  }),
 })
-
-const currentPageSize = useVModel(props, 'pageSize', emits)
 
 const paginationRef = ref()
 const tableBoxRef = ref()
@@ -76,7 +69,7 @@ watch(
 )
 
 const innerColumns = computed(() => {
-  if (props.index && props.columns[0].type !== 'index') {
+  if (props.tableIndex && props.columns[0].type !== 'index') {
     return [
       {
         label: '序号',
@@ -118,6 +111,8 @@ defineExpose({
 
 <template>
   <div ref="tableBoxRef" :style="{ height: `${tableHeight}px` }">
+    <es-toolbar v-if="filter && filter.length" v-model="params" :toolbar="toolbar" :filter="filter" />
+
     <el-table
       :data="data"
       :height="tableHeight"
@@ -170,9 +165,9 @@ defineExpose({
     </el-table>
     <div ref="paginationRef" class="flex justify-end pt-3 pr-3">
       <el-pagination
-        v-model:current-page="currentPageIndex"
-        v-model:page-size="currentPageSize"
-        :hide-on-single-page="total > currentPageSize"
+        v-model:current-page="params.pageIndex"
+        v-model:page-size="params.pageSize"
+        :hide-on-single-page="total > params.pageSize"
         :page-sizes="[15, 30, 45, 50, 100]"
         background
         layout="total, sizes, prev, pager, next, jumper"

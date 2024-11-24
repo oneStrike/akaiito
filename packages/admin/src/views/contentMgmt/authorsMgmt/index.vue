@@ -96,13 +96,14 @@ const openModal = (val?: Record) => {
 
 <template>
   <div v-loading="loading" class="main-page pb-6">
-    <es-toolbar :toolbar="toolbar" :filter="filter" @reset="reset" @query="request" @handler="openModal()" />
     <es-table
       v-model:page-index="params.pageIndex"
       v-model:page-size="params.pageSize"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
+      :filter="filter"
+      :toolbar="toolbar"
       @sort-change="sortChange"
     >
       <template #status="{ row }">

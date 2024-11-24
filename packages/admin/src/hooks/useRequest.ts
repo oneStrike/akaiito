@@ -1,3 +1,5 @@
+import { utils } from '@/utils'
+
 interface RequestOptions {
   init?: boolean
   params?: IterateObject | globalThis.Ref<IterateObject>
@@ -45,7 +47,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
    * @param p 额外的请求参数，可选。
    */
   const request = async <K>(p?: K) => {
-    console.log(p)
     loading.value = true
     skipNext = true
     if (p) {
@@ -62,6 +63,18 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
     if (options.orderBy && Object.keys(options.orderBy).length) {
       options.orderBy = JSON.stringify(params.value.orderBy)
     }
+
+    // 格式化日期相关的参数
+    if (Array.isArray(options.dateTimePicker) && options.dateTimePicker.length) {
+      const start = options.dateTimePicker[0]
+      const end = options.dateTimePicker[1]
+      options.startTime = utils.dayjs(start).format('YYYY-MM-DD HH:mm:ss')
+      options.endTime = utils.dayjs(end).format('YYYY-MM-DD HH:mm:ss')
+    } else {
+      delete options.startTime
+      delete options.endTime
+    }
+    delete options.dateTimePicker
 
     try {
       requestData.value = await api(options) // 执行请求

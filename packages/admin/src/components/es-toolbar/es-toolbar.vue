@@ -6,13 +6,21 @@ const props = withDefaults(defineProps<EsToolbarProps>(), {
   followSelection: true,
 })
 const emits = defineEmits<{
+  (event: 'update:modelValue', data: IterateObject): void
   (event: 'handler', data: any): void
   (event: 'query', data: IterateObject): void
   (event: 'reset'): void
 }>()
 
-const bindChangeEventComponent = ['Select', 'DateTime']
-const filterData = ref<IterateObject>({})
+const modelValue = computed({
+  get() {
+    return props.modelValue
+  },
+  set(val: any) {
+    emits('update:modelValue', val)
+  },
+})
+
 const esFormRef = ref<IterateObject>()
 const innerFilter = ref<ToolbarFilter>([])
 watch(
@@ -23,28 +31,11 @@ watch(
         if (!item.componentProps) {
           item.componentProps = {}
         }
-        if (!item.on) {
-          item.on = {}
-        }
-        if (!item.props) {
-          item.props = {}
-        }
-
-        const innerSubmit = () => {
-          nextTick(() => submit(filterData.value))
-        }
 
         if (typeof item.componentProps.clearable !== 'boolean') {
           item.componentProps.clearable = true
         }
 
-        if (bindChangeEventComponent.includes(item.component)) {
-          if (!item.on.change) {
-            item.on.change = innerSubmit
-          }
-        } else if (!item.on.clear) {
-          item.on.clear = innerSubmit
-        }
         return item
       })
     }
@@ -52,7 +43,7 @@ watch(
   { deep: true, immediate: true },
 )
 
-function submit(val?: IterateObject) {
+function submit() {
   val = JSON.parse(JSON.stringify(val))
   if (Array.isArray(val?.dateTimePicker) && val?.dateTimePicker.length === 2) {
     const start = val.dateTimePicker[0]
@@ -119,7 +110,7 @@ defineExpose({
     <es-form
       v-if="Array.isArray(filter) && filter.length"
       ref="esFormRef"
-      v-model="filterData"
+      v-model="modelValue"
       class="flex-1"
       :options="innerFilter"
       submit-text="查询"

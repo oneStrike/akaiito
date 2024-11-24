@@ -1,5 +1,5 @@
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type { ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsTableColumn } from '@/components/es-table/types'
+import type { ToolbarFilter } from '@/components/es-toolbar/types'
 import { utils } from '@/utils'
 
 export const tableColumns: EsTableColumn = [
@@ -59,6 +59,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'dateTimePicker',
     component: 'DateTime',
+    props: {
+      span: 3,
+    },
     componentProps: {
       placeholder: '操作时间',
     },
@@ -66,6 +69,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'responseCode',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '操作结果',
       options: [
@@ -99,6 +105,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'requestMethod',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '请求方式',
       options: [
@@ -116,6 +125,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'userMobile',
     component: 'Input',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '手机号',
       clearable: true,

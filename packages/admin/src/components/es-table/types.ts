@@ -1,4 +1,4 @@
-import type { EsToolbarProps, Toolbar } from '@/components/es-toolbar/types'
+import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import type { TableColumnInstance } from 'element-plus'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
@@ -10,14 +10,12 @@ export type EsTableColumn = (Partial<TableColumnInstance> & {
 export interface EsTableProps<T = IterateObject> {
   data: T[]
   columns: EsTableColumn
-  index?: boolean
-  pageSize?: number
-  pageIndex?: number
+  tableIndex?: boolean
   total?: number
   selection?: boolean
   selectionItems?: T[] | null
   defaultValue?: string
 
-  Toolbar?: EsToolbarProps['toolbar']
+  toolbar?: EsToolbarProps['toolbar']
   filter?: EsToolbarProps['filter']
 }

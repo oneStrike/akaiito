@@ -21,8 +21,10 @@ const formData = ref<IterateObject>({})
 const formOptions = computed(() => {
   return props.options.map((item) => {
     if (item.props?.span) {
+      // @ts-expect-error 临时方案
       item.props.style = `width:${100 / item.props.span}%;min-width:229.5px;`
     } else {
+      // @ts-expect-error 临时方案
       item.props.style = 'width:100%;min-width:229.5px;'
     }
     return item
