@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { getClientConfigApi, updateSystemConfigApi } from '@/apis/clientManage'
+import { getAppConfigApi, updateSystemConfigApi } from '@/apis/appManage'
 import { useMessage } from '@/hooks/useFeedback'
 import { formOptions } from './shared'
 
 defineOptions({
-  name: 'ClientSystemMgmtPage',
+  name: 'AppSystemMgmtPage',
 })
 const configData = ref()
 
@@ -14,7 +14,7 @@ async function formSubmit() {
 }
 
 async function getConfigData() {
-  configData.value = (await getClientConfigApi()) || {}
+  configData.value = (await getAppConfigApi()) || {}
 }
 
 getConfigData()

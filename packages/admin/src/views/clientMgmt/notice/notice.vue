@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {
-  createClientNotificationApi,
-  deleteClientNotificationApi,
-  getClientNotificationListApi,
-  updateClientNotificationApi,
-} from '@/apis/clientNotification'
+  createAppNotificationApi,
+  deleteAppNotificationApi,
+  getAppNotificationListApi,
+  updateAppNotificationApi,
+} from '@/apis/appNotification'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/clientMgmt/notice/shared'
+import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
 
 defineOptions({
   name: 'NoticePage',
@@ -22,7 +22,7 @@ const modalFrom = reactive({
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getClientNotificationListApi, {
+const { loading, reset, requestData, params } = useRequest(getAppNotificationListApi, {
   type: 'page',
 })
 
@@ -36,9 +36,9 @@ const submitForm = async (value: TableItem) => {
   modalFrom.loading = true
   if (currentRow.value?.id) {
     value.id = currentRow.value.id
-    await updateClientNotificationApi(value)
+    await updateAppNotificationApi(value)
   } else {
-    await createClientNotificationApi(value)
+    await createAppNotificationApi(value)
   }
   useMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
   currentRow.value = null
@@ -59,7 +59,7 @@ const submitForm = async (value: TableItem) => {
       :total="requestData?.total"
     >
       <template #enableApplet="{ row }">
-        <es-switch :row="row" field="enableApplet" :request="updateClientNotificationApi" />
+        <es-switch :row="row" field="enableApplet" :request="updateAppNotificationApi" />
       </template>
       <template #enableWeb="{ row }">
         <es-switch :row="row" field="enableWeb" :request="updateClientNotificationApi" />

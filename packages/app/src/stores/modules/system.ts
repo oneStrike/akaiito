@@ -1,9 +1,9 @@
-import { getClientSystemConfigApi } from '@/apis/clientManage'
-import type { GetClientSystemConfigTypesRes } from '@/apis/types/clientManage'
+import { getAppSystemConfigApi } from '@/apis/appManage'
+import type { GetAppSystemConfigTypesRes } from '@/apis/types/appManage'
 
 export interface UseSystemStoreState {
   systemStatus: 'normal' | 'disable' | 'crash'
-  systemConfig: GetClientSystemConfigTypesRes | null
+  systemConfig: GetAppSystemConfigTypesRes | null
   menuList: IterateObject[]
   regionTree: IterateObject[]
   pageConfig: IterateObject
@@ -32,7 +32,7 @@ export const useSystemStore = defineStore('useSystemStore', {
 
   actions: {
     async getSystemConfig() {
-      this.systemConfig = await getClientSystemConfigApi()
+      this.systemConfig = await getAppSystemConfigApi()
     },
   },
 })

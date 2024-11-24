@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from 'vue-router'
 
 export default {
   name: '                                                                        ',
-  path: '/clientMgmt',
+  path: '/appMgmt',
   component: () => import('@/layouts/layoutMain.vue'),
   meta: {
     title: '客户端管理',
@@ -13,7 +13,7 @@ export default {
     {
       name: 'Notice',
       path: '/notice',
-      component: () => import('@/views/clientMgmt/notice/notice.vue'),
+      component: () => import('@/views/appMgmt/notice/notice.vue'),
       meta: {
         title: '通知公告',
         icon: 'speakerphone',
@@ -23,7 +23,7 @@ export default {
     {
       name: 'PageConfig',
       path: '/pageConfig',
-      component: () => import('@/views/clientMgmt/pageConfig/pageConfig.vue'),
+      component: () => import('@/views/appMgmt/pageConfig/pageConfig.vue'),
       meta: {
         title: '页面配置',
         icon: 'textbox',
@@ -33,7 +33,7 @@ export default {
     {
       name: 'SystemConfig',
       path: '/systemConfig',
-      component: () => import('@/views/clientMgmt/systemConfig/systemConfig.vue'),
+      component: () => import('@/views/appMgmt/systemConfig/systemConfig.vue'),
       meta: {
         title: '系统配置',
         icon: 'settings',

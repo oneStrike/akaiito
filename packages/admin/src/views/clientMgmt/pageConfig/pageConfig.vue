@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {
-  createClientPageApi,
-  deleteClientPageApi,
-  getClientPagesApi,
-  updateClientPageApi,
-} from '@/apis/clientPageConfig'
+  createAppPageApi,
+  deleteAppPageApi,
+  getAppPagesApi,
+  updateAppPageApi,
+} from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/clientMgmt/pageConfig/shared'
+import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/pageConfig/shared'
 
 defineOptions({
   name: 'PageConfig',
@@ -22,7 +22,7 @@ const modalFrom = reactive({
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getClientPagesApi, {
+const { loading, reset, requestData, params } = useRequest(getAppPagesApi, {
   type: 'page',
 })
 
@@ -36,9 +36,9 @@ const submitForm = async (value: TableItem) => {
   modalFrom.loading = true
   if (currentRow.value?.id) {
     value.id = currentRow.value.id
-    await updateClientPageApi(value)
+    await updateAppPageApi(value)
   } else {
-    await createClientPageApi(value)
+    await createAppPageApi(value)
   }
   useMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
   currentRow.value = null
@@ -72,7 +72,7 @@ const submitForm = async (value: TableItem) => {
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openFormModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteClientPageApi" :row="row" @success="reset()" />
+        <es-pop-confirm v-model:loading="loading" :request="deleteAppPageApi" :row="row" @success="reset()" />
       </template>
     </es-table>
 

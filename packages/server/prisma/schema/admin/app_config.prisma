@@ -1,5 +1,5 @@
 /// 客户端页面配置
-model ClientPageConfig {
+model AppPageConfig {
   /// 主键id
   id          Int      @id @default(autoincrement())
   /// 页面编码
@@ -19,11 +19,11 @@ model ClientPageConfig {
   /// 更新时间
   updatedAt   DateTime @updatedAt @map("updated_at") @db.DateTime(0)
 
-  @@map("client_page_config")
+  @@map("app_page_config")
 }
 
 /// 系统通知公告
-model ClientNotification {
+model AppNotification {
   /// 主键id
   id              Int       @id @default(autoincrement())
   /// 标题
@@ -51,30 +51,30 @@ model ClientNotification {
   /// 更新时间
   updatedAt       DateTime  @updatedAt @map("updated_at") @db.DateTime(0)
 
-  @@map("client_notification")
+  @@map("app_notification")
 }
 
 /// 客户端系统配置
-model ClientConfig {
+model AppConfig {
   /// 主键id
-  id         Int    @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   /// 客户端logo
-  clientLogo String @map("client_logo") @db.VarChar(200)
+  appLogo   String @map("app_logo") @db.VarChar(200)
   /// 客户端名字
-  clientName String @map("client_name") @db.VarChar(50)
+  appName   String @map("app_name") @db.VarChar(50)
   /// 小说板块 0禁用 1启用 2 开发 3维护
-  novelZone  Int    @default(1) @map("novel_enabled")
+  novelZone Int    @default(1) @map("novel_enabled")
   /// 漫画板块 0禁用 1启用 2 开发 3维护
-  comicZone  Int    @default(1) @map("comic_enabled")
+  comicZone Int    @default(1) @map("comic_enabled")
   /// 写真板块 0禁用 1启用 2 开发 3维护
-  photsZone  Int    @default(1) @map("cosplay_enabled")
+  photsZone Int    @default(1) @map("cosplay_enabled")
   /// 视频板块 0禁用 1启用 2 开发 3维护
-  videoZone  Int    @default(1) @map("video_enabled")
+  videoZone Int    @default(1) @map("video_enabled")
 
   /// 创建时间
   createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.DateTime(0)
 
-  @@map("client_config")
+  @@map("app_config")
 }

@@ -6,5 +6,5 @@ export enum CtxAttrEnum {
   // 管理员用户信息
   ADMIN_USER_INFO = 'adminUserInfo',
   // 客户端用户信息
-  CLIENT_USER_INFO = 'clientUserInfo',
+  APP_USER_INFO = 'appUserInfo',
 }

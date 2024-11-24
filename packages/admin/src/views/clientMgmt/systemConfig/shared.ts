@@ -2,7 +2,7 @@ import type { EsFormOptions } from '@/components/es-form/es-form.vue'
 
 export const formOptions: EsFormOptions[] = [
   {
-    field: 'clientName',
+    field: 'appName',
     component: 'Input',
     props: {
       label: '客户端名称',

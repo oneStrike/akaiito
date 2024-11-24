@@ -1,6 +1,6 @@
 import { IGuard, MidwayWebRouterService } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
-import { isAdminRequest, isClientRequest, isOpenRequest } from '@/utils/requestSource'
+import { isAdminRequest, isAppRequest, isOpenRequest } from '@/utils/requestSource'
 import { Config, Guard, httpError, Inject } from '@midwayjs/core'
 import { JwtService } from '@/auth/jwt.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'
@@ -34,9 +34,9 @@ export class AuthGuard implements IGuard<Context> {
           mobile: verifyRes.mobile,
         })
       }
-    } else if (verifyRes.purpose === 'client') {
-      if (isClientRequest(ctx.url) || isOpenRequest(ctx.url)) {
-        ctx.setAttr(CtxAttrEnum.CLIENT_USER_INFO, {
+    } else if (verifyRes.purpose === 'app') {
+      if (isAppRequest(ctx.url) || isOpenRequest(ctx.url)) {
+        ctx.setAttr(CtxAttrEnum.APP_USER_INFO, {
           userId: verifyRes.id,
           username: verifyRes.username,
           mobile: verifyRes.mobile,

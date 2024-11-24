@@ -1,23 +1,23 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { NotificationService } from '@/modules/admin/clientManage/clientNotification/notification.service'
+import { NotificationService } from '@/modules/admin/appManage/appNotification/notification.service'
 import {
   getNotificationListDto,
   NotificationDto,
-} from '@/modules/admin/clientManage/clientNotification/dto/notification.dto'
+} from '@/modules/admin/appManage/appNotification/dto/notification.dto'
 import { BasicIdDto } from '@/basic/dto/basic.dto'
 
-@Controller('/admin/clientNotification')
-export class ClientNotificationController {
+@Controller('/admin/appNotification')
+export class AppNotificationController {
   @Inject()
   notificationService: NotificationService
 
-  @Get('/getClientNotificationList', { summary: '获取客户端通知消息' })
-  async getClientNotification(@Query() query: getNotificationListDto) {
+  @Get('/getAppNotificationList', { summary: '获取客户端通知消息' })
+  async getAppNotification(@Query() query: getNotificationListDto) {
     return await this.notificationService.findList({ where: query, omit: { content: true, backgroundImage: true } })
   }
 
-  @Get('/getClientNotificationDetail', { summary: '获取客户端通知消息详情' })
-  async getClientNotificationDetail(@Query() query: BasicIdDto) {
+  @Get('/getAppNotificationDetail', { summary: '获取客户端通知消息详情' })
+  async getAppNotificationDetail(@Query() query: BasicIdDto) {
     return await this.notificationService.findList({ where: query })
   }
 

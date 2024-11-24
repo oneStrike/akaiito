@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from '@/hooks/useRouter'
 import { useUserStore } from '@/stores/modules/user'
-import { createClientUserApi } from '@/apis/user'
+import { createAppUserApi } from '@/apis/user'
 
 const formData = reactive({
   username: '',
@@ -53,7 +53,7 @@ const signUp = async () => {
     password: formData.password,
     username: formData.username,
   }
-  await createClientUserApi(formData)
+  await createAppUserApi(formData)
   await useUserStore().login(params)
   await useRouter.reLaunch({ name: 'home' })
 }

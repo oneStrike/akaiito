@@ -2,7 +2,7 @@ import type { UploadFileTypesRes } from '@/apis/types/upload'
 import type { UploadFiles } from 'element-plus'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
-import { httpClient } from '@/utils/request'
+import { httpHandler } from '@/utils/request'
 
 type files = string | Blob
 type UploadFileRes = UploadFileTypesRes
@@ -25,7 +25,7 @@ export async function useUpload(
       formData.append('file', file)
       formData.append('scenario', scenario)
       formData.append('name', file.name)
-      httpClient({
+      httpHandler({
         method: 'post',
         url: '/common/upload/uploadFile',
         data: formData,

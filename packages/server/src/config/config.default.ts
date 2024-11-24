@@ -20,8 +20,8 @@ export default {
     whiteList: [
       '/open/captcha/getCaptcha',
       '/admin/user/login',
-      '/client/user/createClientUser',
-      '/client/user/login',
+      '/app/user/createAppUser',
+      '/app/user/login',
     ],
   },
   cacheManager: {
