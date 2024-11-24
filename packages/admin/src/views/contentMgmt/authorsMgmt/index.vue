@@ -15,27 +15,35 @@ import { filter, formOptions, tableColumns, toolbar } from '@/views/contentMgmt/
 defineOptions({
   name: 'AuthorsMgmt',
 })
-type Record = GetAuthorPageTypesRes['list'][number]
+type Record = GetAuthorPageTypesRes['list'][number] & { contentModel: string }
 
-const formModal = ref(false)
+const modalFrom = reactive({
+  show: false,
+  loading: false,
+})
 const currentRow = ref<Record | null>(null)
 const formScheme = useFormTool(formOptions)
 const { request, loading, requestData, params, sortChange, reset } = useRequest(getAuthorPageApi)
 
-const contentModel = ['', '小说', '漫画', '图片', '视频']
+async function submitForm(val: any) {
+  modalFrom.loading = true
+  val.novelist = val.contentModel.includes('1') ? 1 : 0
+  val.mangaArtist = val.contentModel.includes('2') ? 1 : 0
+  val.illustrator = val.contentModel.includes('3') ? 1 : 0
+  val.coser = val.contentModel.includes('4') ? 1 : 0
 
-async function submitForm(val: Record) {
   if (currentRow.value?.id) {
     val.id = currentRow.value.id
     await updateAuthorApi(val)
   } else {
     await createAuthorApi(val)
   }
-  formModal.value = false
+  modalFrom.show = false
   useMessage.success({
     message: currentRow.value?.id ? '修改成功!' : '新增成功！',
   })
   currentRow.value = null
+  modalFrom.loading = false
   request()
 }
 
@@ -44,14 +52,46 @@ async function switchStatus(val: any) {
   await reset()
 }
 
+// 函数重载签名
+function identityHandler(row: Record, type?: 'text'): string
+function identityHandler(row: Record, type?: 'code'): number[]
+// 函数实现
+function identityHandler(row: Record, type: 'text' | 'code' = 'text') {
+  const identity = []
+  if (row.novelist) {
+    identity.push(type === 'text' ? '作家' : 1)
+  }
+  if (row.mangaArtist) {
+    identity.push(type === 'text' ? '漫画家' : 2)
+  }
+  if (row.illustrator) {
+    identity.push(type === 'text' ? '插画师' : 3)
+  }
+  if (row.coser) {
+    identity.push(type === 'text' ? 'coser' : 4)
+  }
+
+  return type === 'text' ? identity.join('、') : identity
+}
+
 function blank(record: Record) {
   window.open(record.website, '_blank')
+}
+
+const openModal = (val?: Record) => {
+  currentRow.value = null
+  if (val) {
+    currentRow.value = val
+    currentRow.value.contentModel = identityHandler(val, 'code').join(',')
+    console.log(currentRow.value.contentModel)
+  }
+  modalFrom.show = true
 }
 </script>
 
 <template>
   <div v-loading="loading" class="main-page pb-6">
-    <es-toolbar :toolbar="toolbar" :filter="filter" @reset="reset" @query="request" @handler="formModal = true" />
+    <es-toolbar :toolbar="toolbar" :filter="filter" @reset="reset" @query="request" @handler="openModal()" />
     <es-table
       v-model:page-index="params.pageIndex"
       v-model:page-size="params.pageSize"
@@ -65,7 +105,7 @@ function blank(record: Record) {
       </template>
 
       <template #contentModel="{ row }">
-        <span>{{ contentModel[row.contentModel] }}</span>
+        <span>{{ identityHandler(row) }}</span>
       </template>
 
       <template #website="{ row }">
@@ -73,18 +113,18 @@ function blank(record: Record) {
       </template>
 
       <template #action="{ row }">
-        <el-button type="primary" link @click="(currentRow = row), (formModal = true)"> 编辑 </el-button>
-
+        <el-button type="primary" link @click="openModal(row)"> 编辑</el-button>
         <es-pop-confirm v-model:loading="loading" :request="deleteAuthorApi" :row="row" @success="reset()" />
       </template>
     </es-table>
+
     <es-modal-form
-      v-model:modal="formModal"
-      :title="currentRow?.id ? '修改插件' : '新增插件'"
+      v-model:show="modalFrom.show"
+      v-model:loading="modalFrom.loading"
+      :default-value="currentRow"
+      :title="currentRow ? '编辑' : '添加'"
       :options="formScheme.formOptions"
-      :default-value="currentRow || { type: 1, isFree: 1 }"
       @submit="submitForm"
-      @closed="currentRow = null"
     />
   </div>
 </template>

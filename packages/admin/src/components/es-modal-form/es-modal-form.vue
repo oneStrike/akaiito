@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { EsFormOptions, EsFormProps } from '@/components/es-form/es-form.vue'
+import type { EsFormOptions, EsFormProps } from '@/components/es-form/types'
 
 export interface FormModalProps {
   defaultValue: IterateObject | null
@@ -76,7 +76,6 @@ function formSubmit(val: IterateObject) {
 <template>
   <es-modal
     v-model="showForm"
-    :loading="formLoading"
     :width="width"
     :title="title"
     destroy-on-close
@@ -87,6 +86,7 @@ function formSubmit(val: IterateObject) {
     <es-form
       ref="esFormRef"
       v-model="formData"
+      v-loading="formLoading"
       :options="options"
       :show-btn="false"
       :form-props="formProps"

@@ -1,11 +1,5 @@
 import { BasicPageDto } from '@/basic/dto/basic.dto'
-import {
-  requiredNumber,
-  requiredString,
-  validateNumber,
-  validateNumberLess,
-  validateString,
-} from '@/utils/validate'
+import { requiredNumber, requiredString, validateNumber, validateNumberLess, validateString } from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
 
 export class AuthorDto {
@@ -24,8 +18,17 @@ export class AuthorDto {
   @Rule(validateNumberLess(2))
   status!: number
 
-  @Rule(validateNumberLess(4))
-  contentModel!: number
+  @Rule(validateNumberLess(2))
+  coser!: number
+
+  @Rule(validateNumberLess(2))
+  novelist!: number
+
+  @Rule(validateNumberLess(2))
+  mangaArtist!: number
+
+  @Rule(validateNumberLess(2))
+  illustrator!: number
 
   @Rule(validateString)
   website?: string
@@ -40,6 +43,15 @@ export class GetAuthorPageDto extends BasicPageDto {
   @Rule(validateNumber)
   status?: number
 
-  @Rule(validateNumberLess(4))
-  contentModel?: number
+  @Rule(validateNumberLess(2))
+  coser?: number
+
+  @Rule(validateNumberLess(2))
+  novelist?: number
+
+  @Rule(validateNumberLess(2))
+  mangaArtist?: number
+
+  @Rule(validateNumberLess(2))
+  illustrator?: number
 }

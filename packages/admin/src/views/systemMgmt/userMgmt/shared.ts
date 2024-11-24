@@ -1,11 +1,8 @@
-import type { EsFormOptions } from '@/components/es-form/typese'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type {
-  EsToolbarProps,
-  ToolbarFilter,
-} from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 import { useValidate } from '@/hooks/useValidate'
 import { utils } from '@/utils'
+import type { EsFormOptions } from '@/components/es-form/types'
 
 export const tableColumns: EsTableColumn = [
   {
@@ -134,7 +131,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '用户名',
-      rules: [{ required: true, message: '请输入原密码' }],
+      rules: useValidate.password(),
     },
     componentProps: {
       placeholder: '请填写用户名',
@@ -147,7 +144,7 @@ export const formOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '密码',
-      rules: [{ required: true, message: '请输入密码' }, useValidate.password],
+      rules: useValidate.password(),
     },
     componentProps: {
       placeholder: '请输入密码',
@@ -161,7 +158,7 @@ export const formOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '确认密码',
-      rules: [{ required: true, message: '请输入确认密码' }, useValidate.password],
+      rules: useValidate.password(),
     },
     componentProps: {
       placeholder: '请输入确认密码',
@@ -175,7 +172,7 @@ export const formOptions: EsFormOptions[] = [
     props: {
       label: '手机号',
       required: true,
-      rules: [useValidate.mobile, { required: true, message: '请输入手机号' }],
+      rules: useValidate.mobile(),
     },
     componentProps: {
       placeholder: '请输入手机号',
@@ -212,7 +209,7 @@ export const pwdFormOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '原密码',
-      rules: [{ required: true, message: '请输入原密码' }, useValidate.password],
+      rules: useValidate.password(true, '原密码'),
     },
     componentProps: {
       placeholder: '请输入原密码',
@@ -226,7 +223,7 @@ export const pwdFormOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '新密码',
-      rules: [{ required: true, message: '请输入新密码' }, useValidate.password],
+      rules: useValidate.password(true, '新密码'),
     },
     componentProps: {
       placeholder: '请输入新密码',
@@ -240,7 +237,7 @@ export const pwdFormOptions: EsFormOptions[] = [
     props: {
       required: true,
       label: '确认新密码',
-      rules: [{ required: true, message: '请输入确认新密码' }, useValidate.password],
+      rules: useValidate.password(true, '新密码'),
     },
     componentProps: {
       placeholder: '请输入确认新密码',

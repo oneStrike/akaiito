@@ -24,16 +24,6 @@ const emits = defineEmits<{
 }>()
 const fullscreen = ref(false)
 
-const contentStyle = computed(() => {
-  if (!props.height) {
-    return ''
-  }
-  if (typeof props.height === 'string') {
-    return `height:${props.height}`
-  }
-  return `height:${fullscreen.value ? '80vh' : props.height}px`
-})
-
 const modalShow = useVModel(props, 'modelValue', emits)
 
 const { start: timeoutStart } = useTimeoutFn(() => {
@@ -87,7 +77,7 @@ function toggleFullScreenStatus() {
       </div>
     </template>
 
-    <el-scrollbar :height="fullscreen ? '80vh' : `${height}px`">
+    <el-scrollbar :height="fullscreen ? '85vh' : `${height}px`">
       <slot />
     </el-scrollbar>
 

@@ -43,8 +43,17 @@ export interface GetAuthorPageTypesRes {
     /* 作者三方主页 */
     website?: string
 
-    /* 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频 */
-    contentModel: string
+    /* coser身份 1是0否 */
+    coser: number
+
+    /* 小说家身份 1是0否 */
+    novelist: number
+
+    /* 漫画家身份 1是0否 */
+    mangaArtist: number
+
+    /* 插画师身份 1是0否 */
+    illustrator: number
 
     /* 创建时间 */
     createdAt: string
@@ -83,8 +92,17 @@ export interface CreateAuthorTypesReq {
   /* 作者三方主页 */
   website?: string
 
-  /* 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频 */
-  contentModel: string
+  /* coser身份 1是0否 */
+  coser: number
+
+  /* 小说家身份 1是0否 */
+  novelist: number
+
+  /* 漫画家身份 1是0否 */
+  mangaArtist: number
+
+  /* 插画师身份 1是0否 */
+  illustrator: number
 }
 
 /* 主键id */
@@ -114,8 +132,17 @@ export interface UpdateAuthorTypesReq {
   /* 作者三方主页 */
   website?: string
 
-  /* 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频 */
-  contentModel: string
+  /* coser身份 1是0否 */
+  coser: number
+
+  /* 小说家身份 1是0否 */
+  novelist: number
+
+  /* 漫画家身份 1是0否 */
+  mangaArtist: number
+
+  /* 插画师身份 1是0否 */
+  illustrator: number
 }
 
 export interface UpdateAuthorTypesRes {

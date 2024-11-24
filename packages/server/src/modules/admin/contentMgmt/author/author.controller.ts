@@ -28,13 +28,17 @@ export class AuthorController {
     return this.authorService.create({ data: body })
   }
 
-  @Post('/updateAuthorStatus', { summary: '启用禁用作者' })
   @Post('/updateAuthor', { summary: '更新作者信息' })
-  async updateAuthor(@Body() body: AuthorDto | BasicIdStatusDto) {
+  async updateAuthor(@Body() body: AuthorDto) {
     return this.authorService.update({ where: { id: body.id }, data: body })
   }
 
-  @Post('/deleteAuthor', { summary: '更新作者信息' })
+  @Post('/updateAuthorStatus', { summary: '启用禁用作者' })
+  async updateAuthorStatus(@Body() body: BasicIdStatusDto) {
+    return this.authorService.update({ where: { id: body.id }, data: body })
+  }
+
+  @Post('/deleteAuthor', { summary: '删除作者信息' })
   async deleteAuthor(@Body() body: BasicIdDto) {
     return this.authorService.delete({ where: { id: body.id } })
   }

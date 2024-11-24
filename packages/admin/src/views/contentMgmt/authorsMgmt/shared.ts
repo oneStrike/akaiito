@@ -1,6 +1,7 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/es-table.vue'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
+import { useValidate } from '@/hooks/useValidate'
 import { utils } from '@/utils'
 
 const pluginType = [
@@ -17,13 +18,8 @@ const pluginType = [
     value: 3,
   },
   {
-    label: '插画',
-    value: 3,
-  },
-  {
-    label: '视频',
+    label: 'coser',
     value: 4,
-    disabled: true,
   },
 ]
 
@@ -81,7 +77,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Upload',
     props: {
       label: '头像',
-      rules: [{ required: true, message: '请上传作者头像' }],
+      rules: useValidate.required('作者头像'),
     },
     componentProps: {
       placeholder: '请上传作者头像',
@@ -94,12 +90,27 @@ export const formOptions: EsFormOptions[] = [
     field: 'name',
     component: 'Input',
     props: {
+      span: 2,
       label: '作者',
-      rules: [{ required: true, message: '请输入作者名称' }],
+      rules: useValidate.required('作者名字'),
     },
     componentProps: {
       placeholder: '请输入作者名称',
       maxlength: 50,
+    },
+  },
+
+  {
+    field: 'contentModel',
+    component: 'Checkbox',
+    props: {
+      span: 2,
+      label: '内容类型',
+      rules: useValidate.required('内容类型'),
+    },
+    componentProps: {
+      placeholder: '请选择内容类型',
+      options: pluginType,
     },
   },
   {
@@ -107,10 +118,11 @@ export const formOptions: EsFormOptions[] = [
     component: 'Textarea',
     props: {
       label: '作者描述',
-      rules: [{ required: true, message: '请输入作者描述' }],
+      rules: useValidate.required('作者描述'),
     },
     componentProps: {
       placeholder: '请输入作者描述',
+      rows: 5,
     },
   },
   {
@@ -118,24 +130,11 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '作者外部主页',
-      rules: [{ required: true, message: '请输入作者外部主页' }],
+      rules: useValidate.url(false),
     },
     componentProps: {
       placeholder: '请输入作者外部主页',
       maxlength: 50,
-    },
-  },
-
-  {
-    field: 'contentModel',
-    component: 'Radio',
-    props: {
-      label: '内容类型',
-      rules: [{ required: true, message: '请选择内容类型' }],
-    },
-    componentProps: {
-      placeholder: '请选择内容类型',
-      options: pluginType,
     },
   },
 ]
@@ -144,6 +143,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'status',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '状态',
       clearable: true,
@@ -162,6 +164,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'contentModel',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '内容类型',
       clearable: true,
@@ -171,6 +176,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'name',
     component: 'Input',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '作者名称',
       clearable: true,

@@ -17,8 +17,8 @@ const loginForm = reactive({
   captchaId: '',
 })
 const rules = reactive({
-  mobile: useValidate.required('手机号'),
-  password: useValidate.password,
+  mobile: useValidate.mobile(),
+  password: useValidate.password(),
   captcha: useValidate.required('验证码'),
 })
 
