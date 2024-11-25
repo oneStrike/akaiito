@@ -22,13 +22,16 @@ export class CategoryDto extends BasicIdStatusDto {
   sort?: number
 
   @Rule(requiredNumberLess(2))
-  novelModel!: number
+  novelApplicable!: number
 
   @Rule(requiredNumberLess(2))
-  mangaModel!: number
+  comicApplicable!: number
 
   @Rule(requiredNumberLess(2))
-  imageModel!: number
+  photoApplicable!: number
+
+  @Rule(requiredNumberLess(2))
+  illustratorApplicable!: number
 }
 
 export class CategoryListDto extends BasicPageDto {
@@ -39,13 +42,16 @@ export class CategoryListDto extends BasicPageDto {
   status?: number
 
   @Rule(validateNumberLess(2))
-  novelModel?: number
+  novelApplicable?: number
 
   @Rule(validateNumberLess(2))
-  mangaModel?: number
+  comicApplicable?: number
 
   @Rule(validateNumberLess(2))
-  imageModel?: number
+  photoApplicable?: number
+
+  @Rule(validateNumberLess(2))
+  illustratorApplicable?: number
 }
 
 export class CreateCategoryDto extends OmitDto(CategoryDto, ['id', 'status']) {}

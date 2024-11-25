@@ -17,6 +17,7 @@ const emits = defineEmits<{
       order: 'asc' | 'desc' | null
     },
   ): void
+  (event: 'toolbarHandler', data: any): void
 }>()
 
 const params = defineModel('params', {
@@ -118,7 +119,13 @@ defineExpose({
 
 <template>
   <div ref="tableBoxRef" :style="{ height: `${tableHeight}px` }">
-    <es-toolbar v-if="filter && filter.length" v-model="params" :toolbar="toolbar" :filter="filter" />
+    <es-toolbar
+      v-if="filter && filter.length"
+      v-model="params"
+      :toolbar="toolbar"
+      :filter="filter"
+      @handler="(val) => $emit('toolbarHandler', val)"
+    />
 
     <el-table
       :data="data"
@@ -177,6 +184,7 @@ defineExpose({
         :hide-on-single-page="total > params.pageSize"
         :page-sizes="[15, 30, 45, 60, 100]"
         background
+        :default-current-page="0"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       />

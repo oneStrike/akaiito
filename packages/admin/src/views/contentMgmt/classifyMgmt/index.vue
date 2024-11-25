@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { GetCategoryPageTypesRes } from '@/apis/types/category'
-import type { IterateObject } from '@akaiito/types'
 import {
   createCategoryApi,
   deleteCategoryApi,
@@ -11,14 +10,16 @@ import {
 import { useMessage } from '@/hooks/useFeedback'
 import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
-import { utils } from '@/utils'
 import { filter, formOptions, tableColumns, toolbar } from '@/views/contentMgmt/classifyMgmt/shared'
 
 type Record = GetCategoryPageTypesRes['list'][number] & { contentModel: string }
 
 const formScheme = useFormTool(formOptions)
 const currentRow = ref<Record | null>(null)
-const formModal = ref(false)
+const formModal = reactive({
+  show: false,
+  loading: false,
+})
 const { requestData, params, sortChange, reset, request, loading } = useRequest(getCategoryPageApi)
 
 async function switchStatus(val: any) {
@@ -40,7 +41,7 @@ const openEditForm = (row: Record) => {
   }
   row.contentModel = contentModel.join(',')
   currentRow.value = row
-  formModal.value = true
+  formModal.show = true
 }
 
 const formatModelType = (contentModel: string, d: number | string = 0) => {
@@ -52,6 +53,7 @@ const formatModelType = (contentModel: string, d: number | string = 0) => {
 }
 
 async function submitForm(val: Record) {
+  formModal.loading = true
   val = Object.assign(val, formatModelType(val.contentModel))
   if (currentRow.value?.id) {
     val.id = currentRow.value.id
@@ -59,7 +61,8 @@ async function submitForm(val: Record) {
   } else {
     await createCategoryApi(val)
   }
-  formModal.value = false
+  formModal.show = false
+  formModal.loading = false
   useMessage.success({
     message: currentRow.value?.id ? '修改成功!' : '新增成功！',
   })
@@ -70,24 +73,23 @@ async function submitForm(val: Record) {
 const filterCategory = (val: IterateObject) => {
   request(Object.assign(JSON.parse(JSON.stringify(val)), formatModelType(val.contentModel?.join(',') ?? '', '')))
 }
+
+function toolbarHandler() {
+  formModal.show = true
+}
 </script>
 
 <template>
   <div v-loading="loading" class="main-page pb-6">
-    <es-toolbar
-      :toolbar="toolbar"
-      :filter="filter"
-      @reset="reset"
-      @query="filterCategory"
-      @handler="formModal = true"
-    />
     <es-table
-      v-model:page-index="params.pageIndex"
-      v-model:page-size="params.pageSize"
+      v-model:params="params"
+      :filter="filter"
+      :toolbar="toolbar"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
       @sort-change="sortChange"
+      @toolbar-handler="toolbarHandler"
     >
       <template #status="{ row }">
         <es-switch :request="switchStatus" :row="row" />
@@ -100,8 +102,8 @@ const filterCategory = (val: IterateObject) => {
     </es-table>
 
     <es-modal-form
-      v-model:modal="formModal"
-      :width="700"
+      v-model:show="formModal.show"
+      v-model:loading="formModal.loading"
       :title="currentRow?.id ? '修改分类' : '新增分类'"
       :options="formScheme.formOptions"
       :default-value="currentRow || { type: 1, isFree: 1 }"

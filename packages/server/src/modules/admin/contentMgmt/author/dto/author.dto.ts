@@ -19,16 +19,16 @@ export class AuthorDto {
   status!: number
 
   @Rule(validateNumberLess(2))
-  coser!: number
+  isModel!: number
 
   @Rule(validateNumberLess(2))
-  novelist!: number
+  isWriter!: number
 
   @Rule(validateNumberLess(2))
-  mangaArtist!: number
+  isCartoonist!: number
 
   @Rule(validateNumberLess(2))
-  illustrator!: number
+  isIllustrator!: number
 
   @Rule(validateString)
   website?: string
@@ -44,14 +44,14 @@ export class GetAuthorPageDto extends BasicPageDto {
   status?: number
 
   @Rule(validateNumberLess(2))
-  coser?: number
+  isModel?: number
 
   @Rule(validateNumberLess(2))
-  novelist?: number
+  isWriter?: number
 
   @Rule(validateNumberLess(2))
-  mangaArtist?: number
+  isCartoonist?: number
 
   @Rule(validateNumberLess(2))
-  illustrator?: number
+  isIllustrator?: number
 }

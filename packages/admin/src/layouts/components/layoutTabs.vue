@@ -112,7 +112,7 @@ watch(
 
 onMounted(() => {
   const tabBoxEl = document.querySelector('.tab-box')!
-  tabBoxEl.addEventListener('wheel', (event) => {
+  tabBoxEl?.addEventListener('wheel', (event) => {
     const { scrollWidth, clientWidth } = tabBoxEl
     // @ts-expect-error ignore
     const { deltaY } = event

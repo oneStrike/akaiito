@@ -1,6 +1,6 @@
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 import type { EsFormOptions } from '@/components/es-form/types'
+import type { EsTableColumn } from '@/components/es-table/types'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
 
 const pluginType = [
   {
@@ -12,11 +12,14 @@ const pluginType = [
     value: 2,
   },
   {
-    label: '图片',
+    label: '插画',
     value: 3,
   },
+  {
+    label: 'coser',
+    value: 4,
+  },
 ]
-
 export const tableColumns: EsTableColumn = [
   {
     label: '分类',
@@ -82,7 +85,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '分类名称',
-      class: 'w-1/2',
+      span: 2,
       rules: [{ required: true, message: '请输入分类名称' }],
     },
 
@@ -92,11 +95,24 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'contentModel',
+    component: 'Checkbox',
+    props: {
+      label: '内容类型',
+      span: 2,
+      rules: [{ required: true, message: '请选择内容类型' }],
+    },
+    componentProps: {
+      placeholder: '请选择内容类型',
+      options: pluginType,
+    },
+  },
+  {
     field: 'icon',
     component: 'Upload',
     props: {
       label: '分类图标',
-      class: 'w-1/2',
+      span: 2,
       rules: [{ required: true, message: '请上传分类图标' }],
     },
     componentProps: {
@@ -111,7 +127,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'InputNumber',
     props: {
       label: '辅助热度',
-      class: 'w-1/2',
+      span: 2,
     },
     componentProps: {
       placeholder: '请输入辅助热度',
@@ -120,24 +136,15 @@ export const formOptions: EsFormOptions[] = [
       type: 'number',
     },
   },
-  {
-    field: 'contentModel',
-    component: 'Checkbox',
-    props: {
-      label: '内容类型',
-      rules: [{ required: true, message: '请选择内容类型' }],
-    },
-    componentProps: {
-      placeholder: '请选择内容类型',
-      options: pluginType,
-    },
-  },
 ]
 
 export const filter: ToolbarFilter = [
   {
     field: 'contentModel',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '内容模型',
       clearable: true,
@@ -150,6 +157,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'status',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '状态',
       clearable: true,
@@ -168,6 +178,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'name',
     component: 'Input',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '分类名称',
       clearable: true,

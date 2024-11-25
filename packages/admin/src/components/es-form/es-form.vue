@@ -21,12 +21,13 @@ const throttleInput = ref('')
 
 const formOptions = computed(() => {
   return props.options.map((item) => {
-    if (item.props?.span) {
-      // @ts-expect-error 临时方案
-      item.props.style = `width:${100 / item.props.span}%;min-width:229.5px;`
-    } else {
-      // @ts-expect-error 临时方案
-      item.props.style = 'width:100%;min-width:229.5px;'
+    if (!item.props) {
+      item.props = {}
+    }
+    const itemWidth = item.props.span ? 100 / item.props.span : 100
+    item.props.style = {
+      width: `${itemWidth}%`,
+      minWidth: '229.5px',
     }
     return item
   })

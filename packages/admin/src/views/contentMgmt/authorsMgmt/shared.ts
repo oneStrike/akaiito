@@ -1,6 +1,6 @@
 import type { EsFormOptions } from '@/components/es-form/types'
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsTableColumn } from '@/components/es-table/types'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
 import { useValidate } from '@/hooks/useValidate'
 import { utils } from '@/utils'
 
@@ -18,7 +18,7 @@ const pluginType = [
     value: 3,
   },
   {
-    label: 'coser',
+    label: '模特',
     value: 4,
   },
 ]

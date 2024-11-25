@@ -27,10 +27,10 @@ const { request, loading, requestData, params, sortChange, reset } = useRequest(
 
 async function submitForm(val: any) {
   modalFrom.loading = true
-  val.novelist = val.contentModel.includes('1') ? 1 : 0
-  val.mangaArtist = val.contentModel.includes('2') ? 1 : 0
-  val.illustrator = val.contentModel.includes('3') ? 1 : 0
-  val.coser = val.contentModel.includes('4') ? 1 : 0
+  val.isWriter = val.contentModel.includes('1') ? 1 : 0
+  val.isCartoonist = val.contentModel.includes('2') ? 1 : 0
+  val.isIllustrator = val.contentModel.includes('3') ? 1 : 0
+  val.isModel = val.contentModel.includes('4') ? 1 : 0
   val.website = encodeURIComponent(val.website)
   if (!val.avatar) {
     delete val.avatar
@@ -61,16 +61,16 @@ function identityHandler(row: Record, type?: 'code'): number[]
 // 函数实现
 function identityHandler(row: Record, type: 'text' | 'code' = 'text') {
   const identity = []
-  if (row.novelist) {
+  if (row.isWriter) {
     identity.push(type === 'text' ? '作家' : 1)
   }
-  if (row.mangaArtist) {
+  if (row.isCartoonist) {
     identity.push(type === 'text' ? '漫画家' : 2)
   }
-  if (row.illustrator) {
+  if (row.isIllustrator) {
     identity.push(type === 'text' ? '插画师' : 3)
   }
-  if (row.coser) {
+  if (row.isModel) {
     identity.push(type === 'text' ? 'coser' : 4)
   }
 
