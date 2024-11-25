@@ -50,13 +50,16 @@ export interface GetCategoryPageTypesRes {
     status: number
 
     /* 分类是否适用于小说 1：适用 0：不适用 */
-    novelModel: number
+    novelApplicable: number
 
     /* 分类是否适用于漫画 1：适用 0：不适用 */
-    mangaModel: number
+    comicApplicable: number
 
     /* 分类是否适用于图片 1：适用 0：不适用 */
-    imageModel: number
+    photoApplicable: number
+
+    /* 分类是否适用于插画 1：适用 0：不适用 */
+    illustratorApplicable: number
 
     /* 更新时间 */
     updatedAt: string
@@ -96,13 +99,16 @@ export interface CreateCategoryTypesReq {
   status: number
 
   /* 分类是否适用于小说 1：适用 0：不适用 */
-  novelModel: number
+  novelApplicable: number
 
   /* 分类是否适用于漫画 1：适用 0：不适用 */
-  mangaModel: number
+  comicApplicable: number
 
   /* 分类是否适用于图片 1：适用 0：不适用 */
-  imageModel: number
+  photoApplicable: number
+
+  /* 分类是否适用于插画 1：适用 0：不适用 */
+  illustratorApplicable: number
 }
 
 /* 主键id */
@@ -133,13 +139,16 @@ export interface UpdateCategoryTypesReq {
   status: number
 
   /* 分类是否适用于小说 1：适用 0：不适用 */
-  novelModel: number
+  novelApplicable: number
 
   /* 分类是否适用于漫画 1：适用 0：不适用 */
-  mangaModel: number
+  comicApplicable: number
 
   /* 分类是否适用于图片 1：适用 0：不适用 */
-  imageModel: number
+  photoApplicable: number
+
+  /* 分类是否适用于插画 1：适用 0：不适用 */
+  illustratorApplicable: number
 }
 
 /* 主键id */
@@ -162,6 +171,18 @@ export interface UpdateCategoryStatusTypesReq {
 
   /* 状态 1：正常 0：禁用 */
   status: number
+
+  /* 分类是否适用于小说 1：适用 0：不适用 */
+  novelApplicable: number
+
+  /* 分类是否适用于漫画 1：适用 0：不适用 */
+  comicApplicable: number
+
+  /* 分类是否适用于图片 1：适用 0：不适用 */
+  photoApplicable: number
+
+  /* 分类是否适用于插画 1：适用 0：不适用 */
+  illustratorApplicable: number
 }
 
 /* 主键id */

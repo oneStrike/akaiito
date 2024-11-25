@@ -6,15 +6,15 @@ import { utils } from '@/utils'
 
 const pluginType = [
   {
-    label: '小说',
+    label: '作家',
     value: 1,
   },
   {
-    label: '漫画',
+    label: '漫画家',
     value: 2,
   },
   {
-    label: '插画',
+    label: '插画师',
     value: 3,
   },
   {
@@ -37,7 +37,7 @@ export const tableColumns: EsTableColumn = [
     type: 'image',
   },
   {
-    label: '内容模型',
+    label: '身份',
     prop: 'contentModel',
     align: 'center',
     slotName: 'contentModel',
@@ -104,11 +104,11 @@ export const formOptions: EsFormOptions[] = [
     component: 'Checkbox',
     props: {
       span: 2,
-      label: '内容类型',
-      rules: useValidate.required('内容类型'),
+      label: '身份',
+      rules: useValidate.required('身份'),
     },
     componentProps: {
-      placeholder: '请选择内容类型',
+      placeholder: '请选择身份',
       options: pluginType,
     },
   },

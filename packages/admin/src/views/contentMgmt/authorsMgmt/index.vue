@@ -71,7 +71,7 @@ function identityHandler(row: Record, type: 'text' | 'code' = 'text') {
     identity.push(type === 'text' ? '插画师' : 3)
   }
   if (row.isModel) {
-    identity.push(type === 'text' ? 'coser' : 4)
+    identity.push(type === 'text' ? '模特' : 4)
   }
 
   return type === 'text' ? identity.join('、') : identity
@@ -97,14 +97,14 @@ const openModal = (val?: Record) => {
 <template>
   <div v-loading="loading" class="main-page pb-6">
     <es-table
-      v-model:page-index="params.pageIndex"
-      v-model:page-size="params.pageSize"
+      v-model:params="params"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
       :filter="filter"
       :toolbar="toolbar"
       @sort-change="sortChange"
+      @toolbar-handler="openModal()"
     >
       <template #status="{ row }">
         <es-switch :request="switchStatus" :row="row" />
