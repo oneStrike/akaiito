@@ -2,7 +2,7 @@
 import type { EsFormOptions, EsFormProps } from '@/components/es-form/types'
 
 export interface FormModalProps {
-  defaultValue: IterateObject | null
+  defaultValue?: IterateObject | null
   options: EsFormOptions[]
   title?: string
   loading?: boolean

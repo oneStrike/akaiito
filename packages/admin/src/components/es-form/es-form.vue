@@ -17,6 +17,7 @@ const emits = defineEmits<{
 }>()
 const formRef = ref<FormInstance>()
 const formData = ref<IterateObject>({})
+const throttleInput = ref('')
 
 const formOptions = computed(() => {
   return props.options.map((item) => {
@@ -85,11 +86,12 @@ defineExpose({
 
         <el-input
           v-if="item.component === 'Input'"
-          v-model="formData[item.field]"
+          v-model="throttleInput"
           autocomplete="new-password"
           v-bind="item.componentProps"
           @keydown.enter="submitForm"
           v-on="item.on || {}"
+          @change="(val) => ((formData[item.field] = val), item.on?.change(val))"
         />
 
         <el-input-number

@@ -23,7 +23,7 @@ const { reset, sortChange, requestData, loading, params } = useRequest(getUserPa
 const userStore = useUserStore()
 const pwdModal = ref(false)
 const formModal = ref(false)
-const currentRow = ref<TableItem | null>()
+const currentRow = ref<TableItem | null>(null)
 
 const formScheme = useFormTool(formOptions)
 
@@ -79,10 +79,10 @@ async function switchStatus(val: any) {
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar :toolbar="toolbar" :filter="filter" @query="reset" @reset="reset" @handler="handlerToolbar" />
     <es-table
-      v-model:page-index="params.pageIndex"
-      v-model:page-size="params.pageSize"
+      v-model:params="params"
+      :toolbar="toolbar"
+      :filter="filter"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
@@ -113,7 +113,7 @@ async function switchStatus(val: any) {
     </es-table>
 
     <es-modal-form
-      v-model:modal="formModal"
+      v-model:show="formModal"
       :title="currentRow?.id ? '修改用户' : '添加用户'"
       :options="formScheme.formOptions"
       :default-value="currentRow"
@@ -122,7 +122,7 @@ async function switchStatus(val: any) {
     />
 
     <es-modal-form
-      v-model:modal="pwdModal"
+      v-model:show="pwdModal"
       title="修改密码"
       :options="pwdFormOptions"
       @submit="changePwd"
