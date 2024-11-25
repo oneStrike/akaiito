@@ -26,7 +26,14 @@ const params = defineModel('params', {
     pageSize: 15,
   }),
 })
-
+const pageIndex = computed({
+  get() {
+    return params.value.pageIndex + 1
+  },
+  set(newVal) {
+    params.value.pageIndex = newVal - 1
+  },
+})
 const paginationRef = ref()
 const tableBoxRef = ref()
 
@@ -165,10 +172,10 @@ defineExpose({
     </el-table>
     <div ref="paginationRef" class="flex justify-end pt-3 pr-3">
       <el-pagination
-        v-model:current-page="params.pageIndex"
+        v-model:current-page="pageIndex"
         v-model:page-size="params.pageSize"
         :hide-on-single-page="total > params.pageSize"
-        :page-sizes="[15, 30, 45, 50, 100]"
+        :page-sizes="[15, 30, 45, 60, 100]"
         background
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"

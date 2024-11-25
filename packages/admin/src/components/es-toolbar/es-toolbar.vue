@@ -1,25 +1,16 @@
 <script setup lang="ts">
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
-import { utils } from '@/utils'
 
 const props = withDefaults(defineProps<EsToolbarProps>(), {
   followSelection: true,
 })
 const emits = defineEmits<{
-  (event: 'update:modelValue', data: IterateObject): void
   (event: 'handler', data: any): void
   (event: 'query', data: IterateObject): void
   (event: 'reset'): void
 }>()
 
-const modelValue = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val: any) {
-    emits('update:modelValue', val)
-  },
-})
+const modelValue = defineModel({ type: Object, default: () => ({}) })
 
 const esFormRef = ref<IterateObject>()
 const innerFilter = ref<ToolbarFilter>([])
@@ -42,25 +33,6 @@ watch(
   },
   { deep: true, immediate: true },
 )
-
-function submit() {
-  val = JSON.parse(JSON.stringify(val))
-  if (Array.isArray(val?.dateTimePicker) && val?.dateTimePicker.length === 2) {
-    const start = val.dateTimePicker[0]
-    const end = val.dateTimePicker[1]
-    val.startTime = utils.dayjs(start).format('YYYY-MM-DD HH:mm:ss')
-    val.endTime = utils.dayjs(end).format('YYYY-MM-DD HH:mm:ss')
-  } else if (val) {
-    delete val.startTime
-    delete val.endTime
-    delete val.dateTimePicker
-  }
-  emits('query', val!)
-}
-
-function reset() {
-  emits('reset')
-}
 
 function resetFilter() {
   esFormRef.value?.resetForm()
@@ -116,8 +88,8 @@ defineExpose({
       submit-text="查询"
       :form-props="{ labelPosition: 'top' }"
       :box-border="false"
-      @submit="submit"
-      @reset="reset"
+      @reset="emits('reset')"
+      @submit="emits('query', modelValue)"
     />
   </div>
 </template>

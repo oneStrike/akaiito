@@ -41,7 +41,7 @@ export default {
         {
           name: 'LoginLogs',
           path: '/logsMgmt/loginLogs',
-          component: () => import('@/views/systemMgmt/logsMgmt/loginLogs/index.vue'),
+          component: () => import('@/views/systemMgmt/logMgmt/loginLog/index.vue'),
           meta: {
             title: '登录日志',
             icon: 'login',
@@ -50,19 +50,10 @@ export default {
         {
           name: 'OperationLogs',
           path: '/logsMgmt/operationLogs',
-          component: () => import('@/views/systemMgmt/logsMgmt/operationLogs/index.vue'),
+          component: () => import('@/views/systemMgmt/logMgmt/operationLog/index.vue'),
           meta: {
             title: '操作日志',
             icon: 'handPointer',
-          },
-        },
-        {
-          name: 'UpdateLogs',
-          path: '/logsMgmt/updateLogs',
-          component: () => import('@/views/systemMgmt/logsMgmt/updateLogs/index.vue'),
-          meta: {
-            title: '更新日志',
-            icon: 'reload',
           },
         },
       ],

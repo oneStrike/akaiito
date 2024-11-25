@@ -21,7 +21,6 @@ export interface Toolbar {
 }
 
 export interface EsToolbarProps {
-  modelValue?: IterateObject
   toolbar?: Toolbar[]
   filter?: ToolbarFilter
   selection?: boolean

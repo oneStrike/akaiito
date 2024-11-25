@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getRequestLogsApi } from '@/apis/logs'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, tableColumns } from '@/views/systemMgmt/logsMgmt/loginLogs/shared'
+import { filter, tableColumns } from '@/views/systemMgmt/logMgmt/loginLog/shared'
 
 defineOptions({
   name: 'LoginLogs',
