@@ -98,7 +98,7 @@ defineExpose({
       :form-props="{ labelPosition: 'top' }"
       :box-border="false"
       @reset="emits('reset')"
-      @submit="(val) => (modelValue = val)"
+      @submit="(val) => ((modelValue = {}), (modelValue = val))"
     >
       <template v-for="item in throttleInput.field" #[item]="{ componentProps, on }">
         <el-input
@@ -108,6 +108,7 @@ defineExpose({
           v-on="on || {}"
           @keydown.enter="modelValue[item] = throttleInput.value[item]"
           @change="(val) => ((modelValue[item] = val), on?.change && on?.change(val))"
+          @clear="(modelValue[item] = ''), on?.change && on?.clear()"
         />
       </template>
     </es-form>
