@@ -90,7 +90,6 @@ async function handlerToolbar(val: string) {
 watch(
   () => showModal,
   ({ value }) => {
-    console.log(value)
     if (value) {
       reset(dictionaryId.value)
     } else {

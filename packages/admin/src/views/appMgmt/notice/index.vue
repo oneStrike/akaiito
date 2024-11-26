@@ -22,9 +22,7 @@ const modalFrom = reactive({
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getAppNotificationListApi, {
-  type: 'page',
-})
+const { loading, reset, requestData, params } = useRequest(getAppNotificationListApi)
 
 const openFormModal = (row?: TableItem) => {
   if (row) {

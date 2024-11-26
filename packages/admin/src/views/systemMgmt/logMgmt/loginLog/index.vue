@@ -8,7 +8,6 @@ defineOptions({
 })
 
 const { loading, reset, requestData, sortChange, params } = useRequest(getRequestLogsApi, {
-  type: 'page',
   defaultParams: {
     apiPath: '/admin/user/login',
   },

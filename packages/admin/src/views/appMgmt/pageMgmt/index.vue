@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  createAppPageApi,
-  deleteAppPageApi,
-  getAppPagesApi,
-  updateAppPageApi,
-} from '@/apis/appPageConfig'
+import { createAppPageApi, deleteAppPageApi, getAppPagesApi, updateAppPageApi } from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
@@ -22,9 +17,7 @@ const modalFrom = reactive({
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getAppPagesApi, {
-  type: 'page',
-})
+const { loading, reset, requestData, params } = useRequest(getAppPagesApi)
 
 const openFormModal = (row?: TableItem) => {
   if (row) {
