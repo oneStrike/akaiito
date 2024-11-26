@@ -14,29 +14,27 @@ const props = withDefaults(defineProps<EsSwitchProps>(), {
   field: 'status',
 })
 const emits = defineEmits<{
-  (event: 'update:row'): void
   (event: 'success'): void
   (event: 'error', error: any): void
 }>()
 
-const row = useVModel(props, 'row', emits)
+const loading = ref(false)
 
 async function toggleStatus() {
   try {
-    row.value.loading = true
-    const status = row.value[props.field] === 0 ? 1 : 0
+    loading.value = true
+    const status = props.row[props.field] === 0 ? 1 : 0
     const params = {
-      [props.ids ? 'ids' : 'id']: props.ids ? [row.value.id] : row.value.id,
+      [props.ids ? 'ids' : 'id']: props.ids ? [props.row.id] : props.row.id,
       [props.field]: status,
     }
     await props.request(params)
-    row.value.loading = false
-    row.value[props.field] = status
+    loading.value = false
     emits('success')
     useMessage.success(PromptsEnum.UPDATED)
     return true
   } catch (e) {
-    row.value.loading = false
+    loading.value = false
     emits('error', e)
     return false
   }
@@ -48,7 +46,7 @@ async function toggleStatus() {
     :active-value="1"
     :inactive-value="0"
     :model-value="row[field]"
-    :loading="row.loading"
+    :loading="loading"
     :before-change="toggleStatus"
   />
 </template>

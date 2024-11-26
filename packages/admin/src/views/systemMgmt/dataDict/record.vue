@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { EsModalProps } from '@/components/es-modal/es-modal.vue'
-
+import type { EsModalProps } from '@/components/es-modal/types'
 import {
   createDataDictionaryItemsApi,
   deleteDataDictionaryItemsApi,
@@ -20,7 +19,6 @@ defineOptions({
 const props = withDefaults(defineProps<RecordDetails>(), {})
 
 const emits = defineEmits<{
-  (event: 'update:modelValue', data: boolean): void
   (event: 'closed'): void
 }>()
 
