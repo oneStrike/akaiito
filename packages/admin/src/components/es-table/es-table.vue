@@ -18,6 +18,8 @@ const emits = defineEmits<{
     },
   ): void
   (event: 'toolbarHandler', data: any): void
+  (event: 'reset'): void
+  (event: 'query', data: any): void
 }>()
 
 const params = defineModel('params', {
@@ -124,7 +126,9 @@ defineExpose({
       v-model="params"
       :toolbar="toolbar"
       :filter="filter"
-      @handler="(val) => $emit('toolbarHandler', val)"
+      @reset="emits('reset')"
+      @query="(val) => emits('query', val)"
+      @handler="(val) => emits('toolbarHandler', val)"
     />
 
     <el-table

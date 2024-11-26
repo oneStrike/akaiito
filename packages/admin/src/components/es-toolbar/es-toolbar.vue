@@ -98,9 +98,9 @@ defineExpose({
       :form-props="{ labelPosition: 'top' }"
       :box-border="false"
       @reset="emits('reset')"
-      @submit="(val) => ((modelValue = {}), (modelValue = val))"
+      @submit="emits('query', modelValue.value)"
     >
-      <template v-for="item in throttleInput.field" #[item]="{ componentProps, on }">
+      <template v-for="item in throttleInput.field" #[item]="{ componentProps, on }" :key="item">
         <el-input
           v-model="throttleInput.value[item]"
           autocomplete="new-password"

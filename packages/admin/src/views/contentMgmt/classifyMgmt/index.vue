@@ -20,7 +20,7 @@ const formModal = reactive({
   show: false,
   loading: false,
 })
-const { requestData, params, sortChange, reset, request, loading } = useRequest(getCategoryPageApi)
+const { requestData, params, sortChange, reset, request, loading, refresh } = useRequest(getCategoryPageApi)
 
 async function switchStatus(val: any) {
   await updateCategoryStatusApi(val)
@@ -28,16 +28,19 @@ async function switchStatus(val: any) {
 }
 
 const openEditForm = (row: Record) => {
-  const { novelModel, mangaModel, imageModel } = row
+  const { novelApplicable, comicApplicable, illustratorApplicable, photoApplicable } = row
   const contentModel = []
-  if (novelModel) {
+  if (novelApplicable) {
     contentModel.push(1)
   }
-  if (mangaModel) {
+  if (comicApplicable) {
     contentModel.push(2)
   }
-  if (imageModel) {
+  if (illustratorApplicable) {
     contentModel.push(3)
+  }
+  if (photoApplicable) {
+    contentModel.push(4)
   }
   row.contentModel = contentModel.join(',')
   currentRow.value = row
@@ -46,9 +49,10 @@ const openEditForm = (row: Record) => {
 
 const formatModelType = (contentModel: string, d: number | string = 0) => {
   return {
-    novelModel: contentModel.includes('1') ? 1 : d,
-    mangaModel: contentModel.includes('2') ? 1 : d,
-    imageModel: contentModel.includes('3') ? 1 : d,
+    novelApplicable: contentModel.includes('1') ? 1 : d,
+    comicApplicable: contentModel.includes('2') ? 1 : d,
+    illustratorApplicable: contentModel.includes('3') ? 1 : d,
+    photoApplicable: contentModel.includes('4') ? 1 : d,
   }
 }
 
@@ -90,6 +94,8 @@ function toolbarHandler() {
       :total="requestData?.total"
       @sort-change="sortChange"
       @toolbar-handler="toolbarHandler"
+      @reset="reset"
+      @query="refresh"
     >
       <template #status="{ row }">
         <es-switch :request="switchStatus" :row="row" />
@@ -106,7 +112,7 @@ function toolbarHandler() {
       v-model:loading="formModal.loading"
       :title="currentRow?.id ? '修改分类' : '新增分类'"
       :options="formScheme.formOptions"
-      :default-value="currentRow || { type: 1, isFree: 1 }"
+      :default-value="currentRow"
       @submit="submitForm"
       @closed="currentRow = null"
     />

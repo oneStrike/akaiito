@@ -35,8 +35,7 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
     if (p) {
       params.value = { ...params.value, ...p }
     }
-    params.value.pageIndex++
-    const options = toRaw(params.value)
+    const options = JSON.parse(JSON.stringify(params.value))
 
     // 如果有排序参数，则将其转换为字符串
     if (options.orderBy && Object.keys(options.orderBy).length) {
@@ -101,7 +100,9 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
    * @param val 包含字段和排序顺序的对象。
    */
   const sortChange = (val: IterateObject) => {
-    params.value.orderBy[val.field] = val.order
+    params.value.orderBy = {
+      [val.field]: val.order,
+    }
   }
 
   return {

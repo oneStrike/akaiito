@@ -1,22 +1,10 @@
 <script setup lang="ts">
-import type { UploadFileTypesRes } from '@/apis/types/upload'
-import type { UploadFile, UploadInstance, UploadProps, UploadUserFile } from 'element-plus'
+import type { EsUploadProps } from '@/components/es-upload/types'
+import type { UploadFile, UploadInstance, UploadProps } from 'element-plus'
 import { config } from '@/config'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUpload } from '@/hooks/useUpload'
 import { utils } from '@/utils'
-
-export interface EsUploadProps {
-  modelValue?: UploadFileTypesRes | UploadUserFile[] | string | string[]
-  fileType?: 'image' | 'video' | 'audio' | 'compressed'
-  listType?: UploadProps['listType']
-  multiple?: UploadProps['multiple']
-  scenario?: string
-  maxCount?: number
-  maxSize?: number
-  assetLibrary?: boolean
-  structure?: 'string' | 'object' | 'field'
-}
 
 const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
@@ -69,9 +57,7 @@ const uploadBtnDisplay = computed(() => (fileList.value?.length >= props.maxCoun
 watch(
   () => props.modelValue,
   (val) => {
-    if (val) {
-      fileList.value = transformModelValue()
-    }
+    fileList.value = val ? transformModelValue() : []
   },
   { deep: true, immediate: true },
 )

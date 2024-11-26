@@ -16,7 +16,7 @@ const pluginType = [
     value: 3,
   },
   {
-    label: 'coser',
+    label: '图集',
     value: 4,
   },
 ]
@@ -51,19 +51,27 @@ export const tableColumns: EsTableColumn = [
   },
   {
     label: '漫画数量',
-    prop: 'mangaCount',
+    prop: 'comicCount',
     align: 'center',
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
-    sortBy: 'mangaCount',
+    sortBy: 'comicCount',
   },
   {
-    label: '图片数量',
-    prop: 'imageCount',
+    label: '插画数量',
+    prop: 'illustratorCount',
     align: 'center',
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
-    sortBy: 'imageCount',
+    sortBy: 'illustratorCount',
+  },
+  {
+    label: '图集数量',
+    prop: 'photoCount',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'photoCount',
   },
   {
     label: '状态',
