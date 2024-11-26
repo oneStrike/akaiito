@@ -15,7 +15,7 @@ const { userInfo } = storeToRefs(useUserStore())
         <el-card class="h-full">
           <div class="wh-full cross-center flex-col">
             <el-avatar :size="80" :src="userInfo?.avatar ?? ''">
-              <es-icons name="imageCircle" :size="60" />
+              <es-icon name="imageCircle" :size="60" />
             </el-avatar>
             <span class="text-3xl mt-4">{{ userInfo?.username }}</span>
             <el-descriptions :column="1" border class="mt-4" size="large">

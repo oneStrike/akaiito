@@ -1,13 +1,5 @@
 <script setup lang="ts">
-export interface EsModalProps {
-  modelValue: boolean
-  title?: string
-  width?: number | string
-  height?: number | string
-  maxHeight?: number
-  loading?: boolean
-  destroyOnClose?: boolean
-}
+import type { EsModalProps } from '@/components/es-modal/types'
 
 const props = withDefaults(defineProps<EsModalProps>(), {
   modelValue: false,
@@ -17,27 +9,22 @@ const props = withDefaults(defineProps<EsModalProps>(), {
 })
 const emits = defineEmits<{
   (event: 'handler'): void
-  (event: 'update:modelValue'): void
   (event: 'close'): void
   (event: 'closed'): void
   (event: 'fullScreen', data: boolean): void
 }>()
-const fullscreen = ref(false)
+const modelValue = defineModel({ type: Boolean, default: false })
 
-const modalShow = useVModel(props, 'modelValue', emits)
+const fullscreen = ref(false)
 
 const { start: timeoutStart } = useTimeoutFn(() => {
   fullscreen.value = false
 }, 500)
 
 function close(event: 'close' | 'closed') {
-  modalShow.value = false
-  if (event === 'close') {
-    emits('close')
-  }
-  if (event === 'closed') {
-    emits('closed')
-  }
+  modelValue.value = false
+  // @ts-expect-error ignore
+  emits(event)
   timeoutStart()
 }
 
@@ -49,7 +36,7 @@ function toggleFullScreenStatus() {
 
 <template>
   <el-dialog
-    v-model="modalShow"
+    v-model="modelValue"
     draggable
     :fullscreen="fullscreen"
     :show-close="false"
@@ -65,14 +52,14 @@ function toggleFullScreenStatus() {
           {{ title }}
         </h4>
         <div class="cursor-pointer">
-          <es-icons
+          <es-icon
             :name="fullscreen ? 'minimize' : 'maximize'"
             hover
-            color="!text-info"
+            color="info"
             class="mr-4"
             @click="toggleFullScreenStatus"
           />
-          <es-icons name="multiply" color="info" hover @click="close" />
+          <es-icon name="multiply" color="info" hover @click="close" />
         </div>
       </div>
     </template>
@@ -83,7 +70,7 @@ function toggleFullScreenStatus() {
 
     <template #footer>
       <div class="dialog-footer border-top pt-4">
-        <el-button :loading="loading" @click="(modalShow = false), close('close')"> 关闭</el-button>
+        <el-button :loading="loading" @click="(modelValue = false), close('close')"> 关闭</el-button>
         <el-button type="primary" :loading="loading" @click="emits('handler')"> 确定</el-button>
       </div>
     </template>

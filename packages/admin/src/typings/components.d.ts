@@ -54,7 +54,7 @@ declare module 'vue' {
     EsCheckbox: typeof import('./../components/es-checkbox/es-checkbox.vue')['default']
     EsEditor: typeof import('./../components/es-editor/es-editor.vue')['default']
     EsForm: typeof import('./../components/es-form/es-form.vue')['default']
-    EsIcons: typeof import('./../components/es-icons/es-icons.vue')['default']
+    EsIcons: typeof import('@/components/es-icon/es-icons.vue')['default']
     EsModal: typeof import('./../components/es-modal/es-modal.vue')['default']
     EsModalForm: typeof import('./../components/es-modal-form/es-modal-form.vue')['default']
     EsPopConfirm: typeof import('./../components/es-pop-confirm/es-pop-confirm.vue')['default']

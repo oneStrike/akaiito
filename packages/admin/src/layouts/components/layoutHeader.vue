@@ -17,7 +17,7 @@ const breadcrumbNavigator = (val: string) => {
 <template>
   <div class="h-60px pl-4 pr-4 flex items-center justify-between border-bottom">
     <div class="flex items-center">
-      <es-icons
+      <es-icon
         :name="layoutStore.collapsed ? 'chevronDoubleRight' : 'chevronDoubleLeft'"
         color="!text-info"
         class="mr-4"
@@ -35,7 +35,7 @@ const breadcrumbNavigator = (val: string) => {
           >
             <span class="flex items-center">
               <el-text>{{ item.meta?.title }}</el-text>
-              <es-icons name="chevronDown" color="#606266" />
+              <es-icon name="chevronDown" color="#606266" />
             </span>
             <template #dropdown>
               <el-dropdown-menu>
@@ -45,7 +45,7 @@ const breadcrumbNavigator = (val: string) => {
                   :command="menu.name as string"
                   :disabled="menu.name === route.name"
                 >
-                  <es-icons :name="menu.meta?.icon" />
+                  <es-icon :name="menu.meta?.icon" />
                   {{ menu.meta?.title }}
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -56,18 +56,18 @@ const breadcrumbNavigator = (val: string) => {
       </el-breadcrumb>
     </div>
     <el-space size="large">
-      <es-icons
+      <es-icon
         :name="layoutStore.fullScreen ? 'arrowsCollapseFull' : 'arrowsExpandFull'"
         @click="layoutStore.toggleFullScreen"
       />
-      <es-icons :name="layoutStore.theme === 'light' ? 'sunLoop' : 'moonLoop'" @click="layoutStore.toggleThemeMode" />
+      <es-icon :name="layoutStore.theme === 'light' ? 'sunLoop' : 'moonLoop'" @click="layoutStore.toggleThemeMode" />
       <el-dropdown>
         <div class="cursor-pointer flex items-center">
           <el-avatar
             :size="30"
             :src="userInfo?.avatar ? userInfo.avatar : getAssetsFile('images/default-avatar.png')"
           />
-          <es-icons name="chevronDown" color="#606266" />
+          <es-icon name="chevronDown" color="#606266" />
         </div>
         <template #dropdown>
           <el-dropdown-menu>

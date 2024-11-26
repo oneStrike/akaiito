@@ -167,14 +167,14 @@ function change() {
           >
             <template #reference>
               <div class="w-full h-full flex-center" @click.stop>
-                <es-icons name="uploading" :size="26" />
+                <es-icon name="uploading" :size="26" />
               </div>
             </template>
           </el-popconfirm>
         </div>
-        <es-icons v-if="listType === 'picture-card'" name="uploading" :size="22" class="mr-2" />
+        <es-icon v-if="listType === 'picture-card'" name="uploading" :size="22" class="mr-2" />
         <el-button v-else type="primary">
-          <es-icons name="uploading" :size="22" class="mr-2" />
+          <es-icon name="uploading" :size="22" class="mr-2" />
           上传
         </el-button>
       </template>

@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { EsIconProps } from '@/components/es-icons/types'
+import type { EsIconProps } from '@/components/es-icon/types'
+
+defineOptions({
+  name: 'EsIcon',
+})
 
 const props = withDefaults(defineProps<EsIconProps>(), {
   color: '',
@@ -30,7 +34,7 @@ watch(
   { immediate: true },
 )
 
-const clickHandler = useDebounceFn(() => {
+const clickHandler = () => {
   if (props.rotateType === 'click' && props.rotate) {
     rotateClass.value = 'rotate-animation'
     useTimeoutFn(() => {
@@ -38,7 +42,7 @@ const clickHandler = useDebounceFn(() => {
     }, 1000)
   }
   emits('click')
-}, 200)
+}
 </script>
 
 <template>

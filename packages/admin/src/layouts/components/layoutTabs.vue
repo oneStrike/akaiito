@@ -148,34 +148,34 @@ onMounted(() => {
             @click="navigation(item.name)"
           >
             {{ item.title }}
-            <es-icons v-if="item.name !== 'Dashboard'" name="close" @click="removeRouter(item.name)" />
+            <es-icon v-if="item.name !== 'Dashboard'" name="close" @click="removeRouter(item.name)" />
           </div>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item :disabled="rightClickTab === defaultHistory.name" @click="removeRouter(currentRouter)">
-                <es-icons name="multiply" />
+                <es-icon name="multiply" />
                 <span>关闭当前</span>
               </el-dropdown-item>
               <el-dropdown-item
                 :disabled="rightClickTab === defaultHistory.name || rightClickIdx < 2"
                 @click="removeLeft"
               >
-                <es-icons name="chevronLeft" />
+                <es-icon name="chevronLeft" />
                 <span>关闭左侧</span>
               </el-dropdown-item>
               <el-dropdown-item
                 :disabled="rightClickIdx + 1 === routerHistory.length || routerHistory.length < 2"
                 @click="removeRight"
               >
-                <es-icons name="chevronRight" />
+                <es-icon name="chevronRight" />
                 <span>关闭右侧</span>
               </el-dropdown-item>
               <el-dropdown-item :disabled="routerHistory.length < 2" @click="removeOtherRoute">
-                <es-icons name="code" />
+                <es-icon name="code" />
                 <span>关闭其他</span>
               </el-dropdown-item>
               <el-dropdown-item :disabled="routerHistory.length < 2" @click="removeAllRoute">
-                <es-icons name="code" />
+                <es-icon name="code" />
                 <span>关闭全部</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -184,7 +184,7 @@ onMounted(() => {
       </div>
     </el-scrollbar>
     <div class="flex-center ml-4">
-      <es-icons name="pinwheel" class="mr-4" rotate rotate-type="click" @click="useReloadRouterEventBus.emit" />
+      <es-icon name="pinwheel" class="mr-4" rotate rotate-type="click" @click="useReloadRouterEventBus.emit" />
     </div>
   </div>
 </template>
