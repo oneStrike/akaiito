@@ -14,11 +14,20 @@ const modelValue = defineModel({ type: Object, default: () => ({}) })
 
 const esFormRef = ref<IterateObject>()
 const innerFilter = ref<ToolbarFilter>([])
+
+const throttleInput = reactive<IterateObject>({
+  field: [],
+  value: {},
+})
+
 watch(
   () => props.filter,
   (val) => {
     if (Array.isArray(val)) {
       innerFilter.value = JSON.parse(JSON.stringify(val)).map((item: ToolbarFilter[number]) => {
+        if (item.component === 'Input') {
+          throttleInput.field.push(item.field)
+        }
         if (!item.componentProps) {
           item.componentProps = {}
         }
@@ -89,8 +98,19 @@ defineExpose({
       :form-props="{ labelPosition: 'top' }"
       :box-border="false"
       @reset="emits('reset')"
-      @submit="emits('query', modelValue)"
-    />
+      @submit="(val) => (modelValue = val)"
+    >
+      <template v-for="item in throttleInput.field" #[item]="{ componentProps, on }">
+        <el-input
+          v-model="throttleInput.value[item]"
+          autocomplete="new-password"
+          v-bind="componentProps"
+          v-on="on || {}"
+          @keydown.enter="modelValue[item] = throttleInput.value[item]"
+          @change="(val) => ((modelValue[item] = val), on?.change && on?.change(val))"
+        />
+      </template>
+    </es-form>
   </div>
 </template>
 

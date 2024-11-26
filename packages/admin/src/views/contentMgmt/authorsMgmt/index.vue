@@ -23,7 +23,7 @@ const modalFrom = reactive({
 })
 const currentRow = ref<Record | null>(null)
 const formScheme = useFormTool(formOptions)
-const { request, loading, requestData, params, sortChange, reset } = useRequest(getAuthorPageApi)
+const { request, loading, requestData, params, sortChange, refresh } = useRequest(getAuthorPageApi)
 
 async function submitForm(val: any) {
   modalFrom.loading = true
@@ -52,7 +52,7 @@ async function submitForm(val: any) {
 
 async function switchStatus(val: any) {
   await updateAuthorStatusApi(val)
-  await reset()
+  await refresh()
 }
 
 // 函数重载签名
@@ -120,7 +120,7 @@ const openModal = (val?: Record) => {
 
       <template #action="{ row }">
         <el-button type="primary" link @click="openModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteAuthorApi" :row="row" @success="reset()" />
+        <es-pop-confirm v-model:loading="loading" :request="deleteAuthorApi" :row="row" @success="refresh()" />
       </template>
     </es-table>
 
