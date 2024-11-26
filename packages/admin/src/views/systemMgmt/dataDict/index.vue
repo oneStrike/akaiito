@@ -16,20 +16,21 @@ defineOptions({
   name: 'DataDict',
 })
 
-const toolbarOptions = toolbar
-
 const { requestData, reset, request, loading, params } = useRequest(getDataDictionaryApi)
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const formLoading = ref(false)
-const formModalShow = ref(false)
 const detailModalShow = ref(false)
 const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
+const formModal = reactive({
+  show: false,
+  loading: false,
+})
 
 async function handlerToolbar(val: string) {
+  console.log(val)
   if (val === 'add') {
-    formModalShow.value = true
+    formModal.show = true
     return
   }
   const ids = selectionItems.value?.map((item) => item.id)
@@ -49,7 +50,7 @@ async function handlerToolbar(val: string) {
 }
 
 async function addDictionary(value: any) {
-  formLoading.value = true
+  formModal.loading = true
   if (currentRow.value) {
     await updateDataDictionaryApi({ ...value, id: currentRow.value.id })
     useMessage.success(PromptsEnum.UPDATED)
@@ -57,15 +58,15 @@ async function addDictionary(value: any) {
     await createDataDictionaryApi(value)
     useMessage.success(PromptsEnum.CREATED)
   }
-  formModalShow.value = false
-  formLoading.value = false
+  formModal.show = false
+  formModal.loading = false
   currentRow.value = null
   reset()
 }
 
 function edit(val: TableItem) {
   currentRow.value = val
-  formModalShow.value = true
+  formModal.show = true
 }
 
 function showDetail(row: TableItem) {
@@ -88,7 +89,7 @@ function showDetail(row: TableItem) {
       :total="requestData?.total"
       @reset="reset"
       @query="request"
-      @toolbar-handler="formModalShow = true"
+      @toolbar-handler="handlerToolbar"
     >
       <template #name="{ row }">
         <el-link type="primary" @click="showDetail(row)">
@@ -111,11 +112,11 @@ function showDetail(row: TableItem) {
     </es-table>
 
     <es-modal-form
-      v-model:show="formModalShow"
+      v-model:show="formModal.show"
       :default-value="currentRow"
       :title="currentRow ? '添加' : '编辑'"
       :options="formOptions"
-      :loading="formLoading"
+      :loading="formModal.loading"
       @submit="addDictionary"
       @closed="currentRow = null"
     />
