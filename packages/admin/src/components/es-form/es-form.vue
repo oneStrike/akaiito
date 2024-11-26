@@ -35,7 +35,6 @@ const formOptions = computed(() => {
 watch(
   () => props.modelValue,
   (val) => {
-    console.log(val)
     formData.value = val
   },
   { immediate: true, deep: true },
@@ -44,7 +43,6 @@ watch(
 watch(
   formData,
   (val) => {
-    console.log(val)
     emits('update:modelValue', val)
   },
   { deep: true },

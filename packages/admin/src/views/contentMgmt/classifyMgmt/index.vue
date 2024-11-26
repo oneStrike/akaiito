@@ -20,7 +20,7 @@ const formModal = reactive({
   show: false,
   loading: false,
 })
-const { requestData, params, sortChange, reset, request, loading, refresh } = useRequest(getCategoryPageApi)
+const { requestData, params, sortChange, reset, request, loading } = useRequest(getCategoryPageApi)
 
 async function switchStatus(val: any) {
   await updateCategoryStatusApi(val)
@@ -95,7 +95,7 @@ function toolbarHandler() {
       @sort-change="sortChange"
       @toolbar-handler="toolbarHandler"
       @reset="reset"
-      @query="refresh"
+      @query="request"
     >
       <template #status="{ row }">
         <es-switch :request="switchStatus" :row="row" />

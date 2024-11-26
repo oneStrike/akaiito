@@ -67,24 +67,11 @@ export const tableColumns: EsTableColumn = [
 
 export const filter: () => ToolbarFilter = () => [
   {
-    field: 'name',
-    component: 'Input',
-    componentProps: {
-      placeholder: '名称',
-      clearable: true,
-    },
-  },
-  {
-    field: 'code',
-    component: 'Input',
-    componentProps: {
-      placeholder: '编码',
-      clearable: true,
-    },
-  },
-  {
     field: 'status',
     component: 'Select',
+    props: {
+      span: 6,
+    },
     componentProps: {
       placeholder: '状态',
       clearable: true,
@@ -98,6 +85,28 @@ export const filter: () => ToolbarFilter = () => [
           value: 0,
         },
       ],
+    },
+  },
+  {
+    field: 'code',
+    component: 'Input',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '编码',
+      clearable: true,
+    },
+  },
+  {
+    field: 'name',
+    component: 'Input',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '名称',
+      clearable: true,
     },
   },
 ]

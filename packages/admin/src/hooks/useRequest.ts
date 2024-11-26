@@ -61,16 +61,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
     skipNext = false
   }
 
-  const refresh = async () => {
-    loading.value = true
-    try {
-      requestData.value = await api(params.value) // 执行请求
-    } catch (e) {
-      console.log(e)
-    }
-    loading.value = false
-  }
-
   const reset = async <K>(p?: K) => {
     skipNext = true
     params.value = JSON.parse(JSON.stringify(defaultParams))
@@ -109,7 +99,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
     // 返回各种方法和状态
     reset,
     params: params as globalThis.Ref<IterateObject>,
-    refresh,
     loading,
     request,
     sortChange,

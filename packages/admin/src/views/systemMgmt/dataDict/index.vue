@@ -18,7 +18,7 @@ defineOptions({
 
 const toolbarOptions = toolbar
 
-const { requestData, reset, loading, params } = useRequest(getDataDictionaryApi)
+const { requestData, reset, request, loading, params } = useRequest(getDataDictionaryApi)
 type TableItem = ResolveListItem<typeof requestData.value>
 
 const formLoading = ref(false)
@@ -76,22 +76,19 @@ function showDetail(row: TableItem) {
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar
-      :toolbar="toolbarOptions"
-      :filter="filter()"
-      :selection="!selectionItems?.length"
-      @handler="handlerToolbar"
-      @query="reset"
-    />
     <es-table
       v-if="requestData"
-      v-model:page-index="params.pageIndex"
-      v-model:page-size="params.pageSize"
+      v-model:params="params"
       v-model:selection-items="selectionItems"
+      :filter="filter()"
+      :toolbar="toolbar"
       :columns="tableColumns"
       :data="requestData.list"
       :selection="true"
       :total="requestData?.total"
+      @reset="reset"
+      @query="request"
+      @toolbar-handler="formModalShow = true"
     >
       <template #name="{ row }">
         <el-link type="primary" @click="showDetail(row)">
@@ -99,7 +96,7 @@ function showDetail(row: TableItem) {
         </el-link>
       </template>
       <template #status="{ row }">
-        <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids />
+        <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids @success="request" />
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
@@ -108,13 +105,13 @@ function showDetail(row: TableItem) {
           :request="deleteDataDictionaryApi"
           :row="row"
           ids
-          @success="reset()"
+          @success="request()"
         />
       </template>
     </es-table>
 
     <es-modal-form
-      v-model:modal="formModalShow"
+      v-model:show="formModalShow"
       :default-value="currentRow"
       :title="currentRow ? '添加' : '编辑'"
       :options="formOptions"

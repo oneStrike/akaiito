@@ -23,7 +23,7 @@ const modalFrom = reactive({
 })
 const currentRow = ref<Record | null>(null)
 const formScheme = useFormTool(formOptions)
-const { request, loading, requestData, params, sortChange, refresh } = useRequest(getAuthorPageApi)
+const { reset, request, loading, requestData, params, sortChange } = useRequest(getAuthorPageApi)
 
 async function submitForm(val: any) {
   modalFrom.loading = true
@@ -52,7 +52,7 @@ async function submitForm(val: any) {
 
 async function switchStatus(val: any) {
   await updateAuthorStatusApi(val)
-  await refresh()
+  await request()
 }
 
 // 函数重载签名
@@ -103,6 +103,8 @@ const openModal = (val?: Record) => {
       :total="requestData?.total"
       :filter="filter"
       :toolbar="toolbar"
+      @reset="reset"
+      @query="request"
       @sort-change="sortChange"
       @toolbar-handler="openModal()"
     >

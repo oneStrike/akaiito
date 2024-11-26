@@ -132,21 +132,13 @@ function computedTableHeight() {
 <template>
   <es-modal v-bind="props" v-model="showModal" @closed="emits('closed')" @full-screen="computedTableHeight">
     <div v-loading="loading" class="h-full">
-      <es-toolbar
-        ref="esToolbarRef"
-        :toolbar="toolbarOptions"
-        :filter="filterOptions"
-        :selection="!selectionItems?.length"
-        @handler="handlerToolbar"
-        @query="(val) => reset({ ...val, ...dictionaryId })"
-      />
-
       <es-table
         v-if="requestData"
         ref="esTableRef"
-        v-model:page-index="params.pageIndex"
-        v-model:page-size="params.pageSize"
+        v-model:params="params"
         v-model:selection-items="selectionItems"
+        :filter="filter()"
+        :toolbar="toolbar"
         :columns="tableColumns"
         :data="requestData.list"
         :selection="true"
@@ -171,7 +163,7 @@ function computedTableHeight() {
       </es-table>
 
       <es-modal-form
-        v-model:modal="formModalShow"
+        v-model:show="formModalShow"
         :default-value="currentRow"
         :title="currentRow ? '添加' : '编辑'"
         :options="formOptions"
