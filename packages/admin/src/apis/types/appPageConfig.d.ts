@@ -24,9 +24,34 @@ export interface GetAppPagesTypesReq {
 }
 
 export interface GetAppPagesTypesRes {
-  /*  */
-  list: array | null
+  list: {
+    /* 主键id */
+    id: number
 
+    /* 页面名称 */
+    pageName: string
+
+    /* 页面编码 */
+    pageCode: string
+
+    /* 页面地址 */
+    pagePath: string
+
+    /* 页面鉴权 1普通2登录3会员 */
+    pageRule: number
+
+    /* 页面状态 0禁用 1启用 2开发 3维护 */
+    status: number
+
+    /* 页面描述信息 */
+    description: string
+
+    /* 创建时间 */
+    createdAt: string
+
+    /* 更新时间 */
+    updatedAt: string
+  }[]
   /* 页码 */
   pageIndex: number
 
@@ -35,6 +60,48 @@ export interface GetAppPagesTypesRes {
 
   /* 总条数 */
   total: number
+}
+
+/**
+ *  接口 [获取页面详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234424463)
+ *  @标签 客户端页面/获取页面详情
+ *  @方式 GET
+ *  @地址 /admin/appPageConfig/getAppPageDetail
+ *  @更新时间 2024-11-24 12:55:56
+ */
+
+export interface GetAppPageDetailTypesReq {
+  /* 主键id */
+  id?: string
+}
+
+export interface GetAppPageDetailTypesRes {
+  /* 主键id */
+  id: number
+
+  /* 页面名称 */
+  pageName: string
+
+  /* 页面编码 */
+  pageCode: string
+
+  /* 页面地址 */
+  pagePath: string
+
+  /* 页面鉴权 1普通2登录3会员 */
+  pageRule: number
+
+  /* 页面状态 0禁用 1启用 2开发 3维护 */
+  status: number
+
+  /* 页面描述信息 */
+  description: string
+
+  /* 创建时间 */
+  createdAt: string
+
+  /* 更新时间 */
+  updatedAt: string
 }
 
 /**
@@ -122,46 +189,4 @@ export interface DeleteAppPageTypesReq {
 export interface DeleteAppPageTypesRes {
   /* 主键id */
   id: number
-}
-
-/**
- *  接口 [获取页面详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234424463)
- *  @标签 客户端页面/获取页面详情
- *  @方式 GET
- *  @地址 /admin/appPageConfig/getAppPageDetail
- *  @更新时间 2024-11-24 12:55:56
- */
-
-export interface GetAppPageDetailTypesReq {
-  /* 主键id */
-  id?: string
-}
-
-export interface GetAppPageDetailTypesRes {
-  /* 主键id */
-  id: number
-
-  /* 页面名称 */
-  pageName: string
-
-  /* 页面编码 */
-  pageCode: string
-
-  /* 页面地址 */
-  pagePath: string
-
-  /* 页面鉴权 1普通2登录3会员 */
-  pageRule: number
-
-  /* 页面状态 0禁用 1启用 2开发 3维护 */
-  status: number
-
-  /* 页面描述信息 */
-  description: string
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
 }

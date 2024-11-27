@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { NoticeService } from '@/modules/admin/appManage/appNotice/notice.service'
-import { getNoticeListDto, Notice } from '@/modules/admin/appManage/appNotice/dto/notice'
+import { getNoticeListDto, NoticeDto, UpdateNoticeDto } from '@/modules/admin/appManage/appNotice/dto/notice'
 import { BasicIdDto } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/appNotice')
@@ -15,11 +15,11 @@ export class AppNoticeController {
 
   @Get('/getAppNoticeDetail', { summary: '获取客户端通知消息详情' })
   async getAppNoticeDetail(@Query() query: BasicIdDto) {
-    return await this.NoticeService.findList({ where: query })
+    return await this.NoticeService.findUnique({ where: query })
   }
 
   @Post('/createAppNotice', { summary: '新增客户端通知消息' })
-  async createAppNotice(@Body() body: Notice) {
+  async createAppNotice(@Body() body: NoticeDto) {
     return await this.NoticeService.create({ data: body })
   }
 
@@ -29,7 +29,7 @@ export class AppNoticeController {
   }
 
   @Post('/updateAppNotice', { summary: '编辑客户端通知消息' })
-  async updateAppNotice(@Body() body: Notice & BasicIdDto) {
+  async updateAppNotice(@Body() body: UpdateNoticeDto) {
     return await this.NoticeService.update({ where: { id: body.id }, data: body })
   }
 }

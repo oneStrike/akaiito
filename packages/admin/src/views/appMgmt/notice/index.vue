@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { createAppNoticeApi, deleteAppNoticeApi, getAppNoticeListApi, updateAppNoticeApi } from '@/apis/AppNotice'
+import type { UpdateAppNoticeTypesReq } from '@/apis/types/appNotice'
+import {
+  createAppNoticeApi,
+  deleteAppNoticeApi,
+  getAppNoticeDetailApi,
+  getAppNoticeListApi,
+  updateAppNoticeApi,
+} from '@/apis/AppNotice'
 import { getAppPagesApi } from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
@@ -10,7 +17,11 @@ import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/noti
 defineOptions({
   name: 'NoticePage',
 })
-type TableItem = ResolveListItem<typeof requestData.value> & { content: string; backgroundImage: string }
+type TableItem = ResolveListItem<typeof requestData.value> & {
+  content: string
+  backgroundImage: string
+  enable: string
+}
 
 const modalFrom = reactive({
   show: false,
@@ -31,18 +42,32 @@ const currentRow = ref<TableItem | null>(null)
 
 const { loading, reset, request, requestData, params } = useRequest(getAppNoticeListApi)
 
-const openFormModal = (row?: TableItem) => {
+const openFormModal = async (row?: TableItem) => {
   if (row) {
-    currentRow.value = row
+    currentRow.value = await getAppNoticeDetailApi({ id: row.id })
+    let enable = ''
+    if (currentRow.value!.enableApplet) {
+      enable += '0,'
+    }
+    if (currentRow.value!.enableWeb) {
+      enable += '1,'
+    }
+    if (currentRow.value!.enableApp) {
+      enable += '2,'
+    }
+    currentRow.value!.enable = enable
   }
   modalFrom.show = true
 }
-const submitForm = async (value: TableItem) => {
+const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) => {
   modalFrom.loading = true
   if (value.pageCode) {
-    const pages = formScheme.getItem('pageCode')[0].componentProps!.options
+    const pages = formScheme.getItem('pageCode')[0].componentProps!.options!
     value.pageName = pages.find((item) => item.value === value.pageCode)!.label
   }
+  value.enableApplet = value.enable.includes('0') ? 1 : 0
+  value.enableWeb = value.enable.includes('1') ? 1 : 0
+  value.enableApp = value.enable.includes('2') ? 1 : 0
   if (currentRow.value?.id) {
     value.id = currentRow.value.id
     await updateAppNoticeApi(value)

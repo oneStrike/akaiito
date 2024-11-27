@@ -33,7 +33,6 @@ function handlerJsonScheme(jsonSchema: IterateObject, dataModel: IterateObject, 
     if (Object.keys(properties).length) {
       for (const propertiesKey in properties) {
         const item = properties[propertiesKey]
-
         if (item.type === 'object') {
           if (item.properties && Object.keys(item.properties)) {
             typesStr += `

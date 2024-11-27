@@ -2,14 +2,14 @@ import { httpHandler } from '@/utils/request'
 import type {
   GetAppPagesTypesRes,
   GetAppPagesTypesReq,
+  GetAppPageDetailTypesRes,
+  GetAppPageDetailTypesReq,
   CreateAppPageTypesRes,
   CreateAppPageTypesReq,
   UpdateAppPageTypesRes,
   UpdateAppPageTypesReq,
   DeleteAppPageTypesRes,
   DeleteAppPageTypesReq,
-  GetAppPageDetailTypesRes,
-  GetAppPageDetailTypesReq,
 } from './types/appPageConfig.d'
 
 /**
@@ -24,6 +24,23 @@ export const getAppPagesApi = (params: GetAppPagesTypesReq): Promise<GetAppPages
   return httpHandler({
     method: 'GET',
     url: '/admin/appPageConfig/getAppPages',
+    headers: {},
+    params,
+  })
+}
+
+/**
+ *  接口 [获取页面详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234424463)
+ *  @标签 客户端页面/获取页面详情
+ *  @方式 GET
+ *  @地址 /admin/appPageConfig/getAppPageDetail
+ *  @更新时间 2024-11-24 12:55:56
+ */
+
+export const getAppPageDetailApi = (params: GetAppPageDetailTypesReq): Promise<GetAppPageDetailTypesRes> => {
+  return httpHandler({
+    method: 'GET',
+    url: '/admin/appPageConfig/getAppPageDetail',
     headers: {},
     params,
   })
@@ -83,22 +100,5 @@ export const deleteAppPageApi = (data: DeleteAppPageTypesReq): Promise<DeleteApp
       'Content-Type': 'application/json',
     },
     data,
-  })
-}
-
-/**
- *  接口 [获取页面详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234424463)
- *  @标签 客户端页面/获取页面详情
- *  @方式 GET
- *  @地址 /admin/appPageConfig/getAppPageDetail
- *  @更新时间 2024-11-24 12:55:56
- */
-
-export const getAppPageDetailApi = (params: GetAppPageDetailTypesReq): Promise<GetAppPageDetailTypesRes> => {
-  return httpHandler({
-    method: 'GET',
-    url: '/admin/appPageConfig/getAppPageDetail',
-    headers: {},
-    params,
   })
 }

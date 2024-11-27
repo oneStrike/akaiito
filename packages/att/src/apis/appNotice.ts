@@ -2,8 +2,8 @@ import { httpHandler } from '@/utils/request'
 import type {
   GetAppNoticeListTypesRes,
   GetAppNoticeListTypesReq,
-  GetAppNoticeDetailTypesRes,
-  GetAppNoticeDetailTypesReq,
+  GetAppNoticeTypesRes,
+  GetAppNoticeTypesReq,
   CreateAppNoticeTypesRes,
   CreateAppNoticeTypesReq,
   DeleteAppNoticeTypesRes,
@@ -33,14 +33,14 @@ export const getAppNoticeListApi = (params: GetAppNoticeListTypesReq): Promise<G
  *  接口 [通知公告详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234289150)
  *  @标签 通知公告/通知公告详情
  *  @方式 GET
- *  @地址 /admin/appNotice/getAppNoticeDetail
- *  @更新时间 2024-11-27 23:47:55
+ *  @地址 /admin/appNotice/getAppNotice
+ *  @更新时间 2024-11-27 22:45:55
  */
 
-export const getAppNoticeDetailApi = (params: GetAppNoticeDetailTypesReq): Promise<GetAppNoticeDetailTypesRes> => {
+export const getAppNoticeApi = (params: GetAppNoticeTypesReq): Promise<GetAppNoticeTypesRes> => {
   return httpHandler({
     method: 'GET',
-    url: '/admin/appNotice/getAppNoticeDetail',
+    url: '/admin/appNotice/getAppNotice',
     headers: {},
     params,
   })

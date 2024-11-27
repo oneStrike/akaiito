@@ -24,9 +24,34 @@ export interface GetAppPagesTypesReq {
 }
 
 export interface GetAppPagesTypesRes {
-  /*  */
-  list: array | null
+  list: {
+    /* 主键id */
+    id: number
 
+    /* 页面名称 */
+    pageName: string
+
+    /* 页面编码 */
+    pageCode: string
+
+    /* 页面地址 */
+    pagePath: string
+
+    /* 页面鉴权 1普通2登录3会员 */
+    pageRule: number
+
+    /* 页面状态 0禁用 1启用 2开发 3维护 */
+    status: number
+
+    /* 页面描述信息 */
+    description: string
+
+    /* 创建时间 */
+    createdAt: string
+
+    /* 更新时间 */
+    updatedAt: string
+  }[]
   /* 页码 */
   pageIndex: number
 
