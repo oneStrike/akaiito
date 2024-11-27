@@ -15,9 +15,9 @@ model AppPageConfig {
   /// 页面描述信息
   description String?  @db.VarChar(200)
   /// 创建时间
-  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt   DateTime @default(now()) @map("created_at")
   /// 更新时间
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   @@map("app_page_config")
 }
@@ -31,9 +31,9 @@ model AppNotification {
   /// 内容
   content         String    @db.MediumText /// 内容
   /// 发布开始时间
-  startTime       DateTime? @map("start_time") @db.DateTime(0)
+  startTime       DateTime? @map("start_time")
   /// 发布结束时间
-  endTime         DateTime? @map("end_time") @db.DateTime(0)
+  endTime         DateTime? @map("end_time")
   /// 页面代码，点击公告跳转的页面
   pageCode        String?   @map("page_code") @db.TinyText
   /// 页面代码，点击公告跳转的页面
@@ -47,9 +47,9 @@ model AppNotification {
   /// 是否启用APP   1 启用 0 禁用
   enableApp       Int       @default(1) @map("enable_app")
   /// 创建时间
-  createdAt       DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt       DateTime  @default(now()) @map("created_at")
   /// 更新时间
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.DateTime(0)
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
   @@map("app_notification")
 }
@@ -72,9 +72,9 @@ model AppConfig {
   videoZone Int    @default(1) @map("video_enabled")
 
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at")
   /// 更新时间
-  updatedAt DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("app_config")
 }

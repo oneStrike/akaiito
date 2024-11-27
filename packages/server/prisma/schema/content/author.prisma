@@ -21,8 +21,8 @@ model Author {
   /// 插画师身份 1是0否
   isIllustrator Int     @default(0) @map("is_illustrator") @db.TinyInt
 
-  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt DateTime? @updatedAt @map("updated_at") @db.DateTime(0)
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
 
   @@map("author")
 }

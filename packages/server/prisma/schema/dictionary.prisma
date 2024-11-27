@@ -4,8 +4,8 @@ model Dictionary {
   code      String   @unique(map: "code") @db.VarChar(50)
   status    Int      @default(0) @db.TinyInt
   remark    String?  @db.VarChar(255)
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   items DictionaryItem[]
 
@@ -21,8 +21,8 @@ model DictionaryItem {
   order        Int?       @default(0) @db.SmallInt
   status       Int        @default(0) @db.TinyInt
   remark       String?    @db.VarChar(255)
-  createdAt    DateTime   @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt    DateTime   @updatedAt @map("updated_at") @db.DateTime(0)
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
 
   @@index([dictionaryId])
   @@map("dictionary_item")

@@ -15,9 +15,9 @@ model AdminUser {
   /// 是否是超级管理员 1是0否
   isRoot    Int      @default(1) @db.TinyInt
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at")
   /// 更新时间
-  updatedAt DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("admin_user")
 }

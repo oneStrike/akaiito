@@ -29,8 +29,8 @@ model AdminRequestLog {
   /// 请求参数
   requestParams    String? @map("request_params") @db.LongText
 
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
-  updatedAt DateTime @updatedAt @map("updated_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("admin_request_log")
 }
