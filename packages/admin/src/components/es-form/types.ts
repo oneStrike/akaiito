@@ -24,7 +24,9 @@ export interface EsFormOptions {
   field: string
   props?: FormComponentProps
   component: EsFormComponent
-  componentProps?: IterateObject
+  componentProps?: IterateObject & {
+    options: { label: string; value: string | number }[]
+  }
   on?: IterateObject
 }
 

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { createAppNoticeApi, deleteAppNoticeApi, getAppNoticeListApi, updateAppNoticeApi } from '@/apis/AppNotice'
+import { getAppPagesApi } from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
+import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
 import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
 
@@ -14,10 +16,20 @@ const modalFrom = reactive({
   show: false,
   loading: false,
 })
+const formScheme = useFormTool(formOptions)
+getAppPagesApi({ pageSize: '500' }).then((res) => {
+  formScheme.specificItem('pageCode', (item) => {
+    item.componentProps!.options = res.list.map((item) => ({
+      label: item.pageName,
+      value: item.pageCode,
+    }))
+    return item
+  })
+})
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getAppNoticeListApi)
+const { loading, reset, request, requestData, params } = useRequest(getAppNoticeListApi)
 
 const openFormModal = (row?: TableItem) => {
   if (row) {
@@ -27,6 +39,10 @@ const openFormModal = (row?: TableItem) => {
 }
 const submitForm = async (value: TableItem) => {
   modalFrom.loading = true
+  if (value.pageCode) {
+    const pages = formScheme.getItem('pageCode')[0].componentProps!.options
+    value.pageName = pages.find((item) => item.value === value.pageCode)!.label
+  }
   if (currentRow.value?.id) {
     value.id = currentRow.value.id
     await updateAppNoticeApi(value)
@@ -43,13 +59,16 @@ const submitForm = async (value: TableItem) => {
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-toolbar :toolbar="toolbar" :filter="filter" @query="reset" @reset="reset" @handler="openFormModal()" />
     <es-table
-      v-model:page-index="params.pageIndex"
-      v-model:page-size="params.pageSize"
+      v-model:params="params"
+      :filter="filter"
+      :toolbar="toolbar"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
+      @reset="reset"
+      @query="request"
+      @toolbar-handler="openFormModal()"
     >
       <template #enableApplet="{ row }">
         <es-switch :row="row" field="enableApplet" :request="updateAppNoticeApi" />
