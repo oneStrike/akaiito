@@ -68,6 +68,11 @@ const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) =
   value.enableApplet = value.enable.includes('0') ? 1 : 0
   value.enableWeb = value.enable.includes('1') ? 1 : 0
   value.enableApp = value.enable.includes('2') ? 1 : 0
+  if (Array.isArray(value.startTime) && value.startTime.length === 2) {
+    const [startTime, endTime] = value.startTime
+    value.startTime = startTime
+    value.endTime = endTime
+  }
   if (currentRow.value?.id) {
     value.id = currentRow.value.id
     await updateAppNoticeApi(value)

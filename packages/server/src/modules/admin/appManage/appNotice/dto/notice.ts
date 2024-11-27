@@ -1,5 +1,5 @@
 import { PickDto, Rule } from '@midwayjs/validate'
-import { requiredNumber, requiredString, validateNumberLess, validateString } from '@/utils/validate'
+import { requiredNumber, requiredString, validateDate, validateNumberLess, validateString } from '@/utils/validate'
 
 export class NoticeDto {
   @Rule(requiredString)
@@ -13,6 +13,12 @@ export class NoticeDto {
 
   @Rule(validateString)
   pageName?: string
+
+  @Rule(validateDate)
+  startTime?: Date
+
+  @Rule(validateDate)
+  endTime?: Date
 
   @Rule(validateString)
   backgroundImage?: string
