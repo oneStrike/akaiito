@@ -1,8 +1,8 @@
 import type { EsFormOptions } from '@/components/es-form/types'
-import type { EsTableColumn } from '@/components/es-table/es-table.vue'
-import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/es-toolbar.vue'
 import { useValidate } from '@/hooks/useValidate'
 import { utils } from '@/utils'
+import type { EsTableColumn } from '@/components/es-table/types'
+import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
 
 export const tableColumns: EsTableColumn = [
   {
@@ -154,67 +154,13 @@ export const formOptions: EsFormOptions[] = [
 
 export const filter: ToolbarFilter = [
   {
-    field: 'pageName',
+    field: 'title',
     component: 'Input',
     props: {
       span: 6,
     },
     componentProps: {
-      placeholder: '页面名称',
-    },
-  },
-  {
-    field: 'pageRule',
-    component: 'Select',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '访问权限',
-      clearable: true,
-      options: [
-        {
-          label: '普通',
-          value: 1,
-        },
-        {
-          label: '登录',
-          value: 2,
-        },
-        {
-          label: '会员',
-          value: 3,
-        },
-      ],
-    },
-  },
-  {
-    field: 'status',
-    component: 'Select',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '页面状态',
-      clearable: true,
-      options: [
-        {
-          label: '普通',
-          value: 0,
-        },
-        {
-          label: '启用',
-          value: 1,
-        },
-        {
-          label: '开发',
-          value: 2,
-        },
-        {
-          label: '维护',
-          value: 3,
-        },
-      ],
+      placeholder: '通知标题',
     },
   },
 ]
