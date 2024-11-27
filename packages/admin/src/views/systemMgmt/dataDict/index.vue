@@ -80,7 +80,7 @@ function showDetail(row: TableItem) {
     <es-table
       v-if="requestData"
       v-model:params="params"
-      v-model:selection-items="selectionItems"
+      v-model:selected="selectionItems"
       :filter="filter()"
       :toolbar="toolbar"
       :columns="tableColumns"

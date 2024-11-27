@@ -309,6 +309,8 @@
     "whenever": "readonly",
     "DirectiveBinding": "readonly",
     "MaybeRef": "readonly",
-    "MaybeRefOrGetter": "readonly"
+    "MaybeRefOrGetter": "readonly",
+    "ElMessage": "readonly",
+    "ElMessageBox": "readonly"
   }
 }

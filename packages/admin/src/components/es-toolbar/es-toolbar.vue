@@ -63,10 +63,10 @@ defineExpose({
         <el-dropdown
           v-if="item.type === 'dropdown'"
           v-bind="item.props"
-          :disabled="followSelection ? selection : item?.props.disabled"
+          :disabled="!selected"
           @command="(val: any) => emits('handler', val)"
         >
-          <el-button v-bind="item.buttonProps" :disabled="followSelection ? selection : item.buttonProps!.disabled">
+          <el-button v-bind="item.buttonProps" :disabled="!selected">
             {{ item.label }}
           </el-button>
           <template #dropdown>

@@ -9,7 +9,6 @@ const props = withDefaults(defineProps<EsTableProps>(), {
 })
 const emits = defineEmits<{
   (event: 'link', data: any): void
-  (event: 'update:selectionItems', data: any): void
   (
     event: 'sortChange',
     data: {
@@ -37,8 +36,8 @@ const pageIndex = computed({
     params.value.pageIndex = newVal - 1
   },
 })
-const paginationRef = ref()
-const tableBoxRef = ref()
+const paginationRef = useTemplateRef('paginationRef')
+const tableBoxRef = useTemplateRef('tableBoxRef')
 
 const tableHeight = ref(100)
 const elHeight = ref({
@@ -52,7 +51,7 @@ onMounted(() => {
 })
 
 function computedTableHeight() {
-  useResizeObserver(tableBoxRef.value?.parentNode, (entries) => {
+  useResizeObserver(tableBoxRef.value!.parentNode as HTMLElement, (entries) => {
     const entry = entries[0]
     elHeight.value.container = entry.contentRect.height
   })
@@ -94,17 +93,10 @@ const innerColumns = computed(() => {
   return []
 })
 
-const selectionItems = computed({
-  get() {
-    return props.selectionItems
-  },
-  set(val) {
-    emits('update:selectionItems', val)
-  },
-})
+const selectedRecords = defineModel<unknown[] | null>('selected', { default: () => [] })
 
 function handlerSelectionChange(val: any) {
-  selectionItems.value = val
+  selectedRecords.value = val
 }
 
 function handlerSortChange(val: any) {
@@ -126,6 +118,7 @@ defineExpose({
       v-model="params"
       :toolbar="toolbar"
       :filter="filter"
+      :selected="!!selectedRecords?.length"
       @reset="emits('reset')"
       @query="(val) => emits('query', val)"
       @handler="(val) => emits('toolbarHandler', val)"

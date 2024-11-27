@@ -1,5 +1,4 @@
 import { PromptsEnum } from '@/enum/prompts'
-import { ElMessage, ElMessageBox } from 'element-plus'
 
 export const useMessage: typeof ElMessage = ElMessage
 
@@ -25,6 +24,7 @@ export const useConfirm: UseConfirm = (type, handler, callback) => {
 
   ElMessageBox.confirm(message, '警告', {
     type: 'warning',
+    draggable: true,
   }).then(async () => {
     await handler()
     useMessage.success(prompt)

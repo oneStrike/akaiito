@@ -23,6 +23,6 @@ export interface Toolbar {
 export interface EsToolbarProps {
   toolbar?: Toolbar[]
   filter?: ToolbarFilter
-  selection?: boolean
+  selected?: boolean
   followSelection?: boolean
 }

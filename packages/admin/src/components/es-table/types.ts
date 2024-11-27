@@ -13,7 +13,6 @@ export interface EsTableProps<T = IterateObject> {
   tableIndex?: boolean
   total?: number
   selection?: boolean
-  selectionItems?: T[] | null
   defaultValue?: string
 
   toolbar?: EsToolbarProps['toolbar']
