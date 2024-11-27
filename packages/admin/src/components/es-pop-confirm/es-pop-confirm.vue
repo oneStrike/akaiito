@@ -46,7 +46,7 @@ async function deleteRow() {
   >
     <template #reference>
       <slot>
-        <el-button type="danger" link :loading="loading"> 删除</el-button>
+        <el-button type="danger" link :loading="loading" disabled> 删除</el-button>
       </slot>
     </template>
   </el-popconfirm>

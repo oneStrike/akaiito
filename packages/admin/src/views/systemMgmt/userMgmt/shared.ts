@@ -2,7 +2,6 @@ import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
 import { useValidate } from '@/hooks/useValidate'
-import { utils } from '@/utils'
 
 export const tableColumns: EsTableColumn = [
   {
@@ -48,6 +47,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'status',
     component: 'Select',
+    props: {
+      span: 5,
+    },
     componentProps: {
       placeholder: '状态',
       clearable: true,
@@ -67,6 +69,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'isRoot',
     component: 'Select',
+    props: {
+      span: 5,
+    },
     componentProps: {
       placeholder: '角色',
       clearable: true,
@@ -86,6 +91,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'username',
     component: 'Input',
+    props: {
+      span: 5,
+    },
     componentProps: {
       placeholder: '用户名',
     },
@@ -93,6 +101,9 @@ export const filter: ToolbarFilter = [
   {
     field: 'mobile',
     component: 'Input',
+    props: {
+      span: 5,
+    },
     componentProps: {
       placeholder: '手机号',
       maxlength: 11,
@@ -130,7 +141,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '用户名',
-      rules: useValidate.password(),
+      rules: useValidate.required('用户名'),
     },
     componentProps: {
       placeholder: '请填写用户名',

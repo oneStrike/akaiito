@@ -28,7 +28,6 @@ const formModal = reactive({
 })
 
 async function handlerToolbar(val: string) {
-  console.log(val)
   if (val === 'add') {
     formModal.show = true
     return
@@ -37,13 +36,13 @@ async function handlerToolbar(val: string) {
   if (Array.isArray(ids)) {
     switch (val) {
       case 'delete':
-        useConfirm('delete', () => deleteDataDictionaryApi({ ids }), reset)
+        useConfirm('delete', () => deleteDataDictionaryApi({ ids }), request)
         break
       case 'enable':
-        useConfirm('enable', () => updateDataDictionaryStatusApi({ ids, status: 1 }), reset)
+        useConfirm('enable', () => updateDataDictionaryStatusApi({ ids, status: 1 }), request)
         break
       case 'disable':
-        useConfirm('disable', () => updateDataDictionaryStatusApi({ ids, status: 0 }), reset)
+        useConfirm('disable', () => updateDataDictionaryStatusApi({ ids, status: 0 }), request)
         break
     }
   }
@@ -122,6 +121,7 @@ function showDetail(row: TableItem) {
     />
 
     <RecordDetails
+      v-if="detailModalShow"
       v-model="detailModalShow"
       :record="currentRow"
       :title="currentRow?.name"

@@ -77,4 +77,8 @@ function toggleFullScreenStatus() {
   </el-dialog>
 </template>
 
-<style></style>
+<style scoped lang="scss">
+:deep(.el-scrollbar__view) {
+  height: 100%;
+}
+</style>

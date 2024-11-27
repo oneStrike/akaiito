@@ -29,29 +29,18 @@ export interface RecordDetails extends EsModalProps {
 type TableItem = ResolveListItem<typeof requestData.value>
 
 const esTableRef = ref()
-const esToolbarRef = ref()
 const formLoading = ref(false)
 const formModalShow = ref(false)
 const showModal = defineModel('modelValue', {
   type: Boolean,
   default: false,
 })
-const toolbarOptions = toolbar
-const filterOptions = filter().map((item) => {
-  if (item.props) {
-    item.props.class = 'w-44'
-  } else {
-    item.props = { class: 'w-44' }
-  }
-  return item
-})
-
 const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
-const dictionaryId = computed(() => ({ dictionaryId: props.record?.id }))
-
-const { requestData, reset, loading, params } = useRequest(getDataDictionaryItemsApi, {
-  init: false,
+const { requestData, request, reset, loading, params } = useRequest(getDataDictionaryItemsApi, {
+  defaultParams: {
+    dictionaryId: props.record?.id,
+  },
 })
 
 async function handlerToolbar(val: string) {
@@ -63,41 +52,17 @@ async function handlerToolbar(val: string) {
   if (ids) {
     switch (val) {
       case 'delete':
-        useConfirm(
-          'delete',
-          () => deleteDataDictionaryItemsApi({ ids }),
-          () => reset(dictionaryId.value),
-        )
+        useConfirm('delete', () => deleteDataDictionaryItemsApi({ ids }), request)
         break
       case 'enable':
-        useConfirm(
-          'enable',
-          () => updateDataDictionaryItemsStatusApi({ ids, status: 1 }),
-          () => reset(dictionaryId.value),
-        )
+        useConfirm('enable', () => updateDataDictionaryItemsStatusApi({ ids, status: 1 }), request)
         break
       case 'disable':
-        useConfirm(
-          'disable',
-          () => updateDataDictionaryItemsStatusApi({ ids, status: 0 }),
-          () => reset(dictionaryId.value),
-        )
+        useConfirm('disable', () => updateDataDictionaryItemsStatusApi({ ids, status: 0 }), request)
         break
     }
   }
 }
-
-watch(
-  () => showModal,
-  ({ value }) => {
-    if (value) {
-      reset(dictionaryId.value)
-    } else {
-      esToolbarRef.value?.resetFilter()
-    }
-  },
-  { deep: true, immediate: true },
-)
 
 async function addDictionary(value: any) {
   formLoading.value = true
@@ -112,7 +77,7 @@ async function addDictionary(value: any) {
     }
     formModalShow.value = false
     currentRow.value = null
-    reset(dictionaryId.value)
+    reset()
   } catch (e) {
     console.log('🚀 ~ file:e method:addDictionary line:102 -----', e)
   }
@@ -130,25 +95,34 @@ function computedTableHeight() {
 </script>
 
 <template>
-  <es-modal v-bind="props" v-model="showModal" @closed="emits('closed')" @full-screen="computedTableHeight">
+  <es-modal
+    v-bind="props"
+    v-model="showModal"
+    @closed="emits('closed')"
+    @handler="(showModal = false), emits('closed')"
+    @full-screen="computedTableHeight"
+  >
     <div v-loading="loading" class="h-full">
       <es-table
         v-if="requestData"
         ref="esTableRef"
         v-model:params="params"
-        v-model:selection-items="selectionItems"
+        v-model:selected="selectionItems"
         :filter="filter()"
         :toolbar="toolbar"
         :columns="tableColumns"
         :data="requestData.list"
         :selection="true"
         :total="requestData?.total"
+        @toolbar-handler="handlerToolbar"
+        @reset="reset"
+        @query="request"
       >
         <template #name="{ row }">
           <span>{{ row.name }}</span>
         </template>
         <template #status="{ row }">
-          <es-switch :request="updateDataDictionaryItemsStatusApi" :row="row" ids />
+          <es-switch :request="updateDataDictionaryItemsStatusApi" :row="row" ids @success="request" />
         </template>
         <template #action="{ row }">
           <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
@@ -157,7 +131,7 @@ function computedTableHeight() {
             :request="deleteDataDictionaryItemsApi"
             :row="row"
             ids
-            @success="reset(dictionaryId)"
+            @success="request"
           />
         </template>
       </es-table>
@@ -168,6 +142,7 @@ function computedTableHeight() {
         :title="currentRow ? '添加' : '编辑'"
         :options="formOptions"
         :loading="formLoading"
+        :height="600"
         @submit="addDictionary"
         @closed="currentRow = null"
       />

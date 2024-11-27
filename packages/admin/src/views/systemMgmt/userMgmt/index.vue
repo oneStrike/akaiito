@@ -18,7 +18,7 @@ defineOptions({
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
-const { reset, sortChange, requestData, loading, params } = useRequest(getUserPageApi)
+const { reset, request, sortChange, requestData, loading, params } = useRequest(getUserPageApi)
 
 const userStore = useUserStore()
 const pwdModal = ref(false)
@@ -87,6 +87,9 @@ async function switchStatus(val: any) {
       :data="requestData?.list ?? []"
       :total="requestData?.total"
       @sort-change="sortChange"
+      @reset="reset"
+      @query="request"
+      @toolbar-handler="handlerToolbar"
     >
       <template #username="{ row }">
         <div class="flex-center">
@@ -101,14 +104,20 @@ async function switchStatus(val: any) {
       </template>
 
       <template #status="{ row }">
-        <es-switch :request="switchStatus" :row="row" />
+        <es-switch :request="switchStatus" :row="row" :disabled="row.id === userStore.userInfo?.id" />
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openUpdateUserInfoModal(row)"> 编辑</el-button>
 
         <el-button type="primary" link @click="(currentRow = row), (pwdModal = true)"> 修改密码</el-button>
 
-        <es-pop-confirm v-model:loading="loading" :request="deleteAdminUserApi" :row="row" @success="reset()" />
+        <es-pop-confirm
+          v-model:loading="loading"
+          :request="deleteAdminUserApi"
+          :row="row"
+          :disabled="row.id === userStore.userInfo?.id"
+          @success="reset()"
+        />
       </template>
     </es-table>
 

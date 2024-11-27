@@ -142,6 +142,7 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请输入描述信息',
+      rows: 6,
     },
   },
 ]
