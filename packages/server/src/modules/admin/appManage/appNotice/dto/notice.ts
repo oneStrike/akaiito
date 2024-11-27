@@ -1,15 +1,18 @@
 import { PickDto, Rule } from '@midwayjs/validate'
 import { requiredString, validateNumberLess, validateString } from '@/utils/validate'
 
-export class NotificationDto {
+export class Notice {
+  @Rule(requiredString)
+  title!: string
+  
   @Rule(requiredString)
   content!: string
 
-  @Rule(requiredString)
-  pageCode!: string
+  @Rule(validateString)
+  pageCode?: string
 
-  @Rule(requiredString)
-  pageName!: string
+  @Rule(validateString)
+  pageName?: string
 
   @Rule(validateString)
   backgroundImage?: string
@@ -24,4 +27,4 @@ export class NotificationDto {
   enableApp?: number
 }
 
-export class getNotificationListDto extends PickDto(NotificationDto, ['enableApplet', 'enableWeb', 'enableApp']) {}
+export class getNoticeListDto extends PickDto(Notice, ['enableApplet', 'enableWeb', 'enableApp']) {}

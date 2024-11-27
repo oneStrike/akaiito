@@ -23,7 +23,7 @@ model AppPageConfig {
 }
 
 /// 系统通知公告
-model AppNotification {
+model AppNotice {
   /// 主键id
   id              Int       @id @default(autoincrement())
   /// 标题
@@ -51,7 +51,7 @@ model AppNotification {
   /// 更新时间
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  @@map("app_notification")
+  @@map("app_notice")
 }
 
 /// 客户端系统配置

@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  createAppNotificationApi,
-  deleteAppNotificationApi,
-  getAppNotificationListApi,
-  updateAppNotificationApi,
-} from '@/apis/appNotification'
+import { createAppNoticeApi, deleteAppNoticeApi, getAppNoticeListApi, updateAppNoticeApi } from '@/apis/AppNotice'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 import { useRequest } from '@/hooks/useRequest'
@@ -22,7 +17,7 @@ const modalFrom = reactive({
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getAppNotificationListApi)
+const { loading, reset, requestData, params } = useRequest(getAppNoticeListApi)
 
 const openFormModal = (row?: TableItem) => {
   if (row) {
@@ -34,9 +29,9 @@ const submitForm = async (value: TableItem) => {
   modalFrom.loading = true
   if (currentRow.value?.id) {
     value.id = currentRow.value.id
-    await updateAppNotificationApi(value)
+    await updateAppNoticeApi(value)
   } else {
-    await createAppNotificationApi(value)
+    await createAppNoticeApi(value)
   }
   useMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
   currentRow.value = null
@@ -57,13 +52,13 @@ const submitForm = async (value: TableItem) => {
       :total="requestData?.total"
     >
       <template #enableApplet="{ row }">
-        <es-switch :row="row" field="enableApplet" :request="updateAppNotificationApi" />
+        <es-switch :row="row" field="enableApplet" :request="updateAppNoticeApi" />
       </template>
       <template #enableWeb="{ row }">
-        <es-switch :row="row" field="enableWeb" :request="updateAppNotificationApi" />
+        <es-switch :row="row" field="enableWeb" :request="updateAppNoticeApi" />
       </template>
       <template #enableApp="{ row }">
-        <es-switch :row="row" field="enableApp" :request="updateAppNotificationApi" />
+        <es-switch :row="row" field="enableApp" :request="updateAppNoticeApi" />
       </template>
 
       <template #status="{ row }">
@@ -74,7 +69,7 @@ const submitForm = async (value: TableItem) => {
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openFormModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteAppNotificationApi" :row="row" @success="reset()" />
+        <es-pop-confirm v-model:loading="loading" :request="deleteAppNoticeApi" :row="row" @success="reset()" />
       </template>
     </es-table>
 

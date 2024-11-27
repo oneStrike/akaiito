@@ -6,6 +6,7 @@ export interface EsPopConfirmProps<T = IterateObject> {
   request: AsyncFn
   row: T
   ids?: boolean
+  disabled?: boolean
 }
 
 const props = withDefaults(defineProps<EsPopConfirmProps>(), {})
@@ -42,11 +43,12 @@ async function deleteRow() {
     title="是否删除当前项？"
     trigger="click"
     :hide-after="0"
+    :disabled="disabled"
     @confirm="deleteRow"
   >
     <template #reference>
       <slot>
-        <el-button type="danger" link :loading="loading" disabled> 删除</el-button>
+        <el-button type="danger" link :loading="loading" :disabled="disabled"> 删除</el-button>
       </slot>
     </template>
   </el-popconfirm>

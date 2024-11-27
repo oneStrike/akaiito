@@ -1,8 +1,7 @@
 import type { EsFormOptions } from '@/components/es-form/types'
-import { useValidate } from '@/hooks/useValidate'
-import { utils } from '@/utils'
 import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
+import { useValidate } from '@/hooks/useValidate'
 
 export const tableColumns: EsTableColumn = [
   {
@@ -77,7 +76,6 @@ export const formOptions: EsFormOptions[] = [
     props: {
       span: 2,
       label: '跳转页面',
-      rules: useValidate.required('跳转页面'),
     },
     componentProps: {
       placeholder: '请选择跳转页面',

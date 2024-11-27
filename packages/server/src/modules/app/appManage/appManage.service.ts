@@ -1,7 +1,7 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { AppConfigService } from '@/modules/admin/appManage/appConfig/appConfig.service'
 import { AppPageService } from '@/modules/admin/appManage/appPage/appPage.service'
-import { NotificationService } from '@/modules/admin/appManage/appNotification/notification.service'
+import { NoticeService } from '@/modules/admin/appManage/appNotice/notice.service'
 import * as dayjs from 'dayjs'
 
 @Provide()
@@ -13,7 +13,7 @@ export class AppManageService {
   pageService: AppPageService
 
   @Inject()
-  notificationService: NotificationService
+  notificationService: NoticeService
 
   async getSystemConfig() {
     return this.appConfig.findUnique({ where: { id: 1 } })
