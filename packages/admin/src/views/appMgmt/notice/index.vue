@@ -6,7 +6,7 @@ import {
   getAppNoticeDetailApi,
   getAppNoticeListApi,
   updateAppNoticeApi,
-} from '@/apis/AppNotice'
+} from '@/apis/appNotice'
 import { getAppPagesApi } from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
