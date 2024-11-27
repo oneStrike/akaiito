@@ -20,13 +20,11 @@ export const tableColumns: EsTableColumn = [
     label: '开始时间',
     prop: 'startTime',
     align: 'center',
-    formatter: utils.formatTime,
   },
   {
     label: '结束时间',
     prop: 'endTime',
     align: 'center',
-    formatter: utils.formatTime,
   },
   {
     label: '小程序',
