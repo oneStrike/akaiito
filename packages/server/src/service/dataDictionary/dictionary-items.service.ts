@@ -1,6 +1,6 @@
 import type { DictionaryItem, PrismaClient } from '@prisma/client'
 import { DictionaryService } from './dictionary.service'
-import { CreateDictionaryItemsDto } from './dto/dictionary.dto'
+import { CreateDictionaryItemsDto } from '../../modules/admin/dataDictionary/dto/dictionary.dto'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { PrismaFindPageOptions } from '@/typings/prisma'

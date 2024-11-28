@@ -1,5 +1,5 @@
 import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
-import { CategoryService } from '@/modules/admin/contentMgmt/category/category.service'
+import { CategoryService } from '@/service/contentMgmt/category.service'
 import {
   CategoryListDto,
   CreateCategoryDto,

@@ -3,7 +3,7 @@ import type { MidwayHttpError } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { Catch } from '@midwayjs/core'
 import { prismaErrorMessage } from '@/prisma/errorMessage'
-import { RequestLogService } from '@/modules/admin/requestLog/requestLog.service'
+import { RequestLogService } from '@/service/log/requestLog.service'
 
 const prismaError = ['PrismaClientValidationError', 'PrismaClientKnownRequestError']
 

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { NoticeService } from '@/modules/admin/appManage/appNotice/notice.service'
+import { AppNoticeService } from '@/service/appMgmt/appNotice.service'
 import {
   getNoticeListDto,
   NoticeDto,
@@ -11,7 +11,7 @@ import { BasicIdDto } from '@/basic/dto/basic.dto'
 @Controller('/admin/appNotice')
 export class AppNoticeController {
   @Inject()
-  NoticeService: NoticeService
+  NoticeService: AppNoticeService
 
   @Get('/getAppNoticeList', { summary: '获取客户端通知消息' })
   async getAppNotice(@Query() query: getNoticeListDto) {

@@ -1,6 +1,6 @@
 import { BasicIdsDto, BasicIdsStatusDto, BasicOrderDto } from '@/basic/dto/basic.dto'
-import { DictionaryService } from './dictionary.service'
-import { DictionaryServiceItems } from './dictionary-items.service'
+import { DictionaryService } from '@/service/dataDictionary/dictionary.service'
+import { DictionaryServiceItems } from '@/service/dataDictionary/dictionary-items.service'
 import {
   CreateDictionaryDto,
   CreateDictionaryItemsDto,

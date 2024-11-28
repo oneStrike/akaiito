@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { AppPageService } from '@/modules/admin/appManage/appPage/appPage.service'
+import { AppPageService } from '@/service/appMgmt/appPage.service'
 import { AppPageQueryDto, AppPagesDto } from '@/modules/admin/appManage/appPage/dto/appPages.dto'
 import { BasicIdDto } from '@/basic/dto/basic.dto'
 

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Post } from '@midwayjs/core'
-import { AppUserService } from '@/modules/app/user/user.service'
+import { AppUserService } from '@/service/appUser/user.service'
 import { CreateUserDto, LoginUserDto } from '@/modules/app/user/dto/user.dto'
 import { UserInfo } from '@/decorator/userinfo.decorator'
 import { UserDto } from '@/modules/admin/user/dto/user.dto'

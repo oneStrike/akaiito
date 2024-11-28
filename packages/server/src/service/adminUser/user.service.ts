@@ -2,8 +2,8 @@ import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
 import { httpError, Inject, Provide } from '@midwayjs/core'
 import { AdminUser, PrismaClient } from '@prisma/client'
-import { CaptchaService } from '@/modules/open/captcha/captcha.service'
-import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto } from './dto/user.dto'
+import { CaptchaService } from '@/service/open/captcha.service'
+import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto } from '../../modules/admin/user/dto/user.dto'
 import { JwtService } from '@/auth/jwt.service'
 
 @Provide()

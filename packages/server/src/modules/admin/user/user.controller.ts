@@ -1,7 +1,7 @@
 import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
 import { Context } from '@midwayjs/koa'
 import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto, UserPageDto } from './dto/user.dto'
-import { UserService } from './user.service'
+import { UserService } from '@/service/adminUser/user.service'
 import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { CtxAttrEnum } from '@/enum/ctxAttr'

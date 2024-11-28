@@ -1,5 +1,5 @@
 import { Inject, Provide } from '@midwayjs/core'
-import { CopyMangaService } from '@/modules/admin/thirdParty/libs/copy.service'
+import { CopyMangaService } from '@/service/thirdParty/libs/copy.service'
 import { ThirdPartyQueryDto, ThirdPartyParseDto } from '@/modules/admin/thirdParty/dto/thirdParty.dto'
 import { Comic, PrismaClient } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'

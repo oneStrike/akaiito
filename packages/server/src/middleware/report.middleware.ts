@@ -2,7 +2,7 @@ import type { HttpResponseResult } from '@akaiito/types'
 import type { IMiddleware } from '@midwayjs/core'
 import type { Context, NextFunction } from '@midwayjs/koa'
 import { Middleware } from '@midwayjs/core'
-import { RequestLogService } from '@/modules/admin/requestLog/requestLog.service'
+import { RequestLogService } from '@/service/log/requestLog.service'
 
 @Middleware()
 export class ReportMiddleware implements IMiddleware<Context, NextFunction> {

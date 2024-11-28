@@ -1,5 +1,5 @@
 import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
-import { AuthorService } from '@/modules/admin/contentMgmt/author/author.service'
+import { AuthorService } from '@/service/contentMgmt/author.service'
 import { AuthorDto, CreateAuthorDto, GetAuthorPageDto } from '@/modules/admin/contentMgmt/author/dto/author.dto'
 import { Context } from '@midwayjs/koa'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'

@@ -1,6 +1,6 @@
 import type { IMethodAspect, JoinPoint } from '@midwayjs/core'
-import { UserService } from '@/modules/admin/user/user.service'
-import { AppUserService } from '@/modules/app/user/user.service'
+import { UserService } from '@/service/adminUser/user.service'
+import { AppUserService } from '@/service/appUser/user.service'
 import { createCustomMethodDecorator, REQUEST_OBJ_CTX_KEY } from '@midwayjs/core'
 import { JwtService } from '@/auth/jwt.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'

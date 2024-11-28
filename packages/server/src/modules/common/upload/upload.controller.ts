@@ -1,5 +1,5 @@
 import type { UploadFileInfo } from '@midwayjs/busboy'
-import { UploadService } from './upload.service'
+import { UploadService } from '@/service/common/upload.service'
 import { UploadMiddleware } from '@midwayjs/busboy'
 import { Controller, Fields, Files, Inject, Post } from '@midwayjs/core'
 

@@ -5,7 +5,7 @@ import { PublishNoticeDto } from '@/modules/admin/appManage/appNotice/dto/notice
 import { utils } from '@/utils'
 
 @Provide()
-export class NoticeService extends BasicService<AppNotice> {
+export class AppNoticeService extends BasicService<AppNotice> {
   @Inject()
   prismaClient: PrismaClient
 

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { ThirdPartyService } from '@/modules/admin/thirdParty/thirdParty.service'
+import { ThirdPartyService } from '@/service/thirdParty/thirdParty.service'
 import { ThirdPartyQueryDto, ThirdPartyParseDto } from '@/modules/admin/thirdParty/dto/thirdParty.dto'
 
 @Controller('/admin/thirdParty')
