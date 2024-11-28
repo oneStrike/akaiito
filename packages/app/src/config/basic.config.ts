@@ -2,7 +2,7 @@ import { useWx } from '@/hooks/useWx'
 
 const platformConfig = {
   APPID: useWx.getWxAppId(),
-  BASIC_URL: 'http://192.168.31.215:7001/',
+  BASIC_URL: 'http://192.168.31.215:7001',
 }
 
 // #ifdef H5

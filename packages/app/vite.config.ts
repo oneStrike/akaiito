@@ -22,7 +22,7 @@ export default ({ mode }) => {
       port: 9099,
       proxy: {
         '/api': {
-          target: 'http://172.20.128.1:7001',
+          target: 'http://172.19.176.1:7001',
           changeOrigin: true,
           secure: false,
           rewrite: (path) => path.replace(/^\/api/, ''),

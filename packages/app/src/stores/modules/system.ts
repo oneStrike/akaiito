@@ -1,10 +1,10 @@
-import type { GetSystemConfigTypesRes } from '@/apis/types/appManage'
-import { getSystemConfigApi } from '@/apis/appManage'
+import type { GetPageConfigTypesRes, GetSystemConfigTypesRes } from '@/apis/types/appManage'
+import { getPageConfigApi, getSystemConfigApi } from '@/apis/appManage'
 
 export interface UseSystemStoreState {
   systemStatus: 'normal' | 'disable' | 'crash'
   systemConfig: GetSystemConfigTypesRes | null
-  pageConfig: IterateObject
+  pageConfig: GetPageConfigTypesRes['list']
 }
 
 export const useSystemStore = defineStore('useSystemStore', {
@@ -12,7 +12,7 @@ export const useSystemStore = defineStore('useSystemStore', {
     return {
       systemStatus: 'normal',
       systemConfig: null,
-      pageConfig: {},
+      pageConfig: [],
     } as UseSystemStoreState
   },
   persist: {
@@ -27,8 +27,10 @@ export const useSystemStore = defineStore('useSystemStore', {
   },
 
   actions: {
-    async getSystemConfig() {
-      this.systemConfig = await getSystemConfigApi()
+    async initSystem() {
+      const [system, pages] = await Promise.all([getSystemConfigApi(), getPageConfigApi()])
+      this.pageConfig = pages.list
+      this.systemConfig = system
     },
   },
 })

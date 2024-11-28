@@ -4,8 +4,7 @@ import { useUserStore } from '@/stores/modules/user'
 
 export const launch = async () => {
   const userStore = useUserStore()
-  const systemStore = useSystemStore()
-  await systemStore.getSystemConfig()
+  useSystemStore().initSystem()
   if (!userStore.token) {
     useRouter.reLaunch({ name: 'login' })
   }

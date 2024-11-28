@@ -130,6 +130,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   async findFirst(options?: PrismaFindUniqueOptions<T>): Promise<T | null> {
     return await this.model.findFirst(options)
   }
+
   // 根据条件查询唯一数据
   async findUnique(options?: PrismaFindUniqueOptions<T>): Promise<T | null> {
     return await this.model.findUnique(options)
@@ -192,6 +193,9 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
 
   // 获取列表数据
   async findList(options?: PrismaFindPageOptions<T>): FindPageResponse<T> {
+    if (!options?.where) {
+      options = { where: {} }
+    }
     options.where.pageIndex = 0
     options.where.pageSize = 500
     return await this.findPage(options)

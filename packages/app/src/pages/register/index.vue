@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { createAppUserApi } from '@/apis/user'
 import { useRouter } from '@/hooks/useRouter'
 import { useUserStore } from '@/stores/modules/user'
-import { createAppUserApi } from '@/apis/user'
 
 const formData = reactive({
   username: '',
@@ -71,14 +71,14 @@ const signUp = async () => {
         <es-text text="账号" block class="mb-3" />
         <view class="flex items-center rounded-lg p-3 bg-slate-50">
           <es-icons name="user" class="shrink-0 mr-2" color="placeholder" size="2xl" />
-          <input v-model="formData.username" type="text" placeholder="请输入账号" class="flex-1" />
+          <input v-model="formData.username" type="text" placeholder="请输入账号" class="flex-1">
         </view>
       </view>
       <view class="mb-7">
         <es-text text="密码" block class="mb-3" />
         <view class="flex items-center rounded-lg p-3 bg-slate-50">
           <es-icons name="lock" class="shrink-0 mr-2" color="placeholder" size="2xl" />
-          <input v-model="formData.password" placeholder="请输入密码" class="flex-1" :password="passwordType" />
+          <input v-model="formData.password" placeholder="请输入密码" class="flex-1" :password="passwordType">
           <es-icons
             class="ml-4"
             :name="passwordType ? 'watchOff' : 'watch'"
@@ -96,7 +96,7 @@ const signUp = async () => {
             placeholder="请输入确认密码"
             class="flex-1"
             :password="passwordType"
-          />
+          >
           <es-icons
             class="ml-4"
             :name="passwordType ? 'watchOff' : 'watch'"

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { EsButtonProps } from '@/components/es-button/types'
-import type { IterateObject } from '@/types/global'
 import { useConfig } from '@/components/libs/hooks/useConfig'
 
 defineOptions({
@@ -34,38 +33,31 @@ const sizeScheme = {
   mini: {
     textSize: 'xs',
     padding: `12rpx 20rpx`,
-    fontSize: 'xs',
+    fontSize: props.textSize ?? 'xs',
     width: '',
   },
   small: {
     textSize: 'sm',
     padding: `18rpx 40rpx`,
-    fontSize: 'sm',
+    fontSize: props.textSize ?? 'sm',
     width: '',
   },
   medium: {
     textSize: 'base',
     padding: `20rpx 40rpx`,
-    fontSize: 'base',
+    fontSize: props.textSize ?? 'base',
     width: '',
   },
   large: {
     textSize: 'lg',
     padding: `24rpx 0`,
-    fontSize: 'lg',
+    fontSize: props.textSize ?? 'lg',
     width: 'auto',
   },
 }
 
 watch(
-  () => [
-    props.plain,
-    props.type,
-    props.size,
-    props.textColor,
-    props.round,
-    props.disabled,
-  ],
+  () => [props.plain, props.type, props.size, props.textColor, props.round, props.disabled],
   ([plain, type, size, textColor, round, disabled]) => {
     if (textColor) {
       textAttr.color = textColor as string
@@ -77,11 +69,9 @@ watch(
       }
     }
 
-    const { padding, textSize, fontSize, width } =
-      sizeScheme[size as keyof typeof sizeScheme]
+    const { padding, textSize, fontSize, width } = sizeScheme[size as keyof typeof sizeScheme]
     textAttr.size = textSize
-    const buttonColor =
-      type === 'default' ? '#f0f0f0' : useConfig.getColor(type)
+    const buttonColor = type === 'default' ? '#f0f0f0' : useConfig.getColor(type)
     const radius = typeof round === 'boolean' ? (round ? 40 : 8) : round
     buttonAttr.styleSheet = {
       padding,
@@ -94,6 +84,7 @@ watch(
     if (width) {
       buttonAttr.styleSheet.width = width
     }
+    console.log(buttonAttr)
   },
   {
     deep: true,
@@ -103,13 +94,7 @@ watch(
 </script>
 
 <template>
-  <view
-    :class="
-      fixed
-        ? 'w-screen bg-white p-3 fixed left-0 bottom-0 border-top  z-10'
-        : ''
-    "
-  >
+  <view :class="fixed ? 'w-screen bg-white p-3 fixed left-0 bottom-0 border-top  z-10' : ''">
     <button
       :class="buttonAttr.className"
       :style="buttonAttr.styleSheet"
@@ -117,12 +102,7 @@ watch(
       hover-class="opacity-65!"
       @click="!disabled && emits('click')"
     >
-      <es-text
-        :text="text"
-        :bold="bold"
-        :color="textAttr.color"
-        :size="textAttr.size"
-      />
+      <es-text :text="text" :bold="bold" :color="textAttr.color" :size="textSize || buttonAttr.styleSheet.fontSize" />
     </button>
   </view>
 </template>

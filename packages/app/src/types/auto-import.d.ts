@@ -6,6 +6,7 @@
 // biome-ignore lint: disable
 export {}
 declare global {
+  const AppLanunch: typeof import('../hooks/useEventBus')['AppLanunch']
   const EffectScope: typeof import('vue')['EffectScope']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const computed: typeof import('vue')['computed']
@@ -87,6 +88,7 @@ declare global {
   const toValue: typeof import('vue')['toValue']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
+  const useAppLaunchEventBus: typeof import('../hooks/useEventBus')['useAppLaunchEventBus']
   const useAttrs: typeof import('vue')['useAttrs']
   const useCookies: typeof import('../hooks/useCookies')['useCookies']
   const useCssModule: typeof import('vue')['useCssModule']
@@ -197,6 +199,7 @@ declare module 'vue' {
     readonly toValue: UnwrapRef<typeof import('vue')['toValue']>
     readonly triggerRef: UnwrapRef<typeof import('vue')['triggerRef']>
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
+    readonly useAppLaunchEventBus: UnwrapRef<typeof import('../hooks/useEventBus')['useAppLaunchEventBus']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
     readonly useCookies: UnwrapRef<typeof import('../hooks/useCookies')['useCookies']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
