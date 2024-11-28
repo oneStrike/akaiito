@@ -40,6 +40,6 @@ export class AppNoticeController {
 
   @Post('/publishAppNotice', { summary: '调整客户端通知消息发布状态' })
   async publishAppNotice(@Body() body: PublishNoticeDto) {
-    return await this.NoticeService.update({ where: { id: body.id }, data: body })
+    return await this.NoticeService.publish(body)
   }
 }

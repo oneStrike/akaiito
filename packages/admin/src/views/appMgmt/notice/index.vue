@@ -151,7 +151,6 @@ const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) =
           :request="publishAppNoticeApi"
           :row="row"
           field="isPublish"
-          :disabled="(row.statusCode !== 1 || row.statusCode !== 3) && row.isPublish === 0"
           @success="request()"
         />
       </template>
