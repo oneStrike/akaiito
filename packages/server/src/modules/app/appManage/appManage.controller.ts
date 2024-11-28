@@ -30,7 +30,12 @@ export class AppManageController {
     const options: any = {
       where: {
         isPublish: 1,
-        OR: [{ endTime: null }, { endTime: { lte: new Date() } }],
+        OR: [
+          { endTime: null },
+          { endTime: { gte: new Date() } },
+          { startTime: null },
+          { startTime: { lte: new Date() } },
+        ],
       },
     }
     switch (platform) {
