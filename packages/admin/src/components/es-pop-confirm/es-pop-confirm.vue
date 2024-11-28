@@ -7,9 +7,13 @@ export interface EsPopConfirmProps<T = IterateObject> {
   row: T
   ids?: boolean
   disabled?: boolean
+  field?: string
+  confirmText?: string
 }
 
-const props = withDefaults(defineProps<EsPopConfirmProps>(), {})
+const props = withDefaults(defineProps<EsPopConfirmProps>(), {
+  confirmText: '删除',
+})
 const emits = defineEmits<{
   (event: 'success'): void
   (event: 'error', error: any): void
@@ -22,6 +26,9 @@ async function deleteRow() {
     loading.value = true
     const params = {
       [props.ids ? 'ids' : 'id']: props.ids ? [props.row.id] : props.row.id,
+    }
+    if (props.field) {
+      params[props.field] = props.row[props.field] ? 0 : 1
     }
     await props.request(params)
     loading.value = false
@@ -37,10 +44,10 @@ async function deleteRow() {
 <template>
   <el-popconfirm
     width="180"
-    confirm-button-text="删除"
+    :confirm-button-text="confirmText"
     cancel-button-text="取消"
     confirm-button-type="danger"
-    title="是否删除当前项？"
+    :title="`是否${confirmText}当前项？`"
     trigger="click"
     :hide-after="0"
     :disabled="disabled"
@@ -48,7 +55,7 @@ async function deleteRow() {
   >
     <template #reference>
       <slot>
-        <el-button type="danger" link :loading="loading" :disabled="disabled"> 删除</el-button>
+        <el-button type="danger" link :loading="loading" :disabled="disabled">{{ confirmText }}</el-button>
       </slot>
     </template>
   </el-popconfirm>

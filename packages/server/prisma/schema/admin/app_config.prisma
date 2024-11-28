@@ -40,6 +40,8 @@ model AppNotice {
   pageName        String?   @map("page_name") @db.TinyText
   /// 通知弹窗的背景图片
   backgroundImage String?   @map("background_image") @db.VarChar(200)
+  /// 是否发布   1 启用 0 禁用
+  isPublish       Int       @default(1) @map("is_publish")
   /// 是否启用小程序   1 启用 0 禁用
   enableApplet    Int       @default(1) @map("enable_wechat")
   /// 是否启用H5   1 启用 0 禁用

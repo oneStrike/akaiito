@@ -10,6 +10,8 @@ import type {
   DeleteAppNoticeTypesReq,
   UpdateAppNoticeTypesRes,
   UpdateAppNoticeTypesReq,
+  PublishAppNoticeTypesRes,
+  PublishAppNoticeTypesReq,
 } from './types/appNotice.d'
 
 /**
@@ -96,6 +98,25 @@ export const updateAppNoticeApi = (data: UpdateAppNoticeTypesReq): Promise<Updat
   return httpHandler({
     method: 'POST',
     url: '/admin/appNotice/updateAppNotice',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [调整客户端通知消息发布状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-238543615)
+ *  @标签 通知公告/调整客户端通知消息发布状态
+ *  @方式 POST
+ *  @地址 /admin/appNotice/publishAppNotice
+ *  @更新时间 2024-11-28 08:55:41
+ */
+
+export const publishAppNoticeApi = (data: PublishAppNoticeTypesReq): Promise<PublishAppNoticeTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/admin/appNotice/publishAppNotice',
     headers: {
       'Content-Type': 'application/json',
     },

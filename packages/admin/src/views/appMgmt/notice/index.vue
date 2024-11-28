@@ -1,10 +1,15 @@
 <script setup lang="ts">
-import type { UpdateAppNoticeTypesReq } from '@/apis/types/appNotice'
+import type {
+  GetAppNoticeDetailTypesRes,
+  GetAppNoticeListTypesRes,
+  UpdateAppNoticeTypesReq,
+} from '@/apis/types/appNotice'
 import {
   createAppNoticeApi,
   deleteAppNoticeApi,
   getAppNoticeDetailApi,
   getAppNoticeListApi,
+  publishAppNoticeApi,
   updateAppNoticeApi,
 } from '@/apis/appNotice'
 import { getAppPagesApi } from '@/apis/appPageConfig'
@@ -13,13 +18,12 @@ import { useMessage } from '@/hooks/useFeedback'
 import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
 import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
+import { utils } from '@/utils'
 
 defineOptions({
   name: 'NoticePage',
 })
-type TableItem = ResolveListItem<typeof requestData.value> & {
-  content: string
-  backgroundImage: string
+type TableItem = GetAppNoticeDetailTypesRes & {
   enable: string
 }
 
@@ -40,7 +44,32 @@ getAppPagesApi({ pageSize: '500' }).then((res) => {
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, request, requestData, params } = useRequest(getAppNoticeListApi)
+const { loading, reset, request, requestData, params } = useRequest(getAppNoticeListApi, {
+  hook: formatList,
+})
+
+function formatList(data: GetAppNoticeListTypesRes) {
+  data.list.forEach((item: any) => {
+    const { enableWeb, enableApplet, enableApp, startTime, endTime } = item
+    item.statusText = '正常'
+    item.statusColor = 'primary'
+    item.statusCode = 1
+    if (!enableApp && !enableWeb && !enableApplet) {
+      item.statusText = '暂无可发布平台'
+      item.statusColor = 'danger'
+      item.statusCode = 0
+    } else if (utils.dayjs() > utils.dayjs(endTime)) {
+      item.statusText = '已过期'
+      item.statusColor = 'danger'
+      item.statusCode = 2
+    } else if (item.isPublish) {
+      item.statusText = '已发布'
+      item.statusColor = 'primary'
+      item.statusCode = 3
+    }
+  })
+  return data
+}
 
 const openFormModal = async (row?: TableItem) => {
   if (row) {
@@ -101,24 +130,30 @@ const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) =
       @toolbar-handler="openFormModal()"
     >
       <template #enableApplet="{ row }">
-        <es-switch :row="row" field="enableApplet" :request="updateAppNoticeApi" />
+        <es-switch :row="row" field="enableApplet" :request="updateAppNoticeApi" @success="request()" />
       </template>
       <template #enableWeb="{ row }">
-        <es-switch :row="row" field="enableWeb" :request="updateAppNoticeApi" />
+        <es-switch :row="row" field="enableWeb" :request="updateAppNoticeApi" @success="request()" />
       </template>
       <template #enableApp="{ row }">
-        <es-switch :row="row" field="enableApp" :request="updateAppNoticeApi" />
+        <es-switch :row="row" field="enableApp" :request="updateAppNoticeApi" @success="request()" />
       </template>
 
       <template #status="{ row }">
-        <el-text v-if="row.status === 0" type="info">禁用</el-text>
-        <el-text v-if="row.status === 1" type="primary">正常</el-text>
-        <el-text v-if="row.status === 2" type="warning">开发</el-text>
-        <el-text v-if="row.status === 3" type="danger">维护</el-text>
+        <el-text :type="row.statusColor">{{ row.statusText }}</el-text>
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openFormModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteAppNoticeApi" :row="row" @success="reset()" />
+        <es-pop-confirm v-model:loading="loading" :request="deleteAppNoticeApi" :row="row" @success="request()" />
+        <es-pop-confirm
+          v-model:loading="loading"
+          :confirm-text="row.isPublish === 1 ? '取消发布' : '发布'"
+          :request="publishAppNoticeApi"
+          :row="row"
+          field="isPublish"
+          :disabled="(row.statusCode !== 1 || row.statusCode !== 3) && row.isPublish === 0"
+          @success="request()"
+        />
       </template>
     </es-table>
 

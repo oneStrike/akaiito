@@ -1,11 +1,12 @@
-interface RequestOptions {
+interface RequestOptions<T> {
   init?: boolean
   params?: IterateObject | globalThis.Ref<IterateObject>
   defaultParams?: IterateObject
+  hook?: (data: ResolvedReturnType<T>) => ResolvedReturnType<T>
 }
 
-export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) {
-  let { params = ref<ResolvedReturnType<T>>(), defaultParams = {}, init = true } = options || {}
+export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T>) {
+  let { params = ref<ResolvedReturnType<T>>(), defaultParams = {}, init = true, hook } = options || {}
   defaultParams = Object.assign(
     {
       pageIndex: 0,
@@ -53,7 +54,11 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions) 
     delete options.dateTimePicker
 
     try {
-      requestData.value = await api(options) // 执行请求
+      let data = await api(options)
+      if (hook) {
+        data = hook(data)
+      }
+      requestData.value = data // 执行请求
     } catch (e) {
       console.log(e)
     }

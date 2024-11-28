@@ -34,6 +34,9 @@ export interface GetAppNoticeListTypesRes {
     /* 结束时间 */
     endTime: string | null
 
+    /* 是否发布  1发布 0取消发布 */
+    isPublish: number
+
     /* 是否在小程序平台启用  1启用 0禁用 */
     enableApplet: number
 
@@ -105,6 +108,9 @@ export interface CreateAppNoticeTypesReq {
   /* 弹窗的背景图片 */
   backgroundImage: string
 
+  /* 是否发布  1发布 0取消发布 */
+  isPublish: number
+
   /* 是否在小程序平台启用  1启用 0禁用 */
   enableApplet: number
 
@@ -167,6 +173,9 @@ export interface UpdateAppNoticeTypesReq {
   /* 弹窗的背景图片 */
   backgroundImage: string
 
+  /* 是否发布  1发布 0取消发布 */
+  isPublish: number
+
   /* 是否在小程序平台启用  1启用 0禁用 */
   enableApplet: number
 
@@ -186,4 +195,25 @@ export interface UpdateAppNoticeTypesReq {
 export interface UpdateAppNoticeTypesRes {
   /* 主键id */
   id: number
+}
+
+/**
+ *  接口 [调整客户端通知消息发布状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-238543615)
+ *  @标签 通知公告/调整客户端通知消息发布状态
+ *  @方式 POST
+ *  @地址 /admin/appNotice/publishAppNotice
+ *  @更新时间 2024-11-28 08:55:41
+ */
+
+export interface PublishAppNoticeTypesReq {
+  /* 主键id */
+  id: number
+
+  /* 发布状态，1发布，0不发布 */
+  publish: number
+}
+
+export interface PublishAppNoticeTypesRes {
+  /* 主键id */
+  id: string
 }
