@@ -7,4 +7,6 @@ export enum CtxAttrEnum {
   ADMIN_USER_INFO = 'adminUserInfo',
   // 客户端用户信息
   APP_USER_INFO = 'appUserInfo',
+  // APP请求平台
+  APP_PLATFORM = 'appPlatform',
 }

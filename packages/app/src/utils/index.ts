@@ -1,7 +1,7 @@
-import { auyUtils } from '@akaiito/utils'
+import { akaiitoUtils } from '@akaiito/utils'
 import dayjs from 'dayjs'
 
 export const utils = {
   dayjs,
-  ...auyUtils,
+  ...akaiitoUtils,
 }

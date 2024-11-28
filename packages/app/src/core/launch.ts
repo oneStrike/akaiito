@@ -1,6 +1,6 @@
 import { useRouter } from '@/hooks/useRouter'
-import { useUserStore } from '@/stores/modules/user'
 import { useSystemStore } from '@/stores/modules/system'
+import { useUserStore } from '@/stores/modules/user'
 
 export const launch = async () => {
   const userStore = useUserStore()

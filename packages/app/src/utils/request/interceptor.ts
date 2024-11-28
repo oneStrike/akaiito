@@ -7,12 +7,9 @@ export const interceptor: EsRequest['interceptor'] = {
   request: async (config) => {
     config!.header = Object.assign(config?.header ?? {}, {
       'authorization': useUserStore().token.accessToken,
-      'platform': 3,
+      'platform': 'web',
       'version': '2.2.5',
       'x-csrf-token': useCookies.get('csrfToken'),
-    })
-    config!.params = Object.assign(config?.params ?? {}, {
-      in_mainland: true,
     })
     return config!
   },

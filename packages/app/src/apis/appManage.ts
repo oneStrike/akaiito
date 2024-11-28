@@ -1,18 +1,18 @@
 import { httpHandler } from '@/utils/request'
-import type { GetAppSystemConfigTypesRes, GetPageConfigTypesRes, GetNotificationTypesRes } from './types/appManage.d'
+import type { GetSystemConfigTypesRes, GetPageConfigTypesRes, GetNoticeTypesRes } from './types/appManage.d'
 
 /**
  *  接口 [系统配置](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-199830259)
  *  @标签 系统/系统配置
  *  @方式 GET
- *  @地址 /app/appManage/getAppSystemConfig
- *  @更新时间 2024-11-24 12:53:14
+ *  @地址 /app/appManage/getSystemConfig
+ *  @更新时间 2024-11-28 15:00:08
  */
 
-export const getAppSystemConfigApi = (): Promise<GetAppSystemConfigTypesRes> => {
-  return undefined({
+export const getSystemConfigApi = (): Promise<GetSystemConfigTypesRes> => {
+  return httpHandler({
     method: 'GET',
-    url: '/app/appManage/getAppSystemConfig',
+    url: '/app/appManage/getSystemConfig',
     header: {},
   })
 }
@@ -26,7 +26,7 @@ export const getAppSystemConfigApi = (): Promise<GetAppSystemConfigTypesRes> => 
  */
 
 export const getPageConfigApi = (): Promise<GetPageConfigTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/app/appManage/getPageConfig',
     header: {},
@@ -37,14 +37,14 @@ export const getPageConfigApi = (): Promise<GetPageConfigTypesRes> => {
  *  接口 [通知公告](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234300567)
  *  @标签 系统/通知公告
  *  @方式 GET
- *  @地址 /app/appManage/getNotification
- *  @更新时间 2024-11-24 12:53:32
+ *  @地址 /app/appManage/getNotice
+ *  @更新时间 2024-11-27 22:46:26
  */
 
-export const getNotificationApi = (): Promise<GetNotificationTypesRes> => {
-  return undefined({
+export const getNoticeApi = (): Promise<GetNoticeTypesRes> => {
+  return httpHandler({
     method: 'GET',
-    url: '/app/appManage/getNotification',
+    url: '/app/appManage/getNotice',
     header: {},
   })
 }

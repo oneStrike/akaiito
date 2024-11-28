@@ -15,7 +15,7 @@ import type {
  */
 
 export const getFunPluginApi = (params: GetFunPluginTypesReq): Promise<GetFunPluginTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/app/funPlugin/getFunPlugin',
     header: {},
@@ -32,7 +32,7 @@ export const getFunPluginApi = (params: GetFunPluginTypesReq): Promise<GetFunPlu
  */
 
 export const getFunPluginDetailApi = (params: GetFunPluginDetailTypesReq): Promise<GetFunPluginDetailTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/app/funPlugin/getFunPluginDetail',
     header: {},

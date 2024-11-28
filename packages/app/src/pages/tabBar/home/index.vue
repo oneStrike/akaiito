@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { getNoticeApi } from '@/apis/appManage'
+
 defineOptions({
   name: 'HomePage',
 })
+getNoticeApi()
 </script>
 
 <template>

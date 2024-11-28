@@ -2,6 +2,7 @@ import { Controller, Get, Inject } from '@midwayjs/core'
 import { AppConfigService } from '@/service/appMgmt/appConfig.service'
 import { AppPageService } from '@/service/appMgmt/appPage.service'
 import { AppNoticeService } from '@/service/appMgmt/appNotice.service'
+import { AppRequestPlatform } from '@/decorator/appRequestClient.decorator'
 
 @Controller('/app/appManage')
 export class AppManageController {
@@ -24,8 +25,25 @@ export class AppManageController {
     return this.pageService.findList()
   }
 
-  @Get('/getNotification', { summary: '获取客户端通知公告' })
-  async getNotification() {
-    return this.noticeService.findUnique({ where: { isPublish: 1, endTime: { lte: new Date() } } })
+  @Get('/getNotice', { summary: '获取客户端通知公告' })
+  async getNotification(@AppRequestPlatform() platform: string) {
+    const options: any = {
+      where: {
+        isPublish: 1,
+        OR: [{ endTime: null }, { endTime: { lte: new Date() } }],
+      },
+    }
+    switch (platform) {
+      case 'web':
+        options.where.enableWeb = 1
+        break
+      case 'app':
+        options.where.enableApp = 1
+        break
+      case 'applet':
+        options.where.enableApplet = 1
+        break
+    }
+    return this.noticeService.findFirst(options)
   }
 }

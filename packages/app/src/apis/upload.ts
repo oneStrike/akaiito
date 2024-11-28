@@ -10,7 +10,7 @@ import type { UploadFileTypesRes, UploadFileTypesReq } from './types/upload.d'
  */
 
 export const uploadFileApi = (data: UploadFileTypesReq): Promise<UploadFileTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/common/upload/uploadFile',
     header: {

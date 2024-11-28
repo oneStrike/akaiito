@@ -18,7 +18,7 @@ import type {
  */
 
 export const createAppUserApi = (data: CreateAppUserTypesReq): Promise<CreateAppUserTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/app/user/createAppUser',
     header: {
@@ -37,7 +37,7 @@ export const createAppUserApi = (data: CreateAppUserTypesReq): Promise<CreateApp
  */
 
 export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/app/user/login',
     header: {
@@ -56,7 +56,7 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
  */
 
 export const userInfoApi = (): Promise<UserInfoTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'GET',
     url: '/app/user/userInfo',
     header: {},
@@ -72,7 +72,7 @@ export const userInfoApi = (): Promise<UserInfoTypesRes> => {
  */
 
 export const refreshTokenApi = (data: RefreshTokenTypesReq): Promise<RefreshTokenTypesRes> => {
-  return undefined({
+  return httpHandler({
     method: 'POST',
     url: '/app/user/refreshToken',
     header: {
