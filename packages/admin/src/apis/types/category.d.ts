@@ -56,7 +56,7 @@ export interface GetCategoryPageTypesRes {
     comicApplicable: number
 
     /* 分类是否适用于图片 1：适用 0：不适用 */
-    photoApplicable: number
+    photosApplicable: number
 
     /* 分类是否适用于插画 1：适用 0：不适用 */
     illustratorApplicable: number
@@ -105,7 +105,7 @@ export interface CreateCategoryTypesReq {
   comicApplicable: number
 
   /* 分类是否适用于图片 1：适用 0：不适用 */
-  photoApplicable: number
+  photosApplicable: number
 
   /* 分类是否适用于插画 1：适用 0：不适用 */
   illustratorApplicable: number
@@ -145,7 +145,7 @@ export interface UpdateCategoryTypesReq {
   comicApplicable: number
 
   /* 分类是否适用于图片 1：适用 0：不适用 */
-  photoApplicable: number
+  photosApplicable: number
 
   /* 分类是否适用于插画 1：适用 0：不适用 */
   illustratorApplicable: number
@@ -179,7 +179,7 @@ export interface UpdateCategoryStatusTypesReq {
   comicApplicable: number
 
   /* 分类是否适用于图片 1：适用 0：不适用 */
-  photoApplicable: number
+  photosApplicable: number
 
   /* 分类是否适用于插画 1：适用 0：不适用 */
   illustratorApplicable: number
