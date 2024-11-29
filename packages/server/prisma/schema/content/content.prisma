@@ -23,8 +23,10 @@ model Comic {
   isFinished   Boolean  @default(false) @map("is_finished")
   /// 来源
   source       String   @db.VarChar(50)
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  /// 创建时间
+  createdAt    DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
+  /// 更新时间
+  updatedAt    DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
   @@map("comic")
 }

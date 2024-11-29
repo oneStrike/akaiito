@@ -15,9 +15,9 @@ model AppPageConfig {
   /// 页面描述信息
   description String?  @db.VarChar(200)
   /// 创建时间
-  createdAt   DateTime @default(now()) @map("created_at")
+  createdAt   DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
   /// 更新时间
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  updatedAt   DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
   @@map("app_page_config")
 }
@@ -49,9 +49,9 @@ model AppNotice {
   /// 是否启用APP   1 启用 0 禁用
   enableApp       Int       @default(1) @map("enable_app")
   /// 创建时间
-  createdAt       DateTime  @default(now()) @map("created_at")
+  createdAt       DateTime  @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
   /// 更新时间
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  updatedAt       DateTime  @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
   @@map("app_notice")
 }
@@ -59,24 +59,23 @@ model AppNotice {
 /// 客户端系统配置
 model AppConfig {
   /// 主键id
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   /// 客户端logo
-  appLogo   String @map("app_logo") @db.VarChar(200)
+  appLogo   String   @map("app_logo") @db.VarChar(200)
   /// 客户端名字
-  appName   String @map("app_name") @db.VarChar(50)
+  appName   String   @map("app_name") @db.VarChar(50)
   /// 小说板块 0禁用 1启用 2 开发 3维护
-  novelZone Int    @default(1) @map("novel_enabled")
+  novelZone Int      @default(1) @map("novel_enabled")
   /// 漫画板块 0禁用 1启用 2 开发 3维护
-  comicZone Int    @default(1) @map("comic_enabled")
+  comicZone Int      @default(1) @map("comic_enabled")
   /// 写真板块 0禁用 1启用 2 开发 3维护
-  photsZone Int    @default(1) @map("cosplay_enabled")
+  photsZone Int      @default(1) @map("cosplay_enabled")
   /// 视频板块 0禁用 1启用 2 开发 3维护
-  videoZone Int    @default(1) @map("video_enabled")
-
+  videoZone Int      @default(1) @map("video_enabled")
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
   /// 更新时间
-  updatedAt DateTime @updatedAt @map("updated_at")
+  updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
   @@map("app_config")
 }

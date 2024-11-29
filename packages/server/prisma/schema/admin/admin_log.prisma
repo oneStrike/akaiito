@@ -1,36 +1,37 @@
 /// 管理端接口调用记录
 model AdminRequestLog {
   /// 主键id
-  id               Int     @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   /// 用户名
-  username         String? @db.VarChar(50)
+  username         String?  @db.VarChar(50)
   /// 用户主键Id
-  userId           Int?    @map("user_id")
+  userId           Int?     @map("user_id")
   /// 用户手机号
-  userMobile       String? @map("user_mobile") @db.VarChar(50)
+  userMobile       String?  @map("user_mobile") @db.VarChar(50)
   /// 调用ip
-  targetIp         String  @map("target_ip") @db.VarChar(20)
+  targetIp         String   @map("target_ip") @db.VarChar(20)
   /// ip映射地址
-  ipMappingAddress String  @map("ip_mapping_address") @db.VarChar(300)
+  ipMappingAddress String   @map("ip_mapping_address") @db.VarChar(300)
   /// 响应状态码
-  responseCode     Int     @map("response_code")
+  responseCode     Int      @map("response_code")
   /// 响应描述
-  responseDesc     String  @map("response_desc") @db.VarChar(300)
+  responseDesc     String   @map("response_desc") @db.VarChar(300)
   /// 请求类型
-  requestMethod    String  @map("requestMethod") @db.VarChar(50)
+  requestMethod    String   @map("requestMethod") @db.VarChar(50)
   /// 请求地址
-  apiPath          String  @map("api_path") @db.VarChar(255)
+  apiPath          String   @map("api_path") @db.VarChar(255)
   /// 请求地址描述信息
-  apiSummary       String  @map("api_summary") @db.VarChar(255)
+  apiSummary       String   @map("api_summary") @db.VarChar(255)
   /// 操作记录
-  record           String  @db.VarChar(255)
+  record           String   @db.VarChar(255)
   /// 浏览器信息标识
-  userAgent        String  @map("user_agent") @db.VarChar(1000)
+  userAgent        String   @map("user_agent") @db.VarChar(1000)
   /// 请求参数
-  requestParams    String? @map("request_params") @db.LongText
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  requestParams    String?  @map("request_params") @db.LongText
+  /// 创建时间
+  createdAt        DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
+  /// 更新时间
+  updatedAt        DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
   @@map("admin_request_log")
 }

@@ -1,28 +1,29 @@
 /// 作者
 model Author {
   /// 主键id
-  id            Int     @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   /// 作者名称
-  name          String  @db.VarChar(50)
+  name          String   @db.VarChar(50)
   /// 作者头像
-  avatar        String? @db.VarChar(255)
+  avatar        String?  @db.VarChar(255)
   /// 作者描述
-  description   String? @db.VarChar(255)
+  description   String?  @db.VarChar(255)
   /// 状态 1：正常 0：禁用
-  status        Int?    @default(1) @db.TinyInt
+  status        Int?     @default(1) @db.TinyInt
   /// 作者主页
-  website       String? @db.VarChar(255)
+  website       String?  @db.VarChar(255)
   /// 是否是模特 1是0否
-  isModel       Int     @default(0) @map("is_model") @db.TinyInt
+  isModel       Int      @default(0) @map("is_model") @db.TinyInt
   /// 作家身份 1是0否
-  isWriter      Int     @default(0) @map("is_writer") @db.TinyInt
+  isWriter      Int      @default(0) @map("is_writer") @db.TinyInt
   /// 漫画家身份 1是0否
-  isCartoonist  Int     @default(0) @map("is_cartoonist") @db.TinyInt
+  isCartoonist  Int      @default(0) @map("is_cartoonist") @db.TinyInt
   /// 插画师身份 1是0否
-  isIllustrator Int     @default(0) @map("is_illustrator") @db.TinyInt
-
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime? @updatedAt @map("updated_at")
+  isIllustrator Int      @default(0) @map("is_illustrator") @db.TinyInt
+  /// 创建时间
+  createdAt     DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
+  /// 更新时间
+  updatedAt     DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
   @@map("author")
 }
