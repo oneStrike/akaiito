@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { SearchWordTypesRes, ServiceTypesRes } from '@/apis/types/thirdParty'
 import { searchWordApi, serviceApi } from '@/apis/thirdParty'
-import { toolbar } from '@/views/contentMgmt/contentMgmt/shared'
+import { toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 import { useMessage } from '@/hooks/useFeedback'
 
 defineOptions({

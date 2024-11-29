@@ -4,7 +4,7 @@ import { Inject, Singleton } from '@midwayjs/core'
 import { APP_REQUEST_PLATFORM, getAppRequestPlatformHandler } from '@/decorator/appRequestClient.decorator'
 
 @Singleton()
-export class RegisterService {
+export class RegisterDecoratorService {
   @Inject()
   decoratorService: MidwayDecoratorService
 

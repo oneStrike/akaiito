@@ -13,9 +13,9 @@ export default {
     {
       name: 'ContentMgmtPage',
       path: '/contentMgmt/contentMgmt',
-      component: () => import('@/views/contentMgmt/contentMgmt/index.vue'),
+      component: () => import('@/views/contentMgmt/comicMgmt/index.vue'),
       meta: {
-        title: '内容列表',
+        title: '漫画',
         icon: 'textbox',
         rules: ['root'],
         order: 2,

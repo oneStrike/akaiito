@@ -25,5 +25,7 @@ model Author {
   /// 更新时间
   updatedAt     DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
+  Comic Comic[]
+
   @@map("author")
 }

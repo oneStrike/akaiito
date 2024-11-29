@@ -1,32 +1,46 @@
 model Comic {
   /// 主键id
-  id           Int      @id @default(autoincrement())
+  id                Int      @id @default(autoincrement())
   /// 漫画名称
-  name         String   @unique(map: "name") @db.VarChar(50)
-  /// 热度
-  hot          Int      @default(0) @db.MediumInt
-  /// 作者id
-  authorId     Int      @map("author_id") @db.MediumInt
+  name              String   @unique(map: "name") @db.VarChar(50)
   /// 封面
-  cover        String   @db.VarChar(255)
+  cover             String   @db.VarChar(255)
+  /// 热度
+  popularity        Int      @default(0) @db.MediumInt
+  /// 虚拟热度
+  virtualPopularity Int      @default(0) @map("virtual_popularity") @db.MediumInt
+  /// 作者姓名
+  authorName        String   @map("author_name") @db.VarChar(50)
+  /// 作者id
+  authorId          Int      @map("author_id") @db.MediumInt
+  author            Author   @relation(fields: [authorId], references: [id])
+  // 分类id
+  categoryId        Int      @map("category_id") @db.MediumInt
+  category          Category @relation(fields: [categoryId], references: [id])
+  // 分类名称
+  categoryName      String   @map("category_name") @db.VarChar(50)
   /// 状态 1：正常 0：禁用
-  status       Int      @default(1) @db.TinyInt
+  status            Int      @default(1) @db.TinyInt
   /// 发布日期
-  publishAt    DateTime @map("publish_at")
+  publishAt         DateTime @map("publish_at")
   /// 最后更新时间
-  lastUpdated  DateTime @map("last_updated")
+  lastUpdated       DateTime @map("last_updated")
   /// 描述
-  description  String   @db.VarChar(255)
+  description       String   @db.VarChar(255)
+  /// 出版社
+  publisher         String?  @db.VarChar(50)
   /// 章节数量
-  chapterCount Int      @default(0) @map("chapter_count") @db.MediumInt
+  chapterCount      Int      @default(0) @map("chapter_count") @db.MediumInt
   /// 是否已经完结
-  isFinished   Boolean  @default(false) @map("is_finished")
+  isFinished        Int      @default(0) @map("is_finished") @db.TinyInt
   /// 来源
-  source       String   @db.VarChar(50)
+  source            String   @db.VarChar(50)
   /// 创建时间
-  createdAt    DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
+  createdAt         DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
   /// 更新时间
-  updatedAt    DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
+  updatedAt         DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
+  @@index([authorId])
+  @@index([categoryId])
   @@map("comic")
 }

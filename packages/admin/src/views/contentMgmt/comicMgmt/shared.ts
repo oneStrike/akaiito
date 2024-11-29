@@ -1,4 +1,4 @@
-import type { EsToolbarProps } from '@/components/es-toolbar/es-toolbar.vue'
+import type { EsToolbarProps } from '@/components/es-toolbar/types'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
