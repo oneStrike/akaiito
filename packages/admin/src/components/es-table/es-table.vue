@@ -114,7 +114,7 @@ defineExpose({
 <template>
   <div ref="tableBoxRef" :style="{ height: `${tableHeight}px` }">
     <es-toolbar
-      v-if="filter && filter.length"
+      v-if="filter || toolbar"
       v-model="params"
       :toolbar="toolbar"
       :filter="filter"

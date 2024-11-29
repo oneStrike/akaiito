@@ -11,6 +11,8 @@ model Comic {
   virtualPopularity Int      @default(0) @map("virtual_popularity") @db.MediumInt
   /// 作者姓名
   authorName        String   @map("author_name") @db.VarChar(50)
+  /// 语言
+  language          String   @db.VarChar(50)
   /// 作者id
   authorId          Int      @map("author_id") @db.MediumInt
   author            Author   @relation(fields: [authorId], references: [id])
@@ -33,8 +35,6 @@ model Comic {
   chapterCount      Int      @default(0) @map("chapter_count") @db.MediumInt
   /// 是否已经完结
   isFinished        Int      @default(0) @map("is_finished") @db.TinyInt
-  /// 来源
-  source            String   @db.VarChar(50)
   /// 创建时间
   createdAt         DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
   /// 更新时间
