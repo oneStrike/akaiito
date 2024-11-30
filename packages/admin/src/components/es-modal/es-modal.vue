@@ -70,7 +70,7 @@ function toggleFullScreenStatus() {
 
     <template #footer>
       <div class="dialog-footer border-top pt-4">
-        <el-button :loading="loading" @click="(modelValue = false), close('close')"> 关闭</el-button>
+        <el-button :loading="loading" @click="((modelValue = false), close('close'))"> 关闭</el-button>
         <el-button type="primary" :loading="loading" @click="emits('handler')"> 确定</el-button>
       </div>
     </template>

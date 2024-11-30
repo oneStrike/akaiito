@@ -5,7 +5,7 @@ model Dictionary {
   status    Int      @default(1) @db.TinyInt
   remark    String?  @db.VarChar(255)
   /// 创建时间
-  createdAt DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
+  createdAt DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
   /// 更新时间
   updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
@@ -24,7 +24,7 @@ model DictionaryItem {
   status       Int        @default(1) @db.TinyInt
   remark       String?    @db.VarChar(255)
   /// 创建时间
-  createdAt    DateTime   @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
+  createdAt    DateTime   @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
   /// 更新时间
   updatedAt    DateTime   @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 

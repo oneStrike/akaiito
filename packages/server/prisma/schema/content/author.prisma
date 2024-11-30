@@ -21,7 +21,7 @@ model Author {
   /// 插画师身份 1是0否
   isIllustrator Int      @default(0) @map("is_illustrator") @db.TinyInt
   /// 创建时间
-  createdAt     DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime
+  createdAt     DateTime @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
   /// 更新时间
   updatedAt     DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
