@@ -23,9 +23,9 @@ export class ComicController {
     return await this.comicService.delete({ where: { id: body.id } })
   }
 
-  @Get('/getComicList', { summary: '获取漫画列表' })
-  async getComicList(@Query() query: ComicSearchDto) {
-    return await this.comicService.findPage({ where: query })
+  @Get('/getComicPage', { summary: '获取漫画列表' })
+  async getComicPage(@Query() query: ComicSearchDto) {
+    return await this.comicService.getPage(query)
   }
 
   @Get('/getComic', { summary: '获取漫画详情' })
@@ -35,6 +35,6 @@ export class ComicController {
 
   @Post('/updateComicOrder', { summary: '更新漫画发布状态' })
   async updateComicOrder(@Body() body: BasicIdStatusDto) {
-    return await this.comicService.update({ where: { id: body.id }, data: { status: body.status } })
+    return await this.comicService.update({ where: { id: body.id }, data: { isPublish: body.status } })
   }
 }

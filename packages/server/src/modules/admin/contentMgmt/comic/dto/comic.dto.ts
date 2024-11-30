@@ -6,6 +6,8 @@ import {
   requiredNumberLess,
   requiredString,
   validateNumber,
+  validateNumberLess,
+  validateString,
 } from '@/utils/validate'
 import { BasicPageDto } from '@/basic/dto/basic.dto'
 
@@ -14,7 +16,16 @@ export class ComicDto {
   name!: string
 
   @Rule(requiredString)
+  alias!: string
+
+  @Rule(requiredString)
   cover!: string
+
+  @Rule(requiredString)
+  language!: string
+
+  @Rule(requiredString)
+  region!: string
 
   @Rule(validateNumber)
   virtualPopularity?: number
@@ -29,13 +40,13 @@ export class ComicDto {
   publishAt!: Date
 
   @Rule(requiredString)
-  description?: string
+  description!: string
 
   @Rule(requiredString)
-  publisher?: string
+  publisher!: string
 
   @Rule(requiredNumberLess(2))
-  isFinished?: number
+  isFinished!: number
 }
 
 export class ComicUpdateDto extends ComicDto {
@@ -44,18 +55,18 @@ export class ComicUpdateDto extends ComicDto {
 }
 
 export class ComicSearchDto extends BasicPageDto {
-  @Rule(requiredString)
+  @Rule(validateString)
   name?: string
 
-  @Rule(requiredNumber)
+  @Rule(validateNumber)
   authorId?: number
 
-  @Rule(requiredNumber)
+  @Rule(validateNumber)
   categoryId?: number
 
-  @Rule(requiredNumberLess(2))
+  @Rule(validateNumberLess(2))
   isFinished?: number
 
-  @Rule(requiredNumberLess(2))
+  @Rule(validateNumberLess(2))
   status?: number
 }

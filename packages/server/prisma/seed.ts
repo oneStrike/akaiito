@@ -4,11 +4,11 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  const isExists = await prisma.adminUser.findUnique({
+  const isExists = await prisma.sysUser.findUnique({
     where: { mobile: '18888888888' },
   })
   if (!isExists) {
-    await prisma.adminUser.create({
+    await prisma.sysUser.create({
       data: {
         username: 'admin',
         mobile: '18888888888',

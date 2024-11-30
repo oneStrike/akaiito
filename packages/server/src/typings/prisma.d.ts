@@ -6,7 +6,8 @@ export type PrismaInstanceModel = {
   createdAt?: any
   updatedAt?: any
   deletedAt?: any
-}
+} & IterateObject
+
 type ExtendProperty<T> = {
   [P in keyof T]: T[P] | { in: T[P][] } | { gte: T[P] } | { lte: T[P] }
 }
@@ -94,7 +95,7 @@ export type PrismaFindPageOptions<T> = {
   }
   select?: {
     [P in keyof T]?: boolean
-  }
+  } & IterateObject
   omit?: {
     [P in keyof T]?: boolean
   }
