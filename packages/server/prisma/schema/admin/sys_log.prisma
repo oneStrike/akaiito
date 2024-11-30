@@ -1,5 +1,5 @@
-/// 管理端接口调用记录
-model AdminRequestLog {
+/// 系统操作日志表
+model SysOperateLog {
   /// 主键id
   id               Int      @id @default(autoincrement())
   /// 用户名
@@ -33,5 +33,5 @@ model AdminRequestLog {
   /// 更新时间
   updatedAt        DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
-  @@map("admin_request_log")
+  @@map("sys_operate_log")
 }

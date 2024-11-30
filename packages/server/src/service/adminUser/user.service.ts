@@ -1,13 +1,13 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
 import { httpError, Inject, Provide } from '@midwayjs/core'
-import { AdminUser, PrismaClient } from '@prisma/client'
+import { SysUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '@/service/open/captcha.service'
 import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto } from '../../modules/admin/user/dto/user.dto'
 import { JwtService } from '@/auth/jwt.service'
 
 @Provide()
-export class UserService extends BasicService<AdminUser> {
+export class UserService extends BasicService<SysUser> {
   @Inject()
   prismaClient: PrismaClient
 
@@ -18,7 +18,7 @@ export class UserService extends BasicService<AdminUser> {
   captchaServer: CaptchaService
 
   protected get model() {
-    return this.prismaClient.adminUser
+    return this.prismaClient.sysUser
   }
 
   // 创建用户

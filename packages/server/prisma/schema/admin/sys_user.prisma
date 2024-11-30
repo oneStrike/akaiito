@@ -1,5 +1,5 @@
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model AdminUser {
+/// 系统用户表
+model SysUser {
   /// 主键id
   id        Int      @id @default(autoincrement())
   /// 账号
@@ -19,5 +19,5 @@ model AdminUser {
   /// 更新时间
   updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
 
-  @@map("admin_user")
+  @@map("sys_user")
 }

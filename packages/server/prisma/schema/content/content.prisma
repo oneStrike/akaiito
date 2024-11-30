@@ -44,8 +44,6 @@ model Comic {
   updatedAt         DateTime          @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
   // 分类
   categorys         ContentCategory[]
-  Category          Category?         @relation(fields: [categoryId], references: [id])
-  categoryId        Int?
 
   @@index([authorId])
   @@map("comic")
