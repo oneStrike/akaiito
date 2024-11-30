@@ -4,7 +4,7 @@ import type { EsModalProps } from '@/components/es-modal/types'
 const props = withDefaults(defineProps<EsModalProps>(), {
   modelValue: false,
   title: '',
-  height: 680,
+  height: 500,
   loading: false,
 })
 const emits = defineEmits<{
