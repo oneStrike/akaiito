@@ -1,7 +1,7 @@
 import type { EsFormOptions } from '@/components/es-form/types'
+import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import { useValidate } from '@/hooks/useValidate'
-import type { EsTableColumn } from '@/components/es-table/types'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
@@ -113,6 +113,19 @@ export const formOptions: EsFormOptions[] = [
           value: 0,
         },
       ],
+    },
+  },
+  {
+    field: 'language',
+    component: 'Select',
+    props: {
+      span: 2,
+      label: '语言',
+      rules: useValidate.required('语言'),
+    },
+    componentProps: {
+      placeholder: '请选择语言',
+      options: [],
     },
   },
   {

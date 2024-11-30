@@ -158,9 +158,9 @@ function change() {
             </template>
           </el-popconfirm>
         </div>
-        <es-icon v-if="listType === 'picture-card'" name="uploading" :size="22" class="mr-2" />
+        <es-icon v-if="listType === 'picture-card'" name="uploading" :size="22" />
         <el-button v-else type="primary">
-          <es-icon name="uploading" :size="22" class="mr-2" />
+          <es-icon name="uploading" :size="22" />
           上传
         </el-button>
       </template>
