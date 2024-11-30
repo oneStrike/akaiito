@@ -1,5 +1,12 @@
 import { Rule } from '@midwayjs/validate'
-import { requiredDate, requiredNumber, requiredNumberLess, requiredString, validateNumber } from '@/utils/validate'
+import {
+  requiredDate,
+  requiredNumber,
+  requiredNumberArray,
+  requiredNumberLess,
+  requiredString,
+  validateNumber,
+} from '@/utils/validate'
 import { BasicPageDto } from '@/basic/dto/basic.dto'
 
 export class ComicDto {
@@ -15,8 +22,8 @@ export class ComicDto {
   @Rule(requiredNumber)
   authorId!: number
 
-  @Rule(requiredNumber)
-  categoryId!: number
+  @Rule(requiredNumberArray)
+  categoryId!: number[]
 
   @Rule(requiredDate)
   publishAt!: Date

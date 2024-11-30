@@ -22,9 +22,10 @@ export class ComicService extends BasicService<Comic> {
   async createComic(body: Partial<Comic>) {
     const { categoryId, authorId } = body
     const [category, author] = await Promise.all([
-      this.categoryService.findUnique({ where: { id: categoryId } }),
+      this.categoryService.findMany({ where: { id: { in: categoryId } } }),
       this.authorService.findUnique({ where: { id: authorId } }),
     ])
+    console.log(category)
     if (!category) {
       this.throwError('分类不存在')
     }
