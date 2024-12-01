@@ -10,6 +10,22 @@ export class ComicController {
 
   @Post('/createComic', { summary: '创建漫画' })
   async createComic(@Body() body: ComicDto) {
+    const localDate = new Date(body.publishAt)
+
+    // 获取本地时间的各个部分
+    const year = localDate.getFullYear()
+    const month = String(localDate.getMonth() + 1).padStart(2, '0') // 月份从 0 开始，所以需要加 1，并补零
+    const day = String(localDate.getDate()).padStart(2, '0')
+    const hours = String(localDate.getHours()).padStart(2, '0')
+    const minutes = String(localDate.getMinutes()).padStart(2, '0')
+    const seconds = String(localDate.getSeconds()).padStart(2, '0')
+
+    // 格式化时间字符串
+    const gmt8Time = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} GMT+0800`
+
+    // 输出结果
+    console.log(gmt8Time)
+    return body
     return await this.comicService.createComic(body)
   }
 

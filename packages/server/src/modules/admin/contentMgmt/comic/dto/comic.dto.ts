@@ -1,6 +1,5 @@
 import { Rule } from '@midwayjs/validate'
 import {
-  requiredDate,
   requiredNumber,
   requiredNumberArray,
   requiredNumberLess,
@@ -36,8 +35,8 @@ export class ComicDto {
   @Rule(requiredNumberArray)
   categoryId!: number[]
 
-  @Rule(requiredDate)
-  publishAt!: Date
+  @Rule(validateString)
+  publishAt?: Date
 
   @Rule(requiredString)
   description!: string

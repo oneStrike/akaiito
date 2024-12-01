@@ -23,9 +23,9 @@ model Comic {
   /// 是否发布 1：发布 0：不发布
   isPublish         Int               @default(1) @db.TinyInt
   /// 发布日期
-  publishAt         DateTime          @default(dbgenerated("NOW()")) @map("publish_at") @db.Timestamp(0)
+  publishAt         DateTime?         @map("publish_at") @db.DateTime(0)
   /// 最后更新时间
-  lastUpdated       DateTime          @default(dbgenerated("NOW()")) @map("last_updated") @db.Timestamp(0)
+  lastUpdated       DateTime?         @map("last_updated") @db.DateTime(0)
   /// 描述
   description       String            @db.VarChar(255)
   /// 出版社

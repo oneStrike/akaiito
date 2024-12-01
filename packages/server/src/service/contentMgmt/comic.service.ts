@@ -36,9 +36,11 @@ export class ComicService extends BasicService<Comic> {
   //  创建漫画数据
   async createComic(body: ComicDto) {
     const { categoryId, authorId, ...comicData } = body
+    console.log(new Date(comicData.publishAt).getDate())
     return this.create({
       data: {
         ...comicData,
+        publishAt: new Date(new Date(comicData.publishAt).toLocaleString()),
         categories: {
           create: categoryId.map((item) => ({
             category: {
