@@ -112,6 +112,11 @@ export class ComicService extends BasicService<Comic> {
           },
         },
       },
+    }).then((comic) => {
+      if (comic) {
+        comic.categories = comic.categories.map((category) => category.category)
+      }
+      return comic
     })
   }
 }
