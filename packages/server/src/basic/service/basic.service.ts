@@ -40,52 +40,52 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
     throw new httpError.BadRequestError(message)
   }
 
-  async getCount(options?: PrismaGetCountOptions<T>): Promise<number> {
+  getCount(options?: PrismaGetCountOptions<T>): number {
     if (options && options.where) {
-      return await this.model.count({ where: options.where })
+      return this.model.count({ where: options.where })
     } else {
-      return await this.model.count()
+      return this.model.count()
     }
   }
 
   // 是否存在
-  async isExists(options: PrismaIsExistsOptions<T>): Promise<boolean> {
-    return !!(await this.model.findFirst({ where: options.where }))
+  isExists(options: PrismaIsExistsOptions<T>): boolean {
+    return !!this.model.findFirst({ where: options.where })
   }
 
   // 创建数据
-  async create(options: PrismaCreateOptions<T>) {
+  create(options: PrismaCreateOptions<T>) {
     if (!options.select) {
       options.select = {
         id: true,
       }
     }
-    return await this.model.create(options)
+    return this.model.create(options)
   }
 
   // 更新数据
-  async update(options: PrismaUpdateOptions<T>) {
+  update(options: PrismaUpdateOptions<T>) {
     if (!options.select) {
       options.select = {
         id: true,
       }
     }
-    return await this.model.update(options)
+    return this.model.update(options)
   }
 
   // 更新或插入一条数据
-  async upsert(options: PrismaUpsertOptions<T>) {
+  upsert(options: PrismaUpsertOptions<T>) {
     if (!options.select) {
       options.select = {
         id: true,
       }
     }
-    return await this.model.upsert(options)
+    return this.model.upsert(options)
   }
 
   // 批量更新数据
-  async updateBatch(options: PrismaUpsertBatchOptions<T>) {
-    return await this.model.updateMany(options)
+  updateBatch(options: PrismaUpsertBatchOptions<T>) {
+    return this.model.updateMany(options)
   }
 
   // 更新排序
@@ -104,41 +104,41 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   }
 
   // 软删除
-  async softDeletion(where: WhereOptions<T>) {
-    return await this.update({
+  softDeletion(where: WhereOptions<T>) {
+    return this.update({
       where,
       data: { deletedAt: new Date() } as T,
     })
   }
 
   // 删除
-  async delete(options?: PrismaDeleteOptions<T>) {
+  delete(options?: PrismaDeleteOptions<T>) {
     if (!options.select) {
       options.select = {
         id: true,
       }
     }
-    return await this.model.delete(options)
+    return this.model.delete(options)
   }
 
   // 批量删除
-  async deleteBatch(options?: Pick<PrismaDeleteOptions<T>, 'where'>) {
-    return await this.model.deleteMany(options)
+  deleteBatch(options?: Pick<PrismaDeleteOptions<T>, 'where'>) {
+    return this.model.deleteMany(options)
   }
 
   // 根据条件查询多条数据
-  async findMany(options?: PrismaFindUniqueOptions<T>): Promise<(T | null)[]> {
+  findMany(options?: PrismaFindUniqueOptions<T>): Promise<(T | null)[]> {
     return this.model.findMany(options)
   }
 
   // 根据条件查询第一条数据
-  async findFirst(options?: PrismaFindUniqueOptions<T>): Promise<T | null> {
-    return await this.model.findFirst(options)
+  findFirst(options?: PrismaFindUniqueOptions<T>): Promise<T | null> {
+    return this.model.findFirst(options)
   }
 
   // 根据条件查询唯一数据
-  async findUnique(options?: PrismaFindUniqueOptions<T>): Promise<T | null> {
-    return await this.model.findUnique(options)
+  findUnique(options?: PrismaFindUniqueOptions<T>): PrismaInstanceModel | null {
+    return this.model.findUnique(options)
   }
 
   // 分页查询

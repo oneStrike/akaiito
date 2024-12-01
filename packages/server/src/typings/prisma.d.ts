@@ -74,10 +74,11 @@ export type PrismaDeleteOptions<T> = {
 }
 
 export type PrismaFindUniqueOptions<T> = {
+  relationLoadStrategy?: 'join' | 'query'
   where: WhereOptions<T> & IterateObject
   select?: {
     [P in keyof T]?: boolean
-  }
+  } & IterateObject
   include?: {
     [P in keyof T]?: boolean
   } & IterateObject

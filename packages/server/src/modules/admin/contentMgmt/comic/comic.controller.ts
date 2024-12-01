@@ -27,14 +27,10 @@ export class ComicController {
   async getComicPage(@Query() query: ComicSearchDto) {
     return await this.comicService.getPage(query)
   }
+
   @Get('/getComicDetail', { summary: '获取漫画详情' })
   async getComicDetail(@Query() query: BasicIdDto) {
-    return await this.comicService.getDetail(query)
-  }
-
-  @Get('/getComic', { summary: '获取漫画详情' })
-  async getComic(@Query() query: BasicIdDto) {
-    return await this.comicService.findUnique({ where: query })
+    return this.comicService.getDetail(query)
   }
 
   @Post('/updateComicOrder', { summary: '更新漫画发布状态' })

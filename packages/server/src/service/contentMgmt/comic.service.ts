@@ -1,4 +1,4 @@
-import type { Comic, ComicCategory, PrismaClient } from '@prisma/client'
+import type { Comic, ComicCategories, PrismaClient } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { CategoryService } from '@/service/contentMgmt/category.service'
@@ -6,12 +6,12 @@ import { AuthorService } from '@/service/contentMgmt/author.service'
 import { ComicDto, ComicSearchDto } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
 
 @Provide()
-export class ComicCategoryService extends BasicService<ComicCategory> {
+export class ComicCategoryService extends BasicService<ComicCategories> {
   @Inject()
   prismaClient: PrismaClient
 
   protected get model() {
-    return this.prismaClient.comicCategory
+    return this.prismaClient.comicCategories
   }
 }
 
@@ -88,22 +88,12 @@ export class ComicService extends BasicService<Comic> {
   }
 
   //获取漫画详情数据
-  async getDetail({ id }) {
-    const categoryIds = await this.comicCategoryService.findMany({
-      where: { comicId: id },
-      select: { categoryId: true },
-    })
-
-    const categoryIdsArray = categoryIds.map((item) => item.categoryId)
-
-    const categorys = await this.categoryService.findMany({
-      where: { id: { in: categoryIdsArray } },
-      select: { id: true, name: true },
-    })
-
-    const comicData = await this.findUnique({
-      where: { id },
-      omit: { authorId: true },
+  getDetail({ id }) {
+    return this.findUnique({
+      relationLoadStrategy: 'join',
+      where: {
+        id,
+      },
       include: {
         author: {
           select: {
@@ -111,12 +101,17 @@ export class ComicService extends BasicService<Comic> {
             name: true,
           },
         },
+        categories: {
+          select: {
+            category: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     })
-
-    return {
-      ...comicData,
-      categorys,
-    }
   }
 }
