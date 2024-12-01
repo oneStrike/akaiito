@@ -1,51 +1,51 @@
 model Comic {
   /// 主键id
-  id                Int             @id @default(autoincrement())
+  id                Int               @id @default(autoincrement())
   /// 漫画名称
-  name              String          @unique(map: "name") @db.VarChar(50)
+  name              String            @unique(map: "name") @db.VarChar(50)
   /// 漫画别名
-  alias             String          @unique(map: "alias") @db.VarChar(50)
+  alias             String            @unique(map: "alias") @db.VarChar(50)
   /// 封面
-  cover             String          @db.VarChar(255)
+  cover             String            @db.VarChar(255)
   /// 热度
-  popularity        Int             @default(0) @db.MediumInt
+  popularity        Int               @default(0) @db.MediumInt
   /// 虚拟热度
-  virtualPopularity Int             @default(0) @map("virtual_popularity") @db.MediumInt
+  virtualPopularity Int               @default(0) @map("virtual_popularity") @db.MediumInt
   /// 语言
-  language          String          @db.VarChar(50)
+  language          String            @db.VarChar(50)
   /// 地区
-  region            String          @db.VarChar(50)
+  region            String            @db.VarChar(50)
   /// 阅读权限  1不限制  2登录 3会员
-  readPermissions   Int             @default(1) @map("read_permissions") @db.TinyInt
+  readPermissions   Int               @default(1) @map("read_permissions") @db.TinyInt
   /// 作者id
-  authorId          Int             @map("author_id") @db.MediumInt
-  author            Author          @relation(fields: [authorId], references: [id])
+  authorId          Int               @map("author_id") @db.MediumInt
+  author            Author            @relation(fields: [authorId], references: [id])
   /// 是否发布 1：发布 0：不发布
-  isPublish         Int             @default(1) @db.TinyInt
+  isPublish         Int               @default(1) @db.TinyInt
   /// 发布日期
-  publishAt         DateTime        @map("publish_at") @db.DateTime(0)
+  publishAt         DateTime          @default(dbgenerated("NOW()")) @map("publish_at") @db.Timestamp(0)
   /// 最后更新时间
-  lastUpdated       DateTime        @default(dbgenerated("NOW()")) @map("last_updated") @db.DateTime(0)
+  lastUpdated       DateTime          @default(dbgenerated("NOW()")) @map("last_updated") @db.Timestamp(0)
   /// 描述
-  description       String          @db.VarChar(255)
+  description       String            @db.VarChar(255)
   /// 出版社
-  publisher         String?         @db.VarChar(50)
+  publisher         String?           @db.VarChar(50)
   /// 章节数量
-  chapterCount      Int             @default(0) @map("chapter_count") @db.MediumInt
+  chapterCount      Int               @default(0) @map("chapter_count") @db.MediumInt
   /// 是否已经完结
-  isFinished        Int             @default(0) @map("is_finished") @db.TinyInt
+  isFinished        Int               @default(0) @map("is_finished") @db.TinyInt
   /// 创建时间
-  createdAt         DateTime        @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
+  createdAt         DateTime          @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
   /// 更新时间
-  updatedAt         DateTime        @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
+  updatedAt         DateTime          @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
   // 分类
-  categorys         ComicCategory[]
+  categories        ComicCategories[]
 
   @@index([authorId])
   @@map("comic")
 }
 
-model ComicCategory {
+model ComicCategories {
   comicId    Int
   categoryId Int
   comic      Comic    @relation(fields: [comicId], references: [id])
@@ -53,4 +53,5 @@ model ComicCategory {
 
   @@id([comicId, categoryId])
   @@index([categoryId])
+  @@map("comic_categories")
 }

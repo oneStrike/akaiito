@@ -68,5 +68,5 @@ export class ComicSearchDto extends BasicPageDto {
   isFinished?: number
 
   @Rule(validateNumberLess(2))
-  status?: number
+  isPublish?: number
 }

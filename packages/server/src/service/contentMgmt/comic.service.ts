@@ -35,43 +35,26 @@ export class ComicService extends BasicService<Comic> {
 
   //  创建漫画数据
   async createComic(body: ComicDto) {
-    const { categoryId } = body
-
-    // 验证分类是否存在
-    const categories = await this.categoryService.findMany({
-      where: { id: { in: categoryId } },
-      select: { id: true },
-    })
-
-    if (!categories.length) {
-      this.throwError('分类不存在')
-    }
-
-    return await this.prismaClient.$transaction(async (tx) => {
-      // 创建漫画
-      const { categoryId, authorId, ...comicData } = body
-
-      const comic = await tx.comic.create({
-        data: {
-          ...comicData,
-          author: {
-            connect: {
-              id: authorId,
-              isCartoonist: 1,
+    const { categoryId, authorId, ...comicData } = body
+    return this.create({
+      data: {
+        ...comicData,
+        categories: {
+          create: categoryId.map((item) => ({
+            category: {
+              connect: {
+                id: item,
+              },
             },
+          })),
+        },
+        author: {
+          connect: {
+            id: authorId,
+            isCartoonist: 1,
           },
         },
-      })
-
-      // 创建漫画分类关系
-      await tx.comicCategory.createMany({
-        data: categories.map((category) => ({
-          comicId: comic.id,
-          categoryId: category.id,
-        })),
-      })
-
-      return comic
+      },
     })
   }
 
@@ -86,6 +69,9 @@ export class ComicService extends BasicService<Comic> {
         id: true,
         name: true,
         cover: true,
+        updatedAt: true,
+        createdAt: true,
+        isPublish: true,
         popularity: true,
         isFinished: true,
         lastUpdated: true,
@@ -99,5 +85,38 @@ export class ComicService extends BasicService<Comic> {
         },
       },
     })
+  }
+
+  //获取漫画详情数据
+  async getDetail({ id }) {
+    const categoryIds = await this.comicCategoryService.findMany({
+      where: { comicId: id },
+      select: { categoryId: true },
+    })
+
+    const categoryIdsArray = categoryIds.map((item) => item.categoryId)
+
+    const categorys = await this.categoryService.findMany({
+      where: { id: { in: categoryIdsArray } },
+      select: { id: true, name: true },
+    })
+
+    const comicData = await this.findUnique({
+      where: { id },
+      omit: { authorId: true },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    })
+
+    return {
+      ...comicData,
+      categorys,
+    }
   }
 }

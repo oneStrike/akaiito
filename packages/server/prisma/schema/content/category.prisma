@@ -1,39 +1,39 @@
 model Category {
   /// 主键id
-  id                    Int             @id @default(autoincrement())
+  id                    Int               @id @default(autoincrement())
   /// 分类名称
-  name                  String          @unique(map: "name") @db.VarChar(50)
+  name                  String            @unique(map: "name") @db.VarChar(50)
   /// 分类图标
-  icon                  String          @db.MediumText
+  icon                  String            @db.MediumText
   /// 热度
-  hot                   Int?            @default(0) @db.MediumInt
+  hot                   Int?              @default(0) @db.MediumInt
   /// 辅助热度
-  auxiliaryHot          Int?            @default(0) @map("auxiliary_hot") @db.MediumInt
+  auxiliaryHot          Int?              @default(0) @map("auxiliary_hot") @db.MediumInt
   /// 排序
-  sort                  Int?            @default(0) @db.MediumInt
+  sort                  Int?              @default(0) @db.MediumInt
   /// 小说数量
-  novelCount            Int?            @default(0) @map("novel_count") @db.MediumInt
+  novelCount            Int?              @default(0) @map("novel_count") @db.MediumInt
   /// 漫画数量
-  comicCount            Int?            @default(0) @map("manga_count") @db.MediumInt
+  comicCount            Int?              @default(0) @map("manga_count") @db.MediumInt
   /// 图片数量
-  photoCount            Int?            @default(0) @map("photo_count") @db.MediumInt
+  photoCount            Int?              @default(0) @map("photo_count") @db.MediumInt
   /// 插画数量
-  illustratorCount      Int?            @default(0) @map("illustrator_count") @db.MediumInt
+  illustratorCount      Int?              @default(0) @map("illustrator_count") @db.MediumInt
   /// 状态 1：正常 0：禁用
-  status                Int?            @default(1) @db.TinyInt
+  status                Int?              @default(1) @db.TinyInt
   /// 应用于图集 1是0否
-  photoApplicable       Int             @default(0) @map("photo_applicable") @db.TinyInt
+  photoApplicable       Int               @default(0) @map("photo_applicable") @db.TinyInt
   /// 应用于小说 1是0否
-  novelApplicable       Int             @default(0) @map("novel_applicable") @db.TinyInt
+  novelApplicable       Int               @default(0) @map("novel_applicable") @db.TinyInt
   /// 应用于漫画 1是0否
-  comicApplicable       Int             @default(0) @map("comic_applicable") @db.TinyInt
+  comicApplicable       Int               @default(0) @map("comic_applicable") @db.TinyInt
   /// 应用于插画 1是0否
-  illustratorApplicable Int             @default(0) @map("illustrator_applicable") @db.TinyInt
+  illustratorApplicable Int               @default(0) @map("illustrator_applicable") @db.TinyInt
   /// 创建时间
-  createdAt             DateTime        @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
+  createdAt             DateTime          @default(dbgenerated("NOW()")) @map("created_at") @db.DateTime(0)
   /// 更新时间
-  updatedAt             DateTime        @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
-  ComicCategory         ComicCategory[]
+  updatedAt             DateTime          @default(dbgenerated("NOW() ON UPDATE NOW()")) @map("updated_at") @db.Timestamp(0)
+  ComicCategories       ComicCategories[]
 
   @@map("category")
 }

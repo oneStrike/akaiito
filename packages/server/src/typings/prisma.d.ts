@@ -27,7 +27,7 @@ export type PrismaIsExistsOptions<T> = {
 }
 
 export type PrismaCreateOptions<T> = {
-  data: Partial<T>
+  data: Partial<T> & IterateObject
   select?: {
     [P in keyof T]?: boolean
   }
@@ -74,10 +74,13 @@ export type PrismaDeleteOptions<T> = {
 }
 
 export type PrismaFindUniqueOptions<T> = {
-  where: WhereOptions<T>
+  where: WhereOptions<T> & IterateObject
   select?: {
     [P in keyof T]?: boolean
   }
+  include?: {
+    [P in keyof T]?: boolean
+  } & IterateObject
   omit?: {
     [P in keyof T]?: boolean
   }
