@@ -31,13 +31,7 @@ export class DictionaryController {
 
   @Get('/getDataDictionaryItems', { summary: '获取数据字典子项列表' })
   async getDataDictionaryItems(@Query() query: FindDictionItemsDTO) {
-    return this.dictionaryItemsService.getItems({
-      where: query,
-      like: {
-        name: 'contains',
-        code: 'contains',
-      },
-    })
+    return this.dictionaryItemsService.getItems(query)
   }
 
   @Post('/createDataDictionary', { summary: '创建数据字典' })

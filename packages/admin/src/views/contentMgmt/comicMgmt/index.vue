@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { getAuthorPageApi } from '@/apis/author'
 import { useFormTool } from '@/hooks/useForm'
 import { formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 
@@ -11,9 +12,21 @@ const formModal = reactive({
 })
 
 const formInst = useFormTool(formOptions)
+formInst.fillDict([
+  { field: 'language', code: 'language' },
+  { field: 'region', code: 'region' },
+])
 formInst.specificItem('authorId', (item) => {
   item.componentProps!.remoteMethod = async (val: string) => {
-    console.log(val)
+    if (val) {
+      item.componentProps!.loading = true
+      const data = await getAuthorPageApi({ name: val, pageSize: '500' })
+      item.componentProps!.options = data.list.map((item) => ({
+        label: item.name,
+        value: item.id,
+      }))
+      item.componentProps!.loading = false
+    }
   }
   return item
 })

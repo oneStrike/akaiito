@@ -97,6 +97,9 @@ export type PrismaFindPageOptions<T> = {
   }
   take?: number
   skip?: number
+  include?: {
+    [P in keyof T]?: boolean
+  } & IterateObject
   orderBy?: {
     [P in keyof T]?: 'asc' | 'desc'
   }

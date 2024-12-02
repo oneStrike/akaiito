@@ -38,7 +38,7 @@ export interface GetDataDictionaryTypesRes {
     code: string
 
     /* 备注信息 */
-    remark: string
+    remark: string | null
 
     /* 状态，1==>正常 0==>禁用 */
     status: number
@@ -64,7 +64,7 @@ export interface GetDataDictionaryTypesRes {
  *  @标签 数据字典/获取数据字典子项
  *  @方式 GET
  *  @地址 /admin/dictionary/getDataDictionaryItems
- *  @更新时间 2024-09-18 00:08:55
+ *  @更新时间 2024-12-03 00:21:50
  */
 
 export interface GetDataDictionaryItemsTypesReq {
@@ -86,8 +86,8 @@ export interface GetDataDictionaryItemsTypesReq {
   /* 状态，1启用、0禁用 */
   status?: string
 
-  /* 字典父项id */
-  dictionaryId?: string
+  /* 字典父项code */
+  dictionaryCode?: string
 }
 
 export interface GetDataDictionaryItemsTypesRes {
@@ -104,17 +104,14 @@ export interface GetDataDictionaryItemsTypesRes {
     /* 状态，1==>正常 0==>禁用 */
     status: number
 
-    /* 父项id */
-    dictionaryId: number
-
-    /* 父项名称 */
-    dictionaryName: string
-
     /* 排序 */
     order: number
 
     /* 子项备注 */
-    remark: string
+    remark: string | null
+
+    /* 父项相关信息 */
+    dictionary: object
 
     /* 创建时间 */
     createdAt: string
@@ -148,7 +145,7 @@ export interface CreateDataDictionaryTypesReq {
   code: string
 
   /* 备注信息 */
-  remark: string
+  remark: string | null
 }
 
 /* 主键id */
@@ -159,24 +156,21 @@ export type CreateDataDictionaryTypesRes = number
  *  @标签 数据字典/创建数据字典子项
  *  @方式 POST
  *  @地址 /admin/dictionary/createDataDictionaryItems
- *  @更新时间 2024-09-18 00:11:11
+ *  @更新时间 2024-12-03 00:22:35
  */
 
 export interface CreateDataDictionaryItemsTypesReq {
+  /* 父项code */
+  dictionaryCode: string
+
   /* 子项名称 */
   name: string
 
   /* 子项编码 */
   code: string
 
-  /* 父项id */
-  dictionaryId: number
-
-  /* 父项名称 */
-  dictionaryName: string
-
   /* 子项备注 */
-  remark: string
+  remark: string | null
 }
 
 /* 主键id */
@@ -233,7 +227,7 @@ export interface UpdateDataDictionaryTypesReq {
   code: string
 
   /* 备注信息 */
-  remark: string
+  remark: string | null
 }
 
 /* 主键id */
@@ -244,10 +238,13 @@ export type UpdateDataDictionaryTypesRes = number
  *  @标签 数据字典/更新数据字典子项
  *  @方式 POST
  *  @地址 /admin/dictionary/updateDataDictionaryItems
- *  @更新时间 2024-09-18 00:16:19
+ *  @更新时间 2024-12-03 00:23:29
  */
 
 export interface UpdateDataDictionaryItemsTypesReq {
+  /* 父项code */
+  dictionaryCode: string
+
   /* 主键id */
   id: number
 
@@ -258,11 +255,13 @@ export interface UpdateDataDictionaryItemsTypesReq {
   code: string
 
   /* 子项备注 */
-  remark: string
+  remark: string | null
 }
 
-/*  */
-export type UpdateDataDictionaryItemsTypesRes = any
+export interface UpdateDataDictionaryItemsTypesRes {
+  /* 主键id */
+  id: number
+}
 
 /**
  *  接口 [更新数据字典状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691434)

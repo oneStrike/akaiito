@@ -15,19 +15,19 @@ model Dictionary {
 }
 
 model DictionaryItem {
-  id           Int        @id @default(autoincrement())
-  dictionary   Dictionary @relation(fields: [dictionaryId], references: [id])
-  dictionaryId Int        @map("dictionary_id")
-  name         String     @db.VarChar(50)
-  code         String     @unique(map: "code") @db.VarChar(50)
-  order        Int?       @default(0) @db.SmallInt
-  status       Int        @default(1) @db.TinyInt
-  remark       String?    @db.VarChar(255)
+  id             Int        @id @default(autoincrement())
+  dictionary     Dictionary @relation(fields: [dictionaryCode], references: [code])
+  dictionaryCode String     @map("dictionary_code")
+  name           String     @db.VarChar(50)
+  code           String     @unique(map: "code") @db.VarChar(50)
+  order          Int?       @default(0) @db.SmallInt
+  status         Int        @default(1) @db.TinyInt
+  remark         String?    @db.VarChar(255)
   /// 创建时间
-  createdAt    DateTime   @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt      DateTime   @default(now()) @map("created_at") @db.DateTime(0)
   /// 更新时间
-  updatedAt    DateTime   @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamp(0)
 
-  @@index([dictionaryId])
+  @@index([dictionaryCode])
   @@map("dictionary_item")
 }

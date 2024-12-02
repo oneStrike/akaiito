@@ -40,11 +40,11 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
     throw new httpError.BadRequestError(message)
   }
 
-  getCount(options?: PrismaGetCountOptions<T>): number {
+  async getCount(options?: PrismaGetCountOptions<T>): Promise<number> {
     if (options && options.where) {
-      return this.model.count({ where: options.where })
+      return await this.model.count({ where: options.where })
     } else {
-      return this.model.count()
+      return await this.model.count()
     }
   }
 

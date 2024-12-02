@@ -71,7 +71,7 @@ async function addDictionary(value: any) {
       await updateDataDictionaryItemsApi({ ...value, id: currentRow.value.id })
       useMessage.success(PromptsEnum.UPDATED)
     } else {
-      value.dictionaryId = props.record?.id
+      value.dictionaryCode = props.record?.code
       await createDataDictionaryItemsApi(value)
       useMessage.success(PromptsEnum.CREATED)
     }
@@ -99,7 +99,7 @@ function computedTableHeight() {
     v-bind="props"
     v-model="showModal"
     @closed="emits('closed')"
-    @handler="(showModal = false), emits('closed')"
+    @handler="((showModal = false), emits('closed'))"
     @full-screen="computedTableHeight"
   >
     <div v-loading="loading" class="h-full">

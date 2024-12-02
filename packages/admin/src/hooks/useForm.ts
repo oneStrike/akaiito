@@ -1,19 +1,23 @@
 import type { EsFormOptions } from '@/components/es-form/types'
+import { getDataDictionaryItemsApi } from '@/apis/dictionary'
 
-export function useFormTool(options: EsFormOptions[]): {
+export interface UseFormTool {
   getItem: (filed: string | string[]) => EsFormOptions[]
-  formOptions: EsFormOptions[]
+  options: EsFormOptions[]
   specificItem: (filed: string | string[], cb: (item: EsFormOptions) => EsFormOptions) => EsFormOptions[]
   toggleDisplay: (filed: string | string[], status: boolean) => void
-} {
-  const formOptions = ref(options)
+  fillDict: (dict: { field: string; code: string }[]) => Promise<void>
+}
 
-  const getItem = (filed: string | string[]): EsFormOptions[] => {
+export function useFormTool(schema: EsFormOptions[]): UseFormTool {
+  const formOptions = ref(schema)
+
+  const getItem: UseFormTool['getItem'] = (filed) => {
     filed = typeof filed === 'string' ? [filed] : filed
     return formOptions.value.filter((item) => filed.includes(item.field))
   }
 
-  const specificItem = (filed: string | string[], cb: (item: EsFormOptions) => EsFormOptions): EsFormOptions[] => {
+  const specificItem: UseFormTool['specificItem'] = (filed, cb) => {
     filed = typeof filed === 'string' ? [filed] : filed
     return formOptions.value.map((item) => {
       if (filed.includes(item.field)) {
@@ -23,16 +27,28 @@ export function useFormTool(options: EsFormOptions[]): {
     })
   }
 
-  const toggleDisplay = (filed: string | string[], status: boolean): void => {
+  const toggleDisplay: UseFormTool['toggleDisplay'] = (filed, status) => {
     specificItem(filed, (item) => {
       item.show = status
       return item
     })
   }
 
+  const fillDict: UseFormTool['fillDict'] = async (dict) => {
+    for (let i = 0; i < dict.length; i++) {
+      const item = getItem(dict[i].field)[0]
+      const dictData = await getDataDictionaryItemsApi({ dictionaryCode: dict[i].code })
+      item.componentProps!.options = dictData.list.map((item) => ({
+        label: item.name,
+        value: item.code,
+      }))
+    }
+  }
+
   return {
     getItem,
-    formOptions: formOptions.value,
+    fillDict,
+    options: formOptions.value,
     specificItem,
     toggleDisplay,
   } as const
