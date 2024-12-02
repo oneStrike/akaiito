@@ -71,8 +71,8 @@ export class ComicService extends BasicService<Comic> {
       }
     }
     if (categoryIds.length) {
-      await this.comicCategoryService.deleteBatch({ where: { comicId: id } })
       comicData['categories'] = {
+        deleteMany: {},
         create: categoryIds.map((item) => ({
           category: {
             connect: {
