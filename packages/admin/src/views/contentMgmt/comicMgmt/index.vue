@@ -14,6 +14,10 @@ function toolbarHandler(type: string) {
     formModal.show = true
   }
 }
+
+function submitForm(val) {
+  console.log(val)
+}
 </script>
 
 <template>
@@ -24,6 +28,7 @@ function toolbarHandler(type: string) {
       v-model:loading="formModal.loading"
       title="漫画"
       :options="formOptions"
+      @submit="submitForm"
     />
   </div>
 </template>

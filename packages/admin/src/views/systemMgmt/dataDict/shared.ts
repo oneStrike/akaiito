@@ -1,7 +1,6 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
-import { utils } from '@/utils'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
@@ -138,7 +137,6 @@ export const formOptions: EsFormOptions[] = [
     component: 'Textarea',
     props: {
       label: '描述信息',
-      rules: [{ required: true, message: '请输入描述信息' }],
     },
     componentProps: {
       placeholder: '请输入描述信息',

@@ -116,7 +116,7 @@ defineExpose({
             v-if="item.component === 'Checkbox'"
             v-model="formData[item.field]"
             v-bind="item.componentProps"
-            :options="item.componentProps?.options"
+            :options="item.componentProps?.options ?? []"
             v-on="item.on || {}"
           />
 
@@ -130,7 +130,7 @@ defineExpose({
               v-for="child in item.componentProps?.options"
               :key="child.value"
               :value="child.value"
-              :disabled="child.disabled"
+              :disabled="child?.disabled ?? false"
             >
               {{ child.label }}
             </el-radio>
@@ -148,7 +148,7 @@ defineExpose({
               :key="sub.value"
               :label="sub.label"
               :value="sub.value"
-              :disabled="sub.disabled"
+              :disabled="sub?.disabled ?? false"
             />
           </el-select>
 

@@ -11,6 +11,7 @@ export type EsFormComponent =
   | 'Date'
   | 'DateTime'
   | 'Upload'
+  | 'RemoteSelect'
 
 export type FormComponentProps = Partial<FormItemProps> & {
   span?: number
@@ -25,7 +26,7 @@ export interface EsFormOptions {
   props?: FormComponentProps
   component: EsFormComponent
   componentProps?: IterateObject & {
-    options?: { label: string; value: string | number }[]
+    options?: { label: string; value: string | number; disabled?: boolean }[]
   }
   on?: IterateObject
 }

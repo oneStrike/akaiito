@@ -60,7 +60,7 @@ export const formOptions: EsFormOptions[] = [
   },
   {
     field: 'authorId',
-    component: 'Select',
+    component: 'RemoteSelect',
     props: {
       span: 2,
       label: '作者',
@@ -125,6 +125,19 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请选择语言',
+      options: [],
+    },
+  },
+  {
+    field: 'region',
+    component: 'Select',
+    props: {
+      span: 2,
+      label: '区域',
+      rules: useValidate.required('区域'),
+    },
+    componentProps: {
+      placeholder: '请选择区域',
       options: [],
     },
   },
