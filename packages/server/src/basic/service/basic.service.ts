@@ -65,7 +65,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
 
   // 更新数据
   update(options: PrismaUpdateOptions<T>) {
-    if (!options.select) {
+    if (!options.select && !options.include) {
       options.select = {
         id: true,
       }

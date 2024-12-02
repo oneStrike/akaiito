@@ -38,10 +38,13 @@ export type PrismaCreateOptions<T> = {
 
 export type PrismaUpdateOptions<T> = {
   where: WhereOptions<T>
-  data: Partial<T>
+  data: Partial<T> & IterateObject
   select?: {
     [P in keyof T]?: boolean
   }
+  include?: {
+    [P in keyof T]?: boolean
+  } & IterateObject
   omit?: {
     [P in keyof T]?: boolean
   }

@@ -15,7 +15,7 @@ export class ComicController {
 
   @Post('/updateComic', { summary: '更新漫画' })
   async updateComic(@Body() body: ComicUpdateDTO) {
-    return await this.comicService.update({ where: { id: body.id }, data: body })
+    return await this.comicService.updateComic(body)
   }
 
   @Post('/deleteComic', { summary: '删除漫画' })
@@ -25,10 +25,10 @@ export class ComicController {
 
   @Get('/getComicPage', { summary: '获取漫画列表' })
   async getComicPage(@Query() query: ComicSearchDTO) {
-    const UTC = new Date().toUTCString();
-    console.log(UTC);
-    const UTCtimestamp = Date.parse(UTC);
-    console.log(new Date(UTCtimestamp));
+    const UTC = new Date().toUTCString()
+    console.log(UTC)
+    const UTCtimestamp = Date.parse(UTC)
+    console.log(new Date(UTCtimestamp))
     return await this.comicService.getPage(query)
   }
 

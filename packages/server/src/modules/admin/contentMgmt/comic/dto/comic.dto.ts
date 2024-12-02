@@ -4,6 +4,7 @@ import {
   requiredNumberArray,
   requiredNumberLess,
   requiredString,
+  validateDate,
   validateNumber,
   validateNumberLess,
   validateString,
@@ -33,9 +34,9 @@ export class ComicDTO {
   authorId!: number
 
   @Rule(requiredNumberArray)
-  categoryId!: number[]
+  categoryIds!: number[]
 
-  @Rule(validateString)
+  @Rule(validateDate)
   publishAt?: Date
 
   @Rule(requiredString)

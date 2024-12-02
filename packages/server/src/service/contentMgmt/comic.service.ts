@@ -3,7 +3,7 @@ import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { CategoryService } from '@/service/contentMgmt/category.service'
 import { AuthorService } from '@/service/contentMgmt/author.service'
-import { ComicDTO, ComicSearchDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
+import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
 
 @Provide()
 export class ComicCategoryService extends BasicService<ComicCategories> {
@@ -35,14 +35,12 @@ export class ComicService extends BasicService<Comic> {
 
   //  创建漫画数据
   async createComic(body: ComicDTO) {
-    const { categoryId, authorId, ...comicData } = body
-    console.log(new Date(comicData.publishAt).getDate())
+    const { categoryIds, authorId, ...comicData } = body
     return this.create({
       data: {
         ...comicData,
-        publishAt: new Date(new Date(comicData.publishAt).toLocaleString()),
         categories: {
-          create: categoryId.map((item) => ({
+          create: categoryIds.map((item) => ({
             category: {
               connect: {
                 id: item,
@@ -57,6 +55,37 @@ export class ComicService extends BasicService<Comic> {
           },
         },
       },
+    })
+  }
+
+  //  更新漫画数据
+  async updateComic(body: ComicUpdateDTO) {
+    const { categoryIds, authorId, id, ...comicData } = body
+
+    if (authorId) {
+      comicData['author'] = {
+        connect: {
+          id: authorId,
+          isCartoonist: 1,
+        },
+      }
+    }
+    if (categoryIds.length) {
+      await this.comicCategoryService.deleteBatch({ where: { comicId: id } })
+      comicData['categories'] = {
+        create: categoryIds.map((item) => ({
+          category: {
+            connect: {
+              id: item,
+            },
+          },
+        })),
+      }
+    }
+
+    return this.update({
+      where: { id: body.id },
+      data: comicData,
     })
   }
 
