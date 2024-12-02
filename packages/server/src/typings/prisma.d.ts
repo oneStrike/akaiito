@@ -1,4 +1,4 @@
-import { BasicOrderDto, BasicPageDto } from '@/basic/dto/basic.dto'
+import { BasicOrderDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 
 export type PrismaInstanceModel = {
   id?: number
@@ -64,7 +64,7 @@ export type PrismaUpsertBatchOptions<T> = {
   data: Partial<T>
 }
 
-export type PrismaUpdateOrderOptions = BasicOrderDto
+export type PrismaUpdateOrderOptions = BasicOrderDTO
 
 export type PrismaDeleteOptions<T> = {
   where: WhereOptions<T>
@@ -88,7 +88,7 @@ export type PrismaFindUniqueOptions<T> = {
 }
 
 export type PrismaFindPageOptions<T> = {
-  where: WhereOptions<T> & BasicPageDto & IterateObject
+  where: WhereOptions<T> & BasicPageDTO & IterateObject
   like?: {
     [P in keyof T]?: 'contains' | 'startsWith' | 'endsWith'
   }

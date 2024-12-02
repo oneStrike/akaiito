@@ -8,7 +8,7 @@ import {
 } from '@/utils/validate'
 import { Rule } from '@midwayjs/validate'
 
-export class BasicPageDto {
+export class BasicPageDTO {
   /* 单页数量 */
   @Rule(validateNumber)
   pageSize?: number
@@ -30,31 +30,31 @@ export class BasicPageDto {
   endTime?: string
 }
 
-export class BasicIdDto {
+export class BasicIdDTO {
   /* 主键id */
   @Rule(requiredNumber)
   id: number
 }
 
-export class BasicIdsDto {
+export class BasicIdsDTO {
   /* 主键ids */
   @Rule(validateNumberArray)
   ids: number[]
 }
 
-export class BasicIdsStatusDto extends BasicIdsDto {
+export class BasicIdsStatusDTO extends BasicIdsDTO {
   /* 状态 */
   @Rule(requiredNumberLess(2))
   status: number
 }
 
-export class BasicIdStatusDto extends BasicIdDto {
+export class BasicIdStatusDTO extends BasicIdDTO {
   /* 状态 */
   @Rule(requiredNumberLess(2))
   status: number
 }
 
-export class BasicOrderDto {
+export class BasicOrderDTO {
   @Rule(requiredNumber)
   targetId: number
 

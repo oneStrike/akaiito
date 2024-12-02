@@ -1,8 +1,8 @@
-import { BasicPageDto } from '@/basic/dto/basic.dto'
+import { BasicPageDTO } from '@/basic/dto/basic.dto'
 import { givenValue, validateNumber, validateString } from '@/utils/validate'
 import { Rule } from '@midwayjs/validate'
 
-export class OperateLogDto extends BasicPageDto {
+export class OperateLogDTO extends BasicPageDTO {
   @Rule(givenValue(['POST', 'GET'], false))
   requestMethod?: 'POST' | 'GET'
 

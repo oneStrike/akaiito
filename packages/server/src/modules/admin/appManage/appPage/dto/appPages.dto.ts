@@ -1,8 +1,8 @@
 import { Rule } from '@midwayjs/validate'
 import { requiredNumberLess, requiredString, validateNumberLess, validateString } from '@/utils/validate'
-import { BasicPageDto } from '@/basic/dto/basic.dto'
+import { BasicPageDTO } from '@/basic/dto/basic.dto'
 
-export class AppPagesDto {
+export class AppPagesDTO {
   @Rule(requiredString)
   pageCode!: string
 
@@ -22,7 +22,7 @@ export class AppPagesDto {
   description?: string
 }
 
-export class AppPageQueryDto extends BasicPageDto {
+export class AppPageQueryDTO extends BasicPageDTO {
   @Rule(validateString)
   pageName?: string
 

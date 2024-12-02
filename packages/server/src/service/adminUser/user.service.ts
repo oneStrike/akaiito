@@ -3,7 +3,7 @@ import { utils } from '@/utils'
 import { httpError, Inject, Provide } from '@midwayjs/core'
 import { SysUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '@/service/open/captcha.service'
-import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto } from '../../modules/admin/user/dto/user.dto'
+import { CreateUserDTO, RefreshAccessTokenDTO, UpdateUserPwd, UserDTO, UserLoginDTO } from '../../modules/admin/user/dto/user.dto'
 import { JwtService } from '@/auth/jwt.service'
 
 @Provide()
@@ -22,7 +22,7 @@ export class UserService extends BasicService<SysUser> {
   }
 
   // 创建用户
-  async createUser(info: CreateUserDto) {
+  async createUser(info: CreateUserDTO) {
     if (info.password !== info.confirmPassword) {
       this.throwError('密码不一致')
     }
@@ -40,7 +40,7 @@ export class UserService extends BasicService<SysUser> {
   }
 
   // 登录
-  async login(info: UserLoginDto) {
+  async login(info: UserLoginDTO) {
     if ((await this.captchaServer.verifyCaptcha(info.captchaId, info.captcha)) && this.app.getEnv() === 'prod') {
       this.throwError('验证码错误')
     }
@@ -84,7 +84,7 @@ export class UserService extends BasicService<SysUser> {
   }
 
   // 更新用户信息
-  async updateUserInfo(userInfo: UserDto, user: UserDto, type?: string) {
+  async updateUserInfo(userInfo: UserDTO, user: UserDTO, type?: string) {
     if (userInfo.id !== user.id && user.isRoot !== 1) {
       this.throwError('权限不足')
     }
@@ -99,7 +99,7 @@ export class UserService extends BasicService<SysUser> {
   }
 
   // 修改用户密码
-  async updateUserPwd(userInfo: UpdateUserPwd, user: UserDto) {
+  async updateUserPwd(userInfo: UpdateUserPwd, user: UserDTO) {
     if (userInfo.id !== user.id && user.isRoot !== 1) {
       this.throwError('权限不足')
     }
@@ -126,7 +126,7 @@ export class UserService extends BasicService<SysUser> {
     return result?.id || result
   }
 
-  async refreshAccessToken({ accessToken, refreshToken }: RefreshAccessTokenDto) {
+  async refreshAccessToken({ accessToken, refreshToken }: RefreshAccessTokenDTO) {
     const newToken = await this.jwt.renewToken(accessToken, refreshToken)
     if (!newToken) {
       throw new httpError.UnauthorizedError()

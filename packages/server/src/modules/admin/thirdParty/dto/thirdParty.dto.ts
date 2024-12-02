@@ -1,17 +1,17 @@
 import { Rule } from '@midwayjs/validate'
 import { givenValue, requiredString } from '@/utils/validate'
 
-export class ThirdPartyServiceDto {
+export class ThirdPartyServiceDTO {
   @Rule(givenValue(['copy']))
   service!: string
 }
 
-export class ThirdPartyQueryDto extends ThirdPartyServiceDto {
+export class ThirdPartyQueryDTO extends ThirdPartyServiceDTO {
   @Rule(requiredString)
   keyword!: string
 }
 
-export class ThirdPartyParseDto extends ThirdPartyServiceDto {
+export class ThirdPartyParseDTO extends ThirdPartyServiceDTO {
   @Rule(requiredString)
   id!: string
 }

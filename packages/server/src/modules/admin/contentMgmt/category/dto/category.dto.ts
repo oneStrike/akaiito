@@ -1,4 +1,4 @@
-import { BasicIdStatusDto, BasicPageDto } from '@/basic/dto/basic.dto'
+import { BasicIdStatusDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 import {
   requiredNumberLess,
   requiredString,
@@ -8,7 +8,7 @@ import {
 } from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
 
-export class CategoryDto extends BasicIdStatusDto {
+export class CategoryDTO extends BasicIdStatusDTO {
   @Rule(requiredString)
   name!: string
 
@@ -34,7 +34,7 @@ export class CategoryDto extends BasicIdStatusDto {
   illustratorApplicable!: number
 }
 
-export class CategoryListDto extends BasicPageDto {
+export class CategoryListDTO extends BasicPageDTO {
   @Rule(validateString)
   name?: string
 
@@ -54,6 +54,6 @@ export class CategoryListDto extends BasicPageDto {
   illustratorApplicable?: number
 }
 
-export class CreateCategoryDto extends OmitDto(CategoryDto, ['id', 'status']) {}
+export class CreateCategoryDTO extends OmitDto(CategoryDTO, ['id', 'status']) {}
 
-export class UpdateCategoryDto extends OmitDto(CategoryDto, ['status']) {}
+export class UpdateCategoryDTO extends OmitDto(CategoryDTO, ['status']) {}

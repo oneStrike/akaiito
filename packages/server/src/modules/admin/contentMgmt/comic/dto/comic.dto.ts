@@ -8,9 +8,9 @@ import {
   validateNumberLess,
   validateString,
 } from '@/utils/validate'
-import { BasicPageDto } from '@/basic/dto/basic.dto'
+import { BasicPageDTO } from '@/basic/dto/basic.dto'
 
-export class ComicDto {
+export class ComicDTO {
   @Rule(requiredString)
   name!: string
 
@@ -48,12 +48,12 @@ export class ComicDto {
   isFinished!: number
 }
 
-export class ComicUpdateDto extends ComicDto {
+export class ComicUpdateDTO extends ComicDTO {
   @Rule(requiredNumber)
   id!: number
 }
 
-export class ComicSearchDto extends BasicPageDto {
+export class ComicSearchDTO extends BasicPageDTO {
   @Rule(validateString)
   name?: string
 

@@ -3,7 +3,7 @@ import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { CategoryService } from '@/service/contentMgmt/category.service'
 import { AuthorService } from '@/service/contentMgmt/author.service'
-import { ComicDto, ComicSearchDto } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
+import { ComicDTO, ComicSearchDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
 
 @Provide()
 export class ComicCategoryService extends BasicService<ComicCategories> {
@@ -34,7 +34,7 @@ export class ComicService extends BasicService<Comic> {
   }
 
   //  创建漫画数据
-  async createComic(body: ComicDto) {
+  async createComic(body: ComicDTO) {
     const { categoryId, authorId, ...comicData } = body
     console.log(new Date(comicData.publishAt).getDate())
     return this.create({
@@ -61,7 +61,7 @@ export class ComicService extends BasicService<Comic> {
   }
 
   // 获取漫画分页数据
-  async getPage(query: ComicSearchDto) {
+  async getPage(query: ComicSearchDTO) {
     return await this.findPage({
       where: query,
       like: {

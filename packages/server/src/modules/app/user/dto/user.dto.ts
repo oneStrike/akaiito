@@ -7,7 +7,7 @@ import {
   validateString,
 } from '@/utils/validate'
 
-export class UserDto {
+export class UserDTO {
   @Rule(requiredNumber)
   id!: number
 
@@ -27,7 +27,7 @@ export class UserDto {
   sex?: number
 }
 
-export class CreateUserDto extends PickDto(UserDto, ['username']) {
+export class CreateUserDTO extends PickDto(UserDTO, ['username']) {
   @Rule(validatePwd)
   password!: string
 
@@ -35,7 +35,7 @@ export class CreateUserDto extends PickDto(UserDto, ['username']) {
   confirmPassword!: string
 }
 
-export class LoginUserDto extends PickDto(UserDto, ['username']) {
+export class LoginUserDTO extends PickDto(UserDTO, ['username']) {
   @Rule(validatePwd)
   password!: string
 }

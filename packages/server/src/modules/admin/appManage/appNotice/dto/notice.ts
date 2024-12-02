@@ -1,8 +1,8 @@
 import { OmitDto, PickDto, Rule } from '@midwayjs/validate'
 import { requiredNumber, requiredString, validateDate, validateNumberLess, validateString } from '@/utils/validate'
-import { BasicIdDto } from '@/basic/dto/basic.dto'
+import { BasicIdDTO } from '@/basic/dto/basic.dto'
 
-export class NoticeDto {
+export class NoticeDTO {
   @Rule(requiredString)
   title!: string
 
@@ -34,9 +34,9 @@ export class NoticeDto {
   enableApp?: number
 }
 
-export class getNoticeListDto extends PickDto(NoticeDto, ['enableApplet', 'enableWeb', 'enableApp']) {}
+export class getNoticeListDTO extends PickDto(NoticeDTO, ['enableApplet', 'enableWeb', 'enableApp']) {}
 
-export class UpdateNoticeDto extends OmitDto(NoticeDto, ['title', 'content']) {
+export class UpdateNoticeDTO extends OmitDto(NoticeDTO, ['title', 'content']) {
   @Rule(requiredNumber)
   id!: number
 
@@ -47,7 +47,7 @@ export class UpdateNoticeDto extends OmitDto(NoticeDto, ['title', 'content']) {
   content?: string
 }
 
-export class PublishNoticeDto extends BasicIdDto {
+export class PublishNoticeDTO extends BasicIdDTO {
   @Rule(validateNumberLess(2))
   isPublish?: number
 }

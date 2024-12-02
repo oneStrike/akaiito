@@ -1,5 +1,5 @@
 import { AppConfigService } from '@/service/appMgmt/appConfig.service'
-import { AppConfigDto } from './dto/appConfig.dto'
+import { AppConfigDTO } from './dto/appConfig.dto'
 import { Body, Controller, Get, Inject, Post } from '@midwayjs/core'
 
 @Controller('/admin/appManage')
@@ -13,7 +13,7 @@ export class AppConfigController {
   }
 
   @Post('/updateClientConfig', { summary: '更新客户端系统配置信息' })
-  async updateClientSystemConfig(@Body() body: AppConfigDto) {
+  async updateClientSystemConfig(@Body() body: AppConfigDTO) {
     return this.appSystemConfig.upsert({
       where: { id: 1 },
       create: body,

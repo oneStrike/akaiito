@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { ThirdPartyService } from '@/service/thirdParty/thirdParty.service'
-import { ThirdPartyQueryDto, ThirdPartyParseDto } from '@/modules/admin/thirdParty/dto/thirdParty.dto'
+import { ThirdPartyQueryDTO, ThirdPartyParseDTO } from '@/modules/admin/thirdParty/dto/thirdParty.dto'
 
 @Controller('/admin/thirdParty')
 export class ThirdPartyController {
@@ -13,12 +13,12 @@ export class ThirdPartyController {
   }
 
   @Get('/searchWord')
-  async searchWord(@Query() params: ThirdPartyQueryDto) {
+  async searchWord(@Query() params: ThirdPartyQueryDTO) {
     return await this.thirdPartyService.searchWord(params)
   }
 
   @Post('/parseWord')
-  async parseWord(@Body() body: ThirdPartyParseDto) {
+  async parseWord(@Body() body: ThirdPartyParseDTO) {
     return await this.thirdPartyService.parseWord(body)
   }
 }

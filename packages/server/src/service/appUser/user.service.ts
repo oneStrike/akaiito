@@ -1,7 +1,7 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { BasicService } from '@/basic/service/basic.service'
 import { AppUser, PrismaClient } from '@prisma/client'
-import { CreateUserDto, LoginUserDto } from '@/modules/app/user/dto/user.dto'
+import { CreateUserDTO, LoginUserDTO } from '@/modules/app/user/dto/user.dto'
 import { utils } from '@/utils'
 import { JwtService } from '@/auth/jwt.service'
 
@@ -17,7 +17,7 @@ export class AppUserService extends BasicService<AppUser> {
     return this.prismaClient.appUser
   }
 
-  async createUser(info: CreateUserDto) {
+  async createUser(info: CreateUserDTO) {
     if (info.password !== info.confirmPassword) {
       this.throwError('密码不一致')
     }
@@ -35,7 +35,7 @@ export class AppUserService extends BasicService<AppUser> {
     return this.create({ data: info })
   }
 
-  async login(user: LoginUserDto) {
+  async login(user: LoginUserDTO) {
     const userInfo = await this.model.findUnique({
       where: { username: user.username },
     })

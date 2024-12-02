@@ -1,7 +1,7 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { BasicService } from '@/basic/service/basic.service'
 import type { AppNotice, PrismaClient } from '@prisma/client'
-import { PublishNoticeDto } from '@/modules/admin/appManage/appNotice/dto/notice'
+import { PublishNoticeDTO } from '@/modules/admin/appManage/appNotice/dto/notice'
 import { utils } from '@/utils'
 
 @Provide()
@@ -13,7 +13,7 @@ export class AppNoticeService extends BasicService<AppNotice> {
     return this.prismaClient.appNotice
   }
 
-  async publish(data: PublishNoticeDto) {
+  async publish(data: PublishNoticeDTO) {
     const { enableWeb, enableApp, enableApplet, endTime } = await this.model.findUnique({
       where: { id: data.id },
     })

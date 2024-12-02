@@ -1,7 +1,7 @@
 import { requiredString, validateNumber } from '@/utils/validate'
 import { Rule } from '@midwayjs/validate'
 
-export class AppConfigDto {
+export class AppConfigDTO {
   @Rule(validateNumber)
   id: number
 

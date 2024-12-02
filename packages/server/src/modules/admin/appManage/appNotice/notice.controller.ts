@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { AppNoticeService } from '@/service/appMgmt/appNotice.service'
 import {
-  getNoticeListDto,
-  NoticeDto,
-  PublishNoticeDto,
-  UpdateNoticeDto,
+  getNoticeListDTO,
+  NoticeDTO,
+  PublishNoticeDTO,
+  UpdateNoticeDTO,
 } from '@/modules/admin/appManage/appNotice/dto/notice'
-import { BasicIdDto } from '@/basic/dto/basic.dto'
+import { BasicIdDTO } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/appNotice')
 export class AppNoticeController {
@@ -14,32 +14,32 @@ export class AppNoticeController {
   NoticeService: AppNoticeService
 
   @Get('/getAppNoticeList', { summary: '获取客户端通知消息' })
-  async getAppNotice(@Query() query: getNoticeListDto) {
+  async getAppNotice(@Query() query: getNoticeListDTO) {
     return await this.NoticeService.findList({ where: query, omit: { content: true, backgroundImage: true } })
   }
 
   @Get('/getAppNoticeDetail', { summary: '获取客户端通知消息详情' })
-  async getAppNoticeDetail(@Query() query: BasicIdDto) {
+  async getAppNoticeDetail(@Query() query: BasicIdDTO) {
     return await this.NoticeService.findUnique({ where: query })
   }
 
   @Post('/createAppNotice', { summary: '新增客户端通知消息' })
-  async createAppNotice(@Body() body: NoticeDto) {
+  async createAppNotice(@Body() body: NoticeDTO) {
     return await this.NoticeService.create({ data: body })
   }
 
   @Post('/deleteAppNotice', { summary: '删除客户端通知消息' })
-  async deleteAppNotice(@Body() body: BasicIdDto) {
+  async deleteAppNotice(@Body() body: BasicIdDTO) {
     return await this.NoticeService.delete({ where: body })
   }
 
   @Post('/updateAppNotice', { summary: '编辑客户端通知消息' })
-  async updateAppNotice(@Body() body: UpdateNoticeDto) {
+  async updateAppNotice(@Body() body: UpdateNoticeDTO) {
     return await this.NoticeService.update({ where: { id: body.id }, data: body })
   }
 
   @Post('/publishAppNotice', { summary: '调整客户端通知消息发布状态' })
-  async publishAppNotice(@Body() body: PublishNoticeDto) {
+  async publishAppNotice(@Body() body: PublishNoticeDTO) {
     return await this.NoticeService.publish(body)
   }
 }

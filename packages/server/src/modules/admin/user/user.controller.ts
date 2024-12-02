@@ -1,6 +1,6 @@
-import { BasicIdDto, BasicIdStatusDto } from '@/basic/dto/basic.dto'
+import { BasicIdDTO, BasicIdStatusDTO } from '@/basic/dto/basic.dto'
 import { Context } from '@midwayjs/koa'
-import { CreateUserDto, RefreshAccessTokenDto, UpdateUserPwd, UserDto, UserLoginDto, UserPageDto } from './dto/user.dto'
+import { CreateUserDTO, RefreshAccessTokenDTO, UpdateUserPwd, UserDTO, UserLoginDTO, UserPageDTO } from './dto/user.dto'
 import { UserService } from '@/service/adminUser/user.service'
 import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
@@ -18,12 +18,12 @@ export class UserController {
   ctx: Context
 
   @Post('/login', { summary: '登录' })
-  async login(@Body() body: UserLoginDto) {
+  async login(@Body() body: UserLoginDTO) {
     return this.userService.login(body)
   }
 
   @Post('/createAdminUser', { summary: '创建管理员' })
-  async createUser(@Body() body: CreateUserDto) {
+  async createUser(@Body() body: CreateUserDTO) {
     return await this.userService.createUser(body)
   }
 
@@ -35,7 +35,7 @@ export class UserController {
   }
 
   @Get('/getUserPage', { summary: '获取管理员列表' })
-  async getUserPage(@Query() query: UserPageDto) {
+  async getUserPage(@Query() query: UserPageDTO) {
     return this.userService.findPage({
       where: query,
       like: {
@@ -50,35 +50,35 @@ export class UserController {
 
   @Post('/updateAdminUserInfo', { summary: '更新用户信息' })
   @UserInfo()
-  async updateUser(@Body() body: UserDto) {
-    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
+  async updateUser(@Body() body: UserDTO) {
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDTO
     console.log(user, body)
     return this.userService.updateUserInfo(body, user, 'info')
   }
 
   @Post('/deleteAdminUser', { summary: '删除管理员' })
   @UserInfo()
-  async deleteAdminUser(@Body() body: BasicIdDto) {
-    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
+  async deleteAdminUser(@Body() body: BasicIdDTO) {
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDTO
     return this.userService.deleteAdminUser(body, user)
   }
 
   @Post('/updateAdminUserPassword', { summary: '修改密码' })
   @UserInfo()
   async updateAdminUserPassword(@Body() body: UpdateUserPwd) {
-    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDTO
     return this.userService.updateUserPwd(body, user)
   }
 
   @Post('/updateAdminUserStatus', { summary: '启用或者禁用管理员' })
   @UserInfo()
-  async updateUserStatus(@Body() body: BasicIdStatusDto) {
-    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDto
+  async updateUserStatus(@Body() body: BasicIdStatusDTO) {
+    const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDTO
     return this.userService.updateUserInfo(body, user)
   }
 
   @Post('/refreshAccessToken', { summary: '刷新accessToken' })
-  async refreshAccessToken(@Body() body: RefreshAccessTokenDto) {
+  async refreshAccessToken(@Body() body: RefreshAccessTokenDTO) {
     return this.userService.refreshAccessToken(body)
   }
 }

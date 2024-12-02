@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Inject, Post } from '@midwayjs/core'
 import { AppUserService } from '@/service/appUser/user.service'
-import { CreateUserDto, LoginUserDto } from '@/modules/app/user/dto/user.dto'
+import { CreateUserDTO, LoginUserDTO } from '@/modules/app/user/dto/user.dto'
 import { UserInfo } from '@/decorator/userinfo.decorator'
-import { UserDto } from '@/modules/admin/user/dto/user.dto'
+import { UserDTO } from '@/modules/admin/user/dto/user.dto'
 import { Context } from '@midwayjs/koa'
 
 @Controller('/app/user', {
@@ -17,18 +17,18 @@ export class AppUserController {
   ctx: Context
 
   @Post('/createAppUser', { summary: '创建客户端用户' })
-  async createAppUser(@Body() body: CreateUserDto) {
+  async createAppUser(@Body() body: CreateUserDTO) {
     return this.userService.createUser(body)
   }
 
   @Post('/login', { summary: '登录' })
-  async loginClientUser(@Body() body: LoginUserDto) {
+  async loginClientUser(@Body() body: LoginUserDTO) {
     return this.userService.login(body)
   }
 
   @Get('/userInfo', { summary: '获取用户详细信息' })
   @UserInfo()
   async getClientUserInfo() {
-    return this.ctx.getAttr('userInfo') as UserDto
+    return this.ctx.getAttr('userInfo') as UserDTO
   }
 }

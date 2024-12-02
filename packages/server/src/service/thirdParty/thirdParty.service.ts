@@ -1,6 +1,6 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { CopyMangaService } from '@/service/thirdParty/libs/copy.service'
-import { ThirdPartyQueryDto, ThirdPartyParseDto } from '@/modules/admin/thirdParty/dto/thirdParty.dto'
+import { ThirdPartyQueryDTO, ThirdPartyParseDTO } from '@/modules/admin/thirdParty/dto/thirdParty.dto'
 import { Comic, PrismaClient } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 
@@ -16,7 +16,7 @@ export class ThirdPartyService extends BasicService<Comic> {
   @Inject()
   copy: CopyMangaService
 
-  async searchWord(params: ThirdPartyQueryDto) {
+  async searchWord(params: ThirdPartyQueryDTO) {
     const data = await this[params.service].searchWord(params.keyword)
     if (data.code !== 200) {
       this.throwError('解析服务错误')
@@ -24,7 +24,7 @@ export class ThirdPartyService extends BasicService<Comic> {
     return data.data
   }
 
-  async parseWord(body: ThirdPartyParseDto) {
+  async parseWord(body: ThirdPartyParseDTO) {
     const data = await this[body.service].parseWord(body.id)
     if (data.code !== 200) {
       this.throwError('解析服务错误')
