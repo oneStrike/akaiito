@@ -9,7 +9,7 @@ import {
   validateNumberLess,
   validateString,
 } from '@/utils/validate'
-import { BasicPageDTO } from '@/basic/dto/basic.dto'
+import { BasicIdDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 
 export class ComicDTO {
   @Rule(requiredString)
@@ -68,5 +68,10 @@ export class ComicSearchDTO extends BasicPageDTO {
   isFinished?: number
 
   @Rule(validateNumberLess(2))
+  isPublish?: number
+}
+
+export class ComicPublishDTO extends BasicIdDTO {
+  @Rule(requiredNumberLess(2))
   isPublish?: number
 }

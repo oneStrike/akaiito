@@ -1,7 +1,12 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { ComicService } from '@/service/contentMgmt/comic.service'
-import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
-import { BasicIdDTO, BasicIdStatusDTO } from '@/basic/dto/basic.dto'
+import {
+  ComicDTO,
+  ComicPublishDTO,
+  ComicSearchDTO,
+  ComicUpdateDTO,
+} from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
+import { BasicIdDTO } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/comic', { description: '漫画' })
 export class ComicController {
@@ -20,7 +25,7 @@ export class ComicController {
 
   @Post('/deleteComic', { summary: '删除漫画' })
   async deleteComic(@Body() body: BasicIdDTO) {
-    return await this.comicService.delete({ where: { id: body.id } })
+    return await this.comicService.deleteComic(body.id)
   }
 
   @Get('/getComicPage', { summary: '获取漫画列表' })
@@ -37,8 +42,8 @@ export class ComicController {
     return this.comicService.getDetail(query)
   }
 
-  @Post('/updateComicOrder', { summary: '更新漫画发布状态' })
-  async updateComicOrder(@Body() body: BasicIdStatusDTO) {
-    return await this.comicService.update({ where: { id: body.id }, data: { isPublish: body.status } })
+  @Post('/updateComicPublish', { summary: '更新漫画发布状态' })
+  async updateComicOrder(@Body() body: ComicPublishDTO) {
+    return await this.comicService.update({ where: { id: body.id }, data: { isPublish: body.isPublish } })
   }
 }

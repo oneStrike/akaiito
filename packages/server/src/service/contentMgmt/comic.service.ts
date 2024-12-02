@@ -150,4 +150,10 @@ export class ComicService extends BasicService<Comic> {
       return comic
     })
   }
+
+  // 删除
+  async deleteComic(id: number) {
+    await this.comicCategoryService.deleteBatch({ where: { comicId: id } })
+    return this.delete({ where: { id } })
+  }
 }
