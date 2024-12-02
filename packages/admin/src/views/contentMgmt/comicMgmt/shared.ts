@@ -60,14 +60,16 @@ export const formOptions: EsFormOptions[] = [
   },
   {
     field: 'authorId',
-    component: 'RemoteSelect',
+    component: 'Select',
     props: {
       span: 2,
       label: '作者',
       rules: useValidate.required('作者'),
     },
     componentProps: {
-      placeholder: '请选择作者',
+      remote: true,
+      filterable: true,
+      placeholder: '请输入关键字进行搜索',
     },
   },
   {

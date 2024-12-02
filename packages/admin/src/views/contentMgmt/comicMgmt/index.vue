@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useFormTool } from '@/hooks/useForm'
 import { formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 
 defineOptions({
@@ -9,13 +10,21 @@ const formModal = reactive({
   loading: false,
 })
 
+const formInst = useFormTool(formOptions)
+formInst.specificItem('authorId', (item) => {
+  item.componentProps!.remoteMethod = async (val: string) => {
+    console.log(val)
+  }
+  return item
+})
+
 function toolbarHandler(type: string) {
   if (type === 'add') {
     formModal.show = true
   }
 }
 
-function submitForm(val) {
+function submitForm(val: IterateObject) {
   console.log(val)
 }
 </script>
@@ -27,7 +36,7 @@ function submitForm(val) {
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
       title="漫画"
-      :options="formOptions"
+      :options="formInst.formOptions"
       @submit="submitForm"
     />
   </div>
