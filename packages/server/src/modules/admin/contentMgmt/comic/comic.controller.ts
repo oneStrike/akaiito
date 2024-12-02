@@ -30,10 +30,6 @@ export class ComicController {
 
   @Get('/getComicPage', { summary: '获取漫画列表' })
   async getComicPage(@Query() query: ComicSearchDTO) {
-    const UTC = new Date().toUTCString()
-    console.log(UTC)
-    const UTCtimestamp = Date.parse(UTC)
-    console.log(new Date(UTCtimestamp))
     return await this.comicService.getPage(query)
   }
 
