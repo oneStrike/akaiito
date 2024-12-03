@@ -10,7 +10,7 @@ export interface UseFormTool {
 }
 
 export function useFormTool(schema: EsFormOptions[]): UseFormTool {
-  const formOptions = ref(schema)
+  const formOptions = ref<EsFormOptions[]>(JSON.parse(JSON.stringify(schema)))
 
   const getItem: UseFormTool['getItem'] = (filed) => {
     filed = typeof filed === 'string' ? [filed] : filed

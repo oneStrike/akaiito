@@ -5,7 +5,7 @@ import Components from 'unplugin-vue-components/vite'
 
 export function AutoRegistryComponent() {
   return Components({
-    dts: 'src/typings/components.d.ts',
+    dts: 'src/types/components.d.ts',
     dirs: ['src/components'],
     directoryAsNamespace: false,
     resolvers: [

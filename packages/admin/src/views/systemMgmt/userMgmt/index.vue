@@ -25,10 +25,10 @@ const pwdModal = ref(false)
 const formModal = ref(false)
 const currentRow = ref<TableItem | null>(null)
 
-const formScheme = useFormTool(formOptions)
+const formTool = useFormTool(formOptions)
 
 function openUpdateUserInfoModal(row: TableItem) {
-  formScheme.toggleDisplay(['password', 'confirmPassword'], false)
+  formTool.toggleDisplay(['password', 'confirmPassword'], false)
   currentRow.value = row
   formModal.value = true
 }
@@ -66,7 +66,7 @@ async function changePwd(val: any) {
 }
 
 function handlerToolbar() {
-  formScheme.toggleDisplay(['password', 'confirmPassword'], true)
+  formTool.toggleDisplay(['password', 'confirmPassword'], true)
   currentRow.value = null
   formModal.value = true
 }
@@ -109,7 +109,7 @@ async function switchStatus(val: any) {
       <template #action="{ row }">
         <el-button type="primary" link @click="openUpdateUserInfoModal(row)"> 编辑</el-button>
 
-        <el-button type="primary" link @click="(currentRow = row), (pwdModal = true)"> 修改密码</el-button>
+        <el-button type="primary" link @click="((currentRow = row), (pwdModal = true))"> 修改密码</el-button>
 
         <es-pop-confirm
           v-model:loading="loading"
@@ -124,7 +124,7 @@ async function switchStatus(val: any) {
     <es-modal-form
       v-model:show="formModal"
       :title="currentRow?.id ? '修改用户' : '添加用户'"
-      :options="formScheme.formOptions"
+      :options="formTool.options"
       :default-value="currentRow"
       @submit="updateOrAddUserInfo"
       @closed="currentRow = null"

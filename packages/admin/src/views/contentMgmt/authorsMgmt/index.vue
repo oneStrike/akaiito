@@ -22,7 +22,7 @@ const modalFrom = reactive({
   loading: false,
 })
 const currentRow = ref<Record | null>(null)
-const formScheme = useFormTool(formOptions)
+const formTool = useFormTool(formOptions)
 const { reset, request, loading, requestData, params, sortChange } = useRequest(getAuthorPageApi)
 
 async function submitForm(val: any) {
@@ -122,7 +122,7 @@ const openModal = (val?: Record) => {
 
       <template #action="{ row }">
         <el-button type="primary" link @click="openModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteAuthorApi" :row="row" @success="refresh()" />
+        <es-pop-confirm v-model:loading="loading" :request="deleteAuthorApi" :row="row" @success="request()" />
       </template>
     </es-table>
 
@@ -131,7 +131,7 @@ const openModal = (val?: Record) => {
       v-model:loading="modalFrom.loading"
       :default-value="currentRow"
       :title="currentRow ? '编辑' : '添加'"
-      :options="formScheme.formOptions"
+      :options="formTool.options"
       @submit="submitForm"
     />
   </div>

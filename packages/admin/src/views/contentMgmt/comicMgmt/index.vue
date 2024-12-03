@@ -11,12 +11,12 @@ const formModal = reactive({
   loading: false,
 })
 
-const formInst = useFormTool(formOptions)
-formInst.fillDict([
+const formTool = useFormTool(formOptions)
+formTool.fillDict([
   { field: 'language', code: 'language' },
   { field: 'region', code: 'region' },
 ])
-formInst.specificItem('authorId', (item) => {
+formTool.specificItem('authorId', (item) => {
   item.componentProps!.remoteMethod = async (val: string) => {
     if (val) {
       item.componentProps!.loading = true
@@ -49,7 +49,7 @@ function submitForm(val: IterateObject) {
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
       title="漫画"
-      :options="formInst.formOptions"
+      :options="formTool.options"
       @submit="submitForm"
     />
   </div>

@@ -14,7 +14,7 @@ import { filter, formOptions, tableColumns, toolbar } from '@/views/contentMgmt/
 
 type Record = GetCategoryPageTypesRes['list'][number] & { contentModel: string }
 
-const formScheme = useFormTool(formOptions)
+const formTool = useFormTool(formOptions)
 const currentRow = ref<Record | null>(null)
 const formModal = reactive({
   show: false,
@@ -28,7 +28,7 @@ async function switchStatus(val: any) {
 }
 
 const openEditForm = (row: Record) => {
-  const { novelApplicable, comicApplicable, illustratorApplicable, photoApplicable } = row
+  const { novelApplicable, comicApplicable, illustratorApplicable, photosApplicable } = row
   const contentModel = []
   if (novelApplicable) {
     contentModel.push(1)
@@ -39,7 +39,7 @@ const openEditForm = (row: Record) => {
   if (illustratorApplicable) {
     contentModel.push(3)
   }
-  if (photoApplicable) {
+  if (photosApplicable) {
     contentModel.push(4)
   }
   row.contentModel = contentModel.join(',')
@@ -111,7 +111,7 @@ function toolbarHandler() {
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
       :title="currentRow?.id ? '修改分类' : '新增分类'"
-      :options="formScheme.formOptions"
+      :options="formTool.options"
       :default-value="currentRow"
       @submit="submitForm"
       @closed="currentRow = null"

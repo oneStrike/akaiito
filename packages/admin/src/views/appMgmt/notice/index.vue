@@ -17,8 +17,8 @@ import { PromptsEnum } from '@/enum/prompts'
 import { useMessage } from '@/hooks/useFeedback'
 import { useFormTool } from '@/hooks/useForm'
 import { useRequest } from '@/hooks/useRequest'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
 import { utils } from '@/utils'
+import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
 
 defineOptions({
   name: 'NoticePage',
@@ -31,9 +31,9 @@ const modalFrom = reactive({
   show: false,
   loading: false,
 })
-const formScheme = useFormTool(formOptions)
+const formTool = useFormTool(formOptions)
 getAppPagesApi({ pageSize: '500' }).then((res) => {
-  formScheme.specificItem('pageCode', (item) => {
+  formTool.specificItem('pageCode', (item) => {
     item.componentProps!.options = res.list.map((item) => ({
       label: item.pageName,
       value: item.pageCode,
@@ -91,7 +91,7 @@ const openFormModal = async (row?: TableItem) => {
 const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) => {
   modalFrom.loading = true
   if (value.pageCode) {
-    const pages = formScheme.getItem('pageCode')[0].componentProps!.options!
+    const pages = formTool.getItem('pageCode')[0].componentProps!.options!
     value.pageName = pages.find((item) => item.value === value.pageCode)!.label
   }
   value.enableApplet = value.enable.includes('0') ? 1 : 0
@@ -161,7 +161,7 @@ const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) =
       v-model:loading="modalFrom.loading"
       :default-value="currentRow"
       :title="currentRow ? '编辑' : '添加'"
-      :options="formOptions"
+      :options="formTool.options"
       @submit="submitForm"
     />
   </div>
