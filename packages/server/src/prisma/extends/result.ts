@@ -1,7 +1,6 @@
 export function timeZoneExtends() {
   const filed = ['createdAt', 'updatedAt', 'publishAt', 'lastUpdated'],
     res = {}
-
   filed.forEach((item) => {
     res[item] = {
       needs: { [item]: true },
