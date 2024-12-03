@@ -316,6 +316,8 @@
     "watchThrottled": "readonly",
     "watchTriggerable": "readonly",
     "watchWithFilter": "readonly",
-    "whenever": "readonly"
+    "whenever": "readonly",
+    "ElMessage": "readonly",
+    "ElMessageBox": "readonly"
   }
 }
