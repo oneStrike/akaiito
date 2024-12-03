@@ -55,7 +55,6 @@
   "devDependencies": {
     "@midwayjs/cli": "^2.1.1",
     "@midwayjs/mock": "^3.19.0",
-    "@prisma/extension-optimize": "^1.1.0",
     "@types/fs-extra": "^11.0.4",
     "@types/jest": "^29.5.13",
     "@types/jsonwebtoken": "^9.0.7",

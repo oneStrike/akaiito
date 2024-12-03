@@ -1,7 +1,6 @@
 import { Inject, Singleton } from '@midwayjs/core'
 import { PrismaClient } from '@prisma/client'
 import { ILogger, IMidwayContainer } from '@midwayjs/core'
-import { withOptimize } from '@prisma/extension-optimize'
 import { prismaExtends } from '@/prisma/extends'
 
 @Singleton()
@@ -15,9 +14,7 @@ export class RegisterPrisma {
         { level: 'query', emit: 'event' },
         { level: 'error', emit: 'event' },
       ],
-    })
-      .$extends(withOptimize({ apiKey: process.env.OPTIMIZE_API_KEY }))
-      .$extends(prismaExtends)
+    }).$extends(prismaExtends)
 
     container.registerObject('prismaClient', prisma)
   }
