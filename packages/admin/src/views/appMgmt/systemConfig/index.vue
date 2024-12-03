@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { getAppConfigApi, updateSystemConfigApi } from '@/apis/appManage'
-import { useMessage } from '@/hooks/useFeedback'
 import { formOptions } from './shared'
 
 defineOptions({

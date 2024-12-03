@@ -14,9 +14,6 @@ import {
 } from '@/apis/appNotice'
 import { getAppPagesApi } from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
-import { useMessage } from '@/hooks/useFeedback'
-import { useFormTool } from '@/hooks/useForm'
-import { useRequest } from '@/hooks/useRequest'
 import { utils } from '@/utils'
 import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
 

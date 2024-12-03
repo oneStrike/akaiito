@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { getRequestLogsApi } from '@/apis/logs'
-import { useRequest } from '@/hooks/useRequest'
 import { filter, tableColumns } from './shared'
 
 defineOptions({ name: 'OperationLogs' })

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { getCaptchaApi } from '@/apis/captcha'
-import { useStorage } from '@/hooks/useStorage'
-import { useValidate } from '@/hooks/useValidate'
 import { useUserStore } from '@/stores/modules/user'
 
 const router = useRouter()

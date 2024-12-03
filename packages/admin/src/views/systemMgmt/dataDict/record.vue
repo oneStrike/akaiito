@@ -8,8 +8,6 @@ import {
   updateDataDictionaryItemsStatusApi,
 } from '@/apis/dictionary'
 import { PromptsEnum } from '@/enum/prompts'
-import { useConfirm, useMessage } from '@/hooks/useFeedback'
-import { useRequest } from '@/hooks/useRequest'
 import { filter, formOptions, tableColumns, toolbar } from '@/views/systemMgmt/dataDict/shared'
 
 defineOptions({

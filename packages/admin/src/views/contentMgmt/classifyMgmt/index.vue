@@ -7,9 +7,6 @@ import {
   updateCategoryApi,
   updateCategoryStatusApi,
 } from '@/apis/category'
-import { useMessage } from '@/hooks/useFeedback'
-import { useFormTool } from '@/hooks/useForm'
-import { useRequest } from '@/hooks/useRequest'
 import { filter, formOptions, tableColumns, toolbar } from '@/views/contentMgmt/classifyMgmt/shared'
 
 type Record = GetCategoryPageTypesRes['list'][number] & { contentModel: string }

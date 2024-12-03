@@ -6,9 +6,6 @@ import {
   updateAdminUserInfoApi,
   updateAdminUserPasswordApi,
 } from '@/apis/user'
-import { useMessage } from '@/hooks/useFeedback'
-import { useFormTool } from '@/hooks/useForm'
-import { useRequest } from '@/hooks/useRequest'
 import { useUserStore } from '@/stores/modules/user'
 import { filter, formOptions, pwdFormOptions, tableColumns, toolbar } from '@/views/systemMgmt/userMgmt/shared'
 

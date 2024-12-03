@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { createAppPageApi, deleteAppPageApi, getAppPagesApi, updateAppPageApi } from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
-import { useMessage } from '@/hooks/useFeedback'
-import { useRequest } from '@/hooks/useRequest'
 import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/pageMgmt/shared'
 
 defineOptions({

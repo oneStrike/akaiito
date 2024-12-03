@@ -4,6 +4,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 export function autoImport() {
   return AutoImport({
     resolvers: [ElementPlusResolver()],
+    dirs: ['src/hooks'],
     imports: [
       'vue',
       'vue-router',
@@ -16,10 +17,10 @@ export function autoImport() {
     ],
     eslintrc: {
       enabled: true,
-      filepath: './../../.eslintrc-auto-import.json',
+      filepath: '.eslintrc-auto-import.json',
       globalsPropValue: 'readonly',
     },
-    dts: './src/types/auto-import.d.ts',
+    dts: 'src/types/auto-import.d.ts',
     vueTemplate: true,
   })
 }

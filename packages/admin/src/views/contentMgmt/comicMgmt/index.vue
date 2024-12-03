@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { getAuthorPageApi } from '@/apis/author'
-import { useFormTool } from '@/hooks/useForm'
 import { formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 
 defineOptions({
