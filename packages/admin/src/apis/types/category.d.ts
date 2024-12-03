@@ -3,7 +3,7 @@
  *  @标签 分类管理/获取内容分类分页
  *  @方式 GET
  *  @地址 /admin/contentMgmt/category/getCategoryPage
- *  @更新时间 2024-10-10 00:47:39
+ *  @更新时间 2024-12-03 20:24:50
  */
 
 export interface GetCategoryPageTypesReq {
@@ -11,10 +11,16 @@ export interface GetCategoryPageTypesReq {
   name?: string
 
   /* 状态 1：正常 0：禁用 */
-  status?: string
+  status?: number
 
   /* 内容类型 1==>小说 2==>漫画 3==>图片 */
-  contentModel?: string
+  contentModel?: number
+
+  /* 单页数量 */
+  pageSize?: number
+
+  /* 页码 */
+  pageIndex?: number
 }
 
 export interface GetCategoryPageTypesRes {

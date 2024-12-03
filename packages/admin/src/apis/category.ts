@@ -17,7 +17,7 @@ import type {
  *  @标签 分类管理/获取内容分类分页
  *  @方式 GET
  *  @地址 /admin/contentMgmt/category/getCategoryPage
- *  @更新时间 2024-10-10 00:47:39
+ *  @更新时间 2024-12-03 20:24:50
  */
 
 export const getCategoryPageApi = (params: GetCategoryPageTypesReq): Promise<GetCategoryPageTypesRes> => {

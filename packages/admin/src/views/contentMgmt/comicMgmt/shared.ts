@@ -43,6 +43,19 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'alias',
+    component: 'Input',
+    props: {
+      span: 2,
+      label: '漫画别名',
+      rules: useValidate.required('漫画别名'),
+    },
+    componentProps: {
+      placeholder: '请输入漫画别名',
+      maxlength: 50,
+    },
+  },
+  {
     field: 'cover',
     component: 'Upload',
     props: {
@@ -72,7 +85,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'categoryId',
+    field: 'categoryIds',
     component: 'Select',
     props: {
       span: 2,
@@ -80,18 +93,32 @@ export const formOptions: EsFormOptions[] = [
       rules: useValidate.required('分类'),
     },
     componentProps: {
+      multiple: true,
       placeholder: '请选择分类',
     },
   },
   {
+    field: 'publishAt',
+    component: 'Date',
+    props: {
+      span: 2,
+      label: '发布时间',
+      rules: useValidate.required('发布时间'),
+    },
+    componentProps: {
+      multiple: true,
+      placeholder: '请选择作品发布时间',
+    },
+  },
+  {
     field: 'publisher',
-    component: 'Input',
+    component: 'Select',
     props: {
       span: 2,
       label: '出版社',
     },
     componentProps: {
-      placeholder: '请输入出版社',
+      placeholder: '请选择出版社',
     },
   },
   {
@@ -106,11 +133,11 @@ export const formOptions: EsFormOptions[] = [
       placeholder: '请输入出版社',
       options: [
         {
-          label: '是',
+          label: '已完结',
           value: 1,
         },
         {
-          label: '否',
+          label: '连载中',
           value: 0,
         },
       ],
@@ -143,13 +170,25 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'virtualPopularity',
+    component: 'InputNumber',
+    props: {
+      span: 2,
+      label: '辅助热度',
+    },
+    componentProps: {
+      placeholder: '请输入辅助热度',
+    },
+  },
+  {
     field: 'description',
     component: 'Textarea',
     props: {
-      label: '描述',
+      label: '简介',
+      rules: useValidate.required('简介'),
     },
     componentProps: {
-      placeholder: '请输入描述',
+      placeholder: '请输入简介',
       rows: 5,
     },
   },

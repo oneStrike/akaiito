@@ -153,6 +153,16 @@ defineExpose({
           </el-select>
 
           <el-date-picker
+            v-if="item.component === 'Date'"
+            v-model="formData[item.field]"
+            class="w-full!"
+            type="date"
+            value-format="YYYY-MM-DD"
+            v-bind="item.componentProps"
+            v-on="item.on || {}"
+          />
+
+          <el-date-picker
             v-if="item.component === 'DateTime'"
             v-model="formData[item.field]"
             type="datetimerange"

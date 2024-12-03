@@ -35,7 +35,6 @@ getAppPagesApi({ pageSize: '500' }).then((res) => {
       label: item.pageName,
       value: item.pageCode,
     }))
-    return item
   })
 })
 

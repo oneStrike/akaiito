@@ -40,8 +40,8 @@ export class FindDictionDTO extends BasicPageDTO {
 }
 
 export class FindDictionItemsDTO {
-  @Rule(validateString)
-  dictionaryCode?: string
+  @Rule(requiredString)
+  dictionaryCode!: string
 
   @Rule(validateString)
   name?: string

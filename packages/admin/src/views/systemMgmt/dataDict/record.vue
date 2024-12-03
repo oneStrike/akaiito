@@ -37,7 +37,7 @@ const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
 const { requestData, request, reset, loading, params } = useRequest(getDataDictionaryItemsApi, {
   defaultParams: {
-    dictionaryId: props.record?.id,
+    dictionaryCode: props.record?.code,
   },
 })
 

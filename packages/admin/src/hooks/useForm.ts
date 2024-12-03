@@ -4,7 +4,7 @@ import { getDataDictionaryItemsApi } from '@/apis/dictionary'
 export interface UseFormTool {
   getItem: (filed: string | string[]) => EsFormOptions[]
   options: EsFormOptions[]
-  specificItem: (filed: string | string[], cb: (item: EsFormOptions) => EsFormOptions) => EsFormOptions[]
+  specificItem: (filed: string | string[], cb: (item: EsFormOptions) => void) => EsFormOptions[]
   toggleDisplay: (filed: string | string[], status: boolean) => void
   fillDict: (dict: { field: string; code: string }[]) => Promise<void>
 }
