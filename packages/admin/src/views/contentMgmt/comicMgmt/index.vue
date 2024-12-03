@@ -33,7 +33,7 @@ formTool.specificItem('authorId', (item) => {
   }
 })
 getCategoryPageApi({ pageSize: 500 }).then(({ list }) => {
-  formTool.specificItem('categoryId', (item) => {
+  formTool.specificItem('categoryIds', (item) => {
     item.componentProps!.options = list.map((item) => ({
       label: item.name,
       value: item.id,

@@ -1,5 +1,6 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import { getDataDictionaryItemsApi } from '@/apis/dictionary'
+import { utils } from '@/utils'
 
 export interface UseFormTool {
   getItem: (filed: string | string[]) => EsFormOptions[]
@@ -7,26 +8,31 @@ export interface UseFormTool {
   specificItem: (filed: string | string[], cb: (item: EsFormOptions) => void) => EsFormOptions[]
   toggleDisplay: (filed: string | string[], status: boolean) => void
   fillDict: (dict: { field: string; code: string }[]) => Promise<void>
+  disablePastDate: (date: Date) => boolean
+  disableFutureDate: (date: Date) => boolean
 }
 
-export function useFormTool(schema: EsFormOptions[]): UseFormTool {
-  const formOptions = ref<EsFormOptions[]>(JSON.parse(JSON.stringify(schema)))
+export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
+  const formOptions = ref<EsFormOptions[]>(schema ? JSON.parse(JSON.stringify(schema)) : [])
 
+  // 获取表单中的某一项
   const getItem: UseFormTool['getItem'] = (filed) => {
     filed = typeof filed === 'string' ? [filed] : filed
     return formOptions.value.filter((item) => filed.includes(item.field))
   }
 
+  // 循环表单以填充表单中的某一项
   const specificItem: UseFormTool['specificItem'] = (filed, cb) => {
     filed = typeof filed === 'string' ? [filed] : filed
     return formOptions.value.map((item) => {
       if (filed.includes(item.field)) {
-        item = cb(item)
+        cb(item)
       }
       return item
     })
   }
 
+  // 展示或者隐藏表单中的某一项
   const toggleDisplay: UseFormTool['toggleDisplay'] = (filed, status) => {
     specificItem(filed, (item) => {
       item.show = status
@@ -34,6 +40,7 @@ export function useFormTool(schema: EsFormOptions[]): UseFormTool {
     })
   }
 
+  // 填充表单的数据字典
   const fillDict: UseFormTool['fillDict'] = async (dict) => {
     for (let i = 0; i < dict.length; i++) {
       const item = getItem(dict[i].field)[0]
@@ -45,11 +52,23 @@ export function useFormTool(schema: EsFormOptions[]): UseFormTool {
     }
   }
 
+  // 禁止选择之后的时间
+  const disableFutureDate: UseFormTool['disableFutureDate'] = (date) => {
+    console.log(date)
+    return date && date.getTime() > Date.now()
+  }
+  // 禁止选择之前的时间
+  const disablePastDate: UseFormTool['disablePastDate'] = (date) => {
+    return date && date.getTime() < Date.now()
+  }
+
   return {
     getItem,
     fillDict,
     options: formOptions.value,
     specificItem,
     toggleDisplay,
+    disablePastDate,
+    disableFutureDate,
   } as const
 }

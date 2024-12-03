@@ -1,6 +1,7 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
+import { useFormTool } from '@/hooks/useForm'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
@@ -106,8 +107,8 @@ export const formOptions: EsFormOptions[] = [
       rules: useValidate.required('发布时间'),
     },
     componentProps: {
-      multiple: true,
       placeholder: '请选择作品发布时间',
+      disabledDate: useFormTool().disableFutureDate,
     },
   },
   {
