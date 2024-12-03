@@ -21,7 +21,7 @@ model Comic {
   authorId          Int               @map("author_id") @db.MediumInt
   author            Author            @relation(fields: [authorId], references: [id])
   /// 是否发布 1：发布 0：不发布
-  isPublish         Int               @default(1) @db.TinyInt
+  isPublish         Boolean           @default(true)
   /// 发布日期
   publishAt         DateTime?         @map("publish_at") @db.DateTime(0)
   /// 最后更新时间

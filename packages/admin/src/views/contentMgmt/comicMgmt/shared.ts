@@ -26,6 +26,88 @@ export const tableColumn: EsTableColumn = [
   {
     prop: 'name',
     label: '名称',
+    align: 'center',
+    slotName: 'name',
+  },
+  {
+    prop: 'cover',
+    label: '封面',
+    align: 'center',
+    type: 'image',
+  },
+  {
+    prop: 'popularity',
+    label: '热度',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'popularity',
+  },
+  {
+    prop: 'isFinished',
+    label: '作品状态',
+    align: 'center',
+    slotName: 'isFinished',
+  },
+  {
+    prop: 'author',
+    label: '作者',
+    align: 'center',
+    slotName: 'author',
+  },
+  {
+    prop: 'isPublish',
+    label: '发布状态',
+    align: 'center',
+    slotName: 'isPublish',
+  },
+  {
+    prop: 'lastUpdated',
+    label: '最后更新时间',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'lastUpdated',
+  },
+  {
+    prop: 'action',
+    label: '操作',
+    align: 'center',
+    slotName: 'action',
+  },
+]
+
+export const filter: EsFormOptions[] = [
+  {
+    field: 'isFinished',
+    component: 'Select',
+    props: {
+      span: 4,
+    },
+    componentProps: {
+      placeholder: '是否完结',
+      options: [
+        {
+          label: '已完结',
+          value: 1,
+        },
+        {
+          label: '连载中',
+          value: 0,
+        },
+      ],
+    },
+  },
+  {
+    field: 'name',
+    component: 'Input',
+    props: {
+      span: 4,
+    },
+    componentProps: {
+      placeholder: '漫画名称',
+      maxlength: 50,
+    },
   },
 ]
 
@@ -131,7 +213,7 @@ export const formOptions: EsFormOptions[] = [
       rules: useValidate.required('是否完结'),
     },
     componentProps: {
-      placeholder: '请输入出版社',
+      placeholder: '请选择是否完结',
       options: [
         {
           label: '已完结',

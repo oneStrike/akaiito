@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { getAuthorPageApi } from '@/apis/author'
-import { formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
-import { getCategoryPageApi } from '@/apis/category'
-import { createComicApi } from '@/apis/comic'
 import type { CreateComicTypesReq } from '@/apis/types/comic'
+import { getAuthorPageApi } from '@/apis/author'
+import { getCategoryPageApi } from '@/apis/category'
+import { createComicApi, deleteComicApi, getComicPageApi, updateComicPublishApi } from '@/apis/comic'
+import { filter, formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 
 defineOptions({
   name: 'ContentMgmtPage',
@@ -12,6 +12,8 @@ const formModal = reactive({
   show: false,
   loading: false,
 })
+
+const { request, requestData, params, loading, sortChange } = useRequest(getComicPageApi)
 
 const formTool = useFormTool(formOptions)
 formTool.fillDict([
@@ -56,8 +58,35 @@ async function submitForm(val: CreateComicTypesReq) {
 </script>
 
 <template>
-  <div class="main-page">
-    <es-table :toolbar="toolbar" :columns="tableColumn" :data="[]" @toolbar-handler="toolbarHandler" />
+  <div v-loading="loading" class="main-page">
+    <es-table
+      v-model:params="params"
+      :toolbar="toolbar"
+      :filter="filter"
+      :columns="tableColumn"
+      :data="requestData?.list ?? []"
+      :total="requestData?.total"
+      @toolbar-handler="toolbarHandler"
+      @query="request"
+      @sort-change="sortChange"
+    >
+      <template #name="{ row }">
+        <el-button link type="primary">{{ row.name }}</el-button>
+      </template>
+      <template #isFinished="{ row }">
+        <el-text :type="row.isFinished ? 'success' : 'danger'">{{ row.isFinished ? '已完结' : '连载中' }}</el-text>
+      </template>
+      <template #author="{ row }">
+        <el-button link type="primary">{{ row.author.name }}</el-button>
+      </template>
+      <template #isPublish="{ row }">
+        <es-switch :row="row" :request="updateComicPublishApi" field="isPublish" @success="request" />
+      </template>
+      <template #action="{ row }">
+        <el-button link type="primary">编辑</el-button>
+        <es-pop-confirm v-model:loading="loading" :request="deleteComicApi" :row="row" ids @success="request" />
+      </template>
+    </es-table>
     <es-modal-form
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
