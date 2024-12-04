@@ -1,5 +1,13 @@
 import { BasicPageDTO } from '@/basic/dto/basic.dto'
-import { requiredNumber, requiredString, validateNumber, validateNumberLess, validateString } from '@/utils/validate'
+import {
+  requiredBoolean,
+  requiredNumber,
+  requiredString,
+  validateBoolean,
+  validateNumber,
+  validateNumberLess,
+  validateString,
+} from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
 
 export class AuthorDTO {
@@ -18,17 +26,17 @@ export class AuthorDTO {
   @Rule(validateNumberLess(2))
   status!: number
 
-  @Rule(validateNumberLess(2))
-  isModel!: number
+  @Rule(requiredBoolean)
+  isModel!: boolean
 
-  @Rule(validateNumberLess(2))
-  isWriter!: number
+  @Rule(requiredBoolean)
+  isWriter!: boolean
 
-  @Rule(validateNumberLess(2))
-  isCartoonist!: number
+  @Rule(requiredBoolean)
+  isCartoonist!: boolean
 
-  @Rule(validateNumberLess(2))
-  isIllustrator!: number
+  @Rule(requiredBoolean)
+  isIllustrator!: boolean
 
   @Rule(validateString)
   website?: string
@@ -43,15 +51,15 @@ export class GetAuthorPageDTO extends BasicPageDTO {
   @Rule(validateNumber)
   status?: number
 
-  @Rule(validateNumberLess(2))
-  isModel?: number
+  @Rule(validateBoolean)
+  isModel?: boolean
 
-  @Rule(validateNumberLess(2))
-  isWriter?: number
+  @Rule(validateBoolean)
+  isWriter?: boolean
 
-  @Rule(validateNumberLess(2))
-  isCartoonist?: number
+  @Rule(validateBoolean)
+  isCartoonist?: boolean
 
-  @Rule(validateNumberLess(2))
-  isIllustrator?: number
+  @Rule(validateBoolean)
+  isIllustrator?: boolean
 }

@@ -9,7 +9,12 @@ export const validateString = RuleType.string().empty('').allow(null)
 /**
  * 限定为布尔类型
  */
-export const validateBoolean = RuleType.boolean()
+export const validateBoolean = RuleType.boolean().truthy(1).falsy(0).sensitive()
+
+/**
+ * 限定为必传布尔类型
+ */
+export const requiredBoolean = RuleType.boolean().truthy(1).falsy(0).sensitive().required()
 
 /**
  * 限定为必传字符串类型
@@ -69,7 +74,9 @@ export const requiredNumber = validateNumber.required()
 /**
  * 数字小于
  */
-export const validateNumberLess = (less: number) => RuleType.number().less(less).empty('')
+export function validateNumberLess(less: number) {
+  return RuleType.number().less(less).empty('')
+}
 
 /**
  * 限定为必传数字小于

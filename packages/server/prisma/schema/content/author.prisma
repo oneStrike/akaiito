@@ -13,13 +13,13 @@ model Author {
   /// 作者主页
   website       String?  @db.VarChar(255)
   /// 是否是模特 1是0否
-  isModel       Int      @default(0) @map("is_model") @db.TinyInt
+  isModel       Boolean  @default(false) @map("is_model")
   /// 作家身份 1是0否
-  isWriter      Int      @default(0) @map("is_writer") @db.TinyInt
+  isWriter      Boolean  @default(false) @map("is_writer")
   /// 漫画家身份 1是0否
-  isCartoonist  Int      @default(0) @map("is_cartoonist") @db.TinyInt
+  isCartoonist  Boolean  @default(false) @map("is_cartoonist")
   /// 插画师身份 1是0否
-  isIllustrator Int      @default(0) @map("is_illustrator") @db.TinyInt
+  isIllustrator Boolean  @default(false) @map("is_illustrator")
   /// 创建时间
   createdAt     DateTime @default(now()) @map("created_at") @db.DateTime(0)
   /// 更新时间
