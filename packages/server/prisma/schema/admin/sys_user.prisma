@@ -9,13 +9,13 @@ model SysUser {
   /// 头像
   avatar    String?  @db.VarChar(100)
   /// 手机号
-  mobile    String?  @unique(map: "mobile") @db.VarChar(20)
-  /// 状态 0禁用 1正常
-  status    Int      @default(1) @db.TinyInt
+  mobile    String?  @unique(map: "user_mobile") @db.VarChar(20)
+  /// 状态 正常或不正常
+  status    Int      @default(1) @db.SmallInt
   /// 是否是超级管理员 1是0否
-  isRoot    Int      @default(1) @db.TinyInt
+  isRoot    Boolean  @default(true) @db.Boolean
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 

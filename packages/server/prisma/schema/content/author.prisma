@@ -9,7 +9,7 @@ model Author {
   /// 作者描述
   description   String?  @db.VarChar(255)
   /// 状态 1：正常 0：禁用
-  status        Int?     @default(1) @db.TinyInt
+  status        Int?     @default(1) @db.SmallInt
   /// 作者主页
   website       String?  @db.VarChar(255)
   /// 是否是模特 1是0否
@@ -21,7 +21,7 @@ model Author {
   /// 插画师身份 1是0否
   isIllustrator Boolean  @default(false) @map("is_illustrator")
   /// 创建时间
-  createdAt     DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 

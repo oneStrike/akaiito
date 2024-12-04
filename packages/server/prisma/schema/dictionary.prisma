@@ -1,11 +1,11 @@
 model Dictionary {
   id        Int      @id @default(autoincrement())
-  name      String   @unique(map: "name") @db.VarChar(50)
-  code      String   @unique(map: "code") @db.VarChar(50)
-  status    Int      @default(1) @db.TinyInt
+  name      String   @unique(map: "dcit_name") @db.VarChar(50)
+  code      String   @unique(map: "dict_code") @db.VarChar(50)
+  status    Int      @default(1) @db.SmallInt
   remark    String?  @db.VarChar(255)
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
@@ -21,10 +21,10 @@ model DictionaryItem {
   name           String     @db.VarChar(50)
   code           String     @unique(map: "code") @db.VarChar(50)
   order          Int?       @default(0) @db.SmallInt
-  status         Int        @default(1) @db.TinyInt
+  status         Int        @default(1) @db.SmallInt
   remark         String?    @db.VarChar(255)
   /// 创建时间
-  createdAt      DateTime   @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamp(0)
 

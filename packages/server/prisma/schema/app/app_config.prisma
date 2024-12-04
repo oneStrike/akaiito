@@ -9,13 +9,13 @@ model AppPageConfig {
   /// 页面名称
   pageName    String   @unique @map("page_name") @db.VarChar(200)
   /// 页面权限 1普通 2登录 3会员
-  pageRule    Int      @default(1) @map("page_rule") @db.TinyInt
+  pageRule    Int      @default(1) @map("page_rule") @db.SmallInt
   /// 状态  1启用  0禁用 2开发中 3维护中
-  status      Int      @default(1) @db.TinyInt
+  status      Int      @default(1) @db.SmallInt
   /// 页面描述信息
   description String?  @db.VarChar(200)
   /// 创建时间
-  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
@@ -27,17 +27,17 @@ model AppNotice {
   /// 主键id
   id              Int       @id @default(autoincrement())
   /// 标题
-  title           String    @db.MediumText
+  title           String    @db.VarChar(100)
   /// 内容
-  content         String    @db.MediumText /// 内容
+  content         String    @db.Text /// 内容
   /// 发布开始时间
   startTime       DateTime? @map("start_time")
   /// 发布结束时间
   endTime         DateTime? @map("end_time")
   /// 页面代码，点击公告跳转的页面
-  pageCode        String?   @map("page_code") @db.TinyText
+  pageCode        String?   @map("page_code") @db.VarChar(50)
   /// 页面代码，点击公告跳转的页面
-  pageName        String?   @map("page_name") @db.TinyText
+  pageName        String?   @map("page_name") @db.VarChar(50)
   /// 通知弹窗的背景图片
   backgroundImage String?   @map("background_image") @db.VarChar(200)
   /// 是否发布   1 启用 0 禁用
@@ -49,7 +49,7 @@ model AppNotice {
   /// 是否启用APP   1 启用 0 禁用
   enableApp       Int       @default(1) @map("enable_app")
   /// 创建时间
-  createdAt       DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamp(0)
 
@@ -73,7 +73,7 @@ model AppConfig {
   /// 视频板块 0禁用 1启用 2 开发 3维护
   videoZone Int      @default(1) @map("video_enabled")
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 

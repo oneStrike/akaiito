@@ -10,11 +10,11 @@ model AppUser {
   /// 手机号
   mobile    String?  @unique(map: "mobile") @db.VarChar(20)
   /// 状态 0禁用 1正常
-  status    Int      @default(1) @db.TinyInt
+  status    Int      @default(1) @db.SmallInt
   /// 性别 0未知 1男 2女
-  sex       Int      @default(0) @db.TinyInt
+  sex       Int      @default(0) @db.SmallInt
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
