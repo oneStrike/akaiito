@@ -3,7 +3,13 @@ import { utils } from '@/utils'
 import { httpError, Inject, Provide } from '@midwayjs/core'
 import { SysUser, PrismaClient } from '@prisma/client'
 import { CaptchaService } from '@/service/open/captcha.service'
-import { CreateUserDTO, RefreshAccessTokenDTO, UpdateUserPwd, UserDTO, UserLoginDTO } from '../../modules/admin/user/dto/user.dto'
+import {
+  CreateUserDTO,
+  RefreshAccessTokenDTO,
+  UpdateUserPwd,
+  UserDTO,
+  UserLoginDTO,
+} from '../../modules/admin/user/dto/user.dto'
 import { JwtService } from '@/auth/jwt.service'
 
 @Provide()
@@ -85,7 +91,7 @@ export class UserService extends BasicService<SysUser> {
 
   // 更新用户信息
   async updateUserInfo(userInfo: UserDTO, user: UserDTO, type?: string) {
-    if (userInfo.id !== user.id && user.isRoot !== 1) {
+    if (userInfo.id !== user.id && !user.isRoot) {
       this.throwError('权限不足')
     }
     if (userInfo.id === user.id && type !== 'info') {
@@ -100,7 +106,7 @@ export class UserService extends BasicService<SysUser> {
 
   // 修改用户密码
   async updateUserPwd(userInfo: UpdateUserPwd, user: UserDTO) {
-    if (userInfo.id !== user.id && user.isRoot !== 1) {
+    if (userInfo.id !== user.id && !user.isRoot) {
       this.throwError('权限不足')
     }
     if (userInfo.newPassword !== userInfo.confirmNewPassword) {

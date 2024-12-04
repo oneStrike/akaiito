@@ -2,6 +2,7 @@ import { BasicIdDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 import {
   requiredNumber,
   requiredString,
+  validateBoolean,
   validateNumberLess,
   validatePwd,
   validateString,
@@ -24,8 +25,8 @@ export class UserDTO {
   @Rule(validateNumberLess(2))
   status?: number
 
-  @Rule(validateNumberLess(2))
-  isRoot?: number
+  @Rule(validateBoolean)
+  isRoot?: boolean
 }
 
 export class CreateUserDTO extends OmitDto(UserDTO, ['id']) {
@@ -65,8 +66,8 @@ export class UserPageDTO extends BasicPageDTO {
   @Rule(validateNumberLess(2))
   status: number
 
-  @Rule(validateNumberLess(2))
-  isRoot: number
+  @Rule(validateBoolean)
+  isRoot: boolean
 
   @Rule(validateString)
   mobile?: string
