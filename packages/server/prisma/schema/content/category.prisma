@@ -2,7 +2,7 @@ model Category {
   /// 主键id
   id                    Int               @id @default(autoincrement())
   /// 分类名称
-  name                  String            @unique @db.VarChar(50)
+  name                  String            @unique @db.VarChar(20)
   /// 分类图标
   icon                  String            @db.VarChar(200)
   /// 热度

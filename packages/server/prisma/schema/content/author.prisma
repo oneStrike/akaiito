@@ -3,15 +3,15 @@ model Author {
   /// 主键id
   id            Int      @id @default(autoincrement())
   /// 作者名称
-  name          String   @db.VarChar(50)
+  name          String   @db.VarChar(30)
   /// 作者头像
-  avatar        String?  @db.VarChar(255)
+  avatar        String?  @db.VarChar(200)
   /// 作者描述
-  description   String?  @db.VarChar(255)
+  description   String?  @db.VarChar(1000)
   /// 状态 1：正常 0：禁用
   status        Int?     @default(1) @db.SmallInt
   /// 作者主页
-  website       String?  @db.VarChar(255)
+  website       String?  @db.VarChar(200)
   /// 是否是模特 1是0否
   isModel       Boolean  @default(false) @map("is_model")
   /// 作家身份 1是0否

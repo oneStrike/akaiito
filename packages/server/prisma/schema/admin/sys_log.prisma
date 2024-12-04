@@ -3,7 +3,7 @@ model SysOperateLog {
   /// 主键id
   id               Int      @id @default(autoincrement())
   /// 用户名
-  username         String?  @db.VarChar(50)
+  username         String?  @db.VarChar(20)
   /// 用户主键Id
   userId           Int?     @map("user_id") @db.Integer
   /// 用户手机号
