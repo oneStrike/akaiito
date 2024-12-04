@@ -79,6 +79,7 @@ function formSubmit(val: IterateObject) {
     :width="width"
     :title="title"
     destroy-on-close
+    class="p-2"
     @handler="handler"
     @close="emits('close')"
     @closed="emits('closed')"

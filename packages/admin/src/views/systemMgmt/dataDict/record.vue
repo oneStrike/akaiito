@@ -96,6 +96,7 @@ function computedTableHeight() {
   <es-modal
     v-bind="props"
     v-model="showModal"
+    class="p-1"
     @closed="emits('closed')"
     @handler="((showModal = false), emits('closed'))"
     @full-screen="computedTableHeight"

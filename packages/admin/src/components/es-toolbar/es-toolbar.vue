@@ -53,7 +53,7 @@ defineExpose({
 </script>
 
 <template>
-  <div id="toolbar" class="flex justify-between flex-wrap">
+  <div id="toolbar" class="flex justify-between flex-wrap p-1">
     <div class="flex pb-4">
       <div v-for="(item, index) in toolbar" :key="index" class="mr-4">
         <el-button v-if="item.type === 'button'" v-bind="item.props" @click="emits('handler', item.value)">
@@ -108,7 +108,7 @@ defineExpose({
           v-on="on || {}"
           @keydown.enter="modelValue[item] = throttleInput.value[item]"
           @change="(val) => ((modelValue[item] = val), on?.change && on?.change(val))"
-          @clear="(modelValue[item] = ''), on?.change && on?.clear()"
+          @clear="((modelValue[item] = ''), on?.change && on?.clear())"
         />
       </template>
     </es-form>

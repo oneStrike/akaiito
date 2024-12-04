@@ -36,8 +36,9 @@ const pageIndex = computed({
     params.value.pageIndex = newVal - 1
   },
 })
-const paginationRef = useTemplateRef('paginationRef')
-const tableBoxRef = useTemplateRef('tableBoxRef')
+const paginationRef = useTemplateRef<HTMLDivElement>('paginationRef')
+const tableBoxRef = useTemplateRef<HTMLDivElement>('tableBoxRef')
+const toolbarRef = useTemplateRef<HTMLDivElement>('toolbarRef')
 
 const tableHeight = ref(100)
 const elHeight = ref({
@@ -62,10 +63,11 @@ function computedTableHeight() {
     elHeight.value.pagination = height + y
   })
 
-  useResizeObserver(document.getElementById('toolbar'), (entries) => {
+  useResizeObserver(toolbarRef.value, (entries) => {
     const entry = entries[0]
-    const { height, y } = entry.contentRect
-    elHeight.value.toolbar = height + y
+    console.log(entry.contentRect)
+    const { height, y, top } = entry.contentRect
+    elHeight.value.toolbar = height + y + top
   })
 }
 
@@ -114,6 +116,7 @@ defineExpose({
 <template>
   <div ref="tableBoxRef" :style="{ height: `${tableHeight}px` }">
     <es-toolbar
+      ref="toolbarRef"
       v-if="filter || toolbar"
       v-model="params"
       :toolbar="toolbar"
