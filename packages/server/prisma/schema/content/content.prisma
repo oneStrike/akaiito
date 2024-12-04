@@ -15,25 +15,23 @@ model Comic {
   language          String            @db.VarChar(50)
   /// 地区
   region            String            @db.VarChar(50)
-  /// 阅读权限  1不限制  2登录 3会员
-  readPermissions   Int               @default(1) @map("read_permissions") @db.SmallInt
   /// 作者id
   authorId          Int               @map("author_id") @db.Integer
   author            Author            @relation(fields: [authorId], references: [id])
   /// 是否发布 1：发布 0：不发布
-  isPublish         Int               @default(0) @db.SmallInt
+  isPublish         Boolean           @default(false) @db.Boolean
   /// 发布日期
   publishAt         DateTime?         @map("publish_at") @db.Timestamp(0)
   /// 最后更新时间
   lastUpdated       DateTime?         @map("last_updated") @db.Timestamp(0)
   /// 描述
-  description       String            @db.VarChar(255)
+  description       String            @db.VarChar(1000)
   /// 出版社
-  publisher         String?           @db.VarChar(50)
+  publisher         String?           @db.VarChar(30)
   /// 章节数量
   chapterCount      Int               @default(0) @map("chapter_count") @db.Integer
   /// 是否已经完结
-  isFinished        Int               @default(0) @map("is_finished") @db.SmallInt
+  isFinished        Boolean           @default(false) @map("is_finished")
   /// 创建时间
   createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间

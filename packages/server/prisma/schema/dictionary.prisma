@@ -1,27 +1,36 @@
 model Dictionary {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique(map: "dcit_name") @db.VarChar(50)
-  code      String   @unique(map: "dict_code") @db.VarChar(50)
-  status    Int      @default(1) @db.SmallInt
-  remark    String?  @db.VarChar(255)
+  id        Int              @id @default(autoincrement())
+  /// 字典名称
+  name      String           @unique @db.VarChar(50)
+  /// 字典编码
+  code      String           @unique @db.VarChar(50)
+  /// 状态 1启用 0禁用
+  status    Int              @default(1) @db.SmallInt
+  /// 备注信息
+  remark    String?          @db.VarChar(255)
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
-
-  items DictionaryItem[]
+  updatedAt DateTime         @updatedAt @map("updated_at") @db.Timestamp(0)
+  items     DictionaryItem[]
 
   @@map("dictionary")
 }
 
 model DictionaryItem {
   id             Int        @id @default(autoincrement())
+  /// 父项code
   dictionary     Dictionary @relation(fields: [dictionaryCode], references: [code])
   dictionaryCode String     @map("dictionary_code")
+  /// 子项名称
   name           String     @db.VarChar(50)
-  code           String     @unique(map: "code") @db.VarChar(50)
+  // 子项编码
+  code           String     @unique @db.VarChar(50)
+  /// 排序
   order          Int?       @default(0) @db.SmallInt
+  /// 状态 1启用 0禁用
   status         Int        @default(1) @db.SmallInt
+  /// 备注信息
   remark         String?    @db.VarChar(255)
   /// 创建时间
   createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamp(0)

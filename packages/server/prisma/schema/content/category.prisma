@@ -2,7 +2,7 @@ model Category {
   /// 主键id
   id                    Int               @id @default(autoincrement())
   /// 分类名称
-  name                  String            @unique(map: "category_name") @db.VarChar(50)
+  name                  String            @unique @db.VarChar(50)
   /// 分类图标
   icon                  String            @db.VarChar(200)
   /// 热度
@@ -22,13 +22,13 @@ model Category {
   /// 状态 1：正常 0：禁用
   status                Int?              @default(1) @db.SmallInt
   /// 应用于图集 1是0否
-  photoApplicable       Int               @default(0) @map("photo_applicable") @db.SmallInt
+  photoApplicable       Boolean           @default(false) @map("photo_applicable")
   /// 应用于小说 1是0否
-  novelApplicable       Int               @default(0) @map("novel_applicable") @db.SmallInt
+  novelApplicable       Boolean           @default(false) @map("novel_applicable")
   /// 应用于漫画 SmallInt
-  comicApplicable       Int               @default(0) @map("comic_applicable") @db.SmallInt
+  comicApplicable       Boolean           @default(false) @map("comic_applicable")
   /// 应用于插画 1是0否
-  illustratorApplicable Int               @default(0) @map("illustrator_applicable") @db.SmallInt
+  illustratorApplicable Boolean           @default(false) @map("illustrator_applicable")
   /// 创建时间
   createdAt             DateTime          @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
