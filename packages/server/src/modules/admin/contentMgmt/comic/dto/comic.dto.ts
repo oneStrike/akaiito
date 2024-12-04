@@ -1,12 +1,12 @@
 import { Rule } from '@midwayjs/validate'
 import {
+  requiredBoolean,
   requiredNumber,
   requiredNumberArray,
-  requiredNumberLess,
   requiredString,
+  validateBoolean,
   validateDate,
   validateNumber,
-  validateNumberLess,
   validateString,
 } from '@/utils/validate'
 import { BasicIdDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
@@ -45,8 +45,8 @@ export class ComicDTO {
   @Rule(requiredString)
   publisher!: string
 
-  @Rule(requiredNumberLess(2))
-  isFinished!: number
+  @Rule(requiredBoolean)
+  isFinished!: boolean
 }
 
 export class ComicUpdateDTO extends ComicDTO {
@@ -64,14 +64,14 @@ export class ComicSearchDTO extends BasicPageDTO {
   @Rule(validateNumber)
   categoryId?: number
 
-  @Rule(validateNumberLess(2))
-  isFinished?: number
+  @Rule(validateBoolean)
+  isFinished?: boolean
 
-  @Rule(validateNumberLess(2))
-  isPublish?: number
+  @Rule(validateBoolean)
+  isPublish?: boolean
 }
 
 export class ComicPublishDTO extends BasicIdDTO {
-  @Rule(requiredNumberLess(2))
-  isPublish?: number
+  @Rule(validateBoolean)
+  isPublish?: boolean
 }

@@ -57,7 +57,7 @@ export class UserService extends BasicService<SysUser> {
       this.throwError('手机号或密码错误')
     }
 
-    if (!userInfo.accountStatus) {
+    if (!userInfo.status) {
       this.throwError('账户已被禁用，请联系系统管理员')
     }
     delete userInfo.password

@@ -1,11 +1,5 @@
 import { BasicIdStatusDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
-import {
-  requiredNumberLess,
-  requiredString,
-  validateNumber,
-  validateNumberLess,
-  validateString,
-} from '@/utils/validate'
+import { requiredBoolean, requiredString, validateBoolean, validateNumber, validateString } from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
 
 export class CategoryDTO extends BasicIdStatusDTO {
@@ -21,17 +15,17 @@ export class CategoryDTO extends BasicIdStatusDTO {
   @Rule(validateNumber)
   sort?: number
 
-  @Rule(requiredNumberLess(2))
-  novelApplicable!: number
+  @Rule(requiredBoolean)
+  novelApplicable!: boolean
 
-  @Rule(requiredNumberLess(2))
-  comicApplicable!: number
+  @Rule(requiredBoolean)
+  comicApplicable!: boolean
 
-  @Rule(requiredNumberLess(2))
-  photoApplicable!: number
+  @Rule(requiredBoolean)
+  photoApplicable!: boolean
 
-  @Rule(requiredNumberLess(2))
-  illustratorApplicable!: number
+  @Rule(requiredBoolean)
+  illustratorApplicable!: boolean
 }
 
 export class CategoryListDTO extends BasicPageDTO {
@@ -41,17 +35,17 @@ export class CategoryListDTO extends BasicPageDTO {
   @Rule(validateNumber)
   status?: number
 
-  @Rule(validateNumberLess(2))
-  novelApplicable?: number
+  @Rule(validateBoolean)
+  novelApplicable?: boolean
 
-  @Rule(validateNumberLess(2))
-  comicApplicable?: number
+  @Rule(validateBoolean)
+  comicApplicable?: boolean
 
-  @Rule(validateNumberLess(2))
-  photoApplicable?: number
+  @Rule(validateBoolean)
+  photoApplicable?: boolean
 
-  @Rule(validateNumberLess(2))
-  illustratorApplicable?: number
+  @Rule(validateBoolean)
+  illustratorApplicable?: boolean
 }
 
 export class CreateCategoryDTO extends OmitDto(CategoryDTO, ['id', 'status']) {}

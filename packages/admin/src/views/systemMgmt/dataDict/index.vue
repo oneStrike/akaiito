@@ -123,8 +123,6 @@ function showDetail(row: TableItem) {
       v-model="detailModalShow"
       :record="currentRow"
       :title="currentRow?.name"
-      :height="630"
-      :max-height="630"
       :width="1200"
       @closed="currentRow = null"
     />
