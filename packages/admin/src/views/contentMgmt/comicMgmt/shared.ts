@@ -89,11 +89,11 @@ export const filter: EsFormOptions[] = [
       options: [
         {
           label: '已完结',
-          value: 1,
+          value: true,
         },
         {
           label: '连载中',
-          value: 0,
+          value: false,
         },
       ],
     },
@@ -217,11 +217,11 @@ export const formOptions: EsFormOptions[] = [
       options: [
         {
           label: '已完结',
-          value: 1,
+          value: true,
         },
         {
           label: '连载中',
-          value: 0,
+          value: false,
         },
       ],
     },

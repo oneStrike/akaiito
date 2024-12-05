@@ -9,7 +9,7 @@ import {
   UpdateUserPwd,
   UserDTO,
   UserLoginDTO,
-} from '../../modules/admin/user/dto/user.dto'
+} from '@/modules/admin/user/dto/user.dto'
 import { JwtService } from '@/auth/jwt.service'
 
 @Provide()
@@ -35,7 +35,7 @@ export class UserService extends BasicService<SysUser> {
     const isExists = await this.isExists({
       where: { OR: [{ mobile: info.mobile }, { username: info.username }] },
     })
-    this.model.findFirst({ where: {} })
+    await this.model.findFirst({ where: {} })
     if (isExists) {
       this.throwError('用户信息已被注册')
     }

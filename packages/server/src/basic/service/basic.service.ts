@@ -49,8 +49,8 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   }
 
   // 是否存在
-  isExists(options: PrismaIsExistsOptions<T>): boolean {
-    return !!this.model.findFirst({ where: options.where })
+  async isExists(options: PrismaIsExistsOptions<T>): Promise<boolean> {
+    return !!(await this.model.findFirst({ where: options.where }))
   }
 
   // 创建数据

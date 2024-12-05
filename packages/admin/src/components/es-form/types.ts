@@ -26,7 +26,7 @@ export interface EsFormOptions {
   props?: FormComponentProps
   component: EsFormComponent
   componentProps?: IterateObject & {
-    options?: { label: string; value: string | number; disabled?: boolean }[]
+    options?: { label: string; value: string | number | boolean; disabled?: boolean }[]
   }
   on?: IterateObject
 }

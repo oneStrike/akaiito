@@ -18,6 +18,9 @@ model Comic {
   /// 作者id
   authorId          Int               @map("author_id") @db.Integer
   author            Author            @relation(fields: [authorId], references: [id])
+  /// 权限
+  workPermissions   WorkPermissions   @relation(fields: [permissions], references: [id])
+  permissions       Int               @db.Integer
   /// 是否发布 1：发布 0：不发布
   isPublish         Boolean           @default(false) @db.Boolean
   /// 发布日期
@@ -36,10 +39,11 @@ model Comic {
   createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
-  // 分类
+  /// 分类
   categories        ComicCategories[]
 
   @@index([authorId])
+  @@index([permissions])
   @@map("comic")
 }
 
