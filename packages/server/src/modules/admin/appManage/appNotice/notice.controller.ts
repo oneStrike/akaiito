@@ -15,17 +15,40 @@ export class AppNoticeController {
 
   @Get('/getAppNoticeList', { summary: '获取客户端通知消息' })
   async getAppNotice(@Query() query: getNoticeListDTO) {
-    return await this.NoticeService.findList({ where: query, omit: { content: true, backgroundImage: true } })
+    return await this.NoticeService.findList({
+      where: query,
+      omit: { content: true, backgroundImage: true },
+      include: {
+        appPage: {
+          select: {
+            pageCode: true,
+            pageName: true,
+            pagePath: true,
+          },
+        },
+      },
+    })
   }
 
   @Get('/getAppNoticeDetail', { summary: '获取客户端通知消息详情' })
   async getAppNoticeDetail(@Query() query: BasicIdDTO) {
-    return await this.NoticeService.findUnique({ where: query })
+    return this.NoticeService.findUnique({
+      where: query,
+      include: {
+        appPage: {
+          select: {
+            pageCode: true,
+            pageName: true,
+            pagePath: true,
+          },
+        },
+      },
+    })
   }
 
   @Post('/createAppNotice', { summary: '新增客户端通知消息' })
   async createAppNotice(@Body() body: NoticeDTO) {
-    return await this.NoticeService.create({ data: body })
+    return await this.NoticeService.createNotice(body)
   }
 
   @Post('/deleteAppNotice', { summary: '删除客户端通知消息' })
