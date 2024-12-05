@@ -1,23 +1,24 @@
 /// 客户端页面配置
 model AppPageConfig {
   /// 主键id
-  id          Int      @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   /// 页面编码
-  pageCode    String   @unique @map("page_code") @db.VarChar(50)
+  pageCode    String      @unique @map("page_code") @db.VarChar(50)
   /// 页面路径
-  pagePath    String   @unique @map("page_path") @db.VarChar(200)
+  pagePath    String      @unique @map("page_path") @db.VarChar(200)
   /// 页面名称
-  pageName    String   @unique @map("page_name") @db.VarChar(50)
+  pageName    String      @unique @map("page_name") @db.VarChar(50)
   /// 页面权限 1普通 2登录 3会员
-  pageRule    Int      @default(1) @map("page_rule") @db.SmallInt
+  pageRule    Int         @default(1) @map("page_rule") @db.SmallInt
   /// 状态  1启用  0禁用 2开发中 3维护中
-  status      Int      @default(1) @db.SmallInt
+  status      Int         @default(1) @db.SmallInt
   /// 页面描述信息
-  description String?  @db.VarChar(200)
+  description String?     @db.VarChar(200)
   /// 创建时间
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt   DateTime    @updatedAt @map("updated_at") @db.Timestamp(0)
+  AppNotice   AppNotice[]
 
   @@map("app_page_config")
 }
@@ -25,34 +26,34 @@ model AppPageConfig {
 /// 系统通知公告
 model AppNotice {
   /// 主键id
-  id              Int       @id @default(autoincrement())
+  id              Int            @id @default(autoincrement())
   /// 标题
-  title           String    @db.VarChar(100)
+  title           String         @db.VarChar(100)
   /// 内容
-  content         String    @db.Text /// 内容
+  content         String         @db.Text /// 内容
   /// 发布开始时间
-  startTime       DateTime? @map("start_time") @db.Timestamp()
+  startTime       DateTime?      @map("start_time") @db.Timestamp()
   /// 发布结束时间
-  endTime         DateTime? @map("end_time") @db.Timestamp()
+  endTime         DateTime?      @map("end_time") @db.Timestamp()
   /// 页面代码，点击公告跳转的页面
-  pageCode        String?   @map("page_code") @db.VarChar(20)
-  /// 页面代码，点击公告跳转的页面
-  pageName        String?   @map("page_name") @db.VarChar(20)
+  appPage         AppPageConfig? @relation(fields: [pageCode], references: [pageCode])
+  pageCode        String?        @map("page_code") @db.VarChar(20)
   /// 通知弹窗的背景图片
-  backgroundImage String?   @map("background_image") @db.VarChar(200)
+  backgroundImage String?        @map("background_image") @db.VarChar(200)
   /// 是否发布
-  isPublish       Boolean   @default(true) @map("is_publish")
+  isPublish       Boolean        @default(true) @map("is_publish")
   /// 是否启用小程序   1 启用 0 禁用
-  enableApplet    Boolean   @default(true) @map("enable_wechat")
+  enableApplet    Boolean        @default(true) @map("enable_wechat")
   /// 是否启用H5   1 启用 0 禁用
-  enableWeb       Boolean   @default(true) @map("enable_web")
+  enableWeb       Boolean        @default(true) @map("enable_web")
   /// 是否启用APP   1 启用 0 禁用
-  enableApp       Boolean   @default(true) @map("enable_app")
+  enableApp       Boolean        @default(true) @map("enable_app")
   /// 创建时间
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamp(0)
 
+  @@index([pageCode])
   @@map("app_notice")
 }
 

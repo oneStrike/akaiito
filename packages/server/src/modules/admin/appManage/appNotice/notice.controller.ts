@@ -20,7 +20,7 @@ export class AppNoticeController {
 
   @Get('/getAppNoticeDetail', { summary: '获取客户端通知消息详情' })
   async getAppNoticeDetail(@Query() query: BasicIdDTO) {
-    return await this.NoticeService.findUnique({ where: query })
+    return this.NoticeService.findUnique({ where: query })
   }
 
   @Post('/createAppNotice', { summary: '新增客户端通知消息' })
