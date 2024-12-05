@@ -3,8 +3,8 @@ import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import { getAuthorPageApi } from '@/apis/author'
 import { getCategoryPageApi } from '@/apis/category'
 import { createComicApi, deleteComicApi, getComicDetailApi, getComicPageApi, updateComicPublishApi } from '@/apis/comic'
-import { filter, formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 import { PromptsEnum } from '@/enum/prompts'
+import { filter, formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 
 defineOptions({
   name: 'ContentMgmtPage',
@@ -68,7 +68,6 @@ async function submitForm(val: any) {
 async function editRow(row: GetComicDetailTypesRes) {
   currentRow.value = await getComicDetailApi({ id: row.id })
   currentRow.value.categoryIds = currentRow.value.categories.map((item) => item.id)
-  console.log(currentRow.value)
   formModal.show = true
 }
 </script>
