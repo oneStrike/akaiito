@@ -51,8 +51,11 @@ export class ComicService extends BasicService<Comic> {
         author: {
           connect: {
             id: authorId,
-            isCartoonist: 1,
+            isCartoonist: true,
           },
+        },
+        workPermissions: {
+          create: {},
         },
       },
     })
@@ -106,7 +109,6 @@ export class ComicService extends BasicService<Comic> {
         popularity: true,
         isFinished: true,
         lastUpdated: true,
-        readPermissions: true,
         virtualPopularity: true,
         author: {
           select: {
@@ -132,6 +134,7 @@ export class ComicService extends BasicService<Comic> {
             name: true,
           },
         },
+        workPermissions: {},
         categories: {
           select: {
             category: {

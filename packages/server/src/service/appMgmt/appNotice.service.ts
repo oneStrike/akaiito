@@ -1,7 +1,7 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { BasicService } from '@/basic/service/basic.service'
 import type { AppNotice, PrismaClient } from '@prisma/client'
-import { PublishNoticeDTO } from '@/modules/admin/appManage/appNotice/dto/notice'
+import { NoticeDTO, PublishNoticeDTO } from '@/modules/admin/appManage/appNotice/dto/notice'
 import { utils } from '@/utils'
 
 @Provide()
@@ -22,6 +22,21 @@ export class AppNoticeService extends BasicService<AppNotice> {
     } else if (utils.dayjs() > utils.dayjs(endTime)) {
       this.throwError('通知时间已过期')
     }
-    return this.model.update({ where: { id: data.id }, data })
+    return this.update({ where: { id: data.id }, data })
+  }
+
+  // 创建通知消息
+  async createNotice(notice: NoticeDTO) {
+    const { pageCode, ...data } = notice
+    return this.create({
+      data: {
+        ...data,
+        appPage: {
+          connect: {
+            pageCode,
+          },
+        },
+      },
+    })
   }
 }

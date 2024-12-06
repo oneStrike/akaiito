@@ -35,8 +35,8 @@ model AppNotice {
   startTime       DateTime?      @map("start_time") @db.Timestamp()
   /// 发布结束时间
   endTime         DateTime?      @map("end_time") @db.Timestamp()
-  /// 页面代码，点击公告跳转的页面
   appPage         AppPageConfig? @relation(fields: [pageCode], references: [pageCode])
+  /// 页面代码，点击公告跳转的页面
   pageCode        String?        @map("page_code") @db.VarChar(20)
   /// 通知弹窗的背景图片
   backgroundImage String?        @map("background_image") @db.VarChar(200)

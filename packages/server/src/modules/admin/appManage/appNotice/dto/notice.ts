@@ -12,9 +12,6 @@ export class NoticeDTO {
   @Rule(validateString)
   pageCode?: string
 
-  @Rule(validateString)
-  pageName?: string
-
   @Rule(validateDate)
   startTime?: Date
 

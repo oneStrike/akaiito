@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import type { CreateComicTypesReq } from '@/apis/types/comic'
+import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import { getAuthorPageApi } from '@/apis/author'
 import { getCategoryPageApi } from '@/apis/category'
-import { createComicApi, deleteComicApi, getComicPageApi, updateComicPublishApi } from '@/apis/comic'
+import { createComicApi, deleteComicApi, getComicDetailApi, getComicPageApi, updateComicPublishApi } from '@/apis/comic'
 import { filter, formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
+import { PromptsEnum } from '@/enum/prompts'
 
 defineOptions({
   name: 'ContentMgmtPage',
@@ -12,6 +13,7 @@ const formModal = reactive({
   show: false,
   loading: false,
 })
+const currentRow = ref<(GetComicDetailTypesRes & { categoryIds?: number[] }) | null>(null)
 
 const { request, requestData, params, loading, sortChange } = useRequest(getComicPageApi)
 
@@ -49,11 +51,25 @@ function toolbarHandler(type: string) {
   }
 }
 
-async function submitForm(val: CreateComicTypesReq) {
-  await createComicApi(val)
+async function submitForm(val: any) {
+  if (currentRow.value?.id) {
+    val.id = currentRow.value.id
+    await updateComicPublishApi(val)
+  } else {
+    await createComicApi(val)
+  }
   formModal.show = false
   formModal.loading = false
-  ElMessage.success('添加成功')
+  ElMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
+  currentRow.value = null
+  request()
+}
+
+async function editRow(row: GetComicDetailTypesRes) {
+  currentRow.value = await getComicDetailApi({ id: row.id })
+  currentRow.value.categoryIds = currentRow.value.categories.map((item) => item.id)
+  console.log(currentRow.value)
+  formModal.show = true
 }
 </script>
 
@@ -83,14 +99,15 @@ async function submitForm(val: CreateComicTypesReq) {
         <es-switch :row="row" :request="updateComicPublishApi" field="isPublish" @success="request" />
       </template>
       <template #action="{ row }">
-        <el-button link type="primary">编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteComicApi" :row="row" ids @success="request" />
+        <el-button link type="primary" @click="editRow(row)">编辑</el-button>
+        <es-pop-confirm v-model:loading="loading" :request="deleteComicApi" :row="row" @success="request" />
       </template>
     </es-table>
     <es-modal-form
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
       title="漫画"
+      :default-value="currentRow"
       :options="formTool.options"
       @submit="submitForm"
     />

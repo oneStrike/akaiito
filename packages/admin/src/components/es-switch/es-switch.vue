@@ -23,7 +23,7 @@ const loading = ref(false)
 async function toggleStatus() {
   try {
     loading.value = true
-    const status = props.row[props.field] === 0 ? 1 : 0
+    const status = !props.row[props.field]
     const params = {
       [props.ids ? 'ids' : 'id']: props.ids ? [props.row.id] : props.row.id,
       [props.field]: status,
@@ -42,13 +42,7 @@ async function toggleStatus() {
 </script>
 
 <template>
-  <el-switch
-    :active-value="1"
-    :inactive-value="0"
-    :model-value="row[field]"
-    :loading="loading"
-    :before-change="toggleStatus"
-  />
+  <el-switch :model-value="row[field]" :loading="loading" :before-change="toggleStatus" />
 </template>
 
 <style scoped></style>

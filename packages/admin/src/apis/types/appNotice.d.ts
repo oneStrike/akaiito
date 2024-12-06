@@ -35,16 +35,16 @@ export interface GetAppNoticeListTypesRes {
     endTime: string | null
 
     /* 是否发布  1发布 0取消发布 */
-    isPublish: number
+    isPublish: boolean
 
     /* 是否在小程序平台启用  1启用 0禁用 */
-    enableApplet: number
+    enableApplet: boolean
 
     /* 是否在H5平台启用  1启用 0禁用 */
-    enableWeb: number
+    enableWeb: boolean
 
     /* 是否在APP平台启用  1启用 0禁用 */
-    enableApp: number
+    enableApp: boolean
 
     /* 跳转的页面编码 */
     pageCode: string
@@ -109,16 +109,16 @@ export interface CreateAppNoticeTypesReq {
   backgroundImage: string
 
   /* 是否发布  1发布 0取消发布 */
-  isPublish: number
+  isPublish: boolean
 
   /* 是否在小程序平台启用  1启用 0禁用 */
-  enableApplet: number
+  enableApplet: boolean
 
   /* 是否在H5平台启用  1启用 0禁用 */
-  enableWeb: number
+  enableWeb: boolean
 
   /* 是否在APP平台启用  1启用 0禁用 */
-  enableApp: number
+  enableApp: boolean
 
   /* 跳转的页面编码 */
   pageCode: string
@@ -174,16 +174,16 @@ export interface UpdateAppNoticeTypesReq {
   backgroundImage: string
 
   /* 是否发布  1发布 0取消发布 */
-  isPublish: number
+  isPublish: boolean
 
   /* 是否在小程序平台启用  1启用 0禁用 */
-  enableApplet: number
+  enableApplet: boolean
 
   /* 是否在H5平台启用  1启用 0禁用 */
-  enableWeb: number
+  enableWeb: boolean
 
   /* 是否在APP平台启用  1启用 0禁用 */
-  enableApp: number
+  enableApp: boolean
 
   /* 跳转的页面编码 */
   pageCode: string

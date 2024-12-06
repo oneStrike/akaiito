@@ -9,12 +9,19 @@ export const validateString = RuleType.string().empty('').allow(null)
 /**
  * 限定为布尔类型
  */
-export const validateBoolean = RuleType.boolean().truthy(1).falsy(0).sensitive()
+export const validateBoolean = RuleType.boolean().truthy(1).truthy('1').falsy(0).falsy('0').empty('').sensitive()
 
 /**
  * 限定为必传布尔类型
  */
-export const requiredBoolean = RuleType.boolean().truthy(1).falsy(0).sensitive().required()
+export const requiredBoolean = RuleType.boolean()
+  .truthy(1)
+  .truthy('1')
+  .falsy(0)
+  .falsy('0')
+  .empty('')
+  .sensitive()
+  .required()
 
 /**
  * 限定为必传字符串类型

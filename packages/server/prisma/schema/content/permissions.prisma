@@ -1,0 +1,29 @@
+model WorkPermissions {
+  /// 主键id
+  id          Int      @id @default(autoincrement())
+  /// 是否允许下载
+  canDownload Boolean  @default(true)
+  /// 是否允许评论
+  canComment  Boolean  @default(true)
+  /// 是否允许点赞
+  canLike     Boolean  @default(true)
+  /// 是否允许关注
+  canFollow   Boolean  @default(true)
+  /// 是否允许打赏
+  canReward   Boolean  @default(false)
+  /// 是否允许分享
+  canShare    Boolean  @default(true)
+  /// 查看规则
+  viewRule    viewRule @default(PUBLIC)
+
+  Comic Comic[]
+
+  @@map("work_permissions")
+}
+
+enum viewRule {
+  PUBLIC
+  LOGIN_REQUIRED
+  MEMBER_ONLY
+  PURCHASE_REQUIRED
+}
