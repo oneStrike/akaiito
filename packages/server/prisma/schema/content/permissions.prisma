@@ -1,29 +1,24 @@
 model WorkPermissions {
   /// 主键id
-  id          Int      @id @default(autoincrement())
+  id             Int     @id @default(autoincrement())
   /// 是否允许下载
-  canDownload Boolean  @default(true)
+  canDownload    Boolean @default(true) @map("can_download")
   /// 是否允许评论
-  canComment  Boolean  @default(true)
+  canComment     Boolean @default(true) @map("can_comment")
   /// 是否允许点赞
-  canLike     Boolean  @default(true)
+  canLike        Boolean @default(true) @map("can_like")
   /// 是否允许关注
-  canFollow   Boolean  @default(true)
+  canFollow      Boolean @default(true) @map("can_follow")
   /// 是否允许打赏
-  canReward   Boolean  @default(false)
+  canReward      Boolean @default(false) @map("can_reward")
   /// 是否允许分享
-  canShare    Boolean  @default(true)
-  /// 查看规则
-  viewRule    viewRule @default(PUBLIC)
+  canShare       Boolean @default(true) @map("can_share")
+  /// 查看规则 0 公开  1登录 2会员 3购买
+  viewRule       Int     @default(0) @map("view_rule") @db.SmallInt
+  /// 购买需要消耗的金额
+  purchaseAmount Int     @default(0) @map("purchase_amount")
 
   Comic Comic[]
 
   @@map("work_permissions")
-}
-
-enum viewRule {
-  PUBLIC
-  LOGIN_REQUIRED
-  MEMBER_ONLY
-  PURCHASE_REQUIRED
 }

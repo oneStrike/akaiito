@@ -68,7 +68,6 @@ async function submitForm(val: any) {
 async function editRow(row: GetComicDetailTypesRes) {
   currentRow.value = await getComicDetailApi({ id: row.id })
   currentRow.value.categoryIds = currentRow.value.categories.map((item) => item.id)
-  console.log(currentRow.value)
   formModal.show = true
 }
 </script>
