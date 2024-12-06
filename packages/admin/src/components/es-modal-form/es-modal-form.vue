@@ -40,7 +40,6 @@ watch(
   () => props.defaultValue,
   (value) => {
     formData.value = JSON.parse(JSON.stringify(value || {}))
-
   },
   { deep: true },
 )
