@@ -1,7 +1,25 @@
 function joinType(item: IterateObject) {
+  let type = ''
+  if (Array.isArray(item.type)) {
+    if (Array.isArray(item.type[0])) {
+      item.type[0].forEach((itemType) => {
+        type += joinType(itemType)
+      })
+      type = `{${type}}[]`
+    } else if (typeof item.type[0] !== 'string') {
+      item.type.forEach((itemType) => {
+        type += joinType(itemType)
+      })
+      type = `{${type}}`
+    } else {
+      type = item.type.join(' | ')
+    }
+  } else {
+    type = item.type
+  }
   return `
           /* ${item.description || ''} */
-          ${item.name}${item.required ? '' : '?'}: ${Array.isArray(item.type) ? item.type.join('|') : item.type}
+          ${item.name}${item.required ? '' : '?'}: ${type}
         `
 }
 

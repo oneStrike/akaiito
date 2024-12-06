@@ -111,7 +111,16 @@ export interface GetDataDictionaryItemsTypesRes {
     remark: string | null
 
     /* 父项相关信息 */
-    dictionary: object
+    dictionary: {
+      /* 父项主键id */
+      id: number
+
+      /* 父项名称 */
+      name: string
+
+      /* 父项code */
+      code: string
+    }
 
     /* 创建时间 */
     createdAt: string
