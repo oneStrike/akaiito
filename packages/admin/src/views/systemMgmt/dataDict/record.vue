@@ -36,9 +36,11 @@ const showModal = defineModel('modelValue', {
 const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
 const { requestData, request, reset, loading, params } = useRequest(getDataDictionaryItemsApi, {
-  defaultParams: {
-    dictionaryCode: props.record?.code,
-  },
+  init: false,
+})
+
+watch(showModal, (val) => {
+  val && request({ dictionaryCode: props.record?.code })
 })
 
 async function handlerToolbar(val: string) {

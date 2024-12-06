@@ -75,7 +75,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
 
     return await request()
   }
-
   if (init) {
     request()
   }
