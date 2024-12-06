@@ -41,10 +41,22 @@ export interface GetComicPageTypesRes {
     virtualPopularity?: number
 
     /* 作者信息 */
-    author: object
+    author: {
+      /* 作者id */
+      id: number
+
+      /* 作者名字 */
+      name: string
+    }
 
     /* 分类 */
-    categories: array
+    categories: {
+      /* 分类名称 */
+      name: string
+
+      /* 分类主键id */
+      id: number
+    }[]
 
     /* 是否发布 1：发布 0：不发布 */
     isPublish: number
@@ -101,16 +113,28 @@ export interface GetComicDetailTypesRes {
   virtualPopularity?: number
 
   /* 作者信息 */
-  author: object
+  author: {
+    /* 作者id */
+    id: number
+
+    /* 作者名字 */
+    name: string
+  }
 
   /* 区域 */
   region: string
 
-  /* 语言，数据地点language */
+  /* 语言，数据字典language */
   language: string
 
   /* 分类 */
-  categories: array
+  categories: {
+    /* 分类名称 */
+    name: string
+
+    /* 分类主键id */
+    id: number
+  }[]
 
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number
@@ -169,7 +193,7 @@ export interface CreateComicTypesReq {
   /* 区域 */
   region: string
 
-  /* 语言，数据地点language */
+  /* 语言，数据字典language */
   language: string
 
   /* 是否发布 1：发布 0：不发布 */
@@ -225,7 +249,7 @@ export interface UpdateComicTypesReq {
   /* 区域 */
   region: string
 
-  /* 语言，数据地点language */
+  /* 语言，数据字典language */
   language: string
 
   /* 作品发布日期 */

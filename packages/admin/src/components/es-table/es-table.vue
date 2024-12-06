@@ -65,7 +65,6 @@ function computedTableHeight() {
 
   useResizeObserver(toolbarRef.value, (entries) => {
     const entry = entries[0]
-    console.log(entry.contentRect)
     const { height, y, top } = entry.contentRect
     elHeight.value.toolbar = height + y + top
   })

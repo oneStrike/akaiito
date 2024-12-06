@@ -70,6 +70,7 @@ function showDetail(row: TableItem) {
   detailModalShow.value = true
   currentRow.value = row
 }
+
 </script>
 
 <template>
@@ -119,7 +120,6 @@ function showDetail(row: TableItem) {
     />
 
     <RecordDetails
-      v-if="detailModalShow"
       v-model="detailModalShow"
       :record="currentRow"
       :title="currentRow?.name"

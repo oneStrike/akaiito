@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<FormModalProps>(), {
   formProps: () => ({}),
   width: 980,
 })
+
 const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
@@ -38,9 +39,7 @@ const formLoading = defineModel('loading', {
 watch(
   () => props.defaultValue,
   (value) => {
-    if (value && Object.keys(value).length) {
-      formData.value = JSON.parse(JSON.stringify(value))
-    }
+    formData.value = JSON.parse(JSON.stringify(value || {}))
   },
   { deep: true },
 )
