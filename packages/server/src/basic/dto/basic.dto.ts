@@ -1,6 +1,6 @@
 import {
   requiredNumber,
-  requiredNumberLess,
+  validateBoolean,
   validateDate,
   validateNumber,
   validateNumberArray,
@@ -44,14 +44,14 @@ export class BasicIdsDTO {
 
 export class BasicIdsStatusDTO extends BasicIdsDTO {
   /* 状态 */
-  @Rule(requiredNumberLess(2))
-  status: number
+  @Rule(validateBoolean)
+  status: boolean
 }
 
 export class BasicIdStatusDTO extends BasicIdDTO {
   /* 状态 */
-  @Rule(requiredNumberLess(2))
-  status: number
+  @Rule(validateBoolean)
+  status: boolean
 }
 
 export class BasicOrderDTO {

@@ -32,8 +32,8 @@ export class CategoryListDTO extends BasicPageDTO {
   @Rule(validateString)
   name?: string
 
-  @Rule(validateNumber)
-  status?: number
+  @Rule(validateBoolean)
+  status?: boolean
 
   @Rule(validateBoolean)
   novelApplicable?: boolean
@@ -48,6 +48,8 @@ export class CategoryListDTO extends BasicPageDTO {
   illustratorApplicable?: boolean
 }
 
-export class CreateCategoryDTO extends OmitDto(CategoryDTO, ['id', 'status']) {}
+export class CreateCategoryDTO extends OmitDto(CategoryDTO, ['id', 'status']) {
+}
 
-export class UpdateCategoryDTO extends OmitDto(CategoryDTO, ['status']) {}
+export class UpdateCategoryDTO extends OmitDto(CategoryDTO, ['status']) {
+}

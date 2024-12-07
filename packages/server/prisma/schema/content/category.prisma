@@ -20,7 +20,7 @@ model Category {
   /// 插画数量
   illustratorCount      Int?              @default(0) @map("illustrator_count") @db.Integer
   /// 状态 1：正常 0：禁用
-  status                Int?              @default(1) @db.SmallInt
+  status                Boolean?          @default(true)
   /// 应用于图集 1是0否
   photoApplicable       Boolean           @default(false) @map("photo_applicable")
   /// 应用于小说 1是0否

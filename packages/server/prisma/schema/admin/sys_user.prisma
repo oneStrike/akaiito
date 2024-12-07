@@ -11,7 +11,7 @@ model SysUser {
   /// 手机号
   mobile    String?  @unique @db.VarChar(20)
   /// 状态 正常或不正常
-  status    Int      @default(1) @db.SmallInt
+  status    Boolean  @default(true)
   /// 是否是超级管理员 1是0否
   isRoot    Boolean  @default(true) @db.Boolean
   /// 创建时间

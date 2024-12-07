@@ -9,7 +9,7 @@ model Author {
   /// 作者描述
   description   String?  @db.VarChar(1000)
   /// 状态 1：正常 0：禁用
-  status        Int?     @default(1) @db.SmallInt
+  status        Boolean? @default(true)
   /// 作者主页
   website       String?  @db.VarChar(200)
   /// 是否是模特 1是0否

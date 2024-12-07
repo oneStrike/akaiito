@@ -5,7 +5,7 @@ model Dictionary {
   /// 字典编码
   code      String           @unique @db.VarChar(50)
   /// 状态 1启用 0禁用
-  status    Int              @default(1) @db.SmallInt
+  status    Boolean          @default(true)
   /// 备注信息
   remark    String?          @db.VarChar(255)
   /// 创建时间
@@ -29,7 +29,7 @@ model DictionaryItem {
   /// 排序
   order          Int?       @default(0) @db.SmallInt
   /// 状态 1启用 0禁用
-  status         Int        @default(1) @db.SmallInt
+  status         Boolean    @default(true)
   /// 备注信息
   remark         String?    @db.VarChar(255)
   /// 创建时间
