@@ -17,9 +17,9 @@ const emits = defineEmits<{
 }>()
 const formRef = ref<FormInstance>()
 const formData = ref<IterateObject>({})
-
 const formOptions = computed(() => {
   return props.options.map((item) => {
+    console.log(item)
     if (!item.props) {
       item.props = {}
     }
@@ -77,7 +77,7 @@ defineExpose({
         :class="boxBorder ? 'box-border' : ''"
         class="mr-0! px-3!"
       >
-        <slot :name="item.field" :componentProps="item.componentProps" :on="item.on">
+        <slot :name="item.field" :component-props="item.componentProps" :on="item.on">
           <es-upload
             v-if="item.component === 'Upload'"
             v-model="formData[item.field]"
@@ -127,8 +127,8 @@ defineExpose({
             v-on="item.on || {}"
           >
             <el-radio
-              v-for="child in item.componentProps?.options"
-              :key="child.value"
+              v-for="(child, idx) in item.componentProps?.options"
+              :key="idx"
               :value="child.value"
               :disabled="child?.disabled ?? false"
             >
@@ -144,8 +144,8 @@ defineExpose({
             v-on="item.on || {}"
           >
             <el-option
-              v-for="sub in item.componentProps?.options"
-              :key="sub.value"
+              v-for="(sub, idx) in item.componentProps?.options"
+              :key="idx"
               :label="sub.label"
               :value="sub.value"
               :disabled="sub?.disabled ?? false"

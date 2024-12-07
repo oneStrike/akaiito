@@ -13,7 +13,7 @@ export interface UseFormTool {
 }
 
 export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
-  const formOptions = ref<EsFormOptions[]>(schema ? JSON.parse(JSON.stringify(schema)) : [])
+  const formOptions = ref<EsFormOptions[]>(schema ? utils.deepCopy(schema) : [])
 
   // 获取表单中的某一项
   const getItem: UseFormTool['getItem'] = (filed) => {
@@ -54,7 +54,6 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
 
   // 禁止选择之后的时间
   const disableFutureDate: UseFormTool['disableFutureDate'] = (date) => {
-    console.log(date)
     return date && date.getTime() > Date.now()
   }
   // 禁止选择之前的时间

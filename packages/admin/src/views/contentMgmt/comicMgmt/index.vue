@@ -16,7 +16,6 @@ const formModal = reactive({
 const currentRow = ref<(GetComicDetailTypesRes & { categoryIds?: number[] }) | null>(null)
 
 const { request, requestData, params, loading, sortChange } = useRequest(getComicPageApi)
-
 const formTool = useFormTool(formOptions)
 formTool.fillDict([
   { field: 'language', code: 'language' },

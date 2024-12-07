@@ -26,9 +26,9 @@ export type JoinLoading<T> = T & { loading: boolean }
 export type OmitLoading<T> = Omit<T, 'loading'>
 
 // 通用选项
-export interface AuyOptions {
+export interface AkaiitoOptions {
   label: string
-  value: string | number
+  value: string | number | boolean
   disabled?: boolean
 }
 

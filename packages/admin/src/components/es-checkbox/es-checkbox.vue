@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { AuyOptions } from '@akaiito/types'
+import type { AkaiitoOptions } from '@akaiito/types'
 
 export interface EsCheckboxProps {
   modelValue?: string | (string | number)[]
   valueType?: 'string' | 'array'
-  options: AuyOptions[]
+  options: AkaiitoOptions[]
   disabled?: boolean
 }
 

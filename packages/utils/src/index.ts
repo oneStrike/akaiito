@@ -1,3 +1,4 @@
+import { deepCopy } from '@/deepCopy'
 import { downloadBlob } from './downloadBlob'
 import { fillFormOptions } from './fillFormOptions'
 import { getProjectConfig } from './getProjectConfig'
@@ -15,4 +16,5 @@ export const akaiitoUtils = {
   downloadBlob,
   fillFormOptions,
   getProjectConfig,
+  deepCopy,
 }
