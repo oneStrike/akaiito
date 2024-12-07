@@ -1,21 +1,14 @@
+import type { HttpHandlerInterceptors } from '@/utils/request/types'
 import type { HttpResponseResult } from '@akaiito/types'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  InternalAxiosRequestConfig,
-} from 'axios'
+
 import { config } from '@/config'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
-import { HttpHandler, type HttpHandlerOptions } from '@/utils/request/request'
+import { HttpHandler } from '@/utils/request/request'
 
-function responseError(err: AxiosError) {
-  useMessage.error(err.message || '未知错误')
-}
-
-function response(data: any) {
+const response: HttpHandlerInterceptors['response'] = (data: any) => {
   const responseData = data.data as HttpResponseResult
-  if (responseData.code !== 200 && data.config.errorMessage !== false) {
+  if (responseData.code !== 200) {
     useMessage.error(responseData.message || '未知错误')
     if (responseData.code === 401) {
       useUserStore().signOut()
@@ -26,49 +19,22 @@ function response(data: any) {
   }
 }
 
-const request: HttpHandlerOptions['requestInterceptor'] = async (
-  conf,
-): Promise<InternalAxiosRequestConfig> => {
+const request: HttpHandlerInterceptors['request'] = async (conf) => {
   const userStore = useUserStore()
   if (!config.auth.httpWhiteList.includes(conf.url as string)) {
     await userStore.renewToken()
   }
-
-  const accessToken = userStore.token.accessToken
-
-  const cookies = document.cookie.split(';')
-  for (let i = 0; i < cookies.length; i++) {
-    const item = cookies[i]
-    if (item.includes('csrfToken')) {
-      conf.headers['x-csrf-token'] = item.split('=')[1]
-    }
+  if (!conf.headers) {
+    conf.headers = {}
   }
-  conf.headers.authorization = accessToken
+  conf.headers.authorization = userStore.token.accessToken
   return conf
 }
-
 const http = new HttpHandler({
-  loading: false,
   baseURL: import.meta.env.VITE_BASE_URL,
-  requestInterceptor: request,
-  responseInterceptor: response,
-  responseInterceptorError: responseError,
+  interceptors: {
+    request,
+    response,
+  },
 })
-
-interface extended {
-  errorMessage?: boolean
-}
-
-export function httpHandler<T>(
-  axiosConfig: AxiosRequestConfig & extended,
-): Promise<T> {
-  if (axiosConfig.method?.toLocaleLowerCase() === 'get') {
-    return http.get<T>({
-      ...axiosConfig,
-    })
-  } else {
-    return http.post<T>({
-      ...axiosConfig,
-    })
-  }
-}
+export const httpHandler: <T>(config: any) => Promise<T> = (config: any) => http.request(config)
