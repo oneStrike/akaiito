@@ -5,7 +5,6 @@ import {
   requiredString,
   validateBoolean,
   validateNumber,
-  validateNumberLess,
   validateString,
 } from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
@@ -23,8 +22,8 @@ export class AuthorDTO {
   @Rule(requiredString)
   description!: string
 
-  @Rule(validateNumberLess(2))
-  status!: number
+  @Rule(validateBoolean)
+  status!: boolean
 
   @Rule(requiredBoolean)
   isModel!: boolean

@@ -3,7 +3,6 @@ import {
   requiredNumber,
   requiredString,
   validateBoolean,
-  validateNumberLess,
   validatePwd,
   validateString,
 } from '@/utils/validate'
@@ -22,8 +21,8 @@ export class UserDTO {
   @Rule(validateString)
   mobile?: string
 
-  @Rule(validateNumberLess(2))
-  status?: number
+  @Rule(validateBoolean)
+  status?: boolean
 
   @Rule(validateBoolean)
   isRoot?: boolean
@@ -63,8 +62,8 @@ export class UserPageDTO extends BasicPageDTO {
   @Rule(validateString)
   username?: string
 
-  @Rule(validateNumberLess(2))
-  status: number
+  @Rule(validateBoolean)
+  status: boolean
 
   @Rule(validateBoolean)
   isRoot: boolean

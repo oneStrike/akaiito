@@ -19,7 +19,6 @@ const formRef = ref<FormInstance>()
 const formData = ref<IterateObject>({})
 const formOptions = computed(() => {
   return props.options.map((item) => {
-    console.log(item)
     if (!item.props) {
       item.props = {}
     }
