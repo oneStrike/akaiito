@@ -53,7 +53,13 @@ export class ChapterService extends BasicService<Chapter> {
     } else {
       omit.comicId = true
     }
-    return this.findPage({ where, omit })
+    return this.findPage({
+      omit,
+      where,
+      like: {
+        title: 'contains',
+      },
+    })
   }
 
   // 更新作品章节

@@ -17,7 +17,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
     },
     defaultParams,
   )
-  console.log(defaultParams)
   let skipNext = false
   const loading = ref(false) // 表示请求的加载状态
   const requestData = shallowRef<ResolvedReturnType<T>>() // 存储请求返回的数据
@@ -28,7 +27,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
   if (Object.keys(defaultParams)) {
     params.value = { ...params.value, ...defaultParams }
   }
-  console.log(params.value)
 
   /**
    * 执行请求的函数，支持传入额外参数。

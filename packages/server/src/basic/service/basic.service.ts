@@ -90,7 +90,6 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
 
   // 更新排序
   async updateOrder(info: PrismaUpdateOrderOptions) {
-    console.log(info)
     await Promise.all([
       this.update({
         where: { id: info.targetId } as T,

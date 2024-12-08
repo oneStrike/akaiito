@@ -69,7 +69,7 @@ export class ComicService extends BasicService<Comic> {
       comicData['author'] = {
         connect: {
           id: authorId,
-          isCartoonist: 1,
+          isCartoonist: true,
         },
       }
     }
@@ -85,7 +85,7 @@ export class ComicService extends BasicService<Comic> {
         })),
       }
     }
-
+    console.log(comicData)
     return this.update({
       where: { id: body.id },
       data: comicData,

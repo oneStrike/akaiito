@@ -2,7 +2,14 @@
 import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import { getAuthorPageApi } from '@/apis/author'
 import { getCategoryPageApi } from '@/apis/category'
-import { createComicApi, deleteComicApi, getComicDetailApi, getComicPageApi, updateComicPublishApi } from '@/apis/comic'
+import {
+  createComicApi,
+  deleteComicApi,
+  getComicDetailApi,
+  getComicPageApi,
+  updateComicApi,
+  updateComicPublishApi,
+} from '@/apis/comic'
 import { PromptsEnum } from '@/enum/prompts'
 import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
 import { filter, formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
@@ -60,7 +67,7 @@ function toolbarHandler(type: string) {
 async function submitForm(val: any) {
   if (currentRow.value?.id) {
     val.id = currentRow.value.id
-    await updateComicPublishApi(val)
+    await updateComicApi(val)
   } else {
     await createComicApi(val)
   }
@@ -121,7 +128,7 @@ async function editRow(row: GetComicDetailTypesRes) {
         </el-dropdown>
       </template>
     </es-table>
-    <ComicChapter v-model:modal-show="chapterModal.show" :record="currentRow" />
+    <ComicChapter v-model:show="chapterModal.show" :record="currentRow" />
 
     <es-modal-form
       v-model:show="formModal.show"

@@ -77,6 +77,68 @@ export const tableColumn: EsTableColumn = [
   },
 ]
 
+export const chapterColumn: EsTableColumn = [
+  {
+    prop: 'title',
+    label: '章节名称',
+    align: 'center',
+  },
+  {
+    prop: 'createdAt',
+    label: '创建时间',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'createdAt',
+  },
+  {
+    prop: 'isPublish',
+    label: '发布状态',
+    align: 'center',
+    slotName: 'isPublish',
+  },
+  {
+    prop: 'action',
+    label: '操作',
+    align: 'center',
+    slotName: 'action',
+  },
+]
+
+export const chapterFilter: EsFormOptions[] = [
+  {
+    field: 'isPublish',
+    component: 'Select',
+    props: {
+      span: 4,
+    },
+    componentProps: {
+      placeholder: '发布',
+      options: [
+        {
+          label: '已发布',
+          value: true,
+        },
+        {
+          label: '未发布',
+          value: false,
+        },
+      ],
+    },
+  },
+  {
+    field: 'title',
+    component: 'Input',
+    props: {
+      span: 4,
+    },
+    componentProps: {
+      placeholder: '章节名称',
+      maxlength: 50,
+    },
+  },
+]
+
 export const filter: EsFormOptions[] = [
   {
     field: 'isFinished',

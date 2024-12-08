@@ -20,6 +20,7 @@ export class ComicController {
 
   @Post('/updateComic', { summary: '更新漫画' })
   async updateComic(@Body() body: ComicUpdateDTO) {
+
     return await this.comicService.updateComic(body)
   }
 
