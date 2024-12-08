@@ -101,7 +101,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
         data: { order: info.originOrder } as unknown as T,
       }),
     ])
-    return info.targetId
+    return { id: info.targetId }
   }
 
   // 软删除

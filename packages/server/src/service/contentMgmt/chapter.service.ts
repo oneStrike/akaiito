@@ -22,7 +22,7 @@ export class ChapterService extends BasicService<Chapter> {
     if (comicId) {
       maxSort = await this.getCount({ where: { comicId } })
     }
-    chapterData.sortOrder = maxSort
+    chapterData.order = maxSort
     if (comicId) {
       chapterData.comic = {
         connect: {
