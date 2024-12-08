@@ -25,7 +25,7 @@ model DictionaryItem {
   /// 子项名称
   name           String     @db.VarChar(50)
   // 子项编码
-  code           String     @unique @db.VarChar(50)
+  code           String     @db.VarChar(50)
   /// 排序
   order          Int?       @default(0) @db.SmallInt
   /// 状态 1启用 0禁用
@@ -37,6 +37,7 @@ model DictionaryItem {
   /// 更新时间
   updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamp(0)
 
+  @@unique([dictionaryCode, code])
   @@index([dictionaryCode])
   @@map("dictionary_item")
 }

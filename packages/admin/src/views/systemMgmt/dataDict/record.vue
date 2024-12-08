@@ -32,6 +32,11 @@ const formModalShow = ref(false)
 const showModal = defineModel('modelValue', {
   type: Boolean,
   default: false,
+  set(val) {
+    if (!val) {
+      formModalShow.value = false
+    }
+  },
 })
 const currentRow = ref<TableItem | null>(null)
 const selectionItems = ref<TableItem[] | null>(null)
@@ -77,7 +82,7 @@ async function addDictionary(value: any) {
     }
     formModalShow.value = false
     currentRow.value = null
-    reset()
+    request({ dictionaryCode: props.record?.code })
   } catch (e) {
     console.log('🚀 ~ file:e method:addDictionary line:102 -----', e)
   }

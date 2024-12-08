@@ -1,3 +1,5 @@
+import { utils } from '@/utils'
+
 interface RequestOptions<T> {
   init?: boolean
   params?: IterateObject | globalThis.Ref<IterateObject>
@@ -15,6 +17,7 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
     },
     defaultParams,
   )
+  console.log(defaultParams)
   let skipNext = false
   const loading = ref(false) // 表示请求的加载状态
   const requestData = shallowRef<ResolvedReturnType<T>>() // 存储请求返回的数据
@@ -25,6 +28,7 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
   if (Object.keys(defaultParams)) {
     params.value = { ...params.value, ...defaultParams }
   }
+  console.log(params.value)
 
   /**
    * 执行请求的函数，支持传入额外参数。
@@ -36,7 +40,7 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
     if (p) {
       params.value = { ...params.value, ...p }
     }
-    const options = JSON.parse(JSON.stringify(params.value))
+    const options = utils.deepCopy(params.value)
 
     // 如果有排序参数，则将其转换为字符串
     if (options.orderBy && Object.keys(options.orderBy).length) {
@@ -52,7 +56,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
       delete options.endTime
     }
     delete options.dateTimePicker
-
     try {
       let data = await api(options)
       if (hook) {
