@@ -166,6 +166,7 @@ export const chapterFormOptions: EsFormOptions[] = [
       multiple: true,
       scenario: 'content',
       maxCount: 9999,
+      structure: 'string',
     },
   },
 ]
