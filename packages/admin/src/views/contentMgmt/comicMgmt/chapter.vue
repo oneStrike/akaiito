@@ -1,28 +1,44 @@
 <script setup lang="ts">
 import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import { deleteChapterApi, getChapterApi, updateChapterPublishApi } from '@/apis/chapter'
-import { chapterColumn, chapterFilter, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
-import { deleteComicApi } from '@/apis/comic'
+import { chapterColumn, chapterFilter, chapterFormOptions, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
+
+type TableItem = ResolveListItem<typeof requestData.value>
 
 defineOptions({
   name: 'ComicChapter',
 })
 
-const props = withDefaults(defineProps<{
-  record: GetComicDetailTypesRes | null
-}>(), {})
+const props = withDefaults(
+  defineProps<{
+    record: GetComicDetailTypesRes | null
+  }>(),
+  {},
+)
 
 const { request, requestData, loading, params, sortChange } = useRequest(getChapterApi, {
   init: false,
 })
 
+const formModal = reactive({
+  show: false,
+  loading: false,
+})
+
+const currentRow = ref<TableItem | null>()
+
 const modalShow = defineModel('show', {
   type: Boolean,
   default: false,
 })
-watch(modalShow, val => val && request({
-  comicId: props.record?.id,
-}))
+watch(
+  modalShow,
+  (val) =>
+    val &&
+    request({
+      comicId: props.record?.id,
+    }),
+)
 </script>
 
 <template>
@@ -36,6 +52,7 @@ watch(modalShow, val => val && request({
       :data="requestData?.list ?? []"
       :total="requestData?.total"
       @query="request"
+      @toolbar-handler="formModal.show = true"
       @sort-change="sortChange"
     >
       <template #isPublish="{ row }">
@@ -47,9 +64,17 @@ watch(modalShow, val => val && request({
         <es-pop-confirm v-model:loading="loading" :request="deleteChapterApi" :row="row" @success="request" />
       </template>
     </es-table>
+
+    <es-modal-form
+      v-model:show="formModal.show"
+      v-model:loading="formModal.loading"
+      :default-value="currentRow"
+      title="章节"
+      width="800"
+      :options="chapterFormOptions"
+      @success="request"
+    />
   </es-modal>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

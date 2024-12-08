@@ -139,6 +139,37 @@ export const chapterFilter: EsFormOptions[] = [
   },
 ]
 
+export const chapterFormOptions: EsFormOptions[] = [
+  {
+    field: 'title',
+    component: 'Input',
+    props: {
+      label: '章节标题',
+      rules: useValidate.required('章节标题'),
+    },
+    componentProps: {
+      placeholder: '请输入章节标题',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'contents',
+    component: 'Upload',
+    props: {
+      label: '内容',
+      rules: useValidate.required('内容'),
+    },
+    componentProps: {
+      placeholder: '请上传内容',
+      listType: 'picture',
+      fileType: 'image',
+      multiple: true,
+      scenario: 'content',
+      maxCount: 9999,
+    },
+  },
+]
+
 export const filter: EsFormOptions[] = [
   {
     field: 'isFinished',

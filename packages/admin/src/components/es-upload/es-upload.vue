@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<EsUploadProps>(), {
   maxSize: config.upload.maxUploadFileSize,
   maxCount: 1,
   structure: 'field',
+  scenario: 'shared',
 })
 const emits = defineEmits<{
   (event: 'update:modelValue', data: typeof fileList.value): void
@@ -89,6 +90,7 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
     useMessage.error(`【${rawFile.name}】超出文件大小限制`)
     return false
   } else if (!accept.value.includes(rawFile.type)) {
+    console.log(accept)
     useMessage.error(`【${rawFile.name}】文件格式错误`)
     return
   }
@@ -123,6 +125,7 @@ function change() {
     } else if (props.structure === 'field') {
       res = emitData[0].filePath
     }
+    console.log(res)
     emits('update:modelValue', res)
   }
 }
