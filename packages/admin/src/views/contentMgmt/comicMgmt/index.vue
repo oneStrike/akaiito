@@ -4,6 +4,7 @@ import { getAuthorPageApi } from '@/apis/author'
 import { getCategoryPageApi } from '@/apis/category'
 import { createComicApi, deleteComicApi, getComicDetailApi, getComicPageApi, updateComicPublishApi } from '@/apis/comic'
 import { PromptsEnum } from '@/enum/prompts'
+import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
 import { filter, formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 
 defineOptions({
@@ -13,6 +14,12 @@ const formModal = reactive({
   show: false,
   loading: false,
 })
+
+const chapterModal = reactive({
+  show: false,
+
+})
+
 const currentRow = ref<(GetComicDetailTypesRes & { categoryIds?: number[] }) | null>(null)
 
 const { request, requestData, params, loading, sortChange } = useRequest(getComicPageApi)
@@ -98,9 +105,24 @@ async function editRow(row: GetComicDetailTypesRes) {
       </template>
       <template #action="{ row }">
         <el-button link type="primary" @click="editRow(row)">编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteComicApi" :row="row" @success="request" />
+        <el-divider direction="vertical" />
+        <el-dropdown class="contents!">
+          <el-button type="primary" link>更多</el-button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>
+                <es-pop-confirm v-model:loading="loading" :request="deleteComicApi" :row="row" @success="request" />
+              </el-dropdown-item>
+              <el-dropdown-item @click="currentRow = row, chapterModal.show = true">
+                <span>章节</span>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </template>
     </es-table>
+    <ComicChapter v-model:modal-show="chapterModal.show" :record="currentRow" />
+
     <es-modal-form
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
