@@ -41,6 +41,7 @@ model Comic {
   updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
   /// 分类
   categories        ComicCategories[]
+  Chapter           Chapter[]
 
   @@index([authorId])
   @@index([permissionId])

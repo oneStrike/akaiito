@@ -5,7 +5,7 @@ import {
   ComicPublishDTO,
   ComicSearchDTO,
   ComicUpdateDTO,
-} from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
+} from '@/modules/admin/contentMgmt/comic/work/dto/comic.dto'
 import { BasicIdDTO } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/comic', { description: '漫画' })

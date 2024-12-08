@@ -52,7 +52,7 @@ export class OperateLogService extends BasicService<SysOperateLog> {
         apiPath: path,
         responseCode: report?.code ?? 0,
         responseDesc: report?.message ?? '',
-        userAgent: header['user-agent'],
+        userAgent: header['user-agent'] ?? '未知',
         record: '',
       },
     })
