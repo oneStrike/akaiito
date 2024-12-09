@@ -1,6 +1,10 @@
-import { utils } from '@/utils'
 import { Config, Provide } from '@midwayjs/core'
-import * as fs from 'fs-extra'
+import { UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
+import { staticFileConfig } from '@/config/modules/staticFile'
+import { join } from 'path'
+import { utils } from '@/utils'
+import { createWriteStream } from 'node:fs'
+import { ensureDirSync } from 'fs-extra'
 
 @Provide()
 export class UploadService {
@@ -8,24 +12,40 @@ export class UploadService {
   projectConfig
 
   @Config('staticFile')
-  staticFileConfig
+  staticFileConfig: typeof staticFileConfig
 
-  async local(files: IterateObject[], fields: IterateObject) {
-    // if (!this.projectConfig.upload.resourceScenario.includes(fields.scenario)) {
-    //   throw new httpError.BadRequestError('不受支持的场景文件')
-    // }
-    const date = utils.dayjs().format('YYYYMMDD')
+  async local(files: AsyncGenerator<UploadStreamFileInfo>, fields: AsyncGenerator<UploadStreamFieldInfo>) {
+    // TODO 必须先执行files，否则接口无响应，等官方修复
+    const fileList = []
+    for await (const file of files) {
+      fileList.push(file)
+    }
+    const contentFile: IterateObject = {}
+    for await (const { name, value } of fields) {
+      contentFile[name] = value
+    }
+    let absolutePath = this.staticFileConfig.dirs.default.dir
+    let relativePath = ''
+
+    const { workType, workId, chapterId } = contentFile
+    if (workType && workId && chapterId) {
+      relativePath = `/${workType}/${workId}/${chapterId}/`
+    } else {
+      relativePath = `/files/${utils.dayjs().format('YYYYMMDD')}`
+    }
+
     const reportData = []
-    files.forEach((item) => {
-      const staticFileDefaultConfig = this.staticFileConfig.dirs.default
-      const fileName = item.data.split(/\\/).pop()
-      const path = `/${fields.scenario}/${date}/${fileName}`
+    fileList.forEach((item) => {
+      const { filename, data, mimeType } = item
+      ensureDirSync(absolutePath + relativePath)
+      const p = join(absolutePath + relativePath, filename)
+      const stream = createWriteStream(p)
+      data.pipe(stream)
       reportData.push({
-        fileName: fields.name,
-        filePath: staticFileDefaultConfig.prefix + path,
-        mimeType: item.mimeType,
+        fileName: filename,
+        filePath: relativePath + filename,
+        mimeType,
       })
-      fs.move(item.data, staticFileDefaultConfig.dir + path)
     })
     return reportData
   }

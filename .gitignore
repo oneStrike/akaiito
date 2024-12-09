@@ -31,3 +31,4 @@ coverage
 *.tsbuildinfo
 
 /packages/server/public
+!/packages/server/public/

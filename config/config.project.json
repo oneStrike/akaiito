@@ -1,14 +1,6 @@
 {
   "appName": "AUY",
   "upload": {
-    "resourceScenario": [
-      "adminUserAvatar",
-      "adminResourceLibrary",
-      "userAvatar",
-      "plugin",
-      "editor",
-      "shared"
-    ],
     "allowFileType": {
       "image": [
         "png",

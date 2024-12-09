@@ -1,18 +1,17 @@
-import type { UploadFileInfo } from '@midwayjs/busboy'
 import { UploadService } from '@/service/common/upload.service'
-import { UploadMiddleware } from '@midwayjs/busboy'
 import { Controller, Fields, Files, Inject, Post } from '@midwayjs/core'
+import { UploadMiddleware, UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
 
 @Controller('/common/upload')
-export class HomeController {
+export class UploadController {
   @Inject()
   uploadService: UploadService
 
-  @Post('/uploadFile', { middleware: [UploadMiddleware] })
+  @Post('/uploadFile', { middleware: [UploadMiddleware], summary: '文件上传' })
   async upload(
-    @Files() files: Array<UploadFileInfo>,
-    @Fields() fields: Record<string, string>,
+    @Files() fileIterator: AsyncGenerator<UploadStreamFileInfo>,
+    @Fields() fieldIterator: AsyncGenerator<UploadStreamFieldInfo>,
   ) {
-    return this.uploadService.local(files, fields)
+    return this.uploadService.local(fileIterator, fieldIterator)
   }
 }

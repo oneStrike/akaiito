@@ -22,6 +22,7 @@ export default {
       '/admin/user/login',
       '/app/user/createAppUser',
       '/app/user/login',
+      '/common/upload/uploadFile',
     ],
   },
   cacheManager: {

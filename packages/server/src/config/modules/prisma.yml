@@ -1,7 +1,4 @@
 prisma:
-  # 是否格式化时间格式
-  timeSerialize: true
-
   # 单次列表查询的最大条数上线
   maxListItemLimit: 500
 
@@ -9,6 +6,7 @@ prisma:
   pagination:
     pageSize: 15
     pageIndex: 0
+
   # 默认排序字段
   orderBy:
     id: desc
