@@ -8,9 +8,6 @@ import { ensureDirSync } from 'fs-extra'
 
 @Provide()
 export class UploadService {
-  @Config('projectConfig')
-  projectConfig
-
   @Config('staticFile')
   staticFileConfig: typeof staticFileConfig
 
@@ -27,6 +24,7 @@ export class UploadService {
     let absolutePath = this.staticFileConfig.dirs.default.dir
     let relativePath = ''
 
+    // 生成相对路径
     const { workType, workId, chapterId } = contentFile
     if (workType && workId && chapterId) {
       relativePath = `/${workType}/${workId}/${chapterId}/`
