@@ -1,4 +1,3 @@
-import type { IterateObject } from '@akaiito/types'
 import type { ServerOptions } from 'vite'
 
 export function ViteProxy(env: IterateObject<string>): ServerOptions {
@@ -6,6 +5,7 @@ export function ViteProxy(env: IterateObject<string>): ServerOptions {
   const proxyObj: IterateObject = {}
   proxyList.forEach((item: string) => {
     const [key, target, rewrite = ''] = item.split(',')
+    console.log(key, rewrite)
     proxyObj[key] = {
       target,
       changeOrigin: true,
