@@ -6,9 +6,9 @@ export interface EsUploadProps {
   fileType?: 'image' | 'video' | 'audio' | 'compressed'
   listType?: UploadProps['listType']
   multiple?: UploadProps['multiple']
-  scenario?: string
   maxCount?: number
   maxSize?: number
   assetLibrary?: boolean
+  data?: IterateObject
   structure?: 'string' | 'object' | 'field'
 }

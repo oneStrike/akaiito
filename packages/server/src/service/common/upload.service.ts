@@ -18,9 +18,12 @@ export class UploadService {
     const contentFile: IterateObject = {}
     for await (const file of files) {
       if (!Object.keys(contentFile).length) {
-        for await (const { name, value } of fields) {
-          contentFile[name] = value
-        }
+        // for await (const { name, value } of fields) {
+        //   contentFile[name] = value
+        // }
+        fields.next().then(res=>{
+          console.log(res)
+        })
         // 生成相对路径
         const { workType, workId, chapterId } = contentFile
         if (workType && workId && chapterId) {
