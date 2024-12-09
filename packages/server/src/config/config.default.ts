@@ -1,30 +1,14 @@
 import type { MidwayConfig } from '@midwayjs/core'
-import { utils } from '@/utils'
 import { staticFileConfig } from './modules/staticFile'
 import { uploadConfig } from './modules/upload'
+import { jwtConfig } from '@/config/modules/jwt'
 
 export default {
   keys: '67893242123139_4623',
   koa: {
     port: 7001,
   },
-  jwt: {
-    secret: 'akaiito',
-    sign: {
-      expiresIn: '2h',
-      algorithm: 'ES256',
-    },
-    verify: {
-      complete: true,
-    },
-    whiteList: [
-      '/open/captcha/getCaptcha',
-      '/admin/user/login',
-      '/app/user/createAppUser',
-      '/app/user/login',
-      '/common/upload/uploadFile',
-    ],
-  },
+  jwt: jwtConfig,
   cacheManager: {
     clients: {
       default: {
@@ -55,5 +39,4 @@ export default {
   },
   busboy: uploadConfig,
   staticFile: staticFileConfig,
-  projectConfig: utils.getProjectConfig(),
 } as MidwayConfig

@@ -19,9 +19,6 @@ export class AutoLoadCore {
   @Inject()
   jwt: JwtService
 
-  @Config('projectConfig')
-  projectConfig: { upload: { resourceScenario: any } }
-
   @Config('staticFile')
   staticFileConfig: { dirs: { default: { dir: string } } }
 

@@ -9,7 +9,7 @@ type UploadFileRes = UploadFileTypesRes
 
 export async function useUpload(
   files: UploadFiles | files | files[],
-  scenario: string,
+  params: IterateObject = {},
 ): Promise<{
   success: UploadFileRes | []
   error: any[]
@@ -23,7 +23,9 @@ export async function useUpload(
       // @ts-expect-error ignore
       const file = item?.raw ?? item
       formData.append('file', file)
-      formData.append('scenario', scenario)
+      for (const paramsKey in params) {
+        formData.append(paramsKey, params[paramsKey])
+      }
       formData.append('name', file.name)
       httpHandler({
         method: 'post',

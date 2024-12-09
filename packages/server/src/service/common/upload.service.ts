@@ -34,7 +34,11 @@ export class UploadService {
 
     const reportData = []
     fileList.forEach((item) => {
-      const { filename, data, mimeType } = item
+      let { filename, data, mimeType } = item
+      if (workType && workId && chapterId) {
+        const [name, ext] = filename.split('.')
+        filename = `${name}.${workType}.${workId}.${chapterId}.${ext}`
+      }
       ensureDirSync(absolutePath + relativePath)
       const p = join(absolutePath + relativePath, filename)
       const stream = createWriteStream(p)
