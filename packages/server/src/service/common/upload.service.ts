@@ -11,30 +11,35 @@ export class UploadService {
   @Config('staticFile')
   staticFileConfig: typeof staticFileConfig
 
+  async parseFilePath(fields: AsyncGenerator<UploadStreamFieldInfo>): Promise<{
+    relativePath: string,
+    absolutePath: string
+  }> {
+    const field: IterateObject = {}
+    let relativePath = ''
+    let absolutePath = this.staticFileConfig.dirs.default.dir
+    for await (const { name, value } of fields) {
+      field[name] = value
+    }
+    const { workType, workId, chapterId } = field
+    if (workType && workId && chapterId) {
+      relativePath = `/files/${workType}/${workId}/${chapterId}/`
+    } else {
+      relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
+    }
+    ensureDirSync(absolutePath + relativePath)
+    return {
+      relativePath, absolutePath,
+    }
+  }
+
+
   async local(files: AsyncGenerator<UploadStreamFileInfo>, fields: AsyncGenerator<UploadStreamFieldInfo>) {
     const reportData = []
+    // const { absolutePath, relativePath } = await this.parseFilePath(fields)
+    let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
     let absolutePath = this.staticFileConfig.dirs.default.dir
-    let relativePath = ``
-    const contentFile: IterateObject = {}
-    for await (const file of files) {
-      if (!Object.keys(contentFile).length) {
-        // for await (const { name, value } of fields) {
-        //   contentFile[name] = value
-        // }
-        fields.next().then(res=>{
-          console.log(res)
-        })
-        // 生成相对路径
-        const { workType, workId, chapterId } = contentFile
-        if (workType && workId && chapterId) {
-          relativePath = `/files/${workType}/${workId}/${chapterId}/`
-        } else {
-          relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
-        }
-      }
-
-      const { filename, data, mimeType } = file
-      ensureDirSync(absolutePath + relativePath)
+    for await (const { filename, data, mimeType } of files) {
       const p = join(absolutePath + relativePath, filename)
       const stream = createWriteStream(p)
       data.pipe(stream)
@@ -44,7 +49,6 @@ export class UploadService {
         mimeType,
       })
     }
-
     return reportData
   }
 }
