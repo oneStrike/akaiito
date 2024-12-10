@@ -3,6 +3,8 @@ model Chapter {
   id             Int      @id @default(autoincrement())
   /// 章节标题
   title          String   @db.VarChar(20)
+  /// 内容
+  content        String?  @db.Text
   /// 发布状态
   isPublish      Boolean? @default(true) @map("is_publish")
   /// 关联的漫画id
@@ -13,10 +15,12 @@ model Chapter {
   novelId        Int?     @map("novel_id") @db.Integer
   /// 排序
   order          Int      @db.Integer
-  /// 查看规则 0 公开  1登录 2会员 3购买
+  /// 查看规则 0公开  1登录 2会员 3购买
   viewRule       Int      @default(0) @map("view_rule") @db.SmallInt
   /// 购买需要消耗的金额
   purchaseAmount Int      @default(0) @map("purchase_amount")
+  /// 备注
+  remark         String?  @db.VarChar(1000)
   /// 创建时间
   createdAt      DateTime @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
@@ -28,11 +32,9 @@ model Chapter {
 
 model ChapterContent {
   /// 主键id
-  id    Int    @id @default(autoincrement())
+  id  Int    @id @default(autoincrement())
   /// url
-  url   String @db.VarChar(200)
-  /// 排序
-  order Int    @db.Integer
+  url String @db.VarChar(200)
 
   @@map("chapter_content")
 }

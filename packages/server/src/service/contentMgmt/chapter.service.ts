@@ -1,7 +1,8 @@
 import { BasicService } from '@/basic/service/basic.service'
 import { Chapter, PrismaClient } from '@prisma/client'
 import { Inject, Provide } from '@midwayjs/core'
-import { ChapterPageDTO } from '@/modules/admin/contentMgmt/comic/chapter/dto/chapter.dto'
+import { AddChapterContentDTO, ChapterPageDTO } from '@/modules/admin/contentMgmt/comic/chapter/dto/chapter.dto'
+import { utils } from '@/utils'
 
 @Provide()
 export class ChapterService extends BasicService<Chapter> {
@@ -47,7 +48,7 @@ export class ChapterService extends BasicService<Chapter> {
     if (!where.comicId && !where.novelId) {
       return this.throwError('暂无关联的作品')
     }
-    const omit: IterateObject = {}
+    const omit: IterateObject = { content: true }
     if (where.comicId) {
       omit.novelId = true
     } else {
@@ -62,12 +63,17 @@ export class ChapterService extends BasicService<Chapter> {
     })
   }
 
-  // 更新作品章节
-  async updateChapter(data: any) {
-    const { id, ...chapterData } = data
+  // 添加章节内容
+  async addChapterContent(body: AddChapterContentDTO) {
+    if (!utils.isJson(body.content)) {
+      this.throwError('内容格式错误')
+    }
     return this.update({
-      where: { id },
-      data: chapterData,
+      where: { id: body.id },
+      data: {
+        content: body.content,
+      },
     })
   }
+
 }

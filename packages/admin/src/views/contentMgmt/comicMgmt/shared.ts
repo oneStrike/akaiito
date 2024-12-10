@@ -153,23 +153,52 @@ export const chapterFormOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'contents',
-    component: 'Upload',
+    field: 'viewRule',
+    component: 'Radio',
     props: {
-      label: '内容',
-      rules: useValidate.required('内容'),
+      span: 2,
+      label: '查看规则',
+      rules: useValidate.required('查看规则'),
     },
     componentProps: {
-      placeholder: '请上传内容',
-      listType: 'picture',
-      fileType: 'image',
-      multiple: true,
-      scenario: 'content',
-      maxCount: 9999,
-      structure: 'string',
+      placeholder: '请输入查看规则',
+      maxlength: 50,
+      options: [
+        {
+          label: '公开',
+          value: 0,
+        },
+        {
+          label: '登录',
+          value: 1,
+        },
+        {
+          label: '会员',
+          value: 2,
+        },
+        {
+          label: '购买',
+          value: 3,
+        },
+      ],
+    },
+  },
+  {
+    field: 'purchaseAmount',
+    component: 'InputNumber',
+    show: false,
+    props: {
+      span: 2,
+      label: '购买金额',
+      rules: useValidate.required('购买金额'),
+    },
+    componentProps: {
+      placeholder: '请输入购买金额',
+      maxlength: 50,
     },
   },
 ]
+
 
 export const filter: EsFormOptions[] = [
   {

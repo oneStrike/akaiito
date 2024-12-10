@@ -6,7 +6,7 @@ import type { UploadFileTypesRes, UploadFileTypesReq } from './types/upload.d'
  *  @标签 common/上传文件
  *  @方式 POST
  *  @地址 /common/upload/uploadFile
- *  @更新时间 2024-01-30 23:37:25
+ *  @更新时间 2024-12-09 10:34:11
  */
 
 export const uploadFileApi = (data: UploadFileTypesReq): Promise<UploadFileTypesRes> => {

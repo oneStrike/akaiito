@@ -13,6 +13,9 @@ export class ChapterDTO {
   @Rule(requiredString)
   title!: string
 
+  @Rule(validateString)
+  content?: string
+
   @Rule(validateNumber)
   comicId?: number
 
@@ -52,6 +55,11 @@ export class UpdateChapterDTO extends PickDto(ChapterDTO, ['purchaseAmount', 'vi
 }
 
 export class updateChapterPublishDTO extends PickDto(ChapterDTO, ['isPublish']) {
+  @Rule(requiredNumber)
+  id!: number
+}
+
+export class AddChapterContentDTO extends PickDto(ChapterDTO, ['content']) {
   @Rule(requiredNumber)
   id!: number
 }

@@ -1,6 +1,6 @@
 /**
  *  接口 [获取章节列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242072801)
- *  @标签 章节/获取章节列表
+ *  @标签 漫画/章节/获取章节列表
  *  @方式 GET
  *  @地址 /admin/chapter/getChapter
  *  @更新时间 2024-12-08 16:38:40
@@ -32,13 +32,13 @@ export interface GetChapterTypesRes {
     novelId?: number
 
     /* 排序 */
-    order: number
+    order?: number
 
     /* 查看规则 0 公开  1登录 2会员 3购买 */
     viewRule: number
 
     /* 购买需要消耗的金额 */
-    purchaseAmount: number
+    purchaseAmount?: number
 
     /* 创建时间 */
     createdAt: string
@@ -58,7 +58,7 @@ export interface GetChapterTypesRes {
 
 /**
  *  接口 [添加作品章节](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242070794)
- *  @标签 章节/添加作品章节
+ *  @标签 漫画/章节/添加作品章节
  *  @方式 POST
  *  @地址 /admin/chapter/createChapter
  *  @更新时间 2024-12-08 16:14:29
@@ -75,13 +75,13 @@ export interface CreateChapterTypesReq {
   novelId?: number
 
   /* 排序 */
-  order: number
+  order?: number
 
   /* 查看规则 0 公开  1登录 2会员 3购买 */
   viewRule: number
 
   /* 购买需要消耗的金额 */
-  purchaseAmount: number
+  purchaseAmount?: number
 }
 
 export interface CreateChapterTypesRes {
@@ -91,7 +91,7 @@ export interface CreateChapterTypesRes {
 
 /**
  *  接口 [更新章节](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242073428)
- *  @标签 章节/更新章节
+ *  @标签 漫画/章节/更新章节
  *  @方式 POST
  *  @地址 /admin/chapter/updateChapter
  *  @更新时间 2024-12-08 16:40:25
@@ -111,13 +111,13 @@ export interface UpdateChapterTypesReq {
   novelId?: number
 
   /* 排序 */
-  order: number
+  order?: number
 
   /* 查看规则 0 公开  1登录 2会员 3购买 */
   viewRule: number
 
   /* 购买需要消耗的金额 */
-  purchaseAmount: number
+  purchaseAmount?: number
 }
 
 export interface UpdateChapterTypesRes {
@@ -127,7 +127,7 @@ export interface UpdateChapterTypesRes {
 
 /**
  *  接口 [更新作品发布状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242074231)
- *  @标签 章节/更新作品发布状态
+ *  @标签 漫画/章节/更新作品发布状态
  *  @方式 POST
  *  @地址 /admin/chapter/updateChapterPublish
  *  @更新时间 2024-12-08 16:52:45
@@ -141,7 +141,7 @@ export interface UpdateChapterPublishTypesReq {
   isPublish?: boolean
 
   /* 排序 */
-  order: number
+  order?: number
 }
 
 export interface UpdateChapterPublishTypesRes {
@@ -151,7 +151,7 @@ export interface UpdateChapterPublishTypesRes {
 
 /**
  *  接口 [删除章节](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242074973)
- *  @标签 章节/删除章节
+ *  @标签 漫画/章节/删除章节
  *  @方式 POST
  *  @地址 /admin/chapter/deleteChapter
  *  @更新时间 2024-12-08 17:03:50
@@ -169,7 +169,7 @@ export interface DeleteChapterTypesRes {
 
 /**
  *  接口 [调整章节排序](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242075018)
- *  @标签 章节/调整章节排序
+ *  @标签 漫画/章节/调整章节排序
  *  @方式 POST
  *  @地址 /admin/chapter/updateChapterOrder
  *  @更新时间 2024-12-08 17:05:45
