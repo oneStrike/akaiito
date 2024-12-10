@@ -1,4 +1,4 @@
-model Category {
+model WorkCategory {
   /// 主键id
   id                    Int               @id @default(autoincrement())
   /// 分类名称
@@ -35,5 +35,5 @@ model Category {
   updatedAt             DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
   ComicCategories       ComicCategories[]
 
-  @@map("category")
+  @@map("work_category")
 }
