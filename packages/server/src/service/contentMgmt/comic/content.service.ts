@@ -24,21 +24,30 @@ export class ComicContentService extends BasicService<ComicContent> {
     return { id }
   }
 
-  // 更新或创建内容
-  upsertComicContent(body: ComicContentDTO) {
-    const { id, url, chapterId } = body
-    const upsertData = {
-      url,
-      chapter: {
-        connect: {
-          id: chapterId,
+  // 清空内容
+
+  async removeChapterContent(id: number) {
+    await this.delete({ where: { chapterId: id } })
+    await this.fileService.deleteComicChapterContent(id)
+    return { id }
+  }
+
+  // 创建内容
+  createComicContent(body: ComicContentDTO) {
+    const { urls, chapterId } = body
+    const upsertData: any[] = []
+    urls.forEach((item) => {
+      upsertData.push({
+        url: item,
+        chapter: {
+          connect: {
+            id: chapterId,
+          },
         },
-      },
-    }
-    return this.upsert({
-      where: { id: id || 0 },
-      create: upsertData,
-      update: upsertData,
+      })
+    })
+    return this.createBatch({
+      data: upsertData,
     })
   }
 }

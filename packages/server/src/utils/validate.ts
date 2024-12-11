@@ -124,6 +124,10 @@ export const validateDate = RuleType.date().empty('').allow(null)
 export const requiredDate = validateDate.required()
 
 /**
+ * 字符串类型的数组
+ */
+export const validateStringArray = RuleType.array().items(requiredString)
+/**
  * 数字类型的数组
  */
 export const validateNumberArray = RuleType.array().items(requiredNumber)

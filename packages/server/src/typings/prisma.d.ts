@@ -26,6 +26,10 @@ export type PrismaIsExistsOptions<T> = {
   where: WhereOptions<Partial<T>>
 }
 
+export type PrismaCreateBatchOptions<T> = {
+  data: Partial<T>[]
+  skipDuplicates?: boolean
+}
 export type PrismaCreateOptions<T> = {
   data: Partial<T> & IterateObject
   select?: {

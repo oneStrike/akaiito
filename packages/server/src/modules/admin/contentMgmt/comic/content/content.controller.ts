@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { ComicContentService } from '@/service/contentMgmt/comic/content.service'
-import { ComicContentDTO } from '@/modules/admin/contentMgmt/comic/content/dto/content.dto'
+import { ComicContentDTO, RemoveChapterContentDTO } from '@/modules/admin/contentMgmt/comic/content/dto/content.dto'
 import { BasicIdDTO, BasicOrderDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 
 @Controller('/admin/comic/content', { description: '漫画内容' })
@@ -9,9 +9,14 @@ export class ComicContentController {
   comicContentService: ComicContentService
 
 
-  @Post('/upsertComicContent', { summary: '更新或创建漫画内容' })
-  async upsertComicContent(@Body() body: ComicContentDTO) {
-    return this.comicContentService.upsertComicContent(body)
+  @Post('/createComicContent', { summary: '创建漫画内容' })
+  async createComicContent(@Body() body: ComicContentDTO) {
+    return this.comicContentService.createComicContent(body)
+  }
+
+  @Post('/removeComicContent', { summary: '清空漫画章节内容' })
+  async removeChapterContent(@Body() body: RemoveChapterContentDTO) {
+    return this.comicContentService.removeChapterContent(body.chapterId)
   }
 
   @Post('/deleteComicContent', { summary: '删除漫画内容' })

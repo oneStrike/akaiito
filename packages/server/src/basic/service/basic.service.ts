@@ -5,6 +5,7 @@ import { Application } from '@midwayjs/koa'
 import { utils } from '@/utils'
 import { App, Config, httpError, Inject } from '@midwayjs/core'
 import {
+  PrismaCreateBatchOptions,
   PrismaCreateOptions,
   PrismaDeleteOptions,
   PrismaFindPageOptions,
@@ -61,6 +62,11 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
       }
     }
     return this.model.create(options)
+  }
+
+  // 创建多条数据
+  createBatch(options: PrismaCreateBatchOptions<T>): Promise<{ count: number }> {
+    return this.model.createMany(options)
   }
 
   // 更新数据

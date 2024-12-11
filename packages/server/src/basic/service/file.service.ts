@@ -1,7 +1,7 @@
 import { staticFileConfig } from '@/config/modules/staticFile'
 import { Config } from '@midwayjs/core'
 import path = require('node:path')
-import { unlink } from 'fs-extra'
+import { unlink, remove } from 'fs-extra'
 
 export class FileService {
   @Config('staticFile')
@@ -13,5 +13,11 @@ export class FileService {
     const fileFullPath = path.join(this.staticFileConfig.dirs.default.dir, filePath)
     // 删除文件
     await unlink(fileFullPath)
+  }
+
+  // 删除漫画章节内容
+  async deleteComicChapterContent(chapterId: number) {
+    const fileFullPath = path.join(this.staticFileConfig.dirs.default.dir, '/comic/' + chapterId)
+    await remove(fileFullPath)
   }
 }
