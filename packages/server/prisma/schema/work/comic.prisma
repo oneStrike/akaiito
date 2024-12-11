@@ -31,8 +31,6 @@ model Comic {
   description       String            @db.VarChar(1000)
   /// 出版社
   publisher         String?           @db.VarChar(30)
-  /// 章节数量
-  chapterCount      Int               @default(0) @map("chapter_count") @db.Integer
   /// 是否已经完结
   isFinished        Boolean           @default(false) @map("is_finished")
   /// 创建时间
@@ -41,7 +39,8 @@ model Comic {
   updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
   /// 分类
   categories        ComicCategories[]
-  Chapter           Chapter[]
+  /// 章节
+  Chapters          Chapter[]
 
   @@index([authorId])
   @@index([permissionId])
@@ -57,4 +56,18 @@ model ComicCategories {
   @@id([comicId, categoryId])
   @@index([categoryId])
   @@map("comic_categories")
+}
+
+model comicContent {
+  id        Int     @id @default(autoincrement())
+  /// url
+  url       String  @db.VarChar(300)
+  /// 排序
+  order     Int     @db.Integer
+  /// 章节id
+  chapter   Chapter @relation(fields: [chapterId], references: [id])
+  chapterId Int
+
+  @@index([chapterId])
+  @@map("chapter_content")
 }

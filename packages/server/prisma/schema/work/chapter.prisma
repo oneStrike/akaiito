@@ -1,41 +1,33 @@
 model Chapter {
   /// 主键id
-  id             Int      @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   /// 章节标题
-  title          String   @db.VarChar(20)
+  title          String         @db.VarChar(20)
   /// 内容
-  content        String?  @db.Text
+  content        String?        @db.Text
   /// 发布状态
-  isPublish      Boolean? @default(true) @map("is_publish")
+  isPublish      Boolean?       @default(true) @map("is_publish")
   /// 关联的漫画id
-  comic          Comic?   @relation(fields: [comicId], references: [id])
-  comicId        Int?     @map("comic_id") @db.Integer
+  comic          Comic?         @relation(fields: [comicId], references: [id])
+  comicId        Int?           @map("comic_id") @db.Integer
   /// 关联的小说id
-  novel          Novel?   @relation(fields: [novelId], references: [id])
-  novelId        Int?     @map("novel_id") @db.Integer
+  novel          Novel?         @relation(fields: [novelId], references: [id])
+  novelId        Int?           @map("novel_id") @db.Integer
   /// 排序
-  order          Int      @db.Integer
+  order          Int            @db.Integer
   /// 查看规则 0公开  1登录 2会员 3购买
-  viewRule       Int      @default(0) @map("view_rule") @db.SmallInt
+  viewRule       Int            @default(0) @map("view_rule") @db.SmallInt
   /// 购买需要消耗的金额
-  purchaseAmount Int      @default(0) @map("purchase_amount")
+  purchaseAmount Int            @default(0) @map("purchase_amount")
   /// 备注
-  remark         String?  @db.VarChar(1000)
+  remark         String?        @db.VarChar(1000)
   /// 创建时间
-  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt      DateTime       @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt      DateTime       @updatedAt @map("updated_at") @db.Timestamp(0)
+  comicContent   comicContent[]
 
   @@index([novelId])
   @@index([comicId])
   @@map("chapter")
-}
-
-model ChapterContent {
-  /// 主键id
-  id  Int    @id @default(autoincrement())
-  /// url
-  url String @db.VarChar(200)
-
-  @@map("chapter_content")
 }

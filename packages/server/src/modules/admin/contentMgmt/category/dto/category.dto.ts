@@ -13,7 +13,7 @@ export class CategoryDTO extends BasicIdStatusDTO {
   virtualPopularity?: number
 
   @Rule(validateNumber)
-  sort?: number
+  order?: number
 
   @Rule(requiredBoolean)
   novelApplicable!: boolean

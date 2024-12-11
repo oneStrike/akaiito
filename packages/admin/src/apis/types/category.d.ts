@@ -35,10 +35,10 @@ export interface GetCategoryPageTypesRes {
     icon: string
 
     /* 分类热度 */
-    hot: number
+    popularity: number
 
     /* 辅助分类热度 */
-    auxiliaryHot: number
+    virtualPopularity: number
 
     /* 分类下属小说数量 */
     novelCount: number
@@ -50,7 +50,7 @@ export interface GetCategoryPageTypesRes {
     imageCount: number
 
     /* 排序 */
-    sort: number
+    order: number
 
     /* 状态 1：正常 0：禁用 */
     status: number
@@ -98,8 +98,14 @@ export interface CreateCategoryTypesReq {
   /* 分类图标 */
   icon: string
 
+  /* 分类热度 */
+  popularity: number
+
   /* 辅助分类热度 */
-  auxiliaryHot: number
+  virtualPopularity: number
+
+  /* 排序 */
+  order: number
 
   /* 状态 1：正常 0：禁用 */
   status: number
@@ -138,8 +144,14 @@ export interface UpdateCategoryTypesReq {
   /* 分类图标 */
   icon: string
 
+  /* 分类热度 */
+  popularity: number
+
   /* 辅助分类热度 */
-  auxiliaryHot: number
+  virtualPopularity: number
+
+  /* 排序 */
+  order: number
 
   /* 状态 1：正常 0：禁用 */
   status: number
@@ -174,6 +186,15 @@ export interface UpdateCategoryStatusTypesReq {
 
   /* 分类图标 */
   icon: string
+
+  /* 分类热度 */
+  popularity: number
+
+  /* 辅助分类热度 */
+  virtualPopularity: number
+
+  /* 排序 */
+  order: number
 
   /* 状态 1：正常 0：禁用 */
   status: number
