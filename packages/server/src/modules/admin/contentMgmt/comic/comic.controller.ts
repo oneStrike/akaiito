@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { ComicService } from '@/service/contentMgmt/comic.service'
+import { ComicService } from '@/service/contentMgmt/comic/comic.service'
 import {
   ComicDTO,
   ComicPublishDTO,

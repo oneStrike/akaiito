@@ -1,9 +1,9 @@
-import type { Comic, ComicCategories, PrismaClient } from '@prisma/client'
+import { Comic, ComicCategories, PrismaClient } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { CategoryService } from '@/service/contentMgmt/category.service'
 import { AuthorService } from '@/service/contentMgmt/author.service'
-import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/work/dto/comic.dto'
+import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
 
 @Provide()
 export class ComicCategoryService extends BasicService<ComicCategories> {

@@ -58,7 +58,7 @@ model ComicCategories {
   @@map("comic_categories")
 }
 
-model comicContent {
+model ComicContent {
   id        Int     @id @default(autoincrement())
   /// url
   url       String  @db.VarChar(300)
@@ -69,5 +69,5 @@ model comicContent {
   chapterId Int
 
   @@index([chapterId])
-  @@map("chapter_content")
+  @@map("comic_content")
 }
