@@ -143,7 +143,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   }
 
   // 根据条件查询唯一数据
-  async findUnique(options?: PrismaFindUniqueOptions<T>): Promise<T | null> {
+  async findUnique(options?: PrismaFindUniqueOptions<T>): Promise<T & IterateObject | null> {
     return await this.model.findUnique(options)
   }
 

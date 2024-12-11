@@ -27,6 +27,9 @@ const formOptions = computed(() => {
       width: `${itemWidth}%`,
       minWidth: '229.5px',
     }
+    if (item.componentProps?.defaultValue !== undefined) {
+      formData.value[item.field] = item.componentProps?.defaultValue
+    }
     return item
   })
 })

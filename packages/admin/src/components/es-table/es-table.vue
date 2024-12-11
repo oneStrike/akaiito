@@ -40,6 +40,7 @@ const pageIndex = computed({
 const paginationRef = useTemplateRef<HTMLDivElement>('paginationRef')
 const tableBoxRef = useTemplateRef<HTMLDivElement>('tableBoxRef')
 const toolbarRef = useTemplateRef<HTMLDivElement>('toolbarRef')
+const tableRef = useTemplateRef('tableRef')
 
 const tableHeight = ref(100)
 const elHeight = ref({
@@ -106,28 +107,26 @@ function handlerSortChange(val: any) {
   })
 }
 
-// 行拖拽
 const rowDrop = () => {
-  const tbody = document.querySelector('.ELtable tbody')
-  Sortable.create(tbody, {
-    animation: 150, // 动画参数
-  })
-}
-
-// 列拖拽
-const columnDrop = () => {
-  const tbody = document.querySelector('.el-table__row')
-  Sortable.create(tbody, {
-    animation: 180,
-    delay: 10,
-    draggable: '.allow-drag',
+  const sortableInst = new Sortable(tableRef.value!.$el.querySelector('tbody'), {
+    group: {
+      name: 'table',
+      pull: true,
+      put: true,
+    },
+    animation: 150,
+    onEnd(e: any) {
+      // 如果拖拽结束后顺序发生了变化，则对数据进行修改
+      if (e.oldIndex !== e.newIndex) {
+        console.log(e)
+      }
+    },
   })
 }
 
 onMounted(() => {
   computedTableHeight()
   rowDrop()
-  columnDrop()
 })
 defineExpose({
   computedTableHeight,
@@ -149,9 +148,11 @@ defineExpose({
     />
 
     <el-table
+      ref="tableRef"
       :data="data"
       :height="tableHeight"
       :max-height="tableHeight"
+      row-key="id"
       @selection-change="handlerSelectionChange"
       @sort-change="handlerSortChange"
     >

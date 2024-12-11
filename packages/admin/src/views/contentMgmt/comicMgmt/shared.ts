@@ -163,6 +163,7 @@ export const chapterFormOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请输入查看规则',
       maxlength: 50,
+      defaultValue: 0,
       options: [
         {
           label: '公开',
