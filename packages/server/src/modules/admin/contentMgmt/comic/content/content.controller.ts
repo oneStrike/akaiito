@@ -16,7 +16,7 @@ export class ComicContentController {
 
   @Post('/deleteComicContent', { summary: '删除漫画内容' })
   async deleteComicContent(@Body() body: BasicIdDTO) {
-    return this.comicContentService.delete({ where: { id: body.id } })
+    return this.comicContentService.deleteContent(body.id)
   }
 
   @Post('/orderComicContentPage', { summary: '漫画内容排序' })
@@ -26,6 +26,9 @@ export class ComicContentController {
 
   @Get('/getComicContentPage', { summary: '获取漫画内容分页' })
   async getComicContentPage(@Query() query: BasicPageDTO) {
+    if (!query.orderBy) {
+      query.orderBy = '{"order":"desc"}'
+    }
     return this.comicContentService.findPage({ where: query })
   }
 }

@@ -37,6 +37,9 @@ export class ChapterService extends BasicService<Chapter> {
 
   // 获取章节分页列表
   async getChapter(where: ChapterPageDTO) {
+    if (!where.orderBy) {
+      where.orderBy = '{ "order": "desc" }'
+    }
     if (!where.comicId && !where.novelId) {
       return this.throwError('暂无关联的作品')
     }

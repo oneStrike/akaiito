@@ -137,8 +137,8 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   }
 
   // 根据条件查询唯一数据
-  findUnique(options?: PrismaFindUniqueOptions<T>): PrismaInstanceModel | null {
-    return this.model.findUnique(options)
+  async findUnique(options?: PrismaFindUniqueOptions<T>): Promise<T | null> {
+    return await this.model.findUnique(options)
   }
 
   // 分页查询
