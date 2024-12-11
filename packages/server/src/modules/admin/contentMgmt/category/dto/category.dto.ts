@@ -10,7 +10,7 @@ export class CategoryDTO extends BasicIdStatusDTO {
   icon!: string
 
   @Rule(validateNumber)
-  auxiliaryHot?: number
+  virtualPopularity?: number
 
   @Rule(validateNumber)
   sort?: number

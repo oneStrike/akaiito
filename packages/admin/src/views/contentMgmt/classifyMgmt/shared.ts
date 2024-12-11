@@ -35,11 +35,11 @@ export const tableColumns: EsTableColumn = [
   },
   {
     label: '热度',
-    prop: 'hot',
+    prop: 'popularity',
     align: 'center',
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
-    sortBy: 'hot',
+    sortBy: 'popularity',
   },
   {
     label: '小说数量',
@@ -131,7 +131,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'auxiliaryHot',
+    field: 'virtualPopularity',
     component: 'InputNumber',
     props: {
       label: '辅助热度',
