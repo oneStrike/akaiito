@@ -23,7 +23,7 @@ export class ComicContentService extends BasicService<ComicContent> {
       },
     }
     return this.upsert({
-      where: { id },
+      where: { id: id || 0 },
       create: upsertData,
       update: upsertData,
     })

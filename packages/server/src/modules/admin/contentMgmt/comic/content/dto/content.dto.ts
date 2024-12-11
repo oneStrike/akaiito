@@ -1,9 +1,9 @@
 import { Rule } from '@midwayjs/validate'
-import { requiredNumber, requiredString } from '@/utils/validate'
+import { requiredNumber, requiredString, validateNumber } from '@/utils/validate'
 
 export class ComicContentDTO {
-  @Rule(requiredNumber)
-  id!: number
+  @Rule(validateNumber)
+  id?: number
 
   @Rule(requiredString)
   url!: string
@@ -11,3 +11,4 @@ export class ComicContentDTO {
   @Rule(requiredNumber)
   chapterId!: number
 }
+
