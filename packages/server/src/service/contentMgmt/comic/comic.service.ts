@@ -54,7 +54,7 @@ export class ComicService extends BasicService<Comic> {
             isCartoonist: true,
           },
         },
-        workPermissions: {
+        permissions: {
           create: {},
         },
       },
@@ -134,7 +134,7 @@ export class ComicService extends BasicService<Comic> {
             name: true,
           },
         },
-        workPermissions: {},
+        permissions: {},
         categories: {
           select: {
             category: {

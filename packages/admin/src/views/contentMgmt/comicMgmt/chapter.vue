@@ -38,7 +38,7 @@ const contentFormModal = reactive({
   chapter: null as TableItem | null,
 })
 
-const contentFormOptions: EsFormOptions[] = [
+const contentFormOptions: EsFormOptions[] = reactive([
   {
     field: 'contents',
     component: 'Upload',
@@ -60,7 +60,7 @@ const contentFormOptions: EsFormOptions[] = [
       },
     },
   },
-]
+])
 
 const currentRow = ref<TableItem | null>()
 
@@ -92,6 +92,9 @@ async function submit(val: CreateChapterTypesReq) {
 }
 
 async function editContent(row: TableItem) {
+  contentFormModal.chapter = row
+  contentFormModal.show = true
+  console.log(contentFormModal.chapter)
 }
 </script>
 

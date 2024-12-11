@@ -39,6 +39,7 @@ export class UploadService {
     // const { absolutePath, relativePath } = await this.parseFilePath(fields)
     let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
     let absolutePath = this.staticFileConfig.dirs.default.dir
+    ensureDirSync(absolutePath + relativePath)
     for await (const { filename, data, mimeType } of files) {
       const p = join(absolutePath + relativePath, filename)
       const stream = createWriteStream(p)

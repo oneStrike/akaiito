@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { EsTableProps } from '@/components/es-table/types'
 import { getAssetsFile } from '@/utils/getAssetsFile'
+import Sortable from 'sortablejs'
 
 const props = withDefaults(defineProps<EsTableProps>(), {
   tableIndex: true,
@@ -47,10 +48,6 @@ const elHeight = ref({
   toolbar: 0,
 })
 
-onMounted(() => {
-  computedTableHeight()
-})
-
 function computedTableHeight() {
   useResizeObserver(tableBoxRef.value!.parentNode as HTMLElement, (entries) => {
     const entry = entries[0]
@@ -94,7 +91,9 @@ const innerColumns = computed(() => {
   return []
 })
 
-const selectedRecords = defineModel<unknown[] | null>('selected', { default: () => [] })
+const selectedRecords = defineModel<unknown[] | null>('selected', {
+  default: () => [],
+})
 
 function handlerSelectionChange(val: any) {
   selectedRecords.value = val
@@ -107,6 +106,29 @@ function handlerSortChange(val: any) {
   })
 }
 
+// 行拖拽
+const rowDrop = () => {
+  const tbody = document.querySelector('.ELtable tbody')
+  Sortable.create(tbody, {
+    animation: 150, // 动画参数
+  })
+}
+
+// 列拖拽
+const columnDrop = () => {
+  const tbody = document.querySelector('.el-table__row')
+  Sortable.create(tbody, {
+    animation: 180,
+    delay: 10,
+    draggable: '.allow-drag',
+  })
+}
+
+onMounted(() => {
+  computedTableHeight()
+  rowDrop()
+  columnDrop()
+})
 defineExpose({
   computedTableHeight,
 })
@@ -115,8 +137,8 @@ defineExpose({
 <template>
   <div ref="tableBoxRef" :style="{ height: `${tableHeight}px` }">
     <es-toolbar
-      ref="toolbarRef"
       v-if="filter || toolbar"
+      ref="toolbarRef"
       v-model="params"
       :toolbar="toolbar"
       :filter="filter"
@@ -133,11 +155,26 @@ defineExpose({
       @selection-change="handlerSelectionChange"
       @sort-change="handlerSortChange"
     >
-      <el-table-column v-if="selection" type="selection" width="55" class-name="leading-9" />
-      <el-table-column v-for="item in innerColumns" :key="item.columnKey" v-bind="item" class-name="leading-9">
+      <el-table-column
+        v-if="selection"
+        type="selection"
+        width="55"
+        class-name="leading-9"
+      />
+      <el-table-column
+        v-for="item in innerColumns"
+        :key="item.columnKey"
+        v-bind="item"
+        class-name="leading-9"
+      >
         <template #default="{ row, column, $index }">
           <template v-if="item.slotName">
-            <slot :name="item.slotName" :row="row" :column="column" :index="$index" />
+            <slot
+              :name="item.slotName"
+              :row="row"
+              :column="column"
+              :index="$index"
+            />
           </template>
           <template v-else-if="item.type === 'image'">
             <el-image
@@ -154,7 +191,11 @@ defineExpose({
             </el-image>
           </template>
           <template v-else-if="item.type === 'link'">
-            <el-tooltip :content="row[item.prop]" :show-after="200" placement="top">
+            <el-tooltip
+              :content="row[item.prop]"
+              :show-after="200"
+              placement="top"
+            >
               <el-button type="primary" link @click="emits('link', row)">
                 {{ row[item.prop] }}
               </el-button>
@@ -163,7 +204,12 @@ defineExpose({
           <template v-else-if="item.type !== 'index'">
             {{
               item.formatter
-                ? item.formatter(row, column, item.prop ? row[item.prop] : null, $index)
+                ? item.formatter(
+                  row,
+                  column,
+                  item.prop ? row[item.prop] : null,
+                  $index,
+                )
                 : row[item.prop] || row[item.prop] === 0
                   ? row[item.prop]
                   : item.defaultValue || defaultValue
