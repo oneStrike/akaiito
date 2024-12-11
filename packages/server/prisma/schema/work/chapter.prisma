@@ -1,4 +1,4 @@
-model ComicNovelChapter {
+model Chapter {
   /// 主键id
   id             Int      @id @default(autoincrement())
   /// 章节标题
@@ -28,7 +28,7 @@ model ComicNovelChapter {
 
   @@index([novelId])
   @@index([comicId])
-  @@map("comic_novel_chapter")
+  @@map("chapter")
 }
 
 model ChapterContent {

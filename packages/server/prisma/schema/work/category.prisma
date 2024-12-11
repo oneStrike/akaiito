@@ -1,4 +1,4 @@
-model WorkCategory {
+model Category {
   /// 主键id
   id                    Int               @id @default(autoincrement())
   /// 分类名称
@@ -6,11 +6,11 @@ model WorkCategory {
   /// 分类图标
   icon                  String            @db.VarChar(200)
   /// 热度
-  hot                   Int?              @default(0) @db.Integer
+  popularity            Int?              @default(0) @db.Integer
   /// 辅助热度
-  auxiliaryHot          Int?              @default(0) @map("auxiliary_hot") @db.Integer
+  virtualPopularity     Int?              @default(0) @map("virtual_popularity") @db.Integer
   /// 排序
-  sort                  Int?              @default(0) @db.Integer
+  order                 Int?              @default(0) @db.Integer
   /// 小说数量
   novelCount            Int?              @default(0) @map("novel_count") @db.Integer
   /// 漫画数量
@@ -35,5 +35,5 @@ model WorkCategory {
   updatedAt             DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
   ComicCategories       ComicCategories[]
 
-  @@map("work_category")
+  @@map("category")
 }

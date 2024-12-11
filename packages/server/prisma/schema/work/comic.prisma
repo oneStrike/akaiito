@@ -19,7 +19,7 @@ model Comic {
   authorId          Int               @map("author_id") @db.Integer
   author            Author            @relation(fields: [authorId], references: [id])
   /// 权限
-  workPermissions   WorkPermissions   @relation(fields: [permissionId], references: [id])
+  permissions       Permissions       @relation(fields: [permissionId], references: [id])
   permissionId      Int               @db.Integer
   /// 是否发布 1：发布 0：不发布
   isPublish         Boolean           @default(false) @db.Boolean

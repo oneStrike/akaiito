@@ -1,5 +1,5 @@
 /// 作者
-model WorkAuthor {
+model Author {
   /// 主键id
   id            Int      @id @default(autoincrement())
   /// 作者名称
@@ -27,5 +27,5 @@ model WorkAuthor {
 
   Comic Comic[]
 
-  @@map("work_author")
+  @@map("author")
 }
