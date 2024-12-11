@@ -14,7 +14,7 @@ model Chapter {
   novel          Novel?         @relation(fields: [novelId], references: [id])
   novelId        Int?           @map("novel_id") @db.Integer
   /// 排序
-  order          Int            @db.Integer
+  order          Int            @default(autoincrement()) @db.SmallInt
   /// 查看规则 0公开  1登录 2会员 3购买
   viewRule       Int            @default(0) @map("view_rule") @db.SmallInt
   /// 购买需要消耗的金额

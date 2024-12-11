@@ -63,7 +63,7 @@ model ComicContent {
   /// url
   url       String  @db.VarChar(300)
   /// 排序
-  order     Int     @db.Integer
+  order     Int     @default(autoincrement()) @db.SmallInt
   /// 章节id
   chapter   Chapter @relation(fields: [chapterId], references: [id])
   chapterId Int

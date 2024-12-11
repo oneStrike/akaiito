@@ -27,7 +27,7 @@ model DictionaryItem {
   // 子项编码
   code           String     @db.VarChar(50)
   /// 排序
-  order          Int?       @default(0) @db.SmallInt
+  order          Int?       @default(autoincrement()) @db.SmallInt
   /// 状态 1启用 0禁用
   status         Boolean    @default(true)
   /// 备注信息

@@ -45,7 +45,6 @@ export class DictionaryServiceItems extends BasicService<DictionaryItem> {
             code: dictionaryCode,
           },
         },
-        order: await this.getCount(),
       },
     })
   }

@@ -10,4 +10,5 @@ export class ComicContentService extends BasicService<ComicContent> {
   protected get model() {
     return this.prismaClient.comicContent
   }
+
 }

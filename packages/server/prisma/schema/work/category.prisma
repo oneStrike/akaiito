@@ -10,7 +10,7 @@ model Category {
   /// 辅助人气
   virtualPopularity     Int?              @default(0) @map("virtual_popularity") @db.Integer
   /// 排序
-  order                 Int?              @default(0) @db.Integer
+  order                 Int?              @default(autoincrement()) @db.SmallInt
   /// 小说数量
   novelCount            Int?              @default(0) @map("novel_count") @db.Integer
   /// 漫画数量

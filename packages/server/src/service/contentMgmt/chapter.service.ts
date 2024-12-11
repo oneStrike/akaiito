@@ -16,14 +16,6 @@ export class ChapterService extends BasicService<Chapter> {
   // 创建章节数据
   async createChapter(data: any) {
     const { comicId, novelId, ...chapterData } = data
-    let maxSort = 0
-    if (novelId) {
-      maxSort = await this.getCount({ where: { novelId } })
-    }
-    if (comicId) {
-      maxSort = await this.getCount({ where: { comicId } })
-    }
-    chapterData.order = maxSort
     if (comicId) {
       chapterData.comic = {
         connect: {
