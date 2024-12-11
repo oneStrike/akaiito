@@ -1,6 +1,5 @@
 import { Config, Provide } from '@midwayjs/core'
 import { UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
-import { staticFileConfig } from '@/config/modules/staticFile'
 import { join } from 'path'
 import { utils } from '@/utils'
 import { ensureDirSync } from 'fs-extra'
@@ -8,16 +7,12 @@ import { createWriteStream } from 'node:fs'
 
 @Provide()
 export class UploadService {
-  @Config('staticFile')
-  staticFileConfig: typeof staticFileConfig
+  @Config('staticFile.dirs.default.dir')
+  pathPrefix: string
 
-  async parseFilePath(fields: AsyncGenerator<UploadStreamFieldInfo>): Promise<{
-    relativePath: string,
-    absolutePath: string
-  }> {
+  async parseFilePath(fields: AsyncGenerator<UploadStreamFieldInfo>): Promise<string> {
     const field: IterateObject = {}
     let relativePath = ''
-    let absolutePath = this.staticFileConfig.dirs.default.dir
     for await (const { name, value } of fields) {
       field[name] = value
     }
@@ -27,21 +22,18 @@ export class UploadService {
     } else {
       relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
     }
-    ensureDirSync(absolutePath + relativePath)
-    return {
-      relativePath, absolutePath,
-    }
+    ensureDirSync(this.pathPrefix + relativePath)
+    return relativePath
   }
 
 
   async local(files: AsyncGenerator<UploadStreamFileInfo>, fields: AsyncGenerator<UploadStreamFieldInfo>) {
     const reportData = []
-    // const { absolutePath, relativePath } = await this.parseFilePath(fields)
+    // const relativePath = await this.parseFilePath(fields)
     let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
-    let absolutePath = this.staticFileConfig.dirs.default.dir
-    ensureDirSync(absolutePath + relativePath)
+    ensureDirSync(this.pathPrefix + relativePath)
     for await (const { filename, data, mimeType } of files) {
-      const p = join(absolutePath + relativePath, filename)
+      const p = join(this.pathPrefix + relativePath, filename)
       const stream = createWriteStream(p)
       data.pipe(stream)
       reportData.push({
