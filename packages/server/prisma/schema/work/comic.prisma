@@ -66,7 +66,7 @@ model ComicContent {
   order     Int     @default(autoincrement()) @db.Integer
   /// 章节id
   chapter   Chapter @relation(fields: [chapterId], references: [id])
-  chapterId Int
+  chapterId Int     @db.Integer
 
   @@index([chapterId])
   @@map("comic_content")
