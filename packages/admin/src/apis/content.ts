@@ -1,12 +1,14 @@
 import { httpHandler } from '@/utils/request'
 import type {
   GetComicContentPageTypesRes,
-  UpsertComicContentTypesRes,
-  UpsertComicContentTypesReq,
+  CreateComicContentTypesRes,
+  CreateComicContentTypesReq,
   DeleteComicContentTypesRes,
   DeleteComicContentTypesReq,
   OrderComicContentPageTypesRes,
   OrderComicContentPageTypesReq,
+  RemoveComicContentTypesRes,
+  RemoveComicContentTypesReq,
 } from './types/content.d'
 
 /**
@@ -26,17 +28,17 @@ export const getComicContentPageApi = (): Promise<GetComicContentPageTypesRes> =
 }
 
 /**
- *  接口 [更新或创建漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052051)
- *  @标签 内容/更新或创建漫画内容
+ *  接口 [创建漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052051)
+ *  @标签 内容/创建漫画内容
  *  @方式 POST
- *  @地址 /admin/comic/content/upsertComicContent
- *  @更新时间 2024-12-11 09:33:31
+ *  @地址 /admin/comic/content/createComicContent
+ *  @更新时间 2024-12-11 17:16:06
  */
 
-export const upsertComicContentApi = (data: UpsertComicContentTypesReq): Promise<UpsertComicContentTypesRes> => {
+export const createComicContentApi = (data: CreateComicContentTypesReq): Promise<CreateComicContentTypesRes> => {
   return httpHandler({
     method: 'POST',
-    url: '/admin/comic/content/upsertComicContent',
+    url: '/admin/comic/content/createComicContent',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -77,6 +79,25 @@ export const orderComicContentPageApi = (
   return httpHandler({
     method: 'POST',
     url: '/admin/comic/content/orderComicContentPage',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [清空章节内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243396531)
+ *  @标签 内容/清空章节内容
+ *  @方式 POST
+ *  @地址 /admin/comic/content/removeComicContent
+ *  @更新时间 2024-12-11 17:17:37
+ */
+
+export const removeComicContentApi = (data: RemoveComicContentTypesReq): Promise<RemoveComicContentTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/admin/comic/content/removeComicContent',
     headers: {
       'Content-Type': 'application/json',
     },

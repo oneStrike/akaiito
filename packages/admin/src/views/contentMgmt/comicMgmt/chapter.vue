@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import type { CreateChapterTypesReq, UpdateChapterTypesReq } from '@/apis/types/chapter'
+import type {
+  CreateChapterTypesReq,
+  UpdateChapterOrderTypesReq,
+} from '@/apis/types/chapter'
 import type { GetComicDetailTypesRes } from '@/apis/types/comic'
-import type { EsFormOptions } from '@/components/es-form/types'
 import {
   createChapterApi,
   deleteChapterApi,
@@ -52,7 +54,7 @@ const contentFormModal = reactive({
   chapter: null as TableItem | null,
 })
 
-const contentFormOptions: EsFormOptions[] = reactive([
+const contentFormTool = useFormTool([
   {
     field: 'contents',
     component: 'Upload',
@@ -68,10 +70,6 @@ const contentFormOptions: EsFormOptions[] = reactive([
       scenario: 'content',
       maxCount: 9999,
       structure: 'string',
-      data: {
-        comicId: props.record?.id,
-        chapterId: contentFormModal.chapter?.id,
-      },
     },
   },
 ])
@@ -117,7 +115,18 @@ async function submit(val: any) {
 async function editContent(row: TableItem) {
   contentFormModal.chapter = row
   contentFormModal.show = true
-  console.log(contentFormModal.chapter)
+  contentFormTool.specificItem('contents', (item) => {
+    item.componentProps!.data = {
+      comicId: props.record?.id,
+      chapterId: row.id,
+    }
+  })
+}
+
+function sortChapter(val: UpdateChapterOrderTypesReq) {
+  updateChapterOrderApi(val)
+  useMessage.success(PromptsEnum.UPDATED)
+  request()
 }
 </script>
 
@@ -135,7 +144,7 @@ async function editContent(row: TableItem) {
       @query="request"
       @toolbar-handler="formModal.show = true"
       @sort-change="sortChange"
-      @drag-end="(params) => (updateChapterOrderApi(params), request())"
+      @drag-end="sortChapter"
     >
       <template #isPublish="{ row }">
         <es-switch
@@ -183,7 +192,7 @@ async function editContent(row: TableItem) {
       :default-value="currentRow"
       title="内容"
       width="800"
-      :options="contentFormOptions"
+      :options="contentFormTool.options"
       @submit="submit"
     />
   </es-modal>

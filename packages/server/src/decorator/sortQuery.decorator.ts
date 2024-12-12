@@ -19,7 +19,7 @@ export function sortQueryHandler(): IMethodAspect {
   return {
     async before(joinPoint: JoinPoint) {
       if (joinPoint.args[0] && !joinPoint.args[0].orderBy) {
-        joinPoint.args[0].orderBy = '[{ "order": "desc" },{ "id": "desc" }]'
+        joinPoint.args[0].orderBy = '[{ "order": "desc" },{ "updatedAt": "desc" }]'
       }
     },
   }
