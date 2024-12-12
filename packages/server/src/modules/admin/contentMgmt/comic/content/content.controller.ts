@@ -2,6 +2,7 @@ import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { ComicContentService } from '@/service/contentMgmt/comic/content.service'
 import { ComicContentDTO, RemoveChapterContentDTO } from '@/modules/admin/contentMgmt/comic/content/dto/content.dto'
 import { BasicIdDTO, BasicOrderDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
+import { SortQuery } from '@/decorator/sortQuery.decorator'
 
 @Controller('/admin/comic/content', { description: '漫画内容' })
 export class ComicContentController {
@@ -30,6 +31,7 @@ export class ComicContentController {
   }
 
   @Get('/getComicContentPage', { summary: '获取漫画内容分页' })
+  @SortQuery()
   async getComicContentPage(@Query() query: BasicPageDTO) {
     if (!query.orderBy) {
       query.orderBy = '{"order":"desc"}'
