@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { CreateChapterTypesReq } from '@/apis/types/chapter'
+import type { CreateChapterTypesReq, UpdateChapterTypesReq } from '@/apis/types/chapter'
 import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import type { EsFormOptions } from '@/components/es-form/types'
 import {
   createChapterApi,
   deleteChapterApi,
   getChapterApi,
+  updateChapterApi,
   updateChapterOrderApi,
   updateChapterPublishApi,
 } from '@/apis/chapter'
@@ -98,9 +99,14 @@ watch(
   { deep: true },
 )
 
-async function submit(val: CreateChapterTypesReq) {
+async function submit(val: any) {
   val.comicId = props.record?.id
-  await createChapterApi(val)
+  if (currentRow.value?.id) {
+    val.id = currentRow.value.id
+    await updateChapterApi(val)
+  } else {
+    await createChapterApi(val)
+  }
   formModal.show = false
   useMessage.success(PromptsEnum.CREATED)
   request({
@@ -142,6 +148,14 @@ async function editContent(row: TableItem) {
       <template #action="{ row }">
         <el-button link type="primary" @click="editContent(row)">
           内容
+        </el-button>
+        <el-divider direction="vertical" />
+        <el-button
+          link
+          type="primary"
+          @click="((formModal.show = true), (currentRow = row))"
+        >
+          编辑
         </el-button>
         <el-divider direction="vertical" />
         <es-pop-confirm

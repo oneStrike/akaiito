@@ -65,18 +65,39 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   }
 
   // 创建多条数据
-  createBatch(options: PrismaCreateBatchOptions<T>): Promise<{ count: number }> {
+  createBatch(
+    options: PrismaCreateBatchOptions<T>,
+  ): Promise<{ count: number }> {
     return this.model.createMany(options)
   }
 
   // 更新数据
-  update(options: PrismaUpdateOptions<T>) {
+  async update(options: PrismaUpdateOptions<T>): Promise<{ id: number }> {
     if (!options.select && !options.include) {
       options.select = {
         id: true,
       }
     }
-    return this.model.update(options)
+    if (options.data.order) {
+      const sameOrder = await this.model.findFirst({
+        where: { order: options.data.order },
+        select: { id: true },
+      })
+      if (sameOrder) {
+        const recordOrder = await this.model.findUnique({
+          where: options.where,
+          select: { order: true, id: true },
+        })
+        await Promise.all([
+          this.model.update({ where: { id: sameOrder.id }, data: { order: recordOrder.order } }),
+          this.model.update(options),
+        ])
+        return { id: recordOrder.id }
+      }
+      return this.model.update(options)
+    } else {
+      return this.model.update(options)
+    }
   }
 
   // 更新或插入一条数据
@@ -143,13 +164,21 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   }
 
   // 根据条件查询唯一数据
-  async findUnique(options?: PrismaFindUniqueOptions<T>): Promise<T & IterateObject | null> {
+  async findUnique(
+    options?: PrismaFindUniqueOptions<T>,
+  ): Promise<(T & IterateObject) | null> {
     return await this.model.findUnique(options)
   }
 
   // 分页查询
   async findPage(options?: PrismaFindPageOptions<T>): FindPageResponse<T> {
-    const pageOptionsKeys = ['pageSize', 'pageIndex', 'orderBy', 'startTime', 'endTime']
+    const pageOptionsKeys = [
+      'pageSize',
+      'pageIndex',
+      'orderBy',
+      'startTime',
+      'endTime',
+    ]
     const { pagination } = this.prismaConfig
     pageOptionsKeys.forEach((item) => {
       switch (item) {
@@ -157,7 +186,9 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
           options.take = Number(options.where.pageSize || pagination.pageSize)
           break
         case 'pageIndex':
-          options.skip = Number((options.where.pageIndex || pagination.pageIndex) * options.take)
+          options.skip = Number(
+            (options.where.pageIndex || pagination.pageIndex) * options.take,
+          )
           break
         case 'orderBy':
           if (options.where.orderBy) {
@@ -194,10 +225,15 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
     }
 
     // 并行查询总数和数据
-    const [total, record] = await Promise.all([this.getCount({ where: options.where }), this.model.findMany(options)])
+    const [total, record] = await Promise.all([
+      this.getCount({ where: options.where }),
+      this.model.findMany(options),
+    ])
     return {
       pageSize: record?.length ?? 0,
-      pageIndex: options.where.skip ? options.where.skip / options.where.take + 1 : 1,
+      pageIndex: options.where.skip
+        ? options.where.skip / options.where.take + 1
+        : 1,
       total,
       list: record,
     }

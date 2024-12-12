@@ -23,7 +23,7 @@ export class ChapterDTO {
   novelId?: number
 
   @Rule(validateNumber)
-  sortOrder?: number
+  order?: number
 
   @Rule(validateNumberLess(4))
   viewRule?: number
@@ -49,7 +49,7 @@ export class ChapterPageDTO extends BasicPageDTO {
   title?: string
 }
 
-export class UpdateChapterDTO extends PickDto(ChapterDTO, ['purchaseAmount', 'viewRule', 'title']) {
+export class UpdateChapterDTO extends PickDto(ChapterDTO, ['purchaseAmount', 'viewRule', 'title', 'order']) {
   @Rule(requiredNumber)
   id!: number
 }

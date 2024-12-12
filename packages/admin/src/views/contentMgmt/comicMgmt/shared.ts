@@ -153,6 +153,16 @@ export const chapterFormOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'order',
+    component: 'InputNumber',
+    props: {
+      label: '排序',
+    },
+    componentProps: {
+      placeholder: '请输入排序',
+    },
+  },
+  {
     field: 'viewRule',
     component: 'Radio',
     props: {
@@ -199,7 +209,6 @@ export const chapterFormOptions: EsFormOptions[] = [
     },
   },
 ]
-
 
 export const filter: EsFormOptions[] = [
   {
