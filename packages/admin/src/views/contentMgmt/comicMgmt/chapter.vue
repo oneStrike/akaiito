@@ -129,7 +129,7 @@ async function editContent(row: TableItem) {
       @query="request"
       @toolbar-handler="formModal.show = true"
       @sort-change="sortChange"
-      @drag-end="(params) => updateChapterOrderApi(params)"
+      @drag-end="(params) => (updateChapterOrderApi(params), request())"
     >
       <template #isPublish="{ row }">
         <es-switch
