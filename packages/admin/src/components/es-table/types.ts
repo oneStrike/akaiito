@@ -12,9 +12,17 @@ export interface EsTableProps<T = IterateObject> {
   columns: EsTableColumn
   tableIndex?: boolean
   total?: number
+  drag?: boolean
   selection?: boolean
   defaultValue?: string
 
   toolbar?: EsToolbarProps['toolbar']
   filter?: EsToolbarProps['filter']
+}
+
+export interface dragEndEvent {
+  targetId: number
+  targetOrder: number
+  originId: number
+  originOrder: number
 }

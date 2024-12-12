@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import type { CreateChapterTypesReq, GetChapterTypesRes } from '@/apis/types/chapter'
+import type { CreateChapterTypesReq } from '@/apis/types/chapter'
 import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import type { EsFormOptions } from '@/components/es-form/types'
-import { createChapterApi, deleteChapterApi, getChapterApi, updateChapterPublishApi } from '@/apis/chapter'
+import {
+  createChapterApi,
+  deleteChapterApi,
+  getChapterApi,
+  updateChapterOrderApi,
+  updateChapterPublishApi,
+} from '@/apis/chapter'
 import { PromptsEnum } from '@/enum/prompts'
-import { chapterColumn, chapterFilter, chapterFormOptions, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
+import {
+  chapterColumn,
+  chapterFilter,
+  chapterFormOptions,
+  toolbar,
+} from '@/views/contentMgmt/comicMgmt/shared'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
@@ -19,12 +30,14 @@ const props = withDefaults(
   {},
 )
 
-
 const formTool = useFormTool(chapterFormOptions)
 
-const { request, requestData, loading, params, sortChange } = useRequest(getChapterApi, {
-  init: false,
-})
+const { request, requestData, loading, params, sortChange } = useRequest(
+  getChapterApi,
+  {
+    init: false,
+  },
+)
 
 const formModal = reactive({
   show: false,
@@ -77,9 +90,13 @@ watch(
     }),
 )
 
-watch(formModal.data, (val: CreateChapterTypesReq) => {
-  formTool.toggleDisplay('purchaseAmount', val.viewRule === 3)
-}, { deep: true })
+watch(
+  formModal.data,
+  (val: CreateChapterTypesReq) => {
+    formTool.toggleDisplay('purchaseAmount', val.viewRule === 3)
+  },
+  { deep: true },
+)
 
 async function submit(val: CreateChapterTypesReq) {
   val.comicId = props.record?.id
@@ -108,17 +125,31 @@ async function editContent(row: TableItem) {
       :columns="chapterColumn"
       :data="requestData?.list ?? []"
       :total="requestData?.total"
+      drag
       @query="request"
       @toolbar-handler="formModal.show = true"
       @sort-change="sortChange"
+      @drag-end="(params) => updateChapterOrderApi(params)"
     >
       <template #isPublish="{ row }">
-        <es-switch :row="row" :request="updateChapterPublishApi" field="isPublish" @success="request" />
+        <es-switch
+          :row="row"
+          :request="updateChapterPublishApi"
+          field="isPublish"
+          @success="request"
+        />
       </template>
       <template #action="{ row }">
-        <el-button link type="primary" @click="editContent(row)">内容</el-button>
+        <el-button link type="primary" @click="editContent(row)">
+          内容
+        </el-button>
         <el-divider direction="vertical" />
-        <es-pop-confirm v-model:loading="loading" :request="deleteChapterApi" :row="row" @success="request" />
+        <es-pop-confirm
+          v-model:loading="loading"
+          :request="deleteChapterApi"
+          :row="row"
+          @success="request"
+        />
       </template>
     </es-table>
 

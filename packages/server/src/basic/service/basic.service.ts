@@ -97,13 +97,13 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   // 更新排序
   async updateOrder(info: PrismaUpdateOrderOptions) {
     await Promise.all([
-      this.update({
-        where: { id: info.targetId } as T,
-        data: { order: info.targetOrder } as unknown as T,
+      this.model.update({
+        where: { id: info.targetId },
+        data: { order: info.originOrder },
       }),
-      this.update({
-        where: { id: info.originId } as T,
-        data: { order: info.originOrder } as unknown as T,
+      this.model.update({
+        where: { id: info.originId },
+        data: { order: info.targetOrder },
       }),
     ])
     return { id: info.targetId }

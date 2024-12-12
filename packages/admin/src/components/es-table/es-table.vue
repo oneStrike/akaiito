@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { EsTableProps } from '@/components/es-table/types'
+import type { dragEndEvent, EsTableProps } from '@/components/es-table/types'
 import { getAssetsFile } from '@/utils/getAssetsFile'
 import Sortable from 'sortablejs'
 
 const props = withDefaults(defineProps<EsTableProps>(), {
   tableIndex: true,
   defaultValue: '-',
-  total: 15,
+  drag: false,
 })
 const emits = defineEmits<{
   (event: 'link', data: any): void
@@ -20,6 +20,7 @@ const emits = defineEmits<{
   (event: 'toolbarHandler', data: any): void
   (event: 'reset'): void
   (event: 'query', data: any): void
+  (event: 'dragEnd', data: dragEndEvent): void
 }>()
 
 const params = defineModel('params', {
@@ -115,18 +116,29 @@ const rowDrop = () => {
       put: true,
     },
     animation: 150,
-    onEnd(e: any) {
+    async onEnd(e: any) {
       // 如果拖拽结束后顺序发生了变化，则对数据进行修改
-      if (e.oldIndex !== e.newIndex) {
-        console.log(e)
+      const { oldIndex, newIndex } = e
+      if (oldIndex !== newIndex) {
+        const targetData = props.data[newIndex]
+        const originData = props.data[oldIndex]
+        const dragParams = {
+          originId: originData.id,
+          originOrder: originData.order,
+          targetId: targetData.id,
+          targetOrder: targetData.order,
+        }
+        emits('dragEnd', dragParams)
       }
     },
   })
 }
 
 onMounted(() => {
+  if (props.drag) {
+    rowDrop()
+  }
   computedTableHeight()
-  rowDrop()
 })
 defineExpose({
   computedTableHeight,
