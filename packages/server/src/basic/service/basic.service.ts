@@ -78,26 +78,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
         id: true,
       }
     }
-    if (options.data.order) {
-      const sameOrder = await this.model.findFirst({
-        where: { order: options.data.order },
-        select: { id: true },
-      })
-      if (sameOrder) {
-        const recordOrder = await this.model.findUnique({
-          where: options.where,
-          select: { order: true, id: true },
-        })
-        await Promise.all([
-          this.model.update({ where: { id: sameOrder.id }, data: { order: recordOrder.order } }),
-          this.model.update(options),
-        ])
-        return { id: recordOrder.id }
-      }
-      return this.model.update(options)
-    } else {
-      return this.model.update(options)
-    }
+    return this.model.update(options)
   }
 
   // 更新或插入一条数据

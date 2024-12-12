@@ -8,6 +8,7 @@ import {
   updateChapterPublishDTO,
 } from '@/modules/admin/contentMgmt/comic/chapter/dto/chapter.dto'
 import { BasicIdDTO, BasicOrderDTO } from '@/basic/dto/basic.dto'
+import { SortQuery } from '@/decorator/sortQuery.decorator'
 
 @Controller('/admin/chapter', { description: '作品章节' })
 export class ChapterController {
@@ -20,18 +21,26 @@ export class ChapterController {
   }
 
   @Get('/getChapter', { summary: '获取作品章节' })
+  @SortQuery()
   async getChapter(@Query() query: ChapterPageDTO) {
+    console.log(query, 123)
     return await this.chapterService.getChapter(query)
   }
 
   @Post('/updateChapter', { summary: '更新作品章节' })
   async updateChapter(@Body() body: UpdateChapterDTO) {
-    return await this.chapterService.update({ where: { id: body.id }, data: body })
+    return await this.chapterService.update({
+      where: { id: body.id },
+      data: body,
+    })
   }
 
   @Post('/updateChapterPublish', { summary: '更新作品章节发布状态' })
   async updateChapterPublish(@Body() body: updateChapterPublishDTO) {
-    return await this.chapterService.update({ where: { id: body.id }, data: body })
+    return await this.chapterService.update({
+      where: { id: body.id },
+      data: body,
+    })
   }
 
   @Post('/deleteChapter', { summary: '删除作品章节' })
