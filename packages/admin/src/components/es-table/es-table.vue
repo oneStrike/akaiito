@@ -239,7 +239,7 @@ defineExpose({
       <el-pagination
         v-model:current-page="pageIndex"
         v-model:page-size="params.pageSize"
-        :hide-on-single-page="total! > params.pageSize"
+        :hide-on-single-page="total < params.pageSize"
         :page-sizes="[15, 30, 45, 60, 100]"
         background
         :default-current-page="0"

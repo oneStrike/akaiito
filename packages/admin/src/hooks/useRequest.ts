@@ -59,6 +59,8 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
       if (hook) {
         data = hook(data)
       }
+      // @ts-expect-error ignore
+      requestData.value = null
       requestData.value = data // 执行请求
     } catch (e) {
       console.log(e)
