@@ -318,6 +318,8 @@
     "watchWithFilter": "readonly",
     "whenever": "readonly",
     "ElMessage": "readonly",
-    "ElMessageBox": "readonly"
+    "ElMessageBox": "readonly",
+    "UseConfirm": "readonly",
+    "UseFormTool": "readonly"
   }
 }

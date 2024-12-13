@@ -317,6 +317,12 @@ declare global {
   // @ts-ignore
   export type { Component, ComponentPublicInstance, ComputedRef, DirectiveBinding, ExtractDefaultPropTypes, ExtractPropTypes, ExtractPublicPropTypes, InjectionKey, PropType, Ref, MaybeRef, MaybeRefOrGetter, VNode, WritableComputedRef } from 'vue'
   import('vue')
+  // @ts-ignore
+  export type { UseConfirm } from '../hooks/useFeedback'
+  import('../hooks/useFeedback')
+  // @ts-ignore
+  export type { UseFormTool } from '../hooks/useForm'
+  import('../hooks/useForm')
 }
 
 // for vue template auto import
