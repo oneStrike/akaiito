@@ -123,15 +123,15 @@ async function editContent(row: TableItem) {
   })
 }
 
-function sortChapter(val: UpdateChapterOrderTypesReq) {
-  updateChapterOrderApi(val)
+async function sortChapter(val: UpdateChapterOrderTypesReq) {
+  await updateChapterOrderApi(val)
   useMessage.success(PromptsEnum.UPDATED)
-  request()
+  await request()
 }
 </script>
 
 <template>
-  <es-modal v-model="modalShow" title="章节列表">
+  <es-modal v-model="modalShow" title="章节列表" width="900">
     <es-table
       v-model:params="params"
       v-loading="loading"

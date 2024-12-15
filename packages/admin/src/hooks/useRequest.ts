@@ -54,17 +54,11 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
       delete options.endTime
     }
     delete options.dateTimePicker
-    try {
-      let data = await api(options)
-      if (hook) {
-        data = hook(data)
-      }
-      // @ts-expect-error ignore
-      requestData.value = null
-      requestData.value = data // 执行请求
-    } catch (e) {
-      console.log(e)
+    let data = await api(options)
+    if (hook) {
+      data = hook(data)
     }
+    requestData.value = data // 执行请求
     loading.value = false
     skipNext = false
   }
