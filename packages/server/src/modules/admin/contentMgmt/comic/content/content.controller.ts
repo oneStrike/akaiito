@@ -31,7 +31,7 @@ export class ComicContentController {
   }
 
   @Get('/getComicContentPage', { summary: '获取漫画内容分页' })
-  @SortQuery()
+  @SortQuery({ order: 'desc' })
   async getComicContentPage(@Query() query: BasicPageDTO) {
     if (!query.orderBy) {
       query.orderBy = '{"order":"desc"}'

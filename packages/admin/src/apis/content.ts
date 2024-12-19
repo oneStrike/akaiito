@@ -1,6 +1,7 @@
 import { httpHandler } from '@/utils/request'
 import type {
   GetComicContentPageTypesRes,
+  GetComicContentPageTypesReq,
   CreateComicContentTypesRes,
   CreateComicContentTypesReq,
   DeleteComicContentTypesRes,
@@ -16,14 +17,15 @@ import type {
  *  @标签 内容/获取漫画内容分页
  *  @方式 GET
  *  @地址 /admin/comic/content/getComicContentPage
- *  @更新时间 2024-12-11 09:47:11
+ *  @更新时间 2024-12-16 09:44:28
  */
 
-export const getComicContentPageApi = (): Promise<GetComicContentPageTypesRes> => {
+export const getComicContentPageApi = (params: GetComicContentPageTypesReq): Promise<GetComicContentPageTypesRes> => {
   return httpHandler({
     method: 'GET',
     url: '/admin/comic/content/getComicContentPage',
     headers: {},
+    params,
   })
 }
 
@@ -91,7 +93,7 @@ export const orderComicContentPageApi = (
  *  @标签 内容/清空章节内容
  *  @方式 POST
  *  @地址 /admin/comic/content/removeComicContent
- *  @更新时间 2024-12-11 17:17:37
+ *  @更新时间 2024-12-16 09:47:07
  */
 
 export const removeComicContentApi = (data: RemoveComicContentTypesReq): Promise<RemoveComicContentTypesRes> => {

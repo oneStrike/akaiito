@@ -13,12 +13,14 @@ import {
   updateChapterPublishApi,
 } from '@/apis/chapter'
 import { PromptsEnum } from '@/enum/prompts'
+import ComicContent from '@/views/contentMgmt/comicMgmt/content.vue'
 import {
   chapterColumn,
   chapterFilter,
   chapterFormOptions,
   toolbar,
 } from '@/views/contentMgmt/comicMgmt/shared'
+import { getComicContentPageApi } from '@/apis/content.ts'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
@@ -50,7 +52,6 @@ const formModal = reactive({
 
 const contentFormModal = reactive({
   show: false,
-  loading: false,
   chapter: null as TableItem | null,
 })
 
@@ -113,6 +114,10 @@ async function submit(val: any) {
 }
 
 async function editContent(row: TableItem) {
+  const data = await getComicContentPageApi({
+    chapterId: row.id,
+  })
+  console.log(data)
   contentFormModal.chapter = row
   contentFormModal.show = true
   contentFormTool.specificItem('contents', (item) => {
@@ -186,9 +191,8 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
       :options="formTool.options"
       @submit="submit"
     />
-    <es-modal-form
+    <ComicContent
       v-model:show="contentFormModal.show"
-      v-model:loading="contentFormModal.loading"
       :default-value="currentRow"
       title="内容"
       width="800"

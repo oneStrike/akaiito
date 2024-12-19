@@ -1,7 +1,8 @@
-import { Config } from '@midwayjs/core'
+import { Config, Provide } from '@midwayjs/core'
 import path = require('node:path')
 import { unlink, remove } from 'fs-extra'
 
+@Provide()
 export class FileService {
   @Config('staticFile.dirs.default.dir')
   pathPrefix: string

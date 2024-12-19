@@ -3,10 +3,13 @@
  *  @标签 内容/获取漫画内容分页
  *  @方式 GET
  *  @地址 /admin/comic/content/getComicContentPage
- *  @更新时间 2024-12-11 09:47:11
+ *  @更新时间 2024-12-16 09:44:28
  */
 
-export interface GetComicContentPageTypesReq {}
+export interface GetComicContentPageTypesReq {
+  /* 章节id */
+  chapterId?: number
+}
 
 export interface GetComicContentPageTypesRes {
   list: {
@@ -103,10 +106,13 @@ export interface OrderComicContentPageTypesRes {
  *  @标签 内容/清空章节内容
  *  @方式 POST
  *  @地址 /admin/comic/content/removeComicContent
- *  @更新时间 2024-12-11 17:17:37
+ *  @更新时间 2024-12-16 09:47:07
  */
 
-export interface RemoveComicContentTypesReq {}
+export interface RemoveComicContentTypesReq {
+  /* 章节的主键id */
+  chapterId: number
+}
 
 /*  */
 export type RemoveComicContentTypesRes = any

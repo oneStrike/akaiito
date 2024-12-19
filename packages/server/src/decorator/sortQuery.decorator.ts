@@ -11,15 +11,19 @@ export const SORT_QUERY = 'decorator:sort_query'
  * @constructor
  */
 
-export function SortQuery(): MethodDecorator {
-  return createCustomMethodDecorator(SORT_QUERY, {})
+export function SortQuery(orderBy?: IterateObject): MethodDecorator {
+  return createCustomMethodDecorator(SORT_QUERY, orderBy)
 }
 
-export function sortQueryHandler(): IMethodAspect {
+export function sortQueryHandler({ metadata }): IMethodAspect {
   return {
     async before(joinPoint: JoinPoint) {
       if (joinPoint.args[0] && !joinPoint.args[0].orderBy) {
-        joinPoint.args[0].orderBy = '[{ "order": "desc" },{ "updatedAt": "desc" }]'
+        if (metadata && Object.keys(metadata).length) {
+          joinPoint.args[0].orderBy = JSON.stringify(metadata)
+        } else {
+          joinPoint.args[0].orderBy = '[{ "order": "desc" },{ "updatedAt": "desc" }]'
+        }
       }
     },
   }
