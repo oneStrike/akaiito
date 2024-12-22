@@ -128,7 +128,7 @@ async function editRow(row: GetComicDetailTypesRes) {
         </el-dropdown>
       </template>
     </es-table>
-    <ComicChapter v-model:show="chapterModal.show" :record="currentRow" />
+    <ComicChapter v-if="chapterModal.show" v-model:show="chapterModal.show" :record="currentRow" />
 
     <es-modal-form
       v-model:show="formModal.show"

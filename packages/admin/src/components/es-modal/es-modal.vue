@@ -17,15 +17,12 @@ const modelValue = defineModel({ type: Boolean, default: false })
 
 const fullscreen = ref(false)
 
-const { start: timeoutStart } = useTimeoutFn(() => {
-  fullscreen.value = false
-}, 500)
-
 function close(event: 'close' | 'closed') {
-  modelValue.value = false
   // @ts-expect-error ignore
   emits(event)
-  timeoutStart()
+  setTimeout(() => {
+    modelValue.value = false
+  }, 500)
 }
 
 function toggleFullScreenStatus() {

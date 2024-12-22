@@ -12,6 +12,7 @@ import {
   updateChapterOrderApi,
   updateChapterPublishApi,
 } from '@/apis/chapter'
+import { getComicContentPageApi } from '@/apis/content.ts'
 import { PromptsEnum } from '@/enum/prompts'
 import ComicContent from '@/views/contentMgmt/comicMgmt/content.vue'
 import {
@@ -20,7 +21,6 @@ import {
   chapterFormOptions,
   toolbar,
 } from '@/views/contentMgmt/comicMgmt/shared'
-import { getComicContentPageApi } from '@/apis/content.ts'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
@@ -117,7 +117,6 @@ async function editContent(row: TableItem) {
   const data = await getComicContentPageApi({
     chapterId: row.id,
   })
-  console.log(data)
   contentFormModal.chapter = row
   contentFormModal.show = true
   contentFormTool.specificItem('contents', (item) => {
