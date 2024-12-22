@@ -47,6 +47,7 @@ watch(
 const esFormRef = ref()
 
 onMounted(() => {
+  console.log(123)
   window.addEventListener('unhandledrejection', () => {
     formLoading.value = false
   })

@@ -20,14 +20,14 @@ defineOptions({
 const formModal = reactive({
   show: false,
   loading: false,
+  defaultValue: {} as any,
 })
 
 const chapterModal = reactive({
   show: false,
-
 })
 
-const currentRow = ref<(GetComicDetailTypesRes & { categoryIds?: number[] }) | null>(null)
+const currentComic = ref<(GetComicDetailTypesRes) | null>(null)
 
 const { request, requestData, params, loading, sortChange } = useRequest(getComicPageApi)
 const formTool = useFormTool(formOptions)
@@ -65,22 +65,25 @@ function toolbarHandler(type: string) {
 }
 
 async function submitForm(val: any) {
-  if (currentRow.value?.id) {
-    val.id = currentRow.value.id
+  if (currentComic.value?.id) {
+    val.id = currentComic.value.id
     await updateComicApi(val)
   } else {
     await createComicApi(val)
   }
   formModal.show = false
   formModal.loading = false
-  ElMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
-  currentRow.value = null
+  ElMessage.success(currentComic.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
+  currentComic.value = null
   request()
 }
 
 async function editRow(row: GetComicDetailTypesRes) {
-  currentRow.value = await getComicDetailApi({ id: row.id })
-  currentRow.value.categoryIds = currentRow.value.categories.map((item) => item.id)
+  currentComic.value = await getComicDetailApi({ id: row.id })
+  formModal.defaultValue = {
+    ...currentComic.value,
+    categoryIds: currentComic.value.categories.map((item) => item.id),
+  }
   formModal.show = true
 }
 </script>
@@ -120,7 +123,7 @@ async function editRow(row: GetComicDetailTypesRes) {
               <el-dropdown-item>
                 <es-pop-confirm v-model:loading="loading" :request="deleteComicApi" :row="row" @success="request" />
               </el-dropdown-item>
-              <el-dropdown-item @click="currentRow = row, chapterModal.show = true">
+              <el-dropdown-item @click="currentComic = row, chapterModal.show = true">
                 <span>章节</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -128,13 +131,15 @@ async function editRow(row: GetComicDetailTypesRes) {
         </el-dropdown>
       </template>
     </es-table>
-    <ComicChapter v-if="chapterModal.show" v-model:show="chapterModal.show" :record="currentRow" />
 
-    <es-modal-form
+    <ComicChapter v-if="chapterModal.show" v-model:show="chapterModal.show" :comic="currentComic!" />
+
+    <EsModalForm
+      v-if="formModal.show"
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
       title="漫画"
-      :default-value="currentRow"
+      :default-value="formModal.defaultValue"
       :options="formTool.options"
       @submit="submitForm"
     />

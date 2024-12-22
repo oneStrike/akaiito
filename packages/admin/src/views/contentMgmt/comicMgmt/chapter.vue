@@ -30,7 +30,7 @@ defineOptions({
 
 const props = withDefaults(
   defineProps<{
-    record: GetComicDetailTypesRes | null
+    comic: GetComicDetailTypesRes
   }>(),
   {},
 )
@@ -50,32 +50,12 @@ const formModal = reactive({
   data: {} as CreateChapterTypesReq,
 })
 
-const contentFormModal = reactive({
+const contentModal = reactive({
   show: false,
-  chapter: null as TableItem | null,
+  defaultValue: {} as any,
 })
 
-const contentFormTool = useFormTool([
-  {
-    field: 'contents',
-    component: 'Upload',
-    props: {
-      label: '内容',
-      rules: useValidate.required('内容'),
-    },
-    componentProps: {
-      placeholder: '请上传内容',
-      listType: 'picture',
-      fileType: 'image',
-      multiple: true,
-      scenario: 'content',
-      maxCount: 9999,
-      structure: 'string',
-    },
-  },
-])
-
-const currentRow = ref<TableItem | null>()
+const currentChapter = ref<TableItem | null>()
 
 const modalShow = defineModel('show', {
   type: Boolean,
@@ -86,7 +66,7 @@ watch(
   (val) =>
     val &&
     request({
-      comicId: props.record?.id,
+      comicId: props.comic?.id,
     }),
 )
 
@@ -99,9 +79,9 @@ watch(
 )
 
 async function submit(val: any) {
-  val.comicId = props.record?.id
-  if (currentRow.value?.id) {
-    val.id = currentRow.value.id
+  val.comicId = props.comic?.id
+  if (currentChapter.value?.id) {
+    val.id = currentChapter.value.id
     await updateChapterApi(val)
   } else {
     await createChapterApi(val)
@@ -109,7 +89,7 @@ async function submit(val: any) {
   formModal.show = false
   useMessage.success(PromptsEnum.CREATED)
   request({
-    comicId: props.record?.id,
+    comicId: props.comic?.id,
   })
 }
 
@@ -117,14 +97,8 @@ async function editContent(row: TableItem) {
   const data = await getComicContentPageApi({
     chapterId: row.id,
   })
-  contentFormModal.chapter = row
-  contentFormModal.show = true
-  contentFormTool.specificItem('contents', (item) => {
-    item.componentProps!.data = {
-      comicId: props.record?.id,
-      chapterId: row.id,
-    }
-  })
+  contentModal.defaultValue = row
+  contentModal.show = true
 }
 
 async function sortChapter(val: UpdateChapterOrderTypesReq) {
@@ -135,7 +109,7 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
 </script>
 
 <template>
-  <es-modal v-model="modalShow" title="章节列表" width="900">
+  <es-modal v-model="modalShow" :title="comic.name" width="900">
     <es-table
       v-model:params="params"
       v-loading="loading"
@@ -166,7 +140,7 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
         <el-button
           link
           type="primary"
-          @click="((formModal.show = true), (currentRow = row))"
+          @click="((formModal.show = true), (currentChapter = row))"
         >
           编辑
         </el-button>
@@ -184,18 +158,20 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
       v-model="formModal.data"
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
-      :default-value="currentRow"
+      :default-value="currentChapter"
       title="章节"
       width="800"
       :options="formTool.options"
       @submit="submit"
     />
     <ComicContent
-      v-model:show="contentFormModal.show"
-      :default-value="currentRow"
+      v-if="contentModal.show"
+      v-model:show="contentModal.show"
+      :default-value="contentModal.defaultValue"
       title="内容"
       width="800"
-      :options="contentFormTool.options"
+      :comic-id="comic!.id"
+      :chapter-id="currentChapter!.id"
       @submit="submit"
     />
   </es-modal>
