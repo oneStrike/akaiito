@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { EsFormOptions, EsFormProps } from '@/components/es-form/types'
+import { utils } from '@/utils'
 
 export interface FormModalProps {
   defaultValue?: IterateObject | null
@@ -14,7 +15,6 @@ const props = withDefaults(defineProps<FormModalProps>(), {
   formProps: () => ({}),
   width: 980,
 })
-
 const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
@@ -39,15 +39,14 @@ const formLoading = defineModel('loading', {
 watch(
   () => props.defaultValue,
   (value) => {
-    formData.value = JSON.parse(JSON.stringify(value || {}))
+    formData.value = utils.deepCopy(value)
   },
-  { deep: true },
+  { deep: true, immediate: true },
 )
 
 const esFormRef = ref()
 
 onMounted(() => {
-  console.log(123)
   window.addEventListener('unhandledrejection', () => {
     formLoading.value = false
   })

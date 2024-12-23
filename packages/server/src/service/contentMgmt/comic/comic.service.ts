@@ -134,7 +134,6 @@ export class ComicService extends BasicService<Comic> {
             name: true,
           },
         },
-        permissions: {},
         categories: {
           select: {
             category: {

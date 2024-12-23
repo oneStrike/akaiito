@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import type {
-  CreateChapterTypesReq,
-  UpdateChapterOrderTypesReq,
-} from '@/apis/types/chapter'
+import type { CreateChapterTypesReq, UpdateChapterOrderTypesReq } from '@/apis/types/chapter'
 import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import {
   createChapterApi,
@@ -15,12 +12,7 @@ import {
 import { getComicContentPageApi } from '@/apis/content.ts'
 import { PromptsEnum } from '@/enum/prompts'
 import ComicContent from '@/views/contentMgmt/comicMgmt/content.vue'
-import {
-  chapterColumn,
-  chapterFilter,
-  chapterFormOptions,
-  toolbar,
-} from '@/views/contentMgmt/comicMgmt/shared'
+import { chapterColumn, chapterFilter, chapterFormOptions, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
 
 type TableItem = ResolveListItem<typeof requestData.value>
 
@@ -34,12 +26,14 @@ const props = withDefaults(
   }>(),
   {},
 )
-
 const formTool = useFormTool(chapterFormOptions)
 
 const { request, requestData, loading, params, sortChange } = useRequest(
   getChapterApi,
   {
+    defaultParams: {
+      comicId: props.comic?.id,
+    },
     init: false,
   },
 )
@@ -63,11 +57,14 @@ const modalShow = defineModel('show', {
 })
 watch(
   modalShow,
-  (val) =>
-    val &&
-    request({
-      comicId: props.comic?.id,
-    }),
+  (val) => {
+    if (val) {
+      request()
+    }
+  },
+  {
+    immediate: true,
+  },
 )
 
 watch(
@@ -88,16 +85,13 @@ async function submit(val: any) {
   }
   formModal.show = false
   useMessage.success(PromptsEnum.CREATED)
-  request({
-    comicId: props.comic?.id,
-  })
+  request()
 }
 
 async function editContent(row: TableItem) {
-  const data = await getComicContentPageApi({
+  contentModal.defaultValue = await getComicContentPageApi({
     chapterId: row.id,
   })
-  contentModal.defaultValue = row
   contentModal.show = true
 }
 
@@ -109,7 +103,7 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
 </script>
 
 <template>
-  <es-modal v-model="modalShow" :title="comic.name" width="900">
+  <es-modal v-model="modalShow" :title="`【${comic.name}】`" width="900">
     <es-table
       v-model:params="params"
       v-loading="loading"
@@ -154,7 +148,8 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
       </template>
     </es-table>
 
-    <es-modal-form
+    <EsModalForm
+      v-if="formModal.show"
       v-model="formModal.data"
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
