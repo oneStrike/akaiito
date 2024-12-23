@@ -39,7 +39,7 @@ const formLoading = defineModel('loading', {
 watch(
   () => props.defaultValue,
   (value) => {
-    formData.value = utils.deepCopy(value)
+    formData.value = utils.deepCopy(value || {})
   },
   { deep: true, immediate: true },
 )

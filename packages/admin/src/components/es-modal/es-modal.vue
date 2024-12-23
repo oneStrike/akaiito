@@ -17,6 +17,8 @@ const modelValue = defineModel({ type: Boolean, default: false })
 
 const fullscreen = ref(false)
 
+const elDialogRef = templateRef('elDialogRef')
+
 function close(event: 'close' | 'closed') {
   // @ts-expect-error ignore
   emits(event)
@@ -33,6 +35,7 @@ function toggleFullScreenStatus() {
 
 <template>
   <el-dialog
+    ref="elDialogRef"
     v-model="modelValue"
     draggable
     :fullscreen="fullscreen"
@@ -67,7 +70,7 @@ function toggleFullScreenStatus() {
 
     <template #footer>
       <div class="dialog-footer border-top pt-4">
-        <el-button :loading="loading" @click="((modelValue = false), close('close'))"> 关闭</el-button>
+        <el-button :loading="loading" @click="elDialogRef!.visible = false, close('closed')"> 关闭</el-button>
         <el-button type="primary" :loading="loading" @click="emits('handler')"> 确定</el-button>
       </div>
     </template>

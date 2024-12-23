@@ -13,7 +13,9 @@ const showModel = defineModel('show', { default: false })
 </script>
 
 <template>
-  <es-modal v-model="showModel" />
+  <es-modal v-model="showModel">
+    <div>我是内容</div>
+  </es-modal>
 </template>
 
 <style scoped lang="scss">

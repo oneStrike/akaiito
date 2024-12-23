@@ -9,7 +9,6 @@ import {
   updateChapterOrderApi,
   updateChapterPublishApi,
 } from '@/apis/chapter'
-import { getComicContentPageApi } from '@/apis/content.ts'
 import { PromptsEnum } from '@/enum/prompts'
 import ComicContent from '@/views/contentMgmt/comicMgmt/content.vue'
 import { chapterColumn, chapterFilter, chapterFormOptions, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
@@ -44,10 +43,7 @@ const formModal = reactive({
   data: {} as CreateChapterTypesReq,
 })
 
-const contentModal = reactive({
-  show: false,
-  defaultValue: {} as any,
-})
+const showContentModal = ref(false)
 
 const currentChapter = ref<TableItem | null>()
 
@@ -84,15 +80,15 @@ async function submit(val: any) {
     await createChapterApi(val)
   }
   formModal.show = false
+  formModal.loading = false
+  currentChapter.value = null
   useMessage.success(PromptsEnum.CREATED)
   request()
 }
 
 async function editContent(row: TableItem) {
-  contentModal.defaultValue = await getComicContentPageApi({
-    chapterId: row.id,
-  })
-  contentModal.show = true
+  currentChapter.value = row
+  showContentModal.value = true
 }
 
 async function sortChapter(val: UpdateChapterOrderTypesReq) {
@@ -158,16 +154,17 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
       width="800"
       :options="formTool.options"
       @submit="submit"
+      @closed="currentChapter = null"
     />
     <ComicContent
-      v-if="contentModal.show"
-      v-model:show="contentModal.show"
-      :default-value="contentModal.defaultValue"
+      v-if="showContentModal"
+      v-model:show="showContentModal"
       title="内容"
       width="800"
       :comic-id="comic!.id"
       :chapter-id="currentChapter!.id"
       @submit="submit"
+      @close="currentChapter = null"
     />
   </es-modal>
 </template>
