@@ -84,6 +84,8 @@ async function submit(val: any) {
     await createChapterApi(val)
   }
   formModal.show = false
+  formModal.loading = false
+  currentChapter.value = null
   useMessage.success(PromptsEnum.CREATED)
   request()
 }
@@ -158,6 +160,7 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
       width="800"
       :options="formTool.options"
       @submit="submit"
+      @closed="currentChapter = null"
     />
     <ComicContent
       v-if="contentModal.show"
