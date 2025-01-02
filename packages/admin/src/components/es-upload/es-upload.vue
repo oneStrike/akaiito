@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { UploadFileTypesRes } from '@/apis/types/upload'
 import type { EsUploadProps } from '@/components/es-upload/types'
 import type { UploadFile, UploadInstance, UploadProps } from 'element-plus'
 import { config } from '@/config'
@@ -13,6 +14,7 @@ const props = withDefaults(defineProps<EsUploadProps>(), {
   structure: 'field',
 })
 const emits = defineEmits<{
+  (event: 'change', data: UploadFileTypesRes): void
   (event: 'update:modelValue', data: typeof fileList.value): void
   (event: 'updateError', data: any[]): void
 }>()
@@ -88,7 +90,7 @@ const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
   } else if (rawFile.size > props.maxSize * 1024 * 1024) {
     useMessage.error(`【${rawFile.name}】超出文件大小限制`)
     return false
-  } else if (!accept.value.includes(rawFile.type)) {
+  } else if (!accept.value.includes(rawFile.type) && accept.value !== '*') {
     useMessage.error(`【${rawFile.name}】文件格式错误`)
     return
   }
@@ -104,6 +106,7 @@ function onPreview(uploadFile: UploadFile) {
 
 const upload: UploadProps['httpRequest'] = async ({ file }) => {
   const uploadRes = await useUpload(file, props.data!)
+  emits('change', uploadRes.success)
   return uploadRes.success[0]
 }
 
@@ -123,7 +126,6 @@ function change() {
     } else if (props.structure === 'field') {
       res = emitData[0].filePath
     }
-    console.log(res)
     emits('update:modelValue', res)
   }
 }

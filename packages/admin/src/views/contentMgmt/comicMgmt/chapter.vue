@@ -81,7 +81,6 @@ async function submit(val: any) {
   }
   formModal.show = false
   formModal.loading = false
-  currentChapter.value = null
   useMessage.success(PromptsEnum.CREATED)
   request()
 }
@@ -157,14 +156,14 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
       @closed="currentChapter = null"
     />
     <ComicContent
-      v-if="showContentModal"
+      v-if="showContentModal && currentChapter"
       v-model:show="showContentModal"
       title="内容"
       width="800"
       :comic-id="comic!.id"
       :chapter-id="currentChapter!.id"
       @submit="submit"
-      @close="currentChapter = null"
+      @closed="currentChapter = null"
     />
   </es-modal>
 </template>

@@ -1,4 +1,7 @@
-<script setup lang="ts">
+<script setup lang="ts" async>
+import type { GetComicContentPageTypesRes } from '@/apis/types/content'
+import { getComicContentPageApi } from '@/apis/content.ts'
+
 defineOptions({
   name: 'ComicContent',
 })
@@ -8,13 +11,22 @@ const props = withDefaults(defineProps<{
   chapterId: number
 }>(), {})
 
-const content = defineModel('content', { default: () => [] })
+const fileList = ref<GetComicContentPageTypesRes['list']>()
+getComicContentPageApi({ chapterId: props.chapterId }).then(({ list }) => {
+  fileList.value = list
+})
 const showModel = defineModel('show', { default: false })
+
+function changeContent(data) {
+  console.log(data)
+}
 </script>
 
 <template>
   <es-modal v-model="showModel">
-    <div>我是内容</div>
+    <es-upload list-type="picture" :data="props" :max-count="999" file-type="image" multiple @change="changeContent">
+      <el-button type="primary">上传</el-button>
+    </es-upload>
   </es-modal>
 </template>
 
