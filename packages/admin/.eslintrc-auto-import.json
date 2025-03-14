@@ -320,6 +320,11 @@
     "ElMessage": "readonly",
     "ElMessageBox": "readonly",
     "UseConfirm": "readonly",
-    "UseFormTool": "readonly"
+    "UseFormTool": "readonly",
+    "createRef": "readonly",
+    "onElementRemoval": "readonly",
+    "useCountdown": "readonly",
+    "usePreferredReducedTransparency": "readonly",
+    "useSSRWidth": "readonly"
   }
 }
