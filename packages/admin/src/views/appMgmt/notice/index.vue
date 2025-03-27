@@ -15,7 +15,12 @@ import {
 import { getAppPagesApi } from '@/apis/appPageConfig'
 import { PromptsEnum } from '@/enum/prompts'
 import { utils } from '@/utils'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/notice/shared'
+import {
+  filter,
+  formOptions,
+  tableColumns,
+  toolbar,
+} from '@/views/appMgmt/notice/shared'
 
 defineOptions({
   name: 'NoticePage',
@@ -40,9 +45,12 @@ getAppPagesApi({ pageSize: '500' }).then((res) => {
 
 const currentRow = ref<TableItem | null>(null)
 
-const { loading, reset, request, requestData, params } = useRequest(getAppNoticeListApi, {
-  hook: formatList,
-})
+const { loading, reset, request, requestData, params } = useRequest(
+  getAppNoticeListApi,
+  {
+    hook: formatList,
+  },
+)
 
 function formatList(data: GetAppNoticeListTypesRes) {
   data.list.forEach((item: any) => {
@@ -84,15 +92,17 @@ const openFormModal = async (row?: TableItem) => {
   }
   modalFrom.show = true
 }
-const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) => {
+const submitForm = async (
+  value: UpdateAppNoticeTypesReq & { enable: string },
+) => {
   modalFrom.loading = true
   if (value.pageCode) {
     const pages = formTool.getItem('pageCode')[0].componentProps!.options!
     value.pageName = pages.find((item) => item.value === value.pageCode)!.label
   }
-  value.enableApplet = value.enable.includes('0') ? 1 : 0
-  value.enableWeb = value.enable.includes('1') ? 1 : 0
-  value.enableApp = value.enable.includes('2') ? 1 : 0
+  value.enableApplet = value.enable.includes('0')
+  value.enableWeb = value.enable.includes('1')
+  value.enableApp = value.enable.includes('2')
   if (Array.isArray(value.startTime) && value.startTime.length === 2) {
     const [startTime, endTime] = value.startTime
     value.startTime = startTime
@@ -104,7 +114,9 @@ const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) =
   } else {
     await createAppNoticeApi(value)
   }
-  useMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
+  useMessage.success(
+    currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
+  )
   currentRow.value = null
   modalFrom.loading = false
   modalFrom.show = false
@@ -126,21 +138,43 @@ const submitForm = async (value: UpdateAppNoticeTypesReq & { enable: string }) =
       @toolbar-handler="openFormModal()"
     >
       <template #enableApplet="{ row }">
-        <es-switch :row="row" field="enableApplet" :request="updateAppNoticeApi" @success="request()" />
+        <es-switch
+          :row="row"
+          field="enableApplet"
+          :request="updateAppNoticeApi"
+          @success="request()"
+        />
       </template>
       <template #enableWeb="{ row }">
-        <es-switch :row="row" field="enableWeb" :request="updateAppNoticeApi" @success="request()" />
+        <es-switch
+          :row="row"
+          field="enableWeb"
+          :request="updateAppNoticeApi"
+          @success="request()"
+        />
       </template>
       <template #enableApp="{ row }">
-        <es-switch :row="row" field="enableApp" :request="updateAppNoticeApi" @success="request()" />
+        <es-switch
+          :row="row"
+          field="enableApp"
+          :request="updateAppNoticeApi"
+          @success="request()"
+        />
       </template>
 
       <template #status="{ row }">
         <el-text :type="row.statusColor">{{ row.statusText }}</el-text>
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="openFormModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteAppNoticeApi" :row="row" @success="request()" />
+        <el-button type="primary" link @click="openFormModal(row)">
+          编辑
+        </el-button>
+        <es-pop-confirm
+          v-model:loading="loading"
+          :request="deleteAppNoticeApi"
+          :row="row"
+          @success="request()"
+        />
         <es-pop-confirm
           v-model:loading="loading"
           :confirm-text="row.isPublish === 1 ? '取消发布' : '发布'"

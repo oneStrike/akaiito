@@ -40,6 +40,7 @@ const submitForm = async (value: TableItem) => {
 </script>
 
 <template>
+  x
   <div v-loading="loading" class="main-page">
     <es-toolbar :toolbar="toolbar" :filter="filter" @query="reset" @reset="reset" @handler="openFormModal()" />
     <es-table

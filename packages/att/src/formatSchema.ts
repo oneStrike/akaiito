@@ -2,7 +2,9 @@ export function formatSchema(schemas: IterateObject[]) {
   const schemaArr: IterateObject = {}
   schemas.forEach((item) => {
     const { properties, required, 'x-apifox-orders': orders } = item.jsonSchema
-
+    if (!orders) {
+      console.log(item.jsonSchema)
+    }
     orders.forEach((field: string) => {
       let type = properties[field]?.type
       if (!Array.isArray(schemaArr[item.id])) {
@@ -11,7 +13,14 @@ export function formatSchema(schemas: IterateObject[]) {
       if (type === 'object') {
         type = formatSchema([{ jsonSchema: properties[field] }]).undefined
       } else if (type === 'array') {
-        type = [formatSchema([{ jsonSchema: properties[field].items }]).undefined]
+        const itemType = properties[field].items.type
+        if (['array', 'object'].includes(itemType)) {
+          type = formatSchema([
+            { jsonSchema: properties[field].items },
+          ]).undefined
+        } else {
+          type = [itemType]
+        }
       } else if (Array.isArray(type)) {
         type = type.join(' | ')
       }
