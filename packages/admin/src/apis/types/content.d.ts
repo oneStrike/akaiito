@@ -17,7 +17,7 @@ export interface GetComicContentPageTypesRes {
     id: number
 
     /* 图片链接 */
-    url: array
+    url: string
 
     /* 排序 */
     order: number
@@ -45,7 +45,7 @@ export interface GetComicContentPageTypesRes {
 
 export interface CreateComicContentTypesReq {
   /* 图片链接 */
-  url: array
+  url: string
 
   /* 对应的章节id */
   chapterId: number

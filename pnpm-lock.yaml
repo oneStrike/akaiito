@@ -409,46 +409,46 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@midwayjs/axios':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/bootstrap':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/busboy':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/cache-manager':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/captcha':
-        specifier: 3.19.0
-        version: 3.19.0
+        specifier: 3.20.3
+        version: 3.20.3
       '@midwayjs/core':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/decorator':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/info':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/jwt':
-        specifier: 3.19.0
-        version: 3.19.0
+        specifier: 3.20.3
+        version: 3.20.3
       '@midwayjs/koa':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/logger':
         specifier: ^3.4.2
         version: 3.4.2
       '@midwayjs/security':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/static-file':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@midwayjs/validate':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@prisma/client':
         specifier: ^6.0.1
@@ -473,7 +473,7 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1(@midwayjs/mock@3.20.3)(@swc/core@1.4.14)(@types/node@20.17.30)(typescript@4.9.5)
       '@midwayjs/mock':
-        specifier: ^3.19.0
+        specifier: 3.20.3
         version: 3.20.3
       '@types/fs-extra':
         specifier: ^11.0.4
@@ -3252,8 +3252,8 @@ packages:
     resolution: {integrity: sha512-DYyWQgP3F2UombPqV1iyTaIYRIXkUz/sgsePTVrMvEk4KtvYpIIi0POTYwRx8Xcwh/vuRtW7WKe89fD6dndKUw==}
     engines: {node: '>=12'}
 
-  '@midwayjs/captcha@3.19.0':
-    resolution: {integrity: sha512-wRctLhLeJCU34d02WVXuNSAuoID3wt/LVziXrua09pssmVYqqqMzS8nd5IHTa7pIxgghlKBSAJboSxJgR1RoBA==}
+  '@midwayjs/captcha@3.20.3':
+    resolution: {integrity: sha512-/YzYb8cx7IX9WGxwnRKf7rSNLNfW4/E/RDN/eOEa3DDW7qJg5YX7ScB7xbk8qLmgtkaQnFjK/b+WGkn80QARzg==}
     engines: {node: '>=12'}
 
   '@midwayjs/cli-plugin-build@2.1.0':
@@ -3318,8 +3318,8 @@ packages:
     resolution: {integrity: sha512-IqtEEKwJZCHtV3O2vB7/QygTHJjb/2jJoKpY//9Ez7+svwkRUZW5pbkg3Con0EE8APNEDkIpCsLYAjOaLAqwhA==}
     engines: {node: '>=12'}
 
-  '@midwayjs/jwt@3.19.0':
-    resolution: {integrity: sha512-TYDuveg1zZzkYqG6TRzoB2nLZF4Q1+wBvGEUhUZ91E7IB75ACct0jsPJdPzMjaiKojvTGAqZlqxMyqISrbQfeQ==}
+  '@midwayjs/jwt@3.20.3':
+    resolution: {integrity: sha512-OzuGc3mRmWeyhg5qhDvOp+ijguwTyN0sZAcyOPtJrvHgiZ9CsWMx+ZBHLcbwaBKxOutbFbf9fP62SKrwAyH2ig==}
     engines: {node: '>=12'}
 
   '@midwayjs/koa@3.20.3':
@@ -3983,8 +3983,8 @@ packages:
   '@types/jsonfile@6.1.4':
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
-  '@types/jsonwebtoken@9.0.7':
-    resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
+  '@types/jsonwebtoken@9.0.8':
+    resolution: {integrity: sha512-7fx54m60nLFUVYlxAB1xpe9CBWX2vSrk50Y6ogRJ1v5xxtba7qXTg5BgYDN5dq+yuQQ9HaVlHJyAAt1/mxryFg==}
 
   '@types/jsonwebtoken@9.0.9':
     resolution: {integrity: sha512-uoe+GxEuHbvy12OUQct2X9JenKM3qAscquYymuQN4fMWG9DBQtykrQEFcAbVACF7qaLw9BePSodUL0kquqBJpQ==}
@@ -8567,11 +8567,6 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  nanoid@3.3.7:
-    resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-
   nanoid@3.3.8:
     resolution: {integrity: sha512-WNLf5Sd8oZxOm+TzppcYk8gVOgP+l58xNy58D0nbUnOxOWRWvlcCV4kUF7ltmI6PsrLl/BgKEyS4mqsGChFN0w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -10209,8 +10204,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  svg-captcha@1.4.0:
-    resolution: {integrity: sha512-/fkkhavXPE57zRRCjNqAP3txRCSncpMx3NnNZL7iEoyAtYwUjPhJxW6FQTQPG5UPEmCrbFoXS10C3YdJlW7PDg==}
+  svg-captcha-fixed@1.5.2:
+    resolution: {integrity: sha512-BRnoEq7u3ZRxFvYmPbCer7k6OhZ3gXd9LELmPOFBVCMHnqsS3meTjrWpn6vu986uxzU/Yx8L8I6ZpAppdmfjTQ==}
     engines: {node: '>=4.x'}
 
   svgo@2.8.0:
@@ -15087,12 +15082,12 @@ snapshots:
       lodash.clonedeep: 4.5.0
       lru-cache: 7.18.3
 
-  '@midwayjs/captcha@3.19.0':
+  '@midwayjs/captcha@3.20.3':
     dependencies:
       '@midwayjs/cache-manager': 3.20.3
       mini-svg-data-uri: 1.4.4
-      nanoid: 3.3.7
-      svg-captcha: 1.4.0
+      nanoid: 3.3.8
+      svg-captcha-fixed: 1.5.2
 
   '@midwayjs/cli-plugin-build@2.1.0':
     dependencies:
@@ -15223,9 +15218,9 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
-  '@midwayjs/jwt@3.19.0':
+  '@midwayjs/jwt@3.20.3':
     dependencies:
-      '@types/jsonwebtoken': 9.0.7
+      '@types/jsonwebtoken': 9.0.8
       jsonwebtoken: 9.0.2
 
   '@midwayjs/koa@3.20.3':
@@ -15853,8 +15848,9 @@ snapshots:
     dependencies:
       '@types/node': 22.14.0
 
-  '@types/jsonwebtoken@9.0.7':
+  '@types/jsonwebtoken@9.0.8':
     dependencies:
+      '@types/ms': 2.1.0
       '@types/node': 22.14.0
 
   '@types/jsonwebtoken@9.0.9':
@@ -22129,8 +22125,6 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  nanoid@3.3.7: {}
-
   nanoid@3.3.8: {}
 
   nanoid@5.1.5: {}
@@ -23827,7 +23821,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svg-captcha@1.4.0:
+  svg-captcha-fixed@1.5.2:
     dependencies:
       opentype.js: 0.7.3
 
