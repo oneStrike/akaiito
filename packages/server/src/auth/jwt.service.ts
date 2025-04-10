@@ -33,7 +33,7 @@ export class JwtService {
     return type === 'public' ? publicKey : privateKey
   }
 
-  async sign(data: JwtPayload & { id: number; purpose: 'admin' | 'app' }, expiresIn?: string | number) {
+  async sign(data: JwtPayload & { id: number; purpose: 'admin' | 'app' }, expiresIn?: any) {
     expiresIn = expiresIn || this.jwtConfig.sign.expiresIn
     const privateKey = await this.getKey('private')
     const token = await this.jwt.sign(data, privateKey, {

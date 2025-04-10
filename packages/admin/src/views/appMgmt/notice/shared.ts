@@ -11,50 +11,60 @@ export const tableColumns: EsTableColumn = [
   },
   {
     label: '跳转页面',
-    prop: 'pageName',
+    prop: 'pageCode',
     align: 'center',
+    width: 100,
   },
 
   {
     label: '开始时间',
     prop: 'startTime',
     align: 'center',
+
+    width: 180,
     formatter: (row) => utils.formatTime(row.startTime) || '-',
   },
   {
     label: '结束时间',
     prop: 'endTime',
     align: 'center',
+
+    width: 180,
     formatter: (row) => utils.formatTime(row.endTime) || '-',
   },
   {
     label: '小程序',
     prop: 'enableApplet',
     align: 'center',
+    width: 80,
     slotName: 'enableApplet',
   },
   {
     label: 'WEB',
     prop: 'enableWeb',
     align: 'center',
+    width: 80,
     slotName: 'enableWeb',
   },
   {
     label: 'APP',
     prop: 'enableApp',
     align: 'center',
+    width: 80,
     slotName: 'enableApp',
   },
   {
     label: '状态',
     prop: 'status',
     align: 'center',
+    width: 100,
     slotName: 'status',
   },
   {
     label: '操作',
     prop: 'action',
     align: 'center',
+    width: 180,
     slotName: 'action',
   },
 ]

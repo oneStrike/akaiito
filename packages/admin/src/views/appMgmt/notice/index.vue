@@ -55,7 +55,7 @@ const { loading, reset, request, requestData, params } = useRequest(
 function formatList(data: GetAppNoticeListTypesRes) {
   data.list.forEach((item: any) => {
     const { enableWeb, enableApplet, enableApp, startTime, endTime } = item
-    item.statusText = '正常'
+    item.statusText = '未发布'
     item.statusColor = 'primary'
     item.statusCode = 1
     if (!enableApp && !enableWeb && !enableApplet) {
@@ -177,7 +177,7 @@ const submitForm = async (
         />
         <es-pop-confirm
           v-model:loading="loading"
-          :confirm-text="row.isPublish === 1 ? '取消发布' : '发布'"
+          :confirm-text="row.isPublish ? '取消发布' : '发布'"
           :request="publishAppNoticeApi"
           :row="row"
           field="isPublish"

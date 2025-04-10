@@ -21,7 +21,7 @@
     "lint:fix": "mwts fix",
     "ci": "npm run cov",
     "build": "pnpm run prisma:generate && mwtsc --cleanOutDir && node ./scripts/index.js",
-    "1": "midway-version -m -w",
+    "upgrade": "midway-version -m -w",
     "prisma:generate": "prisma generate",
     "prisma:init": "pnpm prisma:push && pnpm prisma:seed",
     "prisma:pull": "prisma db pull",
