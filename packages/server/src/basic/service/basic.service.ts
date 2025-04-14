@@ -93,7 +93,7 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
 
   // 批量更新数据
   updateBatch(options: PrismaUpsertBatchOptions<T>) {
-    return this.model.updateMany(options)
+    return this.model.updateManyAndReturn(options)
   }
 
   // 更新排序

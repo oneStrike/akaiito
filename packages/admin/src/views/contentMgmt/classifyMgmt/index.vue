@@ -110,6 +110,7 @@ function toolbarHandler() {
       :title="currentRow?.id ? '修改分类' : '新增分类'"
       :options="formTool.options"
       :default-value="currentRow"
+      :width="600"
       @submit="submitForm"
       @closed="currentRow = null"
     />

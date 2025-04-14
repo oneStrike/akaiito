@@ -9,7 +9,10 @@ const currentRouter = ref()
 
 const defaultHistory = { name: 'Dashboard', title: '工作台' }
 
-const routerHistory = useSessionStorage<IterateObject[]>(StorageEnum.HISTORY_ROUTER, [defaultHistory])
+const routerHistory = useSessionStorage<IterateObject[]>(
+  StorageEnum.HISTORY_ROUTER,
+  [defaultHistory],
+)
 
 const dropdownRef = ref<any[]>()
 const rightClickTab = ref('')
@@ -132,7 +135,7 @@ onMounted(() => {
 <template>
   <div class="main-center px-4">
     <el-scrollbar wrap-class="w-98% tab-box" class="w-98%">
-      <div class="w-fit flex bg">
+      <div class="flex w-fit bg">
         <el-dropdown
           v-for="(item, idx) in routerHistory"
           :key="item.name"
@@ -143,38 +146,58 @@ onMounted(() => {
           @visible-change="(e) => e && visibleChange(item, idx)"
         >
           <div
-            class="px-4 py-3 border-left cursor-pointer flex items-center shrink-0"
-            :class="item.name === route.name ? 'bg-[var(--el-fill-color-light)]' : ''"
+            class="px-4 cursor-pointer flex items-center shrink-0 py-3 border-left"
+            :class="
+              item.name === route.name ? 'bg-[var(--el-fill-color-light)]' : ''
+            "
             @click="navigation(item.name)"
           >
             {{ item.title }}
-            <es-icon v-if="item.name !== 'Dashboard'" name="close" @click="removeRouter(item.name)" />
+            <es-icon
+              v-if="item.name !== 'Dashboard'"
+              name="close"
+              @click="removeRouter(item.name)"
+            />
           </div>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :disabled="rightClickTab === defaultHistory.name" @click="removeRouter(currentRouter)">
+              <el-dropdown-item
+                :disabled="rightClickTab === defaultHistory.name"
+                @click="removeRouter(currentRouter)"
+              >
                 <es-icon name="multiply" />
                 <span>关闭当前</span>
               </el-dropdown-item>
               <el-dropdown-item
-                :disabled="rightClickTab === defaultHistory.name || rightClickIdx < 2"
+                :disabled="
+                  rightClickTab === defaultHistory.name || rightClickIdx < 2
+                "
                 @click="removeLeft"
               >
                 <es-icon name="chevronLeft" />
                 <span>关闭左侧</span>
               </el-dropdown-item>
               <el-dropdown-item
-                :disabled="rightClickIdx + 1 === routerHistory.length || routerHistory.length < 2"
+                :disabled="
+                  rightClickIdx + 1 === routerHistory.length
+                    || routerHistory.length < 2
+                "
                 @click="removeRight"
               >
                 <es-icon name="chevronRight" />
                 <span>关闭右侧</span>
               </el-dropdown-item>
-              <el-dropdown-item :disabled="routerHistory.length < 2" @click="removeOtherRoute">
+              <el-dropdown-item
+                :disabled="routerHistory.length < 2"
+                @click="removeOtherRoute"
+              >
                 <es-icon name="code" />
                 <span>关闭其他</span>
               </el-dropdown-item>
-              <el-dropdown-item :disabled="routerHistory.length < 2" @click="removeAllRoute">
+              <el-dropdown-item
+                :disabled="routerHistory.length < 2"
+                @click="removeAllRoute"
+              >
                 <es-icon name="code" />
                 <span>关闭全部</span>
               </el-dropdown-item>
@@ -184,7 +207,13 @@ onMounted(() => {
       </div>
     </el-scrollbar>
     <div class="flex-center ml-4">
-      <es-icon name="pinwheel" class="mr-4" rotate rotate-type="click" @click="useReloadRouterEventBus.emit" />
+      <es-icon
+        name="pinwheel"
+        class="mr-4"
+        rotate
+        rotate-type="click"
+        @click="useReloadRouterEventBus.emit"
+      />
     </div>
   </div>
 </template>

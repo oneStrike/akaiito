@@ -93,7 +93,6 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       label: '分类名称',
-      span: 2,
       rules: [{ required: true, message: '请输入分类名称' }],
     },
 
@@ -107,7 +106,6 @@ export const formOptions: EsFormOptions[] = [
     component: 'Checkbox',
     props: {
       label: '内容类型',
-      span: 2,
       rules: [{ required: true, message: '请选择内容类型' }],
     },
     componentProps: {
@@ -116,11 +114,23 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'virtualPopularity',
+    component: 'InputNumber',
+    props: {
+      label: '辅助热度',
+    },
+    componentProps: {
+      placeholder: '请输入辅助热度',
+      min: 1,
+      max: 999999,
+      type: 'number',
+    },
+  },
+  {
     field: 'icon',
     component: 'Upload',
     props: {
       label: '分类图标',
-      span: 2,
       rules: [{ required: true, message: '请上传分类图标' }],
     },
     componentProps: {
@@ -128,20 +138,6 @@ export const formOptions: EsFormOptions[] = [
       scenario: 'shared',
       multiple: false,
       fileType: 'image',
-    },
-  },
-  {
-    field: 'virtualPopularity',
-    component: 'InputNumber',
-    props: {
-      label: '辅助热度',
-      span: 2,
-    },
-    componentProps: {
-      placeholder: '请输入辅助热度',
-      min: 1,
-      max: 999999,
-      type: 'number',
     },
   },
 ]
