@@ -1,6 +1,6 @@
 <script setup lang="ts" async>
 import type { GetComicContentPageTypesRes } from '@/apis/types/content'
-import { getComicContentPageApi } from '@/apis/content.ts'
+import { createComicContentApi, getComicContentPageApi } from '@/apis/content.ts'
 
 defineOptions({
   name: 'ComicContent',
@@ -17,8 +17,11 @@ getComicContentPageApi({ chapterId: props.chapterId }).then(({ list }) => {
 })
 const showModel = defineModel('show', { default: false })
 
-function changeContent(data) {
-  console.log(data)
+async function changeContent(data: any) {
+  await createComicContentApi({
+    chapterId: props.chapterId,
+    urls: [data[0].filePath],
+  })
 }
 </script>
 

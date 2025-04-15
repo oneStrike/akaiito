@@ -22,9 +22,11 @@ const elDialogRef = templateRef('elDialogRef')
 function close(event: 'close' | 'closed') {
   // @ts-expect-error ignore
   emits(event)
-  setTimeout(() => {
-    modelValue.value = false
-  }, 500)
+  if (event === 'close') {
+    setTimeout(() => {
+      // modelValue.value = false
+    }, 500)
+  }
 }
 
 function toggleFullScreenStatus() {

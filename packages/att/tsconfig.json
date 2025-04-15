@@ -1,25 +1,15 @@
 {
   "compilerOptions": {
     "target": "ESNEXT",
-    "lib": [
-      "es5",
-      "es6",
-      "es2022",
-      "dom"
-    ],
+    "lib": ["es5", "es6", "es2022", "dom"],
     "rootDir": "src",
     "module": "ESNEXT",
     "moduleResolution": "node",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "types"
-    ],
+    "typeRoots": ["node_modules/@types", "types"],
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
@@ -35,11 +25,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": [
-    "**/*.ts",
-    "dist/**/*",
-    "../types/src/index.d.ts"
-  ],
+  "include": ["**/*.ts", "dist/**/*", "../types/src/index.d.ts"],
   "exclude": [
     "**/node_modules",
     "**/test",

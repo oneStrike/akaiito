@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { dragEndEvent, EsTableProps } from '@/components/es-table/types'
-import { getAssetsFile } from '@/utils/getAssetsFile'
+import defaultImage from '@/assets/images/image.svg'
 import Sortable from 'sortablejs'
 
 const props = withDefaults(defineProps<EsTableProps>(), {
@@ -109,29 +109,32 @@ function handlerSortChange(val: any) {
 }
 
 const rowDrop = () => {
-  const sortableInst = new Sortable(tableRef.value!.$el.querySelector('tbody'), {
-    group: {
-      name: 'table',
-      pull: true,
-      put: true,
-    },
-    animation: 150,
-    async onEnd(e: any) {
-      // 如果拖拽结束后顺序发生了变化，则对数据进行修改
-      const { oldIndex, newIndex } = e
-      if (oldIndex !== newIndex) {
-        const targetData = props.data[newIndex]
-        const originData = props.data[oldIndex]
-        const dragParams = {
-          originId: originData.id,
-          originOrder: originData.order,
-          targetId: targetData.id,
-          targetOrder: targetData.order,
+  const sortableInst = new Sortable(
+    tableRef.value!.$el.querySelector('tbody'),
+    {
+      group: {
+        name: 'table',
+        pull: true,
+        put: true,
+      },
+      animation: 150,
+      async onEnd(e: any) {
+        // 如果拖拽结束后顺序发生了变化，则对数据进行修改
+        const { oldIndex, newIndex } = e
+        if (oldIndex !== newIndex) {
+          const targetData = props.data[newIndex]
+          const originData = props.data[oldIndex]
+          const dragParams = {
+            originId: originData.id,
+            originOrder: originData.order,
+            targetId: targetData.id,
+            targetOrder: targetData.order,
+          }
+          emits('dragEnd', dragParams)
         }
-        emits('dragEnd', dragParams)
-      }
+      },
     },
-  })
+  )
 }
 
 onMounted(() => {
@@ -193,7 +196,7 @@ defineExpose({
             <el-image
               fit="contain"
               class="w-10 align-middle"
-              :src="row[item.prop] || getAssetsFile('images/image.svg')"
+              :src="row[item.prop] || defaultImage"
               :preview-src-list="row[item.prop] ? [row[item.prop]] : []"
               :z-index="999999"
               preview-teleported
