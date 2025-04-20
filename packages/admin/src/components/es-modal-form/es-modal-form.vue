@@ -28,7 +28,7 @@ const formData = defineModel({
 
 const showForm = defineModel('show', {
   type: Boolean,
-  default: false,
+  default: true,
 })
 
 const formLoading = defineModel('loading', {

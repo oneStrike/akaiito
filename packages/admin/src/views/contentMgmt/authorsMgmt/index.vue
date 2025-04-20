@@ -28,7 +28,9 @@ async function submitForm(val: any) {
   val.isCartoonist = val.contentModel.includes('2') ? 1 : 0
   val.isIllustrator = val.contentModel.includes('3') ? 1 : 0
   val.isModel = val.contentModel.includes('4') ? 1 : 0
-  val.website = encodeURIComponent(val.website)
+  if (val.website) {
+    val.website = encodeURIComponent(val.website)
+  }
   if (!val.avatar) {
     delete val.avatar
   }
@@ -84,7 +86,7 @@ const openModal = (val?: Record) => {
     currentRow.value = val
     currentRow.value.contentModel = identityHandler(val, 'code').join(',')
     if (val.website) {
-      currentRow.value.website = decodeURIComponent(val.website)
+      currentRow.value.website = decodeURIComponent(val.website) || ''
     }
   }
   modalFrom.show = true
@@ -124,6 +126,7 @@ const openModal = (val?: Record) => {
     </es-table>
 
     <es-modal-form
+      v-if="modalFrom.show"
       v-model:show="modalFrom.show"
       v-model:loading="modalFrom.loading"
       :default-value="currentRow"
