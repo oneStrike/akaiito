@@ -45,6 +45,12 @@ export const tableColumns: EsTableColumn = [
     align: 'center',
   },
   {
+    label: '封面',
+    prop: 'cover',
+    align: 'center',
+    type: 'image',
+  },
+  {
     label: '创建时间',
     prop: 'createdAt',
     align: 'center',
@@ -130,6 +136,19 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请输入编码',
+    },
+  },
+  {
+    field: 'cover',
+    component: 'Upload',
+    props: {
+      label: '封面',
+    },
+    componentProps: {
+      placeholder: '请上传封面',
+      scenario: 'dataDict',
+      multiple: false,
+      fileType: 'image',
     },
   },
   {
