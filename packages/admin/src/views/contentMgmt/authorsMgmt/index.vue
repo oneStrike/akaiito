@@ -116,7 +116,8 @@ const openModal = (val?: Record) => {
       </template>
 
       <template #website="{ row }">
-        <el-link type="primary" @click="blank(row)">外部主页</el-link>
+        <el-link v-if="row.website" type="primary" @click="blank(row)">外部主页</el-link>
+        <div v-else>-</div>
       </template>
 
       <template #action="{ row }">

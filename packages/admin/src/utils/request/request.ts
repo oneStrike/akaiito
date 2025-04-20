@@ -27,7 +27,11 @@ export class HttpHandler {
         if (config?.interceptors?.response) {
           responseData = config.interceptors.response(res)
         }
-        resolve(responseData)
+        if (responseData.error) {
+          reject(responseData.errorInfo)
+        } else {
+          resolve(responseData)
+        }
       })
     })
   }

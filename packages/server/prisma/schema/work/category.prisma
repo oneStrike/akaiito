@@ -4,7 +4,7 @@ model Category {
   /// 分类名称
   name                  String            @unique @db.VarChar(20)
   /// 分类图标
-  icon                  String            @db.VarChar(200)
+  icon                  String?           @db.VarChar(200)
   /// 人气
   popularity            Int?              @default(0) @db.Integer
   /// 辅助人气

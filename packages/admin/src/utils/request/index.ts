@@ -13,7 +13,7 @@ const response: HttpHandlerInterceptors['response'] = (data: any) => {
     if (responseData.code === 401) {
       useUserStore().signOut()
     }
-    throw responseData
+    return { error: true, errorInfo: responseData }
   } else {
     return data.config.source ? responseData : responseData.data
   }
