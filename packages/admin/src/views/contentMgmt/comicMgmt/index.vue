@@ -35,6 +35,7 @@ formTool.fillDict([
   { field: 'language', code: 'work_language' },
   { field: 'region', code: 'work_region' },
   { field: 'publisher', code: 'work_publisher' },
+  { field: 'ageRating', code: 'work_age_rating' },
 ])
 formTool.specificItem('authorId', (item) => {
   item.componentProps!.remoteMethod = async (val: string) => {

@@ -21,6 +21,8 @@ model Comic {
   /// 权限
   permissions       Permissions       @relation(fields: [permissionId], references: [id])
   permissionId      Int               @db.Integer
+  /// 内容年龄分级
+  ageRating         String?           @map("age_rating") @db.VarChar(50)
   /// 是否发布 1：发布 0：不发布
   isPublish         Boolean           @default(false) @db.Boolean
   /// 发布日期

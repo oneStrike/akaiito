@@ -36,6 +36,9 @@ export class ComicDTO {
   @Rule(requiredNumberArray)
   categoryIds!: number[]
 
+  @Rule(validateString)
+  ageRating?: string
+
   @Rule(validateDate)
   publishAt?: Date
 

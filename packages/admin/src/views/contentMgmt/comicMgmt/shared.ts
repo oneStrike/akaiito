@@ -360,6 +360,19 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'ageRating',
+    component: 'Select',
+    props: {
+      span: 2,
+      label: '内容年龄分级',
+      rules: useValidate.required('内容年龄分级'),
+    },
+    componentProps: {
+      placeholder: '请选择内容年龄分级',
+      options: [],
+    },
+  },
+  {
     field: 'language',
     component: 'Select',
     props: {
