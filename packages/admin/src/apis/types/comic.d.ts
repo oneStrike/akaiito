@@ -49,6 +49,9 @@ export interface GetComicPageTypesRes {
       name: string
     }
 
+    /* 内容年龄分级 */
+    ageRating: string
+
     /* 分类 */
     categories: {
       /* 分类名称 */
@@ -127,6 +130,9 @@ export interface GetComicDetailTypesRes {
   /* 语言，数据字典language */
   language: string
 
+  /* 内容年龄分级 */
+  ageRating: string
+
   /* 分类 */
   categories: {
     /* 分类名称 */
@@ -196,6 +202,9 @@ export interface CreateComicTypesReq {
   /* 语言，数据字典language */
   language: string
 
+  /* 内容年龄分级 */
+  ageRating: string
+
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number
 
@@ -252,6 +261,9 @@ export interface UpdateComicTypesReq {
   /* 语言，数据字典language */
   language: string
 
+  /* 内容年龄分级 */
+  ageRating: string
+
   /* 作品发布日期 */
   publishAt: string
 
@@ -279,6 +291,9 @@ export type UpdateComicTypesRes = any
 export interface UpdateComicPublishTypesReq {
   /* 主键id */
   id: number
+
+  /* 内容年龄分级 */
+  ageRating: string
 
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number
