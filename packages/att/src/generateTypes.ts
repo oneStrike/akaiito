@@ -38,7 +38,7 @@ function extractRefs(refs: IterateObject, dataModel: IterateObject, isArray = fa
         commonSchema
           .filter((item: IterateObject) => !overridesField.includes(item.name))
           .forEach((item: IterateObject) => {
-            typesStr += joinType({ ...item, array: item.array })
+            typesStr += joinType({ ...item })
           })
       }
     }

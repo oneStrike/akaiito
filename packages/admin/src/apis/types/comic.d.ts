@@ -59,7 +59,7 @@ export interface GetComicPageTypesRes {
 
       /* 分类主键id */
       id: number
-    }
+    }[]
 
     /* 是否发布 1：发布 0：不发布 */
     isPublish: number
@@ -140,7 +140,7 @@ export interface GetComicDetailTypesRes {
 
     /* 分类主键id */
     id: number
-  }
+  }[]
 
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number

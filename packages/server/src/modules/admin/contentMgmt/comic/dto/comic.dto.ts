@@ -45,8 +45,8 @@ export class ComicDTO {
   @Rule(requiredString)
   description!: string
 
-  @Rule(requiredString)
-  publisher!: string
+  @Rule(validateString)
+  publisher?: string
 
   @Rule(requiredBoolean)
   isFinished!: boolean
