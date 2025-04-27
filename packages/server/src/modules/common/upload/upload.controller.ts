@@ -1,6 +1,6 @@
 import { UploadService } from '@/service/common/upload.service'
 import { Controller, Fields, Files, Inject, Post } from '@midwayjs/core'
-import { UploadMiddleware, UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
+import { UploadFileInfo, UploadMiddleware } from '@midwayjs/busboy'
 
 @Controller('/common/upload')
 export class UploadController {
@@ -9,9 +9,8 @@ export class UploadController {
 
   @Post('/uploadFile', { middleware: [UploadMiddleware], summary: '文件上传' })
   async upload(
-    @Files() fileIterator: AsyncGenerator<UploadStreamFileInfo>,
-    @Fields() fieldIterator: AsyncGenerator<UploadStreamFieldInfo>,
+    @Files() files: Array<UploadFileInfo>, @Fields() fields: Record<string, string>,
   ) {
-    return this.uploadService.local(fileIterator, fieldIterator)
+    return this.uploadService.local(files, fields)
   }
 }

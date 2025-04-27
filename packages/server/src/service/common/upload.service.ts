@@ -1,47 +1,32 @@
 import { Config, Provide } from '@midwayjs/core'
-import { UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
-import { join } from 'path'
+import { UploadFileInfo } from '@midwayjs/busboy'
 import { utils } from '@/utils'
-import { ensureDirSync } from 'fs-extra'
-import { createWriteStream } from 'node:fs'
+import { ensureDirSync, move } from 'fs-extra'
+import * as path from 'node:path'
 
 @Provide()
 export class UploadService {
   @Config('staticFile.dirs.default.dir')
   pathPrefix: string
 
-  async parseFilePath(fields: AsyncGenerator<UploadStreamFieldInfo>): Promise<string> {
-    const field: IterateObject = {}
-    let relativePath = ''
-    for await (const { name, value } of fields) {
-      field[name] = value
-    }
-    const { workType, workId, chapterId } = field
-    if (workType && workId && chapterId) {
-      relativePath = `/files/${workType}/${workId}/${chapterId}/`
-    } else {
-      relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
-    }
-    ensureDirSync(this.pathPrefix + relativePath)
-    return relativePath
-  }
 
-
-  async local(files: AsyncGenerator<UploadStreamFileInfo>, fields: AsyncGenerator<UploadStreamFieldInfo>) {
+  async local(files: Array<UploadFileInfo>, fields: IterateObject) {
     const reportData = []
-    // const relativePath = await this.parseFilePath(fields)
-    let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
+    let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/${fields.scenario || 'shared'}/`
     ensureDirSync(this.pathPrefix + relativePath)
-    for await (const { filename, data, mimeType } of files) {
-      const p = join(this.pathPrefix + relativePath, filename)
-      const stream = createWriteStream(p)
-      data.pipe(stream)
-      reportData.push({
-        fileName: filename,
-        filePath: relativePath + filename,
-        mimeType,
-      })
+    for (const file of files) {
+      const uniqueName = `${path.basename(file.data)}`
+      const tempPath = file.data // 假设文件先保存到临时路径
+      const destPath = this.pathPrefix + relativePath + uniqueName
+
+      try {
+        await move(tempPath, destPath, { overwrite: true })
+        reportData.push({ fileName: file.filename, filePath: destPath, mimeType: file.mimeType })
+      } catch (err) {
+        console.error(`Error moving file: ${err}`)
+      }
     }
+
     return reportData
   }
 }

@@ -1,8 +1,8 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { BasicService } from '@/basic/service/basic.service'
 import { ComicContent, PrismaClient } from '@prisma/client'
-import { ComicContentDTO } from '@/modules/admin/contentMgmt/comic/content/dto/content.dto'
 import { FileService } from '@/basic/service/file.service'
+import { UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
 
 @Provide()
 export class ComicContentService extends BasicService<ComicContent> {
@@ -33,21 +33,11 @@ export class ComicContentService extends BasicService<ComicContent> {
   }
 
   // 创建内容
-  createComicContent(body: ComicContentDTO) {
-    const { urls, chapterId } = body
-    const upsertData: any[] = []
-    urls.forEach((item) => {
-      upsertData.push({
-        url: item,
-        chapter: {
-          connect: {
-            id: chapterId,
-          },
-        },
-      })
-    })
-    return this.createBatch({
-      data: upsertData,
-    })
+  createComicContent(fileIterator: AsyncGenerator<UploadStreamFileInfo>,
+                     fieldIterator: AsyncGenerator<UploadStreamFieldInfo>) {
+    console.log(fileIterator)
+    console.log(123)
+    console.log(fieldIterator)
+    return 'ok'
   }
 }

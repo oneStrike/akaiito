@@ -20,14 +20,22 @@ const showModel = defineModel('show', { default: false })
 async function changeContent(data: any) {
   await createComicContentApi({
     chapterId: props.chapterId,
-    urls: [data[0].filePath],
+    url: [data[0].filePath],
   })
 }
 </script>
 
 <template>
   <es-modal v-model="showModel">
-    <es-upload list-type="picture" :data="props" :max-count="999" file-type="image" multiple @change="changeContent">
+    <es-upload
+      list-type="picture"
+      content-type="comic"
+      :data="{ comicId, chapterId }"
+      :max-count="999"
+      file-type="image"
+      multiple
+      @change="changeContent"
+    >
       <el-button type="primary">上传</el-button>
     </es-upload>
   </es-modal>

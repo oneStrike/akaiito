@@ -11,14 +11,14 @@ function joinType(item: IterateObject) {
         type += joinType(itemType)
       })
       type = `{${type}}`
-      if (item.array) {
-        type += '[]'
-      }
     } else {
       type = item.type.join(' | ')
     }
   } else {
     type = item.type
+  }
+  if (item.array) {
+    type += '[]'
   }
   return `
           /* ${item.description || ''} */

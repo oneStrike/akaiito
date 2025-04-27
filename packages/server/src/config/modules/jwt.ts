@@ -11,7 +11,6 @@ export const jwtConfig = {
     '/open/captcha/getCaptcha',
     '/admin/user/login',
     '/app/user/createAppUser',
-    '/app/user/login',
-    '/common/upload/uploadFile',
+    '/app/user/login'
   ],
 }

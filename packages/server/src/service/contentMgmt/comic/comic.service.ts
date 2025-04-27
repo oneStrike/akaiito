@@ -85,7 +85,6 @@ export class ComicService extends BasicService<Comic> {
         })),
       }
     }
-    console.log(comicData)
     return this.update({
       where: { id: body.id },
       data: comicData,

@@ -23,7 +23,6 @@ export class ChapterController {
   @Get('/getChapter', { summary: '获取作品章节' })
   @SortQuery()
   async getChapter(@Query() query: ChapterPageDTO) {
-    console.log(query, 123)
     return await this.chapterService.getChapter(query)
   }
 

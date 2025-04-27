@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
+import { Body, Controller, Fields, Files, Get, Inject, Post, Query } from '@midwayjs/core'
 import { ComicContentService } from '@/service/contentMgmt/comic/content.service'
-import { ComicContentDTO, RemoveChapterContentDTO } from '@/modules/admin/contentMgmt/comic/content/dto/content.dto'
+import { RemoveChapterContentDTO } from '@/modules/admin/contentMgmt/comic/content/dto/content.dto'
 import { BasicIdDTO, BasicOrderDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 import { SortQuery } from '@/decorator/sortQuery.decorator'
+import { UploadMiddleware, UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
 
 @Controller('/admin/comic/content', { description: '漫画内容' })
 export class ComicContentController {
@@ -10,9 +11,12 @@ export class ComicContentController {
   comicContentService: ComicContentService
 
 
-  @Post('/createComicContent', { summary: '创建漫画内容' })
-  async createComicContent(@Body() body: ComicContentDTO) {
-    return this.comicContentService.createComicContent(body)
+  @Post('/createComicContent', { middleware: [UploadMiddleware], summary: '创建漫画内容' })
+  async upload(
+    @Files() fileIterator: AsyncGenerator<UploadStreamFileInfo>,
+    @Fields() fieldIterator: AsyncGenerator<UploadStreamFieldInfo>,
+  ) {
+    return this.comicContentService.createComicContent(fileIterator, fieldIterator)
   }
 
   @Post('/removeComicContent', { summary: '清空漫画章节内容' })

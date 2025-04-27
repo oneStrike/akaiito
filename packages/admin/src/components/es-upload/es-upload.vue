@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
   maxSize: config.upload.maxUploadFileSize,
   maxCount: 1,
-  structure: 'field',
+  structure: 'json',
 })
 const emits = defineEmits<{
   (event: 'change', data: UploadFileTypesRes): void
@@ -105,7 +105,7 @@ function onPreview(uploadFile: UploadFile) {
 }
 
 const upload: UploadProps['httpRequest'] = async ({ file }) => {
-  const uploadRes = await useUpload(file, props.data!)
+  const uploadRes = await useUpload(file, props.data!, props.contentType)
   emits('change', uploadRes.success)
   return uploadRes.success[0]
 }
@@ -121,9 +121,9 @@ function change() {
       }
     })
     let res = emitData
-    if (props.structure === 'string') {
+    if (props.structure === 'json') {
       res = JSON.stringify(emitData)
-    } else if (props.structure === 'field') {
+    } else if (props.structure === 'string') {
       res = emitData[0].filePath
     }
     emits('update:modelValue', res)

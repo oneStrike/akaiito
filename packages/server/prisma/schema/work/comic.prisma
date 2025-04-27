@@ -17,7 +17,7 @@ model Comic {
   region            String            @db.VarChar(20)
   /// 作者id
   authorId          Int               @map("author_id") @db.Integer
-  author            Author            @relation(fields: [authorId], references: [id])
+  author            Author            @relation(fields: [authorId], references: [id], onDelete: Cascade)
   /// 权限
   permissions       Permissions       @relation(fields: [permissionId], references: [id])
   permissionId      Int               @db.Integer
@@ -61,15 +61,18 @@ model ComicCategories {
 }
 
 model ComicContent {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   /// url
-  url       String  @db.VarChar(300)
+  url       String   @db.VarChar(300)
   /// 排序
-  order     Int     @default(autoincrement()) @db.Integer
+  order     Int      @default(autoincrement()) @db.Integer
   /// 章节id
-  chapter   Chapter @relation(fields: [chapterId], references: [id])
-  chapterId Int     @db.Integer
+  chapter   Chapter  @relation(fields: [chapterId], references: [id])
+  chapterId Int      @db.Integer
+  /// 创建时间
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
 
+  @@unique([chapterId, order])
   @@index([chapterId])
   @@map("comic_content")
 }
