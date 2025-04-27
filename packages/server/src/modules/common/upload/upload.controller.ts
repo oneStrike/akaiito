@@ -9,7 +9,8 @@ export class UploadController {
 
   @Post('/uploadFile', { middleware: [UploadMiddleware], summary: '文件上传' })
   async upload(
-    @Files() files: Array<UploadFileInfo>, @Fields() fields: Record<string, string>,
+    @Files() files: Array<UploadFileInfo>,
+    @Fields() fields: Record<string, string>,
   ) {
     return this.uploadService.local(files, fields)
   }
