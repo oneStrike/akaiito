@@ -1,6 +1,8 @@
 <script setup lang="ts" async>
 import type { GetComicContentPageTypesRes } from '@/apis/types/content'
-import { getComicContentPageApi } from '@/apis/content.ts'
+import type { UploadFile } from 'element-plus'
+import { deleteComicContentApi, getComicContentPageApi } from '@/apis/content.ts'
+import { PromptsEnum } from '@/enum/prompts.ts'
 
 defineOptions({
   name: 'ComicContent',
@@ -24,6 +26,16 @@ getComicContentPageApi({ chapterId: props.chapterId }).then(({ list }) => {
   console.log('🚀 ~ fileList.value=list.map ~ fileList.value:', fileList.value)
 })
 const showModel = defineModel('show', { default: false })
+
+async function remove(file: UploadFile) {
+  const target = fileList.value?.find((item) => item.url === file.url)
+  if (target?.id) {
+    await deleteComicContentApi({ id: target.id })
+    useMessage.success(PromptsEnum.DELETED)
+  } else {
+    useMessage.error(PromptsEnum.ERROR_DELETE)
+  }
+}
 </script>
 
 <template>
@@ -36,6 +48,7 @@ const showModel = defineModel('show', { default: false })
       :max-count="999"
       file-type="image"
       multiple
+      @remove="remove"
     >
       <el-button type="primary">上传</el-button>
     </es-upload>

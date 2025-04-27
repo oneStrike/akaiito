@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<EsUploadProps>(), {
 })
 const emits = defineEmits<{
   (event: 'change', data: UploadFileTypesRes): void
+  (event: 'remove', data: UploadFile): void
   (event: 'update:modelValue', data: typeof fileList.value): void
   (event: 'updateError', data: any[]): void
 }>()
@@ -110,6 +111,10 @@ const upload: UploadProps['httpRequest'] = async ({ file }) => {
   return uploadRes.success[0]
 }
 
+function remove(uploadFile: UploadFile) {
+  // emits('remove', uploadFile)
+}
+
 function change() {
   if (fileList.value && fileList.value.length) {
     const emitData = fileList.value.map((item: any) => {
@@ -141,6 +146,7 @@ function change() {
       :multiple="multiple"
       :on-preview="onPreview"
       :on-change="change"
+      :on-remove="remove"
       :before-upload="beforeUpload"
       :http-request="upload"
     >

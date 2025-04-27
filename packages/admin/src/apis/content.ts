@@ -17,7 +17,7 @@ import type {
  *  @标签 内容/获取漫画内容分页
  *  @方式 GET
  *  @地址 /admin/comic/content/getComicContentPage
- *  @更新时间 2024-12-16 09:44:28
+ *  @更新时间 2025-04-28 00:08:47
  */
 
 export const getComicContentPageApi = (params: GetComicContentPageTypesReq): Promise<GetComicContentPageTypesRes> => {
@@ -34,7 +34,7 @@ export const getComicContentPageApi = (params: GetComicContentPageTypesReq): Pro
  *  @标签 内容/创建漫画内容
  *  @方式 POST
  *  @地址 /admin/comic/content/createComicContent
- *  @更新时间 2024-12-11 17:16:06
+ *  @更新时间 2025-04-27 22:58:26
  */
 
 export const createComicContentApi = (data: CreateComicContentTypesReq): Promise<CreateComicContentTypesRes> => {
