@@ -23,7 +23,6 @@ getComicContentApi({ chapterId: props.chapterId }).then((list) => {
     fileName: item.url.split('/').at(-1),
     filePath: item.url,
   }))
-  console.log('🚀 ~ fileList.value=list.map ~ fileList.value:', fileList.value)
 })
 const showModel = defineModel('show', { default: false })
 

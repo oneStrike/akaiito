@@ -61,8 +61,8 @@ export class ComicSearchDTO extends BasicPageDTO {
   @Rule(validateString)
   name?: string
 
-  @Rule(validateNumber)
-  authorId?: number
+  @Rule(validateString)
+  authorName?: string
 
   @Rule(validateNumber)
   categoryId?: number

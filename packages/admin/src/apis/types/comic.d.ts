@@ -3,15 +3,15 @@
  *  @标签 /漫画分页数据
  *  @方式 GET
  *  @地址 /admin/comic/getComicPage
- *  @更新时间 2024-12-01 13:21:10
+ *  @更新时间 2025-04-28 21:31:07
  */
 
 export interface GetComicPageTypesReq {
   /* 漫画名称 */
   name?: string
 
-  /* 作者id */
-  authorId?: number
+  /* 作者 */
+  authorName?: string
 
   /* 分类id，多id利用 , 分割 */
   categoryId?: string

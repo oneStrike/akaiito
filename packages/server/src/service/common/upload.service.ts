@@ -13,28 +13,16 @@ export class UploadService {
 
   async local(files: Array<UploadFileInfo>, fields: IterateObject) {
     const reportData = []
-    if (fields.scenario) {
-      let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/${
-        fields.scenario || 'shared'
-      }/`
-
-      for (const file of files) {
-        const tempPath = file.data // 假设文件先保存到临时路径
-        const destPath = this.pathPrefix + relativePath
-
-        try {
-          await this.fileService.moveLocalFile(tempPath, destPath)
-          reportData.push({
-            fileName: file.filename,
-            filePath: destPath,
-            mimeType: file.mimeType,
-          })
-        } catch (err) {
-          console.error(`Error moving file: ${err}`)
-        }
-      }
+    let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/${
+      fields.scenario || 'shared'
+    }/`
+    for (const file of files) {
+      reportData.push({
+        fileName: file.filename,
+        filePath: await this.fileService.moveLocalFile(file.data, relativePath),
+        mimeType: file.mimeType,
+      })
     }
-
     return reportData
   }
 }

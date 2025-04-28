@@ -11,7 +11,7 @@ const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
   maxSize: config.upload.maxUploadFileSize,
   maxCount: 1,
-  structure: 'json',
+  structure: 'string',
 })
 const emits = defineEmits<{
   (event: 'change', data: UploadFileTypesRes): void

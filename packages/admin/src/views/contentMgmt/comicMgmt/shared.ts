@@ -212,10 +212,30 @@ export const chapterFormOptions: EsFormOptions[] = [
 
 export const filter: EsFormOptions[] = [
   {
+    field: 'isPublish',
+    component: 'Select',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '发布状态',
+      options: [
+        {
+          label: '已完结',
+          value: true,
+        },
+        {
+          label: '连载中',
+          value: false,
+        },
+      ],
+    },
+  },
+  {
     field: 'isFinished',
     component: 'Select',
     props: {
-      span: 4,
+      span: 6,
     },
     componentProps: {
       placeholder: '是否完结',
@@ -235,10 +255,21 @@ export const filter: EsFormOptions[] = [
     field: 'name',
     component: 'Input',
     props: {
-      span: 4,
+      span: 6,
     },
     componentProps: {
       placeholder: '漫画名称',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'authorName',
+    component: 'Input',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '作者名称',
       maxlength: 50,
     },
   },

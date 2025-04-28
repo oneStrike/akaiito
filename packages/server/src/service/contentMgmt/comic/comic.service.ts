@@ -93,8 +93,17 @@ export class ComicService extends BasicService<Comic> {
 
   // 获取漫画分页数据
   async getPage(query: ComicSearchDTO) {
+    const authorName = query.authorName
+    delete query.authorName
     return await this.findPage({
-      where: query,
+      where: {
+        ...query,
+        author: {
+          name: {
+            contains: authorName || undefined,
+          },
+        },
+      },
       like: {
         name: 'contains',
       },
