@@ -2,38 +2,29 @@
  *  接口 [获取漫画内容分页](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243053782)
  *  @标签 内容/获取漫画内容分页
  *  @方式 GET
- *  @地址 /admin/comic/content/getComicContentPage
- *  @更新时间 2025-04-28 00:08:47
+ *  @地址 /admin/comic/content/getComicContent
+ *  @更新时间 2025-04-28 20:12:52
  */
 
-export interface GetComicContentPageTypesReq {
+export interface GetComicContentTypesReq {
   /* 章节id */
   chapterId?: number
 }
 
-export interface GetComicContentPageTypesRes {
-  list: {
-    /* 图片链接地址 */
-    url: string
+/*  */
+export type GetComicContentTypesRes = {
+  /* 主键id */
+  id: number
 
-    /* 主键id */
-    id: number
+  /* 图片链接 */
+  url: string
 
-    /* 排序 */
-    order: number
+  /* 排序 */
+  order: number
 
-    /* 对应的章节id */
-    chapterId: number
-  }[]
-  /* 页码 */
-  pageIndex: number
-
-  /* 单页大小 */
-  pageSize: number
-
-  /* 总条数 */
-  total: number
-}
+  /* 对应的章节id */
+  chapterId: number
+}[]
 
 /**
  *  接口 [创建漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052051)
@@ -45,7 +36,7 @@ export interface GetComicContentPageTypesRes {
 
 export interface CreateComicContentTypesReq {
   /* 图片链接 */
-  url: string[]
+  url: string
 
   /* 对应的章节id */
   chapterId: number

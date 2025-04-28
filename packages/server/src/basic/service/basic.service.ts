@@ -221,12 +221,13 @@ export abstract class BasicService<T extends PrismaInstanceModel> {
   }
 
   // 获取列表数据
-  async findList(options?: PrismaFindPageOptions<T>): FindPageResponse<T> {
+  async findList(options?: PrismaFindPageOptions<T>): Promise<T[]> {
     if (!options?.where) {
       options = { where: {} }
     }
     options.where.pageIndex = 0
     options.where.pageSize = 500
-    return await this.findPage(options)
+    const { list } = await this.findPage(options)
+    return list
   }
 }

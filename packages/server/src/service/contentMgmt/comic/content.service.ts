@@ -31,7 +31,6 @@ export class ComicContentService extends BasicService<ComicContent> {
     fields: CreateComicContentDTO,
   ) {
     const { comicId, chapterId } = fields
-    console.log('🚀 ~ ComicContentService ~ fields:', fields)
     if (!comicId || !chapterId) {
       this.throwError('漫画数据关联失败')
     }

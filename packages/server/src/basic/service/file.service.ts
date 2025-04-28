@@ -30,12 +30,18 @@ export class FileService {
     // 移动文件
     await move(oldPath, newFullPath + uniqueName, { overwrite: true })
   }
+
   // 删除本地文件
-  async deleteLocalFile(filePath: string): Promise<void> {
+  async deleteLocalFile(filePath: string): Promise<boolean> {
     // 拼接文件路径
     const fileFullPath = path.join(this.pathPrefix, filePath)
     // 删除文件
-    await unlink(fileFullPath)
+    try {
+      await unlink(fileFullPath)
+      return true
+    } catch (e) {
+      return false
+    }
   }
 
   // 删除漫画章节内容

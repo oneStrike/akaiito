@@ -53,7 +53,7 @@ const { loading, reset, request, requestData, params } = useRequest(
 )
 
 function formatList(data: GetAppNoticeListTypesRes) {
-  data.list.forEach((item: any) => {
+  data.forEach((item: any) => {
     const { enableWeb, enableApplet, enableApp, startTime, endTime } = item
     item.statusText = '未发布'
     item.statusColor = 'primary'
@@ -131,8 +131,8 @@ const submitForm = async (
       :filter="filter"
       :toolbar="toolbar"
       :columns="tableColumns"
-      :data="requestData?.list ?? []"
-      :total="requestData?.total"
+      :data="requestData ?? []"
+      :total="requestData?.length"
       @reset="reset"
       @query="request"
       @toolbar-handler="openFormModal()"

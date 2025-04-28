@@ -24,7 +24,7 @@ export interface RecordDetails extends EsModalProps {
   record: IterateObject | null
 }
 
-type TableItem = ResolveListItem<typeof requestData.value>
+type TableItem = ResolvedReturnType<typeof getDataDictionaryItemsApi>[number]
 
 const esTableRef = ref()
 const formLoading = ref(false)
@@ -117,9 +117,9 @@ function computedTableHeight() {
         :filter="filter()"
         :toolbar="toolbar"
         :columns="tableColumns"
-        :data="requestData.list"
+        :data="requestData"
         :selection="true"
-        :total="requestData?.total"
+        :total="requestData?.length"
         @toolbar-handler="handlerToolbar"
         @reset="reset"
         @query="request"

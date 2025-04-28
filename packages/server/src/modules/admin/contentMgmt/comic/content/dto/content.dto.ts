@@ -9,7 +9,8 @@ export class CreateComicContentDTO {
   comicId!: number // 漫画ID
 }
 
-export class RemoveChapterContentDTO {
+export class ChapterContentDTO {
   @Rule(requiredNumber)
   chapterId!: number
 }
+

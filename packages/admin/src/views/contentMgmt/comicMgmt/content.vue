@@ -1,7 +1,7 @@
 <script setup lang="ts" async>
-import type { GetComicContentPageTypesRes } from '@/apis/types/content'
+import type { GetComicContentTypesRes } from '@/apis/types/content'
 import type { UploadFile } from 'element-plus'
-import { deleteComicContentApi, getComicContentPageApi } from '@/apis/content.ts'
+import { deleteComicContentApi, getComicContentApi } from '@/apis/content.ts'
 import { PromptsEnum } from '@/enum/prompts.ts'
 
 defineOptions({
@@ -16,8 +16,8 @@ const props = withDefaults(
   {},
 )
 
-const fileList = ref<GetComicContentPageTypesRes['list']>()
-getComicContentPageApi({ chapterId: props.chapterId }).then(({ list }) => {
+const fileList = ref<GetComicContentTypesRes>()
+getComicContentApi({ chapterId: props.chapterId }).then((list) => {
   fileList.value = list.map((item) => ({
     ...item,
     fileName: item.url.split('/').at(-1),

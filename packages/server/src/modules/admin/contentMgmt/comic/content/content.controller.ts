@@ -11,9 +11,9 @@ import {
 import { ComicContentService } from '@/service/contentMgmt/comic/content.service'
 import {
   CreateComicContentDTO,
-  RemoveChapterContentDTO,
+  ChapterContentDTO,
 } from '@/modules/admin/contentMgmt/comic/content/dto/content.dto'
-import { BasicIdDTO, BasicOrderDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
+import { BasicIdDTO, BasicOrderDTO } from '@/basic/dto/basic.dto'
 import { SortQuery } from '@/decorator/sortQuery.decorator'
 import { UploadFileInfo, UploadMiddleware } from '@midwayjs/busboy'
 
@@ -34,7 +34,7 @@ export class ComicContentController {
   }
 
   @Post('/removeComicContent', { summary: '清空漫画章节内容' })
-  async removeChapterContent(@Body() body: RemoveChapterContentDTO) {
+  async removeChapterContent(@Body() body: ChapterContentDTO) {
     return this.comicContentService.removeChapterContent(body.chapterId)
   }
 
@@ -48,12 +48,9 @@ export class ComicContentController {
     return this.comicContentService.updateOrder(body)
   }
 
-  @Get('/getComicContentPage', { summary: '获取漫画内容分页' })
+  @Get('/getComicContent', { summary: '获取漫画内容分页' })
   @SortQuery({ order: 'desc' })
-  async getComicContentPage(@Query() query: BasicPageDTO) {
-    if (!query.orderBy) {
-      query.orderBy = '{"order":"desc"}'
-    }
-    return this.comicContentService.findPage({ where: query })
+  async getComicContent(@Query() query: ChapterContentDTO) {
+    return this.comicContentService.findList({ where: query })
   }
 }

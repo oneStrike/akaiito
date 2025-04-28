@@ -29,7 +29,7 @@ function filePathToObj(path: string, name?: string) {
     url: path,
     mimeType: `${props.fileType}/${path.split('.').at(-1)}`,
     status: 'success',
-    uid: new Date().getTime(),
+    uid: utils.generateRandomNumber(10),
   }
 }
 
@@ -112,7 +112,8 @@ const upload: UploadProps['httpRequest'] = async ({ file }) => {
 }
 
 function remove(uploadFile: UploadFile) {
-  // emits('remove', uploadFile)
+  console.log(fileList.value)
+  emits('remove', uploadFile)
 }
 
 function change() {

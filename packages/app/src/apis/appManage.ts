@@ -22,7 +22,7 @@ export const getSystemConfigApi = (): Promise<GetSystemConfigTypesRes> => {
  *  @标签 系统/获取页面配置信息
  *  @方式 GET
  *  @地址 /app/appManage/getPageConfig
- *  @更新时间 2024-11-24 12:53:24
+ *  @更新时间 2025-04-28 20:21:44
  */
 
 export const getPageConfigApi = (): Promise<GetPageConfigTypesRes> => {

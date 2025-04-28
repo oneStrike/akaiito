@@ -1,4 +1,5 @@
 import { deepCopy } from '@/deepCopy'
+import { generateRandomNumber } from '@/generateRandomNumber'
 import { downloadBlob } from './downloadBlob'
 import { fillFormOptions } from './fillFormOptions'
 import { getProjectConfig } from './getProjectConfig'
@@ -17,4 +18,5 @@ export const akaiitoUtils = {
   fillFormOptions,
   getProjectConfig,
   deepCopy,
+  generateRandomNumber,
 }
