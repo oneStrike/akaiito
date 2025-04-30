@@ -30,6 +30,8 @@ export class ComicContentController {
     @Files() files: Array<UploadFileInfo>,
     @Fields() fields: CreateComicContentDTO,
   ) {
+    console.log('Uploaded files:', files);
+    console.log('Uploaded fields:', fields);
     return this.comicContentService.createComicContent(files, fields)
   }
 

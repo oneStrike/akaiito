@@ -39,7 +39,7 @@ export async function useUpload(
         data: formData,
         errorMessage: false,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data;charset=UTF-8',
           'authorization': useUserStore().token.accessToken,
         },
       })

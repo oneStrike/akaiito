@@ -43,6 +43,7 @@ model Comic {
   categories        ComicCategories[]
   /// 章节
   Chapters          Chapter[]
+  ComicContent      ComicContent[]
 
   @@index([authorId])
   @@index([permissionId])
@@ -62,6 +63,9 @@ model ComicCategories {
 
 model ComicContent {
   id        Int      @id @default(autoincrement())
+  /// 关联的漫画id
+  comic     Comic?   @relation(fields: [comicId], references: [id])
+  comicId   Int?     @map("comic_id") @db.Integer
   /// url
   url       String   @db.VarChar(300)
   /// 排序
@@ -72,7 +76,8 @@ model ComicContent {
   /// 创建时间
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
 
-  @@unique([chapterId, order])
+  @@unique([chapterId, comicId])
   @@index([chapterId])
+  @@index([comicId])
   @@map("comic_content")
 }
