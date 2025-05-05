@@ -13,7 +13,8 @@ export class FileService {
     const newFullPath = path.join(this.pathPrefix, newPath)
     const newDir = path.dirname(newFullPath) // 获取目标文件夹路径
     await ensureDir(newDir) // 使用 ensureDir 替换 ensureDirSync
-    const newFileName = path.basename(newPath) ? '' : path.basename(oldPath)
+    const hasFilename = path.basename(newPath) && path.extname(newPath) !== ''
+    const newFileName = hasFilename ? '' : path.basename(oldPath)
     // 移动文件
     await move(oldPath, newFullPath + newFileName, { overwrite: true })
     return newPath + path.basename(oldPath)

@@ -1,83 +1,91 @@
-model Comic {
+model WorkComic {
   /// 主键id
-  id                Int               @id @default(autoincrement())
+  id                Int                   @id @default(autoincrement())
   /// 漫画名称
-  name              String            @unique @db.VarChar(50)
+  name              String                @unique @db.VarChar(50)
   /// 漫画别名
-  alias             String            @unique @db.VarChar(50)
+  alias             String                @unique @db.VarChar(50)
   /// 封面
-  cover             String            @db.VarChar(255)
+  cover             String                @db.VarChar(255)
   /// 热度
-  popularity        Int               @default(0) @db.Integer
+  popularity        Int                   @default(0) @db.Integer
   /// 虚拟热度
-  virtualPopularity Int               @default(0) @map("virtual_popularity") @db.Integer
+  virtualPopularity Int                   @default(0) @map("virtual_popularity") @db.Integer
   /// 语言
-  language          String            @db.VarChar(20)
+  language          String                @db.VarChar(20)
   /// 地区
-  region            String            @db.VarChar(20)
+  region            String                @db.VarChar(20)
   /// 作者id
-  authorId          Int               @map("author_id") @db.Integer
-  author            Author            @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId          Int                   @map("author_id") @db.Integer
+  author            Author                @relation(fields: [authorId], references: [id], onDelete: Cascade)
   /// 权限
-  permissions       Permissions       @relation(fields: [permissionId], references: [id])
-  permissionId      Int               @db.Integer
+  permissions       Permissions           @relation(fields: [permissionId], references: [id])
+  permissionId      Int                   @db.Integer
   /// 内容年龄分级
-  ageRating         String?           @map("age_rating") @db.VarChar(50)
+  ageRating         String?               @map("age_rating") @db.VarChar(50)
   /// 是否发布 1：发布 0：不发布
-  isPublish         Boolean           @default(false) @db.Boolean
+  isPublish         Boolean               @default(false) @db.Boolean
   /// 发布日期
-  publishAt         DateTime?         @map("publish_at") @db.Timestamp(0)
+  publishAt         DateTime?             @map("publish_at") @db.Timestamp(0)
   /// 最后更新时间
-  lastUpdated       DateTime?         @map("last_updated") @db.Timestamp(0)
+  lastUpdated       DateTime?             @map("last_updated") @db.Timestamp(0)
   /// 描述
-  description       String            @db.VarChar(1000)
+  description       String                @db.VarChar(1000)
   /// 出版社
-  publisher         String?           @db.VarChar(30)
+  publisher         String?               @db.VarChar(30)
   /// 是否已经完结
-  isFinished        Boolean           @default(false) @map("is_finished")
+  isFinished        Boolean               @default(false) @map("is_finished")
   /// 创建时间
-  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt         DateTime              @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt         DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt         DateTime              @updatedAt @map("updated_at") @db.Timestamp(0)
   /// 分类
-  categories        ComicCategories[]
+  categories        WorkComicCategories[]
   /// 章节
   Chapters          Chapter[]
-  ComicContent      ComicContent[]
+  WorkComicChapter  WorkComicChapter[]
 
   @@index([authorId])
   @@index([permissionId])
-  @@map("comic")
+  @@map("work_comic")
 }
 
-model ComicCategories {
+model WorkComicCategories {
   comicId    Int
   categoryId Int
-  comic      Comic    @relation(fields: [comicId], references: [id])
-  category   Category @relation(fields: [categoryId], references: [id])
+  comic      WorkComic @relation(fields: [comicId], references: [id])
+  category   Category  @relation(fields: [categoryId], references: [id])
 
   @@id([comicId, categoryId])
   @@index([categoryId])
-  @@map("comic_categories")
+  @@map("work_comic_categories")
 }
 
-model ComicContent {
-  id        Int      @id @default(autoincrement())
+model WorkComicChapter {
+  /// 主键id
+  id             Int       @id @default(autoincrement())
+  /// 章节标题
+  title          String    @db.VarChar(20)
+  /// 发布状态
+  isPublish      Boolean?  @default(true) @map("is_publish")
   /// 关联的漫画id
-  comic     Comic?   @relation(fields: [comicId], references: [id])
-  comicId   Int?     @map("comic_id") @db.Integer
-  /// url
-  url       String   @db.VarChar(300)
+  comic          WorkComic @relation(fields: [comicId], references: [id])
+  comicId        Int       @map("comic_id") @db.Integer
   /// 排序
-  order     Int      @default(autoincrement()) @db.Integer
-  /// 章节id
-  chapter   Chapter  @relation(fields: [chapterId], references: [id])
-  chapterId Int      @db.Integer
+  order          Int       @default(autoincrement()) @db.SmallInt
+  /// 查看规则 0公开  1登录 2会员 3购买
+  viewRule       Int       @default(0) @map("view_rule") @db.SmallInt
+  /// 购买需要消耗的金额
+  purchaseAmount Int       @default(0) @map("purchase_amount")
+  /// 备注
+  remark         String?   @db.VarChar(1000)
+  /// 漫画内容
+  comicContent   String[]  @map("comic_content") @db.Text
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamp(0)
 
-  @@unique([chapterId, comicId])
-  @@index([chapterId])
   @@index([comicId])
-  @@map("comic_content")
+  @@map("work_comic_chapter")
 }

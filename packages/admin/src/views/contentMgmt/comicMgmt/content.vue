@@ -1,6 +1,6 @@
 <script setup lang="ts" async>
 import type { GetComicContentTypesRes } from '@/apis/types/content'
-import type { UploadFile } from 'element-plus'
+import type { UploadFile, UploadFiles } from 'element-plus'
 import { deleteComicContentApi, getComicContentApi } from '@/apis/content.ts'
 import { PromptsEnum } from '@/enum/prompts.ts'
 
@@ -17,13 +17,12 @@ const props = withDefaults(
 )
 
 const fileList = ref<GetComicContentTypesRes>()
-getComicContentApi({ chapterId: props.chapterId }).then((list) => {
-  fileList.value = list.map((item) => ({
-    ...item,
-    fileName: item.url.split('/').at(-1),
-    filePath: item.url,
-  }))
-})
+
+async function getContent() {
+  fileList.value = await getComicContentApi({ chapterId: props.chapterId, comicId: props.comicId })
+}
+
+getContent()
 const showModel = defineModel('show', { default: false })
 
 async function remove(file: UploadFile) {
@@ -35,22 +34,38 @@ async function remove(file: UploadFile) {
     useMessage.error(PromptsEnum.ERROR_DELETE)
   }
 }
+
+async function clearContent() {
+}
+
+async function handleFileChange(uploadFile: UploadFile, uploadFiles: UploadFiles) {
+  await useUpload(uploadFile.raw!, { chapterId: props.chapterId, comicId: props.comicId }, 'comic')
+  await getContent()
+}
 </script>
 
 <template>
   <es-modal v-model="showModel">
-    <es-upload
-      v-model="fileList"
-      list-type="picture"
-      content-type="comic"
-      :data="{ comicId, chapterId }"
-      :max-count="999"
-      file-type="image"
-      multiple
-      @remove="remove"
-    >
-      <el-button type="primary">上传</el-button>
-    </es-upload>
+    <div class="w-full flex justify-between">
+      <div>
+        <el-upload
+          action=""
+          :auto-upload="false"
+          :on-change="handleFileChange"
+          :limit="10"
+          :multiple="true"
+          :show-file-list="false"
+        >
+          <el-button type="primary">
+            <template #icon>
+              <es-icon name="uploading" :size="20" />
+            </template>
+            上传
+          </el-button>
+        </el-upload>
+      </div>
+      <el-button @click="clearContent">清空</el-button>
+    </div>
   </es-modal>
 </template>
 

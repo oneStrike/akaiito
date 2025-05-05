@@ -18,7 +18,7 @@ model Permissions {
   /// 购买需要消耗的金额
   purchaseAmount Int     @default(0) @map("purchase_amount")
 
-  Comic Comic[]
+  WorkComic WorkComic[]
 
   @@map("permissions")
 }
