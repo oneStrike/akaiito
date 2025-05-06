@@ -34,3 +34,4 @@ coverage
 !/packages/server/public/
 !/packages/server/public/files/
 !/packages/att/src/apis/
+/packages/server/prisma/generated/
