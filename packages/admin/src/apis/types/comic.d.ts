@@ -3,15 +3,15 @@
  *  @标签 /漫画分页数据
  *  @方式 GET
  *  @地址 /admin/comic/getComicPage
- *  @更新时间 2024-12-01 13:21:10
+ *  @更新时间 2025-04-28 21:31:07
  */
 
 export interface GetComicPageTypesReq {
   /* 漫画名称 */
   name?: string
 
-  /* 作者id */
-  authorId?: number
+  /* 作者 */
+  authorName?: string
 
   /* 分类id，多id利用 , 分割 */
   categoryId?: string
@@ -49,6 +49,9 @@ export interface GetComicPageTypesRes {
       name: string
     }
 
+    /* 内容年龄分级 */
+    ageRating: string
+
     /* 分类 */
     categories: {
       /* 分类名称 */
@@ -56,7 +59,7 @@ export interface GetComicPageTypesRes {
 
       /* 分类主键id */
       id: number
-    }
+    }[]
 
     /* 是否发布 1：发布 0：不发布 */
     isPublish: number
@@ -127,6 +130,9 @@ export interface GetComicDetailTypesRes {
   /* 语言，数据字典language */
   language: string
 
+  /* 内容年龄分级 */
+  ageRating: string
+
   /* 分类 */
   categories: {
     /* 分类名称 */
@@ -134,7 +140,7 @@ export interface GetComicDetailTypesRes {
 
     /* 分类主键id */
     id: number
-  }
+  }[]
 
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number
@@ -196,6 +202,9 @@ export interface CreateComicTypesReq {
   /* 语言，数据字典language */
   language: string
 
+  /* 内容年龄分级 */
+  ageRating: string
+
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number
 
@@ -252,6 +261,9 @@ export interface UpdateComicTypesReq {
   /* 语言，数据字典language */
   language: string
 
+  /* 内容年龄分级 */
+  ageRating: string
+
   /* 作品发布日期 */
   publishAt: string
 
@@ -279,6 +291,9 @@ export type UpdateComicTypesRes = any
 export interface UpdateComicPublishTypesReq {
   /* 主键id */
   id: number
+
+  /* 内容年龄分级 */
+  ageRating: string
 
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number

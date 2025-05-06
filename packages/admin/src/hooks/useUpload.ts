@@ -6,10 +6,15 @@ import { httpHandler } from '@/utils/request'
 
 type files = string | Blob
 type UploadFileRes = UploadFileTypesRes
+const api = {
+  common: '/common/upload/uploadFile',
+  comic: '/admin/comic/content/createComicContent',
+}
 
 export async function useUpload(
   files: UploadFiles | files | files[],
   params: IterateObject = {},
+  contentType: keyof typeof api = 'common',
 ): Promise<{
   success: UploadFileRes | []
   error: any[]
@@ -24,16 +29,17 @@ export async function useUpload(
       const file = item?.raw ?? item
       formData.append('file', file)
       for (const paramsKey in params) {
+        console.log(params)
         formData.append(paramsKey, params[paramsKey])
       }
       formData.append('name', file.name)
       httpHandler({
         method: 'post',
-        url: '/common/upload/uploadFile',
+        url: api[contentType],
         data: formData,
         errorMessage: false,
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data;charset=UTF-8',
           'authorization': useUserStore().token.accessToken,
         },
       })

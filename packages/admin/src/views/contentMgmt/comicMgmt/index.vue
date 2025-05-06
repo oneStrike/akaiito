@@ -32,9 +32,10 @@ const currentComic = ref<(GetComicDetailTypesRes) | null>(null)
 const { request, requestData, params, loading, sortChange } = useRequest(getComicPageApi)
 const formTool = useFormTool(formOptions)
 formTool.fillDict([
-  { field: 'language', code: 'language' },
-  { field: 'region', code: 'region' },
-  { field: 'publisher', code: 'publisher' },
+  { field: 'language', code: 'work_language' },
+  { field: 'region', code: 'work_region' },
+  { field: 'publisher', code: 'work_publisher' },
+  { field: 'ageRating', code: 'work_age_rating' },
 ])
 formTool.specificItem('authorId', (item) => {
   item.componentProps!.remoteMethod = async (val: string) => {

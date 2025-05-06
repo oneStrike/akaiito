@@ -7,13 +7,17 @@ export function formatSchema(schemas: IterateObject[]) {
     }
     orders.forEach((field: string) => {
       let type = properties[field]?.type
+      let isArray = false
       if (!Array.isArray(schemaArr[item.id])) {
         schemaArr[item.id] = []
       }
+
       if (type === 'object') {
         type = formatSchema([{ jsonSchema: properties[field] }]).undefined
       } else if (type === 'array') {
         const itemType = properties[field].items.type
+
+        isArray = true
         if (['array', 'object'].includes(itemType)) {
           type = formatSchema([
             { jsonSchema: properties[field].items },
@@ -28,7 +32,7 @@ export function formatSchema(schemas: IterateObject[]) {
         name: field,
         type,
         required: required.includes(field),
-        array: false,
+        array: isArray,
         description: properties[field].description,
       })
     })

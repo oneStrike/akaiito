@@ -20,13 +20,16 @@ function joinType(item: IterateObject) {
   } else if (item?.type) {
     type = item.type
   }
+  if (item.array) {
+    type += '[]'
+  }
   return `
           /* ${item?.description || ''} */
           ${item?.name}${item?.required ? '' : '?'}: ${type}
         `
 }
 
-function extractRefs(refs: IterateObject, dataModel: IterateObject) {
+function extractRefs(refs: IterateObject, dataModel: IterateObject, isArray = false) {
   let typesStr = ''
   if (refs && Object.keys(refs).length) {
     for (const refKey in refs) {
@@ -38,7 +41,7 @@ function extractRefs(refs: IterateObject, dataModel: IterateObject) {
         commonSchema
           .filter((item: IterateObject) => !overridesField.includes(item.name))
           .forEach((item: IterateObject) => {
-            typesStr += joinType(item)
+            typesStr += joinType({ ...item })
           })
       }
     }
@@ -58,6 +61,7 @@ function handlerJsonScheme(
     if (properties && Object.keys(properties).length) {
       for (const propertiesKey in properties) {
         const item = properties[propertiesKey]
+
         if (item.type === 'object') {
           if (item.properties && Object.keys(item.properties)) {
             typesStr += `
@@ -136,12 +140,12 @@ export function generateTypes(
       requestStr = handlerJsonScheme(jsonSchema, dataModel)
     }
   }
-
   // 处理响应结果
   if (Array.isArray(responses) && responses.length) {
     const { jsonSchema } = responses[0]
     const responseData = jsonSchema.properties[config.field]
     const dataType = responseData?.type
+
     if (Array.isArray(dataType)) {
       responseStr = `
       /* ${responseData?.description || ''} */

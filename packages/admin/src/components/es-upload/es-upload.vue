@@ -11,10 +11,11 @@ const props = withDefaults(defineProps<EsUploadProps>(), {
   listType: 'picture-card',
   maxSize: config.upload.maxUploadFileSize,
   maxCount: 1,
-  structure: 'field',
+  structure: 'string',
 })
 const emits = defineEmits<{
   (event: 'change', data: UploadFileTypesRes): void
+  (event: 'remove', data: UploadFile): void
   (event: 'update:modelValue', data: typeof fileList.value): void
   (event: 'updateError', data: any[]): void
 }>()
@@ -28,7 +29,7 @@ function filePathToObj(path: string, name?: string) {
     url: path,
     mimeType: `${props.fileType}/${path.split('.').at(-1)}`,
     status: 'success',
-    uid: new Date().getTime(),
+    uid: utils.generateRandomNumber(10),
   }
 }
 
@@ -105,9 +106,14 @@ function onPreview(uploadFile: UploadFile) {
 }
 
 const upload: UploadProps['httpRequest'] = async ({ file }) => {
-  const uploadRes = await useUpload(file, props.data!)
+  const uploadRes = await useUpload(file, props.data!, props.contentType)
   emits('change', uploadRes.success)
   return uploadRes.success[0]
+}
+
+function remove(uploadFile: UploadFile) {
+  console.log(fileList.value)
+  emits('remove', uploadFile)
 }
 
 function change() {
@@ -121,9 +127,9 @@ function change() {
       }
     })
     let res = emitData
-    if (props.structure === 'string') {
+    if (props.structure === 'json') {
       res = JSON.stringify(emitData)
-    } else if (props.structure === 'field') {
+    } else if (props.structure === 'string') {
       res = emitData[0].filePath
     }
     emits('update:modelValue', res)
@@ -141,6 +147,7 @@ function change() {
       :multiple="multiple"
       :on-preview="onPreview"
       :on-change="change"
+      :on-remove="remove"
       :before-upload="beforeUpload"
       :http-request="upload"
     >

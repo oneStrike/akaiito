@@ -46,7 +46,7 @@ export const getDataDictionaryApi = (params: GetDataDictionaryTypesReq): Promise
  *  @标签 数据字典/获取数据字典子项
  *  @方式 GET
  *  @地址 /admin/dictionary/getDataDictionaryItems
- *  @更新时间 2024-12-03 00:21:50
+ *  @更新时间 2025-04-28 20:27:17
  */
 
 export const getDataDictionaryItemsApi = (

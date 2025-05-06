@@ -1,38 +1,72 @@
 <script setup lang="ts" async>
-import type { GetComicContentPageTypesRes } from '@/apis/types/content'
-import { createComicContentApi, getComicContentPageApi } from '@/apis/content.ts'
+import type { GetComicContentTypesRes } from '@/apis/types/content'
+import type { UploadFile, UploadFiles } from 'element-plus'
+import { deleteComicContentApi, getComicContentApi } from '@/apis/content.ts'
+import { PromptsEnum } from '@/enum/prompts.ts'
 
 defineOptions({
   name: 'ComicContent',
 })
 
-const props = withDefaults(defineProps<{
-  comicId: number,
-  chapterId: number
-}>(), {})
+const props = withDefaults(
+  defineProps<{
+    comicId: number
+    chapterId: number
+  }>(),
+  {},
+)
 
-const fileList = ref<GetComicContentPageTypesRes['list']>()
-getComicContentPageApi({ chapterId: props.chapterId }).then(({ list }) => {
-  fileList.value = list
-})
+const fileList = ref<GetComicContentTypesRes>()
+
+async function getContent() {
+  fileList.value = await getComicContentApi({ chapterId: props.chapterId, comicId: props.comicId })
+}
+
+getContent()
 const showModel = defineModel('show', { default: false })
 
-async function changeContent(data: any) {
-  await createComicContentApi({
-    chapterId: props.chapterId,
-    urls: [data[0].filePath],
-  })
+async function remove(file: UploadFile) {
+  const target = fileList.value?.find((item) => item.url === file.url)
+  if (target?.id) {
+    await deleteComicContentApi({ id: target.id })
+    useMessage.success(PromptsEnum.DELETED)
+  } else {
+    useMessage.error(PromptsEnum.ERROR_DELETE)
+  }
+}
+
+async function clearContent() {
+}
+
+async function handleFileChange(uploadFile: UploadFile, uploadFiles: UploadFiles) {
+  await useUpload(uploadFile.raw!, { chapterId: props.chapterId, comicId: props.comicId }, 'comic')
+  await getContent()
 }
 </script>
 
 <template>
   <es-modal v-model="showModel">
-    <es-upload list-type="picture" :data="props" :max-count="999" file-type="image" multiple @change="changeContent">
-      <el-button type="primary">上传</el-button>
-    </es-upload>
+    <div class="w-full flex justify-between">
+      <div>
+        <el-upload
+          action=""
+          :auto-upload="false"
+          :on-change="handleFileChange"
+          :limit="10"
+          :multiple="true"
+          :show-file-list="false"
+        >
+          <el-button type="primary">
+            <template #icon>
+              <es-icon name="uploading" :size="20" />
+            </template>
+            上传
+          </el-button>
+        </el-upload>
+      </div>
+      <el-button @click="clearContent">清空</el-button>
+    </div>
   </es-modal>
 </template>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

@@ -4,7 +4,7 @@ import { getPageConfigApi, getSystemConfigApi } from '@/apis/appManage'
 export interface UseSystemStoreState {
   systemStatus: 'normal' | 'disable' | 'crash'
   systemConfig: GetSystemConfigTypesRes | null
-  pageConfig: GetPageConfigTypesRes['list']
+  pageConfig: GetPageConfigTypesRes
 }
 
 export const useSystemStore = defineStore('useSystemStore', {
@@ -29,7 +29,7 @@ export const useSystemStore = defineStore('useSystemStore', {
   actions: {
     async initSystem() {
       const [system, pages] = await Promise.all([getSystemConfigApi(), getPageConfigApi()])
-      this.pageConfig = pages.list
+      this.pageConfig = pages
       this.systemConfig = system
     },
   },

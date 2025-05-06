@@ -1,45 +1,26 @@
-import { Config, Provide } from '@midwayjs/core'
-import { UploadStreamFieldInfo, UploadStreamFileInfo } from '@midwayjs/busboy'
-import { join } from 'path'
+import { Config, Provide, Inject } from '@midwayjs/core'
+import { UploadFileInfo } from '@midwayjs/busboy'
 import { utils } from '@/utils'
-import { ensureDirSync } from 'fs-extra'
-import { createWriteStream } from 'node:fs'
+import { FileService } from '@/basic/service/file.service'
 
 @Provide()
 export class UploadService {
   @Config('staticFile.dirs.default.dir')
   pathPrefix: string
 
-  async parseFilePath(fields: AsyncGenerator<UploadStreamFieldInfo>): Promise<string> {
-    const field: IterateObject = {}
-    let relativePath = ''
-    for await (const { name, value } of fields) {
-      field[name] = value
-    }
-    const { workType, workId, chapterId } = field
-    if (workType && workId && chapterId) {
-      relativePath = `/files/${workType}/${workId}/${chapterId}/`
-    } else {
-      relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
-    }
-    ensureDirSync(this.pathPrefix + relativePath)
-    return relativePath
-  }
+  @Inject()
+  fileService: FileService
 
-
-  async local(files: AsyncGenerator<UploadStreamFileInfo>, fields: AsyncGenerator<UploadStreamFieldInfo>) {
+  async local(files: Array<UploadFileInfo>, fields: IterateObject) {
     const reportData = []
-    // const relativePath = await this.parseFilePath(fields)
-    let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/`
-    ensureDirSync(this.pathPrefix + relativePath)
-    for await (const { filename, data, mimeType } of files) {
-      const p = join(this.pathPrefix + relativePath, filename)
-      const stream = createWriteStream(p)
-      data.pipe(stream)
+    let relativePath = `/files/other/${utils.dayjs().format('YYYYMMDD')}/${
+      fields.scenario || 'shared'
+    }/`
+    for (const file of files) {
       reportData.push({
-        fileName: filename,
-        filePath: relativePath + filename,
-        mimeType,
+        fileName: file.filename,
+        filePath: await this.fileService.moveLocalFile(file.data, relativePath),
+        mimeType: file.mimeType,
       })
     }
     return reportData

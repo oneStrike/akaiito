@@ -1,4 +1,4 @@
-import { Comic, ComicCategories, PrismaClient } from '@prisma/client'
+import { WorkComic, WorkComicCategories, PrismaClient } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { CategoryService } from '@/service/contentMgmt/category.service'
@@ -6,17 +6,17 @@ import { AuthorService } from '@/service/contentMgmt/author.service'
 import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
 
 @Provide()
-export class ComicCategoryService extends BasicService<ComicCategories> {
+export class ComicCategoryService extends BasicService<WorkComicCategories> {
   @Inject()
   prismaClient: PrismaClient
 
   protected get model() {
-    return this.prismaClient.comicCategories
+    return this.prismaClient.workComicCategories
   }
 }
 
 @Provide()
-export class ComicService extends BasicService<Comic> {
+export class ComicService extends BasicService<WorkComic> {
   @Inject()
   prismaClient: PrismaClient
 
@@ -30,7 +30,7 @@ export class ComicService extends BasicService<Comic> {
   comicCategoryService: ComicCategoryService
 
   protected get model() {
-    return this.prismaClient.comic
+    return this.prismaClient.workComic
   }
 
   //  创建漫画数据
@@ -85,7 +85,6 @@ export class ComicService extends BasicService<Comic> {
         })),
       }
     }
-    console.log(comicData)
     return this.update({
       where: { id: body.id },
       data: comicData,
@@ -94,8 +93,17 @@ export class ComicService extends BasicService<Comic> {
 
   // 获取漫画分页数据
   async getPage(query: ComicSearchDTO) {
+    const authorName = query.authorName
+    delete query.authorName
     return await this.findPage({
-      where: query,
+      where: {
+        ...query,
+        author: {
+          name: {
+            contains: authorName || undefined,
+          },
+        },
+      },
       like: {
         name: 'contains',
       },

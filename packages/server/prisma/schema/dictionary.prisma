@@ -4,6 +4,8 @@ model Dictionary {
   name      String           @unique @db.VarChar(50)
   /// 字典编码
   code      String           @unique @db.VarChar(50)
+  /// 字典封面
+  cover     String?          @unique @db.VarChar(200)
   /// 状态 1启用 0禁用
   status    Boolean          @default(true)
   /// 备注信息
@@ -28,6 +30,8 @@ model DictionaryItem {
   code           String     @db.VarChar(50)
   /// 排序
   order          Int?       @default(autoincrement()) @db.SmallInt
+  /// 字典封面
+  cover          String?    @unique @db.VarChar(200)
   /// 状态 1启用 0禁用
   status         Boolean    @default(true)
   /// 备注信息

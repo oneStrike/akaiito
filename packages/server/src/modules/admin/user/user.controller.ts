@@ -52,7 +52,6 @@ export class UserController {
   @UserInfo()
   async updateUser(@Body() body: UserDTO) {
     const user = this.ctx.getAttr(CtxAttrEnum.ADMIN_USER_INFO) as UserDTO
-    console.log(user, body)
     return this.userService.updateUserInfo(body, user, 'info')
   }
 

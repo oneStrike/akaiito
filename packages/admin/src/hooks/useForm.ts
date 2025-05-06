@@ -45,7 +45,7 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
     for (let i = 0; i < dict.length; i++) {
       const item = getItem(dict[i].field)[0]
       const dictData = await getDataDictionaryItemsApi({ dictionaryCode: dict[i].code })
-      item.componentProps!.options = dictData.list.map((item) => ({
+      item.componentProps!.options = dictData.map((item) => ({
         label: item.name,
         value: item.code,
       }))

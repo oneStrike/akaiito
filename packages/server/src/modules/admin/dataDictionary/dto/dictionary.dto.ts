@@ -12,6 +12,9 @@ export class DictionaryDTO {
   @Rule(requiredString)
   code: string
 
+  @Rule(validateString)
+  cover: string
+
   @Rule(validateBoolean)
   status: boolean
 
@@ -50,6 +53,9 @@ export class FindDictionItemsDTO {
 
   @Rule(validateString)
   code?: string
+  
+  @Rule(validateString)
+  cover: string
 
   @Rule(validateBoolean)
   status?: boolean

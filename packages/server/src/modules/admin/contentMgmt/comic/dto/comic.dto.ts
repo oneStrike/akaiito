@@ -36,14 +36,17 @@ export class ComicDTO {
   @Rule(requiredNumberArray)
   categoryIds!: number[]
 
+  @Rule(validateString)
+  ageRating?: string
+
   @Rule(validateDate)
   publishAt?: Date
 
   @Rule(requiredString)
   description!: string
 
-  @Rule(requiredString)
-  publisher!: string
+  @Rule(validateString)
+  publisher?: string
 
   @Rule(requiredBoolean)
   isFinished!: boolean
@@ -58,8 +61,8 @@ export class ComicSearchDTO extends BasicPageDTO {
   @Rule(validateString)
   name?: string
 
-  @Rule(validateNumber)
-  authorId?: number
+  @Rule(validateString)
+  authorName?: string
 
   @Rule(validateNumber)
   categoryId?: number

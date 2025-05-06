@@ -1,29 +1,29 @@
 import { httpHandler } from '@/utils/request'
 import type {
-  GetComicContentPageTypesRes,
-  GetComicContentPageTypesReq,
+  GetComicContentTypesRes,
+  GetComicContentTypesReq,
   CreateComicContentTypesRes,
   CreateComicContentTypesReq,
   DeleteComicContentTypesRes,
   DeleteComicContentTypesReq,
   OrderComicContentPageTypesRes,
   OrderComicContentPageTypesReq,
-  RemoveComicContentTypesRes,
-  RemoveComicContentTypesReq,
+  ClearComicChapterContentTypesRes,
+  ClearComicChapterContentTypesReq,
 } from './types/content.d'
 
 /**
  *  接口 [获取漫画内容分页](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243053782)
  *  @标签 内容/获取漫画内容分页
  *  @方式 GET
- *  @地址 /admin/comic/content/getComicContentPage
- *  @更新时间 2024-12-16 09:44:28
+ *  @地址 /admin/comic/content/getComicContent
+ *  @更新时间 2025-04-30 23:14:38
  */
 
-export const getComicContentPageApi = (params: GetComicContentPageTypesReq): Promise<GetComicContentPageTypesRes> => {
+export const getComicContentApi = (params: GetComicContentTypesReq): Promise<GetComicContentTypesRes> => {
   return httpHandler({
     method: 'GET',
-    url: '/admin/comic/content/getComicContentPage',
+    url: '/admin/comic/content/getComicContent',
     headers: {},
     params,
   })
@@ -34,7 +34,7 @@ export const getComicContentPageApi = (params: GetComicContentPageTypesReq): Pro
  *  @标签 内容/创建漫画内容
  *  @方式 POST
  *  @地址 /admin/comic/content/createComicContent
- *  @更新时间 2024-12-11 17:16:06
+ *  @更新时间 2025-04-27 22:58:26
  */
 
 export const createComicContentApi = (data: CreateComicContentTypesReq): Promise<CreateComicContentTypesRes> => {
@@ -92,14 +92,16 @@ export const orderComicContentPageApi = (
  *  接口 [清空章节内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243396531)
  *  @标签 内容/清空章节内容
  *  @方式 POST
- *  @地址 /admin/comic/content/removeComicContent
- *  @更新时间 2024-12-16 09:47:07
+ *  @地址 /admin/comic/content/clearComicChapterContent
+ *  @更新时间 2025-04-30 22:29:06
  */
 
-export const removeComicContentApi = (data: RemoveComicContentTypesReq): Promise<RemoveComicContentTypesRes> => {
+export const clearComicChapterContentApi = (
+  data: ClearComicChapterContentTypesReq,
+): Promise<ClearComicChapterContentTypesRes> => {
   return httpHandler({
     method: 'POST',
-    url: '/admin/comic/content/removeComicContent',
+    url: '/admin/comic/content/clearComicChapterContent',
     headers: {
       'Content-Type': 'application/json',
     },

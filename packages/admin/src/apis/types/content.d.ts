@@ -2,45 +2,42 @@
  *  接口 [获取漫画内容分页](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243053782)
  *  @标签 内容/获取漫画内容分页
  *  @方式 GET
- *  @地址 /admin/comic/content/getComicContentPage
- *  @更新时间 2024-12-16 09:44:28
+ *  @地址 /admin/comic/content/getComicContent
+ *  @更新时间 2025-04-30 23:14:38
  */
 
-export interface GetComicContentPageTypesReq {
+export interface GetComicContentTypesReq {
   /* 章节id */
   chapterId?: number
+
+  /* 漫画id */
+  comicId?: number
 }
 
-export interface GetComicContentPageTypesRes {
-  list: {
-    /* 主键id */
-    id: number
+/*  */
+export type GetComicContentTypesRes = {
+  /* 主键id */
+  id: number
 
-    /* 图片链接 */
-    url: string
+  /* 图片链接 */
+  url: string
 
-    /* 排序 */
-    order: number
+  /* 排序 */
+  order: number
 
-    /* 对应的章节id */
-    chapterId: number
-  }[]
-  /* 页码 */
-  pageIndex: number
+  /* 对应的章节id */
+  chapterId: number
 
-  /* 单页大小 */
-  pageSize: number
-
-  /* 总条数 */
-  total: number
-}
+  /* 漫画id */
+  comicId: number
+}[]
 
 /**
  *  接口 [创建漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052051)
  *  @标签 内容/创建漫画内容
  *  @方式 POST
  *  @地址 /admin/comic/content/createComicContent
- *  @更新时间 2024-12-11 17:16:06
+ *  @更新时间 2025-04-27 22:58:26
  */
 
 export interface CreateComicContentTypesReq {
@@ -49,6 +46,9 @@ export interface CreateComicContentTypesReq {
 
   /* 对应的章节id */
   chapterId: number
+
+  /* 漫画id */
+  comicId: number
 }
 
 export interface CreateComicContentTypesRes {
@@ -105,14 +105,17 @@ export interface OrderComicContentPageTypesRes {
  *  接口 [清空章节内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243396531)
  *  @标签 内容/清空章节内容
  *  @方式 POST
- *  @地址 /admin/comic/content/removeComicContent
- *  @更新时间 2024-12-16 09:47:07
+ *  @地址 /admin/comic/content/clearComicChapterContent
+ *  @更新时间 2025-04-30 22:29:06
  */
 
-export interface RemoveComicContentTypesReq {
+export interface ClearComicChapterContentTypesReq {
   /* 章节的主键id */
   chapterId: number
+
+  /* 漫画的主键id */
+  comicId: number
 }
 
 /*  */
-export type RemoveComicContentTypesRes = any
+export type ClearComicChapterContentTypesRes = any

@@ -37,6 +37,9 @@ export interface GetDataDictionaryTypesRes {
     /* 编码 */
     code: string
 
+    /* 封面 */
+    cover?: string
+
     /* 备注信息 */
     remark: string | null
 
@@ -64,16 +67,10 @@ export interface GetDataDictionaryTypesRes {
  *  @标签 数据字典/获取数据字典子项
  *  @方式 GET
  *  @地址 /admin/dictionary/getDataDictionaryItems
- *  @更新时间 2024-12-03 00:21:50
+ *  @更新时间 2025-04-28 20:27:17
  */
 
 export interface GetDataDictionaryItemsTypesReq {
-  /* 页码 */
-  pageIndex?: string
-
-  /* 单页数量 */
-  pageSize?: string
-
   /* 排序json */
   orderBy?: string
 
@@ -90,53 +87,47 @@ export interface GetDataDictionaryItemsTypesReq {
   dictionaryCode?: string
 }
 
-export interface GetDataDictionaryItemsTypesRes {
-  list: {
-    /* 主键id */
+/*  */
+export type GetDataDictionaryItemsTypesRes = {
+  /* 主键id */
+  id: number
+
+  /* 子项名称 */
+  name: string
+
+  /* 子项编码 */
+  code: string
+
+  /* 状态，1==>正常 0==>禁用 */
+  status: boolean
+
+  /* 封面 */
+  cover?: string | null
+
+  /* 排序 */
+  order: number
+
+  /* 子项备注 */
+  remark: string | null
+
+  /* 父项相关信息 */
+  dictionary: {
+    /* 父项主键id */
     id: number
 
-    /* 子项名称 */
+    /* 父项名称 */
     name: string
 
-    /* 子项编码 */
+    /* 父项code */
     code: string
+  }
 
-    /* 状态，1==>正常 0==>禁用 */
-    status: number
+  /* 创建时间 */
+  createdAt: string
 
-    /* 排序 */
-    order: number
-
-    /* 子项备注 */
-    remark: string | null
-
-    /* 父项相关信息 */
-    dictionary: {
-      /* 父项主键id */
-      id: number
-
-      /* 父项名称 */
-      name: string
-
-      /* 父项code */
-      code: string
-    }
-
-    /* 创建时间 */
-    createdAt: string
-
-    /* 更新时间 */
-    updatedAt: string
-  }[]
-  /* 页码 */
-  pageIndex: number
-
-  /* 单页大小 */
-  pageSize: number
-
-  /* 总条数 */
-  total: number
-}
+  /* 更新时间 */
+  updatedAt: string
+}[]
 
 /**
  *  接口 [创建数据字典](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135340982)
@@ -152,6 +143,9 @@ export interface CreateDataDictionaryTypesReq {
 
   /* 编码 */
   code: string
+
+  /* 封面 */
+  cover?: string
 
   /* 备注信息 */
   remark: string | null
@@ -177,6 +171,9 @@ export interface CreateDataDictionaryItemsTypesReq {
 
   /* 子项编码 */
   code: string
+
+  /* 封面 */
+  cover?: string | null
 
   /* 子项备注 */
   remark: string | null
@@ -235,6 +232,9 @@ export interface UpdateDataDictionaryTypesReq {
   /* 编码 */
   code: string
 
+  /* 封面 */
+  cover?: string
+
   /* 备注信息 */
   remark: string | null
 }
@@ -262,6 +262,9 @@ export interface UpdateDataDictionaryItemsTypesReq {
 
   /* 子项编码 */
   code: string
+
+  /* 封面 */
+  cover?: string | null
 
   /* 子项备注 */
   remark: string | null

@@ -19,7 +19,7 @@ import type {
  *  @标签 通知公告/获取客户端通知公告
  *  @方式 GET
  *  @地址 /admin/appNotice/getAppNoticeList
- *  @更新时间 2024-11-27 22:55:28
+ *  @更新时间 2025-04-28 20:18:49
  */
 
 export const getAppNoticeListApi = (params: GetAppNoticeListTypesReq): Promise<GetAppNoticeListTypesRes> => {

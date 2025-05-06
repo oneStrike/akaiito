@@ -37,6 +37,9 @@ export interface GetDataDictionaryTypesRes {
     /* 编码 */
     code: string
 
+    /* 封面 */
+    cover?: string
+
     /* 备注信息 */
     remark: string | null
 
@@ -104,6 +107,9 @@ export interface GetDataDictionaryItemsTypesRes {
     /* 状态，1==>正常 0==>禁用 */
     status: number
 
+    /* 封面 */
+    cover?: string
+
     /* 排序 */
     order: number
 
@@ -153,6 +159,9 @@ export interface CreateDataDictionaryTypesReq {
   /* 编码 */
   code: string
 
+  /* 封面 */
+  cover?: string
+
   /* 备注信息 */
   remark: string | null
 }
@@ -177,6 +186,9 @@ export interface CreateDataDictionaryItemsTypesReq {
 
   /* 子项编码 */
   code: string
+
+  /* 封面 */
+  cover?: string
 
   /* 子项备注 */
   remark: string | null
@@ -235,6 +247,9 @@ export interface UpdateDataDictionaryTypesReq {
   /* 编码 */
   code: string
 
+  /* 封面 */
+  cover?: string
+
   /* 备注信息 */
   remark: string | null
 }
@@ -262,6 +277,9 @@ export interface UpdateDataDictionaryItemsTypesReq {
 
   /* 子项编码 */
   code: string
+
+  /* 封面 */
+  cover?: string
 
   /* 子项备注 */
   remark: string | null

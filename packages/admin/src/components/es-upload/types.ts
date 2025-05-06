@@ -10,5 +10,6 @@ export interface EsUploadProps {
   maxSize?: number
   assetLibrary?: boolean
   data?: IterateObject
-  structure?: 'string' | 'object' | 'field'
+  structure?: 'json' | 'object' | 'string'
+  contentType?: 'comic'
 }

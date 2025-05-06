@@ -3,7 +3,7 @@
  *  @标签 通知公告/获取客户端通知公告
  *  @方式 GET
  *  @地址 /admin/appNotice/getAppNoticeList
- *  @更新时间 2024-11-27 22:55:28
+ *  @更新时间 2025-04-28 20:18:49
  */
 
 export interface GetAppNoticeListTypesReq {
@@ -20,53 +20,41 @@ export interface GetAppNoticeListTypesReq {
   enableApp: string
 }
 
-export interface GetAppNoticeListTypesRes {
-  list: {
-    /* 主键id */
-    id: number
+/*  */
+export type GetAppNoticeListTypesRes = {
+  /* 主键id */
+  id: number
 
-    /* 标题 */
-    title: string
+  /* 标题 */
+  title: string
 
-    /* 开始时间 */
-    startTime: string | null
+  /* 开始时间 */
+  startTime: string | null
 
-    /* 结束时间 */
-    endTime: string | null
+  /* 结束时间 */
+  endTime: string | null
 
-    /* 是否发布  1发布 0取消发布 */
-    isPublish: boolean
+  /* 是否发布  1发布 0取消发布 */
+  isPublish: boolean
 
-    /* 是否在小程序平台启用  1启用 0禁用 */
-    enableApplet: boolean
+  /* 是否在小程序平台启用  1启用 0禁用 */
+  enableApplet: boolean
 
-    /* 是否在H5平台启用  1启用 0禁用 */
-    enableWeb: boolean
+  /* 是否在H5平台启用  1启用 0禁用 */
+  enableWeb: boolean
 
-    /* 是否在APP平台启用  1启用 0禁用 */
-    enableApp: boolean
+  /* 是否在APP平台启用  1启用 0禁用 */
+  enableApp: boolean
 
-    /* 跳转的页面编码 */
-    pageCode: string
+  /* 跳转的页面编码 */
+  pageCode: string
 
-    /* 跳转的页面名字 */
-    pageName: string
+  /* 创建时间 */
+  createdAt: string
 
-    /* 创建时间 */
-    createdAt: string
-
-    /* 更新时间 */
-    updatedAt: string
-  }[]
-  /* 页码 */
-  pageIndex: number
-
-  /* 单页大小 */
-  pageSize: number
-
-  /* 总条数 */
-  total: number
-}
+  /* 更新时间 */
+  updatedAt: string
+}[]
 
 /**
  *  接口 [通知公告详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-234289150)

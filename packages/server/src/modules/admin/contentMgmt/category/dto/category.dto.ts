@@ -6,8 +6,8 @@ export class CategoryDTO extends BasicIdStatusDTO {
   @Rule(requiredString)
   name!: string
 
-  @Rule(requiredString)
-  icon!: string
+  @Rule(validateString)
+  icon: string
 
   @Rule(validateNumber)
   virtualPopularity?: number

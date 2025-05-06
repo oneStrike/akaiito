@@ -23,9 +23,9 @@ const formOptions = computed(() => {
       item.props = {}
     }
     const itemWidth = item.props.span ? 100 / item.props.span : 100
+    console.log(itemWidth)
     item.props.style = {
       width: `${itemWidth}%`,
-      minWidth: '229.5px',
     }
     if (item.componentProps?.defaultValue !== undefined) {
       formData.value[item.field] = item.componentProps?.defaultValue
@@ -193,7 +193,4 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-:deep(.el-form-item__content) {
-  min-width: 229.5px;
-}
 </style>

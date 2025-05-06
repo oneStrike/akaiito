@@ -131,7 +131,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Upload',
     props: {
       label: '分类图标',
-      rules: [{ required: true, message: '请上传分类图标' }],
+      rules: [{ required: false, message: '请上传分类图标' }],
     },
     componentProps: {
       placeholder: '请上传分类图标',
