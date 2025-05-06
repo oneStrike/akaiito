@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["queryCompiler", "driverAdapters", "relationJoins"]
+  previewFeatures = ["queryCompiler", "driverAdapters", "PrismaSchemaFolder", "relationJoins"]
   binaryTargets   = ["native", "linux-musl"]
   output          = "../generated/prisma"
 }
