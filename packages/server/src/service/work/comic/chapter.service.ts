@@ -2,7 +2,6 @@ import { BasicService } from '@/basic/service/basic.service'
 import { WorkComicChapter, PrismaClient } from '@prisma/client'
 import { Inject, Provide } from '@midwayjs/core'
 import { AddChapterContentDTO, ChapterPageDTO } from '@/modules/admin/contentMgmt/comic/chapter/dto/chapter.dto'
-import { utils } from '@/utils'
 
 @Provide()
 export class WorkComicChapterService extends BasicService<WorkComicChapter> {
@@ -15,20 +14,11 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
 
   // 创建章节数据
   async createChapter(data: any) {
-    const { comicId, novelId, ...chapterData } = data
-    if (comicId) {
-      chapterData.comic = {
-        connect: {
-          id: comicId,
-        },
-      }
-    }
-    if (novelId) {
-      chapterData.novel = {
-        connect: {
-          id: novelId,
-        },
-      }
+    const { comicId, ...chapterData } = data
+    chapterData.comic = {
+      connect: {
+        id: comicId,
+      },
     }
     return this.create({
       data: chapterData,
@@ -50,9 +40,6 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
 
   // 添加章节内容
   async addChapterContent(body: AddChapterContentDTO) {
-    if (!utils.isJson(body.content)) {
-      this.throwError('内容格式错误')
-    }
     return this.update({
       where: { id: body.id },
       data: {

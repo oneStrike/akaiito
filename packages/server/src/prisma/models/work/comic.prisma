@@ -79,7 +79,7 @@ model WorkComicChapter {
   /// 备注
   remark         String?   @db.VarChar(1000)
   /// 漫画内容
-  comicContent   String[]  @map("comic_content") @db.Text
+  content        String    @default("[]") @map("content") @db.Text
   /// 创建时间
   createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间

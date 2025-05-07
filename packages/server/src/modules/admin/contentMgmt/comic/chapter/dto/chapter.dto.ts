@@ -5,7 +5,7 @@ import {
   validateBoolean,
   validateNumber,
   validateNumberLess,
-  validateString,
+  validateString, validateStringArray,
 } from '@/utils/validate'
 import { BasicPageDTO } from '@/basic/dto/basic.dto'
 
@@ -13,14 +13,11 @@ export class ChapterDTO {
   @Rule(requiredString)
   title!: string
 
-  @Rule(validateString)
-  content?: string
+  @Rule(validateStringArray)
+  content?: string[]
 
   @Rule(validateNumber)
   comicId?: number
-
-  @Rule(validateNumber)
-  novelId?: number
 
   @Rule(validateNumber)
   order?: number
