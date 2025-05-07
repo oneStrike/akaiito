@@ -1,6 +1,6 @@
 import { RegisterDecoratorService } from '@/decorator/register.service'
 import { ILogger, IMidwayContainer, MidwayWebRouterService } from '@midwayjs/core'
-import { RegisterPrisma } from './prisma'
+import { RegisterPrisma } from './prisma/register'
 import { join } from 'node:path'
 import * as busboy from '@midwayjs/busboy'
 import * as captcha from '@midwayjs/captcha'

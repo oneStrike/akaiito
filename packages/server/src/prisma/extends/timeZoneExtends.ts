@@ -5,7 +5,7 @@ export function timeZoneExtends() {
     res[item] = {
       needs: { [item]: true },
       compute(model: IterateObject) {
-        if (!model[item] || !Object.keys(model[item]).length) {
+        if (!model[item]) {
           return model[item]
         }
         return new Date(new Date(model[item]).getTime() + 8 * 60 * 60 * 1000)

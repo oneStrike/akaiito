@@ -1,20 +1,23 @@
 {
   "name": "@akaiito/utils",
-  "version": "1.0.0",
-  "description": "",
-  "private": true,
   "type": "module",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.cts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
   "exports": {
-    "require": {
-      "types": "./dist/index.d.cts",
-      "default": "./dist/index.cjs"
-    },
     "import": {
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
+    },
+    "require": {
+      "types": "./dist/index.d.cts",
+      "default": "./dist/index.cjs"
     }
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.cts",
+  "engines": {
+    "node": ">=14.21.3"
   },
   "scripts": {
     "build": "rimraf dist --glob && pkgroll",
@@ -29,10 +32,7 @@
     "upgrade": "pnpx npm-check -u"
   },
   "devDependencies": {
-    "pkgroll": "^2.5.0",
-    "tsx": "^4.19.1"
-  },
-  "engines": {
-    "node": ">=14.21.3"
+    "pkgroll": "^2.12.2",
+    "tsx": "^4.19.4"
   }
 }
