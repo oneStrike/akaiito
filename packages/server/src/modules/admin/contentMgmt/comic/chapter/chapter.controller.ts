@@ -8,12 +8,12 @@ import {
 } from '@/modules/admin/contentMgmt/comic/chapter/dto/chapter.dto'
 import { BasicIdDTO, BasicOrderDTO } from '@/basic/dto/basic.dto'
 import { SortQuery } from '@/decorator/sortQuery.decorator'
-import { WorkChapterService } from '@/service/work/comic/chapter.service'
+import { WorkComicChapterService } from '@/service/work/comic/chapter.service'
 
 @Controller('/admin/comic/chapter', { description: '作品章节' })
-export class ChapterController {
+export class ComicChapterController {
   @Inject()
-  chapterService: WorkChapterService
+  chapterService: WorkComicChapterService
 
   @Post('/createChapter', { summary: '添加作品章节' })
   async createChapter(@Body() body: ChapterDTO) {

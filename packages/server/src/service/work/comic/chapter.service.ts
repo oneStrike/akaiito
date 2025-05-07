@@ -5,7 +5,7 @@ import { AddChapterContentDTO, ChapterPageDTO } from '@/modules/admin/contentMgm
 import { utils } from '@/utils'
 
 @Provide()
-export class WorkChapterService extends BasicService<WorkComicChapter> {
+export class WorkComicChapterService extends BasicService<WorkComicChapter> {
   @Inject()
   prismaClient: PrismaClient
 
