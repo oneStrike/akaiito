@@ -2,8 +2,8 @@ import type { HttpResponseResult } from '@akaiito/types'
 import type { MidwayHttpError } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { Catch } from '@midwayjs/core'
-import { prismaErrorMessage } from '@/prisma/errorMessage'
 import { OperateLogService } from '@/service/log/operateLog.service'
+import { prismaErrorMapping } from '@/filter/prismaErrorMapping'
 
 const prismaError = ['PrismaClientValidationError', 'PrismaClientKnownRequestError']
 
@@ -19,7 +19,7 @@ export class ExceptionFilter {
     ctx.logger.error(err)
     if (prismaError.includes(err.name)) {
       responseErrorInfo.code = 0
-      responseErrorInfo.message = prismaErrorMessage(err)
+      responseErrorInfo.message = prismaErrorMapping(err)
     } else if (cause) {
       if (cause.code === 'ETIMEDOUT' && cause.syscall === 'connect') {
         responseErrorInfo.code = 503

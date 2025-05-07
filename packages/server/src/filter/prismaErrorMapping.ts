@@ -1,4 +1,4 @@
-export function prismaErrorMessage(err: IterateObject) {
+export function prismaErrorMapping(err: IterateObject) {
   if(err.name === 'PrismaClientValidationError'){
     return '操作失败！数据格式校验失败'
   }
