@@ -2,14 +2,14 @@ import { BasicService } from '@/basic/service/basic.service'
 import { utils } from '@/utils'
 import { Inject, Provide } from '@midwayjs/core'
 
-import { SysOperateLog, PrismaClient } from '@prisma/client'
+import { SystemRequestLog, PrismaClient } from '@prisma/client'
 import type { HttpResponseResult } from '@akaiito/types'
 import type { Context } from '@midwayjs/koa'
 import { RouterService } from '@/basic/service/router.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'
 
 @Provide()
-export class OperateLogService extends BasicService<SysOperateLog> {
+export class OperateLogService extends BasicService<SystemRequestLog> {
   @Inject()
   prismaClient: PrismaClient
 
@@ -17,7 +17,7 @@ export class OperateLogService extends BasicService<SysOperateLog> {
   routerService: RouterService
 
   protected get model() {
-    return this.prismaClient.sysOperateLog
+    return this.prismaClient.systemRequestLog
   }
 
   async recordLogs(context: Context, report: HttpResponseResult) {

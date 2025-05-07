@@ -76,7 +76,7 @@
     "dist"
   ],
   "prisma": {
-    "schema": "src/prisma/schema",
+    "schema": "src/prisma",
     "seed": "pnpx ts-node src/prisma/seed.ts"
   }
 }

@@ -1,4 +1,4 @@
-model Permissions {
+model WorkPermissions {
   /// 主键id
   id             Int     @id @default(autoincrement())
   /// 是否允许下载
@@ -20,5 +20,5 @@ model Permissions {
 
   WorkComic WorkComic[]
 
-  @@map("permissions")
+  @@map("work_permissions")
 }

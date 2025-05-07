@@ -1,16 +1,16 @@
 import { BasicService } from '@/basic/service/basic.service'
-import { Chapter, PrismaClient } from '@prisma/client'
+import { WorkComicChapter, PrismaClient } from '@prisma/client'
 import { Inject, Provide } from '@midwayjs/core'
 import { AddChapterContentDTO, ChapterPageDTO } from '@/modules/admin/contentMgmt/comic/chapter/dto/chapter.dto'
 import { utils } from '@/utils'
 
 @Provide()
-export class ChapterService extends BasicService<Chapter> {
+export class ChapterService extends BasicService<WorkComicChapter> {
   @Inject()
   prismaClient: PrismaClient
 
   protected get model() {
-    return this.prismaClient.chapter
+    return this.prismaClient.workComicChapter
   }
 
   // 创建章节数据

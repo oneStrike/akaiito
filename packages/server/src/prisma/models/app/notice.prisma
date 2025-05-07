@@ -1,0 +1,33 @@
+/// 系统通知公告
+model AppNotice {
+  /// 主键id
+  id              Int            @id @default(autoincrement())
+  /// 标题
+  title           String         @db.VarChar(100)
+  /// 内容
+  content         String         @db.Text /// 内容
+  /// 发布开始时间
+  startTime       DateTime?      @map("start_time") @db.Timestamp()
+  /// 发布结束时间
+  endTime         DateTime?      @map("end_time") @db.Timestamp()
+  appPage         AppPageConfig? @relation(fields: [pageCode], references: [pageCode])
+  /// 页面代码，点击公告跳转的页面
+  pageCode        String?        @map("page_code") @db.VarChar(20)
+  /// 通知弹窗的背景图片
+  backgroundImage String?        @map("background_image") @db.VarChar(200)
+  /// 是否发布
+  isPublish       Boolean        @default(true) @map("is_publish")
+  /// 是否启用小程序   1 启用 0 禁用
+  enableApplet    Boolean        @default(true) @map("enable_wechat")
+  /// 是否启用H5   1 启用 0 禁用
+  enableWeb       Boolean        @default(true) @map("enable_web")
+  /// 是否启用APP   1 启用 0 禁用
+  enableApp       Boolean        @default(true) @map("enable_app")
+  /// 创建时间
+  createdAt       DateTime       @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt       DateTime       @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@index([pageCode])
+  @@map("app_notice")
+}

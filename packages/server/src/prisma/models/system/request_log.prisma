@@ -1,5 +1,5 @@
 /// 系统操作日志表
-model SysOperateLog {
+model SystemRequestLog {
   /// 主键id
   id               Int      @id @default(autoincrement())
   /// 用户名
@@ -33,5 +33,5 @@ model SysOperateLog {
   /// 更新时间
   updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
-  @@map("sys_operate_log")
+  @@map("system_request_log")
 }

@@ -1,5 +1,5 @@
 /// 系统用户表
-model SysUser {
+model AdminUser {
   /// 主键id
   id        Int      @id @default(autoincrement())
   /// 账号
@@ -19,5 +19,5 @@ model SysUser {
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
-  @@map("sys_user")
+  @@map("admin_user")
 }
