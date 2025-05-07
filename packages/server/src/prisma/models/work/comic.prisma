@@ -20,7 +20,7 @@ model WorkComic {
   author            WorkAuthor            @relation(fields: [authorId], references: [id], onDelete: Cascade)
   /// 权限
   permissions       WorkPermissions       @relation(fields: [permissionId], references: [id])
-  permissionId      Int                   @db.Integer
+  permissionId      Int                   @map("permission_id") @db.Integer
   /// 内容年龄分级
   ageRating         String?               @map("age_rating") @db.VarChar(50)
   /// 是否发布 1：发布 0：不发布
@@ -42,7 +42,7 @@ model WorkComic {
   /// 分类
   categories        WorkComicCategories[]
   /// 章节
-  Chapters          WorkComicChapter[]
+  chapters          WorkComicChapter[]
 
   @@index([authorId])
   @@index([permissionId])

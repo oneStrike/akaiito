@@ -19,6 +19,7 @@ model WorkPermissions {
   purchaseAmount Int     @default(0) @map("purchase_amount")
 
   WorkComic WorkComic[]
+  workId    Int         @map("work_id") @db.Integer
 
   @@map("work_permissions")
 }

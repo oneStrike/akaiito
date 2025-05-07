@@ -29,7 +29,7 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
   async getChapter(where: ChapterPageDTO) {
     return this.findPage({
       omit: {
-        comicContent: true,
+        content: true,
       },
       where,
       like: {
@@ -43,7 +43,7 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
     return this.update({
       where: { id: body.id },
       data: {
-        content: body.content,
+        content: JSON.stringify(body.content),
       },
     })
   }

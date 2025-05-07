@@ -3,15 +3,15 @@
  *  @标签 内容管理/作者管理/作者分页列表
  *  @方式 GET
  *  @地址 /admin/contentMgmt/author/getAuthorPage
- *  @更新时间 2024-09-16 22:23:08
+ *  @更新时间 2025-05-07 23:27:29
  */
 
 export interface GetAuthorPageTypesReq {
   /*  */
-  pageIndex?: string
+  pageIndex?: number
 
   /*  */
-  pageSize?: string
+  pageSize?: number
 
   /* 作者姓名 */
   name?: string
@@ -19,8 +19,8 @@ export interface GetAuthorPageTypesReq {
   /* 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频 */
   contentType?: string
 
-  /* 状态 1：正常 0：禁用 */
-  status?: string
+  /* 启用状态 */
+  status?: boolean
 }
 
 export interface GetAuthorPageTypesRes {
@@ -28,8 +28,8 @@ export interface GetAuthorPageTypesRes {
     /* 主键id */
     id: number
 
-    /* 状态，1==>正常 0==>禁用 */
-    status: number
+    /* 启用状态 */
+    status: boolean
 
     /* 作者姓名 */
     name: string

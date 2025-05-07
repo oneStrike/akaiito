@@ -2,16 +2,13 @@
  *  接口 [获取章节列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242072801)
  *  @标签 漫画/章节/获取章节列表
  *  @方式 GET
- *  @地址 /admin/chapter/getChapter
- *  @更新时间 2024-12-08 16:38:40
+ *  @地址 /admin/comic/chapter/getChapter
+ *  @更新时间 2025-05-07 17:30:30
  */
 
 export interface GetChapterTypesReq {
   /* 漫画id */
   comicId?: number
-
-  /* 小说id */
-  novelId?: number
 }
 
 export interface GetChapterTypesRes {

@@ -17,7 +17,7 @@ import type {
  *  @标签 内容管理/作者管理/作者分页列表
  *  @方式 GET
  *  @地址 /admin/contentMgmt/author/getAuthorPage
- *  @更新时间 2024-09-16 22:23:08
+ *  @更新时间 2025-05-07 23:27:29
  */
 
 export const getAuthorPageApi = (params: GetAuthorPageTypesReq): Promise<GetAuthorPageTypesRes> => {

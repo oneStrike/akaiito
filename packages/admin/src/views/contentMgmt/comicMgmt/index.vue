@@ -41,7 +41,7 @@ formTool.specificItem('authorId', (item) => {
   item.componentProps!.remoteMethod = async (val: string) => {
     if (val) {
       item.componentProps!.loading = true
-      const data = await getAuthorPageApi({ name: val, pageSize: '500' })
+      const data = await getAuthorPageApi({ name: val, pageSize: 500, status: true })
       item.componentProps!.options = data.list.map((item) => ({
         label: item.name,
         value: item.id,
