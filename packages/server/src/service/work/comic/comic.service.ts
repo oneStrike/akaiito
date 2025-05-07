@@ -45,9 +45,6 @@ export class WorkComicService extends BasicService<WorkComic> {
             isCartoonist: true,
           },
         },
-        permissions: {
-          create: {},
-        },
       },
     })
   }

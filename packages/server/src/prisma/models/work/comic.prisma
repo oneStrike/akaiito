@@ -19,8 +19,8 @@ model WorkComic {
   authorId          Int                   @map("author_id") @db.Integer
   author            WorkAuthor            @relation(fields: [authorId], references: [id], onDelete: Cascade)
   /// 权限
-  permissions       WorkPermissions       @relation(fields: [permissionId], references: [id])
-  permissionId      Int                   @map("permission_id") @db.Integer
+  permissions       WorkPermissions?      @relation(fields: [permissionId], references: [id])
+  permissionId      Int?                  @map("permission_id") @db.Integer
   /// 内容年龄分级
   ageRating         String?               @map("age_rating") @db.VarChar(50)
   /// 是否发布 1：发布 0：不发布
