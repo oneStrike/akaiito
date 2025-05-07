@@ -1,6 +1,6 @@
-import { UploadService } from '@/service/common/upload.service'
 import { Controller, Fields, Files, Inject, Post } from '@midwayjs/core'
 import { UploadFileInfo, UploadMiddleware } from '@midwayjs/busboy'
+import { UploadService } from '@/service/system/upload/upload.service'
 
 @Controller('/common/upload')
 export class UploadController {

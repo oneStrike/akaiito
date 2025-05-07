@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { ComicService } from '@/service/contentMgmt/comic/comic.service'
 import {
   ComicDTO,
   ComicPublishDTO,
@@ -7,11 +6,12 @@ import {
   ComicUpdateDTO,
 } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
 import { BasicIdDTO } from '@/basic/dto/basic.dto'
+import { WorkComicService } from '@/service/work/comic/comic.service'
 
 @Controller('/admin/comic', { description: '漫画' })
 export class ComicController {
   @Inject()
-  comicService: ComicService
+  comicService: WorkComicService
 
   @Post('/createComic', { summary: '创建漫画' })
   async createComic(@Body() body: ComicDTO) {

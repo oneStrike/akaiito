@@ -1,10 +1,10 @@
 import { BasicIdDTO, BasicIdStatusDTO } from '@/basic/dto/basic.dto'
 import { Context } from '@midwayjs/koa'
 import { CreateUserDTO, RefreshAccessTokenDTO, UpdateUserPwd, UserDTO, UserLoginDTO, UserPageDTO } from './dto/user.dto'
-import { UserService } from '@/service/adminUser/user.service'
 import { UserInfo } from '@/decorator/userinfo.decorator'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import { CtxAttrEnum } from '@/enum/ctxAttr'
+import { AdminUserService } from '@/service/admin/user/adminUser.service'
 
 @Controller('/admin/user', {
   tagName: '管理员',
@@ -12,7 +12,7 @@ import { CtxAttrEnum } from '@/enum/ctxAttr'
 })
 export class UserController {
   @Inject()
-  userService: UserService
+  userService: AdminUserService
 
   @Inject()
   ctx: Context

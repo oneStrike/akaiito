@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { ThirdPartyService } from '@/service/thirdParty/thirdParty.service'
 import { ThirdPartyQueryDTO, ThirdPartyParseDTO } from '@/modules/admin/thirdParty/dto/thirdParty.dto'
+import { ThirdPartyResourceService } from '@/service/admin/thirdPartyResource/thirdParty.service'
 
 @Controller('/admin/thirdParty')
 export class ThirdPartyController {
   @Inject()
-  thirdPartyService: ThirdPartyService
+  thirdPartyService: ThirdPartyResourceService
 
   @Get('/service')
   async service() {

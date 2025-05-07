@@ -2,8 +2,8 @@ import type { HttpResponseResult } from '@akaiito/types'
 import type { MidwayHttpError } from '@midwayjs/core'
 import type { Context } from '@midwayjs/koa'
 import { Catch } from '@midwayjs/core'
-import { OperateLogService } from '@/service/log/operateLog.service'
 import { prismaErrorMapping } from '@/filter/prismaErrorMapping'
+import { SystemRequestLogService } from '@/service/system/requestLog/systemRequestLog.service'
 
 const prismaError = ['PrismaClientValidationError', 'PrismaClientKnownRequestError']
 
@@ -62,7 +62,7 @@ export class ExceptionFilter {
     }
     err.status = 200
 
-    const adminRequestLogService = await ctx.requestContext.getAsync(OperateLogService)
+    const adminRequestLogService = await ctx.requestContext.getAsync(SystemRequestLogService)
     await adminRequestLogService.recordLogs(ctx, responseErrorInfo)
     return responseErrorInfo
   }

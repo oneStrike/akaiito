@@ -1,6 +1,4 @@
 import { BasicIdsDTO, BasicIdsStatusDTO, BasicOrderDTO } from '@/basic/dto/basic.dto'
-import { DictionaryService } from '@/service/dataDictionary/dictionary.service'
-import { DictionaryServiceItems } from '@/service/dataDictionary/dictionary-items.service'
 import {
   CreateDictionaryDTO,
   CreateDictionaryItemsDTO,
@@ -9,6 +7,8 @@ import {
   UpdateDictionaryDTO,
 } from './dto/dictionary.dto'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
+import { DictionaryService } from '@/service/system/dataDictionary/dictionary.service'
+import { DictionaryServiceItems } from '@/service/system/dataDictionary/dictionary-items.service'
 
 @Controller('/admin/dictionary')
 export class DictionaryController {

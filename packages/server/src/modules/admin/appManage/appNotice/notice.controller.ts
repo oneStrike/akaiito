@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { AppNoticeService } from '@/service/appMgmt/appNotice.service'
 import {
   getNoticeListDTO,
   NoticeDTO,
@@ -7,6 +6,7 @@ import {
   UpdateNoticeDTO,
 } from '@/modules/admin/appManage/appNotice/dto/notice'
 import { BasicIdDTO } from '@/basic/dto/basic.dto'
+import { AppNoticeService } from '@/service/appOperations/notice/appNotice.service'
 
 @Controller('/admin/appNotice')
 export class AppNoticeController {

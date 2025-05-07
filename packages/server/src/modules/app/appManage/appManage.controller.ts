@@ -1,8 +1,8 @@
 import { Controller, Get, Inject } from '@midwayjs/core'
-import { AppConfigService } from '@/service/appMgmt/appConfig.service'
-import { AppPageService } from '@/service/appMgmt/appPage.service'
-import { AppNoticeService } from '@/service/appMgmt/appNotice.service'
 import { AppRequestPlatform } from '@/decorator/appRequestClient.decorator'
+import { AppConfigService } from '@/service/appOperations/config/appConfig.service'
+import { AppPageService } from '@/service/appOperations/pages/appPage.service'
+import { AppNoticeService } from '@/service/appOperations/notice/appNotice.service'
 
 @Controller('/app/appManage')
 export class AppManageController {

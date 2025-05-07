@@ -1,11 +1,11 @@
 import { Controller, Get, Inject, Query } from '@midwayjs/core'
 import { OperateLogDTO } from './dto/operateLog.dto'
-import { OperateLogService } from '@/service/log/operateLog.service'
+import { SystemRequestLogService } from '@/service/system/requestLog/systemRequestLog.service'
 
 @Controller('/admin/logs')
 export class OperateLogController {
   @Inject()
-  requestLogService: OperateLogService
+  requestLogService: SystemRequestLogService
 
   @Get('/getRequestLogs', { summary: '获取请求日志' })
   async getRequestLogs(@Query() query: OperateLogDTO) {

@@ -1,16 +1,16 @@
 import { BasicIdDTO, BasicIdStatusDTO } from '@/basic/dto/basic.dto'
-import { CategoryService } from '@/service/contentMgmt/category.service'
 import {
   CategoryListDTO,
   CreateCategoryDTO,
   UpdateCategoryDTO,
 } from '@/modules/admin/contentMgmt/category/dto/category.dto'
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
+import { WorkCategoryService } from '@/service/work/category/category.service'
 
 @Controller('/admin/contentMgmt/category')
 export class CategoryController {
   @Inject()
-  categoryService: CategoryService
+  categoryService: WorkCategoryService
 
   @Get('/getCategoryPage', { summary: '获取内容分类' })
   async getCategoryPage(@Query() params: CategoryListDTO) {

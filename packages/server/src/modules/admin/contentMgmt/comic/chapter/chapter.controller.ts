@@ -1,5 +1,4 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
-import { ChapterService } from '@/service/contentMgmt/chapter.service'
 import {
   AddChapterContentDTO,
   ChapterDTO,
@@ -9,11 +8,12 @@ import {
 } from '@/modules/admin/contentMgmt/comic/chapter/dto/chapter.dto'
 import { BasicIdDTO, BasicOrderDTO } from '@/basic/dto/basic.dto'
 import { SortQuery } from '@/decorator/sortQuery.decorator'
+import { WorkChapterService } from '@/service/work/comic/chapter.service'
 
-@Controller('/admin/chapter', { description: '作品章节' })
+@Controller('/admin/comic/chapter', { description: '作品章节' })
 export class ChapterController {
   @Inject()
-  chapterService: ChapterService
+  chapterService: WorkChapterService
 
   @Post('/createChapter', { summary: '添加作品章节' })
   async createChapter(@Body() body: ChapterDTO) {

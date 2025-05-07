@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Inject, Post } from '@midwayjs/core'
-import { AppUserService } from '@/service/appUser/user.service'
 import { CreateUserDTO, LoginUserDTO } from '@/modules/app/user/dto/user.dto'
 import { UserInfo } from '@/decorator/userinfo.decorator'
 import { UserDTO } from '@/modules/admin/user/dto/user.dto'
 import { Context } from '@midwayjs/koa'
+import { AppUserService } from '@/service/app/user/user.service'
 
 @Controller('/app/user', {
   tagName: '客户端用户',

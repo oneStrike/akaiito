@@ -1,7 +1,8 @@
 generator client {
-  provider        = "prisma-client-js"
+  provider        = "prisma-client"
   previewFeatures = ["PrismaSchemaFolder", "relationJoins"]
   binaryTargets   = ["native", "linux-musl"]
+  output          = "./../../node_modules/@prisma/generated"
 }
 
 datasource db {

@@ -1,6 +1,6 @@
-import { AppConfigService } from '@/service/appMgmt/appConfig.service'
 import { AppConfigDTO } from './dto/appConfig.dto'
 import { Body, Controller, Get, Inject, Post } from '@midwayjs/core'
+import { AppConfigService } from '@/service/appOperations/config/appConfig.service'
 
 @Controller('/admin/appManage')
 export class AppConfigController {

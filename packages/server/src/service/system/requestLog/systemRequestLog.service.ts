@@ -9,7 +9,7 @@ import { RouterService } from '@/basic/service/router.service'
 import { CtxAttrEnum } from '@/enum/ctxAttr'
 
 @Provide()
-export class OperateLogService extends BasicService<SystemRequestLog> {
+export class SystemRequestLogService extends BasicService<SystemRequestLog> {
   @Inject()
   prismaClient: PrismaClient
 
