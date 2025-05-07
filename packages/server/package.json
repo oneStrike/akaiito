@@ -77,6 +77,6 @@
   ],
   "prisma": {
     "schema": "src/prisma",
-    "seed": "pnpx ts-node src/prisma/seed.ts"
+    "seed": "pnpx ts-node src/prisma/seed/index.ts"
   }
 }

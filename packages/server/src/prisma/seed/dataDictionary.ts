@@ -1,0 +1,101 @@
+import { PrismaClient } from '@prisma/client'
+
+export async function createInitialDataDictionary(prisma: PrismaClient) {
+  const initData = [
+    {
+      name: '作品语言',
+      code: 'work_language',
+    },
+    {
+      name: '作品区域',
+      code: 'work_region',
+    },
+    {
+      name: '作品出版社',
+      code: 'work_publisher',
+    },
+    {
+      name: '作品年龄限制',
+      code: 'work_age_rating',
+    },
+  ]
+  const itemData = {
+    work_language: [
+      {
+        name: '中文',
+        code: 'zh',
+      },
+      {
+        name: '英文',
+        code: 'en',
+      },
+      {
+        name: '日文',
+        code: 'jp',
+      },
+    ],
+    work_region: [
+      {
+        name: '中国',
+        code: 'zh',
+      },
+      {
+        name: '美国',
+        code: 'en',
+      },
+      {
+        name: '日本',
+        code: 'jp',
+      },
+    ],
+    work_age_rating: [
+      {
+        name: '全年龄',
+        code: 'ALL',
+      },
+      {
+        name: 'r15',
+        code: 'R15',
+      },
+      {
+        name: 'r18',
+        code: 'R18',
+      },
+    ],
+  }
+  for (const item of initData) {
+    await prisma.dictionary.upsert({
+      where: {
+        code: item.code,
+      },
+      update: item,
+      create: item,
+    })
+
+    if (!itemData[item.code]) continue
+
+    for (const subItem of itemData[item.code]) {
+      // 使用 dictionaryCode + code 做为唯一约束条件
+      await prisma.dictionaryItem.upsert({
+        where: {
+          dictionaryCode_code: {
+            dictionaryCode: item.code,
+            code: subItem.code,
+          },
+        },
+        update: {
+          ...subItem,
+          dictionary: {
+            connect: { code: item.code },
+          },
+        },
+        create: {
+          ...subItem,
+          dictionary: {
+            connect: { code: item.code },
+          },
+        },
+      })
+    }
+  }
+}
