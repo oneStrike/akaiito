@@ -37,15 +37,7 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
 
   // 获取章节分页列表
   async getChapter(where: ChapterPageDTO) {
-    if (!where.comicId && !where.novelId) {
-      return this.throwError('暂无关联的作品')
-    }
-    const omit: IterateObject = { content: true }
-    if (where.comicId) {
-      omit.novelId = true
-    } else {
-      omit.comicId = true
-    }
+    const omit: IterateObject = { content: true, comicId: true }
     return this.findPage({
       omit,
       where,

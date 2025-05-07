@@ -36,11 +36,8 @@ export class ChapterDTO {
 }
 
 export class ChapterPageDTO extends BasicPageDTO {
-  @Rule(validateNumber)
-  comicId?: number
-
-  @Rule(validateNumber)
-  novelId?: number
+  @Rule(requiredNumber)
+  comicId!: number
 
   @Rule(validateBoolean)
   isPublish?: boolean
