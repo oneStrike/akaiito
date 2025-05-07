@@ -37,9 +37,10 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
 
   // 获取章节分页列表
   async getChapter(where: ChapterPageDTO) {
-    const omit: IterateObject = { content: true, comicId: true }
     return this.findPage({
-      omit,
+      omit: {
+        comicContent: true,
+      },
       where,
       like: {
         title: 'contains',
