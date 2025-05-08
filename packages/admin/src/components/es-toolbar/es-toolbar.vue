@@ -100,7 +100,7 @@ defineExpose({
       </div>
     </div>
     <es-form
-      v-if="Array.isArray(innerFilter) && innerFilter.length"
+      v-if="innerFilter && Array.isArray(filter) && filter.length"
       ref="esFormRef"
       v-model="modelValue"
       class="flex-1"
