@@ -19,7 +19,9 @@ model WorkPermissions {
   purchaseAmount Int     @default(0) @map("purchase_amount")
 
   WorkComic WorkComic[]
-  workId    Int         @map("work_id") @db.Integer
+  /// 关联的作品id
+  workId    Int         @unique @map("work_id") @db.Integer
 
+  @@index([workId])
   @@map("work_permissions")
 }

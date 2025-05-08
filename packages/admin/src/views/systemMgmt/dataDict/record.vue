@@ -148,7 +148,6 @@ function computedTableHeight() {
         :title="currentRow ? '添加' : '编辑'"
         :options="formOptions"
         :loading="formLoading"
-        :height="600"
         @submit="addDictionary"
         @closed="currentRow = null"
       />
