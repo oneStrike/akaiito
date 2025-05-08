@@ -34,7 +34,7 @@ const pageIndex = computed({
   get() {
     return params.value.pageIndex + 1
   },
-  set(newVal) {
+  set(newVal: number) {
     params.value.pageIndex = newVal - 1
   },
 })

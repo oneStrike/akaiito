@@ -53,8 +53,8 @@ async function switchStatus(val: any) {
 const roles = {
   MODEL: '模特',
   WRITER: '作家',
-  COMIC_ARTIST: '漫画家',
   ILLUSTRATOR: '画师',
+  COMIC_ARTIST: '漫画家',
 }
 
 // 函数实现

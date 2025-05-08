@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
+import type {
+  EsToolbarProps,
+  ToolbarFilter,
+} from '@/components/es-toolbar/types'
 
 const props = withDefaults(defineProps<EsToolbarProps>(), {
   followSelection: true,
@@ -13,35 +16,39 @@ const emits = defineEmits<{
 const modelValue = defineModel({ type: Object, default: () => ({}) })
 
 const esFormRef = ref<IterateObject>()
-const innerFilter = ref<ToolbarFilter>([])
+const innerFilter = ref<ToolbarFilter>()
 
 const throttleInput = reactive<IterateObject>({
   field: [],
   value: {},
 })
 
-watch(
-  () => props.filter,
-  (val) => {
-    if (Array.isArray(val)) {
-      innerFilter.value = JSON.parse(JSON.stringify(val)).map((item: ToolbarFilter[number]) => {
-        if (item.component === 'Input') {
-          throttleInput.field.push(item.field)
-        }
-        if (!item.componentProps) {
-          item.componentProps = {}
-        }
+if (props.filter) {
+  watch(
+    props.filter,
+    (val: ToolbarFilter) => {
+      if (Array.isArray(val)) {
+        innerFilter.value = JSON.parse(JSON.stringify(val)).map(
+          (item: ToolbarFilter[number]) => {
+            if (item.component === 'Input') {
+              throttleInput.field.push(item.field)
+            }
+            if (!item.componentProps) {
+              item.componentProps = {}
+            }
 
-        if (typeof item.componentProps.clearable !== 'boolean') {
-          item.componentProps.clearable = true
-        }
+            if (typeof item.componentProps.clearable !== 'boolean') {
+              item.componentProps.clearable = true
+            }
 
-        return item
-      })
-    }
-  },
-  { deep: true, immediate: true },
-)
+            return item
+          },
+        )
+      }
+    },
+    { deep: true, immediate: true },
+  )
+}
 
 function resetFilter() {
   esFormRef.value?.resetForm()
@@ -56,7 +63,11 @@ defineExpose({
   <div id="toolbar" class="flex justify-between flex-wrap p-1">
     <div class="flex pb-4">
       <div v-for="(item, index) in toolbar" :key="index" class="mr-4">
-        <el-button v-if="item.type === 'button'" v-bind="item.props" @click="emits('handler', item.value)">
+        <el-button
+          v-if="item.type === 'button'"
+          v-bind="item.props"
+          @click="emits('handler', item.value)"
+        >
           {{ item.label }}
         </el-button>
 
@@ -89,7 +100,7 @@ defineExpose({
       </div>
     </div>
     <es-form
-      v-if="Array.isArray(filter) && filter.length"
+      v-if="Array.isArray(innerFilter) && innerFilter.length"
       ref="esFormRef"
       v-model="modelValue"
       class="flex-1"
@@ -100,15 +111,21 @@ defineExpose({
       @reset="emits('reset')"
       @submit="emits('query', modelValue.value)"
     >
-      <template v-for="item in throttleInput.field" #[item]="{ componentProps, on }" :key="item">
+      <template
+        v-for="item in throttleInput.field"
+        #[item]="{ componentProps, on }"
+        :key="item"
+      >
         <el-input
           v-model="throttleInput.value[item]"
           autocomplete="new-password"
           v-bind="componentProps"
           v-on="on || {}"
           @keydown.enter="modelValue[item] = throttleInput.value[item]"
-          @change="(val) => ((modelValue[item] = val), on?.change && on?.change(val))"
-          @clear="((modelValue[item] = ''), on?.change && on?.clear())"
+          @change="
+            (val) => ((modelValue[item] = val), on?.change && on?.change(val))
+          "
+          @clear=";(modelValue[item] = ''), on?.change && on?.clear()"
         />
       </template>
     </es-form>
