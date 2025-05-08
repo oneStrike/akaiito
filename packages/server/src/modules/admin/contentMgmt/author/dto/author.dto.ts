@@ -1,12 +1,13 @@
 import { BasicPageDTO } from '@/basic/dto/basic.dto'
 import {
-  requiredBoolean,
   requiredNumber,
   requiredString,
   validateBoolean,
   validateString,
+  validateStringArray,
 } from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
+import { AuthorRole } from '@prisma/client'
 
 export class AuthorDTO {
   @Rule(requiredNumber)
@@ -24,24 +25,14 @@ export class AuthorDTO {
   @Rule(validateBoolean)
   status!: boolean
 
-  @Rule(requiredBoolean)
-  isModel!: boolean
-
-  @Rule(requiredBoolean)
-  isWriter!: boolean
-
-  @Rule(requiredBoolean)
-  isCartoonist!: boolean
-
-  @Rule(requiredBoolean)
-  isIllustrator!: boolean
+  @Rule(validateStringArray)
+  roles!: AuthorRole[]
 
   @Rule(validateString)
   website?: string
 }
 
-export class CreateAuthorDTO extends OmitDto(AuthorDTO, ['id']) {
-}
+export class CreateAuthorDTO extends OmitDto(AuthorDTO, ['id']) {}
 
 export class GetAuthorPageDTO extends BasicPageDTO {
   @Rule(validateString)
