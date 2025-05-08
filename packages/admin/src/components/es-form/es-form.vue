@@ -23,7 +23,6 @@ const formOptions = computed(() => {
       item.props = {}
     }
     const itemWidth = item.props.span ? 100 / item.props.span : 100
-    console.log(itemWidth)
     item.props.style = {
       width: `${itemWidth}%`,
     }

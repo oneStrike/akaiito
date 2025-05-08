@@ -43,17 +43,8 @@ export interface GetAuthorPageTypesRes {
     /* 作者三方主页 */
     website?: string
 
-    /* 模特身份 1是0否 */
-    isModel: number
-
-    /* 小说家身份 1是0否 */
-    isWriter: number
-
-    /* 漫画家身份 1是0否 */
-    isCartoonist: number
-
-    /* 插画师身份 1是0否 */
-    isIllustrator: number
+    /* 包含的角色 */
+    roles: string[]
 
     /* 创建时间 */
     createdAt: string
@@ -92,17 +83,8 @@ export interface CreateAuthorTypesReq {
   /* 作者三方主页 */
   website?: string
 
-  /* 模特身份 1是0否 */
-  isModel: number
-
-  /* 小说家身份 1是0否 */
-  isWriter: number
-
-  /* 漫画家身份 1是0否 */
-  isCartoonist: number
-
-  /* 插画师身份 1是0否 */
-  isIllustrator: number
+  /* 包含的角色 */
+  roles: string[]
 }
 
 /* 主键id */
@@ -132,17 +114,8 @@ export interface UpdateAuthorTypesReq {
   /* 作者三方主页 */
   website?: string
 
-  /* 模特身份 1是0否 */
-  isModel: number
-
-  /* 小说家身份 1是0否 */
-  isWriter: number
-
-  /* 漫画家身份 1是0否 */
-  isCartoonist: number
-
-  /* 插画师身份 1是0否 */
-  isIllustrator: number
+  /* 包含的角色 */
+  roles: string[]
 }
 
 export interface UpdateAuthorTypesRes {

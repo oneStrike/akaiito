@@ -18,7 +18,12 @@ export class AuthorController {
   @Get('/getAuthorPage', { summary: '获取作者分页列表' })
   async getAuthorPage(@Query() query: GetAuthorPageDTO) {
     return this.authorService.findPage({
-      where: query,
+      where: {
+        ...query,
+        roles: {
+          hasEvery: query.roles ? JSON.parse(query.roles) : [],
+        },
+      },
       like: { name: 'contains' },
     })
   }

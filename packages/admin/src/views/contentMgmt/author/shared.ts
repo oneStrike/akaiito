@@ -2,22 +2,22 @@ import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
 
-const pluginType = [
+const roles = [
   {
     label: '作家',
-    value: 1,
+    value: 'WRITER',
   },
   {
     label: '漫画家',
-    value: 2,
+    value: 'COMIC_ARTIST',
   },
   {
     label: '插画师',
-    value: 3,
+    value: 'ILLUSTRATOR',
   },
   {
     label: '模特',
-    value: 4,
+    value: 'MODEL',
   },
 ]
 
@@ -36,21 +36,22 @@ export const tableColumns: EsTableColumn = [
   },
   {
     label: '身份',
-    prop: 'contentModel',
+    prop: 'roles',
     align: 'center',
-    slotName: 'contentModel',
-  },
-  {
-    label: '状态',
-    prop: 'status',
-    align: 'center',
-    slotName: 'status',
+    slotName: 'roles',
+    width: 200,
   },
   {
     label: '外部主页',
     prop: 'website',
     align: 'center',
     slotName: 'website',
+  },
+  {
+    label: '状态',
+    prop: 'status',
+    align: 'center',
+    slotName: 'status',
   },
   {
     label: '创建时间',
@@ -97,7 +98,7 @@ export const formOptions: EsFormOptions[] = [
   },
 
   {
-    field: 'contentModel',
+    field: 'roles',
     component: 'Checkbox',
     props: {
       span: 2,
@@ -106,7 +107,8 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请选择身份',
-      options: pluginType,
+      options: roles,
+      valueType: 'array',
     },
   },
   {
@@ -158,7 +160,7 @@ export const filter: ToolbarFilter = [
     },
   },
   {
-    field: 'contentModel',
+    field: 'roles',
     component: 'Select',
     props: {
       span: 6,
@@ -166,7 +168,9 @@ export const filter: ToolbarFilter = [
     componentProps: {
       placeholder: '内容类型',
       clearable: true,
-      options: pluginType,
+      multiple: true,
+      collapseTags: true,
+      options: roles,
     },
   },
   {

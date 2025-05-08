@@ -39,7 +39,6 @@ export function useRequest<T extends AsyncFn>(api: T, options?: RequestOptions<T
       params.value = { ...params.value, ...p }
     }
     const options = utils.deepCopy(params.value)
-
     // 如果有排序参数，则将其转换为字符串
     if (options.orderBy && Object.keys(options.orderBy).length) {
       options.orderBy = JSON.stringify(params.value.orderBy)

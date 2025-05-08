@@ -32,7 +32,8 @@ export class AuthorDTO {
   website?: string
 }
 
-export class CreateAuthorDTO extends OmitDto(AuthorDTO, ['id']) {}
+export class CreateAuthorDTO extends OmitDto(AuthorDTO, ['id']) {
+}
 
 export class GetAuthorPageDTO extends BasicPageDTO {
   @Rule(validateString)
@@ -41,15 +42,7 @@ export class GetAuthorPageDTO extends BasicPageDTO {
   @Rule(validateBoolean)
   status?: boolean
 
-  @Rule(validateBoolean)
-  isModel?: boolean
 
-  @Rule(validateBoolean)
-  isWriter?: boolean
-
-  @Rule(validateBoolean)
-  isCartoonist?: boolean
-
-  @Rule(validateBoolean)
-  isIllustrator?: boolean
+  @Rule(validateString)
+  roles?: string
 }

@@ -9,7 +9,7 @@ export type PrismaInstanceModel = {
 } & IterateObject
 
 type ExtendProperty<T> = {
-  [P in keyof T]: T[P] | { in: T[P][] } | { gte: T[P] } | { lte: T[P] }
+  [P in keyof T]: T[P] | { in: T[P][] } | { gte: T[P] } | { lte: T[P] } | { hasSome: T[P] } | { hasEvery: T[P] }
 } & IterateObject
 
 export type WhereOptions<T> = Partial<ExtendProperty<T>> & {

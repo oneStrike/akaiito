@@ -7,10 +7,10 @@ import {
   updateAuthorApi,
   updateAuthorStatusApi,
 } from '@/apis/author'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/contentMgmt/authorsMgmt/shared'
+import { filter, formOptions, tableColumns, toolbar } from './shared'
 
 defineOptions({
-  name: 'AuthorsMgmt',
+  name: 'Author',
 })
 type Record = GetAuthorPageTypesRes['list'][number] & { contentModel: string }
 
@@ -24,10 +24,6 @@ const { reset, request, loading, requestData, params, sortChange } = useRequest(
 
 async function submitForm(val: any) {
   modalFrom.loading = true
-  val.isWriter = val.contentModel.includes('1') ? 1 : 0
-  val.isCartoonist = val.contentModel.includes('2') ? 1 : 0
-  val.isIllustrator = val.contentModel.includes('3') ? 1 : 0
-  val.isModel = val.contentModel.includes('4') ? 1 : 0
   if (val.website) {
     val.website = encodeURIComponent(val.website)
   }
@@ -54,26 +50,20 @@ async function switchStatus(val: any) {
   await request()
 }
 
-// 函数重载签名
-function identityHandler(row: Record, type?: 'text'): string
-function identityHandler(row: Record, type?: 'code'): number[]
-// 函数实现
-function identityHandler(row: Record, type: 'text' | 'code' = 'text') {
-  const identity = []
-  if (row.isWriter) {
-    identity.push(type === 'text' ? '作家' : 1)
-  }
-  if (row.isCartoonist) {
-    identity.push(type === 'text' ? '漫画家' : 2)
-  }
-  if (row.isIllustrator) {
-    identity.push(type === 'text' ? '插画师' : 3)
-  }
-  if (row.isModel) {
-    identity.push(type === 'text' ? '模特' : 4)
-  }
+const roles = {
+  MODEL: '模特',
+  WRITER: '作家',
+  COMIC_ARTIST: '漫画家',
+  ILLUSTRATOR: '画师',
+}
 
-  return type === 'text' ? identity.join('、') : identity
+// 函数实现
+function identityHandler(row: Record) {
+  const identity: string[] = []
+  row.roles.forEach((item) => {
+    identity.push(roles[item as keyof typeof roles])
+  })
+  return identity.join('、') || '-'
 }
 
 function blank(record: Record) {
@@ -84,7 +74,6 @@ const openModal = (val?: Record) => {
   currentRow.value = null
   if (val) {
     currentRow.value = val
-    currentRow.value.contentModel = identityHandler(val, 'code').join(',')
     if (val.website) {
       currentRow.value.website = decodeURIComponent(val.website) || ''
     }
@@ -111,7 +100,7 @@ const openModal = (val?: Record) => {
         <es-switch :request="switchStatus" :row="row" />
       </template>
 
-      <template #contentModel="{ row }">
+      <template #roles="{ row }">
         <span>{{ identityHandler(row) }}</span>
       </template>
 

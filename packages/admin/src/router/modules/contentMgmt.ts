@@ -22,9 +22,9 @@ export default {
       },
     },
     {
-      name: 'AuthorsMgmtPage',
-      path: '/contentMgmt/authorsMgmt',
-      component: () => import('@/views/contentMgmt/authorsMgmt/index.vue'),
+      name: 'AuthorPage',
+      path: '/contentMgmt/author',
+      component: () => import('@/views/contentMgmt/author/index.vue'),
       meta: {
         title: '作者管理',
         icon: 'userEdit',
