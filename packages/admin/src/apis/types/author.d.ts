@@ -3,7 +3,7 @@
  *  @标签 内容管理/作者管理/作者分页列表
  *  @方式 GET
  *  @地址 /admin/contentMgmt/author/getAuthorPage
- *  @更新时间 2025-05-07 23:27:29
+ *  @更新时间 2025-05-08 22:15:20
  */
 
 export interface GetAuthorPageTypesReq {
@@ -17,7 +17,7 @@ export interface GetAuthorPageTypesReq {
   name?: string
 
   /* 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频 */
-  contentType?: string
+  roles?: string
 
   /* 启用状态 */
   status?: boolean
@@ -35,13 +35,13 @@ export interface GetAuthorPageTypesRes {
     name: string
 
     /* 作者头像 */
-    avatar: string
+    avatar: string | null
 
     /* 作者简介 */
     description: string
 
     /* 作者三方主页 */
-    website?: string
+    website?: string | null
 
     /* 包含的角色 */
     roles: string[]
@@ -75,13 +75,13 @@ export interface CreateAuthorTypesReq {
   name: string
 
   /* 作者头像 */
-  avatar: string
+  avatar: string | null
 
   /* 作者简介 */
   description: string
 
   /* 作者三方主页 */
-  website?: string
+  website?: string | null
 
   /* 包含的角色 */
   roles: string[]
@@ -106,13 +106,13 @@ export interface UpdateAuthorTypesReq {
   name: string
 
   /* 作者头像 */
-  avatar: string
+  avatar: string | null
 
   /* 作者简介 */
   description: string
 
   /* 作者三方主页 */
-  website?: string
+  website?: string | null
 
   /* 包含的角色 */
   roles: string[]

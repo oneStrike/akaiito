@@ -437,7 +437,94 @@ export const formOptions: EsFormOptions[] = [
       label: '辅助热度',
     },
     componentProps: {
+      min: 1,
+      max: 9999999,
       placeholder: '请输入辅助热度',
+    },
+  },
+  {
+    field: 'canComment',
+    component: 'Radio',
+    props: {
+      span: 2,
+      label: '允许评论',
+      rules: useValidate.required('允许评论'),
+    },
+    componentProps: {
+      options: [
+        {
+          label: '允许',
+          value: true,
+        },
+        {
+          label: '不允许',
+          value: false,
+        },
+      ],
+    },
+  },
+  {
+    field: 'canDownload',
+    component: 'Radio',
+    props: {
+      span: 2,
+      label: '允许下载',
+      rules: useValidate.required('允许下载'),
+    },
+    componentProps: {
+      options: [
+        {
+          label: '允许',
+          value: true,
+        },
+        {
+          label: '不允许',
+          value: false,
+        },
+      ],
+    },
+  },
+  {
+    field: 'viewRule',
+    component: 'Radio',
+    props: {
+      span: 2,
+      label: '浏览权限',
+      rules: useValidate.required('浏览权限'),
+    },
+    componentProps: {
+      options: [
+        {
+          label: '所有人',
+          value: 0,
+        },
+        {
+          label: '登录',
+          value: 1,
+        },
+        {
+          label: '会员',
+          value: 2,
+        },
+        {
+          label: '购买',
+          value: 3,
+        },
+      ],
+    },
+  },
+  {
+    field: 'purchaseAmount',
+    component: 'InputNumber',
+    props: {
+      span: 2,
+      label: '购买金额',
+      rules: useValidate.required('购买金额'),
+    },
+    componentProps: {
+      min: 1,
+      max: 999999,
+      placeholder: '请输入购买金额',
     },
   },
   {

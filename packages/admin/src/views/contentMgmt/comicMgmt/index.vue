@@ -61,6 +61,11 @@ getCategoryPageApi({ pageSize: 500 }).then(({ list }) => {
 
 function toolbarHandler(type: string) {
   if (type === 'add') {
+    formModal.defaultValue = {
+      canComment: true,
+      canDownload: true,
+      viewRule: 0,
+    }
     formModal.show = true
   }
 }
@@ -86,6 +91,10 @@ async function editRow(row: GetComicDetailTypesRes) {
     categoryIds: currentComic.value.categories.map((item) => item.id),
   }
   formModal.show = true
+}
+
+function formChange(val: GetComicDetailTypesRes) {
+  formTool.toggleDisplay(['purchaseAmount'], val.viewRule === 3)
 }
 </script>
 
@@ -142,6 +151,7 @@ async function editRow(row: GetComicDetailTypesRes) {
       title="漫画"
       :default-value="formModal.defaultValue"
       :options="formTool.options"
+      @update:model-value="formChange"
       @submit="submitForm"
     />
   </div>

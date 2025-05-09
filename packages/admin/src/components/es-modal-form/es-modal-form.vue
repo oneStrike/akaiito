@@ -19,6 +19,7 @@ const emits = defineEmits<{
   (event: 'close'): void
   (event: 'closed'): void
   (event: 'submit', data: any): void
+  (event: 'update:modelValue', data: any): void
 }>()
 
 const formData = defineModel({
@@ -90,6 +91,7 @@ function formSubmit(val: IterateObject) {
       :options="options"
       :show-btn="false"
       :form-props="formProps"
+      @update:model-value="emits('update:modelValue', $event)"
       @submit="formSubmit"
     />
   </es-modal>

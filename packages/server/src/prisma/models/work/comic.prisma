@@ -18,9 +18,6 @@ model WorkComic {
   /// 作者id
   authorId          Int                   @map("author_id") @db.Integer
   author            WorkAuthor            @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  /// 权限
-  permissions       WorkPermissions?      @relation(fields: [permissionId], references: [id])
-  permissionId      Int?                  @map("permission_id") @db.Integer
   /// 内容年龄分级
   ageRating         String?               @map("age_rating") @db.VarChar(50)
   /// 是否发布 1：发布 0：不发布
@@ -35,6 +32,14 @@ model WorkComic {
   publisher         String?               @db.VarChar(30)
   /// 是否已经完结
   isFinished        Boolean               @default(false) @map("is_finished")
+  /// 是否允许下载
+  canDownload       Boolean               @default(true) @map("can_download")
+  /// 是否允许评论
+  canComment        Boolean               @default(true) @map("can_comment")
+  /// 查看规则 0 所有人  1登录 2会员 3购买
+  viewRule          Int                   @default(0) @map("view_rule") @db.SmallInt
+  /// 购买需要消耗的金额
+  purchaseAmount    Int                   @default(0) @map("purchase_amount")
   /// 创建时间
   createdAt         DateTime              @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
@@ -45,7 +50,6 @@ model WorkComic {
   chapters          WorkComicChapter[]
 
   @@index([authorId])
-  @@index([permissionId])
   @@map("work_comic")
 }
 

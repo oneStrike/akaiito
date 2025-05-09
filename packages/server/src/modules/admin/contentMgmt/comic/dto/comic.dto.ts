@@ -50,6 +50,18 @@ export class ComicDTO {
 
   @Rule(requiredBoolean)
   isFinished!: boolean
+
+  @Rule(validateBoolean)
+  canDownload?: boolean
+
+  @Rule(validateBoolean)
+  canComment?: boolean
+
+  @Rule(validateNumber)
+  viewRule?: number
+
+  @Rule(validateNumber)
+  purchaseAmount?: number
 }
 
 export class ComicUpdateDTO extends ComicDTO {

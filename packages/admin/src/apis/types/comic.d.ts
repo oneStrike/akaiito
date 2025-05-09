@@ -67,6 +67,18 @@ export interface GetComicPageTypesRes {
     /* 最后更新时间 */
     lastUpdated: string | null
 
+    /* 是否允许下载 */
+    canDownload: boolean
+
+    /* 是否允许评论 */
+    canComment: boolean
+
+    /* 查看规则 0 公开  1登录 2会员 3购买 */
+    viewRule: number
+
+    /* 购买需要消耗的金额 */
+    purchaseAmount?: number
+
     /* 创建时间 */
     createdAt: string
 
@@ -163,6 +175,18 @@ export interface GetComicDetailTypesRes {
   /* 是否完结，1完结0连载 */
   isFinished: number
 
+  /* 是否允许下载 */
+  canDownload: boolean
+
+  /* 是否允许评论 */
+  canComment: boolean
+
+  /* 查看规则 0 公开  1登录 2会员 3购买 */
+  viewRule: number
+
+  /* 购买需要消耗的金额 */
+  purchaseAmount?: number
+
   /* 创建时间 */
   createdAt: string
 
@@ -219,6 +243,18 @@ export interface CreateComicTypesReq {
 
   /* 是否完结，1完结0连载 */
   isFinished: number
+
+  /* 是否允许下载 */
+  canDownload: boolean
+
+  /* 是否允许评论 */
+  canComment: boolean
+
+  /* 查看规则 0 公开  1登录 2会员 3购买 */
+  viewRule: number
+
+  /* 购买需要消耗的金额 */
+  purchaseAmount?: number
 }
 
 export interface CreateComicTypesRes {
@@ -275,6 +311,18 @@ export interface UpdateComicTypesReq {
 
   /* 是否完结，1完结0连载 */
   isFinished: number
+
+  /* 是否允许下载 */
+  canDownload: boolean
+
+  /* 是否允许评论 */
+  canComment: boolean
+
+  /* 查看规则 0 公开  1登录 2会员 3购买 */
+  viewRule: number
+
+  /* 购买需要消耗的金额 */
+  purchaseAmount?: number
 }
 
 /*  */
@@ -297,6 +345,18 @@ export interface UpdateComicPublishTypesReq {
 
   /* 是否发布 1：发布 0：不发布 */
   isPublish: number
+
+  /* 是否允许下载 */
+  canDownload: boolean
+
+  /* 是否允许评论 */
+  canComment: boolean
+
+  /* 查看规则 0 公开  1登录 2会员 3购买 */
+  viewRule: number
+
+  /* 购买需要消耗的金额 */
+  purchaseAmount?: number
 }
 
 export interface UpdateComicPublishTypesRes {
