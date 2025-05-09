@@ -31,7 +31,6 @@ export class ComicController {
 
   @Get('/getComicPage', { summary: '获取漫画列表' })
   async getComicPage(@Query() query: ComicSearchDTO) {
-    console.log(query)
     return await this.comicService.getPage(query)
   }
 

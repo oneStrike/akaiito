@@ -1,4 +1,4 @@
-import { WorkComic, PrismaClient } from '@prisma/client'
+import { WorkComic, PrismaClient, AuthorRole } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
@@ -42,7 +42,9 @@ export class WorkComicService extends BasicService<WorkComic> {
         author: {
           connect: {
             id: authorId,
-            isCartoonist: true,
+            roles: {
+              hasSome: [AuthorRole.COMIC_ARTIST],
+            },
           },
         },
       },
@@ -57,7 +59,9 @@ export class WorkComicService extends BasicService<WorkComic> {
       comicData['author'] = {
         connect: {
           id: authorId,
-          isCartoonist: true,
+          roles: {
+            hasSome: [AuthorRole.COMIC_ARTIST],
+          },
         },
       }
     }
@@ -117,8 +121,8 @@ export class WorkComicService extends BasicService<WorkComic> {
   }
 
   //获取漫画详情数据
-  getDetail({ id }) {
-    return this.findUnique({
+  async getDetail({ id }) {
+    const comic = await this.findUnique({
       relationLoadStrategy: 'join',
       where: {
         id,
@@ -141,12 +145,11 @@ export class WorkComicService extends BasicService<WorkComic> {
           },
         },
       },
-    }).then((comic) => {
-      if (comic) {
-        comic.categories = comic.categories.map((category) => category.category)
-      }
-      return comic
     })
+    if (comic) {
+      comic.categories = comic.categories.map((category) => category.category)
+    }
+    return comic
   }
 
   // 删除

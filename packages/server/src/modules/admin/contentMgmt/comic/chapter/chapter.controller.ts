@@ -10,7 +10,7 @@ import { BasicIdDTO, BasicOrderDTO } from '@/basic/dto/basic.dto'
 import { SortQuery } from '@/decorator/sortQuery.decorator'
 import { WorkComicChapterService } from '@/service/work/comic/chapter.service'
 
-@Controller('/admin/comic/chapter', { description: '作品章节' })
+@Controller('/admin/comic/chapter', { description: '漫画章节' })
 export class ComicChapterController {
   @Inject()
   chapterService: WorkComicChapterService
