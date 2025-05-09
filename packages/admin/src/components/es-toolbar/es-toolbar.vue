@@ -23,32 +23,30 @@ const throttleInput = reactive<IterateObject>({
   value: {},
 })
 
-if (props.filter) {
-  watch(
-    props.filter,
-    (val: ToolbarFilter) => {
-      if (Array.isArray(val)) {
-        innerFilter.value = JSON.parse(JSON.stringify(val)).map(
-          (item: ToolbarFilter[number]) => {
-            if (item.component === 'Input') {
-              throttleInput.field.push(item.field)
-            }
-            if (!item.componentProps) {
-              item.componentProps = {}
-            }
+watch(
+  () => props.filter!,
+  (val: ToolbarFilter) => {
+    if (Array.isArray(val)) {
+      innerFilter.value = JSON.parse(JSON.stringify(val)).map(
+        (item: ToolbarFilter[number]) => {
+          if (item.component === 'Input') {
+            throttleInput.field.push(item.field)
+          }
+          if (!item.componentProps) {
+            item.componentProps = {}
+          }
 
-            if (typeof item.componentProps.clearable !== 'boolean') {
-              item.componentProps.clearable = true
-            }
+          if (typeof item.componentProps.clearable !== 'boolean') {
+            item.componentProps.clearable = true
+          }
 
-            return item
-          },
-        )
-      }
-    },
-    { deep: true, immediate: true },
-  )
-}
+          return item
+        },
+      )
+    }
+  },
+  { deep: true, immediate: true },
+)
 
 function resetFilter() {
   esFormRef.value?.resetForm()

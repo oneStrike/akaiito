@@ -20,7 +20,12 @@ const modalFrom = reactive({
 })
 const currentRow = ref<Record | null>(null)
 const formTool = useFormTool(formOptions)
-const { reset, request, loading, requestData, params, sortChange } = useRequest(getAuthorPageApi)
+const { reset, request, loading, requestData, params, sortChange } = useRequest(async (params: IterateObject) => {
+  if (Array.isArray(params.roles)) {
+    params.roles = JSON.stringify(params.roles)
+  }
+  return await getAuthorPageApi(params)
+})
 
 async function submitForm(val: any) {
   modalFrom.loading = true
