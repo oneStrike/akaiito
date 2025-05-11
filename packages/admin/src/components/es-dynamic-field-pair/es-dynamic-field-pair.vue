@@ -15,26 +15,22 @@ const emits = defineEmits<{
   (event: 'update:modelValue', val: null | string | { label: string, value: string }[]): void
 }>()
 
-const items = ref<{ label: string, value: string }[]>([])
 const innerItems = ref<{ label: string, value: string }[]>([])
 watch(() => props.modelValue, (val) => {
-  if (!val) {
-    items.value = [{ label: '', value: '' }]
-  } else {
-    items.value = utils.parseJson(val)
-  }
   if (!innerItems.value.length) {
-    innerItems.value = utils.deepCopy(items.value)
+    if (!val) {
+      innerItems.value = [{ label: '', value: '' }]
+    } else {
+      innerItems.value = utils.parseJson(val)
+    }
   }
 }, { deep: true, immediate: true })
 
 function addItem() {
-  items.value.push({ label: '', value: '' })
   innerItems.value.push({ label: '', value: '' })
 }
 
 function removeItem(idx: number) {
-  items.value.splice(idx, 1)
   innerItems.value.splice(idx, 1)
 }
 
@@ -52,8 +48,8 @@ function valueInputChange() {
 <template>
   <div>
     <div
-      v-for="(item, index) in items" :key="index" class="flex items-center"
-      :class="items.length !== 1 && index !== items.length - 1 ? 'mb-2' : ''"
+      v-for="(item, index) in innerItems" :key="index" class="flex items-center"
+      :class="innerItems.length !== 1 && index !== innerItems.length - 1 ? 'mb-2' : ''"
     >
       <div class="flex">
         <el-input
@@ -72,7 +68,7 @@ function valueInputChange() {
       </div>
       <es-icon v-if="index !== 0" name="closeCircle" class="ml-2" :size="22" color="error" @click="removeItem(index)" />
       <es-icon
-        v-if="index === items.length - 1" name="plusCircle" class="ml-2" :size="22"
+        v-if="index === innerItems.length - 1" name="plusCircle" class="ml-2" :size="22"
         color="success"
         @click="addItem"
       />
