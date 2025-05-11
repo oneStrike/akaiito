@@ -20,6 +20,12 @@ const modalFrom = reactive({
 })
 const currentRow = ref<Record | null>(null)
 const formTool = useFormTool(formOptions)
+formTool.fillDict([
+  {
+    field: 'nationality',
+    code: 'nationality',
+  },
+])
 const { reset, request, loading, requestData, params, sortChange } = useRequest(async (params: IterateObject) => {
   if (Array.isArray(params.roles)) {
     params.roles = JSON.stringify(params.roles)
@@ -72,7 +78,7 @@ function identityHandler(row: Record) {
 }
 
 function blank(record: Record) {
-  window.open(record.website, '_blank')
+  window.open(record.website!, '_blank')
 }
 
 const openModal = (val?: Record) => {

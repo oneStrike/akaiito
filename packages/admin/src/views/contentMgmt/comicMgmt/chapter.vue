@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { CreateChapterTypesReq, UpdateChapterOrderTypesReq } from '@/apis/types/chapter'
+import type { GetChapterTypesRes, UpdateChapterOrderTypesReq } from '@/apis/types/chapter'
 import type { GetComicDetailTypesRes } from '@/apis/types/comic'
 import {
   createChapterApi,
   deleteChapterApi,
   getChapterApi,
+  getChapterPageApi,
   updateChapterApi,
   updateChapterOrderApi,
   updateChapterPublishApi,
@@ -28,65 +29,47 @@ const props = withDefaults(
 const formTool = useFormTool(chapterFormOptions)
 
 const { request, requestData, loading, params, sortChange } = useRequest(
-  getChapterApi,
+  getChapterPageApi,
   {
     defaultParams: {
       comicId: props.comic?.id,
     },
-    init: false,
   },
 )
 
 const formModal = reactive({
   show: false,
   loading: false,
-  data: {} as CreateChapterTypesReq,
+  data: {} as GetChapterTypesRes,
 })
 
 const showContentModal = ref(false)
 
-const currentChapter = ref<TableItem | null>()
+const currentRecord = ref<TableItem | null>()
 
 const modalShow = defineModel('show', {
   type: Boolean,
   default: false,
 })
-watch(
-  modalShow,
-  (val) => {
-    if (val) {
-      request()
-    }
-  },
-  {
-    immediate: true,
-  },
-)
 
-watch(
-  formModal.data,
-  (val: CreateChapterTypesReq) => {
-    formTool.toggleDisplay('purchaseAmount', val.viewRule === 3)
-  },
-  { deep: true },
-)
 
 async function submit(val: any) {
   val.comicId = props.comic?.id
-  if (currentChapter.value?.id) {
-    val.id = currentChapter.value.id
+  if (currentRecord.value?.id) {
+    val.id = currentRecord.value.id
     await updateChapterApi(val)
+    useMessage.success(PromptsEnum.UPDATED)
   } else {
     await createChapterApi(val)
+    useMessage.success(PromptsEnum.CREATED)
   }
   formModal.show = false
   formModal.loading = false
-  useMessage.success(PromptsEnum.CREATED)
   request()
 }
 
 async function editContent(row: TableItem) {
-  currentChapter.value = row
+  currentRecord.value = row
   showContentModal.value = true
 }
 
@@ -94,6 +77,16 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
   await updateChapterOrderApi(val)
   useMessage.success(PromptsEnum.UPDATED)
   await request()
+}
+
+async function openForm(row: TableItem) {
+  currentRecord.value = row
+  formModal.data = await getChapterApi({ id: row.id })
+  formModal.show = true
+}
+
+function formChange(val: TableItem) {
+  formTool.toggleDisplay('purchaseAmount', val.viewRule === 3)
 }
 </script>
 
@@ -129,7 +122,7 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
         <el-button
           link
           type="primary"
-          @click="((formModal.show = true), (currentChapter = row))"
+          @click="openForm(row)"
         >
           编辑
         </el-button>
@@ -145,25 +138,26 @@ async function sortChapter(val: UpdateChapterOrderTypesReq) {
 
     <EsModalForm
       v-if="formModal.show"
-      v-model="formModal.data"
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
-      :default-value="currentChapter"
+      :model-value="formModal.data"
+      :default-value="currentRecord"
       title="章节"
       width="800"
       :options="formTool.options"
+      @update:model-value="formChange"
       @submit="submit"
-      @closed="currentChapter = null"
+      @closed="currentRecord = null"
     />
     <ComicContent
-      v-if="showContentModal && currentChapter"
+      v-if="showContentModal && currentRecord"
       v-model:show="showContentModal"
       title="内容"
       width="800"
       :comic-id="comic!.id"
-      :chapter-id="currentChapter!.id"
+      :chapter-id="currentRecord!.id"
       @submit="submit"
-      @closed="currentChapter = null"
+      @closed="currentRecord = null"
     />
   </es-modal>
 </template>

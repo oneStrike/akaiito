@@ -1,4 +1,4 @@
-import { WorkComic, PrismaClient, AuthorRole } from '@prisma/client'
+import { WorkComic, PrismaClient, AuthorRoleEnum } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
 import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
@@ -43,7 +43,7 @@ export class WorkComicService extends BasicService<WorkComic> {
           connect: {
             id: authorId,
             roles: {
-              hasSome: [AuthorRole.COMIC_ARTIST],
+              hasSome: [AuthorRoleEnum.COMIC_ARTIST],
             },
           },
         },
@@ -60,7 +60,7 @@ export class WorkComicService extends BasicService<WorkComic> {
         connect: {
           id: authorId,
           roles: {
-            hasSome: [AuthorRole.COMIC_ARTIST],
+            hasSome: [AuthorRoleEnum.COMIC_ARTIST],
           },
         },
       }
@@ -109,6 +109,7 @@ export class WorkComicService extends BasicService<WorkComic> {
         popularity: true,
         isFinished: true,
         lastUpdated: true,
+        viewRule: true,
         virtualPopularity: true,
         author: {
           select: {

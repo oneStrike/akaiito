@@ -21,6 +21,22 @@ const roles = [
   },
 ]
 
+const gender = [
+  {
+    label: '未知',
+    value: 0,
+  },
+  {
+    label: '男',
+    value: 1,
+  },
+  {
+    label: '女',
+    value: 2,
+  },
+
+]
+
 export const tableColumns: EsTableColumn = [
   {
     label: '姓名',
@@ -112,6 +128,31 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'gender',
+    component: 'Radio',
+    props: {
+      span: 2,
+      label: '性别',
+      rules: useValidate.required('性别'),
+    },
+    componentProps: {
+      placeholder: '请选择性别',
+      options: gender,
+    },
+  },
+  {
+    field: 'nationality',
+    component: 'Select',
+    props: {
+      span: 2,
+      label: '国籍',
+      rules: useValidate.required('国籍'),
+    },
+    componentProps: {
+      placeholder: '请选择国籍',
+    },
+  },
+  {
     field: 'description',
     component: 'Textarea',
     props: {
@@ -124,15 +165,26 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'website',
-    component: 'Input',
+    field: 'socialLinks',
+    component: 'DynamicFieldPair',
     props: {
-      label: '作者外部主页',
+      label: '社交媒体链接',
       rules: useValidate.url(false),
     },
     componentProps: {
-      placeholder: '请输入作者外部主页',
+      placeholder: ['请输入社交载体', '请输入链接'],
       maxlength: 50,
+    },
+  },
+  {
+    field: 'remark',
+    component: 'Textarea',
+    props: {
+      label: '备注',
+    },
+    componentProps: {
+      placeholder: '请输入备注信息',
+      rows: 5,
     },
   },
 ]

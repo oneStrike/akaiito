@@ -3,6 +3,25 @@ import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import { useFormTool } from '@/hooks/useForm'
 
+const viewRule = [
+  {
+    label: '所有人',
+    value: 0,
+  },
+  {
+    label: '登录',
+    value: 1,
+  },
+  {
+    label: '会员',
+    value: 2,
+  },
+  {
+    label: '购买',
+    value: 3,
+  },
+]
+
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
     type: 'button',
@@ -56,10 +75,12 @@ export const tableColumn: EsTableColumn = [
     slotName: 'author',
   },
   {
-    prop: 'isPublish',
-    label: '发布状态',
+    prop: 'viewRule',
+    label: '浏览权限',
     align: 'center',
-    slotName: 'isPublish',
+    formatter: (row) => {
+      return viewRule.find((item) => item.value === row.viewRule)?.label ?? '-'
+    },
   },
   {
     prop: 'lastUpdated',
@@ -69,6 +90,13 @@ export const tableColumn: EsTableColumn = [
     sortOrders: ['ascending', 'descending'],
     sortBy: 'lastUpdated',
   },
+  {
+    prop: 'isPublish',
+    label: '发布状态',
+    align: 'center',
+    slotName: 'isPublish',
+  },
+
   {
     prop: 'action',
     label: '操作',
@@ -96,6 +124,14 @@ export const chapterColumn: EsTableColumn = [
     label: '发布状态',
     align: 'center',
     slotName: 'isPublish',
+  },
+  {
+    prop: 'viewRule',
+    label: '浏览权限',
+    align: 'center',
+    formatter: (row) => {
+      return viewRule.find((item) => item.value === row.viewRule)?.label ?? '-'
+    },
   },
   {
     prop: 'action',
@@ -174,38 +210,33 @@ export const chapterFormOptions: EsFormOptions[] = [
       placeholder: '请输入查看规则',
       maxlength: 50,
       defaultValue: 0,
-      options: [
-        {
-          label: '公开',
-          value: 0,
-        },
-        {
-          label: '登录',
-          value: 1,
-        },
-        {
-          label: '会员',
-          value: 2,
-        },
-        {
-          label: '购买',
-          value: 3,
-        },
-      ],
+      options: viewRule,
     },
   },
   {
     field: 'purchaseAmount',
     component: 'InputNumber',
-    show: false,
     props: {
       span: 2,
       label: '购买金额',
       rules: useValidate.required('购买金额'),
     },
     componentProps: {
+      min: 1,
+      max: 999999,
       placeholder: '请输入购买金额',
       maxlength: 50,
+    },
+  },
+  {
+    field: 'remark',
+    component: 'Textarea',
+    props: {
+      label: '备注',
+    },
+    componentProps: {
+      placeholder: '请填写章节备注',
+      rows: 5,
     },
   },
 ]
@@ -229,6 +260,17 @@ export const filter: EsFormOptions[] = [
           value: false,
         },
       ],
+    },
+  },
+  {
+    field: 'viewRule',
+    component: 'Select',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '浏览权限',
+      options: viewRule,
     },
   },
   {
@@ -493,24 +535,7 @@ export const formOptions: EsFormOptions[] = [
       rules: useValidate.required('浏览权限'),
     },
     componentProps: {
-      options: [
-        {
-          label: '所有人',
-          value: 0,
-        },
-        {
-          label: '登录',
-          value: 1,
-        },
-        {
-          label: '会员',
-          value: 2,
-        },
-        {
-          label: '购买',
-          value: 3,
-        },
-      ],
+      options: viewRule,
     },
   },
   {

@@ -1,17 +1,65 @@
 /**
- *  接口 [获取章节列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242072801)
- *  @标签 漫画/章节/获取章节列表
+ *  接口 [获取章节详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242072801)
+ *  @标签 漫画/章节/获取章节详情
  *  @方式 GET
  *  @地址 /admin/comic/chapter/getChapter
- *  @更新时间 2025-05-07 17:30:30
+ *  @更新时间 2025-05-10 19:01:03
  */
 
 export interface GetChapterTypesReq {
+  /* 主键id */
+  id?: number
+}
+
+export interface GetChapterTypesRes {
+  /* 主键id */
+  id: number
+
+  /* 章节标题 */
+  title: string
+
+  /* 是否发布 */
+  isPublish?: boolean
+
+  /* 关联的漫画id */
+  comicId?: number
+
+  /* 关联的小说 */
+  novelId?: number
+
+  /* 排序 */
+  order?: number
+
+  /* 查看规则 0 公开  1登录 2会员 3购买 */
+  viewRule: number
+
+  /* 购买需要消耗的金额 */
+  purchaseAmount?: number
+
+  /* 备注 */
+  remark?: string
+
+  /* 创建时间 */
+  createdAt: string
+
+  /*  更新时间 */
+  updatedAt: string
+}
+
+/**
+ *  接口 [获取章节分页数据](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-294162257)
+ *  @标签 漫画/章节/获取章节分页数据
+ *  @方式 GET
+ *  @地址 /admin/comic/chapter/getChapterPage
+ *  @更新时间 2025-05-10 19:00:48
+ */
+
+export interface GetChapterPageTypesReq {
   /* 漫画id */
   comicId?: number
 }
 
-export interface GetChapterTypesRes {
+export interface GetChapterPageTypesRes {
   list: {
     /* 主键id */
     id: number
@@ -36,6 +84,9 @@ export interface GetChapterTypesRes {
 
     /* 购买需要消耗的金额 */
     purchaseAmount?: number
+
+    /* 备注 */
+    remark?: string
 
     /* 创建时间 */
     createdAt: string
@@ -79,6 +130,9 @@ export interface CreateChapterTypesReq {
 
   /* 购买需要消耗的金额 */
   purchaseAmount?: number
+
+  /* 备注 */
+  remark?: string
 }
 
 export interface CreateChapterTypesRes {
@@ -115,6 +169,9 @@ export interface UpdateChapterTypesReq {
 
   /* 购买需要消耗的金额 */
   purchaseAmount?: number
+
+  /* 备注 */
+  remark?: string
 }
 
 export interface UpdateChapterTypesRes {
@@ -139,6 +196,9 @@ export interface UpdateChapterPublishTypesReq {
 
   /* 排序 */
   order?: number
+
+  /* 备注 */
+  remark?: string
 }
 
 export interface UpdateChapterPublishTypesRes {

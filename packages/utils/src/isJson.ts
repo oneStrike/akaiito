@@ -21,17 +21,10 @@ export function isJson(str: string) {
 
 /**
  * 将给定的字符串转换为JSON对象，如果无法转换则返回原始字符串
- *
- * 此函数的存在是因为在处理数据时，我们可能会接收到字符串形式的JSON对象
- * 但是，如果字符串不是有效的JSON格式，直接使用JSON.parse会抛出异常
- * 因此，此函数提供了一种安全的转换方式，确保在任何情况下都能得到合理的处理结果
- *
- * @param str 待转换的字符串
- * @returns 如果字符串是有效的JSON格式，则返回对应的JSON对象；否则返回原始字符串
  */
-export function parseJson(str: string) {
+export function parseJson(value: any, defaultValue?: any) {
   // 尝试判断字符串是否为有效的JSON格式
-  const parseValue = isJson(str)
+  const parseResult = isJson(value)
   // 根据判断结果，返回相应的值
-  return parseValue === false ? str : parseValue
+  return parseResult === false ? defaultValue || value : parseResult
 }

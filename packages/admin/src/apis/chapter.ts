@@ -2,6 +2,8 @@ import { httpHandler } from '@/utils/request'
 import type {
   GetChapterTypesRes,
   GetChapterTypesReq,
+  GetChapterPageTypesRes,
+  GetChapterPageTypesReq,
   CreateChapterTypesRes,
   CreateChapterTypesReq,
   UpdateChapterTypesRes,
@@ -15,17 +17,34 @@ import type {
 } from './types/chapter.d'
 
 /**
- *  接口 [获取章节列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242072801)
- *  @标签 漫画/章节/获取章节列表
+ *  接口 [获取章节详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-242072801)
+ *  @标签 漫画/章节/获取章节详情
  *  @方式 GET
  *  @地址 /admin/comic/chapter/getChapter
- *  @更新时间 2025-05-07 17:30:30
+ *  @更新时间 2025-05-10 19:01:03
  */
 
 export const getChapterApi = (params: GetChapterTypesReq): Promise<GetChapterTypesRes> => {
   return httpHandler({
     method: 'GET',
     url: '/admin/comic/chapter/getChapter',
+    headers: {},
+    params,
+  })
+}
+
+/**
+ *  接口 [获取章节分页数据](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-294162257)
+ *  @标签 漫画/章节/获取章节分页数据
+ *  @方式 GET
+ *  @地址 /admin/comic/chapter/getChapterPage
+ *  @更新时间 2025-05-10 19:00:48
+ */
+
+export const getChapterPageApi = (params: GetChapterPageTypesReq): Promise<GetChapterPageTypesRes> => {
+  return httpHandler({
+    method: 'GET',
+    url: '/admin/comic/chapter/getChapterPage',
     headers: {},
     params,
   })

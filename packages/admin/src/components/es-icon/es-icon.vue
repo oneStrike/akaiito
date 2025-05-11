@@ -97,6 +97,8 @@ const clickHandler = () => {
     <icon-majest-device-mobile-line v-if="name === 'mobile'" />
     <icon-majest-speakerphone-line v-if="name === 'speakerphone'" />
     <icon-majest-close-line v-if="name === 'close'" />
+    <icon-majest-plus-circle-line v-if="name === 'plusCircle'" />
+    <icon-majest-close-circle-line v-if="name === 'closeCircle'" />
 
     <icon-tabler-user-edit v-if="name === 'userEdit'" />
   </el-icon>

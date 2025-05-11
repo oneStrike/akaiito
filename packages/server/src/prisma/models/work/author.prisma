@@ -1,5 +1,5 @@
 // 在模型文件顶部添加枚举定义
-enum AuthorRole {
+enum AuthorRoleEnum {
   /// 模特
   MODEL        @map("model")
   /// 作家
@@ -10,26 +10,42 @@ enum AuthorRole {
   ILLUSTRATOR  @map("illustrator")
 }
 
+// 在模型文件顶部添加枚举定义
+enum GenderEnum {
+  /// 未知
+  UNKNOWN @map("0")
+  /// 男性
+  MALE    @map("1")
+  /// 女性
+  FEMALE  @map("2")
+}
+
 /// 作者
 model WorkAuthor {
   /// 主键id
-  id          Int          @id @default(autoincrement())
+  id          Int              @id @default(autoincrement())
   /// 作者名称
-  name        String       @db.VarChar(30)
+  name        String           @db.VarChar(30)
   /// 作者头像
-  avatar      String?      @db.VarChar(200)
+  avatar      String?          @db.VarChar(200)
   /// 作者描述
-  description String?      @db.VarChar(1000)
+  description String?          @db.VarChar(1000)
   /// 状态 1：正常 0：禁用
-  status      Boolean?     @default(true)
-  /// 作者主页
-  website     String?      @db.VarChar(200)
+  status      Boolean?         @default(true)
   /// 身份列表
-  roles       AuthorRole[] @default([]) @map("roles")
+  roles       AuthorRoleEnum[] @default([])
+  /// 国籍
+  nationality String?          @db.VarChar(50)
+  /// 性别
+  gender      GenderEnum?      @default(UNKNOWN)
+  /// 社交媒体链接
+  socialLinks String?          @db.VarChar(1000)
+  /// 备注信息
+  remark      String?          @db.VarChar(1000)
   /// 创建时间
-  createdAt   DateTime     @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt   DateTime     @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt   DateTime         @updatedAt @map("updated_at") @db.Timestamp(0)
 
   WorkComic WorkComic[]
 

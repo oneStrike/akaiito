@@ -176,7 +176,17 @@ defineExpose({
             v-on="item.on || {}"
           />
 
-          <es-editor v-if="item.component === 'RichText'" v-model="formData[item.field]" v-bind="item.componentProps" />
+          <es-dynamic-field-pair
+            v-if="item.component === 'DynamicFieldPair'"
+            v-model="formData[item.field]"
+            v-bind="item.componentProps"
+            v-on="item.on || {}"
+          />
+
+          <es-editor
+            v-if=" item.component
+              === 'RichText'" v-model="formData[item.field]" v-bind="item.componentProps"
+          />
         </slot>
       </el-form-item>
     </template>

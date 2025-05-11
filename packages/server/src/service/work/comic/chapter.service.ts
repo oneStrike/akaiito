@@ -29,6 +29,7 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
   async getChapter(where: ChapterPageDTO) {
     return this.findPage({
       omit: {
+        remark: true,
         content: true,
       },
       where,

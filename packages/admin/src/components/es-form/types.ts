@@ -12,6 +12,7 @@ export type EsFormComponent =
   | 'DateTime'
   | 'Upload'
   | 'RemoteSelect'
+  | 'DynamicFieldPair'
 
 export type FormComponentProps = Partial<FormItemProps> & {
   span?: number

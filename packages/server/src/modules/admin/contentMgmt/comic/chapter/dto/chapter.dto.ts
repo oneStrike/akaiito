@@ -25,6 +25,9 @@ export class ChapterDTO {
   @Rule(validateNumberLess(4))
   viewRule?: number
 
+  @Rule(validateString)
+  remark?: string
+
   @Rule(validateNumber)
   purchaseAmount?: number
 

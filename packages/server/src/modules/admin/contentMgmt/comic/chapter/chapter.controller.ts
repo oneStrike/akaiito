@@ -20,10 +20,15 @@ export class ComicChapterController {
     return await this.chapterService.createChapter(body)
   }
 
-  @Get('/getChapter', { summary: '获取作品章节' })
+  @Get('/getChapterPage', { summary: '获取作品章节分页列表' })
   @SortQuery()
-  async getChapter(@Query() query: ChapterPageDTO) {
+  async getChapterPage(@Query() query: ChapterPageDTO) {
     return await this.chapterService.getChapter(query)
+  }
+
+  @Get('/getChapter', { summary: '获取作品章节' })
+  async getChapter(@Query() query: BasicIdDTO) {
+    return await this.chapterService.findUnique({ where: query })
   }
 
   @Post('/updateChapter', { summary: '更新作品章节' })

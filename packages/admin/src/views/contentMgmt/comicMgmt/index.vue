@@ -117,6 +117,7 @@ function formChange(val: GetComicDetailTypesRes) {
       <template #isFinished="{ row }">
         <el-text :type="row.isFinished ? 'success' : 'danger'">{{ row.isFinished ? '已完结' : '连载中' }}</el-text>
       </template>
+
       <template #author="{ row }">
         <el-button link type="primary">{{ row.author.name }}</el-button>
       </template>

@@ -7,6 +7,10 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
       code: 'work_language',
     },
     {
+      name: '国籍',
+      code: 'nationality',
+    },
+    {
       name: '作品区域',
       code: 'work_region',
     },
@@ -60,6 +64,48 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
       {
         name: 'r18',
         code: 'R18',
+      },
+    ],
+    nationality: [
+      {
+        name: '中国',
+        code: 'CN',
+      },
+      {
+        name: '美国',
+        code: 'US',
+      },
+      {
+        name: '日本',
+        code: 'JP',
+      },
+      {
+        name: '韩国',
+        code: 'KR',
+      },
+      {
+        name: '英国',
+        code: 'GB',
+      },
+      {
+        name: '法国',
+        code: 'FR',
+      },
+      {
+        name: '德国',
+        code: 'DE',
+      },
+      {
+        name: '印度',
+        code: 'IN',
+      },
+      {
+        name: '俄罗斯',
+        code: 'RU',
+      },
+      {
+        name: '巴西',
+        code: 'BR',
       },
     ],
   }

@@ -70,11 +70,15 @@ export class ComicUpdateDTO extends ComicDTO {
 }
 
 export class ComicSearchDTO extends BasicPageDTO {
+
   @Rule(validateString)
   name?: string
 
   @Rule(validateString)
   authorName?: string
+
+  @Rule(validateNumber)
+  viewRule?: number
 
   @Rule(validateNumber)
   categoryId?: number
