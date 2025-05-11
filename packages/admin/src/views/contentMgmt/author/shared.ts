@@ -169,7 +169,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'DynamicFieldPair',
     props: {
       label: '社交媒体链接',
-      rules: useValidate.url(false),
+      rules: useValidate.required('社交媒体链接'),
     },
     componentProps: {
       placeholder: ['请输入社交载体', '请输入链接'],
