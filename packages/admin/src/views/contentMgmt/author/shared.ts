@@ -1,6 +1,9 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
-import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
+import type {
+  EsToolbarProps,
+  ToolbarFilter,
+} from '@/components/es-toolbar/types'
 
 const roles = [
   {
@@ -24,17 +27,16 @@ const roles = [
 const gender = [
   {
     label: '未知',
-    value: 0,
+    value: '0',
   },
   {
     label: '男',
-    value: 1,
+    value: '1',
   },
   {
     label: '女',
-    value: 2,
+    value: '2',
   },
-
 ]
 
 export const tableColumns: EsTableColumn = [
@@ -169,11 +171,9 @@ export const formOptions: EsFormOptions[] = [
     component: 'DynamicFieldPair',
     props: {
       label: '社交媒体链接',
-      rules: useValidate.required('社交媒体链接'),
     },
     componentProps: {
       placeholder: ['请输入社交载体', '请输入链接'],
-      maxlength: 50,
     },
   },
   {
