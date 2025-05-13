@@ -2,6 +2,8 @@ import { httpHandler } from '@/utils/request'
 import type {
   GetAuthorPageTypesRes,
   GetAuthorPageTypesReq,
+  GetAuthorDetailTypesRes,
+  GetAuthorDetailTypesReq,
   CreateAuthorTypesRes,
   CreateAuthorTypesReq,
   UpdateAuthorTypesRes,
@@ -24,6 +26,23 @@ export const getAuthorPageApi = (params: GetAuthorPageTypesReq): Promise<GetAuth
   return httpHandler({
     method: 'GET',
     url: '/admin/contentMgmt/author/getAuthorPage',
+    headers: {},
+    params,
+  })
+}
+
+/**
+ *  接口 [获取作者详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-295420478)
+ *  @标签 内容管理/作者管理/获取作者详情
+ *  @方式 GET
+ *  @地址 /admin/contentMgmt/author/getAuthorDetail
+ *  @更新时间 2025-05-13 22:06:30
+ */
+
+export const getAuthorDetailApi = (params: GetAuthorDetailTypesReq): Promise<GetAuthorDetailTypesRes> => {
+  return httpHandler({
+    method: 'GET',
+    url: '/admin/contentMgmt/author/getAuthorDetail',
     headers: {},
     params,
   })

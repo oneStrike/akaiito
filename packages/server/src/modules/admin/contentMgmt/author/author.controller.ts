@@ -25,7 +25,17 @@ export class AuthorController {
         },
       },
       like: { name: 'contains' },
+      omit: {
+        remark: true,
+        socialLinks: true,
+        description: true,
+      },
     })
+  }
+
+  @Get('/getAuthorDetail', { summary: '获取作者详情数据' })
+  async getAuthorDetail(@Query() query: BasicIdDTO) {
+    return this.authorService.findUnique({ where: query })
   }
 
   @Post('/createAuthor', { summary: '创建作者' })

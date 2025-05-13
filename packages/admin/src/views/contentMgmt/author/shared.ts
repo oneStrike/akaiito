@@ -27,15 +27,15 @@ const roles = [
 const gender = [
   {
     label: '未知',
-    value: '0',
+    value: 0,
   },
   {
     label: '男',
-    value: '1',
+    value: 1,
   },
   {
     label: '女',
-    value: '2',
+    value: 2,
   },
 ]
 
@@ -58,12 +58,6 @@ export const tableColumns: EsTableColumn = [
     align: 'center',
     slotName: 'roles',
     width: 200,
-  },
-  {
-    label: '外部主页',
-    prop: 'website',
-    align: 'center',
-    slotName: 'website',
   },
   {
     label: '状态',

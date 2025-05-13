@@ -37,14 +37,14 @@ export interface GetAuthorPageTypesRes {
     /* 作者头像 */
     avatar: string | null
 
-    /* 作者简介 */
-    description: string
-
-    /* 作者三方主页 */
-    website?: string | null
-
     /* 包含的角色 */
     roles: string[]
+
+    /* 国籍数据字典nationality */
+    nationality?: string | null
+
+    /* 性别 0未知1男2女 */
+    gender?: number
 
     /* 创建时间 */
     createdAt: string
@@ -60,6 +60,57 @@ export interface GetAuthorPageTypesRes {
 
   /* 总条数 */
   total: number
+}
+
+/**
+ *  接口 [获取作者详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-295420478)
+ *  @标签 内容管理/作者管理/获取作者详情
+ *  @方式 GET
+ *  @地址 /admin/contentMgmt/author/getAuthorDetail
+ *  @更新时间 2025-05-13 22:06:30
+ */
+
+export interface GetAuthorDetailTypesReq {
+  /* 主键id */
+  id?: number
+}
+
+export interface GetAuthorDetailTypesRes {
+  /* 主键id */
+  id: number
+
+  /* 启用状态 */
+  status: boolean
+
+  /* 作者姓名 */
+  name: string
+
+  /* 作者头像 */
+  avatar: string | null
+
+  /* 作者简介 */
+  description: string
+
+  /* 包含的角色 */
+  roles: string[]
+
+  /* 国籍数据字典nationality */
+  nationality?: string | null
+
+  /* 社交媒体链接，json数组格式 */
+  socialLinks?: string | null
+
+  /* 性别 0未知1男2女 */
+  gender?: number
+
+  /* 备注信息 */
+  remark?: string
+
+  /* 创建时间 */
+  createdAt: string
+
+  /* 更新时间 */
+  updatedAt: string
 }
 
 /**
@@ -80,11 +131,20 @@ export interface CreateAuthorTypesReq {
   /* 作者简介 */
   description: string
 
-  /* 作者三方主页 */
-  website?: string | null
-
   /* 包含的角色 */
   roles: string[]
+
+  /* 国籍数据字典nationality */
+  nationality?: string | null
+
+  /* 社交媒体链接，json数组格式 */
+  socialLinks?: string | null
+
+  /* 性别 0未知1男2女 */
+  gender?: number
+
+  /* 备注信息 */
+  remark?: string
 }
 
 /* 主键id */
@@ -111,11 +171,20 @@ export interface UpdateAuthorTypesReq {
   /* 作者简介 */
   description: string
 
-  /* 作者三方主页 */
-  website?: string | null
-
   /* 包含的角色 */
   roles: string[]
+
+  /* 国籍数据字典nationality */
+  nationality?: string | null
+
+  /* 社交媒体链接，json数组格式 */
+  socialLinks?: string | null
+
+  /* 性别 0未知1男2女 */
+  gender?: number
+
+  /* 备注信息 */
+  remark?: string
 }
 
 export interface UpdateAuthorTypesRes {
