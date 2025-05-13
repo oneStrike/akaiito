@@ -325,6 +325,8 @@
     "onElementRemoval": "readonly",
     "useCountdown": "readonly",
     "usePreferredReducedTransparency": "readonly",
-    "useSSRWidth": "readonly"
+    "useSSRWidth": "readonly",
+    "Slot": "readonly",
+    "Slots": "readonly"
   }
 }

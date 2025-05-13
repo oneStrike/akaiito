@@ -27,7 +27,7 @@ watch(
       if (val.includes('#')) {
         colorClass.value = `text-[${val}]`
       } else {
-        colorClass.value = val === 'primary' ? 'text-theme!' : `text-${val}!`
+        colorClass.value = val === 'primary' ? 'text-theme!' : `text-${val}`
       }
     }
   },

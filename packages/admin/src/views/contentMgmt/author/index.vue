@@ -97,6 +97,8 @@ async function getDetail(val: Record) {
 const openFormModal = async (val?: Record) => {
   if (val) {
     await getDetail(val)
+  } else {
+    currentRow.value = null
   }
   modalFrom.show = true
 }

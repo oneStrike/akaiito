@@ -23,15 +23,7 @@ watch(
   () => props.modelValue,
   (val) => {
     val = utils.parseJson(val)
-    if (Array.isArray(val)) {
-      val.forEach((item, idx) => {
-        if (item.label || item.value) {
-          innerItems.value[idx] = item
-        }
-      })
-    } else if (!innerItems.value.length) {
-      innerItems.value = [{ label: '', value: '' }]
-    }
+    innerItems.value = Array.isArray(val) ? val : [{ label: '', value: '' }]
   },
   { deep: true, immediate: true },
 )

@@ -1,6 +1,7 @@
 import presetRemToPx from '@unocss/preset-rem-to-px'
+import { presetWind3 } from '@unocss/preset-wind3'
 import transformerVariantGroup from '@unocss/transformer-variant-group'
-import { defineConfig, presetAttributify, presetUno, presetWind } from 'unocss'
+import { defineConfig, presetAttributify } from 'unocss'
 
 export default defineConfig({
   content: {
@@ -10,7 +11,7 @@ export default defineConfig({
     },
   },
   transformers: [transformerVariantGroup()],
-  presets: [presetUno(), presetAttributify(), presetRemToPx(), presetWind()],
+  presets: [presetWind3(), presetAttributify(), presetRemToPx()],
   shortcuts: [
     ['main-page', 'bg-[var(--el-bg-color)] p-3 overflow-hidden box-border'],
     ['wh-full', 'w-full h-full'],
@@ -18,10 +19,27 @@ export default defineConfig({
     ['cross-center', 'flex items-center'],
     ['main-center', 'flex justify-center'],
   ],
+  safelist: [
+    'text-theme',
+    'text-error',
+    'text-success',
+    'text-info',
+    'text-warning',
+    'text-primary',
+    'text-regular',
+    'text-secondary',
+    'text-disabled',
+    'border-theme',
+    'border-error',
+    'border-success',
+    'border-info',
+    'border-warning',
+    'border-primary',
+  ],
   rules: [
     [
       /^text-(.*)$/,
-      ([, c], { theme }: { theme: any }) => ({ color: theme.colors[c] }),
+      ([, c], { theme }) => ({ color: theme.colors[c] }),
       { autocomplete: 'text-<theme|error|success|info|warning|primary|regular|secondary|disabled|borderColor>' },
     ],
     [
@@ -30,18 +48,30 @@ export default defineConfig({
       { autocomplete: 'border-<top|right|bottom|left>' },
     ],
   ],
-  theme: {
-    colors: {
-      theme: 'var(--el-color-primary)',
-      error: 'var(--el-color-error)',
-      success: 'var(--el-color-success)',
-      info: 'var(--el-color-info)',
-      warning: 'var(--el-color-warning)',
-      primary: 'var(--el-text-color-primary)',
-      regular: 'var(--el-text-color-regular)',
-      secondary: 'var(--el-text-color-secondary)',
-      disabled: 'var(--el-text-color-disabled)',
-      borderColor: 'var(--el-border-color-light)',
-    },
-  },
+  theme:
+    {
+      colors: {
+        theme: 'var(--el-color-primary)',
+        error:
+          'var(--el-color-error)',
+        success:
+          'var(--el-color-success)',
+        info:
+          'var(--el-color-info)',
+        warning:
+          'var(--el-color-warning)',
+        primary:
+          'var(--el-text-color-primary)',
+        regular:
+          'var(--el-text-color-regular)',
+        secondary:
+          'var(--el-text-color-secondary)',
+        disabled:
+          'var(--el-text-color-disabled)',
+        borderColor:
+          'var(--el-border-color-light)',
+      }
+      ,
+    }
+  ,
 })
