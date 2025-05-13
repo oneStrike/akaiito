@@ -1,23 +1,13 @@
 // 在模型文件顶部添加枚举定义
 enum AuthorRoleEnum {
   /// 模特
-  MODEL        @map("model")
+  MODEL
   /// 作家
-  WRITER       @map("writer")
+  WRITER
   /// 漫画家
-  COMIC_ARTIST @map("comic_artist")
+  COMIC_ARTIST
   /// 插画家
-  ILLUSTRATOR  @map("illustrator")
-}
-
-// 在模型文件顶部添加枚举定义
-enum GenderEnum {
-  /// 未知
-  UNKNOWN @map("0")
-  /// 男性
-  MALE    @map("1")
-  /// 女性
-  FEMALE  @map("2")
+  ILLUSTRATOR
 }
 
 /// 作者
@@ -37,7 +27,7 @@ model WorkAuthor {
   /// 国籍
   nationality String?          @db.VarChar(50)
   /// 性别
-  gender      GenderEnum?      @default(UNKNOWN)
+  gender      Int?             @default(0) @db.SmallInt
   /// 社交媒体链接
   socialLinks String?          @db.VarChar(1000)
   /// 备注信息

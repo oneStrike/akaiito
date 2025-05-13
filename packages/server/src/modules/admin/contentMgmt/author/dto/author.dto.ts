@@ -8,7 +8,7 @@ import {
   validateStringArray,
 } from '@/utils/validate'
 import { OmitDto, Rule } from '@midwayjs/validate'
-import { AuthorRoleEnum, GenderEnum } from '@prisma/client'
+import { AuthorRoleEnum } from '@prisma/client'
 
 export class AuthorDTO {
   @Rule(requiredNumber)
@@ -30,7 +30,7 @@ export class AuthorDTO {
   roles!: AuthorRoleEnum[]
 
   @Rule(validateNumberLess(3))
-  gender?: GenderEnum
+  gender?: number
 
   @Rule(validateString)
   socialLinks?: string
@@ -42,8 +42,7 @@ export class AuthorDTO {
   remark?: string
 }
 
-export class CreateAuthorDTO extends OmitDto(AuthorDTO, ['id']) {
-}
+export class CreateAuthorDTO extends OmitDto(AuthorDTO, ['id']) {}
 
 export class GetAuthorPageDTO extends BasicPageDTO {
   @Rule(validateString)
