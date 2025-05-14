@@ -22,7 +22,7 @@ model Dictionary {
 model DictionaryItem {
   id             Int        @id @default(autoincrement())
   /// 父项code
-  dictionary     Dictionary @relation(fields: [dictionaryCode], references: [code])
+  dictionary     Dictionary @relation(fields: [dictionaryCode], references: [code], onDelete: Cascade)
   dictionaryCode String     @map("dictionary_code")
   /// 子项名称
   name           String     @db.VarChar(50)
