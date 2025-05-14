@@ -28,8 +28,6 @@
     "@types/node": "^22.15.17",
     "@unocss/autocomplete": "66.1.1",
     "@unocss/eslint-plugin": "66.1.1",
-    "@unocss/preset-wind": "^66.1.1",
-    "@unocss/preset-wind3": "^66.1.1",
     "@unocss/reset": "66.1.1",
     "@vue/language-server": "^2.2.10",
     "add": "^2.0.6",
