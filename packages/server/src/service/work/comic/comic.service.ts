@@ -64,14 +64,8 @@ export class WorkComicService extends BasicService<WorkComic> {
     }
     if (categoryIds.length) {
       comicData['categories'] = {
-        deleteMany: {},
-        create: categoryIds.map((item) => ({
-          category: {
-            connect: {
-              id: item,
-            },
-          },
-        })),
+        set: [],
+        connect: categoryIds.map((id) => ({ id })),
       }
     }
     return this.update({
