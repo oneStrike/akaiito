@@ -3,7 +3,7 @@
  *  @标签 /漫画分页数据
  *  @方式 GET
  *  @地址 /admin/comic/getComicPage
- *  @更新时间 2025-04-28 21:31:07
+ *  @更新时间 2025-05-14 17:18:42
  */
 
 export interface GetComicPageTypesReq {
@@ -49,29 +49,8 @@ export interface GetComicPageTypesRes {
       name: string
     }
 
-    /* 内容年龄分级 */
-    ageRating: string
-
-    /* 分类 */
-    categories: {
-      /* 分类名称 */
-      name: string
-
-      /* 分类主键id */
-      id: number
-    }[]
-
-    /* 是否发布 1：发布 0：不发布 */
-    isPublish: number
-
     /* 最后更新时间 */
     lastUpdated: string | null
-
-    /* 是否允许下载 */
-    canDownload: boolean
-
-    /* 是否允许评论 */
-    canComment: boolean
 
     /* 查看规则 0 公开  1登录 2会员 3购买 */
     viewRule: number
@@ -155,7 +134,7 @@ export interface GetComicDetailTypesRes {
   }[]
 
   /* 是否发布 1：发布 0：不发布 */
-  isPublish: number
+  isPublish: boolean
 
   /* 作品发布日期 */
   publishAt: string
@@ -167,13 +146,13 @@ export interface GetComicDetailTypesRes {
   description: string
 
   /* 出版社 */
-  publisher: string
+  publisher: string | null
 
   /* 章节数量 */
-  chapterCount: number
+  chapterCount?: number
 
   /* 是否完结，1完结0连载 */
-  isFinished: number
+  isFinished: boolean
 
   /* 是否允许下载 */
   canDownload: boolean
@@ -230,7 +209,7 @@ export interface CreateComicTypesReq {
   ageRating: string
 
   /* 是否发布 1：发布 0：不发布 */
-  isPublish: number
+  isPublish: boolean
 
   /* 作品发布日期 */
   publishAt: string
@@ -239,10 +218,10 @@ export interface CreateComicTypesReq {
   description: string
 
   /* 出版社 */
-  publisher: string
+  publisher: string | null
 
   /* 是否完结，1完结0连载 */
-  isFinished: number
+  isFinished: boolean
 
   /* 是否允许下载 */
   canDownload: boolean
@@ -307,10 +286,10 @@ export interface UpdateComicTypesReq {
   description: string
 
   /* 出版社 */
-  publisher: string
+  publisher: string | null
 
   /* 是否完结，1完结0连载 */
-  isFinished: number
+  isFinished: boolean
 
   /* 是否允许下载 */
   canDownload: boolean
@@ -344,7 +323,7 @@ export interface UpdateComicPublishTypesReq {
   ageRating: string
 
   /* 是否发布 1：发布 0：不发布 */
-  isPublish: number
+  isPublish: boolean
 
   /* 是否允许下载 */
   canDownload: boolean

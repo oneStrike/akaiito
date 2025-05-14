@@ -54,6 +54,9 @@ importers:
       pnpm:
         specifier: ^10.11.0
         version: 10.11.0
+      prettier:
+        specifier: ^3.5.3
+        version: 3.5.3
       simple-git-hooks:
         specifier: ^2.13.0
         version: 2.13.0

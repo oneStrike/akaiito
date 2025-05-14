@@ -5,7 +5,7 @@ import type {
   ToolbarFilter,
 } from '@/components/es-toolbar/types'
 
-const roles = [
+export const authorRoles = [
   {
     label: '作家',
     value: 'WRITER',
@@ -24,7 +24,7 @@ const roles = [
   },
 ]
 
-const gender = [
+export const gender = [
   {
     label: '未知',
     value: 0,
@@ -119,7 +119,7 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请选择身份',
-      options: roles,
+      options: authorRoles,
       valueType: 'array',
     },
   },
@@ -216,7 +216,7 @@ export const filter: ToolbarFilter = [
       clearable: true,
       multiple: true,
       collapseTags: true,
-      options: roles,
+      options: authorRoles,
     },
   },
   {

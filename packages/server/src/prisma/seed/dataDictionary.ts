@@ -22,6 +22,10 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
       name: '作品年龄限制',
       code: 'work_age_rating',
     },
+    {
+      name: '出版社',
+      code: 'work_publisher',
+    },
   ]
   const itemData = {
     work_language: [
@@ -106,6 +110,24 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
       {
         name: '巴西',
         code: 'BR',
+      },
+    ],
+    work_publisher: [
+      {
+        name: '人民文学出版社',
+        code: 'renmin_wenxue_chubanshe',
+      },
+      {
+        name: '人民教育出版社',
+        code: 'renmin_jiaoyu_chubanshe',
+      },
+      {
+        name: '人民音乐出版社',
+        code: 'renmin_yinyue_chubanshe',
+      },
+      {
+        name: '人民美术出版社',
+        code: 'renmin_meishu_chubanshe',
       },
     ],
   }

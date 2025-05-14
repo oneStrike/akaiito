@@ -40,6 +40,8 @@ model WorkComic {
   viewRule          Int                @default(0) @map("view_rule") @db.SmallInt
   /// 购买需要消耗的金额
   purchaseAmount    Int                @default(0) @map("purchase_amount")
+  /// 备注
+  remark            String?            @db.VarChar(1000)
   /// 创建时间
   createdAt         DateTime           @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间

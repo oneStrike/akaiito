@@ -19,7 +19,7 @@ import type {
  *  @标签 /漫画分页数据
  *  @方式 GET
  *  @地址 /admin/comic/getComicPage
- *  @更新时间 2025-04-28 21:31:07
+ *  @更新时间 2025-05-14 17:18:42
  */
 
 export const getComicPageApi = (params: GetComicPageTypesReq): Promise<GetComicPageTypesRes> => {

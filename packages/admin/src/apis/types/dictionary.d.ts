@@ -88,46 +88,7 @@ export interface GetDataDictionaryItemsTypesReq {
 }
 
 /*  */
-export type GetDataDictionaryItemsTypesRes = {
-  /* 主键id */
-  id: number
-
-  /* 子项名称 */
-  name: string
-
-  /* 子项编码 */
-  code: string
-
-  /* 状态，1==>正常 0==>禁用 */
-  status: boolean
-
-  /* 封面 */
-  cover?: string | null
-
-  /* 排序 */
-  order: number
-
-  /* 子项备注 */
-  remark: string | null
-
-  /* 父项相关信息 */
-  dictionary: {
-    /* 父项主键id */
-    id: number
-
-    /* 父项名称 */
-    name: string
-
-    /* 父项code */
-    code: string
-  }
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
-}[]
+export type GetDataDictionaryItemsTypesRes = string | integer | boolean | array | object | number | null
 
 /**
  *  接口 [创建数据字典](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135340982)

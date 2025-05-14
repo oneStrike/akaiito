@@ -5,7 +5,10 @@ import { utils } from '@/utils'
 export interface UseFormTool {
   getItem: (filed: string | string[]) => EsFormOptions[]
   options: EsFormOptions[]
-  specificItem: (filed: string | string[], cb: (item: EsFormOptions) => void) => EsFormOptions[]
+  specificItem: (
+    filed: string | string[],
+    cb: (item: EsFormOptions) => void,
+  ) => EsFormOptions[]
   toggleDisplay: (filed: string | string[], status: boolean) => void
   fillDict: (dict: { field: string; code: string }[]) => Promise<void>
   disablePastDate: (date: Date) => boolean
@@ -42,14 +45,22 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
 
   // 填充表单的数据字典
   const fillDict: UseFormTool['fillDict'] = async (dict) => {
-    for (let i = 0; i < dict.length; i++) {
-      const item = getItem(dict[i].field)[0]
-      const dictData = await getDataDictionaryItemsApi({ dictionaryCode: dict[i].code })
-      item.componentProps!.options = dictData.map((item) => ({
-        label: item.name,
-        value: item.code,
-      }))
-    }
+    const codes = dict.map((item) => item.code)
+    const dictData = await getDataDictionaryItemsApi({
+      dictionaryCode: codes.join(','),
+    })
+    dict.forEach((item) => {
+      const dictItem = dictData[item.code]
+      if (dictItem) {
+        const formItem = getItem(item.field)[0]
+        if (formItem) {
+          formItem.componentProps!.options = dictItem.map((item: any) => ({
+            label: item.name,
+            value: item.code,
+          }))
+        }
+      }
+    })
   }
 
   // 禁止选择之后的时间

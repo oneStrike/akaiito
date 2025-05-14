@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import type {
-  GetAuthorDetailTypesRes,
-  GetAuthorPageTypesRes,
-} from '@/apis/types/author'
+import type { GetAuthorPageTypesRes } from '@/apis/types/author'
 import {
   createAuthorApi,
   deleteAuthorApi,
@@ -11,7 +8,7 @@ import {
   updateAuthorApi,
   updateAuthorStatusApi,
 } from '@/apis/author'
-import { utils } from '@/utils'
+import AuthorDetailModal from './authorDetailModal.vue'
 import { filter, formOptions, tableColumns, toolbar } from './shared'
 
 defineOptions({
@@ -24,7 +21,7 @@ const modalFrom = reactive({
   loading: false,
 })
 const detailModel = ref(false)
-const currentRow = ref<GetAuthorDetailTypesRes | null>(null)
+const currentRow = ref<IterateObject | null>(null)
 const formTool = useFormTool(formOptions)
 formTool.fillDict([
   {
@@ -103,24 +100,9 @@ const openFormModal = async (val?: Record) => {
   modalFrom.show = true
 }
 const openDetailModal = async (val: Record) => {
-  if (val) {
-    await getDetail(val)
-  }
+  currentRow.value = val
   detailModel.value = true
 }
-
-const nationality = computed(() => {
-  const options =
-    formTool.getItem('nationality')[0].componentProps?.options ?? []
-  const target = options.find(
-    (item) => item.value === currentRow.value?.nationality,
-  )
-  return target?.label ?? '-'
-})
-
-const socialLinks = computed(() => {
-  return utils.parseJson(currentRow.value?.socialLinks, [])
-})
 </script>
 
 <template>
@@ -170,81 +152,12 @@ const socialLinks = computed(() => {
       @submit="submitForm"
     />
 
-    <es-modal
-      v-if="currentRow && detailModel"
-      v-model="detailModel"
-      :title="`【${currentRow?.name}】详情`"
-    >
-      <!-- 容器 -->
-      <div class="p-4 space-y-6">
-        <!-- 头像区域 -->
-        <div class="flex justify-center">
-          <el-image
-            preview-teleported
-            :preview-src-list="currentRow.avatar ? [currentRow.avatar] : []"
-            :z-index="999999"
-            fit="cover"
-            :src="currentRow.avatar ?? ''"
-            class="w-32 h-32 rounded-full border border-gray-300 shadow-md"
-          >
-            <template #error>
-              <el-text type="danger">加载失败</el-text>
-            </template>
-          </el-image>
-        </div>
-
-        <!-- 基本信息卡片 -->
-        <el-descriptions :column="1" label-width="100px" border>
-          <el-descriptions-item label="姓名">{{
-            currentRow.name
-          }}</el-descriptions-item>
-          <el-descriptions-item label="性别">{{
-            gender[currentRow.gender!] ?? '-'
-          }}</el-descriptions-item>
-          <el-descriptions-item label="国籍">{{
-            nationality
-          }}</el-descriptions-item>
-          <el-descriptions-item label="身份">{{
-            identityHandler(currentRow)
-          }}</el-descriptions-item>
-          <el-descriptions-item label="添加时间">{{
-            currentRow.createdAt
-          }}</el-descriptions-item>
-        </el-descriptions>
-
-        <!-- 外部链接卡片 -->
-        <template v-if="socialLinks?.length">
-          <el-text>
-            <span class="font-medium text-base px-4 py-2 bg-gray-50 border-b"
-              >外部链接</span
-            >
-          </el-text>
-          <div class="p-4 flex flex-wrap gap-2">
-            <el-link
-              v-for="(item, idx) in socialLinks"
-              :key="idx"
-              type="primary"
-              :href="item.value"
-              target="_blank"
-              icon="link"
-              class="text-blue-600 hover:underline"
-            >
-              {{ item.label }}
-            </el-link>
-          </div>
-        </template>
-
-        <!-- 描述与备注卡片 -->
-        <el-descriptions :column="1" label-width="100px" border>
-          <el-descriptions-item label="作者描述">{{
-            currentRow.description || '-'
-          }}</el-descriptions-item>
-          <el-descriptions-item label="备注">{{
-            currentRow.remark || '-'
-          }}</el-descriptions-item>
-        </el-descriptions>
-      </div>
-    </es-modal>
+    <AuthorDetailModal
+      v-if="detailModel"
+      :visible="detailModel"
+      :author-id="currentRow?.id"
+      @close="detailModel = false"
+    />
   </div>
 </template>
 

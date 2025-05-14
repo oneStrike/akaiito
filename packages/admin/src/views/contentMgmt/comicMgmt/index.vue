@@ -11,8 +11,14 @@ import {
   updateComicPublishApi,
 } from '@/apis/comic'
 import { PromptsEnum } from '@/enum/prompts'
+import AuthorDetailModal from '@/views/contentMgmt/author/authorDetailModal.vue'
 import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
-import { filter, formOptions, tableColumn, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
+import {
+  filter,
+  formOptions,
+  tableColumn,
+  toolbar,
+} from '@/views/contentMgmt/comicMgmt/shared'
 
 defineOptions({
   name: 'ContentMgmtPage',
@@ -27,9 +33,14 @@ const chapterModal = reactive({
   show: false,
 })
 
-const currentComic = ref<(GetComicDetailTypesRes) | null>(null)
+const currentComic = ref<GetComicDetailTypesRes | null>(null)
+const authorModal = reactive({
+  show: false,
+  authorId: null,
+})
 
-const { request, requestData, params, loading, sortChange } = useRequest(getComicPageApi)
+const { request, requestData, params, loading, sortChange } =
+  useRequest(getComicPageApi)
 const formTool = useFormTool(formOptions)
 formTool.fillDict([
   { field: 'language', code: 'work_language' },
@@ -41,7 +52,11 @@ formTool.specificItem('authorId', (item) => {
   item.componentProps!.remoteMethod = async (val: string) => {
     if (val) {
       item.componentProps!.loading = true
-      const data = await getAuthorPageApi({ name: val, pageSize: 500, status: true })
+      const data = await getAuthorPageApi({
+        name: val,
+        pageSize: 500,
+        status: true,
+      })
       item.componentProps!.options = data.list.map((item) => ({
         label: item.name,
         value: item.id,
@@ -79,7 +94,9 @@ async function submitForm(val: any) {
   }
   formModal.show = false
   formModal.loading = false
-  ElMessage.success(currentComic.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
+  ElMessage.success(
+    currentComic.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
+  )
   currentComic.value = null
   request()
 }
@@ -95,6 +112,11 @@ async function editRow(row: GetComicDetailTypesRes) {
 
 function formChange(val: GetComicDetailTypesRes) {
   formTool.toggleDisplay(['purchaseAmount'], val.viewRule === 3)
+}
+
+function openAuthorDetail(row: Record<any, any>) {
+  authorModal.authorId = row.author.id
+  authorModal.show = true
 }
 </script>
 
@@ -115,14 +137,23 @@ function formChange(val: GetComicDetailTypesRes) {
         <el-button link type="primary">{{ row.name }}</el-button>
       </template>
       <template #isFinished="{ row }">
-        <el-text :type="row.isFinished ? 'success' : 'danger'">{{ row.isFinished ? '已完结' : '连载中' }}</el-text>
+        <el-text :type="row.isFinished ? 'success' : 'danger'">
+          {{ row.isFinished ? '已完结' : '连载中' }}
+        </el-text>
       </template>
 
       <template #author="{ row }">
-        <el-button link type="primary">{{ row.author.name }}</el-button>
+        <el-button link type="primary" @click="openAuthorDetail(row)">
+          {{ row.author?.name }}
+        </el-button>
       </template>
       <template #isPublish="{ row }">
-        <es-switch :row="row" :request="updateComicPublishApi" field="isPublish" @success="request" />
+        <es-switch
+          :row="row"
+          :request="updateComicPublishApi"
+          field="isPublish"
+          @success="request"
+        />
       </template>
       <template #action="{ row }">
         <el-button link type="primary" @click="editRow(row)">编辑</el-button>
@@ -132,9 +163,16 @@ function formChange(val: GetComicDetailTypesRes) {
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item>
-                <es-pop-confirm v-model:loading="loading" :request="deleteComicApi" :row="row" @success="request" />
+                <es-pop-confirm
+                  v-model:loading="loading"
+                  :request="deleteComicApi"
+                  :row="row"
+                  @success="request"
+                />
               </el-dropdown-item>
-              <el-dropdown-item @click="currentComic = row, chapterModal.show = true">
+              <el-dropdown-item
+                @click="((currentComic = row), (chapterModal.show = true))"
+              >
                 <span>章节</span>
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -143,7 +181,18 @@ function formChange(val: GetComicDetailTypesRes) {
       </template>
     </es-table>
 
-    <ComicChapter v-if="chapterModal.show" v-model:show="chapterModal.show" :comic="currentComic!" />
+    <ComicChapter
+      v-if="chapterModal.show"
+      v-model:show="chapterModal.show"
+      :comic="currentComic!"
+    />
+
+    <AuthorDetailModal
+      v-if="authorModal.show && authorModal.authorId"
+      :author-id="authorModal.authorId"
+      :visible="authorModal.show"
+      @close="authorModal.show = false"
+    />
 
     <EsModalForm
       v-if="formModal.show"

@@ -564,4 +564,15 @@ export const formOptions: EsFormOptions[] = [
       rows: 5,
     },
   },
+  {
+    field: 'remark',
+    component: 'Textarea',
+    props: {
+      label: '备注',
+    },
+    componentProps: {
+      placeholder: '请输入备注',
+      rows: 5,
+    },
+  },
 ]
