@@ -81,9 +81,6 @@ importers:
       element-plus:
         specifier: ^2.9.10
         version: 2.9.10(vue@3.5.13(typescript@5.8.3))
-      normalize.css:
-        specifier: ^8.0.1
-        version: 8.0.1
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -93,9 +90,6 @@ importers:
       pinia-plugin-persistedstate:
         specifier: ^4.3.0
         version: 4.3.0(pinia@3.0.2(typescript@5.8.3)(vue@3.5.13(typescript@5.8.3)))
-      reset-css:
-        specifier: ^5.0.2
-        version: 5.0.2
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.6
@@ -137,9 +131,6 @@ importers:
         specifier: ^1.15.8
         version: 1.15.8
       '@unocss/preset-rem-to-px':
-        specifier: ^66.1.1
-        version: 66.1.1
-      '@unocss/preset-wind4':
         specifier: ^66.1.1
         version: 66.1.1
       '@unocss/transformer-variant-group':
@@ -8692,9 +8683,6 @@ packages:
   normalize-wheel-es@1.2.0:
     resolution: {integrity: sha512-Wj7+EJQ8mSuXr2iWfnujrimU35R2W4FAErEyTmJoJ7ucwTn2hOUSsRehMb5RSYkxXGTM7Y9QpvPmp++w5ftoJw==}
 
-  normalize.css@8.0.1:
-    resolution: {integrity: sha512-qizSNPO93t1YUuUhP22btGOo3chcvDFqFaj2TRybP0DMxkHOCTYwp3n34fel4a31ORXy4m1Xq0Gyqpb5m33qIg==}
-
   npm-conf@1.1.3:
     resolution: {integrity: sha512-Yic4bZHJOt9RCFbRP3GgpqhScOY4HH3V2P8yBj6CeYq118Qr+BLXqT2JvpJ00mryLESpgOxf5XlFv4ZjXxLScw==}
     engines: {node: '>=4'}
@@ -9754,9 +9742,6 @@ packages:
 
   require-main-filename@2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
-
-  reset-css@5.0.2:
-    resolution: {integrity: sha512-YtgUGSq5z5W0NPSjsBW7ys7rtWa8P8AiE7S6Fg3d1TQCPpAodgYyLuZYlU0AOsLtprk/fC9ormHN/0pAavVIDw==}
 
   resolve-cwd@3.0.0:
     resolution: {integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==}
@@ -22335,8 +22320,6 @@ snapshots:
 
   normalize-wheel-es@1.2.0: {}
 
-  normalize.css@8.0.1: {}
-
   npm-conf@1.1.3:
     dependencies:
       config-chain: 1.1.13
@@ -23432,8 +23415,6 @@ snapshots:
   require-from-string@2.0.2: {}
 
   require-main-filename@2.0.0: {}
-
-  reset-css@5.0.2: {}
 
   resolve-cwd@3.0.0:
     dependencies:

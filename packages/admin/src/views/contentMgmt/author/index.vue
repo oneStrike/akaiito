@@ -175,61 +175,75 @@ const socialLinks = computed(() => {
       v-model="detailModel"
       :title="`【${currentRow?.name}】详情`"
     >
-      <div class="w-full flex items-center justify-center mb-4">
-        <el-image
-          preview-teleported
-          :preview-src-list="currentRow?.avatar ? [currentRow?.avatar] : []"
-          :z-index="999999"
-          fit="cover"
-          :src="currentRow?.avatar ?? ''"
-          class="h-30 w-22"
-        >
-          <template #error>
-            <el-text type="danger">加载失败</el-text>
-          </template>
-        </el-image>
-      </div>
-      <el-descriptions border :column="1" :label-width="100">
-        <el-descriptions-item label="姓名">
-          {{ currentRow.name }}
-        </el-descriptions-item>
-        <el-descriptions-item label="性别">
-          {{ gender[currentRow.gender!] ?? '-' }}
-        </el-descriptions-item>
-        <el-descriptions-item label="国籍">
-          {{ nationality }}
-        </el-descriptions-item>
-        <el-descriptions-item label="身份">
-          {{ identityHandler(currentRow) }}
-        </el-descriptions-item>
-        <el-descriptions-item label="外部链接" :span="1">
-          <template v-if="socialLinks.length">
+      <!-- 容器 -->
+      <div class="p-4 space-y-6">
+        <!-- 头像区域 -->
+        <div class="flex justify-center">
+          <el-image
+            preview-teleported
+            :preview-src-list="currentRow.avatar ? [currentRow.avatar] : []"
+            :z-index="999999"
+            fit="cover"
+            :src="currentRow.avatar ?? ''"
+            class="w-32 h-32 rounded-full border border-gray-300 shadow-md"
+          >
+            <template #error>
+              <el-text type="danger">加载失败</el-text>
+            </template>
+          </el-image>
+        </div>
+
+        <!-- 基本信息卡片 -->
+        <el-descriptions :column="1" label-width="100px" border>
+          <el-descriptions-item label="姓名">{{
+            currentRow.name
+          }}</el-descriptions-item>
+          <el-descriptions-item label="性别">{{
+            gender[currentRow.gender!] ?? '-'
+          }}</el-descriptions-item>
+          <el-descriptions-item label="国籍">{{
+            nationality
+          }}</el-descriptions-item>
+          <el-descriptions-item label="身份">{{
+            identityHandler(currentRow)
+          }}</el-descriptions-item>
+          <el-descriptions-item label="添加时间">{{
+            currentRow.createdAt
+          }}</el-descriptions-item>
+        </el-descriptions>
+
+        <!-- 外部链接卡片 -->
+        <template v-if="socialLinks?.length">
+          <el-text>
+            <span class="font-medium text-base px-4 py-2 bg-gray-50 border-b"
+              >外部链接</span
+            >
+          </el-text>
+          <div class="p-4 flex flex-wrap gap-2">
             <el-link
               v-for="(item, idx) in socialLinks"
               :key="idx"
               type="primary"
               :href="item.value"
               target="_blank"
+              icon="link"
+              class="text-blue-600 hover:underline"
             >
               {{ item.label }}
-              <el-divider
-                v-if="idx + 1 !== socialLinks.length"
-                direction="vertical"
-              />
             </el-link>
-          </template>
-          <span v-else>-</span>
-        </el-descriptions-item>
-        <el-descriptions-item label="作者描述" :span="1">
-          {{ currentRow.description }}
-        </el-descriptions-item>
-        <el-descriptions-item label="备注" :span="1">
-          {{ currentRow.remark }}
-        </el-descriptions-item>
-        <el-descriptions-item label="添加时间">
-          {{ currentRow.createdAt }}
-        </el-descriptions-item>
-      </el-descriptions>
+          </div>
+        </template>
+
+        <!-- 描述与备注卡片 -->
+        <el-descriptions :column="1" label-width="100px" border>
+          <el-descriptions-item label="作者描述">{{
+            currentRow.description || '-'
+          }}</el-descriptions-item>
+          <el-descriptions-item label="备注">{{
+            currentRow.remark || '-'
+          }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
     </es-modal>
   </div>
 </template>
