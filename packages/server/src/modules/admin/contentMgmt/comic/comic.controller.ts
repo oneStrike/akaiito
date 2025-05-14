@@ -35,7 +35,7 @@ export class ComicController {
 
   @Post('/deleteComic', { summary: '删除漫画' })
   async deleteComic(@Body() body: BasicIdDTO) {
-    return await this.comicService.deleteComic(body.id)
+    return await this.comicService.delete({ where: body })
   }
 
   @Post('/updateComicPublish', { summary: '更新漫画发布状态' })

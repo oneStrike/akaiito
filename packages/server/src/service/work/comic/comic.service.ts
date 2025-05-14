@@ -142,10 +142,4 @@ export class WorkComicService extends BasicService<WorkComic> {
     })
     return comic
   }
-
-  // 删除
-  async deleteComic(id: number) {
-    await this.comicCategoryService.deleteBatch({ where: { comicId: id } })
-    return this.delete({ where: { id } })
-  }
 }

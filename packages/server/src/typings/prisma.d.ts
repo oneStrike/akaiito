@@ -9,7 +9,13 @@ export type PrismaInstanceModel = {
 } & IterateObject
 
 type ExtendProperty<T> = {
-  [P in keyof T]: T[P] | { in: T[P][] } | { gte: T[P] } | { lte: T[P] } | { hasSome: T[P] } | { hasEvery: T[P] }
+  [P in keyof T]:
+    | T[P]
+    | { in: T[P][] }
+    | { gte: T[P] }
+    | { lte: T[P] }
+    | { hasSome: T[P] }
+    | { hasEvery: T[P] }
 } & IterateObject
 
 export type WhereOptions<T> = Partial<ExtendProperty<T>> & {
@@ -78,6 +84,9 @@ export type PrismaDeleteOptions<T> = {
   select?: {
     [P in keyof T]?: boolean
   }
+  include?: {
+    [P in keyof T]?: boolean
+  } & IterateObjec
 }
 
 export type PrismaFindUniqueOptions<T> = {

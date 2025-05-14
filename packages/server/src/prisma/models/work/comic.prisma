@@ -61,7 +61,7 @@ model WorkComicChapter {
   /// 发布状态
   isPublish      Boolean?  @default(true) @map("is_publish")
   /// 关联的漫画id
-  comic          WorkComic @relation(fields: [comicId], references: [id])
+  comic          WorkComic @relation(fields: [comicId], references: [id], onDelete: Cascade)
   comicId        Int       @map("comic_id") @db.Integer
   /// 排序
   order          Int       @default(autoincrement()) @db.SmallInt
