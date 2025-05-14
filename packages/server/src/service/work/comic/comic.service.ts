@@ -1,10 +1,13 @@
 import { WorkComic, PrismaClient, AuthorRoleEnum } from '@prisma/client'
 import { BasicService } from '@/basic/service/basic.service'
 import { Inject, Provide } from '@midwayjs/core'
-import { ComicDTO, ComicSearchDTO, ComicUpdateDTO } from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
+import {
+  ComicDTO,
+  ComicSearchDTO,
+  ComicUpdateDTO,
+} from '@/modules/admin/contentMgmt/comic/dto/comic.dto'
 import { WorkAuthorService } from '@/service/work/author/author.service'
 import { WorkCategoryService } from '@/service/work/category/category.service'
-
 
 @Provide()
 export class WorkComicService extends BasicService<WorkComic> {
@@ -31,13 +34,7 @@ export class WorkComicService extends BasicService<WorkComic> {
       data: {
         ...comicData,
         categories: {
-          create: categoryIds.map((item) => ({
-            category: {
-              connect: {
-                id: item,
-              },
-            },
-          })),
+          connect: categoryIds.map((id) => ({ id })),
         },
         author: {
           connect: {
@@ -137,19 +134,18 @@ export class WorkComicService extends BasicService<WorkComic> {
         },
         categories: {
           select: {
-            category: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
+            id: true,
+            name: true,
           },
         },
       },
     })
-    if (comic) {
-      comic.categories = comic.categories.map((category) => category.category)
-    }
+
+    comic.chapterCount = await this.prismaClient.workComicChapter.count({
+      where: {
+        comicId: id,
+      },
+    })
     return comic
   }
 

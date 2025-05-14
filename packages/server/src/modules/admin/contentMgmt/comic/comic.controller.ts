@@ -13,22 +13,6 @@ export class ComicController {
   @Inject()
   comicService: WorkComicService
 
-  @Post('/createComic', { summary: '创建漫画' })
-  async createComic(@Body() body: ComicDTO) {
-    return await this.comicService.createComic(body)
-  }
-
-  @Post('/updateComic', { summary: '更新漫画' })
-  async updateComic(@Body() body: ComicUpdateDTO) {
-
-    return await this.comicService.updateComic(body)
-  }
-
-  @Post('/deleteComic', { summary: '删除漫画' })
-  async deleteComic(@Body() body: BasicIdDTO) {
-    return await this.comicService.deleteComic(body.id)
-  }
-
   @Get('/getComicPage', { summary: '获取漫画列表' })
   async getComicPage(@Query() query: ComicSearchDTO) {
     return await this.comicService.getPage(query)
@@ -39,8 +23,26 @@ export class ComicController {
     return this.comicService.getDetail(query)
   }
 
+  @Post('/createComic', { summary: '创建漫画' })
+  async createComic(@Body() body: ComicDTO) {
+    return await this.comicService.createComic(body)
+  }
+
+  @Post('/updateComic', { summary: '更新漫画' })
+  async updateComic(@Body() body: ComicUpdateDTO) {
+    return await this.comicService.updateComic(body)
+  }
+
+  @Post('/deleteComic', { summary: '删除漫画' })
+  async deleteComic(@Body() body: BasicIdDTO) {
+    return await this.comicService.deleteComic(body.id)
+  }
+
   @Post('/updateComicPublish', { summary: '更新漫画发布状态' })
   async updateComicOrder(@Body() body: ComicPublishDTO) {
-    return await this.comicService.update({ where: { id: body.id }, data: { isPublish: body.isPublish } })
+    return await this.comicService.update({
+      where: { id: body.id },
+      data: { isPublish: body.isPublish },
+    })
   }
 }
