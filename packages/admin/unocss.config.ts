@@ -25,7 +25,9 @@ export default defineConfig({
   transformers: [transformerVariantGroup()],
   presets: [
     presetWind4({
-      reset: true,
+      preflights: {
+        reset: true,
+      },
     }),
     presetAttributify(),
     presetRemToPx(),
