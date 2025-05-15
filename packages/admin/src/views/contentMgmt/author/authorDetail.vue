@@ -22,7 +22,7 @@ const props = withDefaults(
 const emits = defineEmits(['close'])
 
 const authorDetail = ref<GetAuthorDetailTypesRes>()
-getAuthorDetailApi({ id: props.authorId }).then(data => {
+getAuthorDetailApi({ id: props.authorId }).then((data) => {
   authorDetail.value = data
 })
 
@@ -33,7 +33,9 @@ getDataDictionaryItemsApi({
   nationalityData.value = nationality
 })
 const nationality = computed(() => {
-  const target = nationalityData.value.find((item) => item.code === authorDetail.value?.nationality)
+  const target = nationalityData.value.find(
+    (item) => item.code === authorDetail.value?.nationality,
+  )
   return target?.name ?? '-'
 })
 
@@ -85,7 +87,10 @@ const rolesLabel = computed(() => {
           {{ authorDetail.name }}
         </el-descriptions-item>
         <el-descriptions-item label="性别">
-          {{ gender.find(item => item.value === authorDetail?.gender)?.label ?? '-' }}
+          {{
+            gender.find((item) => item.value === authorDetail?.gender)?.label
+              ?? '-'
+          }}
         </el-descriptions-item>
         <el-descriptions-item label="国籍">
           {{ nationality }}

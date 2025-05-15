@@ -38,7 +38,7 @@ export interface GetAuthorPageTypesRes {
     avatar: string | null
 
     /* 包含的角色 */
-    roles: {}
+    roles: string[]
 
     /* 国籍数据字典nationality */
     nationality?: string | null
@@ -92,7 +92,7 @@ export interface GetAuthorDetailTypesRes {
   description: string
 
   /* 包含的角色 */
-  roles: {}
+  roles: string[]
 
   /* 国籍数据字典nationality */
   nationality?: string | null
@@ -132,7 +132,7 @@ export interface CreateAuthorTypesReq {
   description: string
 
   /* 包含的角色 */
-  roles: {}
+  roles: string[]
 
   /* 国籍数据字典nationality */
   nationality?: string | null
@@ -172,7 +172,7 @@ export interface UpdateAuthorTypesReq {
   description: string
 
   /* 包含的角色 */
-  roles: {}
+  roles: string[]
 
   /* 国籍数据字典nationality */
   nationality?: string | null

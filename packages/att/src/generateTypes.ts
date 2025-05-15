@@ -15,6 +15,7 @@ function joinType(item: IterateObject) {
       })
       type = `{${type}}`
     } else if (item.type) {
+      console.log(item)
       type = item.type.join(' | ')
     }
   } else if (item?.type) {
@@ -61,7 +62,6 @@ function handlerJsonScheme(
     if (properties && Object.keys(properties).length) {
       for (const propertiesKey in properties) {
         const item = properties[propertiesKey]
-
         if (item.type === 'object') {
           if (item.properties && Object.keys(item.properties)) {
             typesStr += `

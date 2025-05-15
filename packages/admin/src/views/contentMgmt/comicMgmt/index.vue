@@ -11,7 +11,7 @@ import {
   updateComicPublishApi,
 } from '@/apis/comic'
 import { PromptsEnum } from '@/enum/prompts'
-import AuthorDetailModal from '@/views/contentMgmt/author/authorDetailModal.vue'
+import AuthorDetail from '@/views/contentMgmt/author/authorDetail.vue'
 import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
 import {
   filter,
@@ -187,7 +187,7 @@ function openAuthorDetail(row: Record<any, any>) {
       :comic="currentComic!"
     />
 
-    <AuthorDetailModal
+    <AuthorDetail
       v-if="authorModal.show && authorModal.authorId"
       :author-id="authorModal.authorId"
       :visible="authorModal.show"
