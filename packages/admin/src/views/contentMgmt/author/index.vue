@@ -8,8 +8,14 @@ import {
   updateAuthorApi,
   updateAuthorStatusApi,
 } from '@/apis/author'
-import AuthorDetailModal from './authorDetailModal.vue'
-import { filter, formOptions, tableColumns, toolbar } from './shared'
+import AuthorDetail from './authorDetail.vue'
+import {
+  authorRoles,
+  filter,
+  formOptions,
+  tableColumns,
+  toolbar,
+} from './shared'
 
 defineOptions({
   name: 'Author',
@@ -29,7 +35,6 @@ formTool.fillDict([
     code: 'nationality',
   },
 ])
-const gender = ['未知', '男', '女']
 const { reset, request, loading, requestData, params, sortChange } = useRequest(
   async (params: IterateObject) => {
     if (Array.isArray(params.roles)) {
@@ -70,18 +75,14 @@ async function switchStatus(val: any) {
   await request()
 }
 
-const roles = {
-  MODEL: '模特',
-  WRITER: '作家',
-  ILLUSTRATOR: '画师',
-  COMIC_ARTIST: '漫画家',
-}
-
-// 函数实现
-function identityHandler(row: Record) {
+function identity(record: Record) {
   const identity: string[] = []
-  row.roles.forEach((item) => {
-    identity.push(roles[item as keyof typeof roles])
+  record.roles.forEach((item) => {
+    authorRoles.forEach((roles) => {
+      if (roles.value === item) {
+        identity.push(roles.label)
+      }
+    })
   })
   return identity.join('、') || '-'
 }
@@ -125,7 +126,7 @@ const openDetailModal = async (val: Record) => {
       </template>
 
       <template #roles="{ row }">
-        <span>{{ identityHandler(row) }}</span>
+        <span>{{ identity(row) }}</span>
       </template>
 
       <template #action="{ row }">
@@ -152,7 +153,7 @@ const openDetailModal = async (val: Record) => {
       @submit="submitForm"
     />
 
-    <AuthorDetailModal
+    <AuthorDetail
       v-if="detailModel"
       :visible="detailModel"
       :author-id="currentRow?.id"
