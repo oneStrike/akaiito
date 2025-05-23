@@ -1,93 +1,100 @@
 <script setup lang="ts">
-import type { GetChapterTypesRes, UpdateChapterOrderTypesReq } from '@/apis/types/chapter'
-import type { GetComicDetailTypesRes } from '@/apis/types/comic'
-import {
-  createChapterApi,
-  deleteChapterApi,
-  getChapterApi,
-  getChapterPageApi,
-  updateChapterApi,
-  updateChapterOrderApi,
-  updateChapterPublishApi,
-} from '@/apis/chapter'
-import { PromptsEnum } from '@/enum/prompts'
-import ComicContent from '@/views/contentMgmt/comicMgmt/content.vue'
-import { chapterColumn, chapterFilter, chapterFormOptions, toolbar } from '@/views/contentMgmt/comicMgmt/shared'
+  import type {
+    GetChapterTypesRes,
+    UpdateChapterOrderTypesReq,
+  } from '@/apis/types/chapter'
+  import type { GetComicDetailTypesRes } from '@/apis/types/comic'
+  import {
+    createChapterApi,
+    deleteChapterApi,
+    getChapterApi,
+    getChapterPageApi,
+    updateChapterApi,
+    updateChapterOrderApi,
+    updateChapterPublishApi,
+  } from '@/apis/chapter'
+  import { PromptsEnum } from '@/enum/prompts'
+  import ComicContent from '@/views/contentMgmt/comicMgmt/content.vue'
+  import {
+    chapterColumn,
+    chapterFilter,
+    chapterFormOptions,
+    toolbar,
+  } from '@/views/contentMgmt/comicMgmt/shared'
 
-type TableItem = ResolveListItem<typeof requestData.value>
+  type TableItem = ResolveListItem<typeof requestData.value>
 
-defineOptions({
-  name: 'ComicChapter',
-})
+  defineOptions({
+    name: 'ComicChapter',
+  })
 
-const props = withDefaults(
-  defineProps<{
-    comic: GetComicDetailTypesRes
-  }>(),
-  {},
-)
-const formTool = useFormTool(chapterFormOptions)
+  const props = withDefaults(
+    defineProps<{
+      comic: GetComicDetailTypesRes
+    }>(),
+    {},
+  )
+  const formTool = useFormTool(chapterFormOptions)
 
-const { request, requestData, loading, params, sortChange } = useRequest(
-  getChapterPageApi,
-  {
-    defaultParams: {
-      comicId: props.comic?.id,
+  const { request, requestData, loading, params, sortChange } = useRequest(
+    getChapterPageApi,
+    {
+      defaultParams: {
+        comicId: props.comic?.id,
+      },
     },
-  },
-)
+  )
 
-const formModal = reactive({
-  show: false,
-  loading: false,
-  data: {} as GetChapterTypesRes,
-})
+  const formModal = reactive({
+    show: false,
+    loading: false,
+    data: {} as GetChapterTypesRes,
+  })
 
-const showContentModal = ref(false)
+  const showContentModal = ref(false)
 
-const currentRecord = ref<TableItem | null>()
+  const currentRecord = ref<TableItem | null>()
 
-const modalShow = defineModel('show', {
-  type: Boolean,
-  default: false,
-})
+  const modalShow = defineModel('show', {
+    type: Boolean,
+    default: false,
+  })
 
-
-async function submit(val: any) {
-  val.comicId = props.comic?.id
-  if (currentRecord.value?.id) {
-    val.id = currentRecord.value.id
-    await updateChapterApi(val)
-    useMessage.success(PromptsEnum.UPDATED)
-  } else {
-    await createChapterApi(val)
-    useMessage.success(PromptsEnum.CREATED)
+  async function submit(val: any) {
+    val.comicId = props.comic?.id
+    if (currentRecord.value?.id) {
+      val.id = currentRecord.value.id
+      await updateChapterApi(val)
+      useMessage.success(PromptsEnum.UPDATED)
+    } else {
+      await createChapterApi(val)
+      useMessage.success(PromptsEnum.CREATED)
+    }
+    formModal.show = false
+    formModal.loading = false
+    request()
   }
-  formModal.show = false
-  formModal.loading = false
-  request()
-}
 
-async function editContent(row: TableItem) {
-  currentRecord.value = row
-  showContentModal.value = true
-}
+  async function editContent(row: TableItem) {
+    currentRecord.value = row
+    showContentModal.value = true
+  }
 
-async function sortChapter(val: UpdateChapterOrderTypesReq) {
-  await updateChapterOrderApi(val)
-  useMessage.success(PromptsEnum.UPDATED)
-  await request()
-}
+  async function sortChapter(val: UpdateChapterOrderTypesReq) {
+    await updateChapterOrderApi(val)
+    useMessage.success(PromptsEnum.UPDATED)
+    await request()
+  }
 
-async function openForm(row: TableItem) {
-  currentRecord.value = row
-  formModal.data = await getChapterApi({ id: row.id })
-  formModal.show = true
-}
+  async function openForm(row: TableItem) {
+    currentRecord.value = row
+    formModal.data = await getChapterApi({ id: row.id })
+    formModal.show = true
+  }
 
-function formChange(val: TableItem) {
-  formTool.toggleDisplay('purchaseAmount', val.viewRule === 3)
-}
+  function formChange(val: TableItem) {
+    formTool.toggleDisplay('purchaseAmount', val.viewRule === 3)
+  }
 </script>
 
 <template>
@@ -119,13 +126,7 @@ function formChange(val: TableItem) {
           内容
         </el-button>
         <el-divider direction="vertical" />
-        <el-button
-          link
-          type="primary"
-          @click="openForm(row)"
-        >
-          编辑
-        </el-button>
+        <el-button link type="primary" @click="openForm(row)">编辑</el-button>
         <el-divider direction="vertical" />
         <es-pop-confirm
           v-model:loading="loading"

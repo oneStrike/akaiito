@@ -193,6 +193,7 @@
       v-if="detailModal"
       :visible="detailModal"
       :comic-id="currentComic!.id"
+      :data-dict="formTool.getDictItem()"
       @close="detailModal = false"
     />
 
