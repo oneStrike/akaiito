@@ -1,123 +1,125 @@
 <script lang="ts" setup>
-import type { GetComicDetailTypesRes } from '@/apis/types/comic'
-import { getAuthorPageApi } from '@/apis/author'
-import { getCategoryPageApi } from '@/apis/category'
-import {
-  createComicApi,
-  deleteComicApi,
-  getComicDetailApi,
-  getComicPageApi,
-  updateComicApi,
-  updateComicPublishApi,
-} from '@/apis/comic'
-import { PromptsEnum } from '@/enum/prompts'
-import AuthorDetail from '@/views/contentMgmt/author/authorDetail.vue'
-import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
-import {
-  filter,
-  formOptions,
-  tableColumn,
-  toolbar,
-} from '@/views/contentMgmt/comicMgmt/shared'
+  import type { GetComicDetailTypesRes } from '@/apis/types/comic'
+  import { getAuthorPageApi } from '@/apis/author'
+  import { getCategoryPageApi } from '@/apis/category'
+  import {
+    createComicApi,
+    deleteComicApi,
+    getComicDetailApi,
+    getComicPageApi,
+    updateComicApi,
+    updateComicPublishApi,
+  } from '@/apis/comic'
+  import { PromptsEnum } from '@/enum/prompts'
+  import AuthorDetail from '@/views/contentMgmt/author/authorDetail.vue'
+  import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
+  import ComicDetail from '@/views/contentMgmt/comicMgmt/comicDetail.vue'
+  import {
+    filter,
+    formOptions,
+    tableColumn,
+    toolbar,
+  } from '@/views/contentMgmt/comicMgmt/shared'
 
-defineOptions({
-  name: 'ContentMgmtPage',
-})
-const formModal = reactive({
-  show: false,
-  loading: false,
-  defaultValue: {} as any,
-})
+  defineOptions({
+    name: 'ContentMgmtPage',
+  })
+  const formModal = reactive({
+    show: false,
+    loading: false,
+    defaultValue: {} as any,
+  })
+  const detailModal = ref(false)
 
-const chapterModal = reactive({
-  show: false,
-})
+  const chapterModal = reactive({
+    show: false,
+  })
 
-const currentComic = ref<GetComicDetailTypesRes | null>(null)
-const authorModal = reactive({
-  show: false,
-  authorId: null,
-})
+  const currentComic = ref<GetComicDetailTypesRes | null>(null)
+  const authorModal = reactive({
+    show: false,
+    authorId: null,
+  })
 
-const { request, requestData, params, loading, sortChange } =
-  useRequest(getComicPageApi)
-const formTool = useFormTool(formOptions)
-formTool.fillDict([
-  { field: 'language', code: 'work_language' },
-  { field: 'region', code: 'work_region' },
-  { field: 'publisher', code: 'work_publisher' },
-  { field: 'ageRating', code: 'work_age_rating' },
-])
-formTool.specificItem('authorId', (item) => {
-  item.componentProps!.remoteMethod = async (val: string) => {
-    if (val) {
-      item.componentProps!.loading = true
-      const data = await getAuthorPageApi({
-        name: val,
-        pageSize: 500,
-        status: true,
-      })
-      item.componentProps!.options = data.list.map((item) => ({
+  const { request, requestData, params, loading, sortChange } =
+    useRequest(getComicPageApi)
+  const formTool = useFormTool(formOptions)
+  formTool.fillDict([
+    { field: 'language', code: 'work_language' },
+    { field: 'region', code: 'work_region' },
+    { field: 'publisher', code: 'work_publisher' },
+    { field: 'ageRating', code: 'work_age_rating' },
+  ])
+  formTool.specificItem('authorId', (item) => {
+    item.componentProps!.remoteMethod = async (val: string) => {
+      if (val) {
+        item.componentProps!.loading = true
+        const data = await getAuthorPageApi({
+          name: val,
+          pageSize: 500,
+          status: true,
+        })
+        item.componentProps!.options = data.list.map((item) => ({
+          label: item.name,
+          value: item.id,
+        }))
+        item.componentProps!.loading = false
+      }
+    }
+  })
+  getCategoryPageApi({ pageSize: 500 }).then(({ list }) => {
+    formTool.specificItem('categoryIds', (item) => {
+      item.componentProps!.options = list.map((item) => ({
         label: item.name,
         value: item.id,
       }))
-      item.componentProps!.loading = false
+    })
+  })
+
+  function toolbarHandler(type: string) {
+    if (type === 'add') {
+      formModal.defaultValue = {
+        canComment: true,
+        canDownload: true,
+        viewRule: 0,
+      }
+      formModal.show = true
     }
   }
-})
-getCategoryPageApi({ pageSize: 500 }).then(({ list }) => {
-  formTool.specificItem('categoryIds', (item) => {
-    item.componentProps!.options = list.map((item) => ({
-      label: item.name,
-      value: item.id,
-    }))
-  })
-})
 
-function toolbarHandler(type: string) {
-  if (type === 'add') {
+  async function submitForm(val: any) {
+    if (currentComic.value?.id) {
+      val.id = currentComic.value.id
+      await updateComicApi(val)
+    } else {
+      await createComicApi(val)
+    }
+    formModal.show = false
+    formModal.loading = false
+    ElMessage.success(
+      currentComic.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
+    )
+    currentComic.value = null
+    request()
+  }
+
+  async function editRow(row: GetComicDetailTypesRes) {
+    currentComic.value = await getComicDetailApi({ id: row.id })
     formModal.defaultValue = {
-      canComment: true,
-      canDownload: true,
-      viewRule: 0,
+      ...currentComic.value,
+      categoryIds: currentComic.value.categories.map((item) => item.id),
     }
     formModal.show = true
   }
-}
 
-async function submitForm(val: any) {
-  if (currentComic.value?.id) {
-    val.id = currentComic.value.id
-    await updateComicApi(val)
-  } else {
-    await createComicApi(val)
+  function formChange(val: GetComicDetailTypesRes) {
+    formTool.toggleDisplay(['purchaseAmount'], val.viewRule === 3)
   }
-  formModal.show = false
-  formModal.loading = false
-  ElMessage.success(
-    currentComic.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
-  )
-  currentComic.value = null
-  request()
-}
 
-async function editRow(row: GetComicDetailTypesRes) {
-  currentComic.value = await getComicDetailApi({ id: row.id })
-  formModal.defaultValue = {
-    ...currentComic.value,
-    categoryIds: currentComic.value.categories.map((item) => item.id),
+  function openAuthorDetail(row: Record<any, any>) {
+    authorModal.authorId = row.author.id
+    authorModal.show = true
   }
-  formModal.show = true
-}
-
-function formChange(val: GetComicDetailTypesRes) {
-  formTool.toggleDisplay(['purchaseAmount'], val.viewRule === 3)
-}
-
-function openAuthorDetail(row: Record<any, any>) {
-  authorModal.authorId = row.author.id
-  authorModal.show = true
-}
 </script>
 
 <template>
@@ -134,7 +136,13 @@ function openAuthorDetail(row: Record<any, any>) {
       @sort-change="sortChange"
     >
       <template #name="{ row }">
-        <el-button link type="primary">{{ row.name }}</el-button>
+        <el-button
+          link
+          type="primary"
+          @click="((currentComic = row), (detailModal = true))"
+        >
+          {{ row.name }}
+        </el-button>
       </template>
       <template #isFinished="{ row }">
         <el-text :type="row.isFinished ? 'success' : 'danger'">
@@ -180,6 +188,13 @@ function openAuthorDetail(row: Record<any, any>) {
         </el-dropdown>
       </template>
     </es-table>
+
+    <ComicDetail
+      v-if="detailModal"
+      :visible="detailModal"
+      :comic-id="currentComic!.id"
+      @close="detailModal = false"
+    />
 
     <ComicChapter
       v-if="chapterModal.show"

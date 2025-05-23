@@ -1,47 +1,56 @@
 <script setup lang="ts" async>
-import type { GetComicContentTypesRes } from '@/apis/types/content'
-import type { UploadFile, UploadFiles } from 'element-plus'
-import { deleteComicContentApi, getComicContentApi } from '@/apis/content.ts'
-import { PromptsEnum } from '@/enum/prompts.ts'
+  import type { UploadFile, UploadFiles } from 'element-plus'
+  import type { GetComicContentTypesRes } from '@/apis/types/content'
+  import { deleteComicContentApi, getComicContentApi } from '@/apis/content.ts'
+  import { PromptsEnum } from '@/enum/prompts.ts'
 
-defineOptions({
-  name: 'ComicContent',
-})
+  defineOptions({
+    name: 'ComicContent',
+  })
 
-const props = withDefaults(
-  defineProps<{
-    comicId: number
-    chapterId: number
-  }>(),
-  {},
-)
+  const props = withDefaults(
+    defineProps<{
+      comicId: number
+      chapterId: number
+    }>(),
+    {},
+  )
 
-const fileList = ref<GetComicContentTypesRes>()
+  const fileList = ref<GetComicContentTypesRes>()
 
-async function getContent() {
-  fileList.value = await getComicContentApi({ chapterId: props.chapterId, comicId: props.comicId })
-}
-
-getContent()
-const showModel = defineModel('show', { default: false })
-
-async function remove(file: UploadFile) {
-  const target = fileList.value?.find((item) => item.url === file.url)
-  if (target?.id) {
-    await deleteComicContentApi({ id: target.id })
-    useMessage.success(PromptsEnum.DELETED)
-  } else {
-    useMessage.error(PromptsEnum.ERROR_DELETE)
+  async function getContent() {
+    fileList.value = await getComicContentApi({
+      chapterId: props.chapterId,
+      comicId: props.comicId,
+    })
   }
-}
 
-async function clearContent() {
-}
+  getContent()
+  const showModel = defineModel('show', { default: false })
 
-async function handleFileChange(uploadFile: UploadFile, uploadFiles: UploadFiles) {
-  await useUpload(uploadFile.raw!, { chapterId: props.chapterId, comicId: props.comicId }, 'comic')
-  await getContent()
-}
+  async function remove(file: UploadFile) {
+    const target = fileList.value?.find((item) => item.url === file.url)
+    if (target?.id) {
+      await deleteComicContentApi({ id: target.id })
+      useMessage.success(PromptsEnum.DELETED)
+    } else {
+      useMessage.error(PromptsEnum.ERROR_DELETE)
+    }
+  }
+
+  async function clearContent() {}
+
+  async function handleFileChange(
+    uploadFile: UploadFile,
+    uploadFiles: UploadFiles,
+  ) {
+    await useUpload(
+      uploadFile.raw!,
+      { chapterId: props.chapterId, comicId: props.comicId },
+      'comic',
+    )
+    await getContent()
+  }
 </script>
 
 <template>

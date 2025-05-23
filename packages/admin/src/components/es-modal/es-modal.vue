@@ -66,7 +66,7 @@ function toggleFullScreenStatus() {
       </div>
     </template>
 
-    <el-scrollbar :height="fullscreen ? '85vh' : `${height}px`">
+    <el-scrollbar :height="fullscreen ? '82vh' : `${height}px`">
       <slot />
     </el-scrollbar>
 
