@@ -1,6 +1,6 @@
 import { Config, Provide } from '@midwayjs/core'
 import * as path from 'node:path'
-import { move, unlink, remove, ensureDir } from 'fs-extra'
+import { move, unlink, ensureDir } from 'fs-extra'
 
 @Provide()
 export class FileService {
@@ -31,11 +31,5 @@ export class FileService {
     } catch (e) {
       return false
     }
-  }
-
-  // 删除漫画章节内容
-  async deleteComicChapterContent(chapterId: number) {
-    const fileFullPath = path.join(this.pathPrefix, '/comic/' + chapterId)
-    await remove(fileFullPath)
   }
 }

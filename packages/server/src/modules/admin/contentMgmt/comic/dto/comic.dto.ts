@@ -12,9 +12,6 @@ import {
 import { BasicIdDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 
 export class ComicDTO {
-  @Rule(requiredNumber)
-  id?: number
-
   @Rule(requiredString)
   name!: string
 
@@ -98,9 +95,11 @@ export class ComicPublishDTO extends BasicIdDTO {
 }
 
 export class ComicRuleDTO extends PickDto(ComicDTO, [
-  'id',
   'canComment',
   'canDownload',
   'viewRule',
   'purchaseAmount',
-]) {}
+]) {
+  @Rule(requiredNumber)
+  id!: number
+}

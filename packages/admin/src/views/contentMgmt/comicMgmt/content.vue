@@ -1,7 +1,11 @@
 <script setup lang="ts" async>
   import type { UploadFile, UploadFiles } from 'element-plus'
   import type { GetComicContentTypesRes } from '@/apis/types/content'
-  import { deleteComicContentApi, getComicContentApi } from '@/apis/content.ts'
+  import {
+    clearComicChapterContentApi,
+    deleteComicContentApi,
+    getComicContentApi,
+  } from '@/apis/content.ts'
   import { PromptsEnum } from '@/enum/prompts.ts'
 
   defineOptions({
@@ -38,7 +42,16 @@
     }
   }
 
-  async function clearContent() {}
+  async function clearContent() {
+    useConfirm('delete', async () => {
+      await clearComicChapterContentApi({
+        chapterId: props.chapterId,
+        comicId: props.comicId,
+      })
+      useMessage.success(PromptsEnum.CONFIRM_CLEAR)
+      await getContent()
+    })
+  }
 
   async function handleFileChange(
     uploadFile: UploadFile,

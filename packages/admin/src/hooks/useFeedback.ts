@@ -2,12 +2,20 @@ import { PromptsEnum } from '@/enum/prompts'
 
 export const useMessage: typeof ElMessage = ElMessage
 
-export type UseConfirm = (type: 'delete' | 'disable' | 'enable', handler: AsyncFn, callback?: () => void) => void
+export type UseConfirm = (
+  type: 'delete' | 'disable' | 'enable' | 'clear',
+  handler: AsyncFn,
+  callback?: () => void,
+) => void
 
 export const useConfirm: UseConfirm = (type, handler, callback) => {
   let message = ''
   let prompt = ''
   switch (type) {
+    case 'clear':
+      message = PromptsEnum.CONFIRM_CLEAR
+      prompt = PromptsEnum.DELETED
+      break
     case 'delete':
       message = PromptsEnum.CONFIRM_DELETE
       prompt = PromptsEnum.DELETED

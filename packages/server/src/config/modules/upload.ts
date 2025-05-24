@@ -5,6 +5,6 @@ export const uploadConfig = {
   limits: {
     fileSize: 1024 * 1024 * 10,
   },
-  match: [/\/common\/upload/, /\/admin\/comic\/content\/createComicContent/],
+  match: [/\/common\/upload/, /\/admin\/comic\/chapter\/createComicChapterContent/],
   whitelist: uploadWhiteList
 }
