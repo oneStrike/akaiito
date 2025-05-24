@@ -66,28 +66,45 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
     })
   }
 
+  // 添加缓存对象
+  const dictItemCache = new Map<string, Record<string, string>>()
+
   // 获取表单项中所有的数据字典项并合并成一个对象
   const getDictItem: UseFormTool['getDictItem'] = () => {
-    const dictItem: IterateObject = {}
-    // 过滤出所有的字典项
-    const dictField = formOptions.value.filter((item) => {
-      return (
-        item.componentProps?.options?.length &&
-        dataDictField.findIndex((item) => item.field === item?.field) !== -1
-      )
-    })
-    // 遍历字典项
-    dictField.forEach((item) => {
-      if (!dictItem[item.field]) {
-        dictItem[item.field] = {}
+    // 如果缓存中已有数据且数据字典项数量未变，直接返回缓存
+    if (dictItemCache.size === dataDictField.length) {
+      return Object.fromEntries(dictItemCache)
+    }
+
+    // 清空缓存
+    dictItemCache.clear()
+
+    // 预先获取所有表单项，避免重复查询
+    const formItems = new Map(
+      dataDictField.map((item) => [item.field, getItem(item.field)[0]]),
+    )
+
+    // 处理数据字典项
+    dataDictField.forEach((item) => {
+      const formItem = formItems.get(item.field)
+      const options = formItem?.componentProps?.options
+
+      if (!Array.isArray(options)) return
+
+      const dictMap = new Map<string | number, string>()
+
+      // 使用 for...of 替代 forEach，性能更好
+      for (const option of options) {
+        if (typeof option.value === 'boolean') continue
+        dictMap.set(option.value, option.label)
       }
-      item.componentProps?.options?.forEach((option) => {
-        if (typeof option.value !== 'boolean') {
-          dictItem[item.field][option.value] = option.label
-        }
-      })
+
+      if (dictMap.size > 0) {
+        dictItemCache.set(item.code, Object.fromEntries(dictMap))
+      }
     })
-    return dictItem
+
+    return Object.fromEntries(dictItemCache)
   }
 
   // 禁止选择之后的时间

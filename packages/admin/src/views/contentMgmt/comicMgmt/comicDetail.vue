@@ -15,7 +15,6 @@
     comicId: number
     dataDict?: IterateObject
   }
-  console.log('props', props.dataDict)
   const comicDetail = ref<GetComicDetailTypesRes>()
 
   getComicDetailApi({ id: props.comicId }).then((data) => {
@@ -85,22 +84,30 @@
               <div class="flex items-center gap-2">
                 <i class="el-icon-location text-primary-500" />
                 <span class="text-gray-500">区域：</span>
-                <span>{{ comicDetail.region }}</span>
+                <span>{{ dataDict?.work_region[comicDetail.region] }}</span>
               </div>
               <div class="flex items-center gap-2">
                 <i class="el-icon-message text-primary-500" />
                 <span class="text-gray-500">语言：</span>
-                <span>{{ comicDetail.language }}</span>
+                <span>{{ dataDict?.work_language[comicDetail.language] }}</span>
               </div>
               <div class="flex items-center gap-2">
                 <i class="el-icon-warning text-primary-500" />
                 <span class="text-gray-500">年龄分级：</span>
-                <span>{{ comicDetail.ageRating }}</span>
+                <span>
+                  {{ dataDict?.work_age_rating[comicDetail.ageRating] }}
+                </span>
               </div>
               <div class="flex items-center gap-2">
                 <i class="el-icon-office-building text-primary-500" />
                 <span class="text-gray-500">出版社：</span>
-                <span>{{ comicDetail.publisher || '-' }}</span>
+                <span>
+                  {{
+                    comicDetail.publisher
+                      ? dataDict?.work_publisher[comicDetail.publisher]
+                      : '-'
+                  }}
+                </span>
               </div>
             </div>
 
