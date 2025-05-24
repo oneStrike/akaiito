@@ -1,70 +1,74 @@
 <script setup lang="ts">
-import type { GetAuthorDetailTypesRes } from '@/apis/types/author'
-import { getAuthorDetailApi } from '@/apis/author.ts'
-import { getDataDictionaryItemsApi } from '@/apis/dictionary.ts'
-import { utils } from '@/utils'
-import { authorRoles, gender } from './shared.ts'
+  import type { GetAuthorDetailTypesRes } from '@/apis/types/author'
+  import { getAuthorDetailApi } from '@/apis/author.ts'
+  import { getDataDictionaryItemsApi } from '@/apis/dictionary.ts'
+  import { utils } from '@/utils'
+  import { authorRoles, gender } from './shared.ts'
 
-defineOptions({
-  name: 'AuthorDetailModal',
-})
-
-const props = withDefaults(
-  defineProps<{
-    visible?: boolean
-    authorId: number
-  }>(),
-  {
-    visible: false,
-  },
-)
-
-const emits = defineEmits(['close'])
-
-const authorDetail = ref<GetAuthorDetailTypesRes>()
-getAuthorDetailApi({ id: props.authorId }).then((data) => {
-  authorDetail.value = data
-})
-
-const nationalityData = ref<IterateObject[]>([])
-getDataDictionaryItemsApi({
-  dictionaryCode: 'nationality',
-}).then(({ nationality }) => {
-  nationalityData.value = nationality
-})
-const nationality = computed(() => {
-  const target = nationalityData.value.find(
-    (item) => item.code === authorDetail.value?.nationality,
-  )
-  return target?.name ?? '-'
-})
-
-const socialLinks = computed(() => {
-  return utils.parseJson(authorDetail.value?.socialLinks, [])
-})
-
-const rolesLabel = computed(() => {
-  const identity: string[] = []
-  authorDetail.value?.roles.forEach((item) => {
-    authorRoles.forEach((roles) => {
-      if (roles.value === item) {
-        identity.push(roles.label)
-      }
-    })
+  defineOptions({
+    name: 'AuthorDetailModal',
   })
-  return identity.join('、') || '-'
-})
+
+  const props = withDefaults(
+    defineProps<{
+      visible?: boolean
+      authorId: number
+    }>(),
+    {
+      visible: false,
+    },
+  )
+
+  const emits = defineEmits(['close'])
+
+  const loading = ref(true)
+  const authorDetail = ref<GetAuthorDetailTypesRes>(
+    {} as GetAuthorDetailTypesRes,
+  )
+  getAuthorDetailApi({ id: props.authorId }).then((data) => {
+    authorDetail.value = data
+    loading.value = false
+  })
+
+  const nationalityData = ref<IterateObject[]>([])
+  getDataDictionaryItemsApi({
+    dictionaryCode: 'nationality',
+  }).then(({ nationality }) => {
+    nationalityData.value = nationality
+  })
+  const nationality = computed(() => {
+    const target = nationalityData.value.find(
+      (item) => item.code === authorDetail.value?.nationality,
+    )
+    return target?.name ?? '-'
+  })
+
+  const socialLinks = computed(() => {
+    return utils.parseJson(authorDetail.value?.socialLinks, [])
+  })
+
+  const rolesLabel = computed(() => {
+    const identity: string[] = []
+    authorDetail.value?.roles?.forEach((item) => {
+      authorRoles.forEach((roles) => {
+        if (roles.value === item) {
+          identity.push(roles.label)
+        }
+      })
+    })
+    return identity.join('、') || '-'
+  })
 </script>
 
 <template>
   <es-modal
-    v-if="visible && authorDetail"
+    v-if="visible"
     :model-value="visible"
-    :title="`【${authorDetail?.name}】详情`"
+    :title="`【${authorDetail?.name ?? '作者'}】详情`"
     @closed="emits('close')"
   >
     <!-- 容器 -->
-    <div class="p-4 space-y-6">
+    <div v-loading="loading" class="p-4 space-y-6">
       <!-- 头像区域 -->
       <div class="flex justify-center">
         <el-image
@@ -88,8 +92,8 @@ const rolesLabel = computed(() => {
         </el-descriptions-item>
         <el-descriptions-item label="性别">
           {{
-            gender.find((item) => item.value === authorDetail?.gender)?.label
-              ?? '-'
+            gender.find((item) => item.value === authorDetail?.gender)?.label ??
+            '-'
           }}
         </el-descriptions-item>
         <el-descriptions-item label="国籍">

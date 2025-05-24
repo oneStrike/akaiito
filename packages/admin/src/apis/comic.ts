@@ -12,6 +12,8 @@ import type {
   UpdateComicPublishTypesReq,
   DeleteComicTypesRes,
   DeleteComicTypesReq,
+  UpdateComicRuleTypesRes,
+  UpdateComicRuleTypesReq,
 } from './types/comic.d'
 
 /**
@@ -117,6 +119,25 @@ export const deleteComicApi = (data: DeleteComicTypesReq): Promise<DeleteComicTy
   return httpHandler({
     method: 'POST',
     url: '/admin/comic/deleteComic',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [更新漫画相关权限](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-300343993)
+ *  @标签 /更新漫画相关权限
+ *  @方式 POST
+ *  @地址 /admin/comic/updateComicRule
+ *  @更新时间 2025-05-25 00:12:35
+ */
+
+export const updateComicRuleApi = (data: UpdateComicRuleTypesReq): Promise<UpdateComicRuleTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/admin/comic/updateComicRule',
     headers: {
       'Content-Type': 'application/json',
     },

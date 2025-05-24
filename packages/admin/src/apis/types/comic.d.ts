@@ -360,3 +360,33 @@ export interface DeleteComicTypesRes {
   /* 主键id */
   id: number
 }
+
+/**
+ *  接口 [更新漫画相关权限](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-300343993)
+ *  @标签 /更新漫画相关权限
+ *  @方式 POST
+ *  @地址 /admin/comic/updateComicRule
+ *  @更新时间 2025-05-25 00:12:35
+ */
+
+export interface UpdateComicRuleTypesReq {
+  /* 主键id */
+  id: number
+
+  /* 是否允许下载 */
+  canDownload: boolean
+
+  /* 是否允许评论 */
+  canComment: boolean
+
+  /* 查看规则 0 公开  1登录 2会员 3购买 */
+  viewRule: number
+
+  /* 购买需要消耗的金额 */
+  purchaseAmount?: number
+}
+
+export interface UpdateComicRuleTypesRes {
+  /* 主键id */
+  id: number
+}

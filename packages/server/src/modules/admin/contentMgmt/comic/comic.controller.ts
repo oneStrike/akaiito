@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@midwayjs/core'
 import {
   ComicDTO,
+  ComicRuleDTO,
   ComicPublishDTO,
   ComicSearchDTO,
   ComicUpdateDTO,
@@ -39,10 +40,18 @@ export class ComicController {
   }
 
   @Post('/updateComicPublish', { summary: '更新漫画发布状态' })
-  async updateComicOrder(@Body() body: ComicPublishDTO) {
+  async updateComicPublish(@Body() body: ComicPublishDTO) {
     return await this.comicService.update({
       where: { id: body.id },
       data: { isPublish: body.isPublish },
+    })
+  }
+
+  @Post('/updateComicRule', { summary: '更新漫画相关权限' })
+  async updateComicRule(@Body() body: ComicRuleDTO) {
+    return await this.comicService.update({
+      where: { id: body.id },
+      data: body,
     })
   }
 }

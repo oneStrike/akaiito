@@ -1,4 +1,4 @@
-import { Rule } from '@midwayjs/validate'
+import { PickDto, Rule } from '@midwayjs/validate'
 import {
   requiredBoolean,
   requiredNumber,
@@ -12,6 +12,9 @@ import {
 import { BasicIdDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
 
 export class ComicDTO {
+  @Rule(requiredNumber)
+  id?: number
+
   @Rule(requiredString)
   name!: string
 
@@ -70,7 +73,6 @@ export class ComicUpdateDTO extends ComicDTO {
 }
 
 export class ComicSearchDTO extends BasicPageDTO {
-
   @Rule(validateString)
   name?: string
 
@@ -94,3 +96,11 @@ export class ComicPublishDTO extends BasicIdDTO {
   @Rule(validateBoolean)
   isPublish?: boolean
 }
+
+export class ComicRuleDTO extends PickDto(ComicDTO, [
+  'id',
+  'canComment',
+  'canDownload',
+  'viewRule',
+  'purchaseAmount',
+]) {}

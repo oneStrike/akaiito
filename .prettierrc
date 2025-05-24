@@ -9,5 +9,5 @@
   "proseWrap": "always",
   "quoteProps": "preserve",
   "htmlWhitespaceSensitivity": "ignore",
-  "vueIndentScriptAndStyle": true,
+  "vueIndentScriptAndStyle": true
 }
