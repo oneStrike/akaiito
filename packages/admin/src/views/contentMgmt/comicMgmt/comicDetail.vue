@@ -3,7 +3,7 @@
   import { getComicDetailApi, updateComicRuleApi } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
   import AuthorDetail from '@/views/contentMgmt/author/authorDetail.vue'
-  import { id } from 'element-plus/es/locales.mjs'
+  import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
 
   defineOptions({
     name: 'ComicDetail',
@@ -18,9 +18,10 @@
     comicId: number
     dataDict?: IterateObject
   }
-  const comicDetail = ref<GetComicDetailTypesRes | IterateObject>({})
+  const comicDetail = ref<GetComicDetailTypesRes>({} as GetComicDetailTypesRes)
 
   const authorModal = ref(false)
+  const chapterModal = ref(false)
   const loading = ref(true)
 
   getComicDetailApi({ id: props.comicId }).then((data) => {
@@ -119,7 +120,10 @@
             </el-descriptions>
 
             <div class="grid grid-cols-3 gap-4 mt-4">
-              <div class="text-center p-3 bg-gray-50 rounded-lg">
+              <div
+                class="text-center p-3 bg-gray-50 rounded-lg cursor-pointer"
+                @click="chapterModal = true"
+              >
                 <div class="text-xs text-gray-500 mb-1">章节数</div>
                 <div class="text-lg font-bold text-primary-600">
                   {{ comicDetail.chapterCount ?? 0 }}
@@ -290,6 +294,12 @@
       :visible="authorModal"
       :author-id="comicDetail.author.id"
       @close="authorModal = false"
+    />
+
+    <ComicChapter
+      v-if="chapterModal"
+      v-model:show="chapterModal"
+      :comic="comicDetail!"
     />
   </es-modal>
 </template>

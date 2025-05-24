@@ -101,6 +101,7 @@ export const tableColumn: EsTableColumn = [
     prop: 'action',
     label: '操作',
     align: 'center',
+    width: 200,
     slotName: 'action',
   },
 ]
@@ -149,7 +150,7 @@ export const chapterFilter: EsFormOptions[] = [
       span: 4,
     },
     componentProps: {
-      placeholder: '发布',
+      placeholder: '发布状态',
       options: [
         {
           label: '已发布',

@@ -166,6 +166,14 @@
       <template #action="{ row }">
         <el-button link type="primary" @click="editRow(row)">编辑</el-button>
         <el-divider direction="vertical" />
+        <el-button
+          link
+          type="primary"
+          @click="((currentComic = row), (chapterModal.show = true))"
+        >
+          章节
+        </el-button>
+        <el-divider direction="vertical" />
         <el-dropdown class="contents!">
           <el-button type="primary" link>更多</el-button>
           <template #dropdown>
@@ -177,11 +185,6 @@
                   :row="row"
                   @success="request"
                 />
-              </el-dropdown-item>
-              <el-dropdown-item
-                @click="((currentComic = row), (chapterModal.show = true))"
-              >
-                <span>章节</span>
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
