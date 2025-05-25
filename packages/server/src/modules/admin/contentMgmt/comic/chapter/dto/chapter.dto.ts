@@ -9,7 +9,7 @@ import {
   validateString,
   validateStringArray,
 } from '@/utils/validate'
-import { BasicIdDTO, BasicPageDTO } from '@/basic/dto/basic.dto'
+import { BasicPageDTO } from '@/basic/dto/basic.dto'
 
 // 定义章节的基础数据传输对象
 export class ChapterDTO {
@@ -82,19 +82,8 @@ export class updateChapterPublishDTO extends PickDto(ChapterDTO, [
   id!: number
 }
 
-// 获取漫画章节内容的 DTO，继承基础 ID DTO
-export class ComicChapterContentDTO extends PickDto(BasicIdDTO, ['id']) {
-  // 漫画 ID（必填，数字）
-  @Rule(requiredNumber)
-  comicId!: number
-}
-
 // 删除漫画章节内容的 DTO
 export class DeleteComicChapterContentDTO {
-  // 漫画 ID（必填，数字）
-  @Rule(requiredNumber)
-  comicId!: number
-
   // 章节 ID（必填，数字）
   @Rule(requiredNumber)
   chapterId!: number
@@ -102,4 +91,19 @@ export class DeleteComicChapterContentDTO {
   // 内容 ID（必填，数字）
   @Rule(requiredNumber)
   id!: number
+}
+
+// 更新章节排序的 DTO
+export class ChapterContentOrderDTO {
+  // 章节 ID（必填，数字）
+  @Rule(requiredNumber)
+  id!: number
+
+  // 源章节 ID（必填，数字）
+  @Rule(requiredNumber)
+  originId!: number
+
+  // 目标章节 ID（必填，数字）
+  @Rule(requiredNumber)
+  targetId!: number
 }

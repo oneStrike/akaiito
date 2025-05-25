@@ -65,6 +65,7 @@
     v-if="visible"
     :model-value="visible"
     :title="`【${authorDetail?.name ?? '作者'}】详情`"
+    :width="820"
     @closed="emits('close')"
   >
     <!-- 容器 -->

@@ -1,6 +1,6 @@
 import { Config, Provide } from '@midwayjs/core'
 import * as path from 'node:path'
-import { move, unlink, ensureDir } from 'fs-extra'
+import { move, unlink, ensureDir, rm } from 'fs-extra'
 
 @Provide()
 export class FileService {
@@ -27,6 +27,19 @@ export class FileService {
     // 删除文件
     try {
       await unlink(fileFullPath)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+
+  // 删除本地文件夹
+  async deleteLocalFolder(folderPath: string): Promise<boolean> {
+    // 拼接文件夹路径
+    const folderFullPath = path.join(this.pathPrefix, folderPath)
+    // 删除文件夹
+    try {
+      await rm(folderFullPath, { recursive: true })
       return true
     } catch (e) {
       return false

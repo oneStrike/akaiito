@@ -17,7 +17,7 @@ model WorkComic {
   region            String             @db.VarChar(20)
   /// 作者id
   authorId          Int                @map("author_id") @db.Integer
-  author            WorkAuthor         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author            WorkAuthor         @relation(fields: [authorId], references: [id])
   /// 内容年龄分级
   ageRating         String?            @map("age_rating") @db.VarChar(50)
   /// 是否发布 1：发布 0：不发布
@@ -63,7 +63,7 @@ model WorkComicChapter {
   /// 发布状态
   isPublish      Boolean?  @default(true) @map("is_publish")
   /// 关联的漫画id
-  comic          WorkComic @relation(fields: [comicId], references: [id], onDelete: Cascade)
+  comic          WorkComic @relation(fields: [comicId], references: [id])
   comicId        Int       @map("comic_id") @db.Integer
   /// 排序
   order          Int       @default(autoincrement()) @db.SmallInt

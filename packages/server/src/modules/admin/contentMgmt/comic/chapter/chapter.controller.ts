@@ -9,9 +9,9 @@ import {
   Query,
 } from '@midwayjs/core'
 import {
+  ChapterContentOrderDTO,
   ChapterDTO,
   ChapterPageDTO,
-  ComicChapterContentDTO,
   DeleteComicChapterContentDTO,
   UpdateChapterDTO,
   updateChapterPublishDTO,
@@ -68,8 +68,8 @@ export class ComicChapterController {
     return await this.chapterService.updateOrder(body)
   }
 
-  @Get('/getChapterContent', { summary: '获取漫画章节内容' })
-  async getChapterContent(@Query() query: ComicChapterContentDTO) {
+  @Get('/getComicChapterContent', { summary: '获取漫画章节内容' })
+  async getChapterContent(@Query() query: BasicIdDTO) {
     return await this.chapterService.getChapterContent(query)
   }
 
@@ -84,16 +84,18 @@ export class ComicChapterController {
     return await this.chapterService.createComicChapterContent(files, fields)
   }
 
-  @Post('/deleteChapterContent', { summary: '删除漫画章节内容' })
+  @Post('/deleteComicChapterContent', { summary: '删除漫画章节内容' })
   async deleteChapterContent(@Body() body: DeleteComicChapterContentDTO) {
     return await this.chapterService.deleteChapterContent(body)
   }
 
-  @Post('/clearChapterContent', { summary: '清空漫画章节内容' })
-  async clearChapterContent(@Body() body: ComicChapterContentDTO) {
-    return await this.chapterService.update({
-      where: { id: body.id, comicId: body.comicId },
-      data: { content: '[]' },
-    })
+  @Post('/updateComicChapterContentOrder', { summary: '更新漫画章节内容排序' })
+  async updateComicChapterContentOrder(@Body() body: ChapterContentOrderDTO) {
+    return await this.chapterService.updateComicChapterContentOrder(body)
+  }
+
+  @Post('/clearComicChapterContent', { summary: '清空漫画章节内容' })
+  async clearChapterContent(@Body() body: BasicIdDTO) {
+    return await this.chapterService.clearComicChapterContent(body.id)
   }
 }
