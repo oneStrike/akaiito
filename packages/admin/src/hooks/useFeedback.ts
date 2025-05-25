@@ -14,7 +14,7 @@ export const useConfirm: UseConfirm = (type, handler, callback) => {
   switch (type) {
     case 'clear':
       message = PromptsEnum.CONFIRM_CLEAR
-      prompt = PromptsEnum.DELETED
+      prompt = PromptsEnum.CLEARED
       break
     case 'delete':
       message = PromptsEnum.CONFIRM_DELETE

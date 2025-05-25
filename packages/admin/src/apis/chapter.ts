@@ -14,6 +14,16 @@ import type {
   DeleteChapterTypesReq,
   UpdateChapterOrderTypesRes,
   UpdateChapterOrderTypesReq,
+  GetComicChapterContentTypesRes,
+  GetComicChapterContentTypesReq,
+  CreateComicChapterContentTypesRes,
+  CreateComicChapterContentTypesReq,
+  DeleteComicChapterContentTypesRes,
+  DeleteComicChapterContentTypesReq,
+  UpdateComicChapterContentOrderTypesRes,
+  UpdateComicChapterContentOrderTypesReq,
+  ClearComicChapterContentTypesRes,
+  ClearComicChapterContentTypesReq,
 } from './types/chapter.d'
 
 /**
@@ -138,6 +148,109 @@ export const updateChapterOrderApi = (data: UpdateChapterOrderTypesReq): Promise
   return httpHandler({
     method: 'POST',
     url: '/admin/comic/chapter/updateChapterOrder',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [获取漫画内容分页](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243053782)
+ *  @标签 内容/获取漫画内容分页
+ *  @方式 GET
+ *  @地址 /admin/comic/chapter/getComicChapterContent
+ *  @更新时间 2025-05-25 22:19:25
+ */
+
+export const getComicChapterContentApi = (
+  params: GetComicChapterContentTypesReq,
+): Promise<GetComicChapterContentTypesRes> => {
+  return httpHandler({
+    method: 'GET',
+    url: '/admin/comic/chapter/getComicChapterContent',
+    headers: {},
+    params,
+  })
+}
+
+/**
+ *  接口 [创建漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052051)
+ *  @标签 内容/创建漫画内容
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/createComicChapterContent
+ *  @更新时间 2025-05-25 22:38:45
+ */
+
+export const createComicChapterContentApi = (
+  data: CreateComicChapterContentTypesReq,
+): Promise<CreateComicChapterContentTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/admin/comic/chapter/createComicChapterContent',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [删除漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052599)
+ *  @标签 内容/删除漫画内容
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/deleteComicChapterContent
+ *  @更新时间 2025-05-25 22:30:36
+ */
+
+export const deleteComicChapterContentApi = (
+  data: DeleteComicChapterContentTypesReq,
+): Promise<DeleteComicChapterContentTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/admin/comic/chapter/deleteComicChapterContent',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [漫画内容排序](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243053439)
+ *  @标签 内容/漫画内容排序
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/updateComicChapterContentOrder
+ *  @更新时间 2025-05-25 22:33:40
+ */
+
+export const updateComicChapterContentOrderApi = (
+  data: UpdateComicChapterContentOrderTypesReq,
+): Promise<UpdateComicChapterContentOrderTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/admin/comic/chapter/updateComicChapterContentOrder',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [清空章节内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243396531)
+ *  @标签 内容/清空章节内容
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/clearComicChapterContent
+ *  @更新时间 2025-05-25 22:31:12
+ */
+
+export const clearComicChapterContentApi = (
+  data: ClearComicChapterContentTypesReq,
+): Promise<ClearComicChapterContentTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/admin/comic/chapter/clearComicChapterContent',
     headers: {
       'Content-Type': 'application/json',
     },

@@ -250,3 +250,112 @@ export interface UpdateChapterOrderTypesRes {
   /* 主键id */
   id: number
 }
+
+/**
+ *  接口 [获取漫画内容分页](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243053782)
+ *  @标签 内容/获取漫画内容分页
+ *  @方式 GET
+ *  @地址 /admin/comic/chapter/getComicChapterContent
+ *  @更新时间 2025-05-25 22:19:25
+ */
+
+export interface GetComicChapterContentTypesReq {
+  /* 章节id */
+  id?: number
+
+  /* 漫画id */
+  comicId?: number
+}
+
+/*  */
+export type GetComicChapterContentTypesRes = {
+  /* 主键id */
+  id: number
+
+  /* 图片链接 */
+  url: string
+}[]
+
+/**
+ *  接口 [创建漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052051)
+ *  @标签 内容/创建漫画内容
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/createComicChapterContent
+ *  @更新时间 2025-05-25 22:38:45
+ */
+
+export interface CreateComicChapterContentTypesReq {
+  /* 图片链接 */
+  url: string
+}
+
+export interface CreateComicChapterContentTypesRes {
+  /* 主键id */
+  id: number
+}
+
+/**
+ *  接口 [删除漫画内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243052599)
+ *  @标签 内容/删除漫画内容
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/deleteComicChapterContent
+ *  @更新时间 2025-05-25 22:30:36
+ */
+
+export interface DeleteComicChapterContentTypesReq {
+  /* 内容id */
+  id: number
+
+  /* 章节id */
+  chapterId: number
+}
+
+export interface DeleteComicChapterContentTypesRes {
+  /* 主键id */
+  id: number
+
+  /* 章节id */
+  chapterId: number
+}
+
+/**
+ *  接口 [漫画内容排序](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243053439)
+ *  @标签 内容/漫画内容排序
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/updateComicChapterContentOrder
+ *  @更新时间 2025-05-25 22:33:40
+ */
+
+export interface UpdateComicChapterContentOrderTypesReq {
+  /* 章节id */
+  id: number
+
+  /* 原内容id */
+  originId: number
+
+  /*  */
+  targetId: number
+}
+
+export interface UpdateComicChapterContentOrderTypesRes {
+  /* 主键id */
+  id: string
+}
+
+/**
+ *  接口 [清空章节内容](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-243396531)
+ *  @标签 内容/清空章节内容
+ *  @方式 POST
+ *  @地址 /admin/comic/chapter/clearComicChapterContent
+ *  @更新时间 2025-05-25 22:31:12
+ */
+
+export interface ClearComicChapterContentTypesReq {
+  /* 章节的主键id */
+  id: number
+}
+
+export interface ClearComicChapterContentTypesRes {
+  /* 章节id */
+  id: string
+}

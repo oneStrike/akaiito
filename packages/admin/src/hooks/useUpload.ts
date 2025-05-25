@@ -1,5 +1,5 @@
-import type { UploadFileTypesRes } from '@/apis/types/upload'
 import type { UploadFiles } from 'element-plus'
+import type { UploadFileTypesRes } from '@/apis/types/upload'
 import { useMessage } from '@/hooks/useFeedback'
 import { useUserStore } from '@/stores/modules/user'
 import { httpHandler } from '@/utils/request'
@@ -8,7 +8,7 @@ type files = string | Blob
 type UploadFileRes = UploadFileTypesRes
 const api = {
   common: '/common/upload/uploadFile',
-  comic: '/admin/comic/content/createComicContent',
+  comic: '/admin/comic/chapter/createComicChapterContent',
 }
 
 export async function useUpload(
