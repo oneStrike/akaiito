@@ -327,6 +327,8 @@
     "usePreferredReducedTransparency": "readonly",
     "useSSRWidth": "readonly",
     "Slot": "readonly",
-    "Slots": "readonly"
+    "Slots": "readonly",
+    "ImageInfo": "readonly",
+    "useImageInfo": "readonly"
   }
 }

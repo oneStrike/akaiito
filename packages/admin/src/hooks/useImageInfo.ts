@@ -15,6 +15,8 @@ export interface ImageInfo {
   width: number
   /** 图片高度（像素） */
   height: number
+  /** 上传日期 */
+  uploadTime: string
   /** 图片宽高比例（如 16:9） */
   ratio: string
 }
@@ -50,6 +52,29 @@ function calculateRatio(width: number, height: number): string {
 export function useImageInfo(source: string | File): Promise<ImageInfo> {
   return new Promise((resolve, reject) => {
     try {
+      let uploadTime = ''
+      if (typeof source === 'string') {
+        // 使用正则提取时间戳部分
+        const timestampMatch = source.match(/upload_(\d+)/)
+        if (timestampMatch && timestampMatch.length >= 2) {
+          const timestampStr = timestampMatch[1]
+          const timestamp = Number.parseInt(timestampStr, 10)
+
+          // 检查是否为有效的时间戳
+          if (!Number.isNaN(timestamp)) {
+            const date = new Date(timestamp)
+            // 格式化为 YYYY-MM-DD HH:mm:ss
+            const year = date.getFullYear()
+            const month = (date.getMonth() + 1).toString().padStart(2, '0')
+            const day = date.getDate().toString().padStart(2, '0')
+            const hours = date.getHours().toString().padStart(2, '0')
+            const minutes = date.getMinutes().toString().padStart(2, '0')
+            const seconds = date.getSeconds().toString().padStart(2, '0')
+            uploadTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+          }
+        }
+      }
+
       // 创建图片对象
       const img = new Image()
 
@@ -105,6 +130,7 @@ export function useImageInfo(source: string | File): Promise<ImageInfo> {
           width: img.naturalWidth,
           height: img.naturalHeight,
           ratio,
+          uploadTime,
         })
       }
 
@@ -159,6 +185,7 @@ export function useImageInfo(source: string | File): Promise<ImageInfo> {
             width: img.naturalWidth,
             height: img.naturalHeight,
             ratio,
+            uploadTime,
           })
         }
       }

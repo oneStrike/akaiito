@@ -198,6 +198,7 @@ declare global {
   const useId: typeof import('vue')['useId']
   const useIdle: typeof import('@vueuse/core')['useIdle']
   const useImage: typeof import('@vueuse/core')['useImage']
+  const useImageInfo: typeof import('../hooks/useImageInfo')['useImageInfo']
   const useInfiniteScroll: typeof import('@vueuse/core')['useInfiniteScroll']
   const useIntersectionObserver: typeof import('@vueuse/core')['useIntersectionObserver']
   const useInterval: typeof import('@vueuse/core')['useInterval']
@@ -328,6 +329,9 @@ declare global {
   // @ts-ignore
   export type { UseFormTool } from '../hooks/useForm'
   import('../hooks/useForm')
+  // @ts-ignore
+  export type { ImageInfo } from '../hooks/useImageInfo'
+  import('../hooks/useImageInfo')
 }
 
 // for vue template auto import
@@ -527,6 +531,7 @@ declare module 'vue' {
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
     readonly useImage: UnwrapRef<typeof import('@vueuse/core')['useImage']>
+    readonly useImageInfo: UnwrapRef<typeof import('../hooks/useImageInfo')['useImageInfo']>
     readonly useInfiniteScroll: UnwrapRef<typeof import('@vueuse/core')['useInfiniteScroll']>
     readonly useIntersectionObserver: UnwrapRef<typeof import('@vueuse/core')['useIntersectionObserver']>
     readonly useInterval: UnwrapRef<typeof import('@vueuse/core')['useInterval']>
