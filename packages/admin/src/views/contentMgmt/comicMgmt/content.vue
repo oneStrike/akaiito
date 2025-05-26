@@ -181,7 +181,13 @@
       </div>
     </div>
     <!-- 漫画内容列表 -->
-    <es-table :data="fileList" :columns="contentColumn" drag @drag-end="drag">
+    <es-table
+      :data="fileList"
+      :columns="contentColumn"
+      drag
+      selection
+      @drag-end="drag"
+    >
       <template #imagePreview="{ row }">
         <el-image :src="row.url" fit="contain" class="max-h-16 max-w-12" />
       </template>

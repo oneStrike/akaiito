@@ -1,5 +1,5 @@
-import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import type { TableColumnInstance } from 'element-plus'
+import type { EsToolbarProps } from '@/components/es-toolbar/types'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
   prop: string
