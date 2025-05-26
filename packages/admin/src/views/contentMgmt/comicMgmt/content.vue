@@ -92,9 +92,20 @@
   }
 
   // 上传文件
+  let timer: number | null = null
+  let waitFiles: any[] = []
   async function handleFileChange(uploadFile: UploadFile) {
-    await useUpload(uploadFile.raw!, { id: props.chapterId }, 'comic')
-    await getContent()
+    isLoading.value = true
+    waitFiles.push(uploadFile)
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = window.setTimeout(async () => {
+      await useUpload(waitFiles, { id: props.chapterId }, 'comic')
+      await getContent()
+      waitFiles = []
+      isLoading.value = false
+    }, 100)
   }
 </script>
 
