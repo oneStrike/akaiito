@@ -154,7 +154,6 @@
       v-if="showContentModal && currentRecord"
       v-model:show="showContentModal"
       title="内容"
-      width="800"
       :comic-id="comic!.id"
       :chapter-id="currentRecord!.id"
       @submit="submit"

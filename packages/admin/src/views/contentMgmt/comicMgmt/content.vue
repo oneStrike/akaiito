@@ -1,12 +1,14 @@
 <script setup lang="ts" async>
-  import type { UploadFile, UploadFiles } from 'element-plus'
-  import type { GetComicChapterContentTypesRes } from '@/apis/types/chapter'
+  import type { UploadFile } from 'element-plus'
   import {
     clearComicChapterContentApi,
     deleteComicChapterContentApi,
     getComicChapterContentApi,
+    updateComicChapterContentOrderApi,
   } from '@/apis/chapter'
   import { PromptsEnum } from '@/enum/prompts.ts'
+  import { useImageInfo } from '@/hooks/useImageInfo'
+  import { contentColumn } from './shared'
 
   defineOptions({
     name: 'ComicContent',
@@ -20,13 +22,30 @@
     {},
   )
 
-  const fileList = ref<GetComicChapterContentTypesRes>([])
+  const fileList = ref<IterateObject[]>([])
+  const isLoading = ref(false)
+  const selectedItems = ref<Set<number>>(new Set())
+  const isMultiSelectMode = ref(false)
 
   async function getContent() {
-    fileList.value = await getComicChapterContentApi({
-      id: props.chapterId,
-    })
-    console.log('🚀 ~ getContent ~ fileList.value:', fileList.value)
+    isLoading.value = true
+    try {
+      const data = (await getComicChapterContentApi({
+        id: props.chapterId,
+      })) as IterateObject[]
+      for (const item of data) {
+        try {
+          const imageInfo = await useImageInfo(item.url)
+          Object.assign(item, imageInfo)
+        } catch (error) {
+          console.error('获取图片信息失败:', error)
+        }
+      }
+      fileList.value = data
+    } catch (error) {
+    } finally {
+      isLoading.value = false
+    }
   }
 
   getContent()
@@ -46,6 +65,25 @@
     }
   }
 
+  // 拖拽排序
+  async function drag(drag: IterateObject) {
+    isLoading.value = true
+    await updateComicChapterContentOrderApi({
+      id: props.chapterId,
+      originId: drag.originId,
+      targetId: drag.targetId,
+    })
+  }
+  async function deleteContent(params: IterateObject) {
+    isLoading.value = true
+    await deleteComicChapterContentApi({
+      chapterId: props.chapterId,
+      id: params.id,
+    })
+    await getContent()
+    isLoading.value = false
+  }
+
   async function clearContent() {
     useConfirm('clear', async () => {
       await clearComicChapterContentApi({
@@ -55,91 +93,115 @@
     })
   }
 
-  async function handleFileChange(
-    uploadFile: UploadFile,
-    uploadFiles: UploadFiles,
-  ) {
+  async function handleFileChange(uploadFile: UploadFile) {
     await useUpload(uploadFile.raw!, { id: props.chapterId }, 'comic')
     await getContent()
+  }
+
+  function toggleSelect(index: number) {
+    if (selectedItems.value.has(index)) {
+      selectedItems.value.delete(index)
+    } else {
+      selectedItems.value.add(index)
+    }
+  }
+
+  function toggleMultiSelectMode() {
+    isMultiSelectMode.value = !isMultiSelectMode.value
+    if (!isMultiSelectMode.value) {
+      selectedItems.value.clear()
+    }
+  }
+
+  async function deleteSelected() {
+    if (selectedItems.value.size === 0) {
+      useMessage.warning('请先选择要删除的图片')
+      return
+    }
+
+    useConfirm('delete', async () => {
+      const deletePromises = Array.from(selectedItems.value).map((index) => {
+        const file = fileList.value[index]
+        if (file?.id) {
+          return deleteComicChapterContentApi({
+            chapterId: props.chapterId,
+            id: file.id,
+          })
+        }
+        return Promise.resolve()
+      })
+
+      await Promise.all(deletePromises)
+      useMessage.success(PromptsEnum.DELETED)
+      selectedItems.value.clear()
+      await getContent()
+    })
+  }
+
+  const selectAllChecked = computed(() => {
+    return (
+      fileList.value.length > 0 &&
+      selectedItems.value.size === fileList.value.length
+    )
+  })
+
+  function toggleSelectAll() {
+    if (selectAllChecked.value) {
+      selectedItems.value.clear()
+    } else {
+      for (let i = 0; i < fileList.value.length; i++) {
+        selectedItems.value.add(i)
+      }
+    }
   }
 </script>
 
 <template>
-  <es-modal v-model="showModel">
-    <!-- 上传和清空按钮 -->
-    <div class="w-full flex justify-between mb-4">
-      <div>
-        <el-upload
-          action=""
-          :auto-upload="false"
-          :on-change="handleFileChange"
-          :limit="10"
-          :multiple="true"
-          :show-file-list="false"
-        >
-          <el-button type="primary">
-            <template #icon>
-              <es-icon name="uploading" :size="20" />
-            </template>
-            上传
-          </el-button>
-        </el-upload>
+  <es-modal v-model="showModel" :width="1020">
+    <div class="p-5">
+      <!-- 工具栏 -->
+      <div class="w-full flex justify-between">
+        <div class="flex">
+          <el-upload
+            action=""
+            :auto-upload="false"
+            :on-change="handleFileChange"
+            :multiple="true"
+            :show-file-list="false"
+            accept="image/*"
+          >
+            <el-button type="primary" :disabled="isLoading">
+              <template #icon>
+                <es-icon name="uploading" :size="20" />
+              </template>
+              上传
+            </el-button>
+          </el-upload>
+        </div>
       </div>
-      <el-button @click="clearContent">清空</el-button>
     </div>
-
-    <!-- 自定义图片列表 -->
-    <div class="grid grid-cols-4 gap-4">
-      <div
-        v-for="(file, index) in fileList"
-        :key="index"
-        class="relative group"
-      >
-        <!-- 图片预览 -->
-        <el-image
-          :src="file.url"
-          fit="cover"
-          class="w-full h-40 rounded-md shadow-md"
-          preview-teleported
-        >
-          <template #error>
-            <div
-              class="w-full h-full flex items-center justify-center text-red-500"
-            >
-              加载失败
-            </div>
-          </template>
-        </el-image>
-
-        <!-- 删除按钮 -->
-        <el-button
-          v-if="file.url"
-          class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-          type="danger"
-          size="mini"
-          icon="el-icon-delete"
-          circle
-          @click="remove(file)"
+    <!-- 漫画内容列表 -->
+    <es-table :data="fileList" :columns="contentColumn" drag @drag-end="drag">
+      <template #imagePreview="{ row }">
+        <el-image :src="row.url" fit="contain" class="max-h-16 max-w-12" />
+      </template>
+      <template #imageInfo="{ row }">
+        <div class="flex flex-col">
+          <span>尺寸：{{ `${row.width}X${row.height}` }}</span>
+          <span>比例：{{ row.ratio }}</span>
+          <span>大小：{{ row.size }}MB</span>
+        </div>
+      </template>
+      <template #createdAt="{ row }">
+        <span>{{ row.uploadTime }}</span>
+      </template>
+      <template #action="{ row }">
+        <es-pop-confirm
+          v-model:loading="isLoading"
+          :request="deleteContent"
+          :row="row"
         />
-      </div>
-    </div>
+      </template>
+    </es-table>
   </es-modal>
 </template>
-
-<style scoped lang="scss">
-  .grid {
-    display: grid;
-  }
-  .grid-cols-4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .gap-4 {
-    gap: 1rem;
-  }
-  .group {
-    position: relative;
-  }
-  .group-hover\:opacity-100 {
-    transition: opacity 0.3s;
-  }
-</style>

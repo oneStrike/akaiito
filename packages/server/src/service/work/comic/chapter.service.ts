@@ -113,11 +113,12 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
     })
     const filePath = JSON.parse(content || '[]')
 
+    const returnData = []
     let relativePath = await this.getChapterFilePath(fields.id, comicId)
     for (const file of files) {
-      filePath.push(
-        await this.fileService.moveLocalFile(file.data, relativePath),
-      )
+      const path = await this.fileService.moveLocalFile(file.data, relativePath)
+      filePath.push(path)
+      returnData.push(path)
     }
     await this.update({
       where: {
@@ -127,9 +128,7 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
         content: JSON.stringify(filePath),
       },
     })
-    return {
-      id: filePath.length,
-    }
+    return returnData
   }
 
   // 删除漫画章节内容

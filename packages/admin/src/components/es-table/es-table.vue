@@ -1,151 +1,158 @@
 <script setup lang="ts">
-import type { dragEndEvent, EsTableProps } from '@/components/es-table/types'
-import defaultImage from '@/assets/images/image.svg'
-import Sortable from 'sortablejs'
+  import type { dragEndEvent, EsTableProps } from '@/components/es-table/types'
+  import Sortable from 'sortablejs'
+  import defaultImage from '@/assets/images/image.svg'
 
-const props = withDefaults(defineProps<EsTableProps>(), {
-  tableIndex: true,
-  defaultValue: '-',
-  drag: false,
-  total: 0,
-})
-const emits = defineEmits<{
-  (event: 'link', data: any): void
-  (
-    event: 'sortChange',
-    data: {
-      field: string
-      order: 'asc' | 'desc' | null
+  const props = withDefaults(defineProps<EsTableProps>(), {
+    tableIndex: true,
+    defaultValue: '-',
+    drag: false,
+    total: 0,
+  })
+  const emits = defineEmits<{
+    (event: 'link', data: any): void
+    (
+      event: 'sortChange',
+      data: {
+        field: string
+        order: 'asc' | 'desc' | null
+      },
+    ): void
+    (event: 'toolbarHandler', data: any): void
+    (event: 'reset'): void
+    (event: 'query', data: any): void
+    (event: 'dragEnd', data: dragEndEvent): void
+  }>()
+  const params = defineModel('params', {
+    type: Object,
+    default: () => ({
+      pageIndex: 0,
+      pageSize: 15,
+    }),
+  })
+  const pageIndex = computed({
+    get() {
+      return params.value.pageIndex + 1
     },
-  ): void
-  (event: 'toolbarHandler', data: any): void
-  (event: 'reset'): void
-  (event: 'query', data: any): void
-  (event: 'dragEnd', data: dragEndEvent): void
-}>()
-const params = defineModel('params', {
-  type: Object,
-  default: () => ({
-    pageIndex: 0,
-    pageSize: 15,
-  }),
-})
-const pageIndex = computed({
-  get() {
-    return params.value.pageIndex + 1
-  },
-  set(newVal: number) {
-    params.value.pageIndex = newVal - 1
-  },
-})
-const paginationRef = useTemplateRef<HTMLDivElement>('paginationRef')
-const tableBoxRef = useTemplateRef<HTMLDivElement>('tableBoxRef')
-const toolbarRef = useTemplateRef<HTMLDivElement>('toolbarRef')
-const tableRef = useTemplateRef('tableRef')
+    set(newVal: number) {
+      params.value.pageIndex = newVal - 1
+    },
+  })
+  const paginationRef = useTemplateRef<HTMLDivElement>('paginationRef')
+  const tableBoxRef = useTemplateRef<HTMLDivElement>('tableBoxRef')
+  const toolbarRef = useTemplateRef<HTMLDivElement>('toolbarRef')
+  const tableRef = useTemplateRef('tableRef')
 
-const tableHeight = ref(100)
-const elHeight = ref({
-  container: 0,
-  pagination: 0,
-  toolbar: 0,
-})
+  const elHeight = ref({
+    container: 0,
+    pagination: 0,
+    toolbar: 0,
+  })
+  const tableHeight = computed(() => {
+    return (
+      elHeight.value.container -
+      elHeight.value.pagination -
+      elHeight.value.toolbar
+    )
+  })
+  let observers: ResizeObserver[] = []
+  function computedTableHeight() {
+    // 清除之前的观察者
+    observers.forEach((observer) => observer.disconnect())
+    observers = []
+    useResizeObserver(
+      tableBoxRef.value!.parentNode as HTMLElement,
+      (entries) => {
+        const entry = entries[0]
+        elHeight.value.container = entry.contentRect.height
+      },
+    )
 
-function computedTableHeight() {
-  useResizeObserver(tableBoxRef.value!.parentNode as HTMLElement, (entries) => {
-    const entry = entries[0]
-    elHeight.value.container = entry.contentRect.height
+    useResizeObserver(paginationRef.value, (entries) => {
+      const entry = entries[0]
+      const { height, y } = entry.contentRect
+      elHeight.value.pagination = height + y
+    })
+
+    useResizeObserver(toolbarRef.value, (entries) => {
+      const entry = entries[0]
+      const { height, y, top } = entry.contentRect
+      elHeight.value.toolbar = height + y + top
+    })
+  }
+
+  const innerColumns = computed(() => {
+    if (props.tableIndex && props.columns[0].type !== 'index') {
+      return [
+        {
+          label: '序号',
+          prop: 'index',
+          align: 'center',
+          type: 'index',
+          width: 66,
+        },
+        ...props.columns,
+      ]
+    }
+    return []
   })
 
-  useResizeObserver(paginationRef.value, (entries) => {
-    const entry = entries[0]
-    const { height, y } = entry.contentRect
-    elHeight.value.pagination = height + y
+  const selectedRecords = defineModel<unknown[] | null>('selected', {
+    default: () => [],
   })
 
-  useResizeObserver(toolbarRef.value, (entries) => {
-    const entry = entries[0]
-    const { height, y, top } = entry.contentRect
-    elHeight.value.toolbar = height + y + top
-  })
-}
+  function handlerSelectionChange(val: any) {
+    selectedRecords.value = val
+  }
 
-watch(
-  elHeight,
-  (val) => {
-    tableHeight.value = val.container - val.pagination - val.toolbar
-  },
-  { deep: true, immediate: true },
-)
+  function handlerSortChange(val: any) {
+    emits('sortChange', {
+      field: val.prop,
+      order: val.order === 'descending' ? 'desc' : 'asc',
+    })
+  }
 
-const innerColumns = computed(() => {
-  if (props.tableIndex && props.columns[0].type !== 'index') {
-    return [
+  const rowDrop = () => {
+    const sortableInst = new Sortable(
+      tableRef.value!.$el.querySelector('tbody'),
       {
-        label: '序号',
-        prop: 'index',
-        align: 'center',
-        type: 'index',
-        width: 66,
-      },
-      ...props.columns,
-    ]
-  }
-  return []
-})
-
-const selectedRecords = defineModel<unknown[] | null>('selected', {
-  default: () => [],
-})
-
-function handlerSelectionChange(val: any) {
-  selectedRecords.value = val
-}
-
-function handlerSortChange(val: any) {
-  emits('sortChange', {
-    field: val.prop,
-    order: val.order === 'descending' ? 'desc' : 'asc',
-  })
-}
-
-const rowDrop = () => {
-  const sortableInst = new Sortable(
-    tableRef.value!.$el.querySelector('tbody'),
-    {
-      group: {
-        name: 'table',
-        pull: true,
-        put: true,
-      },
-      animation: 150,
-      async onEnd(e: any) {
-        // 如果拖拽结束后顺序发生了变化，则对数据进行修改
-        const { oldIndex, newIndex } = e
-        if (oldIndex !== newIndex) {
-          const targetData = props.data[newIndex]
-          const originData = props.data[oldIndex]
-          const dragParams = {
-            originId: originData.id,
-            originOrder: originData.order,
-            targetId: targetData.id,
-            targetOrder: targetData.order,
+        group: {
+          name: 'table',
+          pull: true,
+          put: true,
+        },
+        animation: 150,
+        async onEnd(e: any) {
+          // 如果拖拽结束后顺序发生了变化，则对数据进行修改
+          const { oldIndex, newIndex } = e
+          if (oldIndex !== newIndex) {
+            const targetData = props.data[newIndex]
+            const originData = props.data[oldIndex]
+            const dragParams = {
+              originId: originData.id,
+              originOrder: originData.order,
+              targetId: targetData.id,
+              targetOrder: targetData.order,
+            }
+            emits('dragEnd', dragParams)
           }
-          emits('dragEnd', dragParams)
-        }
+        },
       },
-    },
-  )
-}
-
-onMounted(() => {
-  if (props.drag) {
-    rowDrop()
+    )
   }
-  computedTableHeight()
-})
-defineExpose({
-  computedTableHeight,
-})
+
+  onMounted(() => {
+    if (props.drag) {
+      rowDrop()
+    }
+    computedTableHeight()
+  })
+  onUnmounted(() => {
+    observers.forEach((observer) => observer.disconnect())
+  })
+  defineExpose({
+    computedTableHeight,
+  })
 </script>
 
 <template>
@@ -254,7 +261,7 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-::v-deep(.cell) {
-  line-height: 32px;
-}
+  ::v-deep(.cell) {
+    line-height: 32px;
+  }
 </style>

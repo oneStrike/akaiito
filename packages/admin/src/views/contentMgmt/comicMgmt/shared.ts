@@ -138,6 +138,34 @@ export const chapterColumn: EsTableColumn = [
     prop: 'action',
     label: '操作',
     align: 'center',
+    width: 200,
+    slotName: 'action',
+  },
+]
+
+export const contentColumn: EsTableColumn = [
+  {
+    prop: 'imagePreview',
+    label: '预览图片',
+    align: 'center',
+    slotName: 'imagePreview',
+  },
+  {
+    prop: 'imageInfo',
+    label: '图片信息',
+    align: 'center',
+    slotName: 'imageInfo',
+  },
+  {
+    prop: 'createdAt',
+    label: '上传时间',
+    align: 'center',
+    slotName: 'createdAt',
+  },
+  {
+    prop: 'action',
+    label: '操作',
+    align: 'center',
     slotName: 'action',
   },
 ]
