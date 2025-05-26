@@ -21,11 +21,9 @@
     }>(),
     {},
   )
-
+  const showModel = defineModel('show', { default: false })
   const fileList = ref<IterateObject[]>([])
   const isLoading = ref(false)
-  const selectedItems = ref<Set<number>>(new Set())
-  const isMultiSelectMode = ref(false)
 
   async function getContent() {
     isLoading.value = true
@@ -33,15 +31,10 @@
       const data = (await getComicChapterContentApi({
         id: props.chapterId,
       })) as IterateObject[]
-      for (const item of data) {
-        try {
-          const imageInfo = await useImageInfo(item.url)
-          Object.assign(item, imageInfo)
-        } catch (error) {
-          console.error('获取图片信息失败:', error)
-        }
-      }
-      fileList.value = data
+      fileList.value = []
+      nextTick(() => {
+        fileList.value = data
+      })
     } catch (error) {
     } finally {
       isLoading.value = false
@@ -49,21 +42,6 @@
   }
 
   getContent()
-  const showModel = defineModel('show', { default: false })
-
-  async function remove(file: UploadFile) {
-    const target = fileList.value?.find((item) => item.url === file.url)
-    if (target?.id) {
-      await deleteComicChapterContentApi({
-        chapterId: props.chapterId,
-        id: target.id,
-      })
-      useMessage.success(PromptsEnum.DELETED)
-      await getContent()
-    } else {
-      useMessage.error(PromptsEnum.ERROR_DELETE)
-    }
-  }
 
   // 拖拽排序
   async function drag(drag: IterateObject) {
@@ -73,7 +51,12 @@
       originId: drag.originId,
       targetId: drag.targetId,
     })
+    await getContent()
+    useMessage.success(PromptsEnum.UPDATED)
+    isLoading.value = false
   }
+
+  // 删除内容
   async function deleteContent(params: IterateObject) {
     isLoading.value = true
     await deleteComicChapterContentApi({
@@ -84,6 +67,21 @@
     isLoading.value = false
   }
 
+  // 显示详细信息
+  async function showDetail() {
+    isLoading.value = true
+    for (const item of fileList.value) {
+      try {
+        const imageInfo = await useImageInfo(item.url)
+        Object.assign(item, imageInfo)
+      } catch (error) {
+        console.error('获取图片信息失败:', error)
+      }
+    }
+    isLoading.value = false
+  }
+
+  // 清空内容
   async function clearContent() {
     useConfirm('clear', async () => {
       await clearComicChapterContentApi({
@@ -93,66 +91,10 @@
     })
   }
 
+  // 上传文件
   async function handleFileChange(uploadFile: UploadFile) {
     await useUpload(uploadFile.raw!, { id: props.chapterId }, 'comic')
     await getContent()
-  }
-
-  function toggleSelect(index: number) {
-    if (selectedItems.value.has(index)) {
-      selectedItems.value.delete(index)
-    } else {
-      selectedItems.value.add(index)
-    }
-  }
-
-  function toggleMultiSelectMode() {
-    isMultiSelectMode.value = !isMultiSelectMode.value
-    if (!isMultiSelectMode.value) {
-      selectedItems.value.clear()
-    }
-  }
-
-  async function deleteSelected() {
-    if (selectedItems.value.size === 0) {
-      useMessage.warning('请先选择要删除的图片')
-      return
-    }
-
-    useConfirm('delete', async () => {
-      const deletePromises = Array.from(selectedItems.value).map((index) => {
-        const file = fileList.value[index]
-        if (file?.id) {
-          return deleteComicChapterContentApi({
-            chapterId: props.chapterId,
-            id: file.id,
-          })
-        }
-        return Promise.resolve()
-      })
-
-      await Promise.all(deletePromises)
-      useMessage.success(PromptsEnum.DELETED)
-      selectedItems.value.clear()
-      await getContent()
-    })
-  }
-
-  const selectAllChecked = computed(() => {
-    return (
-      fileList.value.length > 0 &&
-      selectedItems.value.size === fileList.value.length
-    )
-  })
-
-  function toggleSelectAll() {
-    if (selectAllChecked.value) {
-      selectedItems.value.clear()
-    } else {
-      for (let i = 0; i < fileList.value.length; i++) {
-        selectedItems.value.add(i)
-      }
-    }
   }
 </script>
 
@@ -178,6 +120,12 @@
             </el-button>
           </el-upload>
         </div>
+        <div>
+          <el-link class="mr-4" type="primary" @click="showDetail">
+            详细信息
+          </el-link>
+          <el-button @click="clearContent">清空内容</el-button>
+        </div>
       </div>
     </div>
     <!-- 漫画内容列表 -->
@@ -186,6 +134,7 @@
       :columns="contentColumn"
       drag
       selection
+      :loading="isLoading"
       @drag-end="drag"
     >
       <template #imagePreview="{ row }">
@@ -193,13 +142,18 @@
       </template>
       <template #imageInfo="{ row }">
         <div class="flex flex-col">
-          <span>尺寸：{{ `${row.width}X${row.height}` }}</span>
-          <span>比例：{{ row.ratio }}</span>
-          <span>大小：{{ row.size }}MB</span>
+          <template v-if="row.size">
+            <span :class="row.size > 1 ? 'text-error' : 'text-success'">
+              大小：{{ row.size }}MB
+            </span>
+            <span>尺寸：{{ `${row.width}X${row.height}` }}</span>
+          </template>
+          <span v-else>-</span>
         </div>
       </template>
       <template #createdAt="{ row }">
-        <span>{{ row.uploadTime }}</span>
+        <span v-if="row.uploadTime">{{ row.uploadTime }}</span>
+        <span v-else>-</span>
       </template>
       <template #action="{ row }">
         <es-pop-confirm

@@ -7,6 +7,7 @@
     tableIndex: true,
     defaultValue: '-',
     drag: false,
+    loading: false,
     total: 0,
   })
   const emits = defineEmits<{
@@ -171,6 +172,7 @@
 
     <el-table
       ref="tableRef"
+      v-loading="loading"
       :data="data"
       :height="tableHeight"
       :max-height="tableHeight"

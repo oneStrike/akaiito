@@ -14,6 +14,7 @@ export interface EsTableProps<T = IterateObject> {
   total?: number
   drag?: boolean
   selection?: boolean
+  loading?: boolean
   defaultValue?: string
 
   toolbar?: EsToolbarProps['toolbar']
