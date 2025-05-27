@@ -299,15 +299,15 @@ export interface CreateComicChapterContentTypesRes {
  *  @标签 内容/删除漫画内容
  *  @方式 POST
  *  @地址 /admin/comic/chapter/deleteComicChapterContent
- *  @更新时间 2025-05-25 22:30:36
+ *  @更新时间 2025-05-27 22:06:04
  */
 
 export interface DeleteComicChapterContentTypesReq {
-  /* 内容id */
-  id: number
-
   /* 章节id */
   chapterId: number
+
+  /* 内容id */
+  ids: number[]
 }
 
 export interface DeleteComicChapterContentTypesRes {
@@ -347,7 +347,7 @@ export interface UpdateComicChapterContentOrderTypesRes {
  *  @标签 内容/清空章节内容
  *  @方式 POST
  *  @地址 /admin/comic/chapter/clearComicChapterContent
- *  @更新时间 2025-05-25 22:31:12
+ *  @更新时间 2025-05-25 23:25:42
  */
 
 export interface ClearComicChapterContentTypesReq {

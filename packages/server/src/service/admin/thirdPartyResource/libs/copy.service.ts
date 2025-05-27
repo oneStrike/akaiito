@@ -1,7 +1,7 @@
 import { Inject, Provide } from '@midwayjs/core'
 import { HttpService } from '@midwayjs/axios'
 
-const baseUrl = 'https://api.mangacopy.com'
+const baseUrl = 'https://api.copy-manga.com'
 const headers = {
   platform: 3,
   version: '2.2.5',
@@ -13,14 +13,17 @@ export class CopyMangaService {
   httpService: HttpService
 
   async searchWord(keyword: string) {
-    const { data } = await this.httpService.get(`${baseUrl}/api/v3/search/comic`, {
-      params: {
-        q: keyword,
-        limit: 30,
-        offset: 0,
+    const { data } = await this.httpService.get(
+      `${baseUrl}/api/v3/search/comic`,
+      {
+        params: {
+          q: keyword,
+          limit: 30,
+          offset: 0,
+        },
+        headers,
       },
-      headers,
-    })
+    )
     if (data.code !== 200) {
       return { code: 201 }
     }
@@ -30,7 +33,10 @@ export class CopyMangaService {
         id: item.path_word,
         name: item.name,
         cover: item.cover,
-        author: item.author.map((item) => ({ name: item.name, id: item.path_word })),
+        author: item.author.map((item) => ({
+          name: item.name,
+          id: item.path_word,
+        })),
         source: '拷贝',
       })),
     }
@@ -43,9 +49,12 @@ export class CopyMangaService {
   }
 
   async wordDetail(path: string) {
-    const { data } = await this.httpService.get(`${baseUrl}/api/v3/comic2/${path}?in_mainland=true&platform=3`, {
-      headers,
-    })
+    const { data } = await this.httpService.get(
+      `${baseUrl}/api/v3/comic2/${path}?in_mainland=true&platform=3`,
+      {
+        headers,
+      },
+    )
     return data.code !== 200 ? { code: 201 } : { code: 200, data: data.results }
   }
 
@@ -56,7 +65,9 @@ export class CopyMangaService {
         headers,
       },
     )
-    return data.code !== 200 ? { code: 201 } : { code: 200, data: data.results.list }
+    return data.code !== 200
+      ? { code: 201 }
+      : { code: 200, data: data.results.list }
   }
 
   async chapterContent(path: string, chapterId: string) {

@@ -2,6 +2,7 @@
 import { PickDto, Rule } from '@midwayjs/validate'
 import {
   requiredNumber,
+  requiredNumberArray,
   requiredString,
   validateBoolean,
   validateNumber,
@@ -89,8 +90,8 @@ export class DeleteComicChapterContentDTO {
   chapterId!: number
 
   // 内容 ID（必填，数字）
-  @Rule(requiredNumber)
-  id!: number
+  @Rule(requiredNumberArray)
+  ids!: number[]
 }
 
 // 更新章节排序的 DTO

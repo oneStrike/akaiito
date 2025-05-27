@@ -62,6 +62,9 @@ export class ComicDTO {
 
   @Rule(validateNumber)
   purchaseAmount?: number
+
+  @Rule(validateString)
+  remark?: string
 }
 
 export class ComicUpdateDTO extends ComicDTO {

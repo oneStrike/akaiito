@@ -140,19 +140,31 @@ export class WorkComicChapterService extends BasicService<WorkComicChapter> {
       false,
     )
 
-    if (!content[where.id]) {
-      this.throwError('漫画章节内容不存在')
+    // 检查要删除的内容是否存在
+    const invalidIds = where.ids.filter(id => !content[id])
+    if (invalidIds.length > 0) {
+      this.throwError(`漫画章节内容不存在，ID: ${invalidIds.join(', ')}`)
     }
-    await this.fileService.deleteLocalFile(content[where.id])
-    content.splice(where.id, 1)
+
+    // 收集要删除的文件路径
+    const filesToDelete = where.ids.map(id => content[id])
+
+    // 批量删除文件
+    await Promise.all(filesToDelete.map(file => this.fileService.deleteLocalFile(file)))
+
+    // 从内容数组中移除指定的内容
+    const updatedContent = content.filter((_, index) => !where.ids.includes(index))
+
+    // 更新章节内容
     await this.update({
       where: {
         id: where.chapterId,
       },
       data: {
-        content: JSON.stringify(content),
+        content: JSON.stringify(updatedContent),
       },
     })
+
     return where
   }
 

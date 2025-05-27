@@ -58,6 +58,9 @@ export interface GetComicPageTypesRes {
     /* 购买需要消耗的金额 */
     purchaseAmount?: number
 
+    /* 备注信息 */
+    remark?: string | null
+
     /* 创建时间 */
     createdAt: string
 
@@ -166,6 +169,9 @@ export interface GetComicDetailTypesRes {
   /* 购买需要消耗的金额 */
   purchaseAmount?: number
 
+  /* 备注信息 */
+  remark?: string | null
+
   /* 创建时间 */
   createdAt: string
 
@@ -234,6 +240,9 @@ export interface CreateComicTypesReq {
 
   /* 购买需要消耗的金额 */
   purchaseAmount?: number
+
+  /* 备注信息 */
+  remark?: string | null
 }
 
 export interface CreateComicTypesRes {
@@ -302,6 +311,9 @@ export interface UpdateComicTypesReq {
 
   /* 购买需要消耗的金额 */
   purchaseAmount?: number
+
+  /* 备注信息 */
+  remark?: string | null
 }
 
 /*  */
@@ -336,6 +348,9 @@ export interface UpdateComicPublishTypesReq {
 
   /* 购买需要消耗的金额 */
   purchaseAmount?: number
+
+  /* 备注信息 */
+  remark?: string | null
 }
 
 export interface UpdateComicPublishTypesRes {
@@ -384,6 +399,9 @@ export interface UpdateComicRuleTypesReq {
 
   /* 购买需要消耗的金额 */
   purchaseAmount?: number
+
+  /* 备注信息 */
+  remark?: string | null
 }
 
 export interface UpdateComicRuleTypesRes {

@@ -24,6 +24,7 @@
   const showModel = defineModel('show', { default: false })
   const fileList = ref<IterateObject[]>([])
   const isLoading = ref(false)
+  const selected = ref<IterateObject[]>([])
 
   async function getContent() {
     isLoading.value = true
@@ -57,14 +58,20 @@
   }
 
   // 删除内容
-  async function deleteContent(params: IterateObject) {
-    isLoading.value = true
-    await deleteComicChapterContentApi({
-      chapterId: props.chapterId,
-      id: params.id,
+  async function deleteContent(params?: IterateObject) {
+    if (!params?.id && selected.value.length === 0) {
+      useMessage.error('请选择要删除的内容')
+      return
+    }
+    useConfirm('delete', async () => {
+      isLoading.value = true
+      await deleteComicChapterContentApi({
+        chapterId: props.chapterId,
+        ids: params?.id ? [params?.id] : selected.value.map((item) => item.id),
+      })
+      await getContent()
+      isLoading.value = false
     })
-    await getContent()
-    isLoading.value = false
   }
 
   // 显示详细信息
@@ -130,9 +137,22 @@
               上传
             </el-button>
           </el-upload>
+
+          <el-button
+            v-if="selected.length"
+            class="ml-4"
+            @click="deleteContent()"
+          >
+            批量删除
+          </el-button>
         </div>
         <div>
-          <el-link class="mr-4" type="primary" @click="showDetail">
+          <el-link
+            v-if="fileList.length"
+            class="mr-4"
+            type="primary"
+            @click="showDetail"
+          >
             详细信息
           </el-link>
           <el-button @click="clearContent">清空内容</el-button>
@@ -141,6 +161,7 @@
     </div>
     <!-- 漫画内容列表 -->
     <es-table
+      v-model:selected="selected"
       :data="fileList"
       :columns="contentColumn"
       drag

@@ -286,6 +286,10 @@
         <div class="bg-gray-50 rounded-lg p-4 text-gray-800 min-h-24">
           {{ comicDetail.description || '暂无描述' }}
         </div>
+        <h3 class="text-lg font-medium text-gray-700 my-4">备注</h3>
+        <div class="bg-gray-50 rounded-lg p-4 text-gray-800 min-h-24">
+          {{ comicDetail.remark }}
+        </div>
       </div>
     </div>
 
