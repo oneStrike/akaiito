@@ -14,3 +14,4 @@
 .husky
 .idea
 
+/packages/server-nestjs/src/db/prisma/
