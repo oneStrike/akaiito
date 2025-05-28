@@ -1,4 +1,4 @@
-import type { PrismaClient } from '../prisma'
+import type { PrismaClient } from '@prisma/client';
 
 export async function createInitialWorkCategory(prisma: PrismaClient) {
   const initData = [
@@ -30,12 +30,12 @@ export async function createInitialWorkCategory(prisma: PrismaClient) {
       comicApplicable: true,
       illustratorApplicable: true,
     },
-  ]
+  ];
   for (const item of initData) {
     await prisma.workCategory.upsert({
       where: { name: item.name },
       update: item,
       create: item,
-    })
+    });
   }
 }

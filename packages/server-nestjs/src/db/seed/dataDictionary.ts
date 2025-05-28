@@ -1,4 +1,4 @@
-import type { PrismaClient } from '../prisma'
+import type { PrismaClient } from '@prisma/client';
 
 export async function createInitialDataDictionary(prisma: PrismaClient) {
   const initData = [
@@ -26,7 +26,7 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
       name: '出版社',
       code: 'work_publisher',
     },
-  ]
+  ];
   const itemData = {
     work_language: [
       {
@@ -130,7 +130,7 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
         code: 'renmin_meishu_chubanshe',
       },
     ],
-  }
+  };
   for (const item of initData) {
     await prisma.dictionary.upsert({
       where: {
@@ -138,9 +138,9 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
       },
       update: item,
       create: item,
-    })
+    });
 
-    if (!itemData[item.code]) continue
+    if (!itemData[item.code]) continue;
 
     for (const subItem of itemData[item.code]) {
       // 使用 dictionaryCode + code 做为唯一约束条件
@@ -163,7 +163,7 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
             connect: { code: item.code },
           },
         },
-      })
+      });
     }
   }
 }

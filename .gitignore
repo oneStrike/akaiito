@@ -36,3 +36,5 @@ coverage
 !/packages/att/src/apis/
 /packages/server/prisma/generated/
 /packages/server-nestjs/src/db/prisma/
+
+/generated/prisma

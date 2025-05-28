@@ -1,10 +1,10 @@
-import * as process from 'node:process'
-import { PrismaClient } from '../prisma'
-import { createInitialAdminAccount } from './adminUser'
-import { createInitialDataDictionary } from './dataDictionary'
-import { createInitialWorkCategory } from './workCategory'
+import * as process from 'node:process';
+import { PrismaClient } from '@prisma/client';
+import { createInitialAdminAccount } from './adminUser';
+import { createInitialDataDictionary } from './dataDictionary';
+import { createInitialWorkCategory } from './workCategory';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 Promise.all([
   createInitialAdminAccount(prisma),
@@ -12,4 +12,4 @@ Promise.all([
   createInitialWorkCategory(prisma),
 ])
   .catch(() => process.exit(1))
-  .finally(() => prisma.$disconnect())
+  .finally(() => prisma.$disconnect());

@@ -25,6 +25,9 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.0",
+    "@nestjs/config": "^4.0.2",
+    "@prisma/adapter-pg": "^6.8.2",
+    "@prisma/client": "^6.8.2",
     "@types/node": "^22.15.17",
     "@unocss/autocomplete": "66.1.1",
     "@unocss/eslint-plugin": "66.1.1",
@@ -37,6 +40,7 @@
     "lint-staged": "^16.0.0",
     "pnpm": "^10.11.0",
     "prettier": "^3.5.3",
+    "prisma": "^6.8.2",
     "simple-git-hooks": "^2.13.0",
     "typescript": "~5.8.3",
     "unocss": "66.1.1"
