@@ -1,0 +1,40 @@
+model WorkCategory {
+  /// 主键id
+  id                    Int         @id @default(autoincrement())
+  /// 分类名称
+  name                  String      @unique @db.VarChar(20)
+  /// 分类图标
+  icon                  String?     @db.VarChar(200)
+  /// 人气
+  popularity            Int?        @default(0) @db.Integer
+  /// 辅助人气
+  virtualPopularity     Int?        @default(0) @map("virtual_popularity") @db.Integer
+  /// 排序
+  order                 Int?        @default(autoincrement()) @db.SmallInt
+  /// 小说数量
+  novelCount            Int?        @default(0) @map("novel_count") @db.Integer
+  /// 漫画数量
+  comicCount            Int?        @default(0) @map("manga_count") @db.Integer
+  /// 图片数量
+  photoCount            Int?        @default(0) @map("photo_count") @db.Integer
+  /// 插画数量
+  illustratorCount      Int?        @default(0) @map("illustrator_count") @db.Integer
+  /// 状态 1：正常 0：禁用
+  status                Boolean?    @default(true)
+  /// 应用于图集 1是0否
+  photoApplicable       Boolean     @default(false) @map("photo_applicable")
+  /// 应用于小说 1是0否
+  novelApplicable       Boolean     @default(false) @map("novel_applicable")
+  /// 应用于漫画 SmallInt
+  comicApplicable       Boolean     @default(false) @map("comic_applicable")
+  /// 应用于插画 1是0否
+  illustratorApplicable Boolean     @default(false) @map("illustrator_applicable")
+  /// 创建时间
+  createdAt             DateTime    @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt             DateTime    @updatedAt @map("updated_at") @db.Timestamp(0)
+  /// 漫画 隐式多对多
+  comics                WorkComic[]
+
+  @@map("work_category")
+}

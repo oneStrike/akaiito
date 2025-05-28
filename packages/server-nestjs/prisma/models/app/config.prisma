@@ -1,0 +1,48 @@
+/// 客户端页面配置
+model AppPageConfig {
+  /// 主键id
+  id          Int         @id @default(autoincrement())
+  /// 页面编码
+  pageCode    String      @unique @map("page_code") @db.VarChar(50)
+  /// 页面路径
+  pagePath    String      @unique @map("page_path") @db.VarChar(200)
+  /// 页面名称
+  pageName    String      @unique @map("page_name") @db.VarChar(50)
+  /// 页面权限 1普通 2登录 3会员
+  pageRule    Int         @default(1) @map("page_rule") @db.SmallInt
+  /// 状态  1启用  0禁用 2开发中 3维护中
+  status      Int         @default(1) @db.SmallInt
+  /// 页面描述信息
+  description String?     @db.VarChar(200)
+  /// 创建时间
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt   DateTime    @updatedAt @map("updated_at") @db.Timestamp(0)
+  AppNotice   AppNotice[]
+
+  @@map("app_page_config")
+}
+
+/// 客户端系统配置
+model AppConfig {
+  /// 主键id
+  id        Int      @id @default(autoincrement())
+  /// 客户端logo
+  appLogo   String   @map("app_logo") @db.VarChar(200)
+  /// 客户端名字
+  appName   String   @map("app_name") @db.VarChar(20)
+  /// 小说板块 0禁用 1启用 2 开发 3维护
+  novelZone Int      @default(1) @map("novel_enabled")
+  /// 漫画板块 0禁用 1启用 2 开发 3维护
+  comicZone Int      @default(1) @map("comic_enabled")
+  /// 写真板块 0禁用 1启用 2 开发 3维护
+  photsZone Int      @default(1) @map("cosplay_enabled")
+  /// 视频板块 0禁用 1启用 2 开发 3维护
+  videoZone Int      @default(1) @map("video_enabled")
+  /// 创建时间
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@map("app_config")
+}

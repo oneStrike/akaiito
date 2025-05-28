@@ -1,0 +1,47 @@
+model Dictionary {
+  id        Int              @id @default(autoincrement())
+  /// 字典名称
+  name      String           @unique @db.VarChar(50)
+  /// 字典编码
+  code      String           @unique @db.VarChar(50)
+  /// 字典封面
+  cover     String?          @unique @db.VarChar(200)
+  /// 状态 1启用 0禁用
+  status    Boolean          @default(true)
+  /// 备注信息
+  remark    String?          @db.VarChar(255)
+  /// 创建时间
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt DateTime         @updatedAt @map("updated_at") @db.Timestamp(0)
+  items     DictionaryItem[]
+
+  @@map("dictionary")
+}
+
+model DictionaryItem {
+  id             Int        @id @default(autoincrement())
+  /// 父项code
+  dictionary     Dictionary @relation(fields: [dictionaryCode], references: [code], onDelete: Cascade)
+  dictionaryCode String     @map("dictionary_code")
+  /// 子项名称
+  name           String     @db.VarChar(50)
+  // 子项编码
+  code           String     @db.VarChar(50)
+  /// 排序
+  order          Int?       @default(autoincrement()) @db.SmallInt
+  /// 字典封面
+  cover          String?    @unique @db.VarChar(200)
+  /// 状态 1启用 0禁用
+  status         Boolean    @default(true)
+  /// 备注信息
+  remark         String?    @db.VarChar(255)
+  /// 创建时间
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@unique([dictionaryCode, code])
+  @@index([dictionaryCode])
+  @@map("dictionary_item")
+}

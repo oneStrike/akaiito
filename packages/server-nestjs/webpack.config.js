@@ -1,7 +1,7 @@
-const webpack = require('webpack');
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
-const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin');
+const path = require('node:path')
+const { RunScriptWebpackPlugin } = require('run-script-webpack-plugin')
+const webpack = require('webpack')
+const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   entry: ['webpack/hot/poll?100', './src/main.ts'],
@@ -23,6 +23,9 @@ module.exports = {
   mode: 'development',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'), // 添加路径别名
+    },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -32,4 +35,4 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: 'server.js',
   },
-};
+}

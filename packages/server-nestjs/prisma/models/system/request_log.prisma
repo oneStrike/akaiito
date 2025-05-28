@@ -1,0 +1,37 @@
+/// 系统操作日志表
+model SystemRequestLog {
+  /// 主键id
+  id               Int      @id @default(autoincrement())
+  /// 用户名
+  username         String?  @db.VarChar(20)
+  /// 用户主键Id
+  userId           Int?     @map("user_id") @db.Integer
+  /// 用户手机号
+  userMobile       String?  @map("user_mobile") @db.VarChar(20)
+  /// 调用ip
+  targetIp         String   @map("target_ip") @db.VarChar(20)
+  /// ip映射地址
+  ipMappingAddress String   @map("ip_mapping_address") @db.VarChar(300)
+  /// 响应状态码
+  responseCode     Int      @map("response_code") @db.SmallInt
+  /// 响应描述
+  responseDesc     String   @map("response_desc") @db.VarChar(300)
+  /// 请求类型
+  requestMethod    String   @map("requestMethod") @db.VarChar(10)
+  /// 请求地址
+  apiPath          String   @map("api_path") @db.VarChar(100)
+  /// 请求地址描述信息
+  apiSummary       String   @map("api_summary") @db.VarChar(255)
+  /// 操作记录
+  record           String   @db.VarChar(255)
+  /// 浏览器信息标识
+  userAgent        String   @map("user_agent") @db.VarChar(1000)
+  /// 请求参数
+  requestParams    String?  @map("request_params") @db.Text
+  /// 创建时间
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt        DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  @@map("system_request_log")
+}

@@ -1,0 +1,43 @@
+// 在模型文件顶部添加枚举定义
+enum AuthorRoleEnum {
+  /// 模特
+  MODEL
+  /// 作家
+  WRITER
+  /// 漫画家
+  COMIC_ARTIST
+  /// 插画家
+  ILLUSTRATOR
+}
+
+/// 作者
+model WorkAuthor {
+  /// 主键id
+  id          Int              @id @default(autoincrement())
+  /// 作者名称
+  name        String           @db.VarChar(30)
+  /// 作者头像
+  avatar      String?          @db.VarChar(200)
+  /// 作者描述
+  description String?          @db.VarChar(1000)
+  /// 状态 1：正常 0：禁用
+  status      Boolean?         @default(true)
+  /// 身份列表
+  roles       AuthorRoleEnum[] @default([])
+  /// 国籍
+  nationality String?          @db.VarChar(50)
+  /// 性别
+  gender      Int?             @default(0) @db.SmallInt
+  /// 社交媒体链接
+  socialLinks String?          @db.VarChar(1000)
+  /// 备注信息
+  remark      String?          @db.VarChar(1000)
+  /// 创建时间
+  createdAt   DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt   DateTime         @updatedAt @map("updated_at") @db.Timestamp(0)
+
+  WorkComic WorkComic[]
+
+  @@map("work_author")
+}
