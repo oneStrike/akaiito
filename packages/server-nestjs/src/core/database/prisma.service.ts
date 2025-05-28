@@ -5,7 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from './db/prisma'; // 确保路径指向 Prisma 生成的客户端目录
+import { PrismaClient } from '@prisma/client'; // 确保路径指向 Prisma 生成的客户端目录
 
 @Injectable()
 export class PrismaService
