@@ -11,4 +11,4 @@ export default {
   orderBy: {
     id: 'desc',
   },
-};
+}

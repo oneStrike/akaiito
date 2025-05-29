@@ -1,7 +1,7 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserService } from '@/modules/admin/users/user.service';
-import { PageDto } from '@/common/dto/page.dto';
+import { Controller, Get, Query } from '@nestjs/common'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { PageDto } from '@/common/dto/page.dto'
+import { UserService } from '@/modules/admin/users/user.service'
 
 @ApiTags('管理端用户模块')
 @Controller('admin/user')
@@ -11,7 +11,7 @@ export class UserController {
   @Get('getAdminUserPage')
   @ApiOperation({ summary: '获取管理端用户分页列表' })
   getUsers(@Query() query: PageDto) {
-    console.log(query);
-    return this.userService.getUsers();
+    console.log(query)
+    return this.userService.getUsers()
   }
 }
