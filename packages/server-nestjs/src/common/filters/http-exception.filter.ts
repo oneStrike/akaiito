@@ -21,7 +21,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus()
     // 获取异常信息
     const exceptionResponse = exception.getResponse() as Record<string, any>
-
+    console.log(exception)
     // 返回错误信息
     response.status(status).json({
       code: status,

@@ -21,13 +21,17 @@ import { ClientModule } from '@/modules/client/client.module'
       provide: APP_PIPE,
       useValue: new ValidationPipe({
         transform: true, // 将请求数据转换为目标类型（如从字符串转换为数字等）
+        // 明确启用转换选项
+        transformOptions: {
+          enableImplicitConversion: true,
+        },
         whitelist: true, // 忽略 DTO 中没有定义的属性
         exceptionFactory: (errors) => {
           // 自定义错误处理逻辑
           return new BadRequestException(
             errors.map(
               (error) =>
-                `【${error.property}：${error.value}】】数据格式校验失败`,
+                `【${error.property}：${error.value}】数据格式校验失败`,
             ),
           )
         },
