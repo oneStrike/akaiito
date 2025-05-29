@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Transform, Type } from 'class-transformer'
+import { Transform } from 'class-transformer'
 import { IsDate, IsNumber, IsObject, IsOptional, Max } from 'class-validator'
 
 export class PageDto {
@@ -20,12 +20,12 @@ export class PageDto {
   @Transform(({ value }) => JSON.parse(value))
   orderBy: Record<string, 'asc' | 'desc'>
 
-  @ApiProperty({ description: '记录开始时间', example: '2025-05-29' })
+  @ApiProperty({ description: '开始时间', example: '2025-05-29' })
   @IsDate()
   @IsOptional()
   startDate: Date
 
-  @ApiProperty({ description: '记录结束时间', example: '2025-05-29' })
+  @ApiProperty({ description: '结束时间', example: '2025-05-29' })
   @IsDate()
   @IsDate()
   @IsOptional()

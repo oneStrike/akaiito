@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
 import { IsNumber, IsString, MaxLength } from 'class-validator'
 
@@ -22,6 +22,7 @@ export class UserDto {
     description: '密码',
     example: 'Aa@123456',
   })
+  @ApiHideProperty()
   @Exclude()
   password: string
 

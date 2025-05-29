@@ -1,13 +1,16 @@
-import {
+import type {
   CallHandler,
-  ClassSerializerInterceptor,
   ExecutionContext,
   NestInterceptor,
   Type,
 } from '@nestjs/common'
+import type { ClassTransformOptions } from 'class-transformer'
+import type { Observable } from 'rxjs'
+import {
+  ClassSerializerInterceptor,
+} from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { ClassTransformOptions, plainToInstance } from 'class-transformer'
-import { Observable } from 'rxjs'
+import { plainToInstance } from 'class-transformer'
 import { map } from 'rxjs/operators'
 
 export function useClassSerializerInterceptor<T>(
@@ -27,10 +30,13 @@ export function useClassSerializerInterceptor<T>(
 
       return baseInterceptor.intercept(context, next).pipe(
         map((data) => {
-          if (Array.isArray(data)) {
-            return data.map((item) => plainToInstance(classType, item, options))
+          if (data && Array.isArray(data.items)) {
+            // 处理响应数据中的 items 数组
+            data.items = data.items.map((item) =>
+              plainToInstance(classType, item, options),
+            )
           }
-          return plainToInstance(classType, data, options)
+          return data
         }),
       )
     },
