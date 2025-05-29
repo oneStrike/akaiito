@@ -12,7 +12,6 @@ export class PageDto {
   @ApiProperty({ description: '页码', example: '0' })
   @IsNumber()
   @IsOptional()
-  @Type(() => Number)
   pageIndex: number
 
   @ApiProperty({ description: '排序字段，json格式', example: '{id:\'desc\'}' })

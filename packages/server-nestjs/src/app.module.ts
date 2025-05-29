@@ -1,9 +1,10 @@
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_PIPE } from '@nestjs/core'
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { GlobalModule } from '@/common/module/global.module'
 import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
+import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
 
 @Module({
   imports: [
@@ -29,13 +30,14 @@ import { ClientModule } from '@/modules/client/client.module'
         exceptionFactory: (errors) => {
           // 自定义错误处理逻辑
           return new BadRequestException(
-            errors.map(
-              (error) =>
-                `【${error.property}：${error.value}】数据格式校验失败`,
-            ),
+            errors.map((error) => `${error.property}数据格式校验失败`),
           )
         },
       }),
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
     },
   ],
 })
