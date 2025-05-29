@@ -1,16 +1,31 @@
+import { Keyv } from '@keyv/redis'
+import { CacheModule } from '@nestjs/cache-manager'
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
-import { GlobalModule } from '@/common/module/global.module'
+import { CacheableMemory } from 'cacheable'
+import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
 import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
-import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
+import { GlobalModule } from './global/global.module'
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true, // 设置为全局模块，其他模块可直接使用
       envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`, '.env'], // 指定环境变量文件路径
+    }),
+    CacheModule.registerAsync({
+      useFactory: async () => {
+        return {
+          stores: [
+            new Keyv({
+              store: new CacheableMemory({ lruSize: 5000 }),
+            }),
+            // createKeyv('redis://localhost:6379'),
+          ],
+        }
+      },
     }),
     GlobalModule,
     AdminModule,
