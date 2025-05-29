@@ -1,9 +1,8 @@
-import { Keyv } from '@keyv/redis'
+import { createKeyv } from '@keyv/redis'
 import { CacheModule } from '@nestjs/cache-manager'
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { ConfigModule, ConfigService } from '@nestjs/config'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
-import { CacheableMemory } from 'cacheable'
 import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
 import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
@@ -16,16 +15,20 @@ import { GlobalModule } from './global/global.module'
       envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`, '.env'], // 指定环境变量文件路径
     }),
     CacheModule.registerAsync({
-      useFactory: async () => {
+      isGlobal: true,
+      imports: [ConfigModule],
+      useFactory: async (cfg: ConfigService) => {
+        const host = cfg.get<string>('REDIS_HOST') || '127.0.0.1'
+        const port = cfg.get<number>('REDIS_PORT') || 6379
+        const database = cfg.get<number>('REDIS_DB') || 0
+        const redisOptions = {
+          url: `redis://172.26.219.182:6379`, // use 'rediss' for TLS
+        }
         return {
-          stores: [
-            new Keyv({
-              store: new CacheableMemory({ lruSize: 5000 }),
-            }),
-            // createKeyv('redis://localhost:6379'),
-          ],
+          store: createKeyv(redisOptions),
         }
       },
+      inject: [ConfigService],
     }),
     GlobalModule,
     AdminModule,
