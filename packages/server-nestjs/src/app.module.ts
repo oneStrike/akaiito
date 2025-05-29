@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common'
+import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_PIPE } from '@nestjs/core'
 import { GlobalModule } from '@/common/module/global.module'
@@ -20,10 +20,17 @@ import { ClientModule } from '@/modules/client/client.module'
     {
       provide: APP_PIPE,
       useValue: new ValidationPipe({
-        // 配置选项
         transform: true, // 将请求数据转换为目标类型（如从字符串转换为数字等）
         whitelist: true, // 忽略 DTO 中没有定义的属性
-        forbidNonWhitelisted: true, // 如果启用了 whitelist，对于额外的属性会返回 400 错误
+        exceptionFactory: (errors) => {
+          // 自定义错误处理逻辑
+          return new BadRequestException(
+            errors.map(
+              (error) =>
+                `【${error.property}：${error.value}】】数据格式校验失败`,
+            ),
+          )
+        },
       }),
     },
   ],

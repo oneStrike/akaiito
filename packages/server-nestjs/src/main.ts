@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { ClientModule } from '@/modules/client/client.module'
 import { AppModule } from './app.module'
+import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { AdminModule } from './modules/admin/admin.module'
 
 async function bootstrap() {
@@ -11,6 +12,8 @@ async function bootstrap() {
   app.select(ClientModule)
   // 设置路由前缀
   app.setGlobalPrefix('api')
+
+  app.useGlobalFilters(new HttpExceptionFilter())
 
   const config = new DocumentBuilder()
     .setTitle('Akaiito')
@@ -26,7 +29,6 @@ async function bootstrap() {
     // @ts-expect-error ignore
     module.hot.dispose(() => app.close())
   }
-
   await app.listen(process.env.PORT ?? 3000)
 }
 bootstrap()
