@@ -13,7 +13,7 @@ export function setupSwagger(app: INestApplication<any>) {
 
   // 自动移除管理后台接口
   Object.keys(clientDocument.paths).forEach((path) => {
-    if (path.startsWith('/admin')) {
+    if (path.startsWith('/api/admin')) {
       delete clientDocument.paths[path]
     }
   })
@@ -29,7 +29,7 @@ export function setupSwagger(app: INestApplication<any>) {
   const adminDocument = SwaggerModule.createDocument(app, adminConfig, {})
   // 自动移除客户端接口
   Object.keys(adminDocument.paths).forEach((path) => {
-    if (path.startsWith('/client')) {
+    if (path.startsWith('/api/client')) {
       delete adminDocument.paths[path]
     }
   })

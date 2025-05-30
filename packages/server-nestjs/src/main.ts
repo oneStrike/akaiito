@@ -11,6 +11,9 @@ async function bootstrap() {
 
   app.select(AdminModule)
   app.select(ClientModule)
+
+  app.setGlobalPrefix('api')
+
   setupSwagger(app)
 
   await app.listen(3000)
