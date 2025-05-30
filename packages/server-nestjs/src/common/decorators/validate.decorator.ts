@@ -4,9 +4,9 @@ import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import {
   IsDate,
+  IsISO8601,
   IsJSON,
   IsNumber,
-  IsObject,
   IsOptional,
   IsString,
   Max,
@@ -29,15 +29,40 @@ interface ValidateNumberOptions
   default?: number
 }
 
-interface ValidateJsonOptions extends Omit<ValidateOptions, 'transform'> {
-  transform?: boolean
-}
-
 interface ValidateDateOptions extends Omit<ValidateOptions, 'default'> {
   default?: Date | null
 }
 
-interface ValidateStringOptions extends ValidateOptions {}
+interface ValidateStringOptions extends ValidateOptions {
+  type?: 'ISO8601'
+}
+
+/**
+ * 校验字符串类型
+ */
+export function ValidateString(options: ValidateStringOptions) {
+  const decorators = [
+    ApiProperty({
+      description: options.description,
+      example: options.example,
+      required: options.required,
+      default: options.default,
+    }),
+    IsString(),
+  ]
+
+  if (options.type === 'ISO8601') {
+    decorators.push(IsISO8601())
+  }
+
+  if (!options.required) {
+    decorators.push(IsOptional())
+  }
+  if (options.transform) {
+    decorators.push(Transform(options.transform))
+  }
+  return applyDecorators(...decorators)
+}
 
 /**
  * 校验数字类型
@@ -75,7 +100,7 @@ export function ValidateNumber(options: ValidateNumberOptions) {
  * @param options
  * @constructor
  */
-export function ValidateJson(options: ValidateJsonOptions) {
+export function ValidateJson(options: ValidateOptions) {
   const decorators = [
     ApiProperty({
       description: options.description,
@@ -83,18 +108,17 @@ export function ValidateJson(options: ValidateJsonOptions) {
       required: options.required,
       default: options.default,
     }),
+    IsJSON(),
   ]
 
   if (!options.required) {
-    decorators.push(IsOptional)
+    decorators.push(IsOptional())
   }
   if (options.transform) {
-    decorators.push(
-      IsObject(),
-      Transform(({ value }) => JSON.parse(value) || options.default),
-    )
-  } else {
-    decorators.push(IsJSON())
+    decorators.push(Transform(options.transform))
+  }
+  if (options.default && !options.transform) {
+    decorators.push(Transform(({ value }) => value || options.default))
   }
   return applyDecorators(...decorators)
 }
@@ -119,7 +143,6 @@ export function ValidateDate(options: ValidateDateOptions) {
     decorators.push(
       IsOptional(),
       Transform(({ value }) => {
-        console.log(value)
         if (!value && !options.default) {
           return null
         } else {
@@ -132,24 +155,5 @@ export function ValidateDate(options: ValidateDateOptions) {
     decorators.push(Transform(options.transform))
   }
 
-  return applyDecorators(...decorators)
-}
-
-export function ValidateString(options: ValidateStringOptions) {
-  const decorators = [
-    ApiProperty({
-      description: options.description,
-      example: options.example,
-      required: options.required,
-      default: options.default,
-    }),
-    IsString(),
-  ]
-  if (!options.required) {
-    decorators.push(IsOptional())
-  }
-  if (options.transform) {
-    decorators.push(Transform(options.transform))
-  }
   return applyDecorators(...decorators)
 }

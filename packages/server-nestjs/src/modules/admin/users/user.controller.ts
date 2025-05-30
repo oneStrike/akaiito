@@ -35,6 +35,7 @@ export class UserController {
   @ApiPageDoc('获取管理端用户分页列表', UserDto)
   @UseInterceptors(useClassSerializerInterceptor(UserDto))
   getUsers(@Query() query: PageDto) {
+    console.log(query)
     return this.userService.getUsers()
   }
 }

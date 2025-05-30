@@ -1,7 +1,7 @@
 import {
-  ValidateDate,
   ValidateJson,
   ValidateNumber,
+  ValidateString,
 } from '@/common/decorators/validate.decorator'
 
 export class PageDto {
@@ -27,22 +27,23 @@ export class PageDto {
   @ValidateJson({
     description: '排序字段，json格式',
     example: '{id:\'desc\'}',
-    transform: true,
     required: false,
   })
-  orderBy?: Record<string, 'asc' | 'desc'>
+  orderBy?: string
 
-  @ValidateDate({
+  @ValidateString({
     description: '开始时间',
     example: '2025-05-29',
     required: false,
+    type: 'ISO8601',
   })
-  startDate?: Date | null
+  startDate?: string
 
-  @ValidateDate({
+  @ValidateString({
     description: '结束时间',
     example: '2025-05-29',
     required: false,
+    type: 'ISO8601',
   })
-  endDate?: Date | null
+  endDate?: string
 }
