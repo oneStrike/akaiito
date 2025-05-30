@@ -30,21 +30,29 @@ function joinType(item: IterateObject) {
         `
 }
 
-function extractRefs(refs: IterateObject, dataModel: IterateObject, isArray = false) {
+function handlerRefs(refs: string, dataModel: IterateObject, overrides?: IterateObject) {
   let typesStr = ''
-  if (refs && Object.keys(refs).length) {
+  const schemaId = refs?.split('/').pop() || ''
+  const commonSchema = dataModel[schemaId]
+  if (Array.isArray(commonSchema)) {
+    const overridesField = Object.keys(overrides || {})
+    commonSchema
+      .filter((item: IterateObject) => !overridesField.includes(item.name))
+      .forEach((item: IterateObject) => {
+        typesStr += joinType({ ...item })
+      })
+  }
+  return typesStr
+}
+
+function extractRefs(refs: string | IterateObject, dataModel: IterateObject, isArray = false) {
+  let typesStr = ''
+  if (typeof refs === 'string') {
+    typesStr = handlerRefs(refs, dataModel)
+  } else if (refs && Object.keys(refs).length) {
     for (const refKey in refs) {
       const { $ref, 'x-apifox-overrides': overrides = {} } = refs[refKey]
-      const schemaId = $ref.split('/').pop()
-      const commonSchema = dataModel[schemaId]
-      if (Array.isArray(commonSchema)) {
-        const overridesField = Object.keys(overrides)
-        commonSchema
-          .filter((item: IterateObject) => !overridesField.includes(item.name))
-          .forEach((item: IterateObject) => {
-            typesStr += joinType({ ...item })
-          })
-      }
+      typesStr += typesStr = handlerRefs($ref, dataModel, overrides)
     }
   }
   return typesStr
@@ -57,8 +65,7 @@ function handlerJsonScheme(
 ) {
   let typesStr = ''
   if (jsonSchema) {
-    const { properties, 'x-apifox-refs': refs } = jsonSchema
-
+    const { properties, 'x-apifox-refs': apifoxRefs, $ref } = jsonSchema
     if (properties && Object.keys(properties).length) {
       for (const propertiesKey in properties) {
         const item = properties[propertiesKey]
@@ -95,8 +102,10 @@ function handlerJsonScheme(
         }
       }
     }
-    if (refs && Object.keys(refs).length) {
-      typesStr += extractRefs(refs, dataModel)
+    if ($ref) {
+      typesStr += extractRefs($ref, dataModel)
+    } else if (apifoxRefs && Object.keys(apifoxRefs).length) {
+      typesStr += extractRefs(apifoxRefs, dataModel)
     }
   }
   return typesStr
@@ -124,14 +133,14 @@ export function generateTypes(
   let requestStr = ''
   let responseStr = ''
   // get请求，并且有参数
-  if (method === 'get' && Object.keys(parameters).length) {
+  if (method === 'get' && Object.keys(parameters).length && parameters.query.length) {
     const { query } = parameters
     query.forEach((item: IterateObject) => {
       if (item.enable) {
         requestStr += joinType(item)
       }
     })
-  } else if (method === 'post' && requestBody.tyep !== 'none') {
+  } else if (method === 'post' && requestBody.type !== 'none') {
     // 处理post请求
     const { jsonSchema, type, parameters } = requestBody
     if (type === 'application/x-www-form-urlencoded') {

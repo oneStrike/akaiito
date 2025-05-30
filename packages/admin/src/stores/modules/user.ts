@@ -1,5 +1,6 @@
 import type { LoginTypesReq, LoginTypesRes } from '@/apis/types/user'
-import { loginApi, refreshAccessTokenApi } from '@/apis/user'
+import { refreshApi } from '@/apis/auth.ts'
+import { loginApi } from '@/apis/user'
 import { config } from '@/config'
 import router from '@/router'
 import { utils } from '@/utils'
@@ -57,7 +58,7 @@ export const useUserStore = defineStore('useUserStore', {
     async renewToken() {
       if (!this.getAuthStatus() && this.token.accessToken) {
         try {
-          this.token.accessToken = await refreshAccessTokenApi({
+          this.token.accessToken = await refreshApi({
             accessToken: this.token.accessToken,
             refreshToken: this.token.refreshToken,
           })

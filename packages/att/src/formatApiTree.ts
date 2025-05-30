@@ -1,5 +1,5 @@
-import { generateTypes } from '@/generateTypes'
 import dayjs from 'dayjs'
+import { generateTypes } from '@/generateTypes'
 
 function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
@@ -43,10 +43,9 @@ function formatName(path: string, nameDepth: number) {
 
 function formatApiHandler(api: IterateObject) {
   const { handler, request, response } = formatName(api.path, api.nameDepth)
-
   let payload = ''
   if (api.method === 'get') {
-    if (Object.keys(api.parameters).length) {
+    if (Object.keys(api.parameters).length && api.parameters.query.length) {
       payload = `params:${request}`
     }
   } else if (api.method === 'post') {

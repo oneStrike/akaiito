@@ -12,7 +12,7 @@ import type { GetCaptchaTypesRes } from './types/captcha.d'
 export const getCaptchaApi = (): Promise<GetCaptchaTypesRes> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/user/getCaptcha',
+    url: '/open/captcha/getCaptcha',
     headers: {},
   })
 }

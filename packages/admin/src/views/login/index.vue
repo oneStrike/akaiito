@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { getCaptchaApi } from '@/apis/captcha'
+  import { getCaptchaApi } from '@/apis/user.ts'
   import { useUserStore } from '@/stores/modules/user'
 
   const router = useRouter()
@@ -93,7 +93,7 @@
               :src="captchaInfo.data"
               class="captcha_img ml-8"
               @click="getCaptchaFn"
-            >
+            />
           </el-form-item>
           <el-form-item>
             <el-checkbox v-model="isRememberAccount">

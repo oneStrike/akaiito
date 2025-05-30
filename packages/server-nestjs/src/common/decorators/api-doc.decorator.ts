@@ -38,16 +38,18 @@ const baseResponse = (summary: string) => ({
 
 export function ApiDoc<TModel extends Type<any>>(
   summary: string,
-  model: Type<TModel> | Record<string, any>,
+  model?: Type<TModel> | Record<string, any>,
 ) {
   let dataSchema
   const decorators = [ApiOperation({ summary })]
 
-  if (isClass(model)) {
-    decorators.push(ApiExtraModels(model))
-    dataSchema = { $ref: getSchemaPath(model) }
-  } else {
-    dataSchema = model
+  if (model) {
+    if (isClass(model)) {
+      decorators.push(ApiExtraModels(model))
+      dataSchema = { $ref: getSchemaPath(model) }
+    } else {
+      dataSchema = model
+    }
   }
 
   decorators.push(
@@ -59,7 +61,7 @@ export function ApiDoc<TModel extends Type<any>>(
             ...baseResponse(summary).content['application/json'].schema,
             properties: {
               ...baseResponse(summary).content['application/json'].schema.properties,
-              data: dataSchema,
+              ...(dataSchema && { data: dataSchema }),
             },
           },
         },
@@ -72,16 +74,18 @@ export function ApiDoc<TModel extends Type<any>>(
 
 export function ApiPageDoc<TModel extends Type<any>>(
   summary: string,
-  model: TModel | Record<string, any>,
+  model?: TModel | Record<string, any>,
 ) {
   let dataSchema
   const decorators = [ApiOperation({ summary })]
 
-  if (isClass(model)) {
-    decorators.push(ApiExtraModels(model))
-    dataSchema = { $ref: getSchemaPath(model) }
-  } else {
-    dataSchema = model
+  if (model) {
+    if (isClass(model)) {
+      decorators.push(ApiExtraModels(model))
+      dataSchema = { $ref: getSchemaPath(model) }
+    } else {
+      dataSchema = model
+    }
   }
 
   decorators.push(
@@ -111,10 +115,9 @@ export function ApiPageDoc<TModel extends Type<any>>(
                     description: '总条数',
                     example: 100,
                   },
-                  items: {
-                    type: 'array',
-                    items: dataSchema,
-                  },
+                  ...(dataSchema && {
+                    items: { type: 'array', items: dataSchema },
+                  }),
                 },
               },
             },

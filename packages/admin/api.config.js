@@ -1,5 +1,5 @@
 export default {
-  key: '2222281e-f529-4e28-9ebf-a4b667d2982c',
+  key: 'a9f24650-7b1c-4172-9ff7-bab4a525e590',
   exclude: [35250369],
   typingsPath: 'src/apis/types',
   apiPath: 'src/apis/',

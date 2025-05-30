@@ -96,3 +96,12 @@ export class UserLoginDto {
   })
   captchaId!: string
 }
+
+export class RefreshTokenDto {
+  @ValidateString({
+    description: '刷新令牌',
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+    required: true,
+  })
+  refreshToken!: string
+}
