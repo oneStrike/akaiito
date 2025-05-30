@@ -8,6 +8,7 @@ import {
   IsNumber,
   IsObject,
   IsOptional,
+  IsString,
   Max,
   Min,
 } from 'class-validator'
@@ -35,6 +36,8 @@ interface ValidateJsonOptions extends Omit<ValidateOptions, 'transform'> {
 interface ValidateDateOptions extends Omit<ValidateOptions, 'default'> {
   default?: Date | null
 }
+
+interface ValidateStringOptions extends ValidateOptions {}
 
 /**
  * 校验数字类型
@@ -129,5 +132,24 @@ export function ValidateDate(options: ValidateDateOptions) {
     decorators.push(Transform(options.transform))
   }
 
+  return applyDecorators(...decorators)
+}
+
+export function ValidateString(options: ValidateStringOptions) {
+  const decorators = [
+    ApiProperty({
+      description: options.description,
+      example: options.example,
+      required: options.required,
+      default: options.default,
+    }),
+    IsString(),
+  ]
+  if (!options.required) {
+    decorators.push(IsOptional())
+  }
+  if (options.transform) {
+    decorators.push(Transform(options.transform))
+  }
   return applyDecorators(...decorators)
 }

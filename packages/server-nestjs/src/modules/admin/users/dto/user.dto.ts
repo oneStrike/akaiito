@@ -1,13 +1,15 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
-import { IsNumber, IsString, MaxLength } from 'class-validator'
+import { IsString, MaxLength } from 'class-validator'
+import { ValidateNumber } from '@/common/decorators/validate.decorator'
 
 export class UserDto {
-  @ApiProperty({
+  @ValidateNumber({
     description: '用户ID',
     example: 1,
+    required: true,
+    min: 1,
   })
-  @IsNumber()
   id!: number
 
   @ApiProperty({

@@ -15,6 +15,7 @@ import { GlobalModule } from './global/global.module'
     }),
     CacheModule.register({
       isGlobal: true,
+      namespace: 'Akaiito',
     }),
     GlobalModule,
     AdminModule,
@@ -30,9 +31,7 @@ import { GlobalModule } from './global/global.module'
           enableImplicitConversion: true,
         },
         whitelist: true,
-        skipUndefinedProperties: true,
         exceptionFactory: (errors) => {
-          console.log(errors)
           return new BadRequestException(
             errors.map((error) => `${error.property}数据格式校验失败`),
           )

@@ -68,7 +68,6 @@ export function ApiDoc<T>(
   model: Type<T> | Record<string, any>,
 ) {
   validateArgs(summary, model)
-
   // 生成data字段schema
   const dataSchema = isClass(model) ? { $ref: getSchemaPath(model) } : model
 
