@@ -1,14 +1,15 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { JwtPayload, JwtStrategyBase } from '@/common/strategies/jwt.strategy.base'
+import { JwtPayload, JwtStrategy } from '@/common/strategies/jwt.strategy'
 import { PrismaService } from '@/global/services/prisma.service'
 
 @Injectable()
-export class AdminJwtStrategy extends JwtStrategyBase {
+export class AdminJwtStrategy extends JwtStrategy {
   constructor(
     configService: ConfigService,
     private prisma: PrismaService,
   ) {
+    console.log(configService.get('JWT_SECRET'))
     super(configService, 'admin-jwt')
   }
 

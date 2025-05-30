@@ -5,9 +5,7 @@ import type {
   RefreshTypesRes,
   RefreshTypesReq,
   LogoutTypesRes,
-  LogoutTypesReq,
   ProfileTypesRes,
-  ProfileTypesReq,
 } from './types/auth.d'
 
 /**

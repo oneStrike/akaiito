@@ -2,12 +2,12 @@ import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import {
   JwtPayload,
-  JwtStrategyBase,
-} from '@/common/strategies/jwt.strategy.base'
+  JwtStrategy,
+} from '@/common/strategies/jwt.strategy'
 import { PrismaService } from '@/global/services/prisma.service'
 
 @Injectable()
-export class ClientJwtStrategy extends JwtStrategyBase {
+export class ClientJwtStrategy extends JwtStrategy {
   constructor(
     configService: ConfigService,
     private prisma: PrismaService,

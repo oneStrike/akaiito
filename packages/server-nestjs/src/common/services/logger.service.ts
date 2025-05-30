@@ -1,9 +1,15 @@
-import { Injectable, LoggerService as NestLoggerService } from '@nestjs/common'
+import {
+  Global,
+  Inject,
+  Injectable,
+  LoggerService as NestLoggerService,
+} from '@nestjs/common'
 import { Logger } from 'winston'
 
 @Injectable()
+@Global()
 export class LoggerService implements NestLoggerService {
-  constructor(private readonly logger: Logger) {}
+  constructor(@Inject('LOGGER') private readonly logger: Logger) {}
 
   /**
    * 记录普通信息日志
@@ -57,7 +63,12 @@ export class LoggerService implements NestLoggerService {
   /**
    * 记录用户操作日志
    */
-  logUserAction(userId: string, action: string, details?: any, context?: string) {
+  logUserAction(
+    userId: string,
+    action: string,
+    details?: any,
+    context?: string,
+  ) {
     this.logger.info(`User ${userId} performed action: ${action}`, {
       context: context || 'UserAction',
       userId,
@@ -76,9 +87,10 @@ export class LoggerService implements NestLoggerService {
     statusCode: number,
     responseTime: number,
     userId?: string,
-    context?: string
+    context?: string,
   ) {
-    const level = statusCode >= 400 ? 'error' : statusCode >= 300 ? 'warn' : 'http'
+    const level =
+      statusCode >= 400 ? 'error' : statusCode >= 300 ? 'warn' : 'http'
     this.logger[level](`${method} ${url} ${statusCode} - ${responseTime}ms`, {
       context: context || 'ApiCall',
       method,
@@ -97,7 +109,7 @@ export class LoggerService implements NestLoggerService {
     operation: string,
     table: string,
     duration: number,
-    context?: string
+    context?: string,
   ) {
     this.logger.debug(`Database ${operation} on ${table} - ${duration}ms`, {
       context: context || 'Database',
@@ -115,7 +127,7 @@ export class LoggerService implements NestLoggerService {
     errorCode: string,
     errorMessage: string,
     userId?: string,
-    context?: string
+    context?: string,
   ) {
     this.logger.error(`Business Error [${errorCode}]: ${errorMessage}`, {
       context: context || 'BusinessError',
@@ -129,11 +141,7 @@ export class LoggerService implements NestLoggerService {
   /**
    * 记录系统异常日志
    */
-  logSystemError(
-    error: Error,
-    context?: string,
-    additionalInfo?: any
-  ) {
+  logSystemError(error: Error, context?: string, additionalInfo?: any) {
     this.logger.error(`System Error: ${error.message}`, {
       context: context || 'SystemError',
       error: error.name,

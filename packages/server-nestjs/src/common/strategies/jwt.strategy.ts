@@ -12,7 +12,7 @@ export interface JwtPayload {
 }
 
 @Injectable()
-export abstract class JwtStrategyBase extends PassportStrategy(Strategy) {
+export abstract class JwtStrategy extends PassportStrategy(Strategy) {
   protected constructor(
     protected configService: ConfigService,
     strategyName?: string,
@@ -20,7 +20,7 @@ export abstract class JwtStrategyBase extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get<string>('jwt.secret')!,
+      secretOrKey: configService.get<string>('JWT_SECRET')!,
       passReqToCallback: false,
       ...(strategyName ? { name: strategyName } : {}),
     })

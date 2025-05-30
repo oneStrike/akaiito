@@ -1,6 +1,10 @@
-import { Controller, Get, Post, Body, Param, Inject } from '@nestjs/common'
-import { LoggerService } from '../common/services/logger.service'
-import { Log, UserActionLog, AdminActionLog, LogAction } from '../common/decorators/log.decorator'
+import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common'
+import {
+  AdminActionLog,
+  LogAction,
+  UserActionLog,
+} from '@/common/decorators/log.decorator'
+import { LoggerService } from '@/common/services/logger.service'
 
 /**
  * 管理端控制器使用示例
@@ -8,7 +12,7 @@ import { Log, UserActionLog, AdminActionLog, LogAction } from '../common/decorat
 @Controller('admin/users')
 export class AdminUserController {
   constructor(
-    @Inject('AdminLoggerService') private readonly logger: LoggerService
+    @Inject('AdminLoggerService') private readonly logger: LoggerService,
   ) {}
 
   @Get()
@@ -24,16 +28,14 @@ export class AdminUserController {
         'admin-001',
         '查看用户列表',
         { count: users.length },
-        'AdminUserController'
+        'AdminUserController',
       )
 
       return users
     } catch (error) {
-      this.logger.logSystemError(
-        error,
-        'AdminUserController',
-        { action: '获取用户列表' }
-      )
+      this.logger.logSystemError(error, 'AdminUserController', {
+        action: '获取用户列表',
+      })
       throw error
     }
   }
@@ -51,7 +53,7 @@ export class AdminUserController {
         'admin-001',
         '创建用户',
         { userId: user.id, email: user.email },
-        'AdminUserController'
+        'AdminUserController',
       )
 
       return user
@@ -60,7 +62,7 @@ export class AdminUserController {
         'USER_CREATE_FAILED',
         `创建用户失败: ${error.message}`,
         'admin-001',
-        'AdminUserController'
+        'AdminUserController',
       )
       throw error
     }
@@ -71,19 +73,19 @@ export class AdminUserController {
     const startTime = Date.now()
 
     // 模拟查询耗时
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     const duration = Date.now() - startTime
     this.logger.logDatabaseOperation(
       'SELECT',
       'users',
       duration,
-      'AdminUserController'
+      'AdminUserController',
     )
 
     return [
       { id: 1, email: 'admin@example.com', name: 'Admin User' },
-      { id: 2, email: 'user@example.com', name: 'Regular User' }
+      { id: 2, email: 'user@example.com', name: 'Regular User' },
     ]
   }
 
@@ -91,20 +93,20 @@ export class AdminUserController {
     const startTime = Date.now()
 
     // 模拟创建用户
-    await new Promise(resolve => setTimeout(resolve, 200))
+    await new Promise((resolve) => setTimeout(resolve, 200))
 
     const duration = Date.now() - startTime
     this.logger.logDatabaseOperation(
       'INSERT',
       'users',
       duration,
-      'AdminUserController'
+      'AdminUserController',
     )
 
     return {
       id: Date.now(),
       ...userData,
-      createdAt: new Date()
+      createdAt: new Date(),
     }
   }
 }
@@ -115,7 +117,7 @@ export class AdminUserController {
 @Controller('client/profile')
 export class ClientProfileController {
   constructor(
-    @Inject('ClientLoggerService') private readonly logger: LoggerService
+    @Inject('ClientLoggerService') private readonly logger: LoggerService,
   ) {}
 
   @Get(':id')
@@ -130,16 +132,15 @@ export class ClientProfileController {
         id,
         '查看个人资料',
         { profileId: profile.id },
-        'ClientProfileController'
+        'ClientProfileController',
       )
 
       return profile
     } catch (error) {
-      this.logger.logSystemError(
-        error,
-        'ClientProfileController',
-        { userId: id, action: '获取个人资料' }
-      )
+      this.logger.logSystemError(error, 'ClientProfileController', {
+        userId: id,
+        action: '获取个人资料',
+      })
       throw error
     }
   }
@@ -157,9 +158,9 @@ export class ClientProfileController {
         '更新个人资料',
         {
           profileId: updatedProfile.id,
-          updatedFields: Object.keys(profileData)
+          updatedFields: Object.keys(profileData),
         },
-        'ClientProfileController'
+        'ClientProfileController',
       )
 
       return updatedProfile
@@ -168,7 +169,7 @@ export class ClientProfileController {
         'PROFILE_UPDATE_FAILED',
         `更新用户资料失败: ${error.message}`,
         id,
-        'ClientProfileController'
+        'ClientProfileController',
       )
       throw error
     }
@@ -178,21 +179,21 @@ export class ClientProfileController {
     const startTime = Date.now()
 
     // 模拟数据库查询
-    await new Promise(resolve => setTimeout(resolve, 50))
+    await new Promise((resolve) => setTimeout(resolve, 50))
 
     const duration = Date.now() - startTime
     this.logger.logDatabaseOperation(
       'SELECT',
       'user_profiles',
       duration,
-      'ClientProfileController'
+      'ClientProfileController',
     )
 
     return {
       id: userId,
       name: 'User Name',
       email: 'user@example.com',
-      avatar: 'avatar.jpg'
+      avatar: 'avatar.jpg',
     }
   }
 
@@ -200,20 +201,20 @@ export class ClientProfileController {
     const startTime = Date.now()
 
     // 模拟数据库更新
-    await new Promise(resolve => setTimeout(resolve, 150))
+    await new Promise((resolve) => setTimeout(resolve, 150))
 
     const duration = Date.now() - startTime
     this.logger.logDatabaseOperation(
       'UPDATE',
       'user_profiles',
       duration,
-      'ClientProfileController'
+      'ClientProfileController',
     )
 
     return {
       id: userId,
       ...profileData,
-      updatedAt: new Date()
+      updatedAt: new Date(),
     }
   }
 }
@@ -222,9 +223,7 @@ export class ClientProfileController {
  * 服务层使用示例
  */
 export class UserService {
-  constructor(
-    private readonly logger: LoggerService
-  ) {}
+  constructor(private readonly logger: LoggerService) {}
 
   async processUserData(userId: string, data: any) {
     this.logger.info(`开始处理用户 ${userId} 的数据`, 'UserService')
@@ -243,11 +242,7 @@ export class UserService {
 
       return processedData
     } catch (error) {
-      this.logger.logSystemError(
-        error,
-        'UserService',
-        { userId, data }
-      )
+      this.logger.logSystemError(error, 'UserService', { userId, data })
       throw error
     }
   }
@@ -261,7 +256,7 @@ export class UserService {
         'VALIDATION_ERROR',
         '用户数据验证失败: 邮箱不能为空',
         undefined,
-        'UserService'
+        'UserService',
       )
       throw error
     }
@@ -277,7 +272,7 @@ export class UserService {
       ...data,
       email: data.email.toLowerCase(),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     }
 
     this.logger.debug('用户数据转换完成', 'UserService')
@@ -290,14 +285,14 @@ export class UserService {
     this.logger.debug(`开始保存用户 ${userId} 的数据`, 'UserService')
 
     // 模拟保存操作
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     const duration = Date.now() - startTime
     this.logger.logDatabaseOperation(
       'INSERT',
       'user_data',
       duration,
-      'UserService'
+      'UserService',
     )
 
     this.logger.info(`用户 ${userId} 数据保存成功`, 'UserService')

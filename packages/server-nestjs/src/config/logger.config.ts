@@ -1,6 +1,6 @@
+import { join } from 'node:path'
 import { WinstonModuleOptions } from 'nest-winston'
 import * as winston from 'winston'
-import { join } from 'path'
 
 // 日志级别
 const logLevels = {
@@ -27,12 +27,14 @@ const logFormat = winston.format.combine(
   winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
   winston.format.errors({ stack: true }),
   winston.format.json(),
-  winston.format.printf(({ timestamp, level, message, context, trace, ...meta }) => {
-    const contextStr = context ? `[${context}]` : ''
-    const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : ''
-    const traceStr = trace ? `\n${trace}` : ''
-    return `${timestamp} [${level.toUpperCase()}] ${contextStr} ${message} ${metaStr}${traceStr}`
-  })
+  winston.format.printf(
+    ({ timestamp, level, message, context, trace, ...meta }) => {
+      const contextStr = context ? `[${context}]` : ''
+      const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : ''
+      const traceStr = trace ? `\n${trace}` : ''
+      return `${timestamp} [${level.toUpperCase()}] ${contextStr} ${message} ${metaStr}${traceStr}`
+    },
+  ),
 )
 
 // 控制台日志格式（开发环境）
@@ -43,7 +45,7 @@ const consoleFormat = winston.format.combine(
     const contextStr = context ? `[${context}]` : ''
     const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : ''
     return `${timestamp} ${level} ${contextStr} ${message} ${metaStr}`
-  })
+  }),
 )
 
 // 获取日志目录

@@ -124,7 +124,7 @@ function handlerForm(parameters: any[]) {
 
 export function isEmptyQuery(api: IterateObject) {
   const { parameters, method, requestBody } = api
-  return !!(method === 'get' && requestBody.type === 'none' && Object.keys(parameters).length && !parameters.query.length)
+  return !!(requestBody.type === 'none' && Object.keys(parameters).length && !parameters.query.length)
 }
 
 export function generateTypes(
@@ -160,9 +160,7 @@ export function generateTypes(
     const { jsonSchema } = responses[0]
     const responseData = jsonSchema.properties[config.field]
     const dataType = responseData?.type
-    if (resName === 'GetAdminUserPageTypesRes') {
-      console.log(jsonSchema)
-    }
+
     if (!dataType && responseData && responseData.$ref) {
       responseStr = `
       /* ${responseData?.description || ''} */
