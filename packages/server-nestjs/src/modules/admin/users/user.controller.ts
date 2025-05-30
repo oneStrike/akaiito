@@ -1,5 +1,3 @@
-import type { PageDto } from '@/common/dto/page.dto'
-import type { UserService } from '@/modules/admin/users/user.service'
 import {
   Body,
   Controller,
@@ -10,8 +8,10 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
+import { PageDto } from '@/common/dto/page.dto'
 import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
 import { UserDto, UserLoginDto } from '@/modules/admin/users/dto/user.dto'
+import { UserService } from '@/modules/admin/users/user.service'
 import { CaptchaDto } from './dto/captcha.dto'
 
 @ApiTags('管理端用户模块')
