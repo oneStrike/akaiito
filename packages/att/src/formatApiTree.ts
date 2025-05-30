@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { generateTypes } from '@/generateTypes'
+import { generateTypes, isEmptyQuery } from '@/generateTypes'
 
 function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
@@ -111,7 +111,7 @@ export async function formatApiTree(
         // 生成接口的类型信息
         const types = generateTypes(detail, request, response, dataModel, config)
         apiList[folderName].import.push(response)
-        if (detail.method === 'post' || Object.keys(detail.parameters).length) {
+        if (detail.method === 'post' || !isEmptyQuery(detail)) {
           apiList[folderName].import.push(request)
         }
         apiList[folderName].apis.push({

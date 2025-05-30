@@ -1,8 +1,10 @@
 import { CacheModule } from '@nestjs/cache-manager'
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_INTERCEPTOR, APP_PIPE, APP_FILTER } from '@nestjs/core'
 import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
+import { LoggingInterceptor } from '@/common/interceptors/logging.interceptor'
+import { HttpExceptionFilter } from '@/common/filters/http-exception.filter'
 import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
 import { GlobalModule } from './global/global.module'
@@ -40,7 +42,15 @@ import { GlobalModule } from './global/global.module'
     },
     {
       provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
     },
   ],
 })

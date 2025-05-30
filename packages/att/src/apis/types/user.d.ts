@@ -6,10 +6,14 @@
  *  @更新时间 2025-05-30 23:02:40
  */
 
-export interface GetCaptchaTypesReq {}
-
 /*  */
-export type GetCaptchaTypesRes = any
+export type GetCaptchaTypesRes = {
+  /* 验证码 key */
+  id: string
+
+  /* 验证码 */
+  data: string
+}
 
 /**
  *  接口 [用户登录](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134065)
@@ -34,7 +38,19 @@ export interface LoginTypesReq {
 }
 
 /*  */
-export type LoginTypesRes = any
+export type LoginTypesRes = {
+  /* 用户名 */
+  username: string
+
+  /* 密码 */
+  password: string
+
+  /* 验证码 */
+  captcha: string
+
+  /* 验证码ID */
+  captchaId: string
+}
 
 /**
  *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134066)
@@ -43,8 +59,6 @@ export type LoginTypesRes = any
  *  @地址 /admin/user/getAdminUserPage
  *  @更新时间 2025-05-30 23:02:40
  */
-
-export interface GetAdminUserPageTypesReq {}
 
 export interface GetAdminUserPageTypesRes {
   /* 当前页码 */

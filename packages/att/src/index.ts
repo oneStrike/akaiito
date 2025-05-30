@@ -36,7 +36,9 @@ getConfig().then(async (attConfig) => {
     for (const idx in apis) {
       const item = apis[idx]
       handlerValue += item.comments + item.handler
-      typesValue += item.comments + item.types
+      if (item.types) {
+        typesValue += item.comments + item.types
+      }
       console.log(`******************${item.name}********************`)
     }
     const handlerPrettierValue = await prettier.format(

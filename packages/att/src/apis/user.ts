@@ -1,7 +1,6 @@
 import { httpHandler } from '@/utils/request'
 import type {
   GetCaptchaTypesRes,
-  GetCaptchaTypesReq,
   LoginTypesRes,
   LoginTypesReq,
   GetAdminUserPageTypesRes,

@@ -21,7 +21,19 @@ export interface LoginTypesReq {
 }
 
 /*  */
-export type LoginTypesRes = any
+export type LoginTypesRes = {
+  /* 用户名 */
+  username: string
+
+  /* 密码 */
+  password: string
+
+  /* 验证码 */
+  captcha: string
+
+  /* 验证码ID */
+  captchaId: string
+}
 
 /**
  *  接口 [刷新令牌](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134068)
@@ -37,7 +49,10 @@ export interface RefreshTypesReq {
 }
 
 /*  */
-export type RefreshTypesRes = any
+export type RefreshTypesRes = {
+  /* 刷新令牌 */
+  refreshToken: string
+}
 
 /**
  *  接口 [管理员登出](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134069)
@@ -46,8 +61,6 @@ export type RefreshTypesRes = any
  *  @地址 /admin/auth/logout
  *  @更新时间 2025-05-30 23:02:40
  */
-
-export interface LogoutTypesReq {}
 
 /*  */
 export type LogoutTypesRes = any
@@ -59,8 +72,6 @@ export type LogoutTypesRes = any
  *  @地址 /admin/auth/profile
  *  @更新时间 2025-05-30 23:02:40
  */
-
-export interface ProfileTypesReq {}
 
 /*  */
 export type ProfileTypesRes = any

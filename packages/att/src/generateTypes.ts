@@ -122,6 +122,11 @@ function handlerForm(parameters: any[]) {
   return typeStr
 }
 
+export function isEmptyQuery(api: IterateObject) {
+  const { parameters, method, requestBody } = api
+  return !!(method === 'get' && requestBody.type === 'none' && Object.keys(parameters).length && !parameters.query.length)
+}
+
 export function generateTypes(
   api: IterateObject,
   reqName: string,
@@ -133,7 +138,7 @@ export function generateTypes(
   let requestStr = ''
   let responseStr = ''
   // get请求，并且有参数
-  if (method === 'get' && Object.keys(parameters).length && parameters.query.length) {
+  if (method === 'get' && !isEmptyQuery(api)) {
     const { query } = parameters
     query.forEach((item: IterateObject) => {
       if (item.enable) {
@@ -149,13 +154,21 @@ export function generateTypes(
       requestStr = handlerJsonScheme(jsonSchema, dataModel)
     }
   }
+
   // 处理响应结果
   if (Array.isArray(responses) && responses.length) {
     const { jsonSchema } = responses[0]
     const responseData = jsonSchema.properties[config.field]
     const dataType = responseData?.type
-
-    if (Array.isArray(dataType)) {
+    if (resName === 'GetAdminUserPageTypesRes') {
+      console.log(jsonSchema)
+    }
+    if (!dataType && responseData && responseData.$ref) {
+      responseStr = `
+      /* ${responseData?.description || ''} */
+      export type ${resName} = {${extractRefs(responseData.$ref, dataModel)}}
+      `
+    } else if (Array.isArray(dataType)) {
       responseStr = `
       /* ${responseData?.description || ''} */
       export type ${resName} = ${dataType.join('|')}
@@ -180,11 +193,26 @@ export function generateTypes(
       `
     }
   }
-  return `
+
+  if (requestStr && responseStr) {
+    return `
     export interface ${reqName} {
       ${requestStr}
     }
 
     ${responseStr}
   `
+  } else if (requestStr) {
+    return `
+    export interface ${reqName} {
+      ${requestStr}
+    }
+  `
+  } else if (responseStr) {
+    return `
+    ${responseStr}
+  `
+  } else {
+    return ''
+  }
 }
