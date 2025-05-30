@@ -1,7 +1,10 @@
 import { ApiHideProperty, ApiProperty } from '@nestjs/swagger'
 import { Exclude } from 'class-transformer'
 import { IsString, MaxLength } from 'class-validator'
-import { ValidateNumber } from '@/common/decorators/validate.decorator'
+import {
+  ValidateNumber,
+  ValidateString,
+} from '@/common/decorators/validate.decorator'
 
 export class UserDto {
   @ValidateNumber({
@@ -62,4 +65,34 @@ export class UserDto {
     example: '2021-01-01 00:00:00',
   })
   updatedAt: Date
+}
+
+export class UserLoginDto {
+  @ValidateString({
+    description: '用户名',
+    example: 'admin',
+    required: true,
+  })
+  username!: string
+
+  @ValidateString({
+    description: '密码',
+    example: 'Aa@123456',
+    required: true,
+  })
+  password!: string
+
+  @ValidateString({
+    description: '验证码',
+    example: '1234',
+    required: true,
+  })
+  captcha!: string
+
+  @ValidateString({
+    description: '验证码ID',
+    example: '1234567890',
+    required: true,
+  })
+  captchaId!: string
 }

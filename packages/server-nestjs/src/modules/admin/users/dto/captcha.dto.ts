@@ -2,16 +2,17 @@ import { ValidateString } from '@/common/decorators/validate.decorator'
 
 export class CaptchaDto {
   @ValidateString({
-    description: '验证码ID',
-    example: '17e2d660-1cb6-4012-8fe9-5cf865db933d',
+    description: '验证码 key',
+    example: '1234',
     required: true,
   })
-  id!: string
+  id: string
 
   @ValidateString({
     description: '验证码',
-    example: '',
+    example:
+      '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"50\"></svg></svg>',
     required: true,
   })
-  captcha!: string
+  data: string
 }

@@ -1,9 +1,10 @@
+import type { Cache } from 'cache-manager'
+import type { UserLoginDto } from './dto/user.dto'
+import type { PrismaService } from '@/global/services/prisma.service'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { Inject, Injectable } from '@nestjs/common'
-import { Cache } from 'cache-manager'
 import * as svgCaptcha from 'svg-captcha'
 import { v4 as uuid } from 'uuid'
-import { PrismaService } from '@/global/services/prisma.service'
 import { CacheKey } from '@/modules/admin/users/user.constant'
 
 @Injectable()
@@ -34,6 +35,15 @@ export class UserService {
       data: captcha.data,
       id: uniqueId, // 转换为小写或进行其他处理
     }
+  }
+
+  /**
+   * 登录
+   */
+
+  async login(body: UserLoginDto) {
+    console.log('🚀 ~ UserService ~ login ~ body:', body)
+    return body
   }
 
   async getUsers() {

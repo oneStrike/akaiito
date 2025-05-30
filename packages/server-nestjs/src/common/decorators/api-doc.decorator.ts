@@ -1,7 +1,11 @@
 import type { Type } from '@nestjs/common'
-import type { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface'
 import { applyDecorators } from '@nestjs/common'
-import { ApiOperation, ApiResponse, getSchemaPath } from '@nestjs/swagger'
+import {
+  ApiExtraModels,
+  ApiOperation,
+  ApiResponse,
+  getSchemaPath,
+} from '@nestjs/swagger'
 
 // 工具函数：判断是否是类
 const isClass = (model: any): model is Type<unknown> =>
@@ -32,47 +36,21 @@ const baseResponse = (summary: string) => ({
   },
 })
 
-// 分页数据结构（支持普通对象）
-const pageDataSchema = <T>(
-  model: Type<T> | Record<string, any>,
-): SchemaObject => {
-  const itemsSchema = isClass(model) ? { $ref: getSchemaPath(model) } : model
-
-  return {
-    type: 'object',
-    properties: {
-      pageIndex: { type: 'number', description: '当前页码', example: 1 },
-      pageSize: { type: 'number', description: '每页条数', example: 15 },
-      total: { type: 'number', description: '总条数', example: 100 },
-      items: {
-        type: 'array',
-        items: itemsSchema,
-      },
-    },
-  }
-}
-
-// 参数校验工具函数
-const validateArgs = (
+export function ApiDoc<TModel extends Type<any>>(
   summary: string,
-  model: Type<unknown> | Record<string, any>,
-) => {
-  if (!summary || !model) {
-    throw new Error('ApiDoc 参数不能为空')
-  }
-}
-
-// 新增自定义装饰器定义
-export function ApiDoc<T>(
-  summary: string,
-  model: Type<T> | Record<string, any>,
+  model: Type<TModel> | Record<string, any>,
 ) {
-  validateArgs(summary, model)
-  // 生成data字段schema
-  const dataSchema = isClass(model) ? { $ref: getSchemaPath(model) } : model
+  let dataSchema
+  const decorators = [ApiOperation({ summary })]
 
-  return applyDecorators(
-    ApiOperation({ summary }),
+  if (isClass(model)) {
+    decorators.push(ApiExtraModels(model))
+    dataSchema = { $ref: getSchemaPath(model) }
+  } else {
+    dataSchema = model
+  }
+
+  decorators.push(
     ApiResponse({
       ...baseResponse(summary),
       content: {
@@ -88,16 +66,25 @@ export function ApiDoc<T>(
       },
     }),
   )
+
+  return applyDecorators(...decorators)
 }
 
-export function ApiPageDoc<T>(
+export function ApiPageDoc<TModel extends Type<any>>(
   summary: string,
-  model: Type<T> | Record<string, any>,
+  model: TModel | Record<string, any>,
 ) {
-  validateArgs(summary, model)
+  let dataSchema
+  const decorators = [ApiOperation({ summary })]
 
-  return applyDecorators(
-    ApiOperation({ summary }),
+  if (isClass(model)) {
+    decorators.push(ApiExtraModels(model))
+    dataSchema = { $ref: getSchemaPath(model) }
+  } else {
+    dataSchema = model
+  }
+
+  decorators.push(
     ApiResponse({
       ...baseResponse(summary),
       content: {
@@ -106,11 +93,36 @@ export function ApiPageDoc<T>(
             ...baseResponse(summary).content['application/json'].schema,
             properties: {
               ...baseResponse(summary).content['application/json'].schema.properties,
-              data: pageDataSchema(model),
+              data: {
+                type: 'object',
+                properties: {
+                  pageIndex: {
+                    type: 'number',
+                    description: '当前页码',
+                    example: 0,
+                  },
+                  pageSize: {
+                    type: 'number',
+                    description: '每页条数',
+                    example: 15,
+                  },
+                  total: {
+                    type: 'number',
+                    description: '总条数',
+                    example: 100,
+                  },
+                  items: {
+                    type: 'array',
+                    items: dataSchema,
+                  },
+                },
+              },
             },
           },
         },
       },
     }),
   )
+
+  return applyDecorators(...decorators)
 }
