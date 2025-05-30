@@ -29,6 +29,7 @@ export class UserService {
       captcha.text,
       1000 * 60,
     )
+    console.log(uniqueId)
     return {
       data: captcha.data,
       id: uniqueId, // 转换为小写或进行其他处理
