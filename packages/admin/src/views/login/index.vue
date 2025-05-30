@@ -91,7 +91,7 @@
             <img
               v-if="captchaInfo.data"
               :src="captchaInfo.data"
-              class="captcha_img ml-8"
+              class="captcha_img"
               @click="getCaptchaFn"
             />
           </el-form-item>
@@ -147,7 +147,7 @@
   }
 
   .captcha_img {
-    width: 100px;
+    width: 160px;
     height: 36px;
     vertical-align: middle;
     cursor: pointer;

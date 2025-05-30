@@ -1,5 +1,5 @@
 /**
- *  接口 [获取验证码](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134064)
+ *  接口 [获取验证码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303134064)
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /admin/user/getCaptcha
@@ -16,7 +16,7 @@ export type GetCaptchaTypesRes = {
 }
 
 /**
- *  接口 [用户登录](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134065)
+ *  接口 [用户登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303134065)
  *  @标签 管理端用户模块/用户登录
  *  @方式 POST
  *  @地址 /admin/user/login
@@ -53,12 +53,20 @@ export type LoginTypesRes = {
 }
 
 /**
- *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134066)
+ *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303134066)
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /admin/user/getAdminUserPage
  *  @更新时间 2025-05-30 23:02:40
  */
+
+export interface GetAdminUserPageTypesReq {
+  /* 单页大小 */
+  pageSize?: number
+
+  /* 当前页码 */
+  pageIndex?: number
+}
 
 export interface GetAdminUserPageTypesRes {
   /* 当前页码 */
@@ -69,7 +77,32 @@ export interface GetAdminUserPageTypesRes {
 
   /* 总条数 */
   total: number
+  items: {
+    /* 用户ID */
+    id: number
 
-  /*  */
-  items: undefined[]
+    /* 用户名 */
+    username: string
+
+    /* 密码 */
+    password: string
+
+    /* 用户头像 */
+    avatar: string
+
+    /* 用户手机号 */
+    mobile: string
+
+    /* 用户状态 */
+    status: boolean
+
+    /* 是否为超级管理员 */
+    isRoot: boolean
+
+    /* 创建时间 */
+    createdAt: string
+
+    /* 更新时间 */
+    updatedAt: string
+  }[]
 }

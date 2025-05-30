@@ -5,6 +5,8 @@ import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
 import { setupSwagger } from '@/nestjs/swagger'
 
+declare const module: any
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
@@ -20,6 +22,11 @@ async function bootstrap() {
   logger.log('应用程序启动中...', 'Bootstrap')
 
   await app.listen(3000)
+
+  if (module.hot) {
+    module.hot.accept()
+    module.hot.dispose(() => app.close())
+  }
 
   logger.log('应用程序已启动，监听端口: 3000', 'Bootstrap')
   logger.log(`环境: ${process.env.NODE_ENV || 'development'}`, 'Bootstrap')

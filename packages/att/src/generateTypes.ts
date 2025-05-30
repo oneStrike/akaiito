@@ -15,7 +15,6 @@ function joinType(item: IterateObject) {
       })
       type = `{${type}}`
     } else if (item.type) {
-      console.log(item)
       type = item.type.join(' | ')
     }
   } else if (item?.type) {
@@ -84,7 +83,9 @@ function handlerJsonScheme(
             }
           }
         } else if (item.type === 'array') {
-          if (item.items.type === 'object') {
+          if (item.items.$ref) {
+             typesStr += `${propertiesKey}:{${extractRefs(item.items.$ref, dataModel)}}[]`
+          } else if (item.items.type === 'object') {
             typesStr += `${propertiesKey}:{${handlerJsonScheme(item.items, dataModel, isRes)}}[]`
           } else {
             typesStr += `
@@ -123,7 +124,7 @@ function handlerForm(parameters: any[]) {
 }
 
 export function isEmptyQuery(api: IterateObject) {
-  const { parameters, method, requestBody } = api
+  const { parameters, requestBody } = api
   return !!(requestBody.type === 'none' && Object.keys(parameters).length && !parameters.query.length)
 }
 
@@ -138,10 +139,11 @@ export function generateTypes(
   let requestStr = ''
   let responseStr = ''
   // get请求，并且有参数
+
   if (method === 'get' && !isEmptyQuery(api)) {
     const { query } = parameters
     query.forEach((item: IterateObject) => {
-      if (item.enable) {
+      if (typeof item.enable !== 'boolean' || item.enable) {
         requestStr += joinType(item)
       }
     })

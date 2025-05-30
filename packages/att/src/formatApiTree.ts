@@ -8,7 +8,7 @@ function capitalizeFirstLetter(str: string) {
 function formatApiIntroduce(api: IterateObject) {
   return `
             /**
-             *  接口 [${api.name}](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-${api.id})
+             *  接口 [${api.name}](https://apifox.com/apidoc/shared-${api.config.key}/api-${api.id})
              *  @标签 ${api.folderPath}
              *  @方式 ${api.method.toUpperCase()}
              *  @地址 ${api.path}
@@ -105,6 +105,7 @@ export async function formatApiTree(
         const comments = formatApiIntroduce({
           ...detail,
           folderPath: `${apiPath.join('/')}/${api.name}`,
+          config,
         })
         // 生成接口的请求方法
         const handler = formatApiHandler({ ...detail, ...config })

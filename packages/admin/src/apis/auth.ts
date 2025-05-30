@@ -5,13 +5,11 @@ import type {
   RefreshTypesRes,
   RefreshTypesReq,
   LogoutTypesRes,
-  LogoutTypesReq,
   ProfileTypesRes,
-  ProfileTypesReq,
 } from './types/auth.d'
 
 /**
- *  接口 [管理员登录](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134067)
+ *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303134067)
  *  @标签 管理端认证模块/管理员登录
  *  @方式 POST
  *  @地址 /admin/auth/login
@@ -30,7 +28,7 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
 }
 
 /**
- *  接口 [刷新令牌](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134068)
+ *  接口 [刷新令牌](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303134068)
  *  @标签 管理端认证模块/刷新令牌
  *  @方式 POST
  *  @地址 /admin/auth/refresh
@@ -49,7 +47,7 @@ export const refreshApi = (data: RefreshTypesReq): Promise<RefreshTypesRes> => {
 }
 
 /**
- *  接口 [管理员登出](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134069)
+ *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303134069)
  *  @标签 管理端认证模块/管理员登出
  *  @方式 POST
  *  @地址 /admin/auth/logout
@@ -66,7 +64,7 @@ export const logoutApi = (data: LogoutTypesReq): Promise<LogoutTypesRes> => {
 }
 
 /**
- *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-303134070)
+ *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303134070)
  *  @标签 管理端认证模块/获取当前用户信息
  *  @方式 POST
  *  @地址 /admin/auth/profile

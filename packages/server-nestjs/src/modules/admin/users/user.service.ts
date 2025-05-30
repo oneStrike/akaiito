@@ -22,7 +22,7 @@ export class UserService {
     const captcha = svgCaptcha.create({
       size: 4, // 验证码长度
       ignoreChars: '0o1i', // 排除 0o1i
-      noise: 2, // 噪声线条数量
+      noise: 3, // 噪声线条数量
       color: true, // 验证码的字符有颜色，而不是黑白
     })
 
