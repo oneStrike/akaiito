@@ -1,8 +1,9 @@
 import type { Cache } from 'cache-manager'
 import type { UserLoginDto } from './dto/user.dto'
 import type { PrismaService } from '@/global/services/prisma.service'
+import { Buffer } from 'node:buffer'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
-import { Inject, Injectable } from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import * as svgCaptcha from 'svg-captcha'
 import { v4 as uuid } from 'uuid'
 import { CacheKey } from '@/modules/admin/users/user.constant'
@@ -19,21 +20,21 @@ export class UserService {
    */
   async getCaptcha() {
     const captcha = svgCaptcha.create({
-      size: 6, // 验证码长度
+      size: 4, // 验证码长度
       ignoreChars: '0o1i', // 排除 0o1i
       noise: 2, // 噪声线条数量
       color: true, // 验证码的字符有颜色，而不是黑白
     })
+
     const uniqueId = uuid()
     await this.cacheManager.set(
       CacheKey.CAPTCHA + uniqueId,
       captcha.text,
       1000 * 60,
     )
-    console.log(uniqueId)
     return {
-      data: captcha.data,
-      id: uniqueId, // 转换为小写或进行其他处理
+      data: `data:image/svg+xml;base64,${Buffer.from(captcha.data).toString('base64')}`, // 使用引入的Buffer模块
+      id: uniqueId,
     }
   }
 
@@ -42,7 +43,27 @@ export class UserService {
    */
 
   async login(body: UserLoginDto) {
-    console.log('🚀 ~ UserService ~ login ~ body:', body)
+    // 检查用户输入的验证码
+    if (!body.captcha) {
+      throw new HttpException('请输入验证码', HttpStatus.BAD_REQUEST)
+    }
+    const captchaText = await this.cacheManager.get(
+      CacheKey.CAPTCHA + body.captchaId,
+    )
+    // 检查验证码是否存在于缓存中
+    if (!captchaText) {
+      throw new HttpException('验证码已过期', HttpStatus.BAD_REQUEST)
+    }
+
+    // 验证码比较（不区分大小写）
+    if (
+      String(captchaText).toLowerCase() !== String(body.captcha).toLowerCase()
+    ) {
+      await this.cacheManager.del(CacheKey.CAPTCHA + body.captchaId)
+      throw new HttpException('验证码错误', HttpStatus.BAD_REQUEST)
+    }
+    // 验证通过后，删除已使用的验证码
+    await this.cacheManager.del(CacheKey.CAPTCHA + body.captchaId)
     return body
   }
 

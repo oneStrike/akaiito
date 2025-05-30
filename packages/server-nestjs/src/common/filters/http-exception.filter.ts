@@ -1,10 +1,12 @@
-import {
+import type {
   ArgumentsHost,
-  Catch,
   ExceptionFilter,
+} from '@nestjs/common'
+import type { Response } from 'express'
+import {
+  Catch,
   HttpException,
 } from '@nestjs/common'
-import { Response } from 'express'
 
 // 注解捕获http异常
 @Catch(HttpException)
@@ -21,10 +23,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus()
     // 获取异常信息
     const exceptionResponse = exception.getResponse() as Record<string, any>
+    console.log(
+      '🚀 ~ HttpExceptionFilter ~ exceptionResponse:',
+      exceptionResponse,
+    )
     // 返回错误信息
     response.status(200).json({
       code: status,
-      message: exceptionResponse.message.join(','),
+      message: exceptionResponse?.statusCode
+        ? exceptionResponse.message
+        : (exceptionResponse.message?.join(',') ?? exceptionResponse),
     })
   }
 }
