@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { AuthGuard } from '@nestjs/passport'
 import { BaseJwtAuthGuard } from '@/common/guards/base-jwt-auth.guard'
 
 @Injectable()
