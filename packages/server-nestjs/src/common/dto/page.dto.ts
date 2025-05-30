@@ -1,33 +1,48 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { Transform } from 'class-transformer'
-import { IsDate, IsNumber, IsObject, IsOptional, Max } from 'class-validator'
+import {
+  ValidateDate,
+  ValidateJson,
+  ValidateNumber,
+} from '@/common/decorators/validate.decorator'
 
 export class PageDto {
-  @ApiProperty({ description: '单页大小', example: '15' })
-  @IsNumber()
-  @IsOptional()
-  @Max(500)
-  pageSize: number
+  @ValidateNumber({
+    description: '单页大小',
+    example: 15,
+    max: 500,
+    min: 1,
+    required: false,
+    default: 15,
+  })
+  pageSize?: number
 
-  @ApiProperty({ description: '页码', example: '0' })
-  @IsNumber()
-  @IsOptional()
-  pageIndex: number
+  @ValidateNumber({
+    description: '当前页码',
+    example: 0,
+    min: 0,
+    required: false,
+    default: 0,
+  })
+  pageIndex?: number
 
-  @ApiProperty({ description: '排序字段，json格式', example: '{id:\'desc\'}' })
-  @IsOptional()
-  @IsObject()
-  @Transform(({ value }) => JSON.parse(value))
-  orderBy: Record<string, 'asc' | 'desc'>
+  @ValidateJson({
+    description: '排序字段，json格式',
+    example: '{id:\'desc\'}',
+    transform: true,
+    required: false,
+  })
+  orderBy?: Record<string, 'asc' | 'desc'>
 
-  @ApiProperty({ description: '开始时间', example: '2025-05-29' })
-  @IsDate()
-  @IsOptional()
-  startDate: Date
+  @ValidateDate({
+    description: '开始时间',
+    example: '2025-05-29',
+    required: false,
+  })
+  startDate?: Date | null
 
-  @ApiProperty({ description: '结束时间', example: '2025-05-29' })
-  @IsDate()
-  @IsDate()
-  @IsOptional()
-  endDate: Date
+  @ValidateDate({
+    description: '结束时间',
+    example: '2025-05-29',
+    required: false,
+  })
+  endDate?: Date | null
 }

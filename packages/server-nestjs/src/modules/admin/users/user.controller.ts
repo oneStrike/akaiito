@@ -7,7 +7,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ApiPageDoc } from '@/common/decorators/api-doc.decorator'
+import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { PageDto } from '@/common/dto/page.dto'
 import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
 import { UserDto } from '@/modules/admin/users/dto/user.dto'
@@ -18,11 +18,21 @@ import { UserService } from '@/modules/admin/users/user.service'
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get('getCaptcha')
+  @ApiDoc('获取登录验证码', {
+    type: 'string',
+    required: true,
+    description: '验证码base64字符串',
+  })
+  async getCaptcha() {
+    return this.userService.getCaptcha()
+  }
+
   @Get('getAdminUserPage')
-  @ApiPageDoc('获取管理端1用户2分1页列表', UserDto)
+  @ApiPageDoc('获取管理端用户分页列表', UserDto)
   @UseInterceptors(useClassSerializerInterceptor(UserDto))
   getUsers(@Query() query: PageDto) {
-    console.log(12134)
+    console.log(query)
     return this.userService.getUsers()
   }
 

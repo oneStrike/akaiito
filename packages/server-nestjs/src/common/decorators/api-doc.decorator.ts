@@ -3,6 +3,10 @@ import type { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec
 import { applyDecorators } from '@nestjs/common'
 import { ApiOperation, ApiResponse, getSchemaPath } from '@nestjs/swagger'
 
+// 工具函数：判断是否是类
+const isClass = (model: any): model is Type<unknown> =>
+  typeof model === 'function' && model.prototype
+
 // 基础响应结构（不含 data）
 const baseResponse = (summary: string) => ({
   status: 200,
@@ -28,30 +32,46 @@ const baseResponse = (summary: string) => ({
   },
 })
 
-// 分页数据结构（直接返回完整的 SchemaObject）
-const pageDataSchema = <T>(model: Type<T>): SchemaObject => ({
-  type: 'object',
-  properties: {
-    pageIndex: { type: 'number', description: '当前页码', example: 1 },
-    pageSize: { type: 'number', description: '每页条数', example: 15 },
-    total: { type: 'number', description: '总条数', example: 100 },
-    items: {
-      type: 'array',
-      items: { $ref: getSchemaPath(model) },
+// 分页数据结构（支持普通对象）
+const pageDataSchema = <T>(
+  model: Type<T> | Record<string, any>,
+): SchemaObject => {
+  const itemsSchema = isClass(model) ? { $ref: getSchemaPath(model) } : model
+
+  return {
+    type: 'object',
+    properties: {
+      pageIndex: { type: 'number', description: '当前页码', example: 1 },
+      pageSize: { type: 'number', description: '每页条数', example: 15 },
+      total: { type: 'number', description: '总条数', example: 100 },
+      items: {
+        type: 'array',
+        items: itemsSchema,
+      },
     },
-  },
-})
+  }
+}
 
 // 参数校验工具函数
-const validateArgs = (summary: string, model: Type<unknown>) => {
+const validateArgs = (
+  summary: string,
+  model: Type<unknown> | Record<string, any>,
+) => {
   if (!summary || !model) {
     throw new Error('ApiDoc 参数不能为空')
   }
 }
 
 // 新增自定义装饰器定义
-export function ApiDoc<T>(summary: string, model: Type<T>) {
+export function ApiDoc<T>(
+  summary: string,
+  model: Type<T> | Record<string, any>,
+) {
   validateArgs(summary, model)
+
+  // 生成data字段schema
+  const dataSchema = isClass(model) ? { $ref: getSchemaPath(model) } : model
+
   return applyDecorators(
     ApiOperation({ summary }),
     ApiResponse({
@@ -62,7 +82,7 @@ export function ApiDoc<T>(summary: string, model: Type<T>) {
             ...baseResponse(summary).content['application/json'].schema,
             properties: {
               ...baseResponse(summary).content['application/json'].schema.properties,
-              data: { $ref: getSchemaPath(model) },
+              data: dataSchema,
             },
           },
         },
@@ -71,8 +91,12 @@ export function ApiDoc<T>(summary: string, model: Type<T>) {
   )
 }
 
-export function ApiPageDoc<T>(summary: string, model: Type<T>) {
+export function ApiPageDoc<T>(
+  summary: string,
+  model: Type<T> | Record<string, any>,
+) {
   validateArgs(summary, model)
+
   return applyDecorators(
     ApiOperation({ summary }),
     ApiResponse({
@@ -83,7 +107,7 @@ export function ApiPageDoc<T>(summary: string, model: Type<T>) {
             ...baseResponse(summary).content['application/json'].schema,
             properties: {
               ...baseResponse(summary).content['application/json'].schema.properties,
-              data: pageDataSchema(model), // 直接使用完整的 SchemaObject
+              data: pageDataSchema(model),
             },
           },
         },

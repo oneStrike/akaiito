@@ -10,17 +10,11 @@ export class UserService {
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  async getUsers() {
-    const testKey = 't1estRedisConnection'
-    const testValue = 'testValue'
+  async getCaptcha() {
+    return 'getCaptcha'
+  }
 
-    console.log(123)
-    // 尝试设置缓存
-    await this.cacheManager.set(testKey, testValue)
-    // 尝试获取缓存
-    console.log(123)
-    const retrievedValue = await this.cacheManager.get(testKey)
-    console.log(retrievedValue)
+  async getUsers() {
     return {
       pageIndex: 1,
       pageSize: 15,
