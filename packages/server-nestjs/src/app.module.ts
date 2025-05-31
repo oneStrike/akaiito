@@ -1,9 +1,11 @@
 import { CacheModule } from '@nestjs/cache-manager'
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { HttpExceptionFilter } from '@/common/filters/http-exception.filter'
 import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
+import { AdminJwtAuthGuard } from '@/modules/admin/auth/admin-jwt-auth.guard'
+import { ClientJwtAuthGuard } from '@/modules/client/auth/client-jwt-auth.guard'
 import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
 import { GlobalModule } from './global/global.module'
@@ -47,6 +49,14 @@ import { GlobalModule } from './global/global.module'
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AdminJwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ClientJwtAuthGuard,
     },
   ],
 })

@@ -8,10 +8,13 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
+import { CurrentUser } from '@/common/decorators/current-user.decorator'
+import { Public } from '@/common/decorators/public.decorator'
 import { PageDto } from '@/common/dto/page.dto'
 import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
 import { UserDto, UserLoginDto } from '@/modules/admin/users/dto/user.dto'
 import { UserService } from '@/modules/admin/users/user.service'
+import { AdminJwtPayload } from '../auth/admin-jwt.service'
 import { CaptchaDto } from './dto/captcha.dto'
 
 @ApiTags('管理端用户模块')
@@ -25,6 +28,7 @@ export class UserController {
     return this.userService.getCaptcha()
   }
 
+  @Public()
   @Post('login')
   @ApiDoc('用户登录', UserLoginDto)
   login(@Body() body: UserLoginDto) {
@@ -34,7 +38,7 @@ export class UserController {
   @Get('getAdminUserPage')
   @ApiPageDoc('获取管理端用户分页列表', UserDto)
   @UseInterceptors(useClassSerializerInterceptor(UserDto))
-  getUsers(@Query() query: PageDto) {
+  getUsers(@Query() query: PageDto, @CurrentUser() user: AdminJwtPayload) {
     console.log(query)
     return this.userService.getUsers()
   }
