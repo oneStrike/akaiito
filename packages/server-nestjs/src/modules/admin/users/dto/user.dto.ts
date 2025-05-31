@@ -72,6 +72,8 @@ export class UserLoginDto {
     description: '用户名',
     example: 'admin',
     required: true,
+    maxLength: 18,
+    minLength: 6,
   })
   username!: string
 

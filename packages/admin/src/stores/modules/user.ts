@@ -1,6 +1,5 @@
 import type { LoginTypesReq, LoginTypesRes } from '@/apis/types/user'
-import { refreshApi } from '@/apis/auth.ts'
-import { loginApi } from '@/apis/user'
+import { loginApi, refreshApi } from '@/apis/auth.ts'
 import { config } from '@/config'
 import router from '@/router'
 import { utils } from '@/utils'

@@ -105,6 +105,9 @@ importers:
       pinia-plugin-persistedstate:
         specifier: ^4.3.0
         version: 4.3.0(pinia@3.0.2(typescript@5.8.3)(vue@3.5.15(typescript@5.8.3)))
+      scrypt-js:
+        specifier: ^3.0.1
+        version: 3.0.1
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.6
@@ -11092,6 +11095,9 @@ packages:
 
   scmp@2.1.0:
     resolution: {integrity: sha512-o/mRQGk9Rcer/jEEw/yw4mwo3EU/NvYvp577/Btqrym9Qy5/MdWGBqipbALgd2lrdWTJ5/gqDusxfnQBxOxT2Q==}
+
+  scrypt-js@3.0.1:
+    resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
 
   scslre@0.3.0:
     resolution: {integrity: sha512-3A6sD0WYP7+QrjbfNA2FN3FsOaGGFoekCVgTyypy53gPxhbkCIjtO6YWgdrfM+n/8sI8JeXZOIxsHjMTNxQ4nQ==}
@@ -25921,6 +25927,8 @@ snapshots:
       ajv-keywords: 5.1.0(ajv@8.17.1)
 
   scmp@2.1.0: {}
+
+  scrypt-js@3.0.1: {}
 
   scslre@0.3.0:
     dependencies:

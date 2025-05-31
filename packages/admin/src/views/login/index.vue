@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import { scrypt } from 'scrypt-js'
   import { getCaptchaApi } from '@/apis/user.ts'
   import { useUserStore } from '@/stores/modules/user'
 
@@ -9,13 +10,13 @@
   const storageAccount = useStorage<IterateObject>('ACCOUNT_INFO', {})
   const isRememberAccount = ref(storageAccount.value?.isRememberAccount)
   const loginForm = reactive({
-    mobile: storageAccount.value?.mobile,
+    username: storageAccount.value?.username,
     password: storageAccount.value?.password,
     captcha: '',
     captchaId: '',
   })
   const rules = reactive({
-    mobile: useValidate.mobile(),
+    username: useValidate.required('用户名或手机号'),
     password: useValidate.password(),
     captcha: useValidate.required('验证码'),
   })
@@ -31,7 +32,48 @@
   }, 500)
   getCaptchaFn()
 
+  function generateSalt(): string {
+    const array = new Uint8Array(8)
+    window.crypto.getRandomValues(array)
+    return Array.from(array)
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('')
+  }
+
+  function toHex(buffer: Uint8Array): string {
+    return Array.from(buffer, (b) => b.toString(16).padStart(2, '0')).join('')
+  }
+
+  const encryption = async (
+    password: string,
+    salt?: string,
+  ): Promise<string> => {
+    if (!salt) {
+      salt = generateSalt()
+    }
+
+    const N = 16384 // CPU/Memory cost
+    const r = 8 // Block size
+    const p = 1 // Parallelization
+    const dkLen = 32 // 密钥长度（字节）
+
+    const passwordKey = await scrypt(
+      new TextEncoder().encode(password),
+      new Uint8Array(
+        salt.match(/.{2}/g)!.map((byte) => Number.parseInt(byte, 16)),
+      ),
+      N,
+      r,
+      p,
+      dkLen,
+    )
+
+    return `${salt}.${toHex(passwordKey)}`
+  }
+
   async function login() {
+    console.log(123)
+    console.log(await encryption('Aa@123456','a1b2c3d4e5f67890'))
     await ruleFormRef.value.validate(async (valid: boolean) => {
       if (!valid) {
         return
@@ -42,7 +84,7 @@
         await userStore.signIn(loginForm)
         if (isRememberAccount.value) {
           storageAccount.value = {
-            mobile: loginForm.mobile,
+            username: loginForm.username,
             password: loginForm.password,
             isRememberAccount: isRememberAccount.value,
           }
@@ -52,6 +94,8 @@
         router.replace({ name: 'Dashboard' })
       } catch (e) {
         console.log(e)
+        submitLoading.value = false
+        await getCaptchaFn()
       }
 
       submitLoading.value = false
@@ -65,10 +109,10 @@
       <div class="login_card ml-auto p-4">
         <div class="text-center text-2xl mb-4">登录</div>
         <el-form ref="ruleFormRef" :model="loginForm" :rules="rules">
-          <el-form-item prop="mobile" class="mt-8">
+          <el-form-item prop="username" class="mt-8">
             <el-input
-              v-model.trim="loginForm.mobile"
-              placeholder="请输入手机号"
+              v-model.trim="loginForm.username"
+              placeholder="请输入用户名或手机号"
               @keyup.enter="login"
             />
           </el-form-item>

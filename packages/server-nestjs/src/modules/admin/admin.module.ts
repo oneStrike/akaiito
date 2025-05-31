@@ -1,14 +1,10 @@
 import { Module } from '@nestjs/common'
-import { AdminAuthModule } from './auth/admin-auth.module'
 import { UserController } from './users/user.controller'
 import { UserService } from './users/user.service'
 
 @Module({
-  imports: [AdminAuthModule],
+  imports: [],
   controllers: [UserController],
-  providers: [
-    UserService,
-
-  ],
+  providers: [UserService],
 })
 export class AdminModule {}

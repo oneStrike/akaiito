@@ -9,8 +9,11 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsStrongPassword,
   Max,
+  MaxLength,
   Min,
+  MinLength,
 } from 'class-validator'
 
 interface ValidateOptions {
@@ -35,10 +38,15 @@ interface ValidateDateOptions extends Omit<ValidateOptions, 'default'> {
 
 interface ValidateStringOptions extends ValidateOptions {
   type?: 'ISO8601'
+  maxLength?: number
+  minLength?: number
+  password?: boolean
 }
 
 /**
  * 校验字符串类型
+ * @param options
+ * @constructor
  */
 export function ValidateString(options: ValidateStringOptions) {
   const decorators = [
@@ -50,6 +58,21 @@ export function ValidateString(options: ValidateStringOptions) {
     }),
     IsString(),
   ]
+  if (options.password) {
+    decorators.push(IsStrongPassword({
+      minLength: 8,
+      minUppercase: 1,
+      minLowercase: 1,
+      minSymbols: 1,
+    }))
+  }
+
+  if (options.maxLength) {
+    decorators.push(MaxLength(options.maxLength))
+  }
+  if (options.minLength) {
+    decorators.push(MinLength(options.minLength))
+  }
 
   if (options.type === 'ISO8601') {
     decorators.push(IsISO8601())
