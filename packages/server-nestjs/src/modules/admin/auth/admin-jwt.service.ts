@@ -57,7 +57,7 @@ export class AdminJwtService {
         expiresIn: config.signOptions.expiresIn, // 设置访问令牌过期时间
       }),
       this.jwtService.signAsync(
-        { sub: payload.sub, type: 'refresh', role: 'admin' },
+        { sub: payload.sub, type: 'refresh', role: 'admin', username: payload.username },
         {
           secret: config.secret, // 使用配置中的密钥
           expiresIn: config.refreshExpiresIn, // 设置刷新令牌过期时间
@@ -84,12 +84,12 @@ export class AdminJwtService {
   }
 
   /**
-   * 使用刷新令牌生成新的访问令牌
+   * 使用刷新令牌生成新的访问令牌和刷新令牌
    * @param refreshToken 刷新令牌
-   * @returns 新的访问令牌
+   * @returns 新的访问令牌和刷新令牌
    * @throws 如果刷新令牌无效或已过期
    */
-  async refreshAccessToken(refreshToken: string): Promise<string> {
+  async refreshAccessToken(refreshToken: string): Promise<AdminTokens> {
     const config = this.jwtConfigService.getAdminJwtConfig()
 
     const payload = await this.jwtService.verifyAsync(refreshToken, {
@@ -100,15 +100,10 @@ export class AdminJwtService {
       throw new Error('Invalid refresh token')
     }
 
-    const newPayload: AdminJwtPayload = {
+    // 生成新的令牌对
+    return this.generateTokens({
       sub: payload.sub,
       username: payload.username || 'admin',
-      role: 'admin',
-    }
-
-    return this.jwtService.signAsync(newPayload, {
-      secret: config.secret,
-      expiresIn: config.signOptions.expiresIn,
     })
   }
 }

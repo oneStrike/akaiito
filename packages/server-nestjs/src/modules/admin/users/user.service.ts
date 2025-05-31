@@ -4,14 +4,18 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { Cache } from 'cache-manager'
 import * as svgCaptcha from 'svg-captcha'
 import { v4 as uuid } from 'uuid'
+import { encryptPassword, verifyPassword } from '@/common/utils/crypto.util'
 import { PrismaService } from '@/global/services/prisma.service'
+import { AdminJwtService } from '@/modules/admin/auth/admin-jwt.service'
 import { CacheKey } from '@/modules/admin/users/user.constant'
+import { UpdateUserDto } from './dto/update-user.dto'
 import { UserLoginDto } from './dto/user.dto'
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly adminJwtService: AdminJwtService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
@@ -41,7 +45,6 @@ export class UserService {
   /**
    * 登录
    */
-
   async login(body: UserLoginDto) {
     // 检查用户输入的验证码
     if (!body.captcha) {
@@ -64,15 +67,252 @@ export class UserService {
     }
     // 验证通过后，删除已使用的验证码
     await this.cacheManager.del(CacheKey.CAPTCHA + body.captchaId)
-    return body
+
+    // 查找用户
+    const user = await this.prisma.adminUser.findFirst({
+      where: {
+        OR: [{ username: body.username }, { mobile: body.username }],
+      },
+    })
+    console.log(user)
+
+    // 检查用户是否存在
+    if (!user) {
+      throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST)
+    }
+
+    // 验证密码
+    const isPasswordValid = await verifyPassword(body.password, user.password)
+    if (!isPasswordValid) {
+      throw new HttpException('密码错误', HttpStatus.BAD_REQUEST)
+    }
+
+    // 检查用户状态
+    if (!user.status) {
+      throw new HttpException('账户已被禁用', HttpStatus.FORBIDDEN)
+    }
+
+    // 生成JWT令牌
+    const tokens = await this.adminJwtService.generateTokens({
+      sub: user.id.toString(),
+      username: user.username,
+    })
+
+    // 返回用户信息和令牌
+    return {
+      user: {
+        id: user.id,
+        username: user.username,
+        avatar: user.avatar,
+        mobile: user.mobile,
+        status: user.status,
+        isRoot: user.isRoot,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+      tokens,
+    }
   }
 
-  async getUsers() {
+  /**
+   * 刷新访问令牌
+   */
+  async refreshToken(refreshToken: string) {
+    try {
+      // 验证刷新令牌并获取新的访问令牌
+      const tokens = await this.adminJwtService.refreshAccessToken(refreshToken)
+      return { tokens }
+    } catch (error) {
+      throw new HttpException('无效的刷新令牌', HttpStatus.UNAUTHORIZED)
+    }
+  }
+
+  /**
+   * 更新用户密码
+   */
+  async updatePassword(
+    userId: number,
+    oldPassword: string,
+    newPassword: string,
+  ) {
+    // 查找用户
+    const user = await this.prisma.adminUser.findUnique({
+      where: { id: userId },
+    })
+
+    if (!user) {
+      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+    }
+
+    // 验证旧密码
+    const isPasswordValid = await verifyPassword(oldPassword, user.password)
+    if (!isPasswordValid) {
+      throw new HttpException('旧密码错误', HttpStatus.BAD_REQUEST)
+    }
+
+    // 加密新密码
+    const encryptedPassword = await encryptPassword(newPassword)
+
+    // 更新密码
+    await this.prisma.adminUser.update({
+      where: { id: userId },
+      data: { password: encryptedPassword },
+    })
+
+    return { message: '密码修改成功' }
+  }
+
+  /**
+   * 更新用户信息
+   */
+  async updateUserInfo(userId: number, updateData: UpdateUserDto) {
+    // 查找用户
+    const user = await this.prisma.adminUser.findUnique({
+      where: { id: userId },
+    })
+
+    if (!user) {
+      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+    }
+
+    // 如果要更新用户名，检查是否已存在
+    if (updateData.username && updateData.username !== user.username) {
+      const existingUser = await this.prisma.adminUser.findUnique({
+        where: { username: updateData.username },
+      })
+
+      if (existingUser) {
+        throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST)
+      }
+    }
+
+    // 如果要更新手机号，检查是否已存在
+    if (updateData.mobile && updateData.mobile !== user.mobile) {
+      const existingUser = await this.prisma.adminUser.findFirst({
+        where: { mobile: updateData.mobile },
+      })
+
+      if (existingUser) {
+        throw new HttpException('手机号已存在', HttpStatus.BAD_REQUEST)
+      }
+    }
+
+    // 更新用户信息
+    const updatedUser = await this.prisma.adminUser.update({
+      where: { id: userId },
+      data: updateData,
+    })
+
+    // 返回更新后的用户信息（不包含密码）
     return {
-      pageIndex: 1,
-      pageSize: 15,
-      total: 100,
-      items: await this.prisma.adminUser.findMany(),
+      id: updatedUser.id,
+      username: updatedUser.username,
+      avatar: updatedUser.avatar,
+      mobile: updatedUser.mobile,
+      status: updatedUser.status,
+      isRoot: updatedUser.isRoot,
+      createdAt: updatedUser.createdAt,
+      updatedAt: updatedUser.updatedAt,
+    }
+  }
+
+  /**
+   * 注册管理员用户
+   */
+  async register(username: string, password: string, mobile?: string) {
+    // 检查用户名是否已存在
+    const existingUser = await this.prisma.adminUser.findFirst({
+      where: {
+        OR: [{ username }, ...(mobile ? [{ mobile }] : [])],
+      },
+    })
+
+    if (existingUser) {
+      throw new HttpException(
+        existingUser.username === username ? '用户名已存在' : '手机号已存在',
+        HttpStatus.BAD_REQUEST,
+      )
+    }
+
+    // 加密密码
+    const encryptedPassword = await encryptPassword(password)
+
+    // 创建用户
+    const newUser = await this.prisma.adminUser.create({
+      data: {
+        username,
+        password: encryptedPassword,
+        mobile,
+        isRoot: false, // 默认不是超级管理员
+      },
+    })
+
+    // 返回创建的用户（不包含密码）
+    return {
+      id: newUser.id,
+      username: newUser.username,
+      avatar: newUser.avatar,
+      mobile: newUser.mobile,
+      status: newUser.status,
+      isRoot: newUser.isRoot,
+      createdAt: newUser.createdAt,
+      updatedAt: newUser.updatedAt,
+    }
+  }
+
+  /**
+   * 获取用户信息
+   */
+  async getUserInfo(userId: number) {
+    const user = await this.prisma.adminUser.findUnique({
+      where: { id: userId },
+    })
+
+    if (!user) {
+      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+    }
+
+    // 返回用户信息（不包含密码）
+    return {
+      id: user.id,
+      username: user.username,
+      avatar: user.avatar,
+      mobile: user.mobile,
+      status: user.status,
+      isRoot: user.isRoot,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    }
+  }
+
+  /**
+   * 获取用户列表（分页）
+   */
+  async getUsers(pageIndex = 0, pageSize = 15) {
+    const [users, total] = await Promise.all([
+      this.prisma.adminUser.findMany({
+        skip: pageIndex * pageSize,
+        take: pageSize,
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          username: true,
+          avatar: true,
+          mobile: true,
+          status: true,
+          isRoot: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      }),
+      this.prisma.adminUser.count(),
+    ])
+
+    return {
+      pageIndex,
+      pageSize,
+      total,
+      items: users,
     }
   }
 }

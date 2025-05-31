@@ -72,8 +72,6 @@
   }
 
   async function login() {
-    console.log(123)
-    console.log(await encryption('Aa@123456','a1b2c3d4e5f67890'))
     await ruleFormRef.value.validate(async (valid: boolean) => {
       if (!valid) {
         return
@@ -81,7 +79,15 @@
       try {
         submitLoading.value = true
         loginForm.captchaId = captchaInfo.value.id
-        await userStore.signIn(loginForm)
+
+        // 创建一个新的登录表单对象，避免修改原始表单
+        const secureLoginForm = { ...loginForm }
+        // 加密密码
+        secureLoginForm.password = await encryption(loginForm.password)
+
+        // 使用加密后的表单数据进行登录
+        await userStore.signIn(secureLoginForm)
+
         if (isRememberAccount.value) {
           storageAccount.value = {
             username: loginForm.username,

@@ -25,10 +25,11 @@ export function formatSchema(schemas: IterateObject[]) {
       } else if (Array.isArray(type)) {
         type = type.join(' | ')
       }
+      console.log(required)
       schemaArr[item.id].push({
         name: field,
         type,
-        required: required.includes(field),
+        required: required?.includes(field),
         array: isArray,
         description: properties[field].description,
       })
