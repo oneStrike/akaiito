@@ -1,5 +1,5 @@
 import type { LoginTypesReq, LoginTypesRes } from '@/apis/types/user'
-import { loginApi, refreshTokenApi } from '@/apis/user.ts'
+import { loginApi, logoutApi, refreshTokenApi } from '@/apis/user.ts'
 import { config } from '@/config'
 import router from '@/router'
 import { utils } from '@/utils'
@@ -72,7 +72,8 @@ export const useUserStore = defineStore('useUserStore', {
     },
 
     // 退出登录
-    signOut() {
+    async signOut() {
+      await logoutApi()
       this.token = {
         accessToken: '',
         refreshToken: '',

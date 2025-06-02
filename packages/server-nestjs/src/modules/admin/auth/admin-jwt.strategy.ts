@@ -47,7 +47,9 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(request)
 
     // 检查令牌是否在黑名单中
-    const isBlacklisted = await this.jwtBlacklistService.isInAdminBlacklist(token!)
+    const isBlacklisted = await this.jwtBlacklistService.isInAdminBlacklist(
+      token!,
+    )
     if (isBlacklisted) {
       throw new UnauthorizedException('Token has been revoked')
     }

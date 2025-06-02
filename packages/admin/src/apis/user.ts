@@ -62,12 +62,11 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
  *  @更新时间 2025-06-02 17:56:24
  */
 
-export const logoutApi = (data: LogoutTypesReq): Promise<LogoutTypesRes> => {
+export const logoutApi = (): Promise<LogoutTypesRes> => {
   return httpHandler({
     method: 'POST',
     url: '/api/admin/user/logout',
     headers: {},
-    data,
   })
 }
 

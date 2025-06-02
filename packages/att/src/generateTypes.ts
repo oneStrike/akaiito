@@ -167,8 +167,6 @@ export function generateTypes(
     const dataType = responseData?.type
 
     if (!dataType && responseData && responseData.$ref) {
-      if (resName === 'LoginTypesRes') {
-      }
       responseStr = `
       /* ${responseData?.description || ''} */
       export type ${resName} = {${extractRefs(responseData.$ref, dataModel)}}
