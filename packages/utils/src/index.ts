@@ -2,7 +2,6 @@ import { deepCopy } from './deepCopy'
 import { downloadBlob } from './downloadBlob'
 import { fillFormOptions } from './fillFormOptions'
 import { generateRandomNumber } from './generateRandomNumber'
-import { getProjectConfig } from './getProjectConfig'
 import { isJson, parseJson } from './isJson'
 import { isValueInStringEnum } from './isValueInStringEnum'
 import { parseQuery } from './parseQuery'
@@ -16,7 +15,6 @@ export const akaiitoUtils = {
   isValueInStringEnum,
   downloadBlob,
   fillFormOptions,
-  getProjectConfig,
   deepCopy,
   generateRandomNumber,
 }

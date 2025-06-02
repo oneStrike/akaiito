@@ -93,10 +93,18 @@ export class UserLoginDto {
 
   @ValidateString({
     description: '验证码ID',
-    example: '1234567890',
+    example: 'a1b2c3d4',
     required: true,
   })
   captchaId!: string
+
+  @ApiProperty({
+    description: '密码是否经过RSA加密',
+    example: false,
+    required: false,
+    default: false,
+  })
+  encrypted?: boolean
 }
 
 export class RefreshTokenDto {

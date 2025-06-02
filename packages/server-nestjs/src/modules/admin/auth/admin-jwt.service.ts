@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { JwtConfigService } from '@/config/jwt.config'
+import { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
 
 /**
  * AdminJwtPayload 接口
@@ -34,6 +35,7 @@ export class AdminJwtService {
   constructor(
     private jwtService: JwtService, // 注入 JwtService
     private jwtConfigService: JwtConfigService, // 注入 JwtConfigService
+    private jwtBlacklistService: JwtBlacklistService, // 注入 JWT 黑名单服务
   ) {}
 
   /**
@@ -105,5 +107,52 @@ export class AdminJwtService {
       sub: payload.sub,
       username: payload.username || 'admin',
     })
+  }
+
+  /**
+   * 登出用户，将访问令牌和刷新令牌添加到黑名单
+   * @param accessToken 访问令牌
+   * @param refreshToken 刷新令牌
+   * @returns 是否成功登出
+   */
+  async logout(accessToken: string, refreshToken?: string): Promise<boolean> {
+    try {
+      // 获取访问令牌的过期时间
+      const config = this.jwtConfigService.getAdminJwtConfig()
+      const payload = await this.jwtService.verifyAsync(accessToken, {
+        secret: config.secret,
+        ignoreExpiration: true, // 即使令牌已过期也解析它
+      })
+
+      // 计算令牌剩余的有效期（秒）
+      const expTime = payload.exp * 1000 // 转换为毫秒
+      const currentTime = Date.now()
+      const ttl = Math.max(0, Math.floor((expTime - currentTime) / 1000))
+
+      // 将访问令牌添加到黑名单
+      await this.jwtBlacklistService.addToAdminBlacklist(accessToken, ttl)
+
+      // 如果提供了刷新令牌，也将其添加到黑名单
+      if (refreshToken) {
+        try {
+          const refreshPayload = await this.jwtService.verifyAsync(refreshToken, {
+            secret: config.secret,
+            ignoreExpiration: true,
+          })
+
+          const refreshExpTime = refreshPayload.exp * 1000
+          const refreshTtl = Math.max(0, Math.floor((refreshExpTime - currentTime) / 1000))
+
+          await this.jwtBlacklistService.addToAdminBlacklist(refreshToken, refreshTtl)
+        } catch (error) {
+          console.error('Error adding refresh token to blacklist:', error)
+        }
+      }
+
+      return true
+    } catch (error) {
+      console.error('Error during logout:', error)
+      return false
+    }
   }
 }

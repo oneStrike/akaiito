@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-  import { scrypt } from 'scrypt-js'
+  import * as jsrsasign from 'jsrsasign'
   import { getCaptchaApi } from '@/apis/user.ts'
+  import { useSystemStore } from '@/stores/modules/system.ts'
   import { useUserStore } from '@/stores/modules/user'
 
   const router = useRouter()
 
   const userStore = useUserStore()
+  const systemStore = useSystemStore()
   const ruleFormRef = ref()
   const storageAccount = useStorage<IterateObject>('ACCOUNT_INFO', {})
   const isRememberAccount = ref(storageAccount.value?.isRememberAccount)
@@ -32,45 +34,6 @@
   }, 500)
   getCaptchaFn()
 
-  function generateSalt(): string {
-    const array = new Uint8Array(8)
-    window.crypto.getRandomValues(array)
-    return Array.from(array)
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('')
-  }
-
-  function toHex(buffer: Uint8Array): string {
-    return Array.from(buffer, (b) => b.toString(16).padStart(2, '0')).join('')
-  }
-
-  const encryption = async (
-    password: string,
-    salt?: string,
-  ): Promise<string> => {
-    if (!salt) {
-      salt = generateSalt()
-    }
-
-    const N = 16384 // CPU/Memory cost
-    const r = 8 // Block size
-    const p = 1 // Parallelization
-    const dkLen = 32 // 密钥长度（字节）
-
-    const passwordKey = await scrypt(
-      new TextEncoder().encode(password),
-      new Uint8Array(
-        salt.match(/.{2}/g)!.map((byte) => Number.parseInt(byte, 16)),
-      ),
-      N,
-      r,
-      p,
-      dkLen,
-    )
-
-    return `${salt}.${toHex(passwordKey)}`
-  }
-
   async function login() {
     await ruleFormRef.value.validate(async (valid: boolean) => {
       if (!valid) {
@@ -82,9 +45,29 @@
 
         // 创建一个新的登录表单对象，避免修改原始表单
         const secureLoginForm = { ...loginForm }
-        // 加密密码
-        secureLoginForm.password = await encryption(loginForm.password)
+        // 获取公钥
+        const publicKeyPEM = await systemStore.getRsaPublicKey()
+        console.log('获取到的公钥:', publicKeyPEM) // 打印公钥内容
+        // 解析公钥
+        const pubKey = jsrsasign.KEYUTIL.getKey(publicKeyPEM)
 
+        // 检查是否为 RSA 密钥
+        if (!(pubKey instanceof jsrsasign.RSAKey)) {
+          console.error('获取的公钥不是 RSA 类型')
+          submitLoading.value = false
+          await getCaptchaFn()
+          return
+        }
+
+        // 前端使用 OAEP 填充和 SHA-256 哈希算法进行加密
+        const cipher = new jsrsasign.KJUR.crypto.Cipher({
+          alg: 'RSAOAEPwithSHA256',
+          prov: 'cryptojs/jsrsa',
+        })
+        cipher.init(pubKey)
+        const encryptedHex = cipher.doFinal(secureLoginForm.password)
+        // 使用加密后的密码
+        secureLoginForm.password = jsrsasign.hextob64(encryptedHex)
         // 使用加密后的表单数据进行登录
         await userStore.signIn(secureLoginForm)
 

@@ -4,7 +4,8 @@ import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { Cache } from 'cache-manager'
 import * as svgCaptcha from 'svg-captcha'
 import { v4 as uuid } from 'uuid'
-import { encryptPassword, verifyPassword } from '@/common/utils/crypto.util'
+import { CryptoService } from '@/common/services/crypto.service'
+import { RsaService } from '@/common/services/rsa.service'
 import { PrismaService } from '@/global/services/prisma.service'
 import { AdminJwtService } from '@/modules/admin/auth/admin-jwt.service'
 import { CacheKey } from '@/modules/admin/users/user.constant'
@@ -15,6 +16,8 @@ import { UserLoginDto } from './dto/user.dto'
 export class UserService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly rsa: RsaService,
+    private readonly crypto: CryptoService,
     private readonly adminJwtService: AdminJwtService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
@@ -74,43 +77,73 @@ export class UserService {
         OR: [{ username: body.username }, { mobile: body.username }],
       },
     })
-    console.log(user)
 
-    // 检查用户是否存在
     if (!user) {
-      throw new HttpException('用户不存在', HttpStatus.BAD_REQUEST)
+      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+    }
+
+    // 尝试解密密码（如果是RSA加密的）
+    let password = body.password
+    try {
+      password = this.rsa.decryptWithAdmin(body.password)
+    } catch (error) {
+      console.error('RSA解密密码失败:', error)
+      throw new HttpException('密码格式错误', HttpStatus.BAD_REQUEST)
     }
 
     // 验证密码
-    const isPasswordValid = await verifyPassword(body.password, user.password)
+    const isPasswordValid = await this.crypto.verifyPassword(
+      password,
+      user.password,
+    )
     if (!isPasswordValid) {
-      throw new HttpException('密码错误', HttpStatus.BAD_REQUEST)
+      throw new HttpException('密码错误', HttpStatus.UNAUTHORIZED)
     }
 
-    // 检查用户状态
-    if (!user.status) {
-      throw new HttpException('账户已被禁用', HttpStatus.FORBIDDEN)
-    }
-
-    // 生成JWT令牌
+    // 生成令牌
     const tokens = await this.adminJwtService.generateTokens({
-      sub: user.id.toString(),
+      sub: String(user.id),
       username: user.username,
     })
 
-    // 返回用户信息和令牌
     return {
       user: {
         id: user.id,
         username: user.username,
-        avatar: user.avatar,
         mobile: user.mobile,
-        status: user.status,
-        isRoot: user.isRoot,
+        avatar: user.avatar,
         createdAt: user.createdAt,
-        updatedAt: user.updatedAt,
       },
       tokens,
+    }
+  }
+
+  /**
+   * 退出登录
+   */
+  async logout(req: any) {
+    try {
+      // 从请求头中提取访问令牌
+      const authHeader = req.headers.authorization
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return { success: false, message: 'No token provided' }
+      }
+
+      const accessToken = authHeader.substring(7) // 去掉 'Bearer ' 前缀
+
+      // 从请求中获取刷新令牌（如果有）
+      const refreshToken = req.body?.refreshToken
+
+      // 将令牌添加到黑名单
+      const success = await this.adminJwtService.logout(
+        accessToken,
+        refreshToken,
+      )
+
+      return { success }
+    } catch (error) {
+      console.error('Logout error:', error)
+      return { success: false, message: 'Logout failed' }
     }
   }
 
@@ -145,13 +178,16 @@ export class UserService {
     }
 
     // 验证旧密码
-    const isPasswordValid = await verifyPassword(oldPassword, user.password)
+    const isPasswordValid = await this.crypto.verifyPassword(
+      oldPassword,
+      user.password,
+    )
     if (!isPasswordValid) {
       throw new HttpException('旧密码错误', HttpStatus.BAD_REQUEST)
     }
 
     // 加密新密码
-    const encryptedPassword = await encryptPassword(newPassword)
+    const encryptedPassword = await this.crypto.encryptPassword(newPassword)
 
     // 更新密码
     await this.prisma.adminUser.update({
@@ -235,7 +271,7 @@ export class UserService {
     }
 
     // 加密密码
-    const encryptedPassword = await encryptPassword(password)
+    const encryptedPassword = await this.crypto.encryptPassword(password)
 
     // 创建用户
     const newUser = await this.prisma.adminUser.create({

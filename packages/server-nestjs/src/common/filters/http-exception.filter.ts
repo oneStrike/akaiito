@@ -23,13 +23,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus()
     // 获取异常信息
     const exceptionResponse = exception.getResponse() as Record<string, any>
-
+    let message = exceptionResponse
+    if (exceptionResponse?.statusCode) {
+      message = exceptionResponse.message
+    }
     // 返回错误信息
     response.status(200).json({
       code: status,
-      message: exceptionResponse?.statusCode
-        ? exceptionResponse.message
-        : (exceptionResponse.message?.join(',') ?? exceptionResponse),
+      message: Array.isArray(message) ? message.join('，') : message,
     })
   }
 }

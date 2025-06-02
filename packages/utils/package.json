@@ -32,6 +32,7 @@
     "upgrade": "pnpx npm-check -u"
   },
   "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
     "pkgroll": "^2.12.2",
     "tsx": "^4.19.4"
   }
