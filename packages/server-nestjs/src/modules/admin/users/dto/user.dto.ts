@@ -1,5 +1,4 @@
-import { ApiHideProperty, ApiProperty } from '@nestjs/swagger'
-import { Exclude } from 'class-transformer'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { IsString, MaxLength } from 'class-validator'
 import {
   ValidateNumber,
@@ -22,14 +21,6 @@ export class UserDto {
   @IsString()
   @MaxLength(20)
   username!: string
-
-  @ApiProperty({
-    description: '密码',
-    example: 'Aa@123456',
-  })
-  @ApiHideProperty()
-  @Exclude()
-  password: string
 
   @ApiProperty({
     description: '用户头像',
@@ -97,21 +88,38 @@ export class UserLoginDto {
     required: true,
   })
   captchaId!: string
-
-  @ApiProperty({
-    description: '密码是否经过RSA加密',
-    example: false,
-    required: false,
-    default: false,
-  })
-  encrypted?: boolean
 }
 
-export class RefreshTokenDto {
+export class TokenDto {
+  @ValidateString({
+    description: '账号令牌',
+    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
+    required: true,
+  })
+  accessToken!: string
+
   @ValidateString({
     description: '刷新令牌',
     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
     required: true,
   })
   refreshToken!: string
+}
+
+export class RefreshTokenDto extends OmitType(TokenDto, ['accessToken']) {}
+
+export class LoginResponseDto {
+  @ApiProperty({
+    description: '令牌信息',
+    type: TokenDto,
+    required: true,
+  })
+  tokens: TokenDto
+
+  @ApiProperty({
+    description: '用户信息',
+    type: UserDto,
+    required: true,
+  })
+  user: UserDto
 }

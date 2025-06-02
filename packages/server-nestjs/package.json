@@ -25,6 +25,8 @@
     "prisma:update": "pnpm prisma:generate && pnpm prisma:push"
   },
   "dependencies": {
+    "@akaiito/types": "workspace:^",
+    "@akaiito/utils": "workspace:^",
     "@keyv/redis": "^4.4.0",
     "@nestjs/cache-manager": "^3.0.1",
     "@nestjs/common": "^11.0.1",

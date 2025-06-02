@@ -11,7 +11,7 @@ export interface UserState {
     accessExpiresIn: number
     refreshExpiresIn: number
   }
-  userInfo: LoginTypesRes['userInfo'] | null
+  userInfo: LoginTypesRes['user'] | null
 }
 
 export const useUserStore = defineStore('useUserStore', {
@@ -32,13 +32,13 @@ export const useUserStore = defineStore('useUserStore', {
     // 登录
     async signIn(data: LoginTypesReq) {
       const res = await loginApi(data)
-      this.userInfo = res.userInfo
+      this.userInfo = res.user
 
       const { expiresIn } = config.auth
       const timestamp = utils.dayjs().unix()
       this.token = {
-        accessToken: res.token.accessToken,
-        refreshToken: res.token.refreshToken,
+        accessToken: res.tokens.accessToken,
+        refreshToken: res.tokens.refreshToken,
         accessExpiresIn: expiresIn.accessToken + timestamp,
         refreshExpiresIn: expiresIn.refreshToken + timestamp,
       }

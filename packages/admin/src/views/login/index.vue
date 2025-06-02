@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import * as jsrsasign from 'jsrsasign'
+  import forge from 'node-forge'
   import { getCaptchaApi } from '@/apis/user.ts'
   import { useSystemStore } from '@/stores/modules/system.ts'
   import { useUserStore } from '@/stores/modules/user'
@@ -47,27 +47,22 @@
         const secureLoginForm = { ...loginForm }
         // 获取公钥
         const publicKeyPEM = await systemStore.getRsaPublicKey()
-        console.log('获取到的公钥:', publicKeyPEM) // 打印公钥内容
-        // 解析公钥
-        const pubKey = jsrsasign.KEYUTIL.getKey(publicKeyPEM)
 
-        // 检查是否为 RSA 密钥
-        if (!(pubKey instanceof jsrsasign.RSAKey)) {
-          console.error('获取的公钥不是 RSA 类型')
-          submitLoading.value = false
-          await getCaptchaFn()
-          return
-        }
-
-        // 前端使用 OAEP 填充和 SHA-256 哈希算法进行加密
-        const cipher = new jsrsasign.KJUR.crypto.Cipher({
-          alg: 'RSAOAEPwithSHA256',
-          prov: 'cryptojs/jsrsa',
-        })
-        cipher.init(pubKey)
-        const encryptedHex = cipher.doFinal(secureLoginForm.password)
+        // 使用JSEncrypt库进行加密（更兼容Node.js的crypto模块）
+        const publicKeyPem = forge.pki.publicKeyFromPem(publicKeyPEM)
+        // 使用OAEP填充进行加密
+        const encrypted = publicKeyPem.encrypt(
+          secureLoginForm.password,
+          'RSA-OAEP',
+          {
+            md: forge.md.sha256.create(), // 使用SHA-256作为哈希函数
+            mgf1: {
+              md: forge.md.sha256.create(), // 使用SHA-256作为MGF1的哈希函数
+            },
+          },
+        )
         // 使用加密后的密码
-        secureLoginForm.password = jsrsasign.hextob64(encryptedHex)
+        secureLoginForm.password = forge.util.encode64(encrypted)
         // 使用加密后的表单数据进行登录
         await userStore.signIn(secureLoginForm)
 

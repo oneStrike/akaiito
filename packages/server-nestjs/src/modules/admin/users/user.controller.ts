@@ -24,7 +24,11 @@ import { RefreshTokenDto } from '@/modules/admin/users/dto/refresh-token.dto'
 import { UpdatePasswordDto } from '@/modules/admin/users/dto/update-password.dto'
 import { UpdateUserDto } from '@/modules/admin/users/dto/update-user.dto'
 import { UserRegisterDto } from '@/modules/admin/users/dto/user-register.dto'
-import { UserDto, UserLoginDto } from '@/modules/admin/users/dto/user.dto'
+import {
+  LoginResponseDto,
+  UserDto,
+  UserLoginDto,
+} from '@/modules/admin/users/dto/user.dto'
 import { UserService } from '@/modules/admin/users/user.service'
 import { CaptchaDto } from './dto/captcha.dto'
 
@@ -59,7 +63,7 @@ export class UserController {
    * @returns 登录成功后的用户数据及访问令牌
    */
   @Post('login')
-  @ApiDoc('用户登录', UserDto)
+  @ApiDoc('管理员登录', LoginResponseDto)
   @Public()
   login(@Body() body: UserLoginDto) {
     return this.userService.login(body)

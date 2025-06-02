@@ -277,7 +277,6 @@ export class RsaService implements OnModuleInit {
     if (!keyPair || !keyPair.privateKey) {
       throw new Error(`${keyType} RSA私钥未初始化`)
     }
-
     const buffer = Buffer.from(encryptedData, 'base64')
     const decrypted = privateDecrypt(
       {

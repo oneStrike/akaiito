@@ -79,7 +79,7 @@ export class UserService {
     })
 
     if (!user) {
-      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+      throw new HttpException('账号或密码错误', HttpStatus.NOT_FOUND)
     }
 
     // 尝试解密密码（如果是RSA加密的）
@@ -87,8 +87,7 @@ export class UserService {
     try {
       password = this.rsa.decryptWithAdmin(body.password)
     } catch (error) {
-      console.error('RSA解密密码失败:', error)
-      throw new HttpException('密码格式错误', HttpStatus.BAD_REQUEST)
+      throw new HttpException('账号或密码错误', HttpStatus.BAD_REQUEST)
     }
 
     // 验证密码
@@ -97,7 +96,7 @@ export class UserService {
       user.password,
     )
     if (!isPasswordValid) {
-      throw new HttpException('密码错误', HttpStatus.UNAUTHORIZED)
+      throw new HttpException('账号或密码错误', HttpStatus.UNAUTHORIZED)
     }
 
     // 生成令牌
@@ -106,14 +105,11 @@ export class UserService {
       username: user.username,
     })
 
+    // 去除 user 对象的 password 属性
+    const { password: _password, ...userWithoutPassword } = user
+
     return {
-      user: {
-        id: user.id,
-        username: user.username,
-        mobile: user.mobile,
-        avatar: user.avatar,
-        createdAt: user.createdAt,
-      },
+      user: userWithoutPassword,
       tokens,
     }
   }

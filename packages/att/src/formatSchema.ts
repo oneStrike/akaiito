@@ -1,3 +1,5 @@
+import { extractRefs } from '@/generateTypes'
+
 export function formatSchema(schemas: IterateObject[]) {
   const schemaArr: IterateObject = {}
   schemas.forEach((item) => {
@@ -8,8 +10,9 @@ export function formatSchema(schemas: IterateObject[]) {
       if (!Array.isArray(schemaArr[item.id])) {
         schemaArr[item.id] = []
       }
-
-      if (type === 'object') {
+      if (properties[field]?.allOf) {
+        type = `{${extractRefs(properties[field].allOf[0], schemaArr)}}`
+      } else if (type === 'object') {
         type = formatSchema([{ jsonSchema: properties[field] }]).undefined
       } else if (type === 'array') {
         const itemType = properties[field].items.type
@@ -25,7 +28,6 @@ export function formatSchema(schemas: IterateObject[]) {
       } else if (Array.isArray(type)) {
         type = type.join(' | ')
       }
-      console.log(required)
       schemaArr[item.id].push({
         name: field,
         type,

@@ -32,7 +32,9 @@ function joinType(item: IterateObject) {
 function handlerRefs(refs: string, dataModel: IterateObject, overrides?: IterateObject) {
   let typesStr = ''
   const schemaId = refs?.split('/').pop() || ''
+
   const commonSchema = dataModel[schemaId]
+
   if (Array.isArray(commonSchema)) {
     const overridesField = Object.keys(overrides || {})
     commonSchema
@@ -41,17 +43,18 @@ function handlerRefs(refs: string, dataModel: IterateObject, overrides?: Iterate
         typesStr += joinType({ ...item })
       })
   }
+
   return typesStr
 }
 
-function extractRefs(refs: string | IterateObject, dataModel: IterateObject, isArray = false) {
+export function extractRefs(refs: string | IterateObject, dataModel: IterateObject, isArray = false) {
   let typesStr = ''
   if (typeof refs === 'string') {
     typesStr = handlerRefs(refs, dataModel)
   } else if (refs && Object.keys(refs).length) {
     for (const refKey in refs) {
       const { $ref, 'x-apifox-overrides': overrides = {} } = refs[refKey]
-      typesStr += typesStr = handlerRefs($ref, dataModel, overrides)
+      typesStr += typesStr = handlerRefs($ref || refs[refKey], dataModel, overrides)
     }
   }
   return typesStr
@@ -164,6 +167,8 @@ export function generateTypes(
     const dataType = responseData?.type
 
     if (!dataType && responseData && responseData.$ref) {
+      if (resName === 'LoginTypesRes') {
+      }
       responseStr = `
       /* ${responseData?.description || ''} */
       export type ${resName} = {${extractRefs(responseData.$ref, dataModel)}}

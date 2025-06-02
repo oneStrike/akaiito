@@ -51,7 +51,7 @@ export function ApiDoc<TModel extends Type<any>>(
       dataSchema = model
     }
   }
-
+  console.log(dataSchema)
   decorators.push(
     ApiResponse({
       ...baseResponse(summary),

@@ -3,6 +3,7 @@ import type {
   GetCaptchaTypesRes,
   LoginTypesRes,
   LoginTypesReq,
+  LogoutTypesRes,
   RegisterTypesRes,
   RegisterTypesReq,
   RefreshTokenTypesRes,
@@ -23,7 +24,7 @@ import type {
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/getCaptcha
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const getCaptchaApi = (): Promise<GetCaptchaTypesRes> => {
@@ -35,11 +36,11 @@ export const getCaptchaApi = (): Promise<GetCaptchaTypesRes> => {
 }
 
 /**
- *  接口 [用户登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303144581)
- *  @标签 管理端用户模块/用户登录
+ *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303144581)
+ *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/login
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
@@ -54,11 +55,28 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
 }
 
 /**
+ *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303281784)
+ *  @标签 管理端用户模块/管理员登出
+ *  @方式 POST
+ *  @地址 /api/admin/user/logout
+ *  @更新时间 2025-06-02 16:09:15
+ */
+
+export const logoutApi = (data: LogoutTypesReq): Promise<LogoutTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/api/admin/user/logout',
+    headers: {},
+    data,
+  })
+}
+
+/**
  *  接口 [用户注册](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303174872)
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/register
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const registerApi = (data: RegisterTypesReq): Promise<RegisterTypesRes> => {
@@ -77,7 +95,7 @@ export const registerApi = (data: RegisterTypesReq): Promise<RegisterTypesRes> =
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/refreshToken
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const refreshTokenApi = (data: RefreshTokenTypesReq): Promise<RefreshTokenTypesRes> => {
@@ -96,7 +114,7 @@ export const refreshTokenApi = (data: RefreshTokenTypesReq): Promise<RefreshToke
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/updatePassword
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const updatePasswordApi = (data: UpdatePasswordTypesReq): Promise<UpdatePasswordTypesRes> => {
@@ -115,7 +133,7 @@ export const updatePasswordApi = (data: UpdatePasswordTypesReq): Promise<UpdateP
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/updateUserInfo
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const updateUserInfoApi = (data: UpdateUserInfoTypesReq): Promise<UpdateUserInfoTypesRes> => {
@@ -134,7 +152,7 @@ export const updateUserInfoApi = (data: UpdateUserInfoTypesReq): Promise<UpdateU
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/getUserInfo
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const getUserInfoApi = (): Promise<GetUserInfoTypesRes> => {
@@ -150,7 +168,7 @@ export const getUserInfoApi = (): Promise<GetUserInfoTypesRes> => {
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/getUserById
- *  @更新时间 2025-05-31 17:24:15
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const getUserByIdApi = (params: GetUserByIdTypesReq): Promise<GetUserByIdTypesRes> => {
@@ -167,7 +185,7 @@ export const getUserByIdApi = (params: GetUserByIdTypesReq): Promise<GetUserById
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/getAdminUserPage
- *  @更新时间 2025-05-31 17:24:06
+ *  @更新时间 2025-06-02 16:09:15
  */
 
 export const getAdminUserPageApi = (params: GetAdminUserPageTypesReq): Promise<GetAdminUserPageTypesRes> => {
