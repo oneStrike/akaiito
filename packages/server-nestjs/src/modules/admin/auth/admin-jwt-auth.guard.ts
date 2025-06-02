@@ -35,7 +35,6 @@ export class AdminJwtAuthGuard extends AuthGuard('admin-jwt') {
     if (isPublic) {
       return true
     }
-
     // 否则调用父类的 canActivate 方法进行认证
     return super.canActivate(context)
   }
