@@ -81,29 +81,7 @@ export class UserController {
     properties: { success: { type: 'boolean' } },
   })
   async logout(@Req() req: any) {
-    try {
-      // 从请求头中提取访问令牌
-      const authHeader = req.headers.authorization
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return { success: false, message: 'No token provided' }
-      }
-
-      const accessToken = authHeader.substring(7) // 去掉 'Bearer ' 前缀
-
-      // 从请求中获取刷新令牌（如果有）
-      const refreshToken = req.body?.refreshToken
-
-      // 将令牌添加到黑名单
-      const success = await this.adminJwtService.logout(
-        accessToken,
-        refreshToken,
-      )
-
-      return { success }
-    } catch (error) {
-      console.error('Logout error:', error)
-      return { success: false, message: 'Logout failed' }
-    }
+    return this.userService.logout(req)
   }
 
   /**

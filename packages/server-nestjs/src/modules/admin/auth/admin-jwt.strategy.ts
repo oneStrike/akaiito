@@ -38,11 +38,12 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
    * @throws UnauthorizedException 如果角色不是 'admin'
    */
   async validate(payload: AdminJwtPayload, request: any) {
+    console.log(payload)
     // 确保角色为 'admin'
     if (payload.role !== 'admin') {
       throw new UnauthorizedException('Invalid admin token')
     }
-
+    console.log(ExtractJwt.fromAuthHeaderAsBearerToken()(request))
     // 获取原始令牌
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(request)
 
