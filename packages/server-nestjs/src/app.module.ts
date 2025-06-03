@@ -49,14 +49,6 @@ import { GlobalModule } from './global/global.module'
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
-    {
-      provide: APP_GUARD,
-      useClass: AdminJwtAuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: ClientJwtAuthGuard,
-    },
   ],
 })
 export class AppModule {}
