@@ -6,8 +6,10 @@ import { HttpExceptionFilter } from '@/common/filters/http-exception.filter'
 import { LoggingInterceptor } from '@/common/interceptors/logging.interceptor'
 import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
 import { LoggerModule } from '@/common/module/logger.module'
+import uploadConfig from '@/config/upload.config'
 import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
+import { SharedModule } from '@/modules/shared/shared.module'
 import { GlobalModule } from './global/global.module'
 
 @Module({
@@ -15,6 +17,7 @@ import { GlobalModule } from './global/global.module'
     ConfigModule.forRoot({
       isGlobal: true, // 设置为全局模块，其他模块可直接使用
       envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`, '.env'], // 指定环境变量文件路径
+      load: [uploadConfig], // 加载上传配置
     }),
     CacheModule.register({
       isGlobal: true,
@@ -22,6 +25,7 @@ import { GlobalModule } from './global/global.module'
     }),
     LoggerModule, // 添加日志模块
     GlobalModule,
+    SharedModule, // 添加共享模块
     AdminModule,
     ClientModule,
   ],
