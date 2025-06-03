@@ -1,12 +1,12 @@
 import { CacheModule } from '@nestjs/cache-manager'
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
-import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { HttpExceptionFilter } from '@/common/filters/http-exception.filter'
+import { LoggingInterceptor } from '@/common/interceptors/logging.interceptor'
 import { TransformInterceptor } from '@/common/interceptors/transform-interceptor'
+import { LoggerModule } from '@/common/module/logger.module'
 import { AdminModule } from '@/modules/admin/admin.module'
-import { AdminJwtAuthGuard } from '@/modules/admin/auth/admin-jwt-auth.guard'
-import { ClientJwtAuthGuard } from '@/modules/client/auth/client-jwt-auth.guard'
 import { ClientModule } from '@/modules/client/client.module'
 import { GlobalModule } from './global/global.module'
 
@@ -20,6 +20,7 @@ import { GlobalModule } from './global/global.module'
       isGlobal: true,
       namespace: 'Akaiito',
     }),
+    LoggerModule, // 添加日志模块
     GlobalModule,
     AdminModule,
     ClientModule,
@@ -40,6 +41,10 @@ import { GlobalModule } from './global/global.module'
           )
         },
       }),
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor, // 日志拦截器，优先级最高
     },
     {
       provide: APP_INTERCEPTOR,

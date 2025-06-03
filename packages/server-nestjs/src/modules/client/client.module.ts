@@ -1,31 +1,10 @@
 import { Module } from '@nestjs/common'
-import { JwtModule } from '@nestjs/jwt'
-import { PassportModule } from '@nestjs/passport'
-import { JwtConfigService } from '@/config/jwt.config'
-import { AuthController } from './auth/auth.controller'
-import { ClientJwtAuthGuard } from './auth/client-jwt-auth.guard'
-import { ClientJwtService } from './auth/client-jwt.service'
-import { ClientJwtStrategy } from './auth/client-jwt.strategy'
-import { UserController } from './users/user.controller'
-import { UserService } from './users/user.service'
+import { ClientAuthModule } from './auth/auth.module'
+import { ClientLoggerModule } from './logger/client-logger.module'
+import { ClientUserModule } from './users/user.module'
 
 @Module({
-  imports: [
-    PassportModule.register({ defaultStrategy: 'client-jwt' }),
-    JwtModule.registerAsync({
-      inject: [JwtConfigService],
-      useFactory: (jwtConfigService: JwtConfigService) => {
-        return jwtConfigService.getClientJwtConfig()
-      },
-    }),
-  ],
-  controllers: [UserController, AuthController],
-  providers: [
-    UserService,
-    ClientJwtService,
-    ClientJwtStrategy,
-    ClientJwtAuthGuard,
-  ],
-  exports: [ClientJwtService, ClientJwtAuthGuard],
+  imports: [ClientAuthModule, ClientUserModule, ClientLoggerModule],
+  controllers: [],
 })
 export class ClientModule {}
