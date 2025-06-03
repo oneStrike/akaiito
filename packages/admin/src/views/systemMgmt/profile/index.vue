@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/modules/user'
-import { utils } from '@/utils'
+  import { getUserInfoApi } from '@/apis/user.ts'
+  import { useUserStore } from '@/stores/modules/user'
+  import { utils } from '@/utils'
 
-defineOptions({
-  name: 'Profile',
-})
-const { userInfo } = storeToRefs(useUserStore())
+  defineOptions({
+    name: 'Profile',
+  })
+
+  getUserInfoApi()
+  const { userInfo } = storeToRefs(useUserStore())
 </script>
 
 <template>

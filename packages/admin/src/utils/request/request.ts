@@ -1,5 +1,5 @@
-import type { HttpHandlerInterceptors } from '@/utils/request/types'
 import type { AxiosInstance, AxiosRequestConfig } from 'axios'
+import type { HttpHandlerInterceptors } from '@/utils/request/types'
 
 export class HttpHandler {
   axiosInst: AxiosInstance

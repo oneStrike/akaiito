@@ -35,7 +35,6 @@ import { GlobalModule } from './global/global.module'
         },
         whitelist: true,
         exceptionFactory: (errors) => {
-          console.log(errors)
           return new BadRequestException(
             errors.map((error) => `${error.property}数据格式校验失败`),
           )

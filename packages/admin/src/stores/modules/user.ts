@@ -58,7 +58,6 @@ export const useUserStore = defineStore('useUserStore', {
       if (!this.getAuthStatus() && this.token.accessToken) {
         try {
           this.token.accessToken = await refreshTokenApi({
-            accessToken: this.token.accessToken,
             refreshToken: this.token.refreshToken,
           })
           const { expiresIn } = config.auth

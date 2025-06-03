@@ -1,5 +1,5 @@
-import type { HttpHandlerInterceptors } from '@/utils/request/types'
 import type { HttpResponseResult } from '@akaiito/types'
+import type { HttpHandlerInterceptors } from '@/utils/request/types'
 
 import { config } from '@/config'
 import { useMessage } from '@/hooks/useFeedback'
@@ -11,7 +11,7 @@ const response: HttpHandlerInterceptors['response'] = (data: any) => {
   if (responseData.code !== 200) {
     useMessage.error(responseData.message || '未知错误')
     if (responseData.code === 401) {
-      useUserStore().signOut()
+      // useUserStore().signOut()
     }
     return { error: true, errorInfo: responseData }
   } else {

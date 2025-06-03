@@ -43,7 +43,6 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
     if (payload.role !== 'admin') {
       throw new UnauthorizedException('Invalid admin token')
     }
-    console.log(ExtractJwt.fromAuthHeaderAsBearerToken()(request))
     // 获取原始令牌
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(request)
 
