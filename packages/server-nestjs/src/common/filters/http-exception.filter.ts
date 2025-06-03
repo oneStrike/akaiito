@@ -27,7 +27,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (exceptionResponse?.statusCode) {
       message = exceptionResponse.message
     }
-    console.log(exceptionResponse)
     // 返回错误信息
     response.status(200).json({
       code: status,
