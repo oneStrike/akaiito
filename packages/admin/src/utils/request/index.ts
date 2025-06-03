@@ -27,7 +27,7 @@ const request: HttpHandlerInterceptors['request'] = async (conf) => {
   if (!conf.headers) {
     conf.headers = {}
   }
-  conf.headers.authorization = userStore.token.accessToken
+  conf.headers.authorization = `Bearer ${userStore.token.accessToken}`
   return conf
 }
 const http = new HttpHandler({
@@ -37,4 +37,5 @@ const http = new HttpHandler({
     response,
   },
 })
-export const httpHandler: <T>(config: any) => Promise<T> = (config: any) => http.request(config)
+export const httpHandler: <T>(config: any) => Promise<T> = (config: any) =>
+  http.request(config)

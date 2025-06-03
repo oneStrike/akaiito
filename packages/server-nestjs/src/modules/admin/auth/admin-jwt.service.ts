@@ -1,7 +1,7 @@
+import type { JwtService } from '@nestjs/jwt'
+import type { JwtConfigService } from '@/config/jwt.config'
+import type { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
 import { Injectable } from '@nestjs/common'
-import { JwtService } from '@nestjs/jwt'
-import { JwtConfigService } from '@/config/jwt.config'
-import { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
 
 /**
  * AdminJwtPayload 接口
@@ -52,7 +52,6 @@ export class AdminJwtService {
     }
 
     const config = this.jwtConfigService.getAdminJwtConfig() // 获取管理员 JWT 配置
-
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(adminPayload, {
         secret: config.secret, // 使用配置中的密钥
