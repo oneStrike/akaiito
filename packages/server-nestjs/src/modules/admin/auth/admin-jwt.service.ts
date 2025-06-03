@@ -1,7 +1,7 @@
-import type { JwtService } from '@nestjs/jwt'
-import type { JwtConfigService } from '@/config/jwt.config'
-import type { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
 import { Injectable } from '@nestjs/common'
+import { JwtService } from '@nestjs/jwt'
+import { JwtConfigService } from '@/config/jwt.config'
+import { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
 
 /**
  * AdminJwtPayload 接口
@@ -58,7 +58,12 @@ export class AdminJwtService {
         expiresIn: config.signOptions.expiresIn, // 设置访问令牌过期时间
       }),
       this.jwtService.signAsync(
-        { sub: payload.sub, type: 'refresh', role: 'admin', username: payload.username },
+        {
+          sub: payload.sub,
+          type: 'refresh',
+          role: 'admin',
+          username: payload.username,
+        },
         {
           secret: config.secret, // 使用配置中的密钥
           expiresIn: config.refreshExpiresIn, // 设置刷新令牌过期时间
@@ -134,15 +139,24 @@ export class AdminJwtService {
       // 如果提供了刷新令牌，也将其添加到黑名单
       if (refreshToken) {
         try {
-          const refreshPayload = await this.jwtService.verifyAsync(refreshToken, {
-            secret: config.secret,
-            ignoreExpiration: true,
-          })
+          const refreshPayload = await this.jwtService.verifyAsync(
+            refreshToken,
+            {
+              secret: config.secret,
+              ignoreExpiration: true,
+            },
+          )
 
           const refreshExpTime = refreshPayload.exp * 1000
-          const refreshTtl = Math.max(0, Math.floor((refreshExpTime - currentTime) / 1000))
+          const refreshTtl = Math.max(
+            0,
+            Math.floor((refreshExpTime - currentTime) / 1000),
+          )
 
-          await this.jwtBlacklistService.addToAdminBlacklist(refreshToken, refreshTtl)
+          await this.jwtBlacklistService.addToAdminBlacklist(
+            refreshToken,
+            refreshTtl,
+          )
         } catch (error) {
           console.error('Error adding refresh token to blacklist:', error)
         }

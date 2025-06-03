@@ -1,9 +1,9 @@
-import type { AdminJwtPayload } from './admin-jwt.service'
-import type { JwtConfigService } from '@/config/jwt.config'
-import type { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
+import { JwtConfigService } from '@/config/jwt.config'
+import { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
+import { AdminJwtPayload } from './admin-jwt.service'
 
 /**
  * AdminJwtStrategy 类
