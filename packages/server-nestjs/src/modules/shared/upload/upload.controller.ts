@@ -23,6 +23,7 @@ import {
   ApiConsumes,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
@@ -59,6 +60,8 @@ export class UploadController {
   @Post('single')
   @ApiOperation({ summary: '单文件上传' })
   @ApiConsumes('multipart/form-data')
+  @ApiQuery({ name: 'uploaderId', required: false, description: '上传者ID' })
+  @ApiQuery({ name: 'scene', required: false, description: '上传场景，如果不传默认为shared' })
   @ApiResponse({
     status: 200,
     description: '上传成功',
@@ -86,13 +89,14 @@ export class UploadController {
   async uploadSingle(
     @UploadedFile() file: Express.Multer.File,
     @Query('uploaderId') uploaderId?: string,
+    @Query('scene') scene?: string,
   ): Promise<FileUploadResponseDto> {
     if (!file) {
       throw new BadRequestException('请选择要上传的文件')
     }
 
-    this.logger.log(`接收到单文件上传请求: ${file.originalname}`)
-    return await this.uploadService.uploadSingleFile(file, uploaderId)
+    this.logger.log(`接收到单文件上传请求: ${file.originalname}, 场景: ${scene || 'shared'}`)
+    return await this.uploadService.uploadSingleFile(file, uploaderId, scene)
   }
 
   /**
@@ -101,6 +105,8 @@ export class UploadController {
   @Post('multiple')
   @ApiOperation({ summary: '多文件上传' })
   @ApiConsumes('multipart/form-data')
+  @ApiQuery({ name: 'uploaderId', required: false, description: '上传者ID' })
+  @ApiQuery({ name: 'scene', required: false, description: '上传场景，如果不传默认为shared' })
   @ApiResponse({
     status: 200,
     description: '上传完成',
@@ -129,13 +135,14 @@ export class UploadController {
   async uploadMultiple(
     @UploadedFiles() files: Express.Multer.File[],
     @Query('uploaderId') uploaderId?: string,
+    @Query('scene') scene?: string,
   ): Promise<MultipleFileUploadResponseDto> {
     if (!files || files.length === 0) {
       throw new BadRequestException('请选择要上传的文件')
     }
 
-    this.logger.log(`接收到多文件上传请求，文件数量: ${files.length}`)
-    return await this.uploadService.uploadMultipleFiles(files, uploaderId)
+    this.logger.log(`接收到多文件上传请求，文件数量: ${files.length}, 场景: ${scene || 'shared'}`)
+    return await this.uploadService.uploadMultipleFiles(files, uploaderId, scene)
   }
 
   /**

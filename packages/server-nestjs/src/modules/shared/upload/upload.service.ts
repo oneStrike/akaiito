@@ -1,9 +1,11 @@
+import { Buffer } from 'node:buffer'
 import { promises as fs } from 'node:fs'
 import { extname, join } from 'node:path'
 import { BadRequestException, Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as mime from 'mime-types'
 import { v4 as uuidv4 } from 'uuid'
+
 import {
   FileInfoDto,
   FileUploadResponseDto,
@@ -46,22 +48,25 @@ export class UploadService {
   async uploadSingleFile(
     file: Express.Multer.File,
     uploaderId?: string,
+    scene?: string,
   ): Promise<FileUploadResponseDto> {
     try {
-      this.logger.log(`开始上传单个文件: ${file.originalname}`)
+      this.logger.log(
+        `开始上传单个文件: ${file.originalname}, 场景: ${scene || 'shared'}`,
+      )
 
       // 验证文件
       await this.validateFile(file)
 
       // 生成文件信息
-      const fileInfo = await this.processFile(file, uploaderId)
+      const fileInfo = await this.processFile(file, uploaderId, scene)
 
       // 存储文件信息
       this.fileStorage.set(fileInfo.id, fileInfo)
 
       // 记录上传日志
       this.logger.log(
-        `文件上传成功: ${file.originalname} -> ${fileInfo.fileName}, 大小: ${file.size} bytes`,
+        `文件上传成功: ${file.originalname} -> ${fileInfo.fileName}, 大小: ${file.size} bytes, 场景: ${scene || 'shared'}`,
       )
 
       return this.mapToResponseDto(fileInfo)
@@ -77,6 +82,7 @@ export class UploadService {
   async uploadMultipleFiles(
     files: Express.Multer.File[],
     uploaderId?: string,
+    scene?: string,
   ): Promise<MultipleFileUploadResponseDto> {
     this.logger.log(`开始上传多个文件，数量: ${files.length}`)
 
@@ -93,14 +99,16 @@ export class UploadService {
     // 并发处理文件上传
     const uploadPromises = files.map(async (file) => {
       try {
-        const result = await this.uploadSingleFile(file, uploaderId)
+        const result = await this.uploadSingleFile(file, uploaderId, scene)
         successFiles.push(result)
       } catch (error) {
         failedFiles.push({
           originalName: file.originalname,
           error: error.message,
         })
-        this.logger.warn(`文件上传失败: ${file.originalname}, 错误: ${error.message}`)
+        this.logger.warn(
+          `文件上传失败: ${file.originalname}, 错误: ${error.message}`,
+        )
       }
     })
 
@@ -142,7 +150,9 @@ export class UploadService {
   /**
    * 删除文件
    */
-  async deleteFiles(fileIds: string[]): Promise<{ deletedCount: number; errors: string[] }> {
+  async deleteFiles(
+    fileIds: string[],
+  ): Promise<{ deletedCount: number; errors: string[] }> {
     const errors: string[] = []
     let deletedCount = 0
 
@@ -254,9 +264,13 @@ export class UploadService {
 
     const expectedSignatures = validSignatures[mimeType]
     if (expectedSignatures && expectedSignatures.length > 0) {
-      const isValid = expectedSignatures.some((expected) => signature.startsWith(expected))
+      const isValid = expectedSignatures.some((expected) =>
+        signature.startsWith(expected),
+      )
       if (!isValid) {
-        throw new BadRequestException('文件签名验证失败，文件可能已损坏或被篡改')
+        throw new BadRequestException(
+          '文件签名验证失败，文件可能已损坏或被篡改',
+        )
       }
     }
   }
@@ -264,11 +278,29 @@ export class UploadService {
   /**
    * 处理文件
    */
-  private async processFile(file: Express.Multer.File, uploaderId?: string): Promise<FileInfo> {
+  private async processFile(
+    file: Express.Multer.File,
+    uploaderId?: string,
+    scene?: string,
+  ): Promise<FileInfo> {
     const fileId = uuidv4()
     const ext = extname(file.originalname)
     const fileName = `${fileId}_${Date.now()}${ext}`
-    const filePath = join(this.uploadConfig.uploadDir, fileName)
+
+    // 生成分层目录结构: uploads/2025/01/15/场景/文件类型/
+    const now = new Date()
+    const year = now.getFullYear()
+    const month = String(now.getMonth() + 1).padStart(2, '0')
+    const day = String(now.getDate()).padStart(2, '0')
+    const sceneDir = scene || 'shared'
+    const fileType = this.getFileTypeFromMimeType(file.mimetype)
+
+    const relativePath = join(String(year), month, day, sceneDir, fileType)
+    const fullDir = join(this.uploadConfig.uploadDir, relativePath)
+    const filePath = join(fullDir, fileName)
+
+    // 确保目录存在
+    await this.ensureDirectoryExists(fullDir)
 
     // 如果文件还没有保存到磁盘，则保存
     if (file.buffer) {
@@ -285,6 +317,52 @@ export class UploadService {
       extension: ext,
       uploadTime: new Date(),
       uploaderId,
+    }
+  }
+
+  /**
+   * 根据MIME类型获取文件类型目录
+   */
+  private getFileTypeFromMimeType(mimeType: string): string {
+    if (mimeType.startsWith('image/')) {
+      return 'image'
+    }
+    if (mimeType.startsWith('video/')) {
+      return 'video'
+    }
+    if (mimeType.startsWith('audio/')) {
+      return 'audio'
+    }
+    if (mimeType.includes('pdf')) {
+      return 'document'
+    }
+    if (
+      mimeType.includes('word') ||
+      mimeType.includes('excel') ||
+      mimeType.includes('powerpoint') ||
+      mimeType.includes('text')
+    ) {
+      return 'document'
+    }
+    if (
+      mimeType.includes('zip') ||
+      mimeType.includes('rar') ||
+      mimeType.includes('7z') ||
+      mimeType.includes('tar')
+    ) {
+      return 'archive'
+    }
+    return 'other'
+  }
+
+  /**
+   * 确保目录存在
+   */
+  private async ensureDirectoryExists(dirPath: string): Promise<void> {
+    try {
+      await fs.access(dirPath)
+    } catch {
+      await fs.mkdir(dirPath, { recursive: true })
     }
   }
 

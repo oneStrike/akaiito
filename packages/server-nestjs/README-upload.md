@@ -116,6 +116,52 @@ UPLOAD_ALLOWED_MIME_TYPES=image/jpeg,image/png,application/pdf
 UPLOAD_ALLOWED_EXTENSIONS=.jpg,.jpeg,.png,.pdf
 UPLOAD_DIRECTORY=uploads               # 上传目录
 UPLOAD_PRESERVE_FILENAME=false         # 是否保留原文件名
+
+## 📁 目录结构
+
+文件上传后会按照以下规则自动创建目录结构：
+
+```
+uploads/
+├── 2025/
+│   ├── 01/
+│   │   ├── 15/
+│   │   │   ├── shared/          # 默认场景
+│   │   │   │   ├── image/       # 图片文件
+│   │   │   │   ├── document/    # 文档文件
+│   │   │   │   ├── video/       # 视频文件
+│   │   │   │   ├── audio/       # 音频文件
+│   │   │   │   ├── archive/     # 压缩文件
+│   │   │   │   └── other/       # 其他文件
+│   │   │   ├── profile/         # 用户头像场景
+│   │   │   │   └── image/
+│   │   │   ├── gallery/         # 相册场景
+│   │   │   │   └── image/
+│   │   │   └── document/        # 文档场景
+│   │   │       └── document/
+```
+
+### 场景参数说明
+
+- **scene**: 上传场景，用于区分不同的业务场景
+- 如果不传递 `scene` 参数，默认使用 `shared`
+- 常用场景示例：
+  - `profile`: 用户头像
+  - `gallery`: 相册图片
+  - `document`: 文档资料
+  - `avatar`: 头像图片
+  - `attachment`: 附件文件
+
+### 文件类型自动分类
+
+系统会根据文件的 MIME 类型自动分类到对应目录：
+
+- **image**: `image/*` 类型文件
+- **video**: `video/*` 类型文件
+- **audio**: `audio/*` 类型文件
+- **document**: PDF、Word、Excel、PowerPoint、文本文件
+- **archive**: ZIP、RAR、7Z、TAR 等压缩文件
+- **other**: 其他未分类文件
 ```
 
 ### 代码配置
@@ -208,11 +254,11 @@ http://localhost:3000/api
 
 ### 主要端点
 
-| 方法 | 路径 | 描述 |
-|------|------|------|
-| POST | `/api/upload/single` | 单文件上传 |
-| POST | `/api/upload/multiple` | 多文件上传 |
-| GET | `/api/upload/info/:fileId` | 获取文件信息 |
+| 方法 | 路径 | 描述 | 新增参数 |
+|------|------|------|----------|
+| POST | `/api/upload/single` | 单文件上传 | `scene`: 上传场景（可选） |
+| POST | `/api/upload/multiple` | 多文件上传 | `scene`: 上传场景（可选） |
+| GET | `/api/upload/info/:fileId` | 获取文件信息 | - |
 | GET | `/api/upload/download/:fileId` | 下载文件 |
 | GET | `/api/upload/preview/:fileId` | 预览文件 |
 | DELETE | `/api/upload/:fileId` | 删除文件 |
