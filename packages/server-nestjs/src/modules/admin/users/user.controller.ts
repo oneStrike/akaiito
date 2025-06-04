@@ -16,10 +16,7 @@ import { Public } from '@/common/decorators/public.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
 import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
-import {
-  AdminJwtPayload,
-  AdminJwtService,
-} from '@/modules/admin/auth/admin-jwt.service'
+import { AdminJwtPayload } from '@/modules/admin/auth/admin-jwt.service'
 import { RefreshTokenDto } from '@/modules/admin/users/dto/refresh-token.dto'
 import { UpdatePasswordDto } from '@/modules/admin/users/dto/update-password.dto'
 import { UpdateUserDto } from '@/modules/admin/users/dto/update-user.dto'
@@ -39,10 +36,7 @@ import { CaptchaDto } from './dto/captcha.dto'
 @ApiTags('管理端用户模块')
 @Controller('admin/user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly adminJwtService: AdminJwtService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   /**
    * 获取验证码接口

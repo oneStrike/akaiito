@@ -14,9 +14,23 @@ export interface UploadConfig {
   /** 最大文件数量 */
   maxFiles: number
   /** 允许的文件类型 */
-  allowedMimeTypes: string[]
+  allowedMimeTypes: {
+    all: string[]
+    image: string[]
+    video: string[]
+    audio: string[]
+    document: string[]
+    archive: string[]
+  }
   /** 允许的文件扩展名 */
-  allowedExtensions: string[]
+  allowedExtensions: {
+    all: string[]
+    image: string[]
+    video: string[]
+    audio: string[]
+    document: string[]
+    archive: string[]
+  }
   /** 上传目录 */
   uploadDir: string
   /** 是否保留原始文件名 */
@@ -27,29 +41,102 @@ export interface UploadConfig {
  * 默认上传配置
  */
 const defaultUploadConfig: UploadConfig = {
-  maxFileSize: 10 * 1024 * 1024, // 10MB
-  maxFiles: 5,
-  allowedMimeTypes: [
-    'image/jpeg',
-    'image/png',
-    'image/gif',
-    'image/webp',
-    'application/pdf',
-    'text/plain',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  ],
-  allowedExtensions: [
-    '.jpg',
-    '.jpeg',
-    '.png',
-    '.gif',
-    '.webp',
-    '.pdf',
-    '.txt',
-    '.doc',
-    '.docx',
-  ],
+  maxFileSize: 100 * 1024 * 1024, // 100MB
+  maxFiles: 50,
+  allowedMimeTypes: {
+    all: ['*'],
+    image: [
+      'image/jpeg',
+      'image/png',
+      'image/gif',
+      'image/webp',
+      'image/svg+xml',
+      'image/apng',
+      'image/bmp',
+      'image/x-bmp',
+      'image/tiff',
+    ],
+    video: [
+      'video/mp4',
+      'video/quicktime',
+      'video/x-msvideo',
+      'video/x-flv',
+      'video/webm',
+      'video/ogg',
+      'video/mpeg',
+    ],
+    audio: [
+      'audio/mpeg',
+      'audio/wav',
+      'audio/ogg',
+      'audio/x-m4a',
+      'audio/webm',
+      'audio/flac',
+      'audio/aac',
+      'audio/x-wma',
+      'audio/x-alac',
+    ],
+    document: [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-powerpoint',
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'application/rtf',
+      'application/vnd.oasis.opendocument.text',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.template',
+    ],
+    archive: [
+      'application/zip',
+      'application/x-rar-compressed',
+      'application/x-7z-compressed',
+      'application/x-tar',
+      'application/x-bzip2',
+      'application/gzip',
+    ],
+  },
+  allowedExtensions: {
+    all: ['*'],
+    image: [
+      '.jpg',
+      '.jpeg',
+      '.png',
+      '.gif',
+      '.webp',
+      '.svg',
+      '.apng',
+      '.bmp',
+      '.tif',
+      '.tiff',
+    ],
+    video: ['.mp4', '.mov', '.avi', '.flv', '.webm', '.ogv', '.mpeg', '.mkv'],
+    audio: [
+      '.mp3',
+      '.wav',
+      '.ogg',
+      '.m4a',
+      '.webm',
+      '.flac',
+      '.aac',
+      '.wma',
+      '.alac',
+    ],
+    document: [
+      '.pdf',
+      '.doc',
+      '.docx',
+      '.xls',
+      '.xlsx',
+      '.ppt',
+      '.pptx',
+      '.rtf',
+      '.odt',
+      '.dotx',
+    ],
+    archive: ['.zip', '.rar', '.7z', '.tar', '.gz', '.bz2'],
+  },
   uploadDir: join(process.cwd(), 'uploads'),
   preserveOriginalName: false,
 }
@@ -97,8 +184,10 @@ export function createMulterConfig(config: UploadConfig): MulterOptions {
     },
     fileFilter: (req, file, cb) => {
       const ext = extname(file.originalname).toLowerCase()
-      const isValidMimeType = config.allowedMimeTypes.includes(file.mimetype)
-      const isValidExtension = config.allowedExtensions.includes(ext)
+      const isValidMimeType = config.allowedMimeTypes.all.includes(
+        file.mimetype,
+      )
+      const isValidExtension = config.allowedExtensions.all.includes(ext)
 
       if (isValidMimeType && isValidExtension) {
         cb(null, true)
@@ -113,20 +202,65 @@ export function createMulterConfig(config: UploadConfig): MulterOptions {
  * 注册上传配置
  */
 export default registerAs('upload', (): UploadConfig => {
+  // 辅助函数，用于解析环境变量中的类型配置
+  const parseTypeConfig = (
+    type: keyof UploadConfig['allowedMimeTypes'],
+    envPrefix: string,
+  ) => {
+    const envMimeTypes = process.env[`${envPrefix}_MIME_TYPES`]
+    const envExtensions = process.env[`${envPrefix}_EXTENSIONS`]
+    return {
+      miniTypes: envMimeTypes
+        ? envMimeTypes.split(',')
+        : defaultUploadConfig.allowedMimeTypes[type],
+      extensions: envExtensions
+        ? envExtensions.split(',')
+        : defaultUploadConfig.allowedExtensions[type],
+    }
+  }
+
+  const imageConfig = parseTypeConfig('image', 'UPLOAD_IMAGE')
+  const videoConfig = parseTypeConfig('video', 'UPLOAD_VIDEO')
+  const audioConfig = parseTypeConfig('audio', 'UPLOAD_AUDIO')
+  const documentConfig = parseTypeConfig('document', 'UPLOAD_DOCUMENT')
+  const archiveConfig = parseTypeConfig('archive', 'UPLOAD_ARCHIVE')
+
   return {
     maxFileSize: Number.parseInt(
       process.env.UPLOAD_MAX_FILE_SIZE ||
-      String(defaultUploadConfig.maxFileSize),
+        String(defaultUploadConfig.maxFileSize),
     ),
     maxFiles: Number.parseInt(
       process.env.UPLOAD_MAX_FILES || String(defaultUploadConfig.maxFiles),
     ),
-    allowedMimeTypes: process.env.UPLOAD_ALLOWED_MIME_TYPES
-      ? process.env.UPLOAD_ALLOWED_MIME_TYPES.split(',')
-      : defaultUploadConfig.allowedMimeTypes,
-    allowedExtensions: process.env.UPLOAD_ALLOWED_EXTENSIONS
-      ? process.env.UPLOAD_ALLOWED_EXTENSIONS.split(',')
-      : defaultUploadConfig.allowedExtensions,
+    allowedMimeTypes: {
+      all: [
+        ...imageConfig.miniTypes,
+        ...videoConfig.miniTypes,
+        ...audioConfig.miniTypes,
+        ...documentConfig.miniTypes,
+        ...archiveConfig.miniTypes,
+      ],
+      image: imageConfig.miniTypes,
+      video: videoConfig.miniTypes,
+      audio: audioConfig.miniTypes,
+      document: documentConfig.miniTypes,
+      archive: archiveConfig.miniTypes,
+    },
+    allowedExtensions: {
+      all: [
+        ...imageConfig.extensions,
+        ...videoConfig.extensions,
+        ...audioConfig.extensions,
+        ...documentConfig.extensions,
+        ...archiveConfig.extensions,
+      ],
+      image: imageConfig.extensions,
+      video: videoConfig.extensions,
+      audio: audioConfig.extensions,
+      document: documentConfig.extensions,
+      archive: archiveConfig.extensions,
+    },
     uploadDir: process.env.UPLOAD_DIR || defaultUploadConfig.uploadDir,
     preserveOriginalName: process.env.UPLOAD_PRESERVE_ORIGINAL_NAME === 'true',
   }
