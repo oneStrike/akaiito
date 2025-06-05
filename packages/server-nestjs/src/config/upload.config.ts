@@ -190,13 +190,25 @@ export function createMulterConfig(config: MulterConfig): MulterOptions {
     },
     fileFilter: (req, file, cb) => {
       const ext = extname(file.originalname).toLowerCase()
-      const isValidMimeType = config.allowedMimeTypes.includes(file.mimetype)
-      const isValidExtension = config.allowedExtensions.includes(ext)
+      const isValidMimeType = config.allowedMimeTypes.includes('*') || config.allowedMimeTypes.includes(file.mimetype)
+      const isValidExtension = config.allowedExtensions.includes('*') || config.allowedExtensions.includes(ext)
 
       if (isValidMimeType && isValidExtension) {
         cb(null, true)
       } else {
-        cb(new Error(`不支持的文件类型: ${file.mimetype} (${ext})`), false)
+        // 创建更详细的错误信息
+        let errorMessage = `不支持的文件类型: ${file.originalname}`
+        if (!isValidMimeType && !isValidExtension) {
+          errorMessage += ` (MIME类型: ${file.mimetype}, 扩展名: ${ext} 均不被支持)`
+        } else if (!isValidMimeType) {
+          errorMessage += ` (MIME类型: ${file.mimetype} 不被支持)`
+        } else if (!isValidExtension) {
+          errorMessage += ` (扩展名: ${ext} 不被支持)`
+        }
+
+        const error = new Error(errorMessage)
+        error.name = 'UnsupportedFileTypeError'
+        cb(error, false)
       }
     },
   }

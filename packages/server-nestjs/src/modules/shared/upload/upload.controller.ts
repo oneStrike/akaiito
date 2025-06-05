@@ -15,6 +15,7 @@ import {
   StreamableFile,
   UploadedFile,
   UploadedFiles,
+  UseFilters,
   UseInterceptors,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
@@ -35,6 +36,7 @@ import {
   MultipleFileUploadResponseDto,
   UploadConfigResponseDto,
 } from '@/common/dto/upload.dto'
+import { UploadExceptionFilter } from '@/common/filters/upload-exception.filter'
 import { UploadConfig } from '@/config/upload.config'
 import { UploadService } from './upload.service'
 
@@ -43,6 +45,7 @@ import { UploadService } from './upload.service'
  */
 @ApiTags('文件上传')
 @Controller('upload')
+@UseFilters(UploadExceptionFilter)
 export class UploadController {
   private readonly logger = new Logger(UploadController.name)
   private readonly uploadConfig: UploadConfig

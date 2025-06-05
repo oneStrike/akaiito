@@ -1,4 +1,10 @@
-import { Body, Controller, Post, UploadedFiles } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Post,
+  UploadedFiles,
+} from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc } from '@/common/decorators/api-doc.decorator'
@@ -28,6 +34,10 @@ export class AdminUploadController {
     @UploadedFiles() files: Express.Multer.File[],
     @Body() body: FileUploadDto,
   ) {
+    // 检查 files 是否为空
+    if (!files || files.length === 0) {
+      throw new BadRequestException('未提供要上传的文件')
+    }
     return await this.uploadService.uploadMultipleFiles(files, body.scene)
   }
 }

@@ -202,23 +202,62 @@ export class UploadService {
    */
   private async validateFileContent(file: Express.Multer.File): Promise<void> {
     try {
+      // 检查文件是否为空
+      if (!file.size || file.size === 0) {
+        throw new BadRequestException('文件为空，请选择有效的文件')
+      }
+
       // 读取文件头部字节进行验证
-      const buffer = file.buffer || (await fs.readFile(file.path))
+      let buffer: Buffer
+      try {
+        buffer = file.buffer || (await fs.readFile(file.path))
+      } catch (readError) {
+        this.logger.error(
+          `无法读取文件内容: ${file.originalname}`,
+          readError.stack,
+        )
+        throw new BadRequestException('无法读取文件内容，文件可能已损坏')
+      }
+
+      if (!buffer || buffer.length === 0) {
+        throw new BadRequestException('文件内容为空或无法读取')
+      }
+
       const fileSignature = this.getFileSignature(buffer)
       const expectedMimeType = mime.lookup(file.originalname)
 
-      // 简单的文件头验证
+      // 文件类型一致性验证
       if (expectedMimeType && expectedMimeType !== file.mimetype) {
         this.logger.warn(
-          `文件类型不匹配: 期望 ${expectedMimeType}, 实际 ${file.mimetype}`,
+          `文件类型不匹配: 文件名期望 ${expectedMimeType}, 实际上传 ${file.mimetype}`,
         )
+        // 对于严重的类型不匹配，抛出错误
+        if (
+          this.isSignificantMimeTypeMismatch(expectedMimeType, file.mimetype)
+        ) {
+          throw new BadRequestException(
+            `文件类型不匹配：文件扩展名与实际内容不符（期望: ${expectedMimeType}, 实际: ${file.mimetype}）`,
+          )
+        }
       }
 
       // 验证常见文件类型的魔数
-      this.validateFileSignature(fileSignature, file.mimetype)
+      this.validateFileSignature(
+        fileSignature,
+        file.mimetype,
+        file.originalname,
+      )
+
+      // 额外的安全检查
+      this.performSecurityChecks(buffer, file)
     } catch (error) {
-      this.logger.error('文件内容验证失败', error.stack)
-      throw new BadRequestException('文件内容验证失败，可能是恶意文件')
+      if (error instanceof BadRequestException) {
+        throw error
+      }
+      this.logger.error(`文件内容验证失败: ${file.originalname}`, error.stack)
+      throw new BadRequestException(
+        `文件验证失败: ${error.message || '文件可能已损坏或为恶意文件'}`,
+      )
     }
   }
 
@@ -232,13 +271,25 @@ export class UploadService {
   /**
    * 验证文件签名
    */
-  private validateFileSignature(signature: string, mimeType: string): void {
+  private validateFileSignature(
+    signature: string,
+    mimeType: string,
+    originalName: string,
+  ): void {
     const validSignatures: Record<string, string[]> = {
       'image/jpeg': ['FFD8FF'],
       'image/png': ['89504E47'],
-      'image/gif': ['47494638'],
-      'application/pdf': ['25504446'],
+      'image/gif': ['47494638', '474946383761', '474946383961'], // GIF87a, GIF89a
+      'image/webp': ['52494646'], // RIFF (WebP starts with RIFF)
+      'image/bmp': ['424D'], // BM
+      'application/pdf': ['25504446'], // %PDF
+      'application/zip': ['504B0304', '504B0506', '504B0708'], // PK
+      'application/x-rar-compressed': ['526172211A07'], // Rar!
+      'video/mp4': ['00000018667479704D534E56', '00000020667479704D534E56'], // ftyp
+      'audio/mpeg': ['494433', 'FFFB', 'FFF3', 'FFF2'], // ID3, MP3 frames
       'text/plain': [], // 文本文件没有固定签名
+      'application/json': [], // JSON文件没有固定签名
+      'text/csv': [], // CSV文件没有固定签名
     }
 
     const expectedSignatures = validSignatures[mimeType]
@@ -247,10 +298,88 @@ export class UploadService {
         signature.startsWith(expected),
       )
       if (!isValid) {
+        this.logger.warn(
+          `文件签名验证失败: ${originalName}, 期望签名: ${expectedSignatures.join('|')}, 实际签名: ${signature}`,
+        )
         throw new BadRequestException(
-          '文件签名验证失败，文件可能已损坏或被篡改',
+          `文件签名验证失败：${originalName} 的文件内容与声明的类型不匹配，可能是恶意文件或文件已损坏`,
         )
       }
+    }
+  }
+
+  /**
+   * 检查是否为严重的MIME类型不匹配
+   */
+  private isSignificantMimeTypeMismatch(
+    expected: string,
+    actual: string,
+  ): boolean {
+    // 定义严重不匹配的情况
+    const dangerousMismatches = [
+      // 可执行文件伪装成其他类型
+      {
+        expected: /^(image|text|application\/pdf)/,
+        actual: /^application\/(x-)?executable/,
+      },
+      // 脚本文件伪装成图片
+      {
+        expected: /^image/,
+        actual: /^(text\/html|application\/javascript|text\/javascript)/,
+      },
+      // 压缩文件伪装成图片
+      { expected: /^image/, actual: /^application\/(zip|x-rar|x-7z)/ },
+    ]
+
+    return dangerousMismatches.some(
+      ({ expected: expPattern, actual: actPattern }) =>
+        expPattern.test(expected) && actPattern.test(actual),
+    )
+  }
+
+  /**
+   * 执行额外的安全检查
+   */
+  private performSecurityChecks(
+    buffer: Buffer,
+    file: Express.Multer.File,
+  ): void {
+    // 检查文件是否包含可疑的脚本内容
+    const content = buffer.toString('utf8', 0, Math.min(buffer.length, 1024)) // 只检查前1KB
+
+    // 检查是否包含恶意脚本标签
+    const maliciousPatterns = [
+      /<script[^>]*>/i,
+      /<iframe[^>]*>/i,
+      /<object[^>]*>/i,
+      /<embed[^>]*>/i,
+      /javascript:/i,
+      /vbscript:/i,
+      /on\w+\s*=/i, // 事件处理器如 onclick=
+    ]
+
+    const foundMalicious = maliciousPatterns.some((pattern) =>
+      pattern.test(content),
+    )
+    if (foundMalicious) {
+      this.logger.warn(`检测到可疑内容: ${file.originalname}`)
+      throw new BadRequestException('文件包含可疑内容，上传被拒绝')
+    }
+
+    // 检查文件名是否包含可疑字符
+    const suspiciousNamePatterns = [
+      /\.(exe|bat|cmd|scr|pif|com)$/i, // 可执行文件扩展名
+      /\.(php|asp|jsp|js)$/i, // 脚本文件扩展名（如果不在允许列表中）
+      /[<>:"|?*]/, // Windows文件名非法字符
+      /\.\./, // 路径遍历
+    ]
+
+    const hasSuspiciousName = suspiciousNamePatterns.some((pattern) =>
+      pattern.test(file.originalname),
+    )
+    if (hasSuspiciousName) {
+      this.logger.warn(`可疑文件名: ${file.originalname}`)
+      throw new BadRequestException('文件名包含非法字符或可疑扩展名')
     }
   }
 
@@ -277,14 +406,24 @@ export class UploadService {
     const fullDir = join(this.uploadConfig.uploadDir, relativePath)
     const filePath = join(fullDir, fileName)
 
-    // 确保目录存在
-    await this.ensureDirectoryExists(fullDir)
-    // 如果文件还没有保存到磁盘，则保存
-    if (file.buffer) {
-      await fs.writeFile(filePath, file.buffer)
-    } else if (file.path) {
-      // 如果文件已经保存到临时路径，移动文件到目标路径
-      await fs.rename(file.path, filePath)
+    try {
+      // 确保目录存在
+      await this.ensureDirectoryExists(fullDir)
+
+      // 如果文件还没有保存到磁盘，则保存
+      if (file.buffer) {
+        await fs.writeFile(filePath, file.buffer)
+        this.logger.log(`文件从内存缓冲区保存到: ${filePath}`)
+      } else if (file.path) {
+        // 如果文件已经保存到临时路径，优化文件移动操作
+        await this.moveFileOptimized(file.path, filePath)
+        this.logger.log(`文件从临时路径移动到: ${filePath}`)
+      } else {
+        throw new BadRequestException('文件数据不可用，无法保存文件')
+      }
+    } catch (error) {
+      this.logger.error(`文件处理失败: ${file.originalname}`, error.stack)
+      throw new BadRequestException(`文件保存失败: ${error.message}`)
     }
 
     return {
@@ -342,6 +481,32 @@ export class UploadService {
       await fs.access(dirPath)
     } catch {
       await fs.mkdir(dirPath, { recursive: true })
+    }
+  }
+
+  /**
+   * 优化的文件移动操作
+   * 先尝试rename，如果失败则使用copy+unlink
+   */
+  private async moveFileOptimized(
+    sourcePath: string,
+    targetPath: string,
+  ): Promise<void> {
+    try {
+      // 首先尝试使用rename（同文件系统下最快）
+      await fs.rename(sourcePath, targetPath)
+    } catch (renameError) {
+      this.logger.warn(
+        `文件rename失败，尝试copy+unlink: ${renameError.message}`,
+      )
+      try {
+        // 如果rename失败（可能是跨文件系统），使用copy+unlink
+        await fs.copyFile(sourcePath, targetPath)
+        await fs.unlink(sourcePath)
+      } catch (copyError) {
+        this.logger.error(`文件移动完全失败: ${copyError.message}`)
+        throw new BadRequestException(`文件移动失败: ${copyError.message}`)
+      }
     }
   }
 
