@@ -1,36 +1,42 @@
-import type { Request, Response } from 'express'
 import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
   HttpException,
+  HttpStatus,
 } from '@nestjs/common'
+import { HttpAdapterHost } from '@nestjs/core'
+import { Request, Response } from 'express'
 
-// 注解捕获http异常
-@Catch(HttpException)
-// 继承自ExceptionFilter过滤器
+@Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-  constructor() {}
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-  // 实现catch方法
   catch(exception: HttpException, host: ArgumentsHost) {
-    // 获取Http上下文
+    const { httpAdapter } = this.httpAdapterHost
     const ctx = host.switchToHttp()
-    // 获取响应对象
-    const response = ctx.getResponse<Response>()
+
+    const response = ctx.getResponse()
     const request = ctx.getRequest<Request>()
-    // 获取状态码
-    const status = exception.getStatus()
-    // 获取异常信息
-    const exceptionResponse = exception.getResponse() as Record<string, any>
-    let message = exceptionResponse
-    if (exceptionResponse?.statusCode) {
-      message = exceptionResponse.message
-    }
-    // 返回错误信息
-    response.status(200).json({
+    const status = exception.getStatus
+      ? exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR
+    console.log(exception)
+    const message = exception.getResponse() as string | object
+
+    const errorResponse = {
       code: status,
-      message: Array.isArray(message) ? message.join('，') : message,
-    })
+      message:
+        typeof message === 'object'
+          ? (message as any).message || 'Error'
+          : message,
+    }
+
+    // 判断是否为 Fastify 平台
+    if (httpAdapter.getType() === 'fastify') {
+      response.status(status).send(errorResponse)
+    } else {
+      ctx.getResponse<Response>().status(status).json(errorResponse)
+    }
   }
 }
