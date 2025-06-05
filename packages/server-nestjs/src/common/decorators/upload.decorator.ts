@@ -3,7 +3,10 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface'
 import { ApiBody, ApiConsumes } from '@nestjs/swagger'
 import { UploadLoggingInterceptor } from '@/common/interceptors/upload-logging.interceptor'
-import { createMulterConfig } from '@/config/upload.config'
+import uploadConfig, {
+  createMulterConfig,
+  UploadConfig,
+} from '@/config/upload.config'
 
 /**
  * 单文件上传装饰器选项
@@ -14,9 +17,7 @@ export interface SingleFileUploadOptions {
   /** 最大文件大小（字节） */
   maxFileSize?: number
   /** 允许的文件类型 */
-  allowedMimeTypes?: string[]
-  /** 允许的文件扩展名 */
-  allowedExtensions?: string[]
+  allowedFileType?: keyof UploadConfig['allowedMimeTypes']
   /** 是否启用日志记录 */
   enableLogging?: boolean
   /** 自定义 Multer 配置 */
@@ -36,16 +37,13 @@ export interface MultipleFileUploadOptions extends SingleFileUploadOptions {
  * 自动配置文件上传拦截器、Swagger文档和日志记录
  */
 export function SingleFileUpload(options: SingleFileUploadOptions = {}) {
+  // 获取默认配置
+  const defaultConfig = uploadConfig()
+
   const {
     fieldName = 'file',
-    maxFileSize = 10 * 1024 * 1024, // 10MB
-    allowedMimeTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'application/pdf',
-    ],
-    allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.pdf'],
+    allowedFileType = 'all',
+    maxFileSize = defaultConfig.maxFileSize,
     enableLogging = true,
     multerOptions = {},
   } = options
@@ -53,10 +51,10 @@ export function SingleFileUpload(options: SingleFileUploadOptions = {}) {
   const config = createMulterConfig({
     maxFileSize,
     maxFiles: 1,
-    allowedMimeTypes,
-    allowedExtensions,
-    uploadDir: process.env.UPLOAD_DIR || 'uploads',
-    preserveOriginalName: false,
+    allowedMimeTypes: defaultConfig.allowedMimeTypes[allowedFileType],
+    allowedExtensions: defaultConfig.allowedExtensions[allowedFileType],
+    uploadDir: defaultConfig.uploadDir,
+    preserveOriginalName: defaultConfig.preserveOriginalName,
     ...multerOptions,
   })
 
@@ -96,17 +94,14 @@ export function SingleFileUpload(options: SingleFileUploadOptions = {}) {
  * 自动配置多文件上传拦截器、Swagger文档和日志记录
  */
 export function MultipleFileUpload(options: MultipleFileUploadOptions = {}) {
+  // 获取默认配置
+  const defaultConfig = uploadConfig()
+
   const {
-    fieldName = 'files',
-    maxFiles = 5,
-    maxFileSize = 10 * 1024 * 1024, // 10MB
-    allowedMimeTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/gif',
-      'application/pdf',
-    ],
-    allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.pdf'],
+    fieldName = 'file',
+    maxFiles = 50,
+    allowedFileType = 'all',
+    maxFileSize = defaultConfig.maxFileSize,
     enableLogging = true,
     multerOptions = {},
   } = options
@@ -114,10 +109,10 @@ export function MultipleFileUpload(options: MultipleFileUploadOptions = {}) {
   const config = createMulterConfig({
     maxFileSize,
     maxFiles,
-    allowedMimeTypes,
-    allowedExtensions,
-    uploadDir: process.env.UPLOAD_DIR || 'uploads',
-    preserveOriginalName: false,
+    allowedMimeTypes: defaultConfig.allowedMimeTypes[allowedFileType],
+    allowedExtensions: defaultConfig.allowedExtensions[allowedFileType],
+    uploadDir: defaultConfig.uploadDir,
+    preserveOriginalName: defaultConfig.preserveOriginalName,
     ...multerOptions,
   })
 
@@ -160,10 +155,10 @@ export function MultipleFileUpload(options: MultipleFileUploadOptions = {}) {
  * 专门用于图片文件上传的预配置装饰器
  */
 export function ImageUpload(options: Partial<SingleFileUploadOptions> = {}) {
+  const defaultConfig = uploadConfig()
   return SingleFileUpload({
     maxFileSize: 5 * 1024 * 1024, // 5MB
-    allowedMimeTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp'],
-    allowedExtensions: ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+    allowedFileType: 'image',
     ...options,
   })
 }
@@ -173,17 +168,10 @@ export function ImageUpload(options: Partial<SingleFileUploadOptions> = {}) {
  * 专门用于文档文件上传的预配置装饰器
  */
 export function DocumentUpload(options: Partial<SingleFileUploadOptions> = {}) {
+  const defaultConfig = uploadConfig()
   return SingleFileUpload({
     maxFileSize: 20 * 1024 * 1024, // 20MB
-    allowedMimeTypes: [
-      'application/pdf',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'text/plain',
-    ],
-    allowedExtensions: ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.txt'],
+    allowedFileType: 'document',
     ...options,
   })
 }
@@ -193,11 +181,11 @@ export function DocumentUpload(options: Partial<SingleFileUploadOptions> = {}) {
  * 专门用于用户头像上传的预配置装饰器
  */
 export function AvatarUpload(options: Partial<SingleFileUploadOptions> = {}) {
+  const defaultConfig = uploadConfig()
   return SingleFileUpload({
     fieldName: 'avatar',
     maxFileSize: 2 * 1024 * 1024, // 2MB
-    allowedMimeTypes: ['image/jpeg', 'image/png'],
-    allowedExtensions: ['.jpg', '.jpeg', '.png'],
+    allowedFileType: 'image',
     ...options,
   })
 }

@@ -37,6 +37,12 @@ export interface UploadConfig {
   preserveOriginalName: boolean
 }
 
+export interface MulterConfig
+  extends Omit<UploadConfig, 'allowedMimeTypes' | 'allowedExtensions'> {
+  allowedMimeTypes: string[]
+  allowedExtensions: string[]
+}
+
 /**
  * 默认上传配置
  */
@@ -163,7 +169,7 @@ export function ensureUploadDir(uploadDir: string): void {
 /**
  * 创建 Multer 配置
  */
-export function createMulterConfig(config: UploadConfig): MulterOptions {
+export function createMulterConfig(config: MulterConfig): MulterOptions {
   ensureUploadDir(config.uploadDir)
 
   return {
@@ -184,10 +190,8 @@ export function createMulterConfig(config: UploadConfig): MulterOptions {
     },
     fileFilter: (req, file, cb) => {
       const ext = extname(file.originalname).toLowerCase()
-      const isValidMimeType = config.allowedMimeTypes.all.includes(
-        file.mimetype,
-      )
-      const isValidExtension = config.allowedExtensions.all.includes(ext)
+      const isValidMimeType = config.allowedMimeTypes.includes(file.mimetype)
+      const isValidExtension = config.allowedExtensions.includes(ext)
 
       if (isValidMimeType && isValidExtension) {
         cb(null, true)
@@ -228,7 +232,7 @@ export default registerAs('upload', (): UploadConfig => {
   return {
     maxFileSize: Number.parseInt(
       process.env.UPLOAD_MAX_FILE_SIZE ||
-        String(defaultUploadConfig.maxFileSize),
+      String(defaultUploadConfig.maxFileSize),
     ),
     maxFiles: Number.parseInt(
       process.env.UPLOAD_MAX_FILES || String(defaultUploadConfig.maxFiles),

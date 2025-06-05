@@ -1,27 +1,24 @@
 import {
   Controller,
-  Post,
   Get,
+  Post,
+  Query,
   UploadedFile,
   UploadedFiles,
-  Query,
-  Body,
-  Param,
 } from '@nestjs/common'
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import {
-  SingleFileUpload,
-  MultipleFileUpload,
-  ImageUpload,
-  DocumentUpload,
   AvatarUpload,
+  DocumentUpload,
+  ImageUpload,
+  MultipleFileUpload,
+  SingleFileUpload,
 } from '@/common/decorators/upload.decorator'
-import { UploadService } from '@/modules/shared/upload/upload.service'
 import {
   FileUploadResponseDto,
   MultipleFileUploadResponseDto,
-  FileDeleteDto,
 } from '@/common/dto/upload.dto'
+import { UploadService } from '@/modules/shared/upload/upload.service'
 
 /**
  * 文件上传示例控制器
@@ -37,7 +34,11 @@ export class UploadExampleController {
    */
   @Post('basic-single')
   @ApiOperation({ summary: '基础单文件上传示例' })
-  @ApiResponse({ status: 200, description: '上传成功', type: FileUploadResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: '上传成功',
+    type: FileUploadResponseDto,
+  })
   @SingleFileUpload()
   async basicSingleUpload(
     @UploadedFile() file: Express.Multer.File,
@@ -52,14 +53,22 @@ export class UploadExampleController {
    */
   @Post('basic-multiple')
   @ApiOperation({ summary: '基础多文件上传示例' })
-  @ApiResponse({ status: 200, description: '上传完成', type: MultipleFileUploadResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: '上传完成',
+    type: MultipleFileUploadResponseDto,
+  })
   @MultipleFileUpload()
   async basicMultipleUpload(
     @UploadedFiles() files: Express.Multer.File[],
     @Query('uploaderId') uploaderId?: string,
     @Query('scene') scene?: string,
   ): Promise<MultipleFileUploadResponseDto> {
-    return await this.uploadService.uploadMultipleFiles(files, uploaderId, scene)
+    return await this.uploadService.uploadMultipleFiles(
+      files,
+      uploaderId,
+      scene,
+    )
   }
 
   /**
@@ -67,7 +76,11 @@ export class UploadExampleController {
    */
   @Post('image')
   @ApiOperation({ summary: '图片上传示例（仅支持图片格式）' })
-  @ApiResponse({ status: 200, description: '图片上传成功', type: FileUploadResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: '图片上传成功',
+    type: FileUploadResponseDto,
+  })
   @ImageUpload()
   async uploadImage(
     @UploadedFile() file: Express.Multer.File,
@@ -81,7 +94,11 @@ export class UploadExampleController {
       size: string
     }
   }> {
-    const fileInfo = await this.uploadService.uploadSingleFile(file, uploaderId, 'image')
+    const fileInfo = await this.uploadService.uploadSingleFile(
+      file,
+      uploaderId,
+      'image',
+    )
 
     // 可以在这里添加图片处理逻辑，如获取图片尺寸、生成缩略图等
     const imageMetadata = {
@@ -102,7 +119,11 @@ export class UploadExampleController {
    */
   @Post('document')
   @ApiOperation({ summary: '文档上传示例（支持PDF、Word、Excel等）' })
-  @ApiResponse({ status: 200, description: '文档上传成功', type: FileUploadResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: '文档上传成功',
+    type: FileUploadResponseDto,
+  })
   @DocumentUpload()
   async uploadDocument(
     @UploadedFile() file: Express.Multer.File,
@@ -118,7 +139,11 @@ export class UploadExampleController {
       pages?: number
     }
   }> {
-    const fileInfo = await this.uploadService.uploadSingleFile(file, uploaderId, 'document')
+    const fileInfo = await this.uploadService.uploadSingleFile(
+      file,
+      uploaderId,
+      'document',
+    )
 
     // 可以在这里添加文档处理逻辑，如提取文档信息、生成预览等
     const documentInfo = {
@@ -150,7 +175,11 @@ export class UploadExampleController {
     avatarUrl: string
     thumbnailUrl: string
   }> {
-    const fileInfo = await this.uploadService.uploadSingleFile(avatar, userId, 'avatar')
+    const fileInfo = await this.uploadService.uploadSingleFile(
+      avatar,
+      userId,
+      'avatar',
+    )
 
     // 在实际项目中，这里可以：
     // 1. 生成不同尺寸的头像
@@ -159,8 +188,8 @@ export class UploadExampleController {
 
     return {
       message: '头像上传成功',
-      avatarUrl: fileInfo.url,
-      thumbnailUrl: `${fileInfo.url}?size=thumbnail`, // 示例缩略图URL
+      avatarUrl: fileInfo.filePath,
+      thumbnailUrl: `${fileInfo.filePath}?size=thumbnail`, // 示例缩略图URL
     }
   }
 
@@ -171,8 +200,7 @@ export class UploadExampleController {
   @ApiOperation({ summary: '自定义配置上传示例' })
   @SingleFileUpload({
     maxFileSize: 5 * 1024 * 1024, // 5MB
-    allowedMimeTypes: ['image/jpeg', 'image/png'],
-    allowedExtensions: ['.jpg', '.jpeg', '.png'],
+    allowedFileType: 'image',
     enableLogging: true,
   })
   async customUpload(
@@ -187,7 +215,11 @@ export class UploadExampleController {
     }
   }> {
     const startTime = Date.now()
-    const fileInfo = await this.uploadService.uploadSingleFile(file, uploaderId, 'custom')
+    const fileInfo = await this.uploadService.uploadSingleFile(
+      file,
+      uploaderId,
+      'custom',
+    )
 
     // 自定义处理逻辑
     await this.customFileProcessing(fileInfo)
@@ -224,7 +256,11 @@ export class UploadExampleController {
     }
     uploadResult: MultipleFileUploadResponseDto
   }> {
-    const uploadResult = await this.uploadService.uploadMultipleFiles(files, uploaderId, 'batch')
+    const uploadResult = await this.uploadService.uploadMultipleFiles(
+      files,
+      uploaderId,
+      'batch',
+    )
 
     const totalSize = files.reduce((sum, file) => sum + file.size, 0)
     const batchId = `batch_${Date.now()}`
@@ -297,9 +333,11 @@ export class UploadExampleController {
     const typeMap: Record<string, string> = {
       'application/pdf': 'PDF文档',
       'application/msword': 'Word文档',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'Word文档',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        'Word文档',
       'application/vnd.ms-excel': 'Excel表格',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'Excel表格',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+        'Excel表格',
       'text/plain': '文本文件',
     }
 
@@ -309,9 +347,11 @@ export class UploadExampleController {
   /**
    * 自定义文件处理
    */
-  private async customFileProcessing(fileInfo: FileUploadResponseDto): Promise<void> {
+  private async customFileProcessing(
+    fileInfo: FileUploadResponseDto,
+  ): Promise<void> {
     // 模拟文件处理过程
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
 
     // 在实际项目中，这里可以：
     // 1. 图片压缩和格式转换

@@ -15,7 +15,11 @@ import { UploadService } from './upload.service'
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
         const uploadConfig = configService.get<UploadConfig>('upload')!
-        return createMulterConfig(uploadConfig)
+        return createMulterConfig({
+          ...uploadConfig,
+          allowedMimeTypes: uploadConfig.allowedMimeTypes.all,
+          allowedExtensions: uploadConfig.allowedExtensions.all,
+        })
       },
       inject: [ConfigService],
     }),

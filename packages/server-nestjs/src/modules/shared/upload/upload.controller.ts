@@ -52,6 +52,9 @@ export class UploadController {
     private readonly configService: ConfigService,
   ) {
     this.uploadConfig = this.configService.get<UploadConfig>('upload')!
+    if (!this.uploadConfig) {
+      throw new Error('Upload configuration is not available')
+    }
   }
 
   /**
@@ -61,31 +64,18 @@ export class UploadController {
   @ApiOperation({ summary: '单文件上传' })
   @ApiConsumes('multipart/form-data')
   @ApiQuery({ name: 'uploaderId', required: false, description: '上传者ID' })
-  @ApiQuery({ name: 'scene', required: false, description: '上传场景，如果不传默认为shared' })
+  @ApiQuery({
+    name: 'scene',
+    required: false,
+    description: '上传场景，如果不传默认为shared',
+  })
   @ApiResponse({
     status: 200,
     description: '上传成功',
     type: FileUploadResponseDto,
   })
   @ApiResponse({ status: 400, description: '上传失败' })
-  @UseInterceptors(
-    FileInterceptor(
-      'file',
-      createMulterConfig({
-        maxFileSize: 10 * 1024 * 1024, // 临时配置，实际从配置服务获取
-        maxFiles: 1,
-        allowedMimeTypes: [
-          'image/jpeg',
-          'image/png',
-          'image/gif',
-          'application/pdf',
-        ],
-        allowedExtensions: ['.jpg', '.jpeg', '.png', '.gif', '.pdf'],
-        uploadDir: join(process.cwd(), 'uploads'),
-        preserveOriginalName: false,
-      }),
-    ),
-  )
+  @UseInterceptors(FileInterceptor('file'))
   async uploadSingle(
     @UploadedFile() file: Express.Multer.File,
     @Query('uploaderId') uploaderId?: string,
@@ -95,7 +85,9 @@ export class UploadController {
       throw new BadRequestException('请选择要上传的文件')
     }
 
-    this.logger.log(`接收到单文件上传请求: ${file.originalname}, 场景: ${scene || 'shared'}`)
+    this.logger.log(
+      `接收到单文件上传请求: ${file.originalname}, 场景: ${scene || 'shared'}`,
+    )
     return await this.uploadService.uploadSingleFile(file, uploaderId, scene)
   }
 
@@ -106,32 +98,18 @@ export class UploadController {
   @ApiOperation({ summary: '多文件上传' })
   @ApiConsumes('multipart/form-data')
   @ApiQuery({ name: 'uploaderId', required: false, description: '上传者ID' })
-  @ApiQuery({ name: 'scene', required: false, description: '上传场景，如果不传默认为shared' })
+  @ApiQuery({
+    name: 'scene',
+    required: false,
+    description: '上传场景，如果不传默认为shared',
+  })
   @ApiResponse({
     status: 200,
     description: '上传完成',
     type: MultipleFileUploadResponseDto,
   })
   @ApiResponse({ status: 400, description: '上传失败' })
-  @UseInterceptors(
-    FilesInterceptor(
-      'files',
-      5,
-      createMulterConfig({
-        maxFileSize: 10 * 1024 * 1024,
-        maxFiles: 5,
-        allowedMimeTypes: [
-          'image/jpeg',
-          'image/png',
-          'image/gif',
-          'application/pdf',
-        ],
-        allowedExtensions: ['.jpg', '.jpeg', '.png', '.gif', '.pdf'],
-        uploadDir: join(process.cwd(), 'uploads'),
-        preserveOriginalName: false,
-      }),
-    ),
-  )
+  @UseInterceptors(FilesInterceptor('files'))
   async uploadMultiple(
     @UploadedFiles() files: Express.Multer.File[],
     @Query('uploaderId') uploaderId?: string,
@@ -141,8 +119,14 @@ export class UploadController {
       throw new BadRequestException('请选择要上传的文件')
     }
 
-    this.logger.log(`接收到多文件上传请求，文件数量: ${files.length}, 场景: ${scene || 'shared'}`)
-    return await this.uploadService.uploadMultipleFiles(files, uploaderId, scene)
+    this.logger.log(
+      `接收到多文件上传请求，文件数量: ${files.length}, 场景: ${scene || 'shared'}`,
+    )
+    return await this.uploadService.uploadMultipleFiles(
+      files,
+      uploaderId,
+      scene,
+    )
   }
 
   /**

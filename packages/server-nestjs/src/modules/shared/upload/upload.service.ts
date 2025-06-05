@@ -121,9 +121,6 @@ export class UploadService {
     return {
       successFiles,
       failedFiles,
-      totalFiles: files.length,
-      successCount: successFiles.length,
-      failedCount: failedFiles.length,
     }
   }
 
@@ -139,10 +136,12 @@ export class UploadService {
     return {
       id: fileInfo.id,
       originalName: fileInfo.originalName,
+      fileName: fileInfo.fileName,
+      filePath: fileInfo.filePath,
       size: fileInfo.size,
       mimeType: fileInfo.mimeType,
+      extension: fileInfo.extension,
       uploadTime: fileInfo.uploadTime,
-      status: 'active',
       uploaderId: fileInfo.uploaderId,
     }
   }
@@ -188,33 +187,17 @@ export class UploadService {
     return {
       maxFileSize: this.uploadConfig.maxFileSize,
       maxFiles: this.uploadConfig.maxFiles,
-      allowedMimeTypes: this.uploadConfig.allowedMimeTypes,
-      allowedExtensions: this.uploadConfig.allowedExtensions,
+      allowedMimeTypes: this.uploadConfig.allowedMimeTypes.all,
+      allowedExtensions: this.uploadConfig.allowedExtensions.all,
     }
   }
 
   /**
-   * 验证文件
+   * 验证文件（仅保留FileInterceptor不支持的高级校验）
    */
   private async validateFile(file: Express.Multer.File): Promise<void> {
-    // 验证文件大小
-    if (file.size > this.uploadConfig.maxFileSize) {
-      throw new BadRequestException(
-        `文件大小超出限制，最大允许 ${this.uploadConfig.maxFileSize / 1024 / 1024}MB`,
-      )
-    }
-
-    // 验证文件类型
-    const ext = extname(file.originalname).toLowerCase()
-    if (!this.uploadConfig.allowedExtensions.includes(ext)) {
-      throw new BadRequestException(`不支持的文件扩展名: ${ext}`)
-    }
-
-    if (!this.uploadConfig.allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException(`不支持的文件类型: ${file.mimetype}`)
-    }
-
-    // 二次验证：检查文件内容与扩展名是否匹配
+    // FileInterceptor已经处理了基础的文件大小、扩展名和MIME类型校验
+    // 这里只保留高级的文件内容验证
     await this.validateFileContent(file)
   }
 
@@ -367,19 +350,14 @@ export class UploadService {
   }
 
   /**
-   * 映射到响应DTO
+   * 将文件信息映射为响应DTO
    */
   private mapToResponseDto(fileInfo: FileInfo): FileUploadResponseDto {
     return {
-      id: fileInfo.id,
-      originalName: fileInfo.originalName,
       fileName: fileInfo.fileName,
       filePath: fileInfo.filePath,
       size: fileInfo.size,
       mimeType: fileInfo.mimeType,
-      extension: fileInfo.extension,
-      uploadTime: fileInfo.uploadTime,
-      url: `/api/upload/file/${fileInfo.id}`, // 文件访问URL
     }
   }
 }
