@@ -607,6 +607,9 @@ importers:
       dotenv:
         specifier: ^16.5.0
         version: 16.5.0
+      fastify:
+        specifier: ^5.3.3
+        version: 5.3.3
       keyv:
         specifier: ^5.3.3
         version: 5.3.3

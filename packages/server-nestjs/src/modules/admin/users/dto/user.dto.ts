@@ -64,7 +64,7 @@ export class UserLoginDto {
     example: 'admin',
     required: true,
     maxLength: 18,
-    minLength: 6,
+    minLength: 5,
   })
   username!: string
 

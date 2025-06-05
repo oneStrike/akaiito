@@ -105,7 +105,7 @@ export class LoggingInterceptor implements NestInterceptor {
     // 如果都没有，根据路径自动判断
     if (!module) {
       const request = context.switchToHttp().getRequest<Request>()
-      const path = request.path
+      const path = request.url
       if (path.startsWith('/api/admin')) {
         return LogModule.ADMIN
       } else if (path.startsWith('/api/client')) {
@@ -199,7 +199,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const logContext: LogContext = {
       requestId: this.generateRequestId(),
       ip: this.getClientIp(request),
-      userAgent: request.get('User-Agent'),
+      userAgent: request.headers['user-agent'],
       method: request.method,
       url: request.url,
     }

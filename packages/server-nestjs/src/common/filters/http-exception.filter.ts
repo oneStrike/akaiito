@@ -5,38 +5,39 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common'
-import { HttpAdapterHost } from '@nestjs/core'
-import { Request, Response } from 'express'
+import { FastifyReply } from 'fastify'
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
-  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+  constructor() {}
+
+  private getErrorMessage(message: string | object): string {
+    console.log(message)
+    if (typeof message === 'object') {
+      return (message as { message?: string }).message || 'Error'
+    } else if (
+      message ===
+      'Body cannot be empty when content-type is set to \'application/json\''
+    ) {
+      return '缺少请求实体'
+    } else {
+      return message || '内部服务错误'
+    }
+  }
 
   catch(exception: HttpException, host: ArgumentsHost) {
-    const { httpAdapter } = this.httpAdapterHost
     const ctx = host.switchToHttp()
-
-    const response = ctx.getResponse()
-    const request = ctx.getRequest<Request>()
+    const response = ctx.getResponse<FastifyReply>()
     const status = exception.getStatus
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR
-    console.log(exception)
     const message = exception.getResponse() as string | object
 
     const errorResponse = {
       code: status,
-      message:
-        typeof message === 'object'
-          ? (message as any).message || 'Error'
-          : message,
+      message: this.getErrorMessage(message),
     }
 
-    // 判断是否为 Fastify 平台
-    if (httpAdapter.getType() === 'fastify') {
-      response.status(status).send(errorResponse)
-    } else {
-      ctx.getResponse<Response>().status(status).json(errorResponse)
-    }
+    response.status(status).send(errorResponse)
   }
 }
