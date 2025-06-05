@@ -12,7 +12,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
   constructor() {}
 
   private getErrorMessage(message: string | object): string {
-    console.log(message)
     if (typeof message === 'object') {
       return (message as { message?: string }).message || 'Error'
     } else if (
