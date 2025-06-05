@@ -26,7 +26,6 @@ export interface FileInfo {
   mimeType: string
   extension: string
   uploadTime: Date
-  uploaderId?: string
 }
 
 /**
@@ -47,7 +46,6 @@ export class UploadService {
    */
   async uploadSingleFile(
     file: Express.Multer.File,
-    uploaderId?: string,
     scene?: string,
   ): Promise<FileUploadResponseDto> {
     try {
@@ -59,7 +57,7 @@ export class UploadService {
       await this.validateFile(file)
 
       // 生成文件信息
-      const fileInfo = await this.processFile(file, uploaderId, scene)
+      const fileInfo = await this.processFile(file, scene)
 
       // 存储文件信息
       this.fileStorage.set(fileInfo.id, fileInfo)
@@ -81,7 +79,6 @@ export class UploadService {
    */
   async uploadMultipleFiles(
     files: Express.Multer.File[],
-    uploaderId?: string,
     scene?: string,
   ): Promise<MultipleFileUploadResponseDto> {
     this.logger.log(`开始上传多个文件，数量: ${files.length}`)
@@ -99,7 +96,7 @@ export class UploadService {
     // 并发处理文件上传
     const uploadPromises = files.map(async (file) => {
       try {
-        const result = await this.uploadSingleFile(file, uploaderId, scene)
+        const result = await this.uploadSingleFile(file, scene)
         successFiles.push(result)
       } catch (error) {
         failedFiles.push({
@@ -142,7 +139,6 @@ export class UploadService {
       mimeType: fileInfo.mimeType,
       extension: fileInfo.extension,
       uploadTime: fileInfo.uploadTime,
-      uploaderId: fileInfo.uploaderId,
     }
   }
 
@@ -263,7 +259,6 @@ export class UploadService {
    */
   private async processFile(
     file: Express.Multer.File,
-    uploaderId?: string,
     scene?: string,
   ): Promise<FileInfo> {
     const fileId = uuidv4()
@@ -299,7 +294,6 @@ export class UploadService {
       mimeType: file.mimetype,
       extension: ext,
       uploadTime: new Date(),
-      uploaderId,
     }
   }
 

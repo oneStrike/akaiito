@@ -35,7 +35,7 @@ import {
   MultipleFileUploadResponseDto,
   UploadConfigResponseDto,
 } from '@/common/dto/upload.dto'
-import { createMulterConfig, UploadConfig } from '@/config/upload.config'
+import { UploadConfig } from '@/config/upload.config'
 import { UploadService } from './upload.service'
 
 /**
@@ -88,7 +88,7 @@ export class UploadController {
     this.logger.log(
       `接收到单文件上传请求: ${file.originalname}, 场景: ${scene || 'shared'}`,
     )
-    return await this.uploadService.uploadSingleFile(file, uploaderId, scene)
+    return await this.uploadService.uploadSingleFile(file, scene)
   }
 
   /**
@@ -122,11 +122,7 @@ export class UploadController {
     this.logger.log(
       `接收到多文件上传请求，文件数量: ${files.length}, 场景: ${scene || 'shared'}`,
     )
-    return await this.uploadService.uploadMultipleFiles(
-      files,
-      uploaderId,
-      scene,
-    )
+    return await this.uploadService.uploadMultipleFiles(files, scene)
   }
 
   /**

@@ -2,6 +2,8 @@ import { applyDecorators, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express'
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface'
 import { ApiBody, ApiConsumes } from '@nestjs/swagger'
+import { ApiDoc } from '@/common/decorators/api-doc.decorator'
+import { MultipleFileUploadResponseDto } from '@/common/dto/upload.dto'
 import { UploadLoggingInterceptor } from '@/common/interceptors/upload-logging.interceptor'
 import uploadConfig, {
   createMulterConfig,
@@ -98,7 +100,7 @@ export function MultipleFileUpload(options: MultipleFileUploadOptions = {}) {
   const defaultConfig = uploadConfig()
 
   const {
-    fieldName = 'file',
+    fieldName = 'files',
     maxFiles = 50,
     allowedFileType = 'all',
     maxFileSize = defaultConfig.maxFileSize,
@@ -133,14 +135,15 @@ export function MultipleFileUpload(options: MultipleFileUploadOptions = {}) {
             },
             description: `要上传的文件列表（最多${maxFiles}个）`,
           },
-          uploaderId: {
+          scene: {
             type: 'string',
-            description: '上传者ID（可选）',
+            description: '上传场景，默认shared',
           },
         },
         required: [fieldName],
       },
     }),
+    ApiDoc('多文件上传接口', MultipleFileUploadResponseDto),
   ]
 
   if (enableLogging) {

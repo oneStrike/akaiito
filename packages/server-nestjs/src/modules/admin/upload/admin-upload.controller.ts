@@ -1,8 +1,8 @@
-import { Controller, Post, Query, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Post, UploadedFiles } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { FilesInterceptor } from '@nestjs/platform-express'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc } from '@/common/decorators/api-doc.decorator'
+import { MultipleFileUpload } from '@/common/decorators/upload.decorator'
 import {
   FileUploadDto,
   MultipleFileUploadResponseDto,
@@ -23,10 +23,11 @@ export class AdminUploadController {
   }
 
   @Post('/uploadFile')
-  @ApiDoc('文件上传', MultipleFileUploadResponseDto)
-  @UseInterceptors(FilesInterceptor('files', 5))
-  async uploadFile(@Query() query: FileUploadDto) {
-    console.log(query)
-    return 'uploadFile'
+  @MultipleFileUpload()
+  async uploadFile(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body() body: FileUploadDto,
+  ) {
+    return await this.uploadService.uploadMultipleFiles(files, body.scene)
   }
 }

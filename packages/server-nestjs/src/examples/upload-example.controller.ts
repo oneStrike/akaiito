@@ -42,10 +42,9 @@ export class UploadExampleController {
   @SingleFileUpload()
   async basicSingleUpload(
     @UploadedFile() file: Express.Multer.File,
-    @Query('uploaderId') uploaderId?: string,
     @Query('scene') scene?: string,
   ): Promise<FileUploadResponseDto> {
-    return await this.uploadService.uploadSingleFile(file, uploaderId, scene)
+    return await this.uploadService.uploadSingleFile(file, scene)
   }
 
   /**
@@ -61,14 +60,9 @@ export class UploadExampleController {
   @MultipleFileUpload()
   async basicMultipleUpload(
     @UploadedFiles() files: Express.Multer.File[],
-    @Query('uploaderId') uploaderId?: string,
     @Query('scene') scene?: string,
   ): Promise<MultipleFileUploadResponseDto> {
-    return await this.uploadService.uploadMultipleFiles(
-      files,
-      uploaderId,
-      scene,
-    )
+    return await this.uploadService.uploadMultipleFiles(files, scene)
   }
 
   /**
@@ -82,10 +76,7 @@ export class UploadExampleController {
     type: FileUploadResponseDto,
   })
   @ImageUpload()
-  async uploadImage(
-    @UploadedFile() file: Express.Multer.File,
-    @Query('uploaderId') uploaderId?: string,
-  ): Promise<{
+  async uploadImage(@UploadedFile() file: Express.Multer.File): Promise<{
     message: string
     fileInfo: FileUploadResponseDto
     imageMetadata: {
@@ -94,11 +85,7 @@ export class UploadExampleController {
       size: string
     }
   }> {
-    const fileInfo = await this.uploadService.uploadSingleFile(
-      file,
-      uploaderId,
-      'image',
-    )
+    const fileInfo = await this.uploadService.uploadSingleFile(file, 'image')
 
     // 可以在这里添加图片处理逻辑，如获取图片尺寸、生成缩略图等
     const imageMetadata = {
@@ -127,7 +114,6 @@ export class UploadExampleController {
   @DocumentUpload()
   async uploadDocument(
     @UploadedFile() file: Express.Multer.File,
-    @Query('uploaderId') uploaderId?: string,
     @Query('category') category?: string,
   ): Promise<{
     message: string
@@ -139,11 +125,7 @@ export class UploadExampleController {
       pages?: number
     }
   }> {
-    const fileInfo = await this.uploadService.uploadSingleFile(
-      file,
-      uploaderId,
-      'document',
-    )
+    const fileInfo = await this.uploadService.uploadSingleFile(file, 'document')
 
     // 可以在这里添加文档处理逻辑，如提取文档信息、生成预览等
     const documentInfo = {
@@ -175,11 +157,7 @@ export class UploadExampleController {
     avatarUrl: string
     thumbnailUrl: string
   }> {
-    const fileInfo = await this.uploadService.uploadSingleFile(
-      avatar,
-      userId,
-      'avatar',
-    )
+    const fileInfo = await this.uploadService.uploadSingleFile(avatar, 'avatar')
 
     // 在实际项目中，这里可以：
     // 1. 生成不同尺寸的头像
@@ -203,10 +181,7 @@ export class UploadExampleController {
     allowedFileType: 'image',
     enableLogging: true,
   })
-  async customUpload(
-    @UploadedFile() file: Express.Multer.File,
-    @Query('uploaderId') uploaderId?: string,
-  ): Promise<{
+  async customUpload(@UploadedFile() file: Express.Multer.File): Promise<{
     message: string
     fileInfo: FileUploadResponseDto
     customProcessing: {
@@ -215,11 +190,7 @@ export class UploadExampleController {
     }
   }> {
     const startTime = Date.now()
-    const fileInfo = await this.uploadService.uploadSingleFile(
-      file,
-      uploaderId,
-      'custom',
-    )
+    const fileInfo = await this.uploadService.uploadSingleFile(file, 'custom')
 
     // 自定义处理逻辑
     await this.customFileProcessing(fileInfo)
@@ -244,7 +215,6 @@ export class UploadExampleController {
   @MultipleFileUpload({ maxFiles: 10 })
   async batchUpload(
     @UploadedFiles() files: Express.Multer.File[],
-    @Query('uploaderId') uploaderId?: string,
     @Query('batchName') batchName?: string,
   ): Promise<{
     message: string
@@ -258,7 +228,6 @@ export class UploadExampleController {
   }> {
     const uploadResult = await this.uploadService.uploadMultipleFiles(
       files,
-      uploaderId,
       'batch',
     )
 
@@ -285,7 +254,7 @@ export class UploadExampleController {
    */
   @Get('stats')
   @ApiOperation({ summary: '获取上传统计信息' })
-  async getUploadStats(@Query('uploaderId') uploaderId?: string): Promise<{
+  async getUploadStats(): Promise<{
     totalFiles: number
     totalSize: string
     fileTypes: Record<string, number>
