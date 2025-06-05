@@ -279,10 +279,12 @@ export class UploadService {
 
     // 确保目录存在
     await this.ensureDirectoryExists(fullDir)
-
     // 如果文件还没有保存到磁盘，则保存
     if (file.buffer) {
       await fs.writeFile(filePath, file.buffer)
+    } else if (file.path) {
+      // 如果文件已经保存到临时路径，移动文件到目标路径
+      await fs.rename(file.path, filePath)
     }
 
     return {

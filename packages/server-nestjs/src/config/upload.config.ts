@@ -232,7 +232,7 @@ export default registerAs('upload', (): UploadConfig => {
   return {
     maxFileSize: Number.parseInt(
       process.env.UPLOAD_MAX_FILE_SIZE ||
-      String(defaultUploadConfig.maxFileSize),
+        String(defaultUploadConfig.maxFileSize),
     ),
     maxFiles: Number.parseInt(
       process.env.UPLOAD_MAX_FILES || String(defaultUploadConfig.maxFiles),
