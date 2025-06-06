@@ -8,7 +8,6 @@ import { TransformInterceptor } from '@/common/interceptors/transform-intercepto
 import { LoggerModule } from '@/common/module/logger.module'
 import { AdminModule } from '@/modules/admin/admin.module'
 import { ClientModule } from '@/modules/client/client.module'
-import { UploadModule } from '@/modules/shared/upload/upload.module'
 import { GlobalModule } from './global/global.module'
 
 @Module({
@@ -26,7 +25,6 @@ import { GlobalModule } from './global/global.module'
     GlobalModule,
     AdminModule,
     ClientModule,
-    UploadModule, // 文件上传模块
   ],
   controllers: [],
   providers: [

@@ -11,7 +11,7 @@
     "dev": "node run.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "preinstall": "npx only-allow pnpm",
-    "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install && pnpm run -C packages/server prisma:generate",
+    "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install && pnpm run -C packages/server-nestjs prisma:generate",
     "upgrade:app": "pnpm run -C packages/app upgrade:uni",
     "dev:server": "pnpm run -C packages/server dev",
     "dev:admin": "pnpm run -C packages/admin dev",
