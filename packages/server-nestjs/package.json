@@ -27,6 +27,7 @@
   "dependencies": {
     "@akaiito/types": "workspace:^",
     "@akaiito/utils": "workspace:^",
+    "@fastify/multipart": "^9.0.3",
     "@fastify/static": "^8.2.0",
     "@keyv/redis": "^4.4.0",
     "@nestjs/cache-manager": "^3.0.1",
@@ -36,7 +37,6 @@
     "@nestjs/jwt": "^11.0.0",
     "@nestjs/mapped-types": "*",
     "@nestjs/passport": "^11.0.5",
-    "@nestjs/platform-express": "^11.1.3",
     "@nestjs/platform-fastify": "^11.1.2",
     "@prisma/adapter-pg": "^6.8.2",
     "@types/mime-types": "^3.0.0",

@@ -38,3 +38,4 @@ coverage
 /packages/server-nestjs/src/db/prisma/
 
 /generated/prisma
+/packages/server-nestjs/uploads/**/*
