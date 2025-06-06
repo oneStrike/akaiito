@@ -257,6 +257,7 @@ export class LoggingInterceptor implements NestInterceptor {
     error: any,
     duration: number,
   ): void {
+    // 获取异常过滤器设置的完整错误响应
     logger.error(
       `Request failed: ${request.method} ${request.url}`,
       error.stack,
@@ -266,6 +267,8 @@ export class LoggingInterceptor implements NestInterceptor {
         duration,
         errorMessage: error.message,
         errorName: error.name,
+        // 记录完整的错误响应，包括ValidationPipe的详细错误
+        errorResponse: error.response,
       },
     )
   }

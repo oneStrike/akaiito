@@ -10,8 +10,8 @@ import {
   Req,
   UploadedFile,
   UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common'
-import { FileFastifyInterceptor, FilesFastifyInterceptor } from 'fastify-file-interceptor'
 import { ConfigType } from '@nestjs/config'
 import {
   ApiBody,
@@ -22,6 +22,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { FastifyRequest } from 'fastify'
+import {
+  FileFastifyInterceptor,
+  FilesFastifyInterceptor,
+} from 'fastify-file-interceptor'
 import {
   UploadFileDto,
   UploadMultipleFilesDto,
@@ -48,6 +52,7 @@ export class UploadController {
    * 单文件上传
    */
   @Post('single')
+  @UseInterceptors(FileFastifyInterceptor('file'))
   @ApiOperation({ summary: '单文件上传' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -84,6 +89,7 @@ export class UploadController {
    * 多文件上传
    */
   @Post('multiple')
+  @UseInterceptors(FilesFastifyInterceptor('files'))
   @ApiOperation({ summary: '多文件上传' })
   @ApiConsumes('multipart/form-data')
   @ApiBody({

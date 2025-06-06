@@ -47,15 +47,15 @@ import { GlobalModule } from './global/global.module'
     },
     {
       provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor, // 日志拦截器，优先级最高
-    },
-    {
-      provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
     },
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor, // 日志拦截器，优先级最高
     },
   ],
 })

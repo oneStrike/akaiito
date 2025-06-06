@@ -11,8 +11,12 @@ import { FastifyReply } from 'fastify'
 export class HttpExceptionFilter implements ExceptionFilter {
   constructor() {}
 
-  private getErrorMessage(message: string | object): string {
+  private getErrorMessage(message: string | object): string | string[] {
     if (typeof message === 'object') {
+      // 处理ValidationPipe返回的错误格式
+      if ((message as any).message && Array.isArray((message as any).message)) {
+        return (message as any).message
+      }
       return (message as { message?: string }).message || 'Error'
     } else if (
       message ===
@@ -36,6 +40,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       code: status,
       message: this.getErrorMessage(message),
     }
+
+    // 将完整的错误响应添加到response对象上，供日志拦截器使用
+    ;(response as any).errorResponse = errorResponse
 
     response.status(status).send(errorResponse)
   }
