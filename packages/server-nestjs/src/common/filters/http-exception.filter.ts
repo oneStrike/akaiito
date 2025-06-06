@@ -30,7 +30,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR
-    const message = exception.getResponse() as string | object
+    const message = exception?.getResponse() as string | object
 
     const errorResponse = {
       code: status,

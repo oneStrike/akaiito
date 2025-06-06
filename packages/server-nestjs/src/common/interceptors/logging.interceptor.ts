@@ -5,7 +5,8 @@ import {
   NestInterceptor,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { Request, Response } from 'express'
+// 替换 express 导入为
+import { FastifyReply, FastifyRequest } from 'fastify'
 import { Observable } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import {
@@ -34,8 +35,9 @@ export class LoggingInterceptor implements NestInterceptor {
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const startTime = Date.now()
-    const request = context.switchToHttp().getRequest<Request>()
-    const response = context.switchToHttp().getResponse<Response>()
+    // 获取 Fastify 请求和响应对象
+    const request = context.switchToHttp().getRequest<FastifyRequest>()
+    const response = context.switchToHttp().getResponse<FastifyReply>()
 
     // 获取装饰器元数据
     const logModule = this.getLogModule(context)
@@ -104,7 +106,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     // 如果都没有，根据路径自动判断
     if (!module) {
-      const request = context.switchToHttp().getRequest<Request>()
+      const request = context.switchToHttp().getRequest<FastifyRequest>()
       const path = request.url
       if (path.startsWith('/api/admin')) {
         return LogModule.ADMIN
@@ -170,7 +172,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     if (typeof action === 'string') {
       return action
-    } else if (action === true) {
+    } else if (action) {
       const className = context.getClass().name
       const methodName = context.getHandler().name
       return `${className}.${methodName}`
@@ -194,17 +196,18 @@ export class LoggingInterceptor implements NestInterceptor {
    */
   private setRequestContext(
     logger: CustomLoggerService,
-    request: Request,
+    request: FastifyRequest,
   ): void {
     const logContext: LogContext = {
       requestId: this.generateRequestId(),
+      // 获取客户端 IP 的方式调整
       ip: this.getClientIp(request),
       userAgent: request.headers['user-agent'],
       method: request.method,
       url: request.url,
     }
 
-    // 如果有用户信息，添加用户ID
+    // 如果有用户信息，添加用户 ID
     if (request.user && (request.user as any).id) {
       logContext.userId = (request.user as any).id
     }
@@ -215,7 +218,10 @@ export class LoggingInterceptor implements NestInterceptor {
   /**
    * 记录请求开始
    */
-  private logRequestStart(logger: CustomLoggerService, request: Request): void {
+  private logRequestStart(
+    logger: CustomLoggerService,
+    request: FastifyRequest,
+  ): void {
     logger.debug(`Incoming request: ${request.method} ${request.url}`, {
       headers: this.sanitizeHeaders(request.headers),
       query: request.query,
@@ -228,13 +234,14 @@ export class LoggingInterceptor implements NestInterceptor {
    */
   private logRequestComplete(
     logger: CustomLoggerService,
-    request: Request,
-    response: Response,
+    request: FastifyRequest,
+    response: FastifyReply,
     duration: number,
   ): void {
     logger.logRequest(
       request.method,
       request.url,
+      // 获取状态码的方式调整
       response.statusCode,
       duration,
     )
@@ -245,8 +252,8 @@ export class LoggingInterceptor implements NestInterceptor {
    */
   private logRequestError(
     logger: CustomLoggerService,
-    request: Request,
-    response: Response,
+    request: FastifyRequest,
+    response: FastifyReply,
     error: any,
     duration: number,
   ): void {
@@ -254,6 +261,7 @@ export class LoggingInterceptor implements NestInterceptor {
       `Request failed: ${request.method} ${request.url}`,
       error.stack,
       {
+        // 获取状态码的方式调整
         statusCode: response.statusCode,
         duration,
         errorMessage: error.message,
@@ -278,21 +286,28 @@ export class LoggingInterceptor implements NestInterceptor {
   }
 
   /**
-   * 生成请求ID
+   * 生成请求 ID
    */
   private generateRequestId(): string {
     return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
   }
 
   /**
-   * 获取客户端IP
+   * 获取客户端 IP
    */
-  private getClientIp(request: Request): string {
-    return ((request.headers['x-forwarded-for'] as string)?.split(',')[0] ||
-      request.headers['x-real-ip'] ||
-      request.connection?.remoteAddress ||
-      request.socket?.remoteAddress ||
-      'unknown') as string
+  private getClientIp(request: FastifyRequest): string {
+    const xForwardedFor = request.headers['x-forwarded-for']
+    let ip: string | undefined
+
+    if (Array.isArray(xForwardedFor)) {
+      ip = xForwardedFor[0]?.split(',')[0]?.trim()
+    } else if (typeof xForwardedFor === 'string') {
+      ip = xForwardedFor.split(',')[0].trim()
+    }
+
+    return (
+      ip || request.headers['x-real-ip']?.toString() || request.ip || 'unknown'
+    )
   }
 
   /**
