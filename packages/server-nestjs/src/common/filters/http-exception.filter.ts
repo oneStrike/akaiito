@@ -11,21 +11,31 @@ import { FastifyReply } from 'fastify'
 export class HttpExceptionFilter implements ExceptionFilter {
   constructor() {}
 
-  private getErrorMessage(message: string | object): string | string[] {
+  private getErrorMessage(message: string | object): string {
+    let returnMessage: string = ''
+
     if (typeof message === 'object') {
-      // 处理ValidationPipe返回的错误格式
-      if ((message as any).message && Array.isArray((message as any).message)) {
-        return (message as any).message
+      // 安全访问 message 字段
+      const msg = (message as { message?: string | string[] }).message
+      if (typeof msg === 'string') {
+        returnMessage = msg
+      } else if (Array.isArray(msg)) {
+        returnMessage = msg.join(', ') // 统一转为字符串
       }
-      return (message as { message?: string }).message || 'Error'
-    } else if (
-      message ===
-      "Body cannot be empty when content-type is set to 'application/json'"
-    ) {
-      return '缺少请求实体'
     } else {
-      return message || '内部服务错误'
+      returnMessage = message
     }
+
+    // 错误消息映射表（可抽取到常量文件中）
+    const errorMap: Record<string, string> = {
+      'request file too large': '上传文件大小超出系统限制',
+      'the request is not multipart': '【files】校验错误，上传文件不得为空',
+      // prettier-ignore
+      'Body cannot be empty when content-type is set to \'application/json\'':
+        '缺少请求实体',
+    }
+
+    return errorMap[returnMessage] || returnMessage || '内部服务错误'
   }
 
   catch(exception: HttpException, host: ArgumentsHost) {

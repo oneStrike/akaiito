@@ -17,6 +17,7 @@ import { GlobalModule } from './global/global.module'
       isGlobal: true, // 设置为全局模块，其他模块可直接使用
       envFilePath: ['.env', `.env.${process.env.NODE_ENV || 'development'}`], // 指定环境变量文件路径
       load: [uploadConfig], // 加载上传配置
+      cache: true, // 缓存配置
     }),
     CacheModule.register({
       isGlobal: true,
