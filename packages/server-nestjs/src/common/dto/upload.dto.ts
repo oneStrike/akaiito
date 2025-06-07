@@ -3,7 +3,7 @@ import { ValidateString } from '@/common/decorators/validate.decorator'
 
 export class UploadFileDto {
   @ValidateString({
-    description: '文件描述',
+    description: '上传场景',
     required: false,
     default: 'shared',
   })
