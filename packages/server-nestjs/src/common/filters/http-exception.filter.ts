@@ -20,7 +20,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       return (message as { message?: string }).message || 'Error'
     } else if (
       message ===
-      'Body cannot be empty when content-type is set to \'application/json\''
+      "Body cannot be empty when content-type is set to 'application/json'"
     ) {
       return '缺少请求实体'
     } else {
@@ -34,7 +34,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR
-    const message = exception?.getResponse() as string | object
+    console.log(exception.message)
+    const message = exception?.getResponse
+      ? exception?.getResponse()
+      : exception
 
     const errorResponse = {
       code: status,
@@ -42,7 +45,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     // 将完整的错误响应添加到response对象上，供日志拦截器使用
-    ;(response as any).errorResponse = errorResponse
+    // @ts-expect-error ignore
+    response.errorResponse = errorResponse
 
     response.status(status).send(errorResponse)
   }

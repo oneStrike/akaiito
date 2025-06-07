@@ -21,16 +21,7 @@ async function bootstrap() {
   const fastifyAdapter = new FastifyAdapter()
 
   // 注册multipart插件
-  await fastifyAdapter.register(fastifyMultipart, {
-    limits: {
-      fieldNameSize: 100, // 字段名大小限制
-      fieldSize: 100, // 字段值大小限制
-      fields: 10, // 非文件字段数量限制
-      fileSize: 1000000, // 文件大小限制 (1MB)
-      files: 5, // 文件数量限制
-      headerPairs: 2000, // header键值对数量限制
-    },
-  })
+  await fastifyAdapter.register(fastifyMultipart, {})
 
   // 注册静态文件服务
   await fastifyAdapter.register(fastifyStatic, {

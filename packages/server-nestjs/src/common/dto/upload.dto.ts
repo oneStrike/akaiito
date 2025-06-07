@@ -1,22 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional, IsString } from 'class-validator'
+import { ValidateString } from '@/common/decorators/validate.decorator'
 
-export class FileUploadDto {
-  @ApiProperty({ type: 'string', format: 'binary' })
-  file: any
-
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  description?: string
+export class UploadFileDto {
+  @ValidateString({
+    description: '文件描述',
+    required: false,
+    default: 'shared',
+  })
+  scene?: string
 }
 
-export class MultipleFileUploadDto {
-  @ApiProperty({ type: 'array', items: { type: 'string', format: 'binary' } })
-  files: any[]
+export class UploadResponseDto {
+  @ApiProperty({ description: '文件名' })
+  fileName: string
 
-  @ApiProperty({ required: false })
-  @IsOptional()
-  @IsString()
-  description?: string
+  @ApiProperty({ description: '文件路径' })
+  filePath: string
+
+  @ApiProperty({ description: '文件大小' })
+  fileSize: number
+
+  @ApiProperty({ description: '文件类型' })
+  mimeType: string
+
+  @ApiProperty({ description: '原始文件名' })
+  originalName: string
+
+  @ApiProperty({ description: '上传时间' })
+  uploadTime: Date
 }

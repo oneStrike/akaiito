@@ -3,7 +3,9 @@ import { join } from 'node:path'
 import { pipeline } from 'node:stream'
 import { promisify } from 'node:util'
 import { BadRequestException, Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { v4 as uuidv4 } from 'uuid'
+import { UploadConfig } from '@/config/upload.config'
 
 const pump = promisify(pipeline)
 
@@ -20,8 +22,11 @@ export class UploadService {
 
   private readonly maxFileSize = 5 * 1024 * 1024 // 5MB
 
-  constructor() {
-    this.ensureUploadDirectory()
+  constructor(private configService: ConfigService) {}
+
+  private getUploadConfig(): UploadConfig {
+    // 获取 'upload' 命名空间下的配置
+    return this.configService.get<UploadConfig>('upload')!
   }
 
   private ensureUploadDirectory() {
@@ -30,40 +35,15 @@ export class UploadService {
     }
   }
 
-  async uploadSingleFile(
-    data: any,
-  ): Promise<{ filename: string; path: string; size: number }> {
-    const file = await data.file()
-
-    // 验证文件类型
-    if (!this.allowedMimeTypes.includes(file.mimetype)) {
-      throw new BadRequestException('不支持的文件类型')
-    }
-
-    // 验证文件大小
-    if (file.file.bytesRead > this.maxFileSize) {
-      throw new BadRequestException('文件大小超出限制')
-    }
-
-    const filename = `${uuidv4()}-${file.filename}`
-    const filepath = join(this.uploadPath, filename)
-
-    await pump(file.file, createWriteStream(filepath))
-
-    return {
-      filename,
-      path: filepath,
-      size: file.file.bytesRead,
-    }
-  }
-
   async uploadMultipleFiles(
     data: any,
   ): Promise<Array<{ filename: string; path: string; size: number }>> {
     const files = data.files()
-    const results = []
-
+    const results: any[] = []
+    const config = this.getUploadConfig()
+    console.log(config)
     for await (const file of files) {
+      console.log(file.fields.scene.value)
       // 验证文件类型和大小
       if (!this.allowedMimeTypes.includes(file.mimetype)) {
         throw new BadRequestException(`文件 ${file.filename} 类型不支持`)
