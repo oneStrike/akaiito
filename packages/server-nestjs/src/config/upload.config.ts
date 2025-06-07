@@ -13,6 +13,11 @@ export interface UploadConfig {
   allowedMimeTypes: string[]
   /** 允许的文件扩展名 */
   allowedExtensions: string[]
+  imageType: { mimeTypes: string[]; extensions: string[] }
+  audioType: { mimeTypes: string[]; extensions: string[] }
+  videoType: { mimeTypes: string[]; extensions: string[] }
+  documentType: { mimeTypes: string[]; extensions: string[] }
+  archiveType: { mimeTypes: string[]; extensions: string[] }
   /** 上传目录 */
   uploadDir: string
   /** 是否保留原始文件名 */
@@ -231,6 +236,26 @@ export default registerAs('upload', (): UploadConfig => {
   return {
     maxFileSize,
     maxFiles,
+    imageType: {
+      mimeTypes: imageMimeTypes,
+      extensions: imageExtensions,
+    },
+    audioType: {
+      mimeTypes: audioMimeTypes,
+      extensions: audioExtensions,
+    },
+    videoType: {
+      mimeTypes: videoMimeTypes,
+      extensions: videoExtensions,
+    },
+    documentType: {
+      mimeTypes: documentMimeTypes,
+      extensions: documentExtensions,
+    },
+    archiveType: {
+      mimeTypes: archiveMimeTypes,
+      extensions: archiveExtensions,
+    },
     allowedMimeTypes: [
       ...imageMimeTypes,
       ...audioMimeTypes,

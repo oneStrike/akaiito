@@ -28,6 +28,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
 
     // 错误消息映射表（可抽取到常量文件中）
     const errorMap: Record<string, string> = {
+      'reach files limit': '上传文件数量超出系统限制',
       'request file too large': '上传文件大小超出系统限制',
       'the request is not multipart': '【files】校验错误，上传文件不得为空',
       // prettier-ignore

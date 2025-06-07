@@ -44,7 +44,10 @@ export class UserController {
    * @returns 验证码数据对象
    */
   @Get('getCaptcha')
-  @ApiDoc('获取验证码', CaptchaDto)
+  @ApiDoc({
+    summary: '获取验证码',
+    model: CaptchaDto,
+  })
   @Public()
   getCaptcha() {
     return this.userService.getCaptcha()
@@ -57,7 +60,10 @@ export class UserController {
    * @returns 登录成功后的用户数据及访问令牌
    */
   @Post('login')
-  @ApiDoc('管理员登录', LoginResponseDto)
+  @ApiDoc({
+    summary: '管理员登录',
+    model: LoginResponseDto,
+  })
   @Public()
   login(@Body() body: UserLoginDto) {
     return this.userService.login(body)
@@ -70,9 +76,12 @@ export class UserController {
    * @returns 登出结果
    */
   @Post('logout')
-  @ApiDoc('管理员登出', {
-    type: 'object',
-    properties: { success: { type: 'boolean' } },
+  @ApiDoc({
+    summary: '管理员登出',
+    model: {
+      type: 'object',
+      properties: { success: { type: 'boolean' } },
+    },
   })
   async logout(@Req() req: any) {
     return this.userService.logout(req)
@@ -85,7 +94,10 @@ export class UserController {
    * @returns 注册成功后的用户数据
    */
   @Post('register')
-  @ApiDoc('用户注册', UserDto)
+  @ApiDoc({
+    summary: '用户注册',
+    model: UserDto,
+  })
   @Public()
   register(@Body() body: UserRegisterDto) {
     // 验证密码是否一致
@@ -102,7 +114,10 @@ export class UserController {
    * @returns 新的访问令牌及有效期
    */
   @Post('refreshToken')
-  @ApiDoc('刷新访问令牌', UserDto)
+  @ApiDoc({
+    summary: '刷新访问令牌',
+    model: UserDto,
+  })
   @Public()
   refreshToken(@Body() body: RefreshTokenDto) {
     return this.userService.refreshToken(body.refreshToken)
@@ -116,7 +131,10 @@ export class UserController {
    * @returns 修改密码后的用户信息
    */
   @Post('updatePassword')
-  @ApiDoc('修改密码', UserDto)
+  @ApiDoc({
+    summary: '修改密码',
+    model: UserDto,
+  })
   updatePassword(
     @Body() body: UpdatePasswordDto,
     @CurrentUser() user: AdminJwtPayload,
@@ -140,7 +158,10 @@ export class UserController {
    * @returns 更新后的用户信息
    */
   @Post('updateUserInfo')
-  @ApiDoc('更新用户信息', UserDto)
+  @ApiDoc({
+    summary: '更新用户信息',
+    model: UserDto,
+  })
   updateUserInfo(
     @Body() body: UpdateUserDto,
     @CurrentUser() user: AdminJwtPayload,
@@ -155,7 +176,10 @@ export class UserController {
    * @returns 当前用户的完整信息
    */
   @Get('getUserInfo')
-  @ApiDoc('获取当前用户信息', UserDto)
+  @ApiDoc({
+    summary: '获取当前用户信息',
+    model: UserDto,
+  })
   getUserInfo(@CurrentUser() user: AdminJwtPayload) {
     return this.userService.getUserInfo(Number.parseInt(user.sub))
   }
@@ -167,7 +191,10 @@ export class UserController {
    * @returns 指定ID的用户完整信息
    */
   @Get('getUserById')
-  @ApiDoc('根据ID获取用户信息', UserDto)
+  @ApiDoc({
+    summary: '根据ID获取用户信息',
+    model: UserDto,
+  })
   getUserById(@Query() query: IdDto) {
     return this.userService.getUserInfo(query.id)
   }

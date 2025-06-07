@@ -23,9 +23,12 @@ export class AuthController {
    * @returns 登出结果
    */
   @Post('logout')
-  @ApiDoc('客户端用户登出', {
-    type: 'object',
-    properties: { success: { type: 'boolean' } },
+  @ApiDoc({
+    summary: '客户端用户登出接口',
+    model: {
+      type: 'object',
+      properties: { success: { type: 'boolean' } },
+    },
   })
   async logout(@Req() req: any) {
     try {

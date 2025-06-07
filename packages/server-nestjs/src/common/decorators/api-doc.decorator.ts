@@ -7,6 +7,12 @@ import {
   getSchemaPath,
 } from '@nestjs/swagger'
 
+export interface ApiDocOptions<TModel> {
+  summary: string
+  model?: Type<TModel> | Record<string, any>
+  isArray?: boolean
+}
+
 // 工具函数：判断是否是类
 const isClass = (model: any): model is Type<unknown> =>
   typeof model === 'function' && model.prototype
@@ -37,9 +43,9 @@ const baseResponse = (summary: string) => ({
 })
 
 export function ApiDoc<TModel extends Type<any>>(
-  summary: string,
-  model?: Type<TModel> | Record<string, any>,
+  options: ApiDocOptions<TModel>,
 ) {
+  const { summary, model, isArray } = options
   let dataSchema
   const decorators = [ApiOperation({ summary })]
 
@@ -49,6 +55,14 @@ export function ApiDoc<TModel extends Type<any>>(
       dataSchema = { $ref: getSchemaPath(model) }
     } else {
       dataSchema = model
+    }
+
+    // 如果指定了isArray，则将数据包装成数组形式
+    if (isArray) {
+      dataSchema = {
+        type: 'array',
+        items: dataSchema,
+      }
     }
   }
   decorators.push(
