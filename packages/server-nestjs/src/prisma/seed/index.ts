@@ -1,5 +1,5 @@
 import * as process from 'node:process'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@/prisma/client'
 import { createInitialAdminAccount } from './adminUser'
 import { createInitialDataDictionary } from './dataDictionary'
 import { createInitialWorkCategory } from './workCategory'

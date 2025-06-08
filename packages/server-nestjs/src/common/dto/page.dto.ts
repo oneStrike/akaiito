@@ -6,7 +6,7 @@ import {
 
 export class PageDto {
   @ValidateNumber({
-    description: '单页大小',
+    description: '单页大小，最大500，默认15',
     example: 15,
     max: 500,
     min: 1,
@@ -26,7 +26,7 @@ export class PageDto {
 
   @ValidateJson({
     description: '排序字段，json格式',
-    example: '{id:\'desc\'}',
+    example: "{id:'desc'}",
     required: false,
   })
   orderBy?: string

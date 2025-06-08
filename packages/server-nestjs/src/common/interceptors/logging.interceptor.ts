@@ -257,6 +257,7 @@ export class LoggingInterceptor implements NestInterceptor {
     error: any,
     duration: number,
   ): void {
+    console.error(error)
     // 获取异常过滤器设置的完整错误响应
     logger.error(
       `Request failed: ${request.method} ${request.url}`,

@@ -86,9 +86,9 @@ export function ApiDoc<TModel extends Type<any>>(
 }
 
 export function ApiPageDoc<TModel extends Type<any>>(
-  summary: string,
-  model?: TModel | Record<string, any>,
+  options: ApiDocOptions<TModel>,
 ) {
+  const { summary, model } = options
   let dataSchema
   const decorators = [ApiOperation({ summary })]
 
@@ -116,20 +116,28 @@ export function ApiPageDoc<TModel extends Type<any>>(
                   pageIndex: {
                     type: 'number',
                     description: '当前页码',
+                    required: true,
                     example: 0,
                   },
                   pageSize: {
                     type: 'number',
                     description: '每页条数',
+                    required: true,
                     example: 15,
                   },
                   total: {
                     type: 'number',
                     description: '总条数',
+                    required: true,
                     example: 100,
                   },
                   ...(dataSchema && {
-                    items: { type: 'array', items: dataSchema },
+                    list: {
+                      type: 'array',
+                      required: true,
+                      description: '列表数据',
+                      items: dataSchema,
+                    },
                   }),
                 },
               },

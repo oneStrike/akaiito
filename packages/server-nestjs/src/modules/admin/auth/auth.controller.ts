@@ -20,7 +20,10 @@ export class AuthController {
    * @returns Admin RSA公钥
    */
   @Get('/publicKey')
-  @ApiDoc('获取Admin专用RSA公钥', RsaPublicKeyDto)
+  @ApiDoc({
+    summary: '获取Admin专用RSA公钥',
+    model: RsaPublicKeyDto,
+  })
   @Public()
   getAdminPublicKey(): RsaPublicKeyDto {
     return {

@@ -5,7 +5,7 @@ model Dictionary {
   /// 字典编码
   code      String           @unique @db.VarChar(50)
   /// 字典封面
-  cover     String?          @unique @db.VarChar(200)
+  cover     String?          @db.VarChar(200)
   /// 状态 1启用 0禁用
   status    Boolean          @default(true)
   /// 备注信息

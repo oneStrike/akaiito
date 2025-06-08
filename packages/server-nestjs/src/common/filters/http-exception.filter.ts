@@ -40,6 +40,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
   }
 
   catch(exception: HttpException, host: ArgumentsHost) {
+    console.log(123, HttpException)
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<FastifyReply>()
     const status = exception.getStatus

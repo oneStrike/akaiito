@@ -1,5 +1,5 @@
-# Logs
-logs
+# 忽略日志文件
+**/logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,20 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# 忽略依赖和构建产物
+**/node_modules
 .DS_Store
-dist
-dist-ssr
-coverage
+**/dist
+dist-ssr/
+/coverage
 *.local
 .history
 
+# Cypress测试相关
 /cypress/videos/
 /cypress/screenshots/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+# 编辑器相关
 .idea
 *.suo
 *.ntvs*
@@ -28,14 +28,13 @@ coverage
 *.sln
 *.sw?
 
+# TypeScript编译中间文件
 *.tsbuildinfo
 
-/packages/server/public
-!/packages/server/public/
-!/packages/server/public/files/
-!/packages/att/src/apis/
-/packages/server/prisma/generated/
-/packages/server-nestjs/src/db/prisma/
+# 保留特定目录 - 注意这些目录需要出现在对应的排除规则之后
+/packages/server/public/files/
+/packages/att/src/apis/
 
-/generated/prisma
+# 上传文件目录 - 忽略所有内容但保留目录结构
 /packages/server-nestjs/uploads/**/*
+/packages/server-nestjs/src/prisma/client/**/*

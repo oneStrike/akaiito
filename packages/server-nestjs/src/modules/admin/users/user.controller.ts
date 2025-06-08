@@ -206,7 +206,10 @@ export class UserController {
    * @returns 分页用户列表数据及总条数
    */
   @Get('getAdminUserPage')
-  @ApiPageDoc('获取管理端用户分页列表', UserDto)
+  @ApiPageDoc({
+    summary: '获取管理端用户分页列表',
+    model: UserDto,
+  })
   @UseInterceptors(useClassSerializerInterceptor(UserDto))
   getUsers(@Query() query: PageDto) {
     return this.userService.getUsers(query.pageIndex, query.pageSize)

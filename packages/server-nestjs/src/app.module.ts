@@ -34,9 +34,6 @@ import { GlobalModule } from './global/global.module'
       provide: APP_PIPE,
       useValue: new ValidationPipe({
         transform: true,
-        transformOptions: {
-          enableImplicitConversion: true,
-        },
         whitelist: true,
         exceptionFactory: (errors) => {
           return new BadRequestException(
