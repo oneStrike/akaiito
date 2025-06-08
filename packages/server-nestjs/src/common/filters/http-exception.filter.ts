@@ -40,13 +40,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
   }
 
   catch(exception: HttpException, host: ArgumentsHost) {
-    console.log(123, HttpException)
+    console.error(exception)
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<FastifyReply>()
     const status = exception.getStatus
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR
-    console.log(exception.message)
     const message = exception?.getResponse
       ? exception?.getResponse()
       : exception

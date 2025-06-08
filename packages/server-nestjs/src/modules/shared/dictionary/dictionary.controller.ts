@@ -89,7 +89,7 @@ export class DictionaryController {
     model: DictionaryDto,
   })
   async updateDictionary(@Body() updateDictionaryDto: UpdateDictionaryDto) {
-    return await this.dictionaryService.updateDictionary(updateDictionaryDto)
+    return this.dictionaryService.updateDictionary(updateDictionaryDto)
   }
 
   /**

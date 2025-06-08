@@ -1,6 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { PrismaService } from '@/global/services/prisma.service'
-import { Prisma } from '@/prisma/client'
+import {
+  DictionaryItemWhereInput,
+  DictionaryWhereInput,
+} from '@/prisma/client/models'
 import { CreateDictionaryDto } from './dto/create-dictionary.dto'
 import {
   CreateDictionaryItemDto,
@@ -41,9 +44,8 @@ export class DictionaryService {
    */
   async findDictionaries(queryDto: QueryDictionaryDto) {
     const { pageIndex = 0, pageSize = 15, name, code, status } = queryDto
-
     // 构建查询条件
-    const where: Prisma.DictionaryWhereInput = {}
+    const where: DictionaryWhereInput = {}
     if (name) {
       where.name = { contains: name }
     }
@@ -77,7 +79,6 @@ export class DictionaryService {
    * @returns 字典详情
    */
   async findDictionaryById(id: number) {
-    console.log(id)
     const dictionary = await this.prisma.dictionary.findUnique({
       where: { id },
     })
@@ -126,19 +127,11 @@ export class DictionaryService {
 
   /**
    * 更新数据字典
-   * @param id 字典ID
    * @param updateDictionaryDto 更新数据
    * @returns 更新后的字典信息
    */
   async updateDictionary(updateDictionaryDto: UpdateDictionaryDto) {
     const { id } = updateDictionaryDto
-    // 检查字典是否存在
-    const existingDictionary = await this.prisma.dictionary.findUnique({
-      where: { id },
-    })
-    if (!existingDictionary) {
-      throw new HttpException(`ID为 ${id} 的字典不存在`, HttpStatus.NOT_FOUND)
-    }
 
     return this.prisma.dictionary.update({
       where: { id },
@@ -247,7 +240,7 @@ export class DictionaryService {
     }
 
     // 构建查询条件
-    const where: Prisma.DictionaryItemWhereInput = {
+    const where: DictionaryItemWhereInput = {
       dictionaryCode,
     }
     if (name) {

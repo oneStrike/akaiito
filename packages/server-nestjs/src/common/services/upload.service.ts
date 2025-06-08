@@ -231,7 +231,6 @@ export class UploadService {
     scene?: string,
   ): Promise<UploadResponseDto[]> {
     const config = this.getUploadConfig()
-    console.log(config.maxFileSize)
     const files = data.files({
       limits: { fileSize: config.maxFileSize, files: config.maxFiles },
     })
