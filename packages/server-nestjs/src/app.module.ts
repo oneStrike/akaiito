@@ -8,10 +8,10 @@ import { TransformInterceptor } from '@/common/interceptors/transform.intercepto
 import { LoggerModule } from '@/common/module/logger/logger.module'
 import uploadConfig from '@/config/upload.config'
 import { AdminModule } from '@/modules/admin/admin.module'
-import { ClientJwtAuthGuard } from '@/modules/client/auth/client-jwt-auth.guard'
 import { ClientModule } from '@/modules/client/client.module'
+import { GuardsModule } from './common/guards/guards.module'
+import { SmartJwtAuthGuard } from './common/guards/smart-jwt-auth.guard'
 import { GlobalModule } from './global/global.module'
-import { AdminJwtAuthGuard } from './modules/admin/auth/admin-jwt-auth.guard'
 
 @Module({
   imports: [
@@ -27,6 +27,7 @@ import { AdminJwtAuthGuard } from './modules/admin/auth/admin-jwt-auth.guard'
     }),
     LoggerModule, // 添加日志模块
     GlobalModule,
+    GuardsModule,
     AdminModule,
     ClientModule,
   ],
@@ -59,11 +60,7 @@ import { AdminJwtAuthGuard } from './modules/admin/auth/admin-jwt-auth.guard'
 
     {
       provide: APP_GUARD,
-      useClass: AdminJwtAuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: ClientJwtAuthGuard,
+      useClass: SmartJwtAuthGuard,
     },
   ],
 })

@@ -21,6 +21,6 @@ import { AdminJwtStrategy } from './admin-jwt.strategy'
     }),
   ],
   providers: [AdminJwtService, AdminJwtStrategy, AdminJwtAuthGuard],
-  exports: [AdminJwtService],
+  exports: [AdminJwtService, AdminJwtAuthGuard],
 })
 export class AdminAuthModule {}

@@ -52,7 +52,6 @@ export class AdminJwtStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
     if (isBlacklisted) {
       throw new UnauthorizedException('登录失效，请重新登录！')
     }
-    console.log(token)
     // 返回验证通过的用户信息，将被添加到请求对象中
     return payload
   }

@@ -19,6 +19,6 @@ import { ClientJwtStrategy } from './client-jwt.strategy'
     }),
   ],
   providers: [ClientJwtService, ClientJwtStrategy, ClientJwtAuthGuard],
-  exports: [ClientJwtService],
+  exports: [ClientJwtService, ClientJwtAuthGuard],
 })
 export class ClientAuthModule {}
