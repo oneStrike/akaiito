@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
+import { Public } from '@/common/decorators/public.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
 import { DictionaryService } from './dictionary.service'
@@ -88,6 +89,7 @@ export class DictionaryController {
     summary: '更新数据字典',
     model: DictionaryDto,
   })
+  @Public()
   async updateDictionary(@Body() updateDictionaryDto: UpdateDictionaryDto) {
     return this.dictionaryService.updateDictionary(updateDictionaryDto)
   }
