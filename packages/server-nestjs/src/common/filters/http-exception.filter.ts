@@ -5,7 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common'
-import { FastifyReply, FastifyRequest } from 'fastify'
+import { FastifyReply } from 'fastify'
 
 /**
  * HTTP异常过滤器
@@ -35,12 +35,19 @@ export class HttpExceptionFilter implements ExceptionFilter {
   }
 
   /**
+   * 数据库错误映射表
+   */
+  private readonly dbErrorMessageMap: Record<string, string> = {
+    P2025: '未找到相关记录',
+    P2002: '唯一约束失败',
+  }
+
+  /**
    * 捕获并处理异常
    */
   catch(exception: unknown, host: ArgumentsHost): void {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse<FastifyReply>()
-    const request = ctx.getRequest<FastifyRequest>()
 
     const { status, message } = this.extractErrorInfo(exception)
     const errorResponse = {
@@ -48,7 +55,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
       message: this.getLocalizedErrorMessage(message),
     }
     // 将完整的错误响应添加到response对象上，供日志拦截器使用
-    ;(response as any).errorResponse = errorResponse
+    // @ts-expect-error ignore
+    response.errorResponse = errorResponse
 
     response.status(200).send(errorResponse)
   }
@@ -62,10 +70,18 @@ export class HttpExceptionFilter implements ExceptionFilter {
     details?: any
   } {
     if (exception instanceof HttpException) {
-      const response = exception.getResponse()
       return {
         status: exception.getStatus(),
-        message: response,
+        message: exception.getResponse(),
+      }
+    }
+
+    // 处理数据库错误
+    if (exception instanceof Error && 'code' in exception) {
+      const code = (exception as { code?: any }).code
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: this.dbErrorMessageMap[code],
       }
     }
 
