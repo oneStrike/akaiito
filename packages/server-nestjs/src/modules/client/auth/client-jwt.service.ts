@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { JwtBlacklistService } from '@/common/services/jwt-blacklist.service'
+import { JwtBlacklistService } from '@/common/module/jwt/jwt-blacklist.service'
 import { JwtConfigService } from '@/config/jwt.config'
 
 /**
@@ -141,15 +141,24 @@ export class ClientJwtService {
       // 如果提供了刷新令牌，也将其添加到黑名单
       if (refreshToken) {
         try {
-          const refreshPayload = await this.jwtService.verifyAsync(refreshToken, {
-            secret: config.secret,
-            ignoreExpiration: true,
-          })
+          const refreshPayload = await this.jwtService.verifyAsync(
+            refreshToken,
+            {
+              secret: config.secret,
+              ignoreExpiration: true,
+            },
+          )
 
           const refreshExpTime = refreshPayload.exp * 1000
-          const refreshTtl = Math.max(0, Math.floor((refreshExpTime - currentTime) / 1000))
+          const refreshTtl = Math.max(
+            0,
+            Math.floor((refreshExpTime - currentTime) / 1000),
+          )
 
-          await this.jwtBlacklistService.addToClientBlacklist(refreshToken, refreshTtl)
+          await this.jwtBlacklistService.addToClientBlacklist(
+            refreshToken,
+            refreshTtl,
+          )
         } catch (error) {
           console.error('Error adding refresh token to blacklist:', error)
         }

@@ -15,11 +15,11 @@ import {
   LOG_MODULE_KEY,
   LOG_PERFORMANCE_KEY,
 } from '@/common/decorators/log.decorator'
-import { LoggerFactoryService } from '@/common/services/logger-factory.service'
+import { LoggerFactoryService } from '@/common/module/logger/logger-factory.service'
 import {
   CustomLoggerService,
   LogContext,
-} from '@/common/services/logger.service'
+} from '@/common/module/logger/logger.service'
 import { LogModule } from '@/config/logger.config'
 
 /**

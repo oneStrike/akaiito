@@ -1,8 +1,8 @@
 import { Global, Module } from '@nestjs/common'
 import { WinstonModule } from 'nest-winston'
-import { LoggerFactoryService } from '@/common/services/logger-factory.service'
-import { CustomLoggerService } from '@/common/services/logger.service'
 import { globalLoggerConfig } from '@/config/logger.config'
+import { LoggerFactoryService } from './logger-factory.service'
+import { CustomLoggerService } from './logger.service'
 
 /**
  * 日志模块

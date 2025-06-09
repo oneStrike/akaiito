@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { LoggerFactoryService } from '@/common/services/logger-factory.service'
+import { LoggerFactoryService } from '@/common/module/logger/logger-factory.service'
 
 /**
  * Admin模块专用日志模块

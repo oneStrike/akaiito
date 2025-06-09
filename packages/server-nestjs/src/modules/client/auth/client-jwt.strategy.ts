@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
-import { JwtBlacklistService } from '@/common/services/jwt-blacklist.service'
 import { JwtConfigService } from '@/config/jwt.config'
 import { ClientJwtPayload } from './client-jwt.service'
+import { JwtBlacklistService } from '@/common/module/jwt/jwt-blacklist.service'
 
 /**
  * ClientJwtStrategy 类

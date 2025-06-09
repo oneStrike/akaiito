@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc } from '@/common/decorators/api-doc.decorator'
 import { Public } from '@/common/decorators/public.decorator'
-import { RsaService } from '@/common/services/rsa.service'
+import { RsaService } from '@/common/module/jwt/rsa.service'
 import { RsaPublicKeyDto } from './dto/rsa-public-key.dto'
 
 /**
