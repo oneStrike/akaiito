@@ -9,6 +9,7 @@
     "build": "cross-env NODE_ENV=production nest build",
     "start": "cross-env NODE_ENV=production nest start",
     "start:dev": "cross-env NODE_ENV=development webpack --config webpack.config.js --watch",
+    "start:nest-dev": "nest start --watch",
     "start:debug": "cross-env NODE_ENV=development nest start --debug --watch",
     "start:prod": "cross-env NODE_ENV=production  node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",

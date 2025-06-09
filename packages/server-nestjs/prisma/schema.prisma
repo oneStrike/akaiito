@@ -6,9 +6,7 @@
 
 generator client {
   provider               = "prisma-client"
-  previewFeatures        = ["queryCompiler", "driverAdapters", "relationJoins"]
-  moduleFormat           = "commonjs"
-  generatedFileExtension = "ts"
+  previewFeatures        = ["driverAdapters", "relationJoins"]
   output                 = "../src/prisma/client"
 }
 
