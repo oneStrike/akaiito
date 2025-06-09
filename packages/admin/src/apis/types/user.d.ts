@@ -3,7 +3,7 @@
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/getCaptcha
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 /*  */
@@ -20,7 +20,7 @@ export type GetCaptchaTypesRes = {
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/login
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface LoginTypesReq {
@@ -81,7 +81,7 @@ export type LoginTypesRes = {
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
  *  @地址 /api/admin/user/logout
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface LogoutTypesRes {
@@ -94,7 +94,7 @@ export interface LogoutTypesRes {
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/register
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface RegisterTypesReq {
@@ -108,7 +108,7 @@ export interface RegisterTypesReq {
   confirmPassword: string
 
   /* 手机号 */
-  mobile?: string
+  mobile?: string | null
 }
 
 /*  */
@@ -143,7 +143,7 @@ export type RegisterTypesRes = {
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/refreshToken
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface RefreshTokenTypesReq {
@@ -183,7 +183,7 @@ export type RefreshTokenTypesRes = {
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/updatePassword
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface UpdatePasswordTypesReq {
@@ -229,18 +229,18 @@ export type UpdatePasswordTypesRes = {
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/updateUserInfo
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface UpdateUserInfoTypesReq {
   /* 用户名 */
-  username?: string
+  username?: string | null
 
   /* 头像 */
-  avatar?: string
+  avatar?: string | null
 
   /* 手机号 */
-  mobile?: string
+  mobile?: string | null
 }
 
 /*  */
@@ -275,7 +275,7 @@ export type UpdateUserInfoTypesRes = {
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/getUserInfo
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 /*  */
@@ -310,11 +310,11 @@ export type GetUserInfoTypesRes = {
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/getUserById
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface GetUserByIdTypesReq {
-  /* id */
+  /* 主键id */
   id: number
 }
 
@@ -350,11 +350,11 @@ export type GetUserByIdTypesRes = {
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/getAdminUserPage
- *  @更新时间 2025-06-02 17:56:24
+ *  @更新时间 2025-06-08 21:32:41
  */
 
 export interface GetAdminUserPageTypesReq {
-  /* 单页大小 */
+  /* 单页大小，最大500，默认15 */
   pageSize?: number
 
   /* 当前页码 */
@@ -379,7 +379,7 @@ export interface GetAdminUserPageTypesRes {
 
   /* 总条数 */
   total: number
-  items: {
+  list: {
     /* 用户ID */
     id: number
 

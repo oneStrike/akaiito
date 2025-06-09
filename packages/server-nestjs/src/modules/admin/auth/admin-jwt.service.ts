@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { JwtConfigService } from '@/config/jwt.config'
 import { JwtBlacklistService } from '@/common/module/jwt/jwt-blacklist.service'
+import { JwtConfigService } from '@/config/jwt.config'
 
 /**
  * AdminJwtPayload 接口

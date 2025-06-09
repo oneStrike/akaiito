@@ -47,7 +47,6 @@ export class DictionaryController {
     summary: '创建数据字典',
     model: DictionaryDto,
   })
-  @Public()
   async createDictionary(@Body() createDictionaryDto: CreateDictionaryDto) {
     return await this.dictionaryService.createDictionary(createDictionaryDto)
   }
@@ -90,7 +89,6 @@ export class DictionaryController {
     summary: '更新数据字典',
     model: DictionaryDto,
   })
-  @Public()
   async updateDictionary(@Body() updateDictionaryDto: UpdateDictionaryDto) {
     return this.dictionaryService.updateDictionary(updateDictionaryDto)
   }
