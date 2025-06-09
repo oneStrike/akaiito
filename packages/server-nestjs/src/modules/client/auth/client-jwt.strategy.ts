@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { ExtractJwt, Strategy } from 'passport-jwt'
+import { JwtBlacklistService } from '@/common/services/jwt-blacklist.service'
 import { JwtConfigService } from '@/config/jwt.config'
-import { JwtBlacklistService } from '@/global/services/jwt-blacklist.service'
 import { ClientJwtPayload } from './client-jwt.service'
 
 /**
@@ -18,6 +18,7 @@ export class ClientJwtStrategy extends PassportStrategy(
   /**
    * 构造函数
    * @param jwtConfigService JWT 配置服务，用于获取 JWT 密钥
+   * @param jwtBlacklistService
    */
   constructor(
     private jwtConfigService: JwtConfigService,
