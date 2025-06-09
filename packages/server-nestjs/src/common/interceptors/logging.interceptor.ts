@@ -1,20 +1,13 @@
-import type {
+import {
   CallHandler,
   ExecutionContext,
+  Injectable,
   NestInterceptor,
 } from '@nestjs/common'
-import type { Reflector } from '@nestjs/core'
+import { Reflector } from '@nestjs/core'
 // 替换 express 导入为
-import type { FastifyReply, FastifyRequest } from 'fastify'
-import type { Observable } from 'rxjs'
-import type { LoggerFactoryService } from '@/common/services/logger-factory.service'
-import type {
-  CustomLoggerService,
-  LogContext,
-} from '@/common/services/logger.service'
-import {
-  Injectable,
-} from '@nestjs/common'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { Observable } from 'rxjs'
 import { catchError, tap } from 'rxjs/operators'
 import {
   LOG_BUSINESS_KEY,
@@ -22,6 +15,11 @@ import {
   LOG_MODULE_KEY,
   LOG_PERFORMANCE_KEY,
 } from '@/common/decorators/log.decorator'
+import { LoggerFactoryService } from '@/common/services/logger-factory.service'
+import {
+  CustomLoggerService,
+  LogContext,
+} from '@/common/services/logger.service'
 import { LogModule } from '@/config/logger.config'
 
 /**
