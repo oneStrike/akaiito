@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
+import { DictionaryController } from '@/modules/admin/dictionary/dictionary.controller'
 import { AdminUploadModule } from '@/modules/admin/upload/upload.module'
-import { SharedModule } from '@/modules/shared/shared.module'
+import { DictionaryModule } from '@/modules/shared/dictionary/dictionary.module'
 import { AdminAuthModule } from './auth/auth.module'
 import { AdminLoggerModule } from './logger/admin-logger.module'
 import { AdminUserModule } from './users/user.module'
@@ -11,7 +12,8 @@ import { AdminUserModule } from './users/user.module'
     AdminUserModule,
     AdminLoggerModule,
     AdminUploadModule,
-    SharedModule,
+    DictionaryModule,
   ],
+  controllers: [DictionaryController],
 })
 export class AdminModule {}
