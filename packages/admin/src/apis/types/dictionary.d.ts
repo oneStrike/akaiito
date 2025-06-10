@@ -3,7 +3,7 @@
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/page
- *  @更新时间 2025-06-10 22:29:35
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface PageTypesReq {
@@ -73,7 +73,7 @@ export interface PageTypesRes {
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/detail
- *  @更新时间 2025-06-10 22:29:35
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface DetailTypesReq {
@@ -113,7 +113,7 @@ export type DetailTypesRes = {
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create
- *  @更新时间 2025-06-10 22:29:35
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface CreateTypesReq {
@@ -165,7 +165,7 @@ export type CreateTypesRes = {
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update
- *  @更新时间 2025-06-10 22:29:35
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface UpdateTypesReq {
@@ -226,96 +226,38 @@ export type UpdateTypesRes = {
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete
- *  @更新时间 2025-06-10 22:29:35
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface DeleteTypesReq {
   /* 主键id */
-  id: number
+  ids: number[]
 }
 
 /*  */
 export type DeleteTypesRes = {
-  /* 字典ID */
-  id: number
-
-  /* 字典名称 */
-  name: string
-
-  /* 字典编码 */
-  code: string
-
-  /* 字典封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
+  /* 主键id */
+  ids: number[]
 }
 
 /**
- *  接口 [启用字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307016847)
- *  @标签 字典管理/启用字典
+ *  接口 [启用禁用字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307032726)
+ *  @标签 字典管理/启用禁用字典
  *  @方式 POST
- *  @地址 /api/admin/dictionary/enable
- *  @更新时间 2025-06-10 22:29:35
+ *  @地址 /api/admin/dictionary/updateEnableStatus
+ *  @更新时间 2025-06-11 00:52:10
  */
 
-export interface EnableTypesReq {
+export interface UpdateEnableStatusTypesReq {
   /* 主键id */
-  id: number
-}
-
-/*  */
-export type EnableTypesRes = {
-  /* 字典ID */
-  id: number
-
-  /* 字典名称 */
-  name: string
-
-  /* 字典编码 */
-  code: string
-
-  /* 字典封面 */
-  cover?: string | null
+  ids: number[]
 
   /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
-}
-
-/**
- *  接口 [禁用字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307016848)
- *  @标签 字典管理/禁用字典
- *  @方式 POST
- *  @地址 /api/admin/dictionary/disable
- *  @更新时间 2025-06-10 22:29:35
- */
-
-export interface DisableTypesReq {
-  /* 主键id */
-  id: number
+  enabled: boolean
 }
 
 /*  */
-export type DisableTypesRes = {
+export type UpdateEnableStatusTypesRes = {
   /* 字典ID */
   id: number
 
@@ -346,7 +288,7 @@ export type DisableTypesRes = {
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/items
- *  @更新时间 2025-06-10 22:29:35
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface ItemsTypesReq {
@@ -416,7 +358,7 @@ export type ItemsTypesRes = {
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/createItem
- *  @更新时间 2025-06-10 22:29:35
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface CreateItemTypesReq {
@@ -480,18 +422,18 @@ export type CreateItemTypesRes = {
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateItem
- *  @更新时间 2025-06-10 22:29:41
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface UpdateItemTypesReq {
-  /* 主键id */
-  id: number
+  /* 字典编码 */
+  dictionaryCode: string
 
   /* 字典项名称 */
-  name?: string | null
+  name: string
 
   /* 字典项编码 */
-  code?: string | null
+  code: string
 
   /* 排序 */
   order?: number
@@ -504,6 +446,9 @@ export interface UpdateItemTypesReq {
 
   /* 备注信息 */
   remark?: string | null
+
+  /* 字典项ID */
+  id: number
 }
 
 /*  */
@@ -544,12 +489,12 @@ export type UpdateItemTypesRes = {
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/deleteItem
- *  @更新时间 2025-06-10 22:29:41
+ *  @更新时间 2025-06-11 00:52:06
  */
 
 export interface DeleteItemTypesReq {
   /* 主键id */
-  id: number
+  ids: number[]
 }
 
 /*  */
@@ -586,66 +531,23 @@ export type DeleteItemTypesRes = {
 }
 
 /**
- *  接口 [启用字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307020819)
- *  @标签 字典管理/启用字典项
+ *  接口 [启用禁用字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307032727)
+ *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
- *  @地址 /api/admin/dictionary/enableItem
- *  @更新时间 2025-06-10 22:29:41
+ *  @地址 /api/admin/dictionary/updateItemStatus
+ *  @更新时间 2025-06-11 00:52:10
  */
 
-export interface EnableItemTypesReq {
+export interface UpdateItemStatusTypesReq {
   /* 主键id */
-  id: number
-}
-
-/*  */
-export type EnableItemTypesRes = {
-  /* 字典项ID */
-  id: number
-
-  /* 字典编码 */
-  dictionaryCode: string
-
-  /* 字典项名称 */
-  name: string
-
-  /* 字典项编码 */
-  code: string
-
-  /* 排序 */
-  order?: number
-
-  /* 字典项封面 */
-  cover?: string | null
+  ids: number[]
 
   /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
-}
-
-/**
- *  接口 [禁用字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307020820)
- *  @标签 字典管理/禁用字典项
- *  @方式 POST
- *  @地址 /api/admin/dictionary/disableItem
- *  @更新时间 2025-06-10 22:29:41
- */
-
-export interface DisableItemTypesReq {
-  /* 主键id */
-  id: number
+  enabled: boolean
 }
 
 /*  */
-export type DisableItemTypesRes = {
+export type UpdateItemStatusTypesRes = {
   /* 字典项ID */
   id: number
 

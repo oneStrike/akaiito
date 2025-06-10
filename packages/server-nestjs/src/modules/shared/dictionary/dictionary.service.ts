@@ -4,7 +4,7 @@ import {
   DictionaryItemWhereInput,
   DictionaryWhereInput,
 } from '@/prisma/client/models'
-import { UpdateDictionaryItemDto } from './dto/dictionary-item.dto'
+import { CreateDictionaryItemDto } from './dto/dictionary-item.dto'
 import {
   QueryDictionaryDto,
   QueryDictionaryItemDto,
@@ -155,14 +155,28 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
   }
 
   /**
+   * 创建字典项
+   * @param createDictionaryItemDto 创建字典项数据
+   * @returns 创建的字典项信息
+   */
+  createDictionaryItem(createDictionaryItemDto: CreateDictionaryItemDto) {
+    return this.prisma.dictionaryItem.create({
+      data: {
+        ...createDictionaryItemDto,
+        isEnabled: createDictionaryItemDto.isEnabled ?? true,
+      },
+    })
+  }
+
+  /**
    * 批量更新字典项
    * @param updateDictionaryItemDto 更新数据
    * @returns 更新后的字典项信息
    */
-  async updateDictionaryItem(updateDictionaryItemDto: UpdateDictionaryItemDto) {
+  async updateDictionaryItem(updateDictionaryItemDto: Record<string, any>) {
     try {
       return await this.prisma.dictionaryItem.updateMany({
-        where: { id: updateDictionaryItemDto.id },
+        where: { id: { in: updateDictionaryItemDto.ids } },
         data: updateDictionaryItemDto,
       })
     } catch (error) {

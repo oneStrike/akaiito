@@ -3,7 +3,7 @@ import {
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
-import { IdDto } from '@/common/dto/id.dto'
+import { IdDto, IdsDto } from '@/common/dto/id.dto'
 
 /**
  * 创建数据字典项DTO
@@ -72,53 +72,11 @@ export class CreateDictionaryItemDto {
 /**
  * 更新数据字典项DTO
  */
-export class UpdateDictionaryItemDto extends IdDto {
-  @ValidateString({
-    description: '字典项名称',
-    example: '启用',
-    required: false,
-    maxLength: 50,
-    minLength: 1,
-  })
-  name?: string
-
-  @ValidateString({
-    description: '字典项编码',
-    example: 'enabled',
-    required: false,
-    maxLength: 50,
-    minLength: 1,
-  })
-  code?: string
-
+export class UpdateDictionaryItemDto extends CreateDictionaryItemDto {
   @ValidateNumber({
-    description: '排序',
+    description: '字典项ID',
     example: 1,
-    required: false,
-    min: 0,
+    required: true,
   })
-  order?: number
-
-  @ValidateString({
-    description: '字典项封面',
-    example: 'https://example.com/item-cover.png',
-    required: false,
-    maxLength: 200,
-  })
-  cover?: string
-
-  @ValidateBoolean({
-    description: '状态 true启用 false禁用',
-    example: true,
-    required: false,
-  })
-  isEnabled?: boolean
-
-  @ValidateString({
-    description: '备注信息',
-    example: '启用状态',
-    required: false,
-    maxLength: 255,
-  })
-  remark?: string
+  id!: number
 }

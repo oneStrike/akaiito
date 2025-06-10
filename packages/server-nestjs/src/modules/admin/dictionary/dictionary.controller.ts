@@ -111,9 +111,9 @@ export class DictionaryController {
     model: DictionaryItemDto,
   })
   updateItem(@Body() updateDictionaryItemDto: UpdateDictionaryItemDto) {
-    return this.dictionaryService.update({
-      where: { id: updateDictionaryItemDto.id },
-      data: updateDictionaryItemDto,
+    return this.dictionaryService.updateDictionaryItem({
+      ids: [updateDictionaryItemDto.id],
+      ...updateDictionaryItemDto,
     })
   }
 
@@ -128,7 +128,7 @@ export class DictionaryController {
 
   @Post('updateItemStatus')
   @ApiDoc({
-    summary: '启用字典项',
+    summary: '启用禁用字典项',
     model: DictionaryItemDto,
   })
   enableItem(@Body() query: IdsEnabledDto) {

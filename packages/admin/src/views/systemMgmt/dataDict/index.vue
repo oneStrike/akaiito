@@ -2,10 +2,9 @@
   import {
     createApi,
     deleteApi,
-    disableApi,
-    enableApi,
     pageApi,
     updateApi,
+    updateEnableStatusApi,
   } from '@/apis/dictionary'
   import { PromptsEnum } from '@/enum/prompts'
   import RecordDetails from '@/views/systemMgmt/dataDict/record.vue'
@@ -43,10 +42,18 @@
           useConfirm('delete', () => deleteApi({ ids }), request)
           break
         case 'enable':
-          useConfirm('enable', () => enableApi({ ids }), request)
+          useConfirm(
+            'enable',
+            () => updateEnableStatusApi({ ids, enabled: true }),
+            request,
+          )
           break
         case 'disable':
-          useConfirm('disable', () => disableApi({ ids }), request)
+          useConfirm(
+            'disable',
+            () => updateEnableStatusApi({ ids, enabled: false }),
+            request,
+          )
           break
       }
     }
@@ -101,7 +108,7 @@
       </template>
       <template #status="{ row }">
         <es-switch
-          :request="updateDataDictionaryStatusApi"
+          :request="updateEnableStatusApi"
           :row="row"
           ids
           @success="request"
