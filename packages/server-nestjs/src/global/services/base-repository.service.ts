@@ -38,6 +38,10 @@ interface InferModelTypes<T extends ModelName> {
   Select: 'select' extends keyof Prisma.TypeMap['model'][T]['operations']['findFirst']['args']
     ? Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['select']
     : never
+  // 字段排除类型 - 使用条件类型确保类型安全
+  Omit: 'select' extends keyof Prisma.TypeMap['model'][T]['operations']['findFirst']['args']
+    ? Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['omit']
+    : never
   // 唯一查询条件类型
   WhereUniqueInput: Prisma.TypeMap['model'][T]['operations']['findUnique']['args']['where']
 }
@@ -167,16 +171,19 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 创建单条记录
-   * @param data 创建数据
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 创建选项
+   * @param options.data 创建数据
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 创建的记录
    */
-  async create(
-    data: InferModelTypes<TModelName>['CreateInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model']> {
+  async create(options: {
+    data: InferModelTypes<TModelName>['CreateInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+    omit?: InferModelTypes<TModelName>['Omit']
+  }): Promise<InferModelTypes<TModelName>['Model']> {
+    const { data, include, select, omit } = options
     try {
       this.logger.debug(`创建${this.modelName}记录`, { data })
 
@@ -184,6 +191,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         data,
         ...(include && { include }),
         ...(select && { select }),
+        ...(omit && { omit }),
       })
       this.logger.log(`✅ 成功创建${this.modelName}记录`, {
         id: (result as any).id,
@@ -197,14 +205,16 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 批量创建记录
-   * @param data 创建数据数组
-   * @param skipDuplicates 是否跳过重复记录
+   * @param options 创建选项
+   * @param options.data 创建数据数组
+   * @param options.skipDuplicates 是否跳过重复记录
    * @returns 创建结果
    */
-  async createMany(
-    data: InferModelTypes<TModelName>['CreateInput'][],
-    skipDuplicates = false,
-  ): Promise<Prisma.BatchPayload> {
+  async createMany(options: {
+    data: InferModelTypes<TModelName>['CreateInput'][]
+    skipDuplicates?: boolean
+  }): Promise<Prisma.BatchPayload> {
+    const { data, skipDuplicates = false } = options
     try {
       this.logger.debug(`批量创建${this.modelName}记录`, { count: data.length })
 
@@ -225,16 +235,19 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 根据ID查找单条记录
-   * @param id 记录ID
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 查找选项
+   * @param options.id 记录ID
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 查找到的记录或null
    */
-  async findById(
-    id: number | string,
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model'] | null> {
+  async findById(options: {
+    id: number | string
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+    omit?: InferModelTypes<TModelName>['Omit']
+  }): Promise<InferModelTypes<TModelName>['Model'] | null> {
+    const { id, include, select, omit } = options
     try {
       this.logger.debug(`根据ID查找${this.modelName}记录`, { id })
 
@@ -242,6 +255,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         where: { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
         ...(include && { include }),
         ...(select && { select }),
+        ...(omit && { omit }),
       })
 
       if (result) {
@@ -259,18 +273,20 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 根据条件查找单条记录
-   * @param where 查询条件
-   * @param include 关联查询
-   * @param select 字段选择
-   * @param orderBy
+   * @param options 查找选项
+   * @param options.where 查询条件
+   * @param options.include 关联查询
+   * @param options.select 字段选择
+   * @param options.orderBy 排序条件
    * @returns 查找到的记录或null
    */
-  async findFirst(
-    where?: InferModelTypes<TModelName>['WhereInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
-  ): Promise<InferModelTypes<TModelName>['Model'] | null> {
+  async findFirst(options?: {
+    where?: InferModelTypes<TModelName>['WhereInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+    orderBy?: InferModelTypes<TModelName>['OrderByInput']
+  }): Promise<InferModelTypes<TModelName>['Model'] | null> {
+    const { where, include, select, orderBy } = options || {}
     try {
       this.logger.debug(`根据条件查找${this.modelName}记录`, { where })
 
@@ -301,22 +317,26 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 根据条件查找多条记录
-   * @param where 查询条件
-   * @param orderBy 排序条件
-   * @param skip 跳过记录数
-   * @param take 获取记录数
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 查找选项
+   * @param options.where 查询条件
+   * @param options.orderBy 排序条件
+   * @param options.skip 跳过记录数
+   * @param options.take 获取记录数
+   * @param options.include 关联查询
+   * @param options.select 字段选择
+   * @param options.omit 字段排除
    * @returns 查找到的记录数组
    */
-  async findMany(
-    where?: InferModelTypes<TModelName>['WhereInput'],
-    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
-    skip?: number,
-    take?: number,
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model'][]> {
+  async findMany(options?: {
+    where?: InferModelTypes<TModelName>['WhereInput']
+    orderBy?: InferModelTypes<TModelName>['OrderByInput']
+    skip?: number
+    take?: number
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+    omit?: InferModelTypes<TModelName>['Omit']
+  }): Promise<InferModelTypes<TModelName>['Model'][]> {
+    const { where, orderBy, skip, take, include, select, omit } = options || {}
     try {
       this.logger.debug(`查找多条${this.modelName}记录`, { where, skip, take })
 
@@ -332,6 +352,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         ...(take !== undefined && { take }),
         ...(include && { include }),
         ...(select && { select }),
+        ...(omit && { omit }),
       })
 
       this.logger.debug(`✅ 找到${result.length}条${this.modelName}记录`)
@@ -344,22 +365,31 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 分页查询
-   * @param page 页码（从1开始）
-   * @param pageSize 每页大小
-   * @param where 查询条件
-   * @param orderBy 排序条件
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 分页选项
+   * @param options.page 页码（从1开始）
+   * @param options.pageSize 每页大小
+   * @param options.where 查询条件
+   * @param options.orderBy 排序条件
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 分页结果
    */
-  async findManyWithPagination(
-    page: number = 1,
-    pageSize: number = 10,
-    where?: InferModelTypes<TModelName>['WhereInput'],
-    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
+  async findManyWithPagination(options?: {
+    page?: number
+    pageSize?: number
+    where?: InferModelTypes<TModelName>['WhereInput']
+    orderBy?: InferModelTypes<TModelName>['OrderByInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
+    const {
+      page = 1,
+      pageSize = 10,
+      where,
+      orderBy,
+      include,
+      select,
+    } = options || {}
     try {
       this.logger.debug(`分页查询${this.modelName}记录`, {
         page,
@@ -371,7 +401,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
       // 并行执行查询和计数
       const [data, total] = await Promise.all([
-        this.findMany(where, orderBy, skip, pageSize, include, select),
+        this.findMany({
+          where,
+          orderBy,
+          skip,
+          take: pageSize,
+          include,
+          select,
+        }),
         this.count(where),
       ])
 
@@ -400,18 +437,20 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 更新单条记录
-   * @param where 查询条件
-   * @param data 更新数据
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 更新选项
+   * @param options.where 查询条件
+   * @param options.data 更新数据
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 更新后的记录
    */
-  async update(
-    where: InferModelTypes<TModelName>['WhereUniqueInput'],
-    data: InferModelTypes<TModelName>['UpdateInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model']> {
+  async update(options: {
+    where: InferModelTypes<TModelName>['WhereUniqueInput']
+    data: InferModelTypes<TModelName>['UpdateInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model']> {
+    const { where, data, include, select } = options
     try {
       this.logger.debug(`更新${this.modelName}记录`, { where, data })
 
@@ -434,36 +473,40 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 根据ID更新记录
-   * @param id 记录ID
-   * @param data 更新数据
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 更新选项
+   * @param options.id 记录ID
+   * @param options.data 更新数据
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 更新后的记录
    */
-  async updateById(
-    id: number | string,
-    data: InferModelTypes<TModelName>['UpdateInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model']> {
-    return this.update(
-      { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
+  async updateById(options: {
+    id: number | string
+    data: InferModelTypes<TModelName>['UpdateInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model']> {
+    const { id, data, include, select } = options
+    return this.update({
+      where: { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
       data,
       include,
       select,
-    )
+    })
   }
 
   /**
    * 批量更新记录
-   * @param where 查询条件
-   * @param data 更新数据
+   * @param options 更新选项
+   * @param options.where 查询条件
+   * @param options.data 更新数据
    * @returns 更新结果
    */
-  async updateMany(
-    where: InferModelTypes<TModelName>['WhereInput'],
-    data: InferModelTypes<TModelName>['UpdateInput'],
-  ): Promise<Prisma.BatchPayload> {
+  async updateMany(options: {
+    where: InferModelTypes<TModelName>['WhereInput']
+    data: InferModelTypes<TModelName>['UpdateInput']
+  }): Promise<Prisma.BatchPayload> {
+    const { where, data } = options
     try {
       this.logger.debug(`批量更新${this.modelName}记录`, { where, data })
 
@@ -484,16 +527,18 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 删除单条记录
-   * @param where 查询条件
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 删除选项
+   * @param options.where 查询条件
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 删除的记录
    */
-  async delete(
-    where: InferModelTypes<TModelName>['WhereUniqueInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model']> {
+  async delete(options: {
+    where: InferModelTypes<TModelName>['WhereUniqueInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model']> {
+    const { where, include, select } = options
     try {
       this.logger.debug(`删除${this.modelName}记录`, { where })
 
@@ -515,21 +560,23 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 根据ID删除记录
-   * @param id 记录ID
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 删除选项
+   * @param options.id 记录ID
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 删除的记录
    */
-  async deleteById(
-    id: number | string,
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model']> {
-    return this.delete(
-      { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
+  async deleteById(options: {
+    id: number | string
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model']> {
+    const { id, include, select } = options
+    return this.delete({
+      where: { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
       include,
       select,
-    )
+    })
   }
 
   /**
@@ -609,20 +656,22 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 创建或更新记录（upsert）
-   * @param where 查询条件
-   * @param create 创建数据
-   * @param update 更新数据
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options upsert选项
+   * @param options.where 查询条件
+   * @param options.create 创建数据
+   * @param options.update 更新数据
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 创建或更新的记录
    */
-  async upsert(
-    where: InferModelTypes<TModelName>['WhereUniqueInput'],
-    create: InferModelTypes<TModelName>['CreateInput'],
-    update: InferModelTypes<TModelName>['UpdateInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model']> {
+  async upsert(options: {
+    where: InferModelTypes<TModelName>['WhereUniqueInput']
+    create: InferModelTypes<TModelName>['CreateInput']
+    update: InferModelTypes<TModelName>['UpdateInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model']> {
+    const { where, create, update, include, select } = options
     try {
       this.logger.debug(`创建或更新${this.modelName}记录`, {
         where,
@@ -671,11 +720,16 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 执行原始查询
-   * @param query 原始SQL查询
-   * @param params 查询参数
+   * @param options 查询选项
+   * @param options.query 原始SQL查询
+   * @param options.params 查询参数
    * @returns 查询结果
    */
-  async queryRaw<R = any>(query: string, ...params: any[]): Promise<R> {
+  async queryRaw<R = any>(options: {
+    query: string
+    params?: any[]
+  }): Promise<R> {
+    const { query, params = [] } = options
     try {
       this.logger.debug(`执行${this.modelName}原始查询`, { query, params })
 
@@ -691,11 +745,16 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 执行原始操作（增删改）
-   * @param query 原始SQL操作
-   * @param params 操作参数
+   * @param options 操作选项
+   * @param options.query 原始SQL操作
+   * @param options.params 操作参数
    * @returns 影响的行数
    */
-  async executeRaw(query: string, ...params: any[]): Promise<number> {
+  async executeRaw(options: {
+    query: string
+    params?: any[]
+  }): Promise<number> {
+    const { query, params = [] } = options
     try {
       this.logger.debug(`执行${this.modelName}原始操作`, { query, params })
 
@@ -766,9 +825,12 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     try {
       this.logger.debug(`软删除${this.modelName}记录`, { id })
 
-      const result = await this.updateById(id, {
-        deletedAt: new Date(),
-      } as InferModelTypes<TModelName>['UpdateInput'])
+      const result = await this.updateById({
+        id,
+        data: {
+          deletedAt: new Date(),
+        } as InferModelTypes<TModelName>['UpdateInput'],
+      })
 
       this.logger.log(`✅ 成功软删除${this.modelName}记录`, { id })
       return result
@@ -793,9 +855,12 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     try {
       this.logger.debug(`批量软删除${this.modelName}记录`, { where })
 
-      const result = await this.updateMany(where, {
-        deletedAt: new Date(),
-      } as InferModelTypes<TModelName>['UpdateInput'])
+      const result = await this.updateMany({
+        where,
+        data: {
+          deletedAt: new Date(),
+        } as InferModelTypes<TModelName>['UpdateInput'],
+      })
 
       this.logger.log(`✅ 成功批量软删除${this.modelName}记录`, {
         count: result.count,
@@ -867,20 +932,22 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 永久删除记录（物理删除）
-   * @param id 记录ID
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 删除选项
+   * @param options.id 记录ID
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 删除的记录
    */
-  async forceDelete(
-    id: number | string,
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model']> {
+  async forceDelete(options: {
+    id: number | string
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model']> {
+    const { id, include, select } = options
     try {
       this.logger.debug(`永久删除${this.modelName}记录`, { id })
 
-      const result = await this.deleteById(id, include, select)
+      const result = await this.deleteById({ id, include, select })
 
       this.logger.log(`✅ 成功永久删除${this.modelName}记录`, { id })
       return result
@@ -915,22 +982,24 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 查找记录（包含软删除记录）
-   * @param where 查询条件
-   * @param orderBy 排序条件
-   * @param skip 跳过记录数
-   * @param take 获取记录数
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 查找选项
+   * @param options.where 查询条件
+   * @param options.orderBy 排序条件
+   * @param options.skip 跳过记录数
+   * @param options.take 获取记录数
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 查找到的记录数组
    */
-  async findWithDeleted(
-    where?: InferModelTypes<TModelName>['WhereInput'],
-    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
-    skip?: number,
-    take?: number,
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model'][]> {
+  async findWithDeleted(options?: {
+    where?: InferModelTypes<TModelName>['WhereInput']
+    orderBy?: InferModelTypes<TModelName>['OrderByInput']
+    skip?: number
+    take?: number
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model'][]> {
+    const { where, orderBy, skip, take, include, select } = options || {}
     try {
       this.logger.debug(`查找${this.modelName}记录（包含软删除）`, {
         where,
@@ -959,22 +1028,24 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 只查找软删除的记录
-   * @param where 查询条件
-   * @param orderBy 排序条件
-   * @param skip 跳过记录数
-   * @param take 获取记录数
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 查找选项
+   * @param options.where 查询条件
+   * @param options.orderBy 排序条件
+   * @param options.skip 跳过记录数
+   * @param options.take 获取记录数
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 查找到的软删除记录数组
    */
-  async findOnlyDeleted(
-    where?: InferModelTypes<TModelName>['WhereInput'],
-    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
-    skip?: number,
-    take?: number,
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<InferModelTypes<TModelName>['Model'][]> {
+  async findOnlyDeleted(options?: {
+    where?: InferModelTypes<TModelName>['WhereInput']
+    orderBy?: InferModelTypes<TModelName>['OrderByInput']
+    skip?: number
+    take?: number
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<InferModelTypes<TModelName>['Model'][]> {
+    const { where, orderBy, skip, take, include, select } = options || {}
     if (!this.supportsSoftDelete) {
       return []
     }
@@ -987,14 +1058,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
       })
 
       const whereOnlyDeleted = this.getWhereOnlyDeleted(where)
-      const result = await this.findWithDeleted(
-        whereOnlyDeleted,
+      const result = await this.findWithDeleted({
+        where: whereOnlyDeleted,
         orderBy,
         skip,
         take,
         include,
         select,
-      )
+      })
 
       this.logger.debug(
         `✅ 找到${result.length}条已软删除的${this.modelName}记录`,
@@ -1008,22 +1079,31 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 分页查询（包含软删除记录）
-   * @param page 页码
-   * @param pageSize 每页大小
-   * @param where 查询条件
-   * @param orderBy 排序条件
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 分页选项
+   * @param options.page 页码
+   * @param options.pageSize 每页大小
+   * @param options.where 查询条件
+   * @param options.orderBy 排序条件
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 分页结果
    */
-  async findWithDeletedPagination(
-    page: number = 1,
-    pageSize: number = 10,
-    where?: InferModelTypes<TModelName>['WhereInput'],
-    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
+  async findWithDeletedPagination(options?: {
+    page?: number
+    pageSize?: number
+    where?: InferModelTypes<TModelName>['WhereInput']
+    orderBy?: InferModelTypes<TModelName>['OrderByInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
+    const {
+      page = 1,
+      pageSize = 10,
+      where,
+      orderBy,
+      include,
+      select,
+    } = options || {}
     try {
       this.logger.debug(`分页查询${this.modelName}记录（包含软删除）`, {
         page,
@@ -1035,7 +1115,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
       // 并行执行查询和计数
       const [data, total] = await Promise.all([
-        this.findWithDeleted(where, orderBy, skip, pageSize, include, select),
+        this.findWithDeleted({
+          where,
+          orderBy,
+          skip,
+          take: pageSize,
+          include,
+          select,
+        }),
         this.countWithDeleted(where),
       ])
 
@@ -1067,22 +1154,31 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
   /**
    * 分页查询软删除记录
-   * @param page 页码
-   * @param pageSize 每页大小
-   * @param where 查询条件
-   * @param orderBy 排序条件
-   * @param include 关联查询
-   * @param select 字段选择
+   * @param options 分页选项
+   * @param options.page 页码
+   * @param options.pageSize 每页大小
+   * @param options.where 查询条件
+   * @param options.orderBy 排序条件
+   * @param options.include 关联查询
+   * @param options.select 字段选择
    * @returns 分页结果
    */
-  async findOnlyDeletedPagination(
-    page: number = 1,
-    pageSize: number = 10,
-    where?: InferModelTypes<TModelName>['WhereInput'],
-    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
-    include?: InferModelTypes<TModelName>['Include'],
-    select?: InferModelTypes<TModelName>['Select'],
-  ): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
+  async findOnlyDeletedPagination(options?: {
+    page?: number
+    pageSize?: number
+    where?: InferModelTypes<TModelName>['WhereInput']
+    orderBy?: InferModelTypes<TModelName>['OrderByInput']
+    include?: InferModelTypes<TModelName>['Include']
+    select?: InferModelTypes<TModelName>['Select']
+  }): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
+    const {
+      page = 1,
+      pageSize = 10,
+      where,
+      orderBy,
+      include,
+      select,
+    } = options || {}
     if (!this.supportsSoftDelete) {
       return {
         data: [],
@@ -1105,14 +1201,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
       // 并行执行查询和计数
       const [data, total] = await Promise.all([
-        this.findWithDeleted(
-          whereOnlyDeleted,
+        this.findWithDeleted({
+          where: whereOnlyDeleted,
           orderBy,
           skip,
-          pageSize,
+          take: pageSize,
           include,
           select,
-        ),
+        }),
         this.countWithDeleted(whereOnlyDeleted),
       ])
 

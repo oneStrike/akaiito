@@ -1,50 +1,116 @@
 /**
- *  接口 [获取数据字典分页列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135340416)
- *  @标签 数据字典/获取数据字典分页列表
- *  @方式 GET
- *  @地址 /admin/dictionary/getDataDictionary
- *  @更新时间 2024-09-18 00:01:32
+ *  接口 [创建字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-306432782)
+ *  @标签 字典管理/创建字典
+ *  @方式 POST
+ *  @地址 /api/admin/dictionary/create
+ *  @更新时间 2025-06-10 00:29:31
  */
 
-export interface GetDataDictionaryTypesReq {
-  /* 单页数量 */
-  pageSize?: string
+export interface CreateTypesReq {
+  /* 字典名称 */
+  name: string
 
-  /* 页码 */
-  pageIndex?: string
+  /* 字典编码 */
+  code: string
 
-  /* 排序 */
-  orderBy?: string
+  /* 字典封面 */
+  cover?: string | null
 
-  /* 数据字典名称 */
-  name?: string
+  /* 状态 true启用 false禁用 */
+  status?: boolean
 
-  /* 数据字典code */
-  code?: string
-
-  /* 状态，1启用、0禁用 */
-  status?: string
+  /* 备注信息 */
+  remark?: string | null
 }
 
-export interface GetDataDictionaryTypesRes {
+/*  */
+export type CreateTypesRes = {
+  /* 字典ID */
+  id: number
+
+  /* 字典名称 */
+  name: string
+
+  /* 字典编码 */
+  code: string
+
+  /* 字典封面 */
+  cover?: string | null
+
+  /* 状态 true启用 false禁用 */
+  status: boolean
+
+  /* 备注信息 */
+  remark?: string | null
+
+  /* 创建时间 */
+  createdAt: string
+
+  /* 更新时间 */
+  updatedAt: string
+}
+
+/**
+ *  接口 [分页查询字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-306432894)
+ *  @标签 字典管理/分页查询字典
+ *  @方式 GET
+ *  @地址 /api/admin/dictionary/page
+ *  @更新时间 2025-06-10 00:29:40
+ */
+
+export interface PageTypesReq {
+  /* 单页大小，最大500，默认15 */
+  pageSize?: number
+
+  /* 当前页码 */
+  pageIndex?: number
+
+  /* 排序字段，json格式 */
+  orderBy?: string
+
+  /* 开始时间 */
+  startDate?: string
+
+  /* 结束时间 */
+  endDate?: string
+
+  /* 字典名称（模糊查询） */
+  name?: string
+
+  /* 字典编码（模糊查询） */
+  code?: string
+
+  /* 状态筛选 */
+  status?: boolean
+}
+
+export interface PageTypesRes {
+  /* 当前页码 */
+  pageIndex: number
+
+  /* 每页条数 */
+  pageSize: number
+
+  /* 总条数 */
+  total: number
   list: {
-    /* 主键id */
+    /* 字典ID */
     id: number
 
-    /* 名称 */
+    /* 字典名称 */
     name: string
 
-    /* 编码 */
+    /* 字典编码 */
     code: string
 
-    /* 封面 */
-    cover?: string
+    /* 字典封面 */
+    cover?: string | null
+
+    /* 状态 true启用 false禁用 */
+    status: boolean
 
     /* 备注信息 */
-    remark: string | null
-
-    /* 状态，1==>正常 0==>禁用 */
-    status: number
+    remark?: string | null
 
     /* 创建时间 */
     createdAt: string
@@ -52,247 +118,4 @@ export interface GetDataDictionaryTypesRes {
     /* 更新时间 */
     updatedAt: string
   }[]
-  /* 页码 */
-  pageIndex: number
-
-  /* 单页大小 */
-  pageSize: number
-
-  /* 总条数 */
-  total: number
 }
-
-/**
- *  接口 [获取数据字典子项](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135340593)
- *  @标签 数据字典/获取数据字典子项
- *  @方式 GET
- *  @地址 /admin/dictionary/getDataDictionaryItems
- *  @更新时间 2025-04-28 20:27:17
- */
-
-export interface GetDataDictionaryItemsTypesReq {
-  /* 排序json */
-  orderBy?: string
-
-  /* 名称 */
-  name?: string
-
-  /* 编码 */
-  code?: string
-
-  /* 状态，1启用、0禁用 */
-  status?: string
-
-  /* 字典父项code */
-  dictionaryCode?: string
-}
-
-/*  */
-export type GetDataDictionaryItemsTypesRes = string | integer | boolean | array | object | number | null
-
-/**
- *  接口 [创建数据字典](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135340982)
- *  @标签 数据字典/创建数据字典
- *  @方式 POST
- *  @地址 /admin/dictionary/createDataDictionary
- *  @更新时间 2024-09-18 00:09:20
- */
-
-export interface CreateDataDictionaryTypesReq {
-  /* 名称 */
-  name: string
-
-  /* 编码 */
-  code: string
-
-  /* 封面 */
-  cover?: string
-
-  /* 备注信息 */
-  remark: string | null
-}
-
-/* 主键id */
-export type CreateDataDictionaryTypesRes = number
-
-/**
- *  接口 [创建数据字典子项](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135341394)
- *  @标签 数据字典/创建数据字典子项
- *  @方式 POST
- *  @地址 /admin/dictionary/createDataDictionaryItems
- *  @更新时间 2024-12-03 00:22:35
- */
-
-export interface CreateDataDictionaryItemsTypesReq {
-  /* 父项code */
-  dictionaryCode: string
-
-  /* 子项名称 */
-  name: string
-
-  /* 子项编码 */
-  code: string
-
-  /* 封面 */
-  cover?: string | null
-
-  /* 子项备注 */
-  remark: string | null
-}
-
-/* 主键id */
-export type CreateDataDictionaryItemsTypesRes = number
-
-/**
- *  接口 [删除数据字典](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691283)
- *  @标签 数据字典/删除数据字典
- *  @方式 POST
- *  @地址 /admin/dictionary/deleteDataDictionary
- *  @更新时间 2024-11-24 14:12:57
- */
-
-export interface DeleteDataDictionaryTypesReq {
-  /* 主键ids */
-  ids: number[]
-}
-
-/* 主键id */
-export type DeleteDataDictionaryTypesRes = number
-
-/**
- *  接口 [删除数据字典子项](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691296)
- *  @标签 数据字典/删除数据字典子项
- *  @方式 POST
- *  @地址 /admin/dictionary/deleteDataDictionaryItems
- *  @更新时间 2024-11-24 14:13:07
- */
-
-export interface DeleteDataDictionaryItemsTypesReq {
-  /* 主键ids */
-  ids: number[]
-}
-
-/* 主键id */
-export type DeleteDataDictionaryItemsTypesRes = number
-
-/**
- *  接口 [更新数据字典](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691324)
- *  @标签 数据字典/更新数据字典
- *  @方式 POST
- *  @地址 /admin/dictionary/updateDataDictionary
- *  @更新时间 2024-09-18 00:12:47
- */
-
-export interface UpdateDataDictionaryTypesReq {
-  /* 主键id */
-  id: number
-
-  /* 名称 */
-  name: string
-
-  /* 编码 */
-  code: string
-
-  /* 封面 */
-  cover?: string
-
-  /* 备注信息 */
-  remark: string | null
-}
-
-/* 主键id */
-export type UpdateDataDictionaryTypesRes = number
-
-/**
- *  接口 [更新数据字典子项](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691385)
- *  @标签 数据字典/更新数据字典子项
- *  @方式 POST
- *  @地址 /admin/dictionary/updateDataDictionaryItems
- *  @更新时间 2024-12-03 00:23:29
- */
-
-export interface UpdateDataDictionaryItemsTypesReq {
-  /* 父项code */
-  dictionaryCode: string
-
-  /* 主键id */
-  id: number
-
-  /* 子项名称 */
-  name: string
-
-  /* 子项编码 */
-  code: string
-
-  /* 封面 */
-  cover?: string | null
-
-  /* 子项备注 */
-  remark: string | null
-}
-
-export interface UpdateDataDictionaryItemsTypesRes {
-  /* 主键id */
-  id: number
-}
-
-/**
- *  接口 [更新数据字典状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691434)
- *  @标签 数据字典/更新数据字典状态
- *  @方式 POST
- *  @地址 /admin/dictionary/updateDataDictionaryStatus
- *  @更新时间 2024-11-24 14:23:39
- */
-
-export interface UpdateDataDictionaryStatusTypesReq {
-  /* 主键ids */
-  ids: number[]
-  /* 状态，1启用0禁用 */
-  status: number
-}
-
-/* 主键id */
-export type UpdateDataDictionaryStatusTypesRes = number
-
-/**
- *  接口 [更新数据字典子项状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691450)
- *  @标签 数据字典/更新数据字典子项状态
- *  @方式 POST
- *  @地址 /admin/dictionary/updateDataDictionaryItemsStatus
- *  @更新时间 2024-11-24 14:24:53
- */
-
-export interface UpdateDataDictionaryItemsStatusTypesReq {
-  /* 主键ids */
-  ids: number[]
-  /* 状态，1启用，0禁用 */
-  status: number
-}
-
-/* 主键id */
-export type UpdateDataDictionaryItemsStatusTypesRes = number
-
-/**
- *  接口 [调整数据字典子项排序](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-135691501)
- *  @标签 数据字典/调整数据字典子项排序
- *  @方式 POST
- *  @地址 /admin/dictionary/updateDataDictionaryItemsOrder
- *  @更新时间 2023-12-21 23:17:44
- */
-
-export interface UpdateDataDictionaryItemsOrderTypesReq {
-  /* 目标id */
-  targetId: number
-
-  /* 目标现有排序 */
-  targetOrder: number
-
-  /* 更新源id */
-  originId: number
-
-  /* 更新源现有排序 */
-  originOrder: number
-}
-
-/* 主键id */
-export type UpdateDataDictionaryItemsOrderTypesRes = number

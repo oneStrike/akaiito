@@ -49,7 +49,6 @@ function formatApiHandler(api: IterateObject) {
       payload = `params:${request}`
     }
   } else if (api.method === 'post' && !isEmptyQuery(api)) {
-    console.log(api)
     payload = `data:${request}`
   }
   let header = '{}'

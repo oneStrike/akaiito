@@ -4,7 +4,6 @@ import {
   DictionaryItemWhereInput,
   DictionaryWhereInput,
 } from '@/prisma/client/models'
-import { CreateDictionaryDto } from './dto/create-dictionary.dto'
 import {
   CreateDictionaryItemDto,
   UpdateDictionaryItemDto,
@@ -43,7 +42,12 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
     }
 
     const [data, total] = await Promise.all([
-      this.findMany(where, {}, pageIndex * pageSize, pageSize),
+      this.findMany({
+        where,
+        skip: pageIndex * pageSize,
+        take: pageSize,
+        omit: { remark: true },
+      }),
       this.count(where),
     ])
 
