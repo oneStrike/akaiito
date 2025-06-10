@@ -1,76 +1,81 @@
 <script setup lang="ts">
-import {
-  createDataDictionaryApi,
-  deleteDataDictionaryApi,
-  getDataDictionaryApi,
-  updateDataDictionaryApi,
-  updateDataDictionaryStatusApi,
-} from '@/apis/dictionary'
-import { PromptsEnum } from '@/enum/prompts'
-import RecordDetails from '@/views/systemMgmt/dataDict/record.vue'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/systemMgmt/dataDict/shared'
+  import {
+    createApi,
+    deleteApi,
+    disableApi,
+    enableApi,
+    pageApi,
+    updateApi,
+  } from '@/apis/dictionary'
+  import { PromptsEnum } from '@/enum/prompts'
+  import RecordDetails from '@/views/systemMgmt/dataDict/record.vue'
+  import {
+    filter,
+    formOptions,
+    tableColumns,
+    toolbar,
+  } from '@/views/systemMgmt/dataDict/shared'
 
-defineOptions({
-  name: 'DataDict',
-})
+  defineOptions({
+    name: 'DataDict',
+  })
 
-const { requestData, reset, request, loading, params } = useRequest(getDataDictionaryApi)
-type TableItem = ResolveListItem<typeof requestData.value>
+  const { requestData, reset, request, loading, params } = useRequest(pageApi)
+  type TableItem = ResolveListItem<typeof requestData.value>
 
-const detailModalShow = ref(false)
-const currentRow = ref<TableItem | null>(null)
-const selectionItems = ref<TableItem[] | null>(null)
-const formModal = reactive({
-  show: false,
-  loading: false,
-})
+  const detailModalShow = ref(false)
+  const currentRow = ref<TableItem | null>(null)
+  const selectionItems = ref<TableItem[] | null>(null)
+  const formModal = reactive({
+    show: false,
+    loading: false,
+  })
 
-async function handlerToolbar(val: string) {
-  if (val === 'add') {
-    formModal.show = true
-    return
-  }
-  const ids = selectionItems.value?.map((item) => item.id)
-  if (Array.isArray(ids)) {
-    switch (val) {
-      case 'delete':
-        useConfirm('delete', () => deleteDataDictionaryApi({ ids }), request)
-        break
-      case 'enable':
-        useConfirm('enable', () => updateDataDictionaryStatusApi({ ids, status: 1 }), request)
-        break
-      case 'disable':
-        useConfirm('disable', () => updateDataDictionaryStatusApi({ ids, status: 0 }), request)
-        break
+  async function handlerToolbar(val: string) {
+    if (val === 'add') {
+      formModal.show = true
+      return
+    }
+    const ids = selectionItems.value?.map((item) => item.id)
+    if (Array.isArray(ids)) {
+      switch (val) {
+        case 'delete':
+          useConfirm('delete', () => deleteApi({ ids }), request)
+          break
+        case 'enable':
+          useConfirm('enable', () => enableApi({ ids }), request)
+          break
+        case 'disable':
+          useConfirm('disable', () => disableApi({ ids }), request)
+          break
+      }
     }
   }
-}
 
-async function addDictionary(value: any) {
-  formModal.loading = true
-  if (currentRow.value) {
-    await updateDataDictionaryApi({ ...value, id: currentRow.value.id })
-    useMessage.success(PromptsEnum.UPDATED)
-  } else {
-    await createDataDictionaryApi(value)
-    useMessage.success(PromptsEnum.CREATED)
+  async function addDictionary(value: any) {
+    formModal.loading = true
+    if (currentRow.value) {
+      await updateApi({ ...value, id: currentRow.value.id })
+      useMessage.success(PromptsEnum.UPDATED)
+    } else {
+      await createApi(value)
+      useMessage.success(PromptsEnum.CREATED)
+    }
+    formModal.show = false
+    formModal.loading = false
+    currentRow.value = null
+    reset()
   }
-  formModal.show = false
-  formModal.loading = false
-  currentRow.value = null
-  reset()
-}
 
-function edit(val: TableItem) {
-  currentRow.value = val
-  formModal.show = true
-}
+  function edit(val: TableItem) {
+    currentRow.value = val
+    formModal.show = true
+  }
 
-function showDetail(row: TableItem) {
-  detailModalShow.value = true
-  currentRow.value = row
-}
-
+  function showDetail(row: TableItem) {
+    detailModalShow.value = true
+    currentRow.value = row
+  }
 </script>
 
 <template>
@@ -95,13 +100,18 @@ function showDetail(row: TableItem) {
         </el-link>
       </template>
       <template #status="{ row }">
-        <es-switch :request="updateDataDictionaryStatusApi" :row="row" ids @success="request" />
+        <es-switch
+          :request="updateDataDictionaryStatusApi"
+          :row="row"
+          ids
+          @success="request"
+        />
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="edit(row)"> 编辑</el-button>
+        <el-button type="primary" link @click="edit(row)">编辑</el-button>
         <es-pop-confirm
           v-model:loading="loading"
-          :request="deleteDataDictionaryApi"
+          :request="deleteApi"
           :row="row"
           ids
           @success="request()"

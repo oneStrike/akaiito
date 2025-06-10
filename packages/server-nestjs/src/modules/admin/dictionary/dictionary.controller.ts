@@ -1,11 +1,22 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { IdDto } from '@/common/dto/id.dto'
+import { IdDto, IdsDto } from '@/common/dto/id.dto'
+import { IdsEnabledDto } from '@/common/dto/status.dto'
 import { DictionaryService } from '@/modules/shared/dictionary/dictionary.service'
 import { CreateDictionaryDto } from '@/modules/shared/dictionary/dto/create-dictionary.dto'
-import { DictionaryDto } from '@/modules/shared/dictionary/dto/dictionary.dto'
-import { QueryDictionaryDto } from '@/modules/shared/dictionary/dto/query-dictionary.dto'
+import {
+  CreateDictionaryItemDto,
+  UpdateDictionaryItemDto,
+} from '@/modules/shared/dictionary/dto/dictionary-item.dto'
+import {
+  DictionaryDto,
+  DictionaryItemDto,
+} from '@/modules/shared/dictionary/dto/dictionary.dto'
+import {
+  QueryDictionaryDto,
+  QueryDictionaryItemDto,
+} from '@/modules/shared/dictionary/dto/query-dictionary.dto'
 
 @ApiTags('字典管理')
 @Controller('/admin/dictionary')
@@ -58,35 +69,69 @@ export class DictionaryController {
   @Post('delete')
   @ApiDoc({
     summary: '删除字典',
+    model: IdsDto,
+  })
+  delete(@Body() query: IdsDto) {
+    return this.dictionaryService.deleteMany({ id: { in: query.ids } })
+  }
+
+  @Post('updateEnableStatus')
+  @ApiDoc({
+    summary: '启用禁用字典',
     model: DictionaryDto,
   })
-  delete(@Body() query: IdDto) {
-    return this.dictionaryService.delete({
-      where: { id: query.id },
+  enable(@Body() query: IdsEnabledDto) {
+    return this.dictionaryService.updateMany({
+      where: { id: { in: query.ids } },
+      data: { isEnabled: query.enabled },
     })
   }
 
-  @Post('enable')
+  @Get('items')
   @ApiDoc({
-    summary: '启用字典',
-    model: DictionaryDto,
+    summary: '获取字典项',
+    model: DictionaryItemDto,
   })
-  enable(@Body() query: IdDto) {
+  getItems(@Query() query: QueryDictionaryItemDto) {
+    return this.dictionaryService.findDictionaryItems(query)
+  }
+
+  @Post('createItem')
+  @ApiDoc({
+    summary: '创建字典项',
+    model: DictionaryItemDto,
+  })
+  createItem(@Body() createDictionaryItemDto: CreateDictionaryItemDto) {
+    return this.dictionaryService.createDictionaryItem(createDictionaryItemDto)
+  }
+
+  @Post('updateItem')
+  @ApiDoc({
+    summary: '更新字典项',
+    model: DictionaryItemDto,
+  })
+  updateItem(@Body() updateDictionaryItemDto: UpdateDictionaryItemDto) {
     return this.dictionaryService.update({
-      where: { id: query.id },
-      data: { isEnabled: true },
+      where: { id: updateDictionaryItemDto.id },
+      data: updateDictionaryItemDto,
     })
   }
 
-  @Post('disable')
+  @Post('deleteItem')
   @ApiDoc({
-    summary: '禁用字典',
-    model: DictionaryDto,
+    summary: '删除字典项',
+    model: DictionaryItemDto,
   })
-  disable(@Body() query: IdDto) {
-    return this.dictionaryService.update({
-      where: { id: query.id },
-      data: { isEnabled: false },
-    })
+  deleteItem(@Body() query: IdsDto) {
+    return this.dictionaryService.deleteDictionaryItem(query.ids)
+  }
+
+  @Post('updateItemStatus')
+  @ApiDoc({
+    summary: '启用字典项',
+    model: DictionaryItemDto,
+  })
+  enableItem(@Body() query: IdsEnabledDto) {
+    return this.dictionaryService.updateDictionaryItem(query)
   }
 }

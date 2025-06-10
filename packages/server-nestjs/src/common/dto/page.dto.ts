@@ -26,7 +26,8 @@ export class PageDto {
 
   @ValidateJson({
     description: '排序字段，json格式',
-    example: "{id:'desc'}",
+    // prettier ignore
+    example: '{id:\'desc\'}',
     required: false,
   })
   orderBy?: string

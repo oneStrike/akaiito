@@ -3,6 +3,7 @@ import { applyDecorators } from '@nestjs/common'
 import { ApiProperty } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import {
+  IsArray,
   IsBoolean,
   IsDate,
   IsISO8601,
@@ -32,6 +33,14 @@ interface ValidateNumberOptions
   max?: number
   min?: number
   default?: number
+}
+
+interface ValidateNumberArrayOptions
+  extends Pick<ValidateOptions, 'description' | 'required' | 'transform'> {
+  example?: number[]
+  maxLength?: number
+  minLength?: number
+  default?: number[]
 }
 
 interface ValidateDateOptions extends Omit<ValidateOptions, 'default'> {
@@ -276,6 +285,77 @@ export function ValidateDate(options: ValidateDateOptions) {
   if (options.transform) {
     decorators.push(Transform(options.transform))
   }
+
+  return applyDecorators(...decorators)
+}
+
+/**
+ * 校验数字数组类型
+ * @param options
+ * @constructor
+ */
+export function ValidateNumberArray(options: ValidateNumberArrayOptions) {
+  const decorators = [
+    ApiProperty({
+      description: options.description,
+      example: options.example,
+      required: options.required,
+      default: options.default,
+      type: [Number],
+    }),
+    IsArray(),
+    IsNumber({}, { each: true }),
+    IsNotEmpty(),
+  ]
+
+  // 添加可选验证
+  if (!options.required) {
+    decorators.push(IsOptional())
+  }
+
+  // 添加长度验证
+  if (typeof options.maxLength === 'number') {
+    decorators.push(MaxLength(options.maxLength))
+  }
+  if (typeof options.minLength === 'number') {
+    decorators.push(MinLength(options.minLength))
+  }
+
+  // 添加转换逻辑
+  decorators.push(
+    Transform((transformData) => {
+      try {
+        if (Object.prototype.hasOwnProperty.call(transformData, 'value')) {
+          let returnValue = transformData.value
+          if (Array.isArray(returnValue)) {
+            returnValue = returnValue.map((item) =>
+              item ? Number(item) : item,
+            )
+          }
+
+          // 仅当值为空且有默认值时使用默认值
+          if (
+            (returnValue === undefined || returnValue === null) &&
+            options.default !== undefined
+          ) {
+            returnValue = options.default
+          }
+
+          // 执行自定义转换
+          if (options.transform) {
+            returnValue = options.transform(transformData)
+          }
+
+          return returnValue
+        }
+        return transformData.value
+      } catch (error) {
+        // 记录并抛出转换错误
+        console.error(`Transform error: ${error.message}`, error)
+        throw error
+      }
+    }),
+  )
 
   return applyDecorators(...decorators)
 }

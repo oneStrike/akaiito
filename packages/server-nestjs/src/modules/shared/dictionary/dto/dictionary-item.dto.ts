@@ -3,6 +3,7 @@ import {
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
+import { IdDto } from '@/common/dto/id.dto'
 
 /**
  * 创建数据字典项DTO
@@ -71,7 +72,7 @@ export class CreateDictionaryItemDto {
 /**
  * 更新数据字典项DTO
  */
-export class UpdateDictionaryItemDto {
+export class UpdateDictionaryItemDto extends IdDto {
   @ValidateString({
     description: '字典项名称',
     example: '启用',
