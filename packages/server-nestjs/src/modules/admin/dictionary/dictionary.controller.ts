@@ -17,7 +17,7 @@ export class DictionaryController {
     model: DictionaryDto,
   })
   create(@Body() createDictionaryDto: CreateDictionaryDto) {
-    return this.dictionaryService.createDictionary(createDictionaryDto)
+    return this.dictionaryService.create(createDictionaryDto)
   }
 
   @Get('page')

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { Global, Injectable, Logger } from '@nestjs/common'
 import { PrismaService } from '@/global/services/prisma.service'
 import { Prisma } from '@/prisma/client'
 
@@ -15,27 +15,124 @@ export interface BatchResult {
   count: number
 }
 
-export interface SoftDeletableEntity {
-  deletedAt?: Date | null
-}
-
-// 假设 TModelName 是从 Prisma.ModelName 中来的
+// 从 Prisma.ModelName 获取所有模型名称
 type ModelName = keyof typeof Prisma.ModelName
 
-// 从模型名称推导相关类型
+// 从模型名称推导相关类型，提供完整的类型安全
 interface InferModelTypes<T extends ModelName> {
+  // 模型实体类型
   Model: Prisma.TypeMap['model'][T]['operations']['findMany']['result']
+  // 查询条件类型
   WhereInput: Prisma.TypeMap['model'][T]['operations']['findMany']['args']['where']
+  // 创建输入类型
   CreateInput: Prisma.TypeMap['model'][T]['operations']['create']['args']['data']
+  // 更新输入类型
   UpdateInput: Prisma.TypeMap['model'][T]['operations']['update']['args']['data']
+  // 排序类型
   OrderByInput: Prisma.TypeMap['model'][T]['operations']['findMany']['args']['orderBy']
-  Include: Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['include']
-  Select: Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['select']
+  // 关联查询类型 - 使用条件类型确保类型安全
+  Include: 'include' extends keyof Prisma.TypeMap['model'][T]['operations']['findFirst']['args']
+    ? Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['include']
+    : never
+  // 字段选择类型 - 使用条件类型确保类型安全
+  Select: 'select' extends keyof Prisma.TypeMap['model'][T]['operations']['findFirst']['args']
+    ? Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['select']
+    : never
+  // 唯一查询条件类型
+  WhereUniqueInput: Prisma.TypeMap['model'][T]['operations']['findUnique']['args']['where']
 }
 
 // 获取Prisma客户端的模型代理类型
 type GetModelDelegate<TModelName extends ModelName> =
   Prisma.TypeMap['model'][TModelName]['operations']
+
+// 模型代理接口，提供类型安全的数据库操作
+interface ModelDelegate<T extends ModelName> {
+  create: (args: {
+    data: InferModelTypes<T>['CreateInput']
+    include?: InferModelTypes<T>['Include'] extends never
+      ? never
+      : InferModelTypes<T>['Include']
+    select?: InferModelTypes<T>['Select'] extends never
+      ? never
+      : InferModelTypes<T>['Select']
+  }) => Promise<InferModelTypes<T>['Model']>
+  createMany: (args: {
+    data: InferModelTypes<T>['CreateInput'][]
+    skipDuplicates?: boolean
+  }) => Promise<Prisma.BatchPayload>
+  findUnique: (args: {
+    where: InferModelTypes<T>['WhereUniqueInput']
+    include?: InferModelTypes<T>['Include'] extends never
+      ? never
+      : InferModelTypes<T>['Include']
+    select?: InferModelTypes<T>['Select'] extends never
+      ? never
+      : InferModelTypes<T>['Select']
+  }) => Promise<InferModelTypes<T>['Model'] | null>
+  findFirst: (args?: {
+    where?: InferModelTypes<T>['WhereInput']
+    include?: InferModelTypes<T>['Include'] extends never
+      ? never
+      : InferModelTypes<T>['Include']
+    select?: InferModelTypes<T>['Select'] extends never
+      ? never
+      : InferModelTypes<T>['Select']
+    orderBy?: InferModelTypes<T>['OrderByInput']
+  }) => Promise<InferModelTypes<T>['Model'] | null>
+  findMany: (args?: {
+    where?: InferModelTypes<T>['WhereInput']
+    include?: InferModelTypes<T>['Include'] extends never
+      ? never
+      : InferModelTypes<T>['Include']
+    select?: InferModelTypes<T>['Select'] extends never
+      ? never
+      : InferModelTypes<T>['Select']
+    orderBy?: InferModelTypes<T>['OrderByInput']
+    skip?: number
+    take?: number
+  }) => Promise<InferModelTypes<T>['Model'][]>
+  update: (args: {
+    where: InferModelTypes<T>['WhereUniqueInput']
+    data: InferModelTypes<T>['UpdateInput']
+    include?: InferModelTypes<T>['Include'] extends never
+      ? never
+      : InferModelTypes<T>['Include']
+    select?: InferModelTypes<T>['Select'] extends never
+      ? never
+      : InferModelTypes<T>['Select']
+  }) => Promise<InferModelTypes<T>['Model']>
+  updateMany: (args: {
+    where?: InferModelTypes<T>['WhereInput']
+    data: InferModelTypes<T>['UpdateInput']
+  }) => Promise<Prisma.BatchPayload>
+  delete: (args: {
+    where: InferModelTypes<T>['WhereUniqueInput']
+    include?: InferModelTypes<T>['Include'] extends never
+      ? never
+      : InferModelTypes<T>['Include']
+    select?: InferModelTypes<T>['Select'] extends never
+      ? never
+      : InferModelTypes<T>['Select']
+  }) => Promise<InferModelTypes<T>['Model']>
+  deleteMany: (args?: {
+    where?: InferModelTypes<T>['WhereInput']
+  }) => Promise<Prisma.BatchPayload>
+  count: (args?: {
+    where?: InferModelTypes<T>['WhereInput']
+  }) => Promise<number>
+  upsert: (args: {
+    where: InferModelTypes<T>['WhereUniqueInput']
+    create: InferModelTypes<T>['CreateInput']
+    update: InferModelTypes<T>['UpdateInput']
+    include?: InferModelTypes<T>['Include'] extends never
+      ? never
+      : InferModelTypes<T>['Include']
+    select?: InferModelTypes<T>['Select'] extends never
+      ? never
+      : InferModelTypes<T>['Select']
+  }) => Promise<InferModelTypes<T>['Model']>
+}
 
 /**
  * 抽象数据库服务层
@@ -45,6 +142,7 @@ type GetModelDelegate<TModelName extends ModelName> =
  * @template TModelName - Prisma模型名称，用于自动推导所有相关类型
  */
 @Injectable()
+@Global()
 export abstract class BaseRepositoryService<TModelName extends ModelName> {
   protected readonly logger: Logger
   protected abstract readonly modelName: TModelName
@@ -61,7 +159,11 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * 获取 Prisma 模型代理
    * 使用类型安全的方式返回对应的 Prisma 模型
    */
-  protected abstract model: any
+  protected get model(): ModelDelegate<TModelName> {
+    return (this.prisma as any)[
+      this.modelName.toLowerCase()
+    ] as ModelDelegate<TModelName>
+  }
 
   /**
    * 创建单条记录
@@ -78,12 +180,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     try {
       this.logger.debug(`创建${this.modelName}记录`, { data })
 
-      const options: any = { data }
-      if (include) options.include = include
-      if (select) options.select = select
-
-      const result = await this.model.create(options)
-      this.logger.log(`✅ 成功创建${this.modelName}记录`, { id: result.id })
+      const result = await this.model.create({
+        data,
+        ...(include && { include }),
+        ...(select && { select }),
+      })
+      this.logger.log(`✅ 成功创建${this.modelName}记录`, {
+        id: (result as any).id,
+      })
       return result
     } catch (error) {
       this.logger.error(`❌ 创建${this.modelName}记录失败`, error)
@@ -104,7 +208,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     try {
       this.logger.debug(`批量创建${this.modelName}记录`, { count: data.length })
 
-      const result = await model.createMany({
+      const result = await this.model.createMany({
         data,
         skipDuplicates,
       })
@@ -134,11 +238,11 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     try {
       this.logger.debug(`根据ID查找${this.modelName}记录`, { id })
 
-      const options: any = { where: { id } }
-      if (include) options.include = include
-      if (select) options.select = select
-
-      const result = await model.findUnique(options)
+      const result = await this.model.findUnique({
+        where: { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
+        ...(include && { include }),
+        ...(select && { select }),
+      })
 
       if (result) {
         this.logger.debug(`✅ 找到${this.modelName}记录`, { id })
@@ -158,12 +262,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * @param where 查询条件
    * @param include 关联查询
    * @param select 字段选择
+   * @param orderBy
    * @returns 查找到的记录或null
    */
   async findFirst(
-    where: T,
+    where?: InferModelTypes<TModelName>['WhereInput'],
     include?: InferModelTypes<TModelName>['Include'],
     select?: InferModelTypes<TModelName>['Select'],
+    orderBy?: InferModelTypes<TModelName>['OrderByInput'],
   ): Promise<InferModelTypes<TModelName>['Model'] | null> {
     try {
       this.logger.debug(`根据条件查找${this.modelName}记录`, { where })
@@ -173,11 +279,12 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         ? this.getWhereWithoutDeleted(where)
         : where
 
-      const options: any = { where: finalWhere }
-      if (include) options.include = include
-      if (select) options.select = select
-
-      const result = await model.findFirst(options)
+      const result = await this.model.findFirst({
+        ...(finalWhere && { where: finalWhere }),
+        ...(include && { include }),
+        ...(select && { select }),
+        ...(orderBy && { orderBy }),
+      })
 
       if (result) {
         this.logger.debug(`✅ 找到${this.modelName}记录`)
@@ -218,15 +325,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         ? this.getWhereWithoutDeleted(where)
         : where
 
-      const options: any = {}
-      if (finalWhere) options.where = finalWhere
-      if (orderBy) options.orderBy = orderBy
-      if (skip !== undefined) options.skip = skip
-      if (take !== undefined) options.take = take
-      if (include) options.include = include
-      if (select) options.select = select
-
-      const result = await model.findMany(options)
+      const result = await this.model.findMany({
+        ...(finalWhere && { where: finalWhere }),
+        ...(orderBy && { orderBy }),
+        ...(skip !== undefined && { skip }),
+        ...(take !== undefined && { take }),
+        ...(include && { include }),
+        ...(select && { select }),
+      })
 
       this.logger.debug(`✅ 找到${result.length}条${this.modelName}记录`)
       return result
@@ -301,7 +407,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * @returns 更新后的记录
    */
   async update(
-    where: InferModelTypes<TModelName>['WhereInput'],
+    where: InferModelTypes<TModelName>['WhereUniqueInput'],
     data: InferModelTypes<TModelName>['UpdateInput'],
     include?: InferModelTypes<TModelName>['Include'],
     select?: InferModelTypes<TModelName>['Select'],
@@ -309,13 +415,16 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     try {
       this.logger.debug(`更新${this.modelName}记录`, { where, data })
 
-      const options: any = { where, data }
-      if (include) options.include = include
-      if (select) options.select = select
+      const result = await this.model.update({
+        where,
+        data,
+        ...(include && { include }),
+        ...(select && { select }),
+      })
 
-      const result = await model.update(options)
-
-      this.logger.log(`✅ 成功更新${this.modelName}记录`, { id: result.id })
+      this.logger.log(`✅ 成功更新${this.modelName}记录`, {
+        id: (result as any).id,
+      })
       return result
     } catch (error) {
       this.logger.error(`❌ 更新${this.modelName}记录失败`, error)
@@ -338,7 +447,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     select?: InferModelTypes<TModelName>['Select'],
   ): Promise<InferModelTypes<TModelName>['Model']> {
     return this.update(
-      { id } as InferModelTypes<TModelName>['WhereInput'],
+      { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
       data,
       include,
       select,
@@ -358,8 +467,8 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     try {
       this.logger.debug(`批量更新${this.modelName}记录`, { where, data })
 
-      const result = await model.updateMany({
-        where,
+      const result = await this.model.updateMany({
+        ...(where && { where }),
         data,
       })
 
@@ -381,20 +490,22 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * @returns 删除的记录
    */
   async delete(
-    where: InferModelTypes<TModelName>['WhereInput'],
+    where: InferModelTypes<TModelName>['WhereUniqueInput'],
     include?: InferModelTypes<TModelName>['Include'],
     select?: InferModelTypes<TModelName>['Select'],
   ): Promise<InferModelTypes<TModelName>['Model']> {
     try {
       this.logger.debug(`删除${this.modelName}记录`, { where })
 
-      const options: any = { where }
-      if (include) options.include = include
-      if (select) options.select = select
+      const result = await this.model.delete({
+        where,
+        ...(include && { include }),
+        ...(select && { select }),
+      })
 
-      const result = await model.delete(options)
-
-      this.logger.log(`✅ 成功删除${this.modelName}记录`, { id: result.id })
+      this.logger.log(`✅ 成功删除${this.modelName}记录`, {
+        id: (result as any).id,
+      })
       return result
     } catch (error) {
       this.logger.error(`❌ 删除${this.modelName}记录失败`, error)
@@ -415,7 +526,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     select?: InferModelTypes<TModelName>['Select'],
   ): Promise<InferModelTypes<TModelName>['Model']> {
     return this.delete(
-      { id } as InferModelTypes<TModelName>['WhereInput'],
+      { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
       include,
       select,
     )
@@ -427,12 +538,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * @returns 删除结果
    */
   async deleteMany(
-    where: InferModelTypes<TModelName>['WhereInput'],
+    where?: InferModelTypes<TModelName>['WhereInput'],
   ): Promise<Prisma.BatchPayload> {
     try {
       this.logger.debug(`批量删除${this.modelName}记录`, { where })
 
-      const result = await model.deleteMany({ where })
+      const result = await this.model.deleteMany({
+        ...(where && { where }),
+      })
 
       this.logger.log(`✅ 成功批量删除${this.modelName}记录`, {
         count: result.count,
@@ -460,10 +573,9 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         ? this.getWhereWithoutDeleted(where)
         : where
 
-      const options: any = {}
-      if (finalWhere) options.where = finalWhere
-
-      const result = await model.count(options)
+      const result = await this.model.count(
+        finalWhere ? { where: finalWhere } : undefined,
+      )
 
       this.logger.debug(`✅ ${this.modelName}记录数量: ${result}`)
       return result
@@ -505,7 +617,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * @returns 创建或更新的记录
    */
   async upsert(
-    where: InferModelTypes<TModelName>['WhereInput'],
+    where: InferModelTypes<TModelName>['WhereUniqueInput'],
     create: InferModelTypes<TModelName>['CreateInput'],
     update: InferModelTypes<TModelName>['UpdateInput'],
     include?: InferModelTypes<TModelName>['Include'],
@@ -518,14 +630,16 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         update,
       })
 
-      const options: any = { where, create, update }
-      if (include) options.include = include
-      if (select) options.select = select
-
-      const result = await model.upsert(options)
+      const result = await this.model.upsert({
+        where,
+        create,
+        update,
+        ...(include && { include }),
+        ...(select && { select }),
+      })
 
       this.logger.log(`✅ 成功创建或更新${this.modelName}记录`, {
-        id: result.id,
+        id: (result as any).id,
       })
       return result
     } catch (error) {
@@ -698,9 +812,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * @param id 记录ID
    * @returns 恢复后的记录
    */
-  async restore(
-    id: number | string,
-  ): Promise<InferModelTypes<TModelName>['Model']> {
+  async restore(id: number): Promise<InferModelTypes<TModelName>['Model']> {
     if (!this.supportsSoftDelete) {
       throw new Error(`${this.modelName} 不支持软删除功能`)
     }
@@ -709,9 +821,9 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
       this.logger.debug(`恢复${this.modelName}记录`, { id })
 
       // 直接更新，不过滤软删除条件
-      const result = await model.update({
-        where: { id },
-        data: { deletedAt: null },
+      const result = await this.model.update({
+        where: { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
+        data: { deletedAt: null } as InferModelTypes<TModelName>['UpdateInput'],
       })
 
       this.logger.log(`✅ 成功恢复${this.modelName}记录`, { id })
@@ -738,9 +850,9 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
       this.logger.debug(`批量恢复${this.modelName}记录`, { where })
 
       // 直接更新，不过滤软删除条件
-      const result = await model.updateMany({
+      const result = await this.model.updateMany({
         where,
-        data: { deletedAt: null },
+        data: { deletedAt: null } as InferModelTypes<TModelName>['UpdateInput'],
       })
 
       this.logger.log(`✅ 成功批量恢复${this.modelName}记录`, {
@@ -826,15 +938,14 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         take,
       })
 
-      const options: any = {}
-      if (where) options.where = where
-      if (orderBy) options.orderBy = orderBy
-      if (skip !== undefined) options.skip = skip
-      if (take !== undefined) options.take = take
-      if (include) options.include = include
-      if (select) options.select = select
-
-      const result = await model.findMany(options)
+      const result = await this.model.findMany({
+        ...(where && { where }),
+        ...(orderBy && { orderBy }),
+        ...(skip !== undefined && { skip }),
+        ...(take !== undefined && { take }),
+        ...(include && { include }),
+        ...(select && { select }),
+      })
 
       this.logger.debug(
         `✅ 找到${result.length}条${this.modelName}记录（包含软删除）`,
@@ -1041,10 +1152,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         where,
       })
 
-      const options: any = {}
-      if (where) options.where = where
-
-      const result = await model.count(options)
+      const result = await this.model.count(where ? { where } : undefined)
 
       this.logger.debug(`✅ ${this.modelName}记录数量（包含软删除）: ${result}`)
       return result

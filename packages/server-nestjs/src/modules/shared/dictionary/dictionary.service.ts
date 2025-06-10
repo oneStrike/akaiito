@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { PrismaService } from '@/global/services/prisma.service'
+import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import {
   DictionaryItemWhereInput,
   DictionaryWhereInput,
@@ -20,22 +20,8 @@ import { UpdateDictionaryDto } from './dto/update-dictionary.dto'
  * 提供字典和字典项的增删改查功能
  */
 @Injectable()
-export class DictionaryService {
-  constructor(private readonly prisma: PrismaService) {}
-
-  /**
-   * 创建数据字典
-   * @param createDictionaryDto 创建字典数据
-   * @returns 创建的字典信息
-   */
-  async createDictionary(createDictionaryDto: CreateDictionaryDto) {
-    return this.prisma.dictionary.create({
-      data: {
-        ...createDictionaryDto,
-        status: createDictionaryDto.status ?? true,
-      },
-    })
-  }
+export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
+  protected readonly modelName = 'Dictionary' as const
 
   /**
    * 分页查询数据字典列表
@@ -57,12 +43,8 @@ export class DictionaryService {
     }
 
     const [data, total] = await Promise.all([
-      this.prisma.dictionary.findMany({
-        where,
-        skip: pageIndex * pageSize,
-        take: pageSize,
-      }),
-      this.prisma.dictionary.count({ where }),
+      this.findMany(where, {}, pageIndex * pageSize, pageSize),
+      this.count(where),
     ])
 
     return {
