@@ -1,140 +1,143 @@
 <script setup lang="ts">
-import type { UploadFileTypesRes } from '@/apis/types/upload'
-import type { EsUploadProps } from '@/components/es-upload/types'
-import type { UploadFile, UploadInstance, UploadProps } from 'element-plus'
-import { config } from '@/config'
-import { useMessage } from '@/hooks/useFeedback'
-import { useUpload } from '@/hooks/useUpload'
-import { utils } from '@/utils'
+  import type { UploadFile, UploadInstance, UploadProps } from 'element-plus'
+  import type { UploadFileTypesRes } from '@/apis/types/upload'
+  import type { EsUploadProps } from '@/components/es-upload/types'
+  import { config } from '@/config'
+  import { useMessage } from '@/hooks/useFeedback'
+  import { useUpload } from '@/hooks/useUpload'
+  import { utils } from '@/utils'
 
-const props = withDefaults(defineProps<EsUploadProps>(), {
-  listType: 'picture-card',
-  maxSize: config.upload.maxUploadFileSize,
-  maxCount: 1,
-  structure: 'string',
-})
-const emits = defineEmits<{
-  (event: 'change', data: UploadFileTypesRes): void
-  (event: 'remove', data: UploadFile): void
-  (event: 'update:modelValue', data: typeof fileList.value): void
-  (event: 'updateError', data: any[]): void
-}>()
-const uploadRef = ref<UploadInstance>()
+  const props = withDefaults(defineProps<EsUploadProps>(), {
+    listType: 'picture-card',
+    maxSize: config.upload.maxUploadFileSize,
+    maxCount: 1,
+    structure: 'string',
+  })
+  const emits = defineEmits<{
+    (event: 'change', data: UploadFileTypesRes): void
+    (event: 'remove', data: UploadFile): void
+    (event: 'update:modelValue', data: typeof fileList.value): void
+    (event: 'updateError', data: any[]): void
+  }>()
+  const uploadRef = ref<UploadInstance>()
 
-function filePathToObj(path: string, name?: string) {
-  return {
-    fileName: name,
-    name,
-    filePath: path,
-    url: path,
-    mimeType: `${props.fileType}/${path.split('.').at(-1)}`,
-    status: 'success',
-    uid: utils.generateRandomNumber(10),
-  }
-}
-
-function transformModelValue() {
-  if (!props.modelValue) {
-    return []
-  }
-  if (Array.isArray(props.modelValue)) {
-    return props.modelValue.map((item: any) => {
-      const filePath = typeof item === 'string' ? item : item.filePath || item.url
-      return filePathToObj(filePath, item.fileName)
-    })
-  } else if (utils.isJson(props.modelValue)) {
-    return JSON.parse(props.modelValue).map((item: any) => ({
-      ...item,
-      name: item.fileName,
-      url: item.filePath,
-    }))
-  } else {
-    return [filePathToObj(props.modelValue)]
-  }
-}
-
-const fileList = ref()
-const previewImages = ref()
-const uploadBtnDisplay = computed(() => (fileList.value?.length >= props.maxCount ? 'none' : 'inline-flex'))
-
-watch(
-  () => props.modelValue,
-  (val) => {
-    fileList.value = val ? transformModelValue() : []
-  },
-  { deep: true, immediate: true },
-)
-
-const accept = computed(() => {
-  if (!props.fileType) {
-    return '*'
-  }
-  const allowFileType = config.upload.allowFileType[props.fileType]
-  if (!allowFileType) {
-    return props.fileType
-  }
-  return allowFileType
-    .map((item: string) => {
-      if (props.fileType === 'compressed') {
-        return `application/x-${item}-compressed`
-      }
-      return `${props.fileType}/${item}`
-    })
-    .join(',')
-})
-
-// 文件上传之前，判断上传的数量是否超量
-const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (fileList.value?.length >= props.maxCount) {
-    useMessage.error(`【${rawFile.name}】超出最大数量限制`)
-    return false
-  } else if (rawFile.size > props.maxSize * 1024 * 1024) {
-    useMessage.error(`【${rawFile.name}】超出文件大小限制`)
-    return false
-  } else if (!accept.value.includes(rawFile.type) && accept.value !== '*') {
-    useMessage.error(`【${rawFile.name}】文件格式错误`)
-    return
-  }
-  return true
-}
-
-function onPreview(uploadFile: UploadFile) {
-  const fileType = uploadFile.url?.split('.').at(-1) ?? ''
-  if (config.upload.allowFileType.image.includes(fileType)) {
-    previewImages.value = [uploadFile]
-  }
-}
-
-const upload: UploadProps['httpRequest'] = async ({ file }) => {
-  const uploadRes = await useUpload(file, props.data!, props.contentType)
-  emits('change', uploadRes.success)
-  return uploadRes.success[0]
-}
-
-function remove(uploadFile: UploadFile) {
-  console.log(fileList.value)
-  emits('remove', uploadFile)
-}
-
-function change() {
-  if (fileList.value && fileList.value.length) {
-    const emitData = fileList.value.map((item: any) => {
-      const target = item.response ? item.response : item
-      return {
-        fileName: target.fileName,
-        filePath: target.filePath,
-        mimeType: target.mimeType,
-      }
-    })
-    let res = emitData
-    if (props.structure === 'json') {
-      res = JSON.stringify(emitData)
-    } else if (props.structure === 'string') {
-      res = emitData[0].filePath
+  function filePathToObj(path: string, name?: string) {
+    return {
+      fileName: name,
+      name,
+      filePath: path,
+      url: path,
+      mimeType: `${props.fileType}/${path.split('.').at(-1)}`,
+      status: 'success',
+      uid: utils.generateRandomNumber(10),
     }
-    emits('update:modelValue', res)
   }
-}
+
+  function transformModelValue() {
+    if (!props.modelValue) {
+      return []
+    }
+    if (Array.isArray(props.modelValue)) {
+      return props.modelValue.map((item: any) => {
+        const filePath =
+          typeof item === 'string' ? item : item.filePath || item.url
+        return filePathToObj(filePath, item.fileName)
+      })
+    } else if (utils.isJson(props.modelValue)) {
+      return JSON.parse(props.modelValue).map((item: any) => ({
+        ...item,
+        name: item.fileName,
+        url: item.filePath,
+      }))
+    } else {
+      return [filePathToObj(props.modelValue)]
+    }
+  }
+
+  const fileList = ref()
+  const previewImages = ref()
+  const uploadBtnDisplay = computed(() =>
+    fileList.value?.length >= props.maxCount ? 'none' : 'inline-flex',
+  )
+
+  watch(
+    () => props.modelValue,
+    (val) => {
+      fileList.value = val ? transformModelValue() : []
+    },
+    { deep: true, immediate: true },
+  )
+
+  const accept = computed(() => {
+    if (!props.fileType) {
+      return '*'
+    }
+    const allowFileType = config.upload.allowFileType[props.fileType]
+    if (!allowFileType) {
+      return props.fileType
+    }
+    return allowFileType
+      .map((item: string) => {
+        if (props.fileType === 'compressed') {
+          return `application/x-${item}-compressed`
+        }
+        return `${props.fileType}/${item}`
+      })
+      .join(',')
+  })
+
+  // 文件上传之前，判断上传的数量是否超量
+  const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
+    if (fileList.value?.length >= props.maxCount) {
+      useMessage.error(`【${rawFile.name}】超出最大数量限制`)
+      return false
+    } else if (rawFile.size > props.maxSize * 1024 * 1024) {
+      useMessage.error(`【${rawFile.name}】超出文件大小限制`)
+      return false
+    } else if (!accept.value.includes(rawFile.type) && accept.value !== '*') {
+      useMessage.error(`【${rawFile.name}】文件格式错误`)
+      return
+    }
+    return true
+  }
+
+  function onPreview(uploadFile: UploadFile) {
+    const fileType = uploadFile.url?.split('.').at(-1) ?? ''
+    if (config.upload.allowFileType.image.includes(fileType)) {
+      previewImages.value = [uploadFile]
+    }
+  }
+
+  const upload: UploadProps['httpRequest'] = async ({ file }) => {
+    const uploadRes = await useUpload(file, props.data!, props.contentType)
+    emits('change', uploadRes.success)
+    return uploadRes.success[0]
+  }
+
+  function remove(uploadFile: UploadFile) {
+    console.log(fileList.value)
+    emits('remove', uploadFile)
+  }
+
+  function change() {
+    if (fileList.value && fileList.value.length) {
+      const emitData = fileList.value.map((item: any) => {
+        const target = item.response ? item.response : item
+        return {
+          fileName: target.fileName,
+          filePath: target.filePath,
+          mimeType: target.mimeType,
+        }
+      })
+      let res = emitData
+      if (props.structure === 'json') {
+        res = JSON.stringify(emitData)
+      } else if (props.structure === 'string') {
+        res = emitData[0].filePath
+      }
+      emits('update:modelValue', res)
+    }
+  }
 </script>
 
 <template>
@@ -168,7 +171,11 @@ function change() {
             </template>
           </el-popconfirm>
         </div>
-        <es-icon v-if="listType === 'picture-card'" name="uploading" :size="22" />
+        <es-icon
+          v-if="listType === 'picture-card'"
+          name="uploading"
+          :size="22"
+        />
         <el-button v-else type="primary">
           <es-icon name="uploading" :size="22" />
           上传
@@ -185,20 +192,20 @@ function change() {
 </template>
 
 <style scoped lang="scss">
-::v-deep(.el-upload--picture-card) {
-  width: 88px;
-  height: 88px;
-  display: v-bind(uploadBtnDisplay);
-}
-
-::v-deep(.el-upload--text) {
-  display: v-bind(uploadBtnDisplay);
-}
-
-::v-deep(.el-upload-list--picture-card) {
-  .el-upload-list__item {
+  ::v-deep(.el-upload--picture-card) {
     width: 88px;
     height: 88px;
+    display: v-bind(uploadBtnDisplay);
   }
-}
+
+  ::v-deep(.el-upload--text) {
+    display: v-bind(uploadBtnDisplay);
+  }
+
+  ::v-deep(.el-upload-list--picture-card) {
+    .el-upload-list__item {
+      width: 88px;
+      height: 88px;
+    }
+  }
 </style>
