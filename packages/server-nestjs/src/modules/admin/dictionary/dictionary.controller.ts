@@ -65,4 +65,28 @@ export class DictionaryController {
       where: { id: query.id },
     })
   }
+
+  @Post('enable')
+  @ApiDoc({
+    summary: '启用字典',
+    model: DictionaryDto,
+  })
+  enable(@Body() query: IdDto) {
+    return this.dictionaryService.update({
+      where: { id: query.id },
+      data: { isEnabled: true },
+    })
+  }
+
+  @Post('disable')
+  @ApiDoc({
+    summary: '禁用字典',
+    model: DictionaryDto,
+  })
+  disable(@Body() query: IdDto) {
+    return this.dictionaryService.update({
+      where: { id: query.id },
+      data: { isEnabled: false },
+    })
+  }
 }

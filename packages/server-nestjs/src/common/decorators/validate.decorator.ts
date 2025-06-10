@@ -188,22 +188,30 @@ export function ValidateBoolean(options: ValidateBooleanOptions) {
       required: options.required,
       default: options.default,
     }),
+    Transform(({ value }) => {
+      // 处理默认值
+      if (value === undefined || value === null) {
+        return typeof options.default === 'boolean' ? options.default : value
+      }
+
+      // 处理布尔字符串转换
+      if (typeof value === 'string') {
+        const lowerValue = value.toLowerCase().trim()
+        if (lowerValue === 'true' || lowerValue === '1') {
+          return true
+        }
+        if (lowerValue === 'false' || lowerValue === '0') {
+          return false
+        }
+      }
+
+      return value
+    }),
     IsBoolean(),
   ]
 
   if (!options.required) {
     decorators.push(IsOptional())
-  }
-
-  if (typeof options.default === 'boolean') {
-    decorators.push(
-      Transform(({ value }) => {
-        if (value === undefined || value === null) {
-          return options.default
-        }
-        return value
-      }),
-    )
   }
 
   return applyDecorators(...decorators)
