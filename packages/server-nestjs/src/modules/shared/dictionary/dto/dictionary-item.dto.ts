@@ -57,7 +57,7 @@ export class CreateDictionaryItemDto {
     required: false,
     default: true,
   })
-  status?: boolean
+  isEnabled?: boolean
 
   @ValidateString({
     description: '备注信息',
@@ -111,7 +111,7 @@ export class UpdateDictionaryItemDto {
     example: true,
     required: false,
   })
-  status?: boolean
+  isEnabled?: boolean
 
   @ValidateString({
     description: '备注信息',

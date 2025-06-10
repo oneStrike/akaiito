@@ -7,7 +7,7 @@ model Dictionary {
   /// 字典封面
   cover     String?          @db.VarChar(200)
   /// 状态 1启用 0禁用
-  status    Boolean          @default(true)
+  isEnabled Boolean          @default(true) @map("is_enabled")
   /// 备注信息
   remark    String?          @db.VarChar(255)
   /// 创建时间
@@ -33,7 +33,7 @@ model DictionaryItem {
   /// 字典封面
   cover          String?    @unique @db.VarChar(200)
   /// 状态 1启用 0禁用
-  status         Boolean    @default(true)
+  isEnabled      Boolean    @default(true) @map("is_enabled")
   /// 备注信息
   remark         String?    @db.VarChar(255)
   /// 创建时间

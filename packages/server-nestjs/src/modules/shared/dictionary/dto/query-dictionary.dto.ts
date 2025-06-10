@@ -29,7 +29,7 @@ export class QueryDictionaryDto extends PageDto {
     example: true,
     required: false,
   })
-  status?: boolean
+  isEnabled?: boolean
 }
 
 /**
@@ -65,5 +65,5 @@ export class QueryDictionaryItemDto extends PageDto {
     example: true,
     required: false,
   })
-  status?: boolean
+  isEnabled?: boolean
 }

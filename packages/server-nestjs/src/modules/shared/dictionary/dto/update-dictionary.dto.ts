@@ -39,7 +39,7 @@ export class UpdateDictionaryDto extends IdDto {
     example: true,
     required: false,
   })
-  status?: boolean
+  isEnabled?: boolean
 
   @ValidateString({
     description: '备注信息',

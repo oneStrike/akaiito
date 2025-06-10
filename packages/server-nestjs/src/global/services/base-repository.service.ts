@@ -449,8 +449,9 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     data: InferModelTypes<TModelName>['UpdateInput']
     include?: InferModelTypes<TModelName>['Include']
     select?: InferModelTypes<TModelName>['Select']
+    omit?: InferModelTypes<TModelName>['Omit']
   }): Promise<InferModelTypes<TModelName>['Model']> {
-    const { where, data, include, select } = options
+    const { where, data, include, select, omit } = options
     try {
       this.logger.debug(`更新${this.modelName}记录`, { where, data })
 
@@ -459,6 +460,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         data,
         ...(include && { include }),
         ...(select && { select }),
+        ...(omit && { omit }),
       })
 
       this.logger.log(`✅ 成功更新${this.modelName}记录`, {

@@ -28,7 +28,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
    * @returns 分页数据
    */
   async findDictionaries(queryDto: QueryDictionaryDto) {
-    const { pageIndex = 0, pageSize = 15, name, code, status } = queryDto
+    const { pageIndex = 0, pageSize = 15, name, code, isEnabled } = queryDto
     // 构建查询条件
     const where: DictionaryWhereInput = {}
     if (name) {
@@ -37,8 +37,8 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
     if (code) {
       where.code = { contains: code }
     }
-    if (status !== undefined) {
-      where.status = status
+    if (isEnabled !== undefined) {
+      where.isEnabled = isEnabled
     }
 
     const [data, total] = await Promise.all([
@@ -86,7 +86,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
         where: { code },
         include: {
           items: {
-            where: { status: true },
+            where: { isEnabled: true },
             orderBy: { order: 'asc' },
           },
         },
@@ -188,7 +188,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
       return await this.prisma.dictionaryItem.create({
         data: {
           ...createDictionaryItemDto,
-          status: createDictionaryItemDto.status ?? true,
+          isEnabled: createDictionaryItemDto.isEnabled ?? true,
         },
       })
     } catch (error) {
@@ -211,7 +211,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
       dictionaryCode,
       name,
       code,
-      status,
+      isEnabled,
     } = queryDto
 
     // 检查字典是否存在
@@ -235,8 +235,8 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
     if (code) {
       where.code = { contains: code }
     }
-    if (status !== undefined) {
-      where.status = status
+    if (isEnabled !== undefined) {
+      where.isEnabled = isEnabled
     }
 
     try {
@@ -380,11 +380,11 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
   async findAllEnabledDictionaries() {
     try {
       return await this.prisma.dictionary.findMany({
-        where: { status: true },
+        where: { isEnabled: true },
         orderBy: { createdAt: 'desc' },
         include: {
           items: {
-            where: { status: true },
+            where: { isEnabled: true },
             orderBy: { order: 'asc' },
           },
         },

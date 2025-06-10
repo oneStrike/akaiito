@@ -12,18 +12,6 @@ import { QueryDictionaryDto } from '@/modules/shared/dictionary/dto/query-dictio
 export class DictionaryController {
   constructor(private readonly dictionaryService: DictionaryService) {}
 
-  @Post('create')
-  @ApiDoc({
-    summary: '创建字典',
-    model: DictionaryDto,
-  })
-  create(@Body() createDictionaryDto: CreateDictionaryDto) {
-    return this.dictionaryService.create({
-      data: createDictionaryDto,
-      omit: { remark: true },
-    })
-  }
-
   @Get('page')
   @ApiPageDoc({
     summary: '分页查询字典',
@@ -40,5 +28,41 @@ export class DictionaryController {
   })
   getDetail(@Query() query: IdDto) {
     return this.dictionaryService.findById(query)
+  }
+
+  @Post('create')
+  @ApiDoc({
+    summary: '创建字典',
+    model: DictionaryDto,
+  })
+  create(@Body() createDictionaryDto: CreateDictionaryDto) {
+    return this.dictionaryService.create({
+      data: createDictionaryDto,
+      omit: { remark: true },
+    })
+  }
+
+  @Post('update')
+  @ApiDoc({
+    summary: '更新字典',
+    model: DictionaryDto,
+  })
+  update(@Body() updateDictionaryDto: DictionaryDto) {
+    return this.dictionaryService.update({
+      where: { id: updateDictionaryDto.id },
+      data: updateDictionaryDto,
+      omit: { remark: true },
+    })
+  }
+
+  @Post('delete')
+  @ApiDoc({
+    summary: '删除字典',
+    model: DictionaryDto,
+  })
+  delete(@Body() query: IdDto) {
+    return this.dictionaryService.delete({
+      where: { id: query.id },
+    })
   }
 }

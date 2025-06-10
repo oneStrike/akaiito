@@ -39,7 +39,7 @@ export class CreateDictionaryDto {
     required: false,
     default: true,
   })
-  status?: boolean
+  isEnabled?: boolean
 
   @ValidateString({
     description: '备注信息',
