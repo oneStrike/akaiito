@@ -1,10 +1,4 @@
 <script setup lang="ts">
-  /**
-   * ES Upload 组件 - 基于 Element Plus Upload 的封装组件
-   * 支持图片、视频、音频、压缩包等多种文件类型上传
-   * 支持多种数据结构输出格式（string、json、object）
-   * 集成素材库选择功能
-   */
   import type {
     UploadFile,
     UploadInstance,
@@ -13,6 +7,13 @@
   } from 'element-plus'
   import type { FileTypesRes } from '@/apis/types/upload'
   import type { EsUploadProps } from '@/components/es-upload/types'
+  /**
+   * ES Upload 组件 - 基于 Element Plus Upload 的封装组件
+   * 支持图片、视频、音频、压缩包等多种文件类型上传
+   * 支持多种数据结构输出格式（string、json、object）
+   * 集成素材库选择功能
+   */
+  import { onUnmounted } from 'vue'
   import { config } from '@/config'
   import { useMessage } from '@/hooks/useFeedback'
   import { useUpload } from '@/hooks/useUpload'
@@ -54,7 +55,7 @@
       : `application/${fileExtension}`
 
     return {
-      fileName: name || path.split('/').at(-1) || '',
+      filename: name || path.split('/').at(-1) || '',
       name: name || path.split('/').at(-1) || '',
       filePath: path,
       url: path,
@@ -73,55 +74,36 @@
     if (!props.modelValue) {
       return []
     }
-
-    try {
-      // 处理数组格式
-      if (Array.isArray(props.modelValue)) {
-        return props.modelValue
-          .map((item: any) => {
-            const filePath =
-              typeof item === 'string' ? item : item.filePath || item.url
-            if (!filePath) {
-              console.warn('ES Upload: 文件路径为空', item)
-              return null
-            }
-            return filePathToObj(filePath, item.fileName || item.name)
-          })
-          .filter(Boolean) as UploadUserFile[]
-      }
-
-      // 处理JSON字符串格式
-      if (
-        typeof props.modelValue === 'string' &&
-        utils.isJson(props.modelValue)
-      ) {
-        const parsedData = JSON.parse(props.modelValue)
-        if (Array.isArray(parsedData)) {
-          return parsedData.map((item: any) => ({
-            ...item,
-            name: item.fileName || item.name,
-            url: item.filePath || item.url,
-          }))
-        }
-      }
-
-      // 处理单个字符串格式
-      if (typeof props.modelValue === 'string') {
+    if (typeof props.modelValue === 'string') {
+      const parseRes = utils.parseJson(props.modelValue)
+      if (parseRes === props.modelValue) {
         return [filePathToObj(props.modelValue)]
       }
-
-      // 处理单个对象格式
-      if (typeof props.modelValue === 'object') {
-        const { filePath, url, fileName, name } = props.modelValue
-        if (filePath) {
-          return [filePathToObj(filePath || url, fileName || name)]
-        }
-      }
-    } catch (error) {
-      console.error('ES Upload: modelValue 转换失败', error, props.modelValue)
-      emits('updateError', [error as Error])
+      return parseRes.map((item: any) => ({
+        ...item,
+        name: item.fileName || item.name,
+        url: item.filePath || item.url,
+      }))
     }
-
+    // 处理数组格式
+    if (Array.isArray(props.modelValue)) {
+      return props.modelValue
+        .map((item: any) => {
+          const filePath =
+            typeof item === 'string' ? item : item.filePath || item.url
+          if (!filePath) {
+            return null
+          }
+          return filePathToObj(filePath, item.fileName || item.name)
+        })
+        .filter(Boolean) as UploadUserFile[]
+    }
+    if (typeof props.modelValue === 'object') {
+      const { filePath, url, fileName, name } = props.modelValue
+      if (filePath) {
+        return [filePathToObj(filePath || url, fileName || name)]
+      }
+    }
     return []
   }
 
@@ -129,13 +111,20 @@
   const fileList = ref<UploadUserFile[]>([])
   const previewImages = ref<UploadFile[]>([])
 
+  // 批量上传相关状态
+  const pendingFiles = ref<File[]>([])
+  const uploadTimer = ref<number | null>(null)
+
   /**
    * 计算上传按钮显示状态
-   * 当文件数量达到最大限制时隐藏上传按钮
+   * 当文件数量达到最大限制时隐藏上传按钮（考虑待上传文件队列）
    */
-  const uploadBtnDisplay = computed(() =>
-    fileList.value?.length >= props.maxCount ? 'none' : 'inline-flex',
-  )
+  const uploadBtnDisplay = computed(() => {
+    const currentFileCount = fileList.value?.length || 0
+    const pendingFileCount = pendingFiles.value?.length || 0
+    const totalFileCount = currentFileCount + pendingFileCount
+    return totalFileCount >= props.maxCount ? 'none' : 'inline-flex'
+  })
 
   /**
    * 监听 modelValue 变化，同步更新内部文件列表
@@ -149,14 +138,23 @@
   )
 
   /**
+   * 组件卸载时清理定时器
+   */
+  onUnmounted(() => {
+    if (uploadTimer.value) {
+      window.clearTimeout(uploadTimer.value)
+      uploadTimer.value = null
+    }
+  })
+
+  /**
    * 计算文件类型接受列表
    * 根据 fileType 属性生成对应的 MIME 类型字符串
    * @returns 文件类型接受字符串，用于 input[type=file] 的 accept 属性
    */
   const accept = computed(() => {
-    // 如果未指定文件类型，接受所有文件
     if (!props.fileType) {
-      return '*'
+      return ''
     }
 
     // 获取配置中允许的文件类型
@@ -187,8 +185,12 @@
   const beforeUpload: UploadProps['beforeUpload'] = (rawFile) => {
     const fileName = rawFile.name
 
-    // 检查文件数量限制
-    if (fileList.value?.length >= props.maxCount) {
+    // 检查文件数量限制（考虑当前文件列表和待上传文件队列）
+    const currentFileCount = fileList.value?.length || 0
+    const pendingFileCount = pendingFiles.value?.length || 0
+    const totalFileCount = currentFileCount + pendingFileCount + 1
+
+    if (totalFileCount > props.maxCount) {
       useMessage.error(
         `文件【${fileName}】上传失败：超出最大数量限制（${props.maxCount}个）`,
       )
@@ -240,24 +242,69 @@
   }
 
   /**
-   * 自定义文件上传函数
-   * @param options 上传选项，包含文件信息
-   * @returns 上传结果
+   * 批量上传处理函数
+   * 收集所有待上传文件，延迟执行批量上传
    */
-  const upload: UploadProps['httpRequest'] = async ({ file }) => {
+  async function processBatchUpload() {
+    if (pendingFiles.value.length === 0) return
+
     try {
+      const filesToUpload = [...pendingFiles.value]
+      pendingFiles.value = []
+
       const uploadRes = await useUpload(
-        file,
+        filesToUpload,
         props.data || {},
         props.contentType,
       )
 
       if (uploadRes?.success) {
+        // FileTypesRes 本身就是数组类型，直接触发change事件
         emits('change', uploadRes.success)
+        const elUpload = uploadRes.success.map((item) => ({
+          ...item,
+          url: item.filePath,
+        }))
+        // @ts-expect-error ignore
+        fileList.value = [...fileList.value, ...elUpload]
+        const emitData =
+          props.structure === 'string'
+            ? fileList.value.map((item) => item.url).join(',')
+            : props.structure === 'json'
+              ? JSON.stringify(fileList.value)
+              : fileList.value
+        // @ts-expect-error ignore
+        emits('update:modelValue', emitData)
       } else {
         throw new Error('上传响应格式错误')
       }
-      return uploadRes?.success
+    } catch (error) {
+      console.error('ES Upload: 批量文件上传失败', error)
+      useMessage.error('批量文件上传失败')
+      emits('updateError', [error as Error])
+      throw error
+    }
+  }
+
+  /**
+   * 自定义文件上传函数
+   * 支持单文件和多文件批量上传
+   * @param options 上传选项，包含文件信息
+   * @returns 上传结果
+   */
+  const upload: UploadProps['httpRequest'] = async ({ file }) => {
+    try {
+      // 将文件添加到待上传队列
+      pendingFiles.value.push(file)
+      // 清除之前的定时器
+      if (uploadTimer.value) {
+        clearTimeout(uploadTimer.value)
+      }
+
+      // 设置延迟执行批量上传（100ms后执行，确保所有文件都收集完毕）
+      uploadTimer.value = window.setTimeout(() => {
+        processBatchUpload()
+      }, 50)
     } catch (error) {
       console.error('ES Upload: 文件上传失败', error)
       useMessage.error(`文件【${file.name}】上传失败`)
@@ -278,56 +325,6 @@
       useMessage.error('移除文件失败')
     }
   }
-
-  /**
-   * 文件列表变化处理函数
-   * 根据 structure 属性格式化输出数据
-   */
-  function change() {
-    try {
-      if (!fileList.value?.length) {
-        emits('update:modelValue', props.structure === 'string' ? '' : [])
-        return
-      }
-      console.log(fileList.value)
-      // 提取文件信息
-      const emitData: FileTypesRes = fileList.value
-        .map((item: any) => {
-          const target = item.response || item
-          return {
-            fileName: target.fileName || target.name,
-            filePath: target.filePath || target.url,
-            mimeType: target.mimeType,
-          }
-        })
-        .filter((item) => item.filePath) // 过滤掉无效数据
-      console.log(emitData)
-      if (!emitData.length) {
-        emits('update:modelValue', props.structure === 'string' ? '' : [])
-        return
-      }
-
-      // 根据结构类型格式化数据
-      let result: string | string[] | FileTypesRes[]
-      switch (props.structure) {
-        case 'json':
-          result = JSON.stringify(emitData)
-          break
-        case 'string':
-          result = emitData.map((item) => item.filePath).join(',') || ''
-          break
-        case 'object':
-        default:
-          result = emitData
-          break
-      }
-
-      emits('update:modelValue', result)
-    } catch (error) {
-      console.error('ES Upload: 处理文件变化失败', error)
-      emits('updateError', [error as Error])
-    }
-  }
 </script>
 
 <template>
@@ -336,12 +333,11 @@
     <!-- Element Plus Upload 组件 -->
     <el-upload
       ref="uploadRef"
-      v-model:file-list="fileList"
+      :file-list="fileList"
       :list-type="listType"
       :accept="accept"
       :multiple="multiple"
       :on-preview="onPreview"
-      :on-change="change"
       :on-remove="remove"
       :before-upload="beforeUpload"
       :http-request="upload"

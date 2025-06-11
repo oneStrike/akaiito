@@ -45,7 +45,7 @@ export async function useUpload(
       },
     })
       .then((res) => {
-        const result = res as UploadFileRes
+        const result = res as any
         useMessage.success('上传成功')
         resolve({
           success: result,

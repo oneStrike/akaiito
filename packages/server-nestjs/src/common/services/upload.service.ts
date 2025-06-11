@@ -15,13 +15,15 @@ const pump = promisify(pipeline)
 @Injectable()
 export class UploadService {
   private readonly logger = new Logger(UploadService.name)
-  private readonly uploadPath = join(process.cwd(), 'uploads')
+  private readonly uploadPath = join(
+    process.cwd(),
+    process.env.UPLOAD_DIR || 'uploads',
+  )
+
   private uploadConfig: UploadConfig | null = null
   private mimeTypeMap: Map<string, string> = new Map()
 
-  constructor(private configService: ConfigService) {
-    // 延迟初始化MIME类型映射表，确保配置已加载
-  }
+  constructor(private configService: ConfigService) {}
 
   /**
    * 初始化MIME类型映射表（性能优化：避免重复数组查找）
@@ -148,132 +150,7 @@ export class UploadService {
   }
 
   /**
-   * 处理单个文件上传
-   * @param file 文件对象
-   * @param config 上传配置
-   * @param scene 场景
-   * @returns 上传结果
-   */
-  private async processSingleFile(
-    file: any,
-    config: UploadConfig,
-    scene: string,
-  ): Promise<UploadResponseDto> {
-    const startTime = Date.now()
-
-    // 验证文件
-    this.validateFile(file, config)
-
-    // 获取文件类型分类
-    const fileType = this.getFileTypeCategory(file.mimetype)
-
-    // 生成保存路径
-    const savePath = this.generateFilePath(fileType, scene)
-    this.ensureUploadDirectory(savePath)
-
-    // 生成文件名
-    const ext = extname(file.filename)
-    const filename = `${uuidv4()}${ext}`
-
-    const fullPath = join(savePath, filename)
-    const writeStream = createWriteStream(fullPath)
-
-    // 创建文件处理流
-    const {
-      stream: processingStream,
-      getSize,
-      getHash,
-    } = this.createFileProcessingStream(config, file.filename)
-
-    try {
-      // 使用管道流式处理文件
-      await pump(file.file, processingStream, writeStream)
-
-      // 检查文件是否被截断（超出大小限制）
-      if (file.file.truncated) {
-        // 删除已写入的部分文件
-        try {
-          if (existsSync(fullPath)) {
-            unlinkSync(fullPath)
-            this.logger.warn(
-              `文件 ${file.filename} 超出大小限制，已删除磁盘残留文件: ${fullPath}`,
-            )
-          }
-        } catch (deleteError) {
-          this.logger.error(
-            `删除超限文件时出错: ${deleteError.message}`,
-            deleteError.stack,
-          )
-        }
-        throw new BadRequestException(
-          `文件 ${file.filename} 超出大小限制 ${config.maxFileSize} 字节`,
-        )
-      }
-
-      const processingTime = Date.now() - startTime
-      const fileSize = getSize()
-      const fileHash = getHash()
-
-      // 二次验证文件大小（防止流处理过程中的边界情况）
-      if (fileSize > config.maxFileSize) {
-        // 删除已写入的文件
-        try {
-          if (existsSync(fullPath)) {
-            unlinkSync(fullPath)
-            this.logger.warn(
-              `文件 ${file.filename} 实际大小超限，已删除: ${fullPath}`,
-            )
-          }
-        } catch (deleteError) {
-          this.logger.error(
-            `删除超限文件时出错: ${deleteError.message}`,
-            deleteError.stack,
-          )
-        }
-        throw new BadRequestException(
-          `文件 ${file.filename} 大小 ${fileSize} 字节超出限制 ${config.maxFileSize} 字节`,
-        )
-      }
-
-      this.logger.log(
-        `文件上传成功: ${file.filename} (${fileSize} bytes, ${processingTime}ms, hash: ${fileHash})`,
-      )
-
-      // 计算相对路径（相对于uploads目录）
-      const filePath = fullPath
-        .replace(this.uploadPath, '')
-        .replace(/^[/\\]/, '')
-        .replace(/\\/g, '/')
-
-      return {
-        filename,
-        originalName: file.filename,
-        filePath,
-        fileSize,
-        mimeType: file.mimetype,
-        fileType,
-        scene,
-        uploadTime: new Date(),
-      }
-    } catch (error) {
-      // 如果上传失败，尝试删除已创建的文件
-      try {
-        if (existsSync(fullPath)) {
-          unlinkSync(fullPath)
-          this.logger.warn(`上传失败，已删除残留文件: ${fullPath}`)
-        }
-      } catch (deleteError) {
-        this.logger.error(
-          `删除失败文件时出错: ${deleteError.message}`,
-          deleteError.stack,
-        )
-      }
-      throw error
-    }
-  }
-
-  /**
-   * 上传多个文件（性能优化：并行处理）
+   * 上传多个文件（性能优化：并行处理，内联文件处理逻辑）
    * @param data Fastify multipart数据
    * @param scene 场景
    * @returns 上传结果数组
@@ -287,20 +164,131 @@ export class UploadService {
     const filePromises: Promise<UploadResponseDto | null>[] = []
     const errors: Error[] = []
 
-    let fileCount = 0
     scene = scene || 'shared' // 默认场景
+
     // 收集所有文件处理任务
     for await (const file of files) {
-      // 添加文件处理任务到队列
-      const filePromise = this.processSingleFile(file, config, scene).catch(
-        (error) => {
-          errors.push(error)
+      // 内联文件处理逻辑以提高性能
+      const filePromise = (async (): Promise<UploadResponseDto | null> => {
+        const startTime = Date.now()
+
+        try {
+          // 验证文件
+          this.validateFile(file, config)
+
+          // 获取文件类型分类
+          const fileType = this.getFileTypeCategory(file.mimetype)
+
+          // 生成保存路径
+          const savePath = this.generateFilePath(fileType, scene)
+          this.ensureUploadDirectory(savePath)
+
+          // 生成文件名
+          const ext = extname(file.filename)
+          const filename = `${uuidv4()}${ext}`
+
+          const fullPath = join(savePath, filename)
+          const writeStream = createWriteStream(fullPath)
+
+          // 创建文件处理流
+          const {
+            stream: processingStream,
+            getSize,
+            getHash,
+          } = this.createFileProcessingStream(config, file.filename)
+
+          try {
+            // 使用管道流式处理文件
+            await pump(file.file, processingStream, writeStream)
+
+            // 检查文件是否被截断（超出大小限制）
+            if (file.file.truncated) {
+              // 删除已写入的部分文件
+              try {
+                if (existsSync(fullPath)) {
+                  unlinkSync(fullPath)
+                  this.logger.warn(
+                    `文件 ${file.filename} 超出大小限制，已删除磁盘残留文件: ${fullPath}`,
+                  )
+                }
+              } catch (deleteError) {
+                this.logger.error(
+                  `删除超限文件时出错: ${deleteError.message}`,
+                  deleteError.stack,
+                )
+              }
+              throw new BadRequestException(
+                `文件 ${file.filename} 超出大小限制 ${config.maxFileSize} 字节`,
+              )
+            }
+
+            const processingTime = Date.now() - startTime
+            const fileSize = getSize()
+            const fileHash = getHash()
+
+            // 二次验证文件大小（防止流处理过程中的边界情况）
+            if (fileSize > config.maxFileSize) {
+              // 删除已写入的文件
+              try {
+                if (existsSync(fullPath)) {
+                  unlinkSync(fullPath)
+                  this.logger.warn(
+                    `文件 ${file.filename} 实际大小超限，已删除: ${fullPath}`,
+                  )
+                }
+              } catch (deleteError) {
+                this.logger.error(
+                  `删除超限文件时出错: ${deleteError.message}`,
+                  deleteError.stack,
+                )
+              }
+              throw new BadRequestException(
+                `文件 ${file.filename} 大小 ${fileSize} 字节超出限制 ${config.maxFileSize} 字节`,
+              )
+            }
+
+            this.logger.log(
+              `文件上传成功: ${file.filename} (${fileSize} bytes, ${processingTime}ms, hash: ${fileHash})`,
+            )
+            console.log(this.uploadPath)
+            // 计算相对路径（相对于uploads目录）
+            const filePath = fullPath
+              .replace(process.cwd(), '')
+              .replace(/^[/\\]/, '')
+              .replace(/\\/g, '/')
+
+            return {
+              filename,
+              originalName: file.filename,
+              filePath,
+              fileSize,
+              mimeType: file.mimetype,
+              fileType,
+              scene,
+              uploadTime: new Date(),
+            }
+          } catch (error) {
+            // 如果上传失败，尝试删除已创建的文件
+            try {
+              if (existsSync(fullPath)) {
+                unlinkSync(fullPath)
+                this.logger.warn(`上传失败，已删除残留文件: ${fullPath}`)
+              }
+            } catch (deleteError) {
+              this.logger.error(
+                `删除失败文件时出错: ${deleteError.message}`,
+                deleteError.stack,
+              )
+            }
+            throw error
+          }
+        } catch (error) {
+          errors.push(error as Error)
           return null
-        },
-      )
+        }
+      })()
 
       filePromises.push(filePromise)
-      fileCount++
     }
 
     if (filePromises.length === 0) {

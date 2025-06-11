@@ -150,8 +150,8 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请上传封面',
       scenario: 'dataDict',
-      multiple: true,
-      maxCount: 2,
+      multiple: false,
+      maxCount: 1,
       fileType: 'image',
     },
   },
