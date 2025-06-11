@@ -126,6 +126,15 @@ export class UploadService {
     const processingStream = new Transform({
       transform(chunk: any, encoding: any, callback: any) {
         totalSize += chunk.length
+
+        // 实时检查文件大小，超过限制立即停止
+        if (totalSize > config.maxFileSize) {
+          const error = new BadRequestException(
+            `文件 ${filename} 大小超出限制 ${config.maxFileSize} 字节`,
+          )
+          return callback(error)
+        }
+
         hash.update(chunk)
         callback(null, chunk)
       },
@@ -180,9 +189,51 @@ export class UploadService {
       // 使用管道流式处理文件
       await pump(file.file, processingStream, writeStream)
 
+      // 检查文件是否被截断（超出大小限制）
+      if (file.file.truncated) {
+        // 删除已写入的部分文件
+        try {
+          if (existsSync(fullPath)) {
+            unlinkSync(fullPath)
+            this.logger.warn(
+              `文件 ${file.filename} 超出大小限制，已删除磁盘残留文件: ${fullPath}`,
+            )
+          }
+        } catch (deleteError) {
+          this.logger.error(
+            `删除超限文件时出错: ${deleteError.message}`,
+            deleteError.stack,
+          )
+        }
+        throw new BadRequestException(
+          `文件 ${file.filename} 超出大小限制 ${config.maxFileSize} 字节`,
+        )
+      }
+
       const processingTime = Date.now() - startTime
       const fileSize = getSize()
       const fileHash = getHash()
+
+      // 二次验证文件大小（防止流处理过程中的边界情况）
+      if (fileSize > config.maxFileSize) {
+        // 删除已写入的文件
+        try {
+          if (existsSync(fullPath)) {
+            unlinkSync(fullPath)
+            this.logger.warn(
+              `文件 ${file.filename} 实际大小超限，已删除: ${fullPath}`,
+            )
+          }
+        } catch (deleteError) {
+          this.logger.error(
+            `删除超限文件时出错: ${deleteError.message}`,
+            deleteError.stack,
+          )
+        }
+        throw new BadRequestException(
+          `文件 ${file.filename} 大小 ${fileSize} 字节超出限制 ${config.maxFileSize} 字节`,
+        )
+      }
 
       this.logger.log(
         `文件上传成功: ${file.filename} (${fileSize} bytes, ${processingTime}ms, hash: ${fileHash})`,
@@ -209,6 +260,7 @@ export class UploadService {
       try {
         if (existsSync(fullPath)) {
           unlinkSync(fullPath)
+          this.logger.warn(`上传失败，已删除残留文件: ${fullPath}`)
         }
       } catch (deleteError) {
         this.logger.error(
@@ -231,9 +283,7 @@ export class UploadService {
     scene?: string,
   ): Promise<UploadResponseDto[]> {
     const config = this.getUploadConfig()
-    const files = data.files({
-      limits: { fileSize: config.maxFileSize, files: config.maxFiles },
-    })
+    const files = data.files()
     const filePromises: Promise<UploadResponseDto | null>[] = []
     const errors: Error[] = []
 

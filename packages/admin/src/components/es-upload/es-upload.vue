@@ -257,6 +257,7 @@
       } else {
         throw new Error('上传响应格式错误')
       }
+      return uploadRes?.success
     } catch (error) {
       console.error('ES Upload: 文件上传失败', error)
       useMessage.error(`文件【${file.name}】上传失败`)
@@ -288,7 +289,7 @@
         emits('update:modelValue', props.structure === 'string' ? '' : [])
         return
       }
-
+      console.log(fileList.value)
       // 提取文件信息
       const emitData: FileTypesRes = fileList.value
         .map((item: any) => {
@@ -300,7 +301,7 @@
           }
         })
         .filter((item) => item.filePath) // 过滤掉无效数据
-
+      console.log(emitData)
       if (!emitData.length) {
         emits('update:modelValue', props.structure === 'string' ? '' : [])
         return
@@ -377,7 +378,7 @@
           <!-- 卡片式布局 -->
           <div
             v-if="listType === 'picture-card'"
-            class="upload-trigger"
+            class="flex items-center text-#dcdfe6 uploading"
             role="button"
             tabindex="0"
             aria-label="上传文件"
@@ -411,21 +412,6 @@
     }
   }
 
-  /* 上传触发器样式 */
-  .upload-trigger {
-    cursor: pointer;
-    transition: all 0.3s ease;
-
-    &:hover {
-      opacity: 0.8;
-    }
-
-    &:focus {
-      outline: 2px solid var(--el-color-primary);
-      outline-offset: 2px;
-    }
-  }
-
   .upload-button {
     transition: all 0.3s ease;
   }
@@ -441,6 +427,10 @@
 
     &:hover {
       border-color: var(--el-color-primary);
+
+      .uploading {
+        color: var(--el-color-primary);
+      }
     }
   }
 
@@ -460,19 +450,6 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-      }
-    }
-
-    .el-upload-list__item-actions {
-      background-color: rgba(0, 0, 0, 0.5);
-
-      .el-upload-list__item-preview,
-      .el-upload-list__item-delete {
-        color: white;
-
-        &:hover {
-          color: var(--el-color-primary);
-        }
       }
     }
   }

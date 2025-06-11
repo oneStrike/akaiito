@@ -1,6 +1,9 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
-import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
+import type {
+  EsToolbarProps,
+  ToolbarFilter,
+} from '@/components/es-toolbar/types'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
@@ -147,7 +150,8 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请上传封面',
       scenario: 'dataDict',
-      multiple: false,
+      multiple: true,
+      maxCount: 2,
       fileType: 'image',
     },
   },
