@@ -242,47 +242,47 @@
   }
 
   /**
+   * 处理emit丢出的数据格式
+   */
+  function handleEmitData() {
+    const emitData =
+      props.structure === 'string'
+        ? fileList.value.map((item) => item.url).join(',')
+        : props.structure === 'json'
+          ? JSON.stringify(fileList.value)
+          : fileList.value
+    // @ts-expect-error ignore
+    emits('update:modelValue', emitData)
+  }
+
+  /**
    * 批量上传处理函数
    * 收集所有待上传文件，延迟执行批量上传
    */
   async function processBatchUpload() {
     if (pendingFiles.value.length === 0) return
 
-    try {
-      const filesToUpload = [...pendingFiles.value]
-      pendingFiles.value = []
+    const filesToUpload = [...pendingFiles.value]
+    pendingFiles.value = []
 
-      const uploadRes = await useUpload(
-        filesToUpload,
-        props.data || {},
-        props.contentType,
-      )
+    const uploadRes = await useUpload(
+      filesToUpload,
+      props.data || {},
+      props.contentType,
+    )
 
-      if (uploadRes?.success) {
-        // FileTypesRes 本身就是数组类型，直接触发change事件
-        emits('change', uploadRes.success)
-        const elUpload = uploadRes.success.map((item) => ({
-          ...item,
-          url: item.filePath,
-        }))
-        // @ts-expect-error ignore
-        fileList.value = [...fileList.value, ...elUpload]
-        const emitData =
-          props.structure === 'string'
-            ? fileList.value.map((item) => item.url).join(',')
-            : props.structure === 'json'
-              ? JSON.stringify(fileList.value)
-              : fileList.value
-        // @ts-expect-error ignore
-        emits('update:modelValue', emitData)
-      } else {
-        throw new Error('上传响应格式错误')
-      }
-    } catch (error) {
-      console.error('ES Upload: 批量文件上传失败', error)
-      useMessage.error('批量文件上传失败')
-      emits('updateError', [error as Error])
-      throw error
+    if (uploadRes?.success) {
+      // FileTypesRes 本身就是数组类型，直接触发change事件
+      emits('change', uploadRes.success)
+      const elUpload = uploadRes.success.map((item) => ({
+        ...item,
+        url: item.filePath,
+      }))
+      // @ts-expect-error ignore
+      fileList.value = [...fileList.value, ...elUpload]
+      handleEmitData()
+    } else {
+      throw new Error('上传响应格式错误')
     }
   }
 
@@ -293,24 +293,17 @@
    * @returns 上传结果
    */
   const upload: UploadProps['httpRequest'] = async ({ file }) => {
-    try {
-      // 将文件添加到待上传队列
-      pendingFiles.value.push(file)
-      // 清除之前的定时器
-      if (uploadTimer.value) {
-        clearTimeout(uploadTimer.value)
-      }
-
-      // 设置延迟执行批量上传（100ms后执行，确保所有文件都收集完毕）
-      uploadTimer.value = window.setTimeout(() => {
-        processBatchUpload()
-      }, 50)
-    } catch (error) {
-      console.error('ES Upload: 文件上传失败', error)
-      useMessage.error(`文件【${file.name}】上传失败`)
-      emits('updateError', [error as Error])
-      throw error
+    // 将文件添加到待上传队列
+    pendingFiles.value.push(file)
+    // 清除之前的定时器
+    if (uploadTimer.value) {
+      clearTimeout(uploadTimer.value)
     }
+
+    // 设置延迟执行批量上传（100ms后执行，确保所有文件都收集完毕）
+    uploadTimer.value = window.setTimeout(() => {
+      processBatchUpload()
+    }, 50)
   }
 
   /**
@@ -318,12 +311,13 @@
    * @param uploadFile 要移除的文件对象
    */
   function remove(uploadFile: UploadFile) {
-    try {
-      emits('remove', uploadFile)
-    } catch (error) {
-      console.error('ES Upload: 移除文件失败', error)
-      useMessage.error('移除文件失败')
+    const fileIndex = fileList.value.findIndex(
+      (item) => item.url === uploadFile.url,
+    )
+    if (fileIndex !== -1) {
+      handleEmitData()
     }
+    emits('remove', uploadFile)
   }
 </script>
 

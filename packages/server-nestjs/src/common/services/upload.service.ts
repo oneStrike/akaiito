@@ -86,7 +86,10 @@ export class UploadService {
    */
   private generateFilePath(fileType: string, scene: string): string {
     const today = new Date()
-    const dateStr = today.toISOString().split('T')[0] // YYYY-MM-DD格式
+    const year = today.getFullYear()
+    const month = String(today.getMonth() + 1).padStart(2, '0') // 月份从0开始
+    const day = String(today.getDate()).padStart(2, '0')
+    const dateStr = `${year}-${month}-${day}` // 按服务器本地时区
     return join(this.uploadPath, dateStr, fileType, scene)
   }
 
