@@ -3,7 +3,6 @@ import {
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
-import { IdDto, IdsDto } from '@/common/dto/id.dto'
 
 /**
  * 创建数据字典项DTO

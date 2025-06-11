@@ -1,13 +1,12 @@
 import type { UploadFiles } from 'element-plus'
-import type { UploadFileTypesRes } from '@/apis/types/upload'
+import type { FileTypesRes } from '@/apis/types/upload'
 import { useMessage } from '@/hooks/useFeedback'
-import { useUserStore } from '@/stores/modules/user'
 import { httpHandler } from '@/utils/request'
 
 type files = string | Blob
-type UploadFileRes = UploadFileTypesRes
+type UploadFileRes = FileTypesRes
 const api = {
-  common: '/common/upload/uploadFile',
+  common: '/api/admin/upload/uploadFile',
   comic: '/admin/comic/chapter/createComicChapterContent',
 }
 
@@ -43,7 +42,6 @@ export async function useUpload(
       errorMessage: false,
       headers: {
         'Content-Type': 'multipart/form-data;charset=UTF-8',
-        'authorization': useUserStore().token.accessToken,
       },
     })
       .then((res) => {

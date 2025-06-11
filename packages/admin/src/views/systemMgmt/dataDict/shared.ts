@@ -57,9 +57,9 @@ export const tableColumns: EsTableColumn = [
   },
   {
     label: '状态',
-    prop: 'status',
+    prop: 'isEnabled',
     align: 'center',
-    slotName: 'status',
+    slotName: 'isEnabled',
   },
   {
     label: '操作',
@@ -71,7 +71,7 @@ export const tableColumns: EsTableColumn = [
 
 export const filter: () => ToolbarFilter = () => [
   {
-    field: 'status',
+    field: 'isEnabled',
     component: 'Select',
     props: {
       span: 6,
@@ -82,11 +82,11 @@ export const filter: () => ToolbarFilter = () => [
       options: [
         {
           label: '启用',
-          value: 1,
+          value: true,
         },
         {
           label: '禁用',
-          value: 0,
+          value: false,
         },
       ],
     },

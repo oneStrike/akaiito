@@ -11,7 +11,7 @@ export interface EsSwitchProps<T = IterateObject> {
 
 const props = withDefaults(defineProps<EsSwitchProps>(), {
   ids: false,
-  field: 'status',
+  field: 'isEnabled',
 })
 const emits = defineEmits<{
   (event: 'success'): void

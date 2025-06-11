@@ -48,7 +48,6 @@
         // 获取公钥
         const publicKeyPEM = await systemStore.getRsaPublicKey()
 
-        // 使用JSEncrypt库进行加密（更兼容Node.js的crypto模块）
         const publicKeyPem = forge.pki.publicKeyFromPem(publicKeyPEM)
         // 使用OAEP填充进行加密
         const encrypted = publicKeyPem.encrypt(
@@ -121,7 +120,7 @@
               :src="captchaInfo.data"
               class="captcha_img"
               @click="getCaptchaFn"
-            />
+            >
           </el-form-item>
           <el-form-item>
             <el-checkbox v-model="isRememberAccount">

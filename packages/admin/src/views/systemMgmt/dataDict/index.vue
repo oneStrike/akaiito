@@ -106,7 +106,7 @@
           {{ row.name }}
         </el-link>
       </template>
-      <template #status="{ row }">
+      <template #isEnabled="{ row }">
         <es-switch
           :request="updateEnableStatusApi"
           :row="row"
