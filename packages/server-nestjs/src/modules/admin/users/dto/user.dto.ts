@@ -78,8 +78,7 @@ export class UserLoginDto {
   })
   username!: string
 
-  @ValidateByRegex({
-    regex: utils.regexp.validPwd,
+  @ValidateString({
     description: '密码',
     example: 'Aa@123456',
     required: true,
@@ -124,16 +123,14 @@ export class UserRegisterDto extends OmitType(UserDto, [
   'createdAt',
   'updatedAt',
 ]) {
-  @ValidateByRegex({
-    regex: utils.regexp.validPwd,
+  @ValidateString({
     description: '密码',
     example: 'Aa@123456',
     required: true,
   })
   password!: string
 
-  @ValidateByRegex({
-    regex: utils.regexp.validPwd,
+  @ValidateString({
     description: '密码',
     example: 'Aa@123456',
     required: true,
@@ -149,24 +146,21 @@ export class UpdateUserDto extends OmitType(UserDto, [
 ]) {}
 
 export class UpdatePasswordDto {
-  @ValidateByRegex({
-    regex: utils.regexp.validPwd,
+  @ValidateString({
     description: '密码',
     example: 'Aa@123456',
     required: true,
   })
   oldPassword!: string
 
-  @ValidateByRegex({
-    regex: utils.regexp.validPwd,
+  @ValidateString({
     description: '密码',
     example: 'Aa@123456',
     required: true,
   })
   newPassword!: string
 
-  @ValidateByRegex({
-    regex: utils.regexp.validPwd,
+  @ValidateString({
     description: '密码',
     example: 'Aa@123456',
     required: true,
