@@ -1,4 +1,3 @@
-import type { RsaKeyType } from '@/common/enum/rsa'
 import { Buffer } from 'node:buffer'
 import {
   constants,
@@ -10,6 +9,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { Injectable, OnModuleInit } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { RsaKeyType } from '@/common/enum/rsa'
 /**
  * RSA密钥对
  */

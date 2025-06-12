@@ -1,5 +1,5 @@
 import type { WinstonModuleOptions } from 'nest-winston'
-import process from 'node:process'
+import * as process from 'node:process'
 import * as winston from 'winston'
 import * as DailyRotateFile from 'winston-daily-rotate-file'
 /**

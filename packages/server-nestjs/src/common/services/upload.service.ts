@@ -1,15 +1,15 @@
-import type { ConfigService } from '@nestjs/config'
 import type { FastifyRequest } from 'fastify'
-import type { UploadResponseDto } from '@/common/dto/upload.dto'
 import type { UploadConfig } from '@/config/upload.config'
 import { createHash } from 'node:crypto'
 import { createWriteStream, existsSync, mkdirSync, unlinkSync } from 'node:fs'
 import { extname, join } from 'node:path'
-import process from 'node:process'
+import * as process from 'node:process'
 import { pipeline, Transform } from 'node:stream'
 import { promisify } from 'node:util'
 import { BadRequestException, Injectable, Logger } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { v4 as uuidv4 } from 'uuid'
+import { UploadResponseDto } from '@/common/dto/upload.dto'
 
 const pump = promisify(pipeline)
 
