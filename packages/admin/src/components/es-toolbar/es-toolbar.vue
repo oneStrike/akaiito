@@ -1,60 +1,57 @@
 <script setup lang="ts">
-import type {
-  EsToolbarProps,
-  ToolbarFilter,
-} from '@/components/es-toolbar/types'
+  import type {
+    EsToolbarProps,
+    ToolbarFilter,
+  } from '@/components/es-toolbar/types'
 
-const props = withDefaults(defineProps<EsToolbarProps>(), {
-  followSelection: true,
-})
-const emits = defineEmits<{
-  (event: 'handler', data: any): void
-  (event: 'query', data: IterateObject): void
-  (event: 'reset'): void
-}>()
+  const props = withDefaults(defineProps<EsToolbarProps>(), {
+    followSelection: true,
+  })
+  const emits = defineEmits<{
+    (event: 'handler', data: any): void
+    (event: 'query', data: IterateObject): void
+    (event: 'reset'): void
+  }>()
 
-const modelValue = defineModel({ type: Object, default: () => ({}) })
+  const modelValue = defineModel({ type: Object, default: () => ({}) })
 
-const esFormRef = ref<IterateObject>()
-const innerFilter = ref<ToolbarFilter>()
+  const esFormRef = ref<IterateObject>()
+  const innerFilter = ref<ToolbarFilter>()
 
-const throttleInput = reactive<IterateObject>({
-  field: [],
-  value: {},
-})
+  const throttleInput = reactive<IterateObject>({
+    field: [],
+    value: {},
+  })
 
-watch(
-  () => props.filter!,
-  (val: ToolbarFilter) => {
-    if (Array.isArray(val)) {
-      innerFilter.value = JSON.parse(JSON.stringify(val)).map(
-        (item: ToolbarFilter[number]) => {
-          if (item.component === 'Input') {
-            throttleInput.field.push(item.field)
-          }
-          if (!item.componentProps) {
-            item.componentProps = {}
-          }
+  watch(
+    () => props.filter!,
+    (val: ToolbarFilter) => {
+      if (Array.isArray(val)) {
+        innerFilter.value = JSON.parse(JSON.stringify(val)).map(
+          (item: ToolbarFilter[number]) => {
+            if (!item.componentProps) {
+              item.componentProps = {}
+            }
 
-          if (typeof item.componentProps.clearable !== 'boolean') {
-            item.componentProps.clearable = true
-          }
+            if (typeof item.componentProps.clearable !== 'boolean') {
+              item.componentProps.clearable = true
+            }
 
-          return item
-        },
-      )
-    }
-  },
-  { deep: true, immediate: true },
-)
+            return item
+          },
+        )
+      }
+    },
+    { deep: true, immediate: true },
+  )
 
-function resetFilter() {
-  esFormRef.value?.resetForm()
-}
+  function resetFilter() {
+    esFormRef.value?.resetForm()
+  }
 
-defineExpose({
-  resetFilter,
-})
+  defineExpose({
+    resetFilter,
+  })
 </script>
 
 <template>
@@ -106,44 +103,25 @@ defineExpose({
       submit-text="查询"
       :form-props="{ labelPosition: 'top' }"
       :box-border="false"
-      @reset="emits('reset')"
       @submit="emits('query', modelValue.value)"
-    >
-      <template
-        v-for="item in throttleInput.field"
-        #[item]="{ componentProps, on }"
-        :key="item"
-      >
-        <el-input
-          v-model="throttleInput.value[item]"
-          autocomplete="new-password"
-          v-bind="componentProps"
-          v-on="on || {}"
-          @keydown.enter="modelValue[item] = throttleInput.value[item]"
-          @change="
-            (val) => ((modelValue[item] = val), on?.change && on?.change(val))
-          "
-          @clear=";(modelValue[item] = ''), on?.change && on?.clear()"
-        />
-      </template>
-    </es-form>
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
-:deep(.el-form--inline) {
-  position: relative;
-  padding-right: 130px !important;
-  justify-content: end;
-}
-
-:deep(.es-form-button) {
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  .el-form-item {
-    margin-right: 0;
+  :deep(.el-form--inline) {
+    position: relative;
+    padding-right: 130px !important;
+    justify-content: end;
   }
-}
+
+  :deep(.es-form-button) {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    .el-form-item {
+      margin-right: 0;
+    }
+  }
 </style>

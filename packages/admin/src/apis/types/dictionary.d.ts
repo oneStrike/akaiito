@@ -3,7 +3,7 @@
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/page
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface PageTypesReq {
@@ -73,7 +73,7 @@ export interface PageTypesRes {
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/detail
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface DetailTypesReq {
@@ -113,7 +113,7 @@ export type DetailTypesRes = {
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface CreateTypesReq {
@@ -165,7 +165,7 @@ export type CreateTypesRes = {
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface UpdateTypesReq {
@@ -226,7 +226,7 @@ export type UpdateTypesRes = {
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface DeleteTypesReq {
@@ -245,7 +245,7 @@ export type DeleteTypesRes = {
  *  @标签 字典管理/启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateEnableStatus
- *  @更新时间 2025-06-11 00:52:10
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface UpdateEnableStatusTypesReq {
@@ -253,7 +253,7 @@ export interface UpdateEnableStatusTypesReq {
   ids: number[]
 
   /* 状态 true启用 false禁用 */
-  enabled: boolean
+  isEnabled: boolean
 }
 
 /*  */
@@ -288,7 +288,7 @@ export type UpdateEnableStatusTypesRes = {
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/items
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface ItemsTypesReq {
@@ -320,37 +320,46 @@ export interface ItemsTypesReq {
   isEnabled?: boolean
 }
 
-/*  */
-export type ItemsTypesRes = {
-  /* 字典项ID */
-  id: number
+export interface ItemsTypesRes {
+  /* 当前页码 */
+  pageIndex: number
 
-  /* 字典编码 */
-  dictionaryCode: string
+  /* 每页条数 */
+  pageSize: number
 
-  /* 字典项名称 */
-  name: string
+  /* 总条数 */
+  total: number
+  list: {
+    /* 字典项ID */
+    id: number
 
-  /* 字典项编码 */
-  code: string
+    /* 字典编码 */
+    dictionaryCode: string
 
-  /* 排序 */
-  order?: number
+    /* 字典项名称 */
+    name: string
 
-  /* 字典项封面 */
-  cover?: string | null
+    /* 字典项编码 */
+    code: string
 
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
+    /* 排序 */
+    order?: number
 
-  /* 备注信息 */
-  remark?: string | null
+    /* 字典项封面 */
+    cover?: string | null
 
-  /* 创建时间 */
-  createdAt: string
+    /* 状态 true启用 false禁用 */
+    isEnabled: boolean
 
-  /* 更新时间 */
-  updatedAt: string
+    /* 备注信息 */
+    remark?: string | null
+
+    /* 创建时间 */
+    createdAt: string
+
+    /* 更新时间 */
+    updatedAt: string
+  }[]
 }
 
 /**
@@ -358,7 +367,7 @@ export type ItemsTypesRes = {
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/createItem
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface CreateItemTypesReq {
@@ -422,7 +431,7 @@ export type CreateItemTypesRes = {
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateItem
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface UpdateItemTypesReq {
@@ -489,7 +498,7 @@ export type UpdateItemTypesRes = {
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/deleteItem
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface DeleteItemTypesReq {
@@ -535,7 +544,7 @@ export type DeleteItemTypesRes = {
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateItemStatus
- *  @更新时间 2025-06-11 00:52:10
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface UpdateItemStatusTypesReq {
@@ -543,7 +552,7 @@ export interface UpdateItemStatusTypesReq {
   ids: number[]
 
   /* 状态 true启用 false禁用 */
-  enabled: boolean
+  isEnabled: boolean
 }
 
 /*  */

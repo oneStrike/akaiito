@@ -83,12 +83,12 @@ export class DictionaryController {
   enable(@Body() query: IdsEnabledDto) {
     return this.dictionaryService.updateMany({
       where: { id: { in: query.ids } },
-      data: { isEnabled: query.enabled },
+      data: { isEnabled: query.isEnabled },
     })
   }
 
   @Get('items')
-  @ApiDoc({
+  @ApiPageDoc({
     summary: '获取字典项',
     model: DictionaryItemDto,
   })

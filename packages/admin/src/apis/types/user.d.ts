@@ -3,7 +3,7 @@
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/getCaptcha
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 /*  */
@@ -20,7 +20,7 @@ export type GetCaptchaTypesRes = {
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/login
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface LoginTypesReq {
@@ -54,18 +54,18 @@ export type LoginTypesRes = {
     id: number
 
     /* 用户名 */
-    username: string
+    username?: string | null
 
-    /* 用户头像 */
-    avatar: string
+    /* 头像 */
+    avatar?: string | null
 
-    /* 用户手机号 */
-    mobile: string
+    /* 手机号 */
+    mobile?: string | null
 
     /* 用户状态 */
     status: boolean
 
-    /* 是否为超级管理员 */
+    /* 用户状态 */
     isRoot: boolean
 
     /* 创建时间 */
@@ -81,7 +81,7 @@ export type LoginTypesRes = {
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
  *  @地址 /api/admin/user/logout
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface LogoutTypesRes {
@@ -94,21 +94,24 @@ export interface LogoutTypesRes {
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/register
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface RegisterTypesReq {
   /* 用户名 */
-  username: string
+  username?: string | null
+
+  /* 头像 */
+  avatar?: string | null
+
+  /* 手机号 */
+  mobile?: string | null
 
   /* 密码 */
   password: string
 
-  /* 确认密码 */
+  /* 密码 */
   confirmPassword: string
-
-  /* 手机号 */
-  mobile?: string | null
 }
 
 /*  */
@@ -117,18 +120,18 @@ export type RegisterTypesRes = {
   id: number
 
   /* 用户名 */
-  username: string
+  username?: string | null
 
-  /* 用户头像 */
-  avatar: string
+  /* 头像 */
+  avatar?: string | null
 
-  /* 用户手机号 */
-  mobile: string
+  /* 手机号 */
+  mobile?: string | null
 
   /* 用户状态 */
   status: boolean
 
-  /* 是否为超级管理员 */
+  /* 用户状态 */
   isRoot: boolean
 
   /* 创建时间 */
@@ -143,7 +146,7 @@ export type RegisterTypesRes = {
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/refreshToken
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface RefreshTokenTypesReq {
@@ -153,29 +156,14 @@ export interface RefreshTokenTypesReq {
 
 /*  */
 export type RefreshTokenTypesRes = {
-  /* 用户ID */
-  id: number
+  /* 刷新令牌响应 */
+  tokens: {
+    /* 账号令牌 */
+    accessToken: string
 
-  /* 用户名 */
-  username: string
-
-  /* 用户头像 */
-  avatar: string
-
-  /* 用户手机号 */
-  mobile: string
-
-  /* 用户状态 */
-  status: boolean
-
-  /* 是否为超级管理员 */
-  isRoot: boolean
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
+    /* 刷新令牌 */
+    refreshToken: string
+  }
 }
 
 /**
@@ -183,17 +171,17 @@ export type RefreshTokenTypesRes = {
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/updatePassword
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface UpdatePasswordTypesReq {
-  /* 旧密码 */
+  /* 密码 */
   oldPassword: string
 
-  /* 新密码 */
+  /* 密码 */
   newPassword: string
 
-  /* 确认新密码 */
+  /* 密码 */
   confirmPassword: string
 }
 
@@ -203,18 +191,18 @@ export type UpdatePasswordTypesRes = {
   id: number
 
   /* 用户名 */
-  username: string
+  username?: string | null
 
-  /* 用户头像 */
-  avatar: string
+  /* 头像 */
+  avatar?: string | null
 
-  /* 用户手机号 */
-  mobile: string
+  /* 手机号 */
+  mobile?: string | null
 
   /* 用户状态 */
   status: boolean
 
-  /* 是否为超级管理员 */
+  /* 用户状态 */
   isRoot: boolean
 
   /* 创建时间 */
@@ -229,7 +217,7 @@ export type UpdatePasswordTypesRes = {
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/updateUserInfo
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface UpdateUserInfoTypesReq {
@@ -241,6 +229,9 @@ export interface UpdateUserInfoTypesReq {
 
   /* 手机号 */
   mobile?: string | null
+
+  /* 用户状态 */
+  status: boolean
 }
 
 /*  */
@@ -249,18 +240,18 @@ export type UpdateUserInfoTypesRes = {
   id: number
 
   /* 用户名 */
-  username: string
+  username?: string | null
 
-  /* 用户头像 */
-  avatar: string
+  /* 头像 */
+  avatar?: string | null
 
-  /* 用户手机号 */
-  mobile: string
+  /* 手机号 */
+  mobile?: string | null
 
   /* 用户状态 */
   status: boolean
 
-  /* 是否为超级管理员 */
+  /* 用户状态 */
   isRoot: boolean
 
   /* 创建时间 */
@@ -275,7 +266,7 @@ export type UpdateUserInfoTypesRes = {
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/getUserInfo
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 /*  */
@@ -284,18 +275,18 @@ export type GetUserInfoTypesRes = {
   id: number
 
   /* 用户名 */
-  username: string
+  username?: string | null
 
-  /* 用户头像 */
-  avatar: string
+  /* 头像 */
+  avatar?: string | null
 
-  /* 用户手机号 */
-  mobile: string
+  /* 手机号 */
+  mobile?: string | null
 
   /* 用户状态 */
   status: boolean
 
-  /* 是否为超级管理员 */
+  /* 用户状态 */
   isRoot: boolean
 
   /* 创建时间 */
@@ -310,7 +301,7 @@ export type GetUserInfoTypesRes = {
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/getUserById
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface GetUserByIdTypesReq {
@@ -324,18 +315,18 @@ export type GetUserByIdTypesRes = {
   id: number
 
   /* 用户名 */
-  username: string
+  username?: string | null
 
-  /* 用户头像 */
-  avatar: string
+  /* 头像 */
+  avatar?: string | null
 
-  /* 用户手机号 */
-  mobile: string
+  /* 手机号 */
+  mobile?: string | null
 
   /* 用户状态 */
   status: boolean
 
-  /* 是否为超级管理员 */
+  /* 用户状态 */
   isRoot: boolean
 
   /* 创建时间 */
@@ -350,7 +341,7 @@ export type GetUserByIdTypesRes = {
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/getAdminUserPage
- *  @更新时间 2025-06-11 00:52:06
+ *  @更新时间 2025-06-12 22:09:24
  */
 
 export interface GetAdminUserPageTypesReq {
@@ -384,18 +375,18 @@ export interface GetAdminUserPageTypesRes {
     id: number
 
     /* 用户名 */
-    username: string
+    username?: string | null
 
-    /* 用户头像 */
-    avatar: string
+    /* 头像 */
+    avatar?: string | null
 
-    /* 用户手机号 */
-    mobile: string
+    /* 手机号 */
+    mobile?: string | null
 
     /* 用户状态 */
     status: boolean
 
-    /* 是否为超级管理员 */
+    /* 用户状态 */
     isRoot: boolean
 
     /* 创建时间 */

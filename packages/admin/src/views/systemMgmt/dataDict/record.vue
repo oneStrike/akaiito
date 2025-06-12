@@ -29,7 +29,7 @@
     record: IterateObject | null
   }
 
-  type TableItem = ResolvedReturnType<typeof itemsApi>[number]
+  type TableItem = ResolvedReturnType<typeof itemsApi>['list'][number]
 
   const esTableRef = ref()
   const formLoading = ref(false)
@@ -70,14 +70,14 @@
         case 'enable':
           useConfirm(
             'enable',
-            () => updateItemStatusApi({ ids, status: 1 }),
+            () => updateItemStatusApi({ ids, isEnabled: true }),
             request,
           )
           break
         case 'disable':
           useConfirm(
             'disable',
-            () => updateItemStatusApi({ ids, status: 0 }),
+            () => updateItemStatusApi({ ids, isEnabled: false }),
             request,
           )
           break
@@ -133,9 +133,9 @@
         :filter="filter()"
         :toolbar="toolbar"
         :columns="tableColumns"
-        :data="requestData"
+        :data="requestData?.list ?? []"
         :selection="true"
-        :total="requestData?.length"
+        :total="requestData?.total"
         @toolbar-handler="handlerToolbar"
         @reset="reset"
         @query="request"
@@ -143,7 +143,7 @@
         <template #name="{ row }">
           <span>{{ row.name }}</span>
         </template>
-        <template #status="{ row }">
+        <template #isEnabled="{ row }">
           <es-switch
             :request="updateItemStatusApi"
             :row="row"

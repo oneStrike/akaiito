@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { EsFormProps } from '@/components/es-form/types'
 import type { FormInstance } from 'element-plus'
+import type { EsFormProps } from '@/components/es-form/types'
 
 const props = withDefaults(defineProps<EsFormProps>(), {
   modelValue: () => ({}),

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+  import type { PageTypesRes } from '@/apis/types/dictionary'
   import {
     createApi,
     deleteApi,
@@ -19,9 +20,9 @@
     name: 'DataDict',
   })
 
-  const { requestData, reset, request, loading, params } = useRequest(pageApi)
-  type TableItem = ResolveListItem<typeof requestData.value>
+  type TableItem = ResolveListItem<PageTypesRes>
 
+  const tableRef = useTemplateRef('tableRef')
   const detailModalShow = ref(false)
   const currentRow = ref<TableItem | null>(null)
   const selectionItems = ref<TableItem[] | null>(null)
@@ -39,20 +40,20 @@
     if (Array.isArray(ids)) {
       switch (val) {
         case 'delete':
-          useConfirm('delete', () => deleteApi({ ids }), request)
+          useConfirm('delete', () => deleteApi({ ids }), tableRef.value?.reset)
           break
         case 'enable':
           useConfirm(
             'enable',
-            () => updateEnableStatusApi({ ids, enabled: true }),
-            request,
+            () => updateEnableStatusApi({ ids, isEnabled: true }),
+            tableRef.value?.refresh,
           )
           break
         case 'disable':
           useConfirm(
             'disable',
-            () => updateEnableStatusApi({ ids, enabled: false }),
-            request,
+            () => updateEnableStatusApi({ ids, isEnabled: false }),
+            tableRef.value?.refresh,
           )
           break
       }
@@ -71,7 +72,7 @@
     formModal.show = false
     formModal.loading = false
     currentRow.value = null
-    reset()
+    tableRef.value?.reset()
   }
 
   function edit(val: TableItem) {
@@ -86,19 +87,15 @@
 </script>
 
 <template>
-  <div v-loading="loading" class="main-page">
+  <div class="main-page">
     <es-table
-      v-if="requestData"
-      v-model:params="params"
+      ref="tableRef"
       v-model:selected="selectionItems"
       :filter="filter()"
       :toolbar="toolbar"
       :columns="tableColumns"
-      :data="requestData.list"
       :selection="true"
-      :total="requestData?.total"
-      @reset="reset"
-      @query="request"
+      :request-api="pageApi"
       @toolbar-handler="handlerToolbar"
     >
       <template #name="{ row }">
@@ -111,17 +108,16 @@
           :request="updateEnableStatusApi"
           :row="row"
           ids
-          @success="request"
+          @success="tableRef?.refresh()"
         />
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
         <es-pop-confirm
-          v-model:loading="loading"
           :request="deleteApi"
           :row="row"
           ids
-          @success="request()"
+          @success="tableRef?.refresh()"
         />
       </template>
     </es-table>

@@ -1,5 +1,9 @@
 <script setup lang="ts">
-  import type { dragEndEvent, EsTableProps } from '@/components/es-table/types'
+  import type {
+    dragEndEvent,
+    EsTableProps,
+    PageResponse,
+  } from '@/components/es-table/types'
   import Sortable from 'sortablejs'
   import defaultImage from '@/assets/images/image.svg'
 
@@ -8,7 +12,6 @@
     defaultValue: '-',
     drag: false,
     loading: false,
-    total: 0,
   })
   const emits = defineEmits<{
     (event: 'link', data: any): void
@@ -24,6 +27,11 @@
     (event: 'query', data: any): void
     (event: 'dragEnd', data: dragEndEvent): void
   }>()
+  // 内部数据状态
+  const tableData = ref<any[]>([])
+  const total = ref(0)
+  const internalLoading = ref(false)
+
   const params = defineModel('params', {
     type: Object,
     default: () => ({
@@ -31,6 +39,7 @@
       pageSize: 15,
     }),
   })
+
   const pageIndex = computed({
     get() {
       return params.value.pageIndex + 1
@@ -39,9 +48,37 @@
       params.value.pageIndex = newVal - 1
     },
   })
-  const paginationRef = useTemplateRef<HTMLDivElement>('paginationRef')
-  const tableBoxRef = useTemplateRef<HTMLDivElement>('tableBoxRef')
-  const toolbarRef = useTemplateRef<HTMLDivElement>('toolbarRef')
+
+  // 计算最终的loading状态
+  const finalLoading = computed(() => props.loading || internalLoading.value)
+
+  /**
+   * 调用API获取表格数据
+   */
+  const fetchTableData = async () => {
+    try {
+      internalLoading.value = true
+      const response: PageResponse = await props.requestApi(params.value)
+      tableData.value = response.list || []
+      total.value = response.total || 0
+    } catch (error) {
+      console.error('获取表格数据失败:', error)
+      tableData.value = []
+      total.value = 0
+    } finally {
+      internalLoading.value = false
+    }
+  }
+
+  /**
+   * 刷新表格数据（保持当前分页）
+   */
+  const refresh = () => {
+    fetchTableData()
+  }
+  const paginationRef = useTemplateRef('paginationRef')
+  const tableBoxRef = useTemplateRef('tableBoxRef')
+  const toolbarRef = useTemplateRef('toolbarRef')
   const tableRef = useTemplateRef('tableRef')
 
   const elHeight = ref({
@@ -113,6 +150,30 @@
     })
   }
 
+  /**
+   * 重置表格数据和分页
+   */
+  const reset = () => {
+    // 重置分页参数，保留pageSize
+    const currentPageSize = params.value.pageSize || 15
+    params.value = {
+      pageIndex: 0,
+      pageSize: currentPageSize,
+    }
+    // 重置toolbar的筛选表单
+    if (toolbarRef.value?.resetFilter) {
+      toolbarRef.value.resetFilter()
+    }
+    // 不需要手动调用fetchTableData，因为params的watch会自动触发
+  }
+  function filterQuery() {
+    if (!params.value.pageIndex) {
+      refresh()
+    } else {
+      params.value.pageIndex = 0
+    }
+  }
+
   const rowDrop = () => {
     const sortableInst = new Sortable(
       tableRef.value!.$el.querySelector('tbody'),
@@ -127,8 +188,8 @@
           // 如果拖拽结束后顺序发生了变化，则对数据进行修改
           const { oldIndex, newIndex } = e
           if (oldIndex !== newIndex) {
-            const targetData = props.data[newIndex]
-            const originData = props.data[oldIndex]
+            const targetData = tableData.value[newIndex]
+            const originData = tableData.value[oldIndex]
             const dragParams = {
               originId: originData.id,
               originOrder: originData.order,
@@ -142,17 +203,64 @@
     )
   }
 
+  // 监听参数变化，自动重新获取数据
+  watch(
+    () => params.value,
+    (newParams, oldParams) => {
+      // 如果不是pageIndex或pageSize的变化，则重置pageIndex
+      if (
+        oldParams &&
+        newParams.pageIndex === oldParams.pageIndex &&
+        newParams.pageSize === oldParams.pageSize
+      ) {
+        // 其他参数发生变化时，重置pageIndex
+        const hasOtherChanges = Object.keys(newParams).some(
+          (key) =>
+            key !== 'pageIndex' &&
+            key !== 'pageSize' &&
+            newParams[key] !== oldParams[key],
+        )
+        if (hasOtherChanges && newParams.pageIndex !== 0) {
+          // 使用nextTick避免重复触发watch
+          nextTick(() => {
+            params.value.pageIndex = 0
+          })
+          return
+        }
+      }
+      fetchTableData()
+    },
+    { deep: true },
+  )
+
+  // 监听requestApi变化，重新获取数据
+  watch(
+    () => props.requestApi,
+    () => {
+      fetchTableData()
+    },
+  )
+
   onMounted(() => {
     if (props.drag) {
       rowDrop()
     }
     computedTableHeight()
+    // 初始化时获取数据
+    fetchTableData()
   })
+
   onUnmounted(() => {
     observers.forEach((observer) => observer.disconnect())
   })
+
   defineExpose({
     computedTableHeight,
+    fetchTableData,
+    tableData,
+    total,
+    reset,
+    refresh,
   })
 </script>
 
@@ -165,15 +273,14 @@
       :toolbar="toolbar"
       :filter="filter"
       :selected="!!selectedRecords?.length"
-      @reset="emits('reset')"
-      @query="(val) => emits('query', val)"
+      @query="filterQuery"
       @handler="(val) => emits('toolbarHandler', val)"
     />
 
     <el-table
       ref="tableRef"
-      v-loading="loading"
-      :data="data"
+      v-loading="finalLoading"
+      :data="tableData"
       :height="tableHeight"
       :max-height="tableHeight"
       row-key="id"
@@ -230,11 +337,11 @@
             {{
               item.formatter
                 ? item.formatter(
-                  row,
-                  column,
-                  item.prop ? row[item.prop] : null,
-                  $index,
-                )
+                    row,
+                    column,
+                    item.prop ? row[item.prop] : null,
+                    $index,
+                  )
                 : row[item.prop] || row[item.prop] === 0
                   ? row[item.prop]
                   : item.defaultValue || defaultValue
