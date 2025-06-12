@@ -45,6 +45,9 @@
   })
   const currentRow = ref<TableItem | null>(null)
   const selectionItems = ref<TableItem[] | null>(null)
+  const tableParams = ref({
+    dictionaryCode: props.record?.code,
+  })
 
   async function handlerToolbar(val: string) {
     if (val === 'add') {
@@ -118,10 +121,11 @@
     @handler="((showModal = false), emits('closed'))"
     @full-screen="computedTableHeight"
   >
-    <div class="h-full">
+    <div v-if="record?.code" class="h-full">
       <es-table
         ref="tableRef"
         v-model:selected="selectionItems"
+        v-model:params="tableParams"
         :filter="filter()"
         :toolbar="toolbar"
         :columns="tableColumns"

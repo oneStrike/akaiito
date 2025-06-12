@@ -57,6 +57,7 @@
    */
   const fetchTableData = async () => {
     try {
+      console.log(params.value)
       internalLoading.value = true
       const response: PageResponse = await props.requestApi(params.value)
       tableData.value = response.list || []
@@ -344,11 +345,11 @@
             {{
               item.formatter
                 ? item.formatter(
-                    row,
-                    column,
-                    item.prop ? row[item.prop] : null,
-                    $index,
-                  )
+                  row,
+                  column,
+                  item.prop ? row[item.prop] : null,
+                  $index,
+                )
                 : row[item.prop] || row[item.prop] === 0
                   ? row[item.prop]
                   : item.defaultValue || defaultValue
