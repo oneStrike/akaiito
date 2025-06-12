@@ -1,17 +1,17 @@
-import type { Cache } from 'cache-manager'
-import type { UpdateUserDto, UserLoginDto } from './dto/user.dto'
-import type { CryptoService } from '@/common/module/jwt/crypto.service'
-import type { RsaService } from '@/common/module/jwt/rsa.service'
-import type { PrismaService } from '@/global/services/prisma.service'
-import type { AdminJwtService } from '@/modules/admin/auth/admin-jwt.service'
 import { Buffer } from 'node:buffer'
 import process from 'node:process'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import { Cache } from 'cache-manager'
 import * as svgCaptcha from 'svg-captcha'
 import { v4 as uuid } from 'uuid'
-
+import { CryptoService } from '@/common/module/jwt/crypto.service'
+import { RsaService } from '@/common/module/jwt/rsa.service'
+import { PrismaService } from '@/global/services/prisma.service'
+import { AdminJwtService } from '@/modules/admin/auth/admin-jwt.service'
 import { CacheKey } from '@/modules/admin/users/user.constant'
+
+import { UpdateUserDto, UserLoginDto } from './dto/user.dto'
 
 @Injectable()
 export class UserService {
