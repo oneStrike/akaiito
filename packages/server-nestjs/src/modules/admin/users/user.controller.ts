@@ -1,3 +1,16 @@
+import type { IdDto } from '@/common/dto/id.dto'
+import type { PageDto } from '@/common/dto/page.dto'
+import type { AdminJwtPayload } from '@/modules/admin/auth/admin-jwt.service'
+import type {
+  RefreshTokenDto,
+} from '@/modules/admin/users/dto/token.dto'
+import type {
+  UpdatePasswordDto,
+  UpdateUserDto,
+  UserLoginDto,
+  UserRegisterDto,
+} from '@/modules/admin/users/dto/user.dto'
+import type { UserService } from '@/modules/admin/users/user.service'
 import {
   Body,
   Controller,
@@ -13,20 +26,14 @@ import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { Public } from '@/common/decorators/public.decorator'
-import { IdDto } from '@/common/dto/id.dto'
-import { PageDto } from '@/common/dto/page.dto'
 import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
-import { AdminJwtPayload } from '@/modules/admin/auth/admin-jwt.service'
-import { RefreshTokenDto } from '@/modules/admin/users/dto/refresh-token.dto'
-import { UpdatePasswordDto } from '@/modules/admin/users/dto/update-password.dto'
-import { UpdateUserDto } from '@/modules/admin/users/dto/update-user.dto'
-import { UserRegisterDto } from '@/modules/admin/users/dto/user-register.dto'
+import {
+  RefreshTokenResponseDto,
+} from '@/modules/admin/users/dto/token.dto'
 import {
   LoginResponseDto,
   UserDto,
-  UserLoginDto,
 } from '@/modules/admin/users/dto/user.dto'
-import { UserService } from '@/modules/admin/users/user.service'
 import { CaptchaDto } from './dto/captcha.dto'
 
 /**
@@ -116,7 +123,7 @@ export class UserController {
   @Post('refreshToken')
   @ApiDoc({
     summary: '刷新访问令牌',
-    model: UserDto,
+    model: RefreshTokenResponseDto,
   })
   @Public()
   refreshToken(@Body() body: RefreshTokenDto) {

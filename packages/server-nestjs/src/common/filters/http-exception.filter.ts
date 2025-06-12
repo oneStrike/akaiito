@@ -1,11 +1,13 @@
-import {
+import type {
   ArgumentsHost,
-  Catch,
   ExceptionFilter,
+} from '@nestjs/common'
+import type { FastifyReply } from 'fastify'
+import {
+  Catch,
   HttpException,
   HttpStatus,
 } from '@nestjs/common'
-import { FastifyReply } from 'fastify'
 
 /**
  * HTTP异常过滤器
@@ -38,6 +40,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       code: status,
       message,
     }
+    console.log('🚀 ~ HttpExceptionFilter ~ exception:', exception)
     // 将完整的错误响应添加到response对象上，供日志拦截器使用
     // @ts-expect-error ignore
     response.errorResponse = errorResponse
@@ -54,8 +57,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     details?: any
   } {
     if (exception instanceof HttpException) {
+      const code = exception.getStatus()
       return {
-        status: exception.getStatus(),
+        status: code,
         message: exception.getResponse(),
       }
     }

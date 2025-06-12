@@ -13,6 +13,7 @@ import {
   IsOptional,
   IsString,
   IsStrongPassword,
+  Matches,
   Max,
   MaxLength,
   Min,
@@ -58,6 +59,11 @@ interface ValidateStringOptions extends ValidateOptions {
   maxLength?: number
   minLength?: number
   password?: boolean
+}
+
+interface ValidateRegexOptions extends ValidateOptions {
+  regex: RegExp
+  message?: string
 }
 
 /**
@@ -357,5 +363,34 @@ export function ValidateNumberArray(options: ValidateNumberArrayOptions) {
     }),
   )
 
+  return applyDecorators(...decorators)
+}
+
+/**
+ * 根据正则表达式自定义校验字符串
+ * @param options
+ * @constructor
+ */
+export function ValidateByRegex(options: ValidateRegexOptions) {
+  const decorators = [
+    ApiProperty({
+      description: options.description,
+      example: options.example,
+      required: options.required,
+      default: options.default,
+      nullable: !options.required,
+    }),
+    IsString(),
+    Matches(options.regex, {
+      message: options.message || '格式不正确',
+    }),
+  ]
+
+  if (!options.required) {
+    decorators.push(IsOptional())
+  }
+  if (options.transform) {
+    decorators.push(Transform(options.transform))
+  }
   return applyDecorators(...decorators)
 }

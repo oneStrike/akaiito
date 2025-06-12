@@ -1,9 +1,12 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
-import { IsString, MaxLength } from 'class-validator'
 import {
+  ValidateBoolean,
+  ValidateByRegex,
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
+import { utils } from '@/utils'
+import { TokenDto } from './token.dto'
 
 export class UserDto {
   @ValidateNumber({
@@ -14,34 +17,41 @@ export class UserDto {
   })
   id!: number
 
-  @ApiProperty({
+  @ValidateString({
     description: '用户名',
-    example: 'admin',
+    example: 'admin001',
+    required: false,
+    maxLength: 20,
+    minLength: 6,
   })
-  @IsString()
-  @MaxLength(20)
   username!: string
 
-  @ApiProperty({
-    description: '用户头像',
+  @ValidateString({
+    description: '头像',
+    example: 'https://example.com/avatar.png',
+    required: false,
   })
   avatar?: string
 
-  @ApiProperty({
-    description: '用户手机号',
+  @ValidateByRegex({
+    regex: utils.regexp.validPhone,
+    description: '手机号',
     example: '13800138000',
+    required: false,
   })
   mobile?: string
 
-  @ApiProperty({
+  @ValidateBoolean({
     description: '用户状态',
     example: true,
+    default: true,
   })
   status: boolean
 
-  @ApiProperty({
-    description: '是否为超级管理员',
-    example: true,
+  @ValidateBoolean({
+    description: '用户状态',
+    example: false,
+    default: false,
   })
   isRoot: boolean
 
@@ -68,7 +78,8 @@ export class UserLoginDto {
   })
   username!: string
 
-  @ValidateString({
+  @ValidateByRegex({
+    regex: utils.regexp.validPwd,
     description: '密码',
     example: 'Aa@123456',
     required: true,
@@ -90,24 +101,6 @@ export class UserLoginDto {
   captchaId!: string
 }
 
-export class TokenDto {
-  @ValidateString({
-    description: '账号令牌',
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-    required: true,
-  })
-  accessToken!: string
-
-  @ValidateString({
-    description: '刷新令牌',
-    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
-    required: true,
-  })
-  refreshToken!: string
-}
-
-export class RefreshTokenDto extends OmitType(TokenDto, ['accessToken']) {}
-
 export class LoginResponseDto {
   @ApiProperty({
     description: '令牌信息',
@@ -122,4 +115,61 @@ export class LoginResponseDto {
     required: true,
   })
   user: UserDto
+}
+
+export class UserRegisterDto extends OmitType(UserDto, [
+  'id',
+  'status',
+  'isRoot',
+  'createdAt',
+  'updatedAt',
+]) {
+  @ValidateByRegex({
+    regex: utils.regexp.validPwd,
+    description: '密码',
+    example: 'Aa@123456',
+    required: true,
+  })
+  password!: string
+
+  @ValidateByRegex({
+    regex: utils.regexp.validPwd,
+    description: '密码',
+    example: 'Aa@123456',
+    required: true,
+  })
+  confirmPassword!: string
+}
+
+export class UpdateUserDto extends OmitType(UserDto, [
+  'id',
+  'isRoot',
+  'createdAt',
+  'updatedAt',
+]) {}
+
+export class UpdatePasswordDto {
+  @ValidateByRegex({
+    regex: utils.regexp.validPwd,
+    description: '密码',
+    example: 'Aa@123456',
+    required: true,
+  })
+  oldPassword!: string
+
+  @ValidateByRegex({
+    regex: utils.regexp.validPwd,
+    description: '密码',
+    example: 'Aa@123456',
+    required: true,
+  })
+  newPassword!: string
+
+  @ValidateByRegex({
+    regex: utils.regexp.validPwd,
+    description: '密码',
+    example: 'Aa@123456',
+    required: true,
+  })
+  confirmPassword!: string
 }
