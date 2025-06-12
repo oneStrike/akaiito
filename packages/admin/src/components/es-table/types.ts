@@ -1,6 +1,6 @@
 import type { TableColumnInstance } from 'element-plus'
-import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import type { Ref } from 'vue'
+import type { EsToolbarProps } from '@/components/es-toolbar/types'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
   prop: string
@@ -24,24 +24,14 @@ export interface PageResponse<T = any> {
 }
 
 /**
- * 分页请求参数的通用接口
- */
-export interface PageRequest {
-  /* 页码（从0开始） */
-  pageIndex: number
-  /* 每页条数 */
-  pageSize: number
-  /* 其他查询参数 */
-  [key: string]: any
-}
-
-/**
  * 异步请求函数类型定义
  * @template T 列表项的数据类型
  * @param params 请求参数
  * @returns Promise<PageResponse<T>> 返回分页响应数据
  */
-export type RequestApiFunction<T = any> = (params: PageRequest) => Promise<PageResponse<T>>
+export type RequestApiFunction<T = any> = (
+  params: any,
+) => Promise<PageResponse<T>>
 
 export interface EsTableProps<T = IterateObject> {
   /* 表格列配置 */

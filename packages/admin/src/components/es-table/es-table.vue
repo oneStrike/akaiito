@@ -73,8 +73,15 @@
   /**
    * 刷新表格数据（保持当前分页）
    */
-  const refresh = () => {
-    fetchTableData()
+  const refresh = (subParams?: IterateObject) => {
+    if (params.value) {
+      params.value = {
+        ...params.value,
+        ...subParams,
+      }
+    } else {
+      fetchTableData()
+    }
   }
   const paginationRef = useTemplateRef('paginationRef')
   const tableBoxRef = useTemplateRef('tableBoxRef')
@@ -112,7 +119,7 @@
       elHeight.value.pagination = height + y
     })
 
-    useResizeObserver(toolbarRef.value, (entries) => {
+    useResizeObserver(toolbarRef.value as unknown as HTMLElement, (entries) => {
       const entry = entries[0]
       const { height, y, top } = entry.contentRect
       elHeight.value.toolbar = height + y + top

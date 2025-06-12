@@ -31,7 +31,7 @@
 
   type TableItem = ResolvedReturnType<typeof itemsApi>['list'][number]
 
-  const esTableRef = ref()
+  const tableRef = useTemplateRef('tableRef')
   const formLoading = ref(false)
   const formModalShow = ref(false)
   const showModal = defineModel('modelValue', {
@@ -45,16 +45,6 @@
   })
   const currentRow = ref<TableItem | null>(null)
   const selectionItems = ref<TableItem[] | null>(null)
-  const { requestData, request, reset, loading, params } = useRequest(
-    itemsApi,
-    {
-      init: false,
-    },
-  )
-
-  watch(showModal, (val) => {
-    val && request({ dictionaryCode: props.record?.code })
-  })
 
   async function handlerToolbar(val: string) {
     if (val === 'add') {
@@ -65,20 +55,24 @@
     if (ids) {
       switch (val) {
         case 'delete':
-          useConfirm('delete', () => deleteItemApi({ ids }), request)
+          useConfirm(
+            'delete',
+            () => deleteItemApi({ ids }),
+            tableRef.value?.refresh,
+          )
           break
         case 'enable':
           useConfirm(
             'enable',
             () => updateItemStatusApi({ ids, isEnabled: true }),
-            request,
+            tableRef.value?.refresh,
           )
           break
         case 'disable':
           useConfirm(
             'disable',
             () => updateItemStatusApi({ ids, isEnabled: false }),
-            request,
+            tableRef.value?.refresh,
           )
           break
       }
@@ -98,7 +92,7 @@
       }
       formModalShow.value = false
       currentRow.value = null
-      request({ dictionaryCode: props.record?.code })
+      tableRef.value?.refresh({ dictionaryCode: props.record?.code })
     } catch (e) {
       console.log('🚀 ~ file:e method:addDictionary line:102 -----', e)
     }
@@ -111,7 +105,7 @@
   }
 
   function computedTableHeight() {
-    esTableRef.value?.computedTableHeight()
+    tableRef.value?.computedTableHeight()
   }
 </script>
 
@@ -124,21 +118,16 @@
     @handler="((showModal = false), emits('closed'))"
     @full-screen="computedTableHeight"
   >
-    <div v-loading="loading" class="h-full">
+    <div class="h-full">
       <es-table
-        v-if="requestData"
-        ref="esTableRef"
-        v-model:params="params"
+        ref="tableRef"
         v-model:selected="selectionItems"
         :filter="filter()"
         :toolbar="toolbar"
         :columns="tableColumns"
-        :data="requestData?.list ?? []"
         :selection="true"
-        :total="requestData?.total"
+        :request-api="itemsApi"
         @toolbar-handler="handlerToolbar"
-        @reset="reset"
-        @query="request"
       >
         <template #name="{ row }">
           <span>{{ row.name }}</span>
@@ -148,17 +137,16 @@
             :request="updateItemStatusApi"
             :row="row"
             ids
-            @success="request"
+            @success="tableRef?.refresh()"
           />
         </template>
         <template #action="{ row }">
           <el-button type="primary" link @click="edit(row)">编辑</el-button>
           <es-pop-confirm
-            v-model:loading="loading"
             :request="deleteItemApi"
             :row="row"
             ids
-            @success="request"
+            @success="tableRef?.refresh()"
           />
         </template>
       </es-table>
