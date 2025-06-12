@@ -1,9 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { BaseRepositoryService } from '@/global/services/base-repository.service'
-import {
+import type {
   DictionaryItemWhereInput,
   DictionaryWhereInput,
 } from '@/prisma/client/models'
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { CreateDictionaryItemDto } from './dto/dictionary-item.dto'
 import {
   QueryDictionaryDto,

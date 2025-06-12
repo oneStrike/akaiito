@@ -1,11 +1,12 @@
-import { join } from 'node:path'
-import fastifyMultipart from '@fastify/multipart'
-import fastifyStatic from '@fastify/static'
-import { ConfigService } from '@nestjs/config'
-import {
+import type {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify'
+import { join } from 'node:path'
+import process from 'node:process'
+import fastifyMultipart from '@fastify/multipart'
+import fastifyStatic from '@fastify/static'
+import { ConfigService } from '@nestjs/config'
 import { UploadConfig } from '@/config/upload.config'
 
 export async function setupMultipart(
