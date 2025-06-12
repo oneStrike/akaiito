@@ -1,6 +1,6 @@
+import type { PrismaService } from '@/global/services/prisma.service'
+import type { Prisma } from '@/prisma/client'
 import { Global, Injectable, Logger } from '@nestjs/common'
-import { PrismaService } from '@/global/services/prisma.service'
-import { Prisma } from '@/prisma/client'
 
 // 基础类型定义
 export interface PaginationResult<T> {
