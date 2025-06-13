@@ -133,6 +133,7 @@
     />
 
     <RecordDetails
+      v-if="detailModalShow"
       v-model="detailModalShow"
       :record="currentRow"
       :title="currentRow?.name"

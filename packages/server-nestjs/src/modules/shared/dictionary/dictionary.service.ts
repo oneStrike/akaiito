@@ -107,7 +107,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
       ])
 
       return {
-        data,
+        list: data,
         total,
         pageIndex,
         pageSize,

@@ -34,18 +34,20 @@
 
   const params = defineModel('params', {
     type: Object,
-    default: () => ({
-      pageIndex: 0,
-      pageSize: 15,
-    }),
+    default: () => ({}),
+  })
+
+  const otherParams = ref({
+    pageIndex: 0,
+    pageSize: 15,
   })
 
   const pageIndex = computed({
     get() {
-      return params.value.pageIndex + 1
+      return otherParams.value.pageIndex + 1
     },
     set(newVal: number) {
-      params.value.pageIndex = newVal - 1
+      otherParams.value.pageIndex = newVal - 1
     },
   })
 
@@ -57,9 +59,17 @@
    */
   const fetchTableData = async () => {
     try {
-      console.log(params.value)
       internalLoading.value = true
-      const response: PageResponse = await props.requestApi(params.value)
+      if (typeof params.value.pageSize === 'number') {
+        otherParams.value.pageSize = params.value.pageSize
+      }
+      if (typeof params.value.pageIndex === 'number') {
+        otherParams.value.pageIndex = params.value.pageIndex
+      }
+      const response: PageResponse = await props.requestApi({
+        ...otherParams.value,
+        ...params.value,
+      })
       tableData.value = response.list || []
       total.value = response.total || 0
     } catch (error) {
@@ -75,7 +85,7 @@
    * 刷新表格数据（保持当前分页）
    */
   const refresh = (subParams?: IterateObject) => {
-    if (params.value) {
+    if (subParams) {
       params.value = {
         ...params.value,
         ...subParams,
@@ -163,10 +173,9 @@
    */
   const reset = () => {
     // 重置分页参数，保留pageSize
-    const currentPageSize = params.value.pageSize || 15
-    params.value = {
+    otherParams.value = {
       pageIndex: 0,
-      pageSize: currentPageSize,
+      pageSize: otherParams.value.pageSize || 15,
     }
     // 重置toolbar的筛选表单
     if (toolbarRef.value?.resetFilter) {
@@ -175,10 +184,10 @@
     // 不需要手动调用fetchTableData，因为params的watch会自动触发
   }
   function filterQuery() {
-    if (!params.value.pageIndex) {
+    if (!otherParams.value.pageIndex) {
       refresh()
     } else {
-      params.value.pageIndex = 0
+      otherParams.value.pageIndex = 0
     }
   }
 
@@ -214,31 +223,20 @@
   // 监听参数变化，自动重新获取数据
   watch(
     () => params.value,
-    (newParams, oldParams) => {
-      // 如果不是pageIndex或pageSize的变化，则重置pageIndex
-      if (
-        oldParams &&
-        newParams.pageIndex === oldParams.pageIndex &&
-        newParams.pageSize === oldParams.pageSize
-      ) {
-        // 其他参数发生变化时，重置pageIndex
-        const hasOtherChanges = Object.keys(newParams).some(
-          (key) =>
-            key !== 'pageIndex' &&
-            key !== 'pageSize' &&
-            newParams[key] !== oldParams[key],
-        )
-        if (hasOtherChanges && newParams.pageIndex !== 0) {
-          // 使用nextTick避免重复触发watch
-          nextTick(() => {
-            params.value.pageIndex = 0
-          })
-          return
-        }
-      }
-      fetchTableData()
+    () => {
+      otherParams.value.pageIndex = 0
     },
     { deep: true },
+  )
+
+  watch(
+    otherParams,
+    () => {
+      fetchTableData()
+    },
+    {
+      deep: true,
+    },
   )
 
   // 监听requestApi变化，重新获取数据
@@ -345,11 +343,11 @@
             {{
               item.formatter
                 ? item.formatter(
-                  row,
-                  column,
-                  item.prop ? row[item.prop] : null,
-                  $index,
-                )
+                    row,
+                    column,
+                    item.prop ? row[item.prop] : null,
+                    $index,
+                  )
                 : row[item.prop] || row[item.prop] === 0
                   ? row[item.prop]
                   : item.defaultValue || defaultValue

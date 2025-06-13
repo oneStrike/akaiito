@@ -1,4 +1,4 @@
-import type { PrismaClient } from '@/prisma/client'
+import type { PrismaClient } from '../client'
 
 export async function createInitialDataDictionary(prisma: PrismaClient) {
   const initData = [
