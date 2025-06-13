@@ -183,12 +183,11 @@
     }
   }
 
-  function filterQuery() {
-    if (!otherParams.value.pageIndex) {
-      refresh()
-    } else {
+  function filterQuery(values) {
+    if (otherParams.value.pageIndex) {
       otherParams.value.pageIndex = 0
     }
+    refresh(values)
   }
 
   function filterReset() {
@@ -277,7 +276,6 @@
     <es-toolbar
       v-if="filter || toolbar"
       ref="toolbarRef"
-      v-model="params"
       :toolbar="toolbar"
       :filter="filter"
       :selected="!!selectedRecords?.length"
@@ -345,11 +343,11 @@
             {{
               item.formatter
                 ? item.formatter(
-                  row,
-                  column,
-                  item.prop ? row[item.prop] : null,
-                  $index,
-                )
+                    row,
+                    column,
+                    item.prop ? row[item.prop] : null,
+                    $index,
+                  )
                 : row[item.prop] || row[item.prop] === 0
                   ? row[item.prop]
                   : item.defaultValue || defaultValue
