@@ -91,7 +91,7 @@
     <es-table
       ref="tableRef"
       v-model:selected="selectionItems"
-      :filter="filter()"
+      :filter="filter(6)"
       :toolbar="toolbar"
       :columns="tableColumns"
       :selection="true"
