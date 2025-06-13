@@ -93,7 +93,6 @@
         emits('query', formValue.value)
       }
     }
-    isResetChange = false
     // 浅拷贝更新oldFormValue
     oldFormValue = { ...formValue.value }
   })
@@ -102,11 +101,29 @@
     esFormRef.value?.resetForm()
   }
 
+  let resetTimeoutId: number | null = null
+  /**
+   * 清除重置状态定时器
+   */
+  function clearResetTimeout() {
+    if (resetTimeoutId !== null) {
+      clearTimeout(resetTimeoutId)
+      resetTimeoutId = null
+    }
+  }
   function emitReset() {
     isResetChange = true
     emits('reset', formValue.value)
-  }
+    clearResetTimeout() // 清除之前的定时器
 
+    resetTimeoutId = window.setTimeout(() => {
+      isResetChange = false
+    }, 350)
+  }
+  // 组件卸载时清理定时器
+  onBeforeUnmount(() => {
+    clearResetTimeout()
+  })
   defineExpose({
     resetFilter,
   })
