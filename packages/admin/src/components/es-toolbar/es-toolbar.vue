@@ -103,6 +103,7 @@
       submit-text="查询"
       :form-props="{ labelPosition: 'top' }"
       :box-border="false"
+      @reset="emits('reset')"
       @submit="emits('query', modelValue.value)"
     />
   </div>

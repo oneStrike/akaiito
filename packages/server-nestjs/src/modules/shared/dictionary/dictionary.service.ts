@@ -42,7 +42,6 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
         where,
         skip: pageIndex * pageSize,
         take: pageSize,
-        omit: { remark: true },
       }),
       this.count(where),
     ])
@@ -173,18 +172,12 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
    * @param updateDictionaryItemDto 更新数据
    * @returns 更新后的字典项信息
    */
-  async updateDictionaryItem(updateDictionaryItemDto: Record<string, any>) {
-    try {
-      return await this.prisma.dictionaryItem.updateMany({
-        where: { id: { in: updateDictionaryItemDto.ids } },
-        data: updateDictionaryItemDto,
-      })
-    } catch (error) {
-      throw new HttpException(
-        '更新字典项失败',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
-    }
+  updateDictionaryItem(updateDictionaryItemDto: Record<string, any>) {
+    const { ids, isEnabled } = updateDictionaryItemDto
+    return this.prisma.dictionaryItem.updateMany({
+      where: { id: { in: ids } },
+      data: { isEnabled },
+    })
   }
 
   /**

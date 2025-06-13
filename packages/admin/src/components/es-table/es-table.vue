@@ -181,13 +181,21 @@
     if (toolbarRef.value?.resetFilter) {
       toolbarRef.value.resetFilter()
     }
-    // 不需要手动调用fetchTableData，因为params的watch会自动触发
   }
+
   function filterQuery() {
     if (!otherParams.value.pageIndex) {
       refresh()
     } else {
       otherParams.value.pageIndex = 0
+    }
+  }
+
+  function filterReset() {
+    if (otherParams.value.pageIndex) {
+      otherParams.value.pageIndex = 0
+    } else {
+      reset()
     }
   }
 
@@ -224,19 +232,13 @@
   watch(
     () => params.value,
     () => {
-      otherParams.value.pageIndex = 0
+      if (otherParams.value.pageIndex) {
+        otherParams.value.pageIndex = 0
+      } else {
+        fetchTableData()
+      }
     },
     { deep: true },
-  )
-
-  watch(
-    otherParams,
-    () => {
-      fetchTableData()
-    },
-    {
-      deep: true,
-    },
   )
 
   // 监听requestApi变化，重新获取数据
@@ -343,11 +345,11 @@
             {{
               item.formatter
                 ? item.formatter(
-                    row,
-                    column,
-                    item.prop ? row[item.prop] : null,
-                    $index,
-                  )
+                  row,
+                  column,
+                  item.prop ? row[item.prop] : null,
+                  $index,
+                )
                 : row[item.prop] || row[item.prop] === 0
                   ? row[item.prop]
                   : item.defaultValue || defaultValue
@@ -363,8 +365,8 @@
     <div ref="paginationRef" class="flex justify-end pt-3 pr-3">
       <el-pagination
         v-model:current-page="pageIndex"
-        v-model:page-size="params.pageSize"
-        :hide-on-single-page="total < params.pageSize"
+        v-model:page-size="otherParams.pageSize"
+        :hide-on-single-page="total < otherParams.pageSize"
         :page-sizes="[15, 30, 45, 60, 100]"
         background
         :default-current-page="0"

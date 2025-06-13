@@ -49,7 +49,6 @@ export class DictionaryController {
   create(@Body() createDictionaryDto: CreateDictionaryDto) {
     return this.dictionaryService.create({
       data: createDictionaryDto,
-      omit: { remark: true },
     })
   }
 
@@ -62,7 +61,6 @@ export class DictionaryController {
     return this.dictionaryService.update({
       where: { id: updateDictionaryDto.id },
       data: updateDictionaryDto,
-      omit: { remark: true },
     })
   }
 

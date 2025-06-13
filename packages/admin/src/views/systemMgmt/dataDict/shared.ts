@@ -65,6 +65,11 @@ export const tableColumns: EsTableColumn = [
     slotName: 'isEnabled',
   },
   {
+    label: '备注信息',
+    prop: 'remark',
+    align: 'center',
+  },
+  {
     label: '操作',
     prop: 'action',
     align: 'center',
