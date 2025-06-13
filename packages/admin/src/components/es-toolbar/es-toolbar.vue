@@ -10,7 +10,7 @@
   const emits = defineEmits<{
     (event: 'handler', data: any): void
     (event: 'query', data: IterateObject): void
-    (event: 'reset'): void
+    (event: 'reset', data: IterateObject): void
   }>()
 
   const formValue = ref<IterateObject>({})
@@ -64,7 +64,7 @@
   }))
 
   let oldFormValue: IterateObject = {}
-
+  let isResetChange = false
   // 优化防抖逻辑
   const debounceFn = useDebounceFn((val) => {
     emits('query', val)
@@ -86,18 +86,25 @@
         formValue.value[key] !== oldFormValue[key] && inputFields.has(key),
     )
 
-    if (needsDebounce) {
-      debounceFn(formValue.value)
-    } else {
-      emits('query', formValue.value)
+    if (!isResetChange) {
+      if (needsDebounce) {
+        debounceFn(formValue.value)
+      } else {
+        emits('query', formValue.value)
+      }
     }
-
+    isResetChange = false
     // 浅拷贝更新oldFormValue
     oldFormValue = { ...formValue.value }
   })
 
   function resetFilter() {
     esFormRef.value?.resetForm()
+  }
+
+  function emitReset() {
+    isResetChange = true
+    emits('reset', formValue.value)
   }
 
   defineExpose({
@@ -159,8 +166,8 @@
       submit-text="查询"
       :form-props="formProps"
       :box-border="false"
-      @reset="emits('reset')"
-      @submit="() => emits('query', formValue)"
+      @reset="emitReset"
+      @submit="emits('query', formValue)"
     />
   </div>
 </template>

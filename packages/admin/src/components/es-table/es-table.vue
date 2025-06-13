@@ -190,13 +190,6 @@
     refresh(values)
   }
 
-  function filterReset() {
-    if (otherParams.value.pageIndex) {
-      otherParams.value.pageIndex = 0
-    } else {
-      reset()
-    }
-  }
 
   const rowDrop = () => {
     const sortableInst = new Sortable(
@@ -279,6 +272,7 @@
       :toolbar="toolbar"
       :filter="filter"
       :selected="!!selectedRecords?.length"
+      @reset="filterQuery"
       @query="filterQuery"
       @handler="(val) => emits('toolbarHandler', val)"
     />
