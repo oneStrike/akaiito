@@ -77,7 +77,7 @@ export const tableColumns: EsTableColumn = [
   },
 ]
 
-export const filter: () => ToolbarFilter = (span = 4) => [
+export const filter: (span: number) => ToolbarFilter = (span = 4) => [
   {
     field: 'isEnabled',
     component: 'Select',

@@ -33,7 +33,7 @@ export interface EsFormOptions {
 }
 
 export interface EsFormProps {
-  modelValue: IterateObject
+  modelValue?: IterateObject
   options: EsFormOptions[]
   formProps?: Partial<Omit<FormProps, 'model'>>
   showBtn?: boolean
