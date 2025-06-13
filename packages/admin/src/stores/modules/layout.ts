@@ -10,7 +10,7 @@ export const useLayoutStore = defineStore('useLayoutStore', {
       accordion: true,
       collapsed: false,
       fullScreen: false,
-      pageAnim: 'scale',
+      pageAnim: 'slideX',
     } as Layout
   },
 
