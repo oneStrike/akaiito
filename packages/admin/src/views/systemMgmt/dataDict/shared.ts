@@ -57,6 +57,7 @@ export const tableColumns: EsTableColumn = [
     label: '创建时间',
     prop: 'createdAt',
     align: 'center',
+    type: 'date',
   },
   {
     label: '状态',

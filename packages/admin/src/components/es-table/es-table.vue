@@ -183,13 +183,12 @@
     }
   }
 
-  function filterQuery(values) {
+  function filterQuery(values: IterateObject) {
     if (otherParams.value.pageIndex) {
       otherParams.value.pageIndex = 0
     }
     refresh(values)
   }
-
 
   const rowDrop = () => {
     const sortableInst = new Sortable(
@@ -332,6 +331,11 @@
                 {{ row[item.prop] }}
               </el-button>
             </el-tooltip>
+          </template>
+          <template v-else-if="item.type === 'date'">
+            <span>
+              {{ $dayjs(row[item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
+            </span>
           </template>
           <template v-else-if="item.type !== 'index'">
             {{

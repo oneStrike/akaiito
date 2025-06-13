@@ -23,6 +23,7 @@ export default antfu(
       'style/member-delimiter-style': 'off',
       'style/operator-linebreak': 'off',
       'format/prettier': 'off',
+      'vue/html-indent': 'off',
     },
   },
 )
