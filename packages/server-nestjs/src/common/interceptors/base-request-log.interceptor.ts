@@ -124,9 +124,6 @@ export abstract class BaseRequestLogInterceptor implements NestInterceptor {
       // 获取API摘要信息（由子类实现）
       const operationDescription = this.getOperationDescription(request)
 
-      // 获取操作记录（由子类实现）
-      const operationRecord = this.getOperationRecord(request, userInfo)
-
       // 构建请求参数字符串
       const requestParams = this.buildRequestParams(request)
 
@@ -143,7 +140,6 @@ export abstract class BaseRequestLogInterceptor implements NestInterceptor {
         duration,
         responseMessage,
         operationDescription,
-        operationRecord,
         requestParams,
       }
 
@@ -226,7 +222,6 @@ export abstract class BaseRequestLogInterceptor implements NestInterceptor {
    * @returns 操作动作描述
    */
   protected getActionByMethod(request: FastifyRequest): string {
-    console.log(request)
     return '操作'
   }
 

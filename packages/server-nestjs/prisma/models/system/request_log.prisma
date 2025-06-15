@@ -22,8 +22,6 @@ model SystemRequestLog {
   operationDescription String   @map("operation_description") @db.VarChar(255)
   /// 请求耗时
   duration             Int      @map("duration") @db.SmallInt
-  /// 操作记录
-  operationRecord      String   @map("operation_record") @db.VarChar(255)
   /// 浏览器信息标识
   userAgent            String   @map("user_agent") @db.VarChar(1000)
   /// 请求参数

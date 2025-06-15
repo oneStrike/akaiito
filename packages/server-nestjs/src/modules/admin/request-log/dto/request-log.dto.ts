@@ -80,13 +80,6 @@ export class RequestLogDto {
   operationDescription!: string
 
   @ApiProperty({
-    description: '操作记录',
-    example: '查询用户列表',
-    required: true,
-  })
-  operationRecord!: string
-
-  @ApiProperty({
     description: '浏览器信息标识',
     example: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     required: true,
@@ -199,14 +192,6 @@ export class CreateRequestLogDto {
     maxLength: 255,
   })
   operationDescription!: string
-
-  @ValidateString({
-    description: '操作记录',
-    example: '查询用户列表',
-    required: true,
-    maxLength: 255,
-  })
-  operationRecord!: string
 
   @ValidateString({
     description: '浏览器信息标识',
