@@ -33,6 +33,7 @@ export const loginLogsColumns: EsTableColumn = [
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',
+    type: 'date',
   },
 ]
 

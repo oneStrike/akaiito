@@ -172,45 +172,16 @@
     }
   }
 
-  /**
-   * 格式化日期时间
-   * @param dateTime 日期时间字符串
-   * @returns 格式化后的日期时间
-   */
-  const formatDateTime = (dateTime?: string) => {
-    if (!dateTime) return '未知'
-    return new Date(dateTime).toLocaleString('zh-CN', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    })
-  }
-
   const tableRef = templateRef('tableRef')
-  const loginLogsParams = ref({})
-
-  /**
-   * 当前时间
-   */
-  const currentTime = ref(new Date())
-
-  /**
-   * 更新当前时间
-   */
-  const updateCurrentTime = () => {
-    currentTime.value = new Date()
-  }
+  const loginLogsParams = ref({
+    requestPath: '/api/admin/user/login',
+  })
 
   /**
    * 页面加载时获取用户信息
    */
   onMounted(() => {
     fetchUserInfo()
-    updateCurrentTime()
-    setInterval(updateCurrentTime, 1000)
   })
 </script>
 
@@ -305,7 +276,9 @@
                   注册时间
                 </div>
                 <div class="text-base font-medium text-gray-800">
-                  {{ formatDateTime(userInfo?.createdAt) }}
+                  {{
+                    $dayjs(userInfo?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+                  }}
                 </div>
               </div>
               <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
@@ -316,7 +289,9 @@
                   更新时间
                 </div>
                 <div class="text-base font-medium text-gray-800">
-                  {{ formatDateTime(userInfo?.updatedAt) }}
+                  {{
+                    $dayjs(userInfo?.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+                  }}
                 </div>
               </div>
             </div>
