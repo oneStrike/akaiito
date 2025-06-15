@@ -1,8 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
-import {
-  BaseRepositoryService,
-  PaginationResult,
-} from '@/global/services/base-repository.service'
+import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { Prisma } from '@/prisma/client'
 import {
   CreateRequestLogDto,
@@ -44,9 +41,7 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
    * @param queryDto 查询条件和分页参数
    * @returns 分页查询结果
    */
-  async findRequestLogs(
-    queryDto: QueryRequestLogDto,
-  ): Promise<PaginationResult<RequestLogDto>> {
+  async findRequestLogs(queryDto: QueryRequestLogDto) {
     try {
       this.logger.log('开始分页查询请求日志')
 
@@ -146,7 +141,7 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
       )
 
       return {
-        data: data as RequestLogDto[],
+        list: data as RequestLogDto[],
         total,
         page,
         pageSize,

@@ -7,13 +7,17 @@
   import type { EsFormOptions } from '@/components/es-form/types'
   import { ElMessage } from 'element-plus'
   import { onMounted, reactive, ref } from 'vue'
-  import { getRequestLogsApi } from '@/apis/logs'
+  import * as requestLogApi from '@/apis/request-log.ts'
   import {
     getUserInfoApi,
     updatePasswordApi,
     updateUserInfoApi,
   } from '@/apis/user.ts'
-  import { useRequest } from '@/hooks/useRequest'
+  import {
+    editFormOptions,
+    loginLogsColumns,
+    loginLogsFilter,
+  } from './shared.ts'
 
   /**
    * 用户信息数据
@@ -44,49 +48,6 @@
     newPassword: '',
     confirmPassword: '',
   })
-
-  /**
-   * 编辑用户信息表单配置
-   */
-  const editFormOptions: EsFormOptions[] = [
-    {
-      field: 'avatar',
-      component: 'Upload',
-      props: {
-        label: '头像',
-      },
-      componentProps: {
-        placeholder: '请上传头像',
-        scenario: 'adminUserAvatar',
-        multiple: false,
-        fileType: 'image',
-      },
-    },
-    {
-      field: 'username',
-      component: 'Input',
-      props: {
-        label: '用户名',
-        rules: useValidate.required('用户名'),
-      },
-      componentProps: {
-        placeholder: '请输入用户名',
-        maxlength: 50,
-      },
-    },
-    {
-      field: 'mobile',
-      component: 'Input',
-      props: {
-        label: '手机号',
-        rules: useValidate.mobile(),
-      },
-      componentProps: {
-        placeholder: '请输入手机号',
-        maxlength: 11,
-      },
-    },
-  ]
 
   /**
    * 修改密码表单配置
@@ -179,13 +140,9 @@
 
       updateLoading.value = true
       await updateUserInfoApi(editFormData)
-      ElMessage.success('更新用户信息成功')
+      useMessage.success('更新用户信息成功')
       showEditDialog.value = false
-      // 重新获取用户信息
       await fetchUserInfo()
-    } catch (error) {
-      console.error('更新用户信息失败:', error)
-      ElMessage.error('更新用户信息失败')
     } finally {
       updateLoading.value = false
     }
@@ -202,7 +159,7 @@
 
       passwordLoading.value = true
       await updatePasswordApi(passwordFormData)
-      ElMessage.success('修改密码成功')
+      useMessage.success('修改密码成功')
       showPasswordDialog.value = false
       // 重置表单
       Object.assign(passwordFormData, {
@@ -210,9 +167,6 @@
         newPassword: '',
         confirmPassword: '',
       })
-    } catch (error) {
-      console.error('修改密码失败:', error)
-      ElMessage.error('修改密码失败')
     } finally {
       passwordLoading.value = false
     }
@@ -235,139 +189,8 @@
     })
   }
 
-  /**
-   * 登录日志相关
-   */
-  const {
-    loading: loginLogsLoading,
-    reset: resetLoginLogs,
-    request: requestLoginLogs,
-    requestData: loginLogsData,
-    sortChange: loginLogsSortChange,
-    params: loginLogsParams,
-  } = useRequest(getRequestLogsApi, {
-    defaultParams: {
-      apiPath: '/admin/user/login',
-    },
-  })
-
-  /**
-   * 登录日志表格配置
-   */
-  const loginLogsColumns = [
-    {
-      label: '手机号',
-      prop: 'userMobile',
-      align: 'center',
-    },
-    {
-      label: '登录者',
-      prop: 'username',
-      align: 'center',
-    },
-    {
-      label: '登录IP',
-      prop: 'targetIp',
-      align: 'center',
-    },
-    {
-      label: '登录地址',
-      prop: 'ipMappingAddress',
-      align: 'center',
-    },
-    {
-      label: '登录结果',
-      prop: 'responseCode',
-      align: 'center',
-      slotName: 'responseCode',
-    },
-    {
-      label: '登录时间',
-      prop: 'createdAt',
-      align: 'center',
-      sortable: 'custom',
-      sortOrders: ['ascending', 'descending'],
-      sortBy: 'createdAt',
-    },
-  ]
-
-  /**
-   * 登录日志筛选配置
-   */
-  const loginLogsFilter = [
-    {
-      field: 'dateTimePicker',
-      component: 'DateTime',
-      props: {
-        span: 4,
-      },
-      componentProps: {
-        placeholder: '操作时间',
-      },
-    },
-    {
-      field: 'responseCode',
-      component: 'Select',
-      props: {
-        span: 6,
-      },
-      componentProps: {
-        placeholder: '登录结果',
-        clearable: true,
-        options: [
-          {
-            label: '成功',
-            value: 200,
-          },
-          {
-            label: '失败',
-            value: 400,
-          },
-        ],
-      },
-    },
-    {
-      field: 'userMobile',
-      component: 'Input',
-      props: {
-        span: 6,
-      },
-      componentProps: {
-        placeholder: '手机号',
-        clearable: true,
-        maxlength: 11,
-      },
-    },
-  ]
-
-  /**
-   * 刷新登录日志
-   */
-  const refreshLoginLogs = () => {
-    requestLoginLogs()
-    ElMessage.success('登录日志已刷新')
-  }
-
-  /**
-   * 获取账户年龄
-   */
-  const getAccountAge = () => {
-    if (!userInfo.value?.createdAt) return '未知'
-    const now = new Date()
-    const created = new Date(userInfo.value.createdAt)
-    const diffTime = Math.abs(now.getTime() - created.getTime())
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-
-    if (diffDays < 30) {
-      return `${diffDays}天`
-    } else if (diffDays < 365) {
-      const months = Math.floor(diffDays / 30)
-      return `${months}个月`
-    } else {
-      const years = Math.floor(diffDays / 365)
-      return `${years}年`
-    }
-  }
+  const tableRef = templateRef('tableRef')
+  const loginLogsParams = ref({})
 
   /**
    * 当前时间
@@ -382,23 +205,12 @@
   }
 
   /**
-   * 获取今日在线时间
-   */
-  const getOnlineTime = () => {
-    const now = currentTime.value
-    const hours = now.getHours()
-    const minutes = now.getMinutes()
-    return `${hours}小时${minutes}分钟`
-  }
-
-  /**
    * 页面加载时获取用户信息
    */
   onMounted(() => {
     fetchUserInfo()
     updateCurrentTime()
     setInterval(updateCurrentTime, 1000)
-    requestLoginLogs()
   })
 </script>
 
@@ -430,7 +242,7 @@
                 <el-avatar
                   :size="80"
                   :src="userInfo?.avatar ?? ''"
-                  class="border-3 border-gray-200 shadow-lg"
+                  class="border-gray-200 border-3 shadow-lg"
                 />
                 <el-badge
                   value="在线"
@@ -439,7 +251,7 @@
                 />
               </div>
               <div class="flex-1">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">
+                <h2 class="text-gray-800 text-2xl font-bold mb-2">
                   {{ userInfo?.username || '未设置' }}
                 </h2>
                 <p class="text-base text-gray-500 mb-4">
@@ -462,15 +274,15 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-5">
-              <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+            <div class="gap-5 grid grid-cols-2">
+              <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
                 <div
-                  class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
+                  class="flex items-center gap-2 font-semibold mb-2 text-sm text-gray-600"
                 >
                   <es-icon name="phone" :size="16" />
                   手机号码
                 </div>
-                <div class="text-base font-medium text-gray-800">
+                <div class="text-base text-gray-800 font-medium">
                   {{ userInfo?.mobile || '未设置' }}
                 </div>
               </div>
@@ -513,8 +325,10 @@
       </div>
 
       <!-- 右侧：登录日志 -->
-      <div class="w-2/3 overflow-hidden">
-        <el-card class="h-full hover:shadow-lg transition-all duration-300">
+      <div class="overflow-hidden w-2/3 request-log">
+        <el-card
+          class="flex flex-col h-full hover:shadow-lg transition-all duration-300"
+        >
           <template #header>
             <div class="flex justify-between items-center">
               <h3
@@ -523,23 +337,19 @@
                 <es-icon name="listBox" :size="20" />
                 登录日志
               </h3>
-              <el-button @click="refreshLoginLogs">
+              <el-button @click="tableRef?.refresh()">
                 <es-icon name="reload" :size="16" class="mr-1" />
                 刷新
               </el-button>
             </div>
           </template>
-          <div class="h-full overflow-hidden">
+          <div class="flex-1 overflow-hidden">
             <es-table
+              ref="tableRef"
               v-model:params="loginLogsParams"
-              v-loading="loginLogsLoading"
               :filter="loginLogsFilter"
               :columns="loginLogsColumns"
-              :data="loginLogsData?.list ?? []"
-              :total="loginLogsData?.total"
-              @sort-change="loginLogsSortChange"
-              @query="requestLoginLogs"
-              @reset="resetLoginLogs"
+              :request-api="requestLogApi.pageApi"
             >
               <template #responseCode="{ row }">
                 <el-tag
@@ -611,8 +421,7 @@
   </div>
 </template>
 
-<style scoped>
-  /* 只保留必要的深度选择器样式 */
+<style scoped lang="scss">
   :deep(.el-dialog) {
     border-radius: 8px;
   }
@@ -629,5 +438,12 @@
   :deep(.el-dialog__footer) {
     padding: 10px 20px 20px;
     border-top: 1px solid #e5e7eb;
+  }
+
+  .request-log {
+    :deep(.el-card__body) {
+      height: 93%;
+      display: flex;
+    }
   }
 </style>
