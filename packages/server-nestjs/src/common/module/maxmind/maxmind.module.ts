@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { MaxMindGeoIPService } from '@/common/services/maxmind-geoip.service'
-import { MaxMindConfigService } from '@/config/maxmind.config'
-import maxmindConfig from '@/config/maxmind.config'
+import maxmindConfig, { MaxMindConfigService } from '@/config/maxmind.config'
 
 /**
  * MaxMind模块

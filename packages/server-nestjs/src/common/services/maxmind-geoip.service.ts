@@ -74,42 +74,35 @@ export class MaxMindGeoIPService implements OnModuleInit {
     }
 
     // 使用MaxMind数据库解析
-    try {
-      if (!this.reader) {
-        this.logger.warn('MaxMind数据库未初始化，返回默认地址信息')
-        return {
-          fullLocation: '外网地址',
-          isPrivate: false,
-        }
-      }
-
-      const response = this.reader.city(ip)
-      const country =
-        response.country?.names?.zh_CN || response.country?.names?.en || ''
-      const subdivision =
-        response.subdivisions?.[0]?.names?.zh_CN ||
-        response.subdivisions?.[0]?.names?.en ||
-        ''
-      const city = response.city?.names?.zh_CN || response.city?.names?.en || ''
-
-      // 构建完整地址
-      const locationParts = [country, subdivision, city].filter(Boolean)
-      const fullLocation =
-        locationParts.length > 0 ? locationParts.join(' ') : '外网地址'
-
-      return {
-        country,
-        subdivision,
-        city,
-        fullLocation,
-        isPrivate: false,
-      }
-    } catch (error) {
-      this.logger.error(`解析IP地址失败: ${ip}`, error.stack)
+    if (!this.reader) {
+      this.logger.warn('MaxMind数据库未初始化，返回默认地址信息')
       return {
         fullLocation: '外网地址',
         isPrivate: false,
       }
+    }
+    // @ts-expect-error ignore
+    const response = this.reader.city(ip)
+    const country =
+      response.country?.names?.['zh-CN'] || response.country?.names?.en || ''
+    const subdivision =
+      response.subdivisions?.[0]?.names?.['zh-CN'] ||
+      response.subdivisions?.[0]?.names?.en ||
+      ''
+    const city =
+      response.city?.names?.['zh-CN'] || response.city?.names?.en || ''
+
+    // 构建完整地址
+    const locationParts = [country, subdivision, city].filter(Boolean)
+    const fullLocation =
+      locationParts.length > 0 ? locationParts.join(' ') : '外网地址'
+
+    return {
+      country,
+      subdivision,
+      city,
+      fullLocation,
+      isPrivate: false,
     }
   }
 
