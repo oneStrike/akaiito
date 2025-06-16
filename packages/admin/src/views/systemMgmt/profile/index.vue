@@ -2,40 +2,17 @@
   import type {
     GetUserInfoTypesRes,
     UpdatePasswordTypesReq,
-    UpdateUserInfoTypesReq,
   } from '@/apis/types/user.d'
   import type { EsFormOptions } from '@/components/es-form/types'
-  import { ElMessage } from 'element-plus'
   import { onMounted, reactive, ref } from 'vue'
   import * as requestLogApi from '@/apis/request-log.ts'
-  import {
-    getUserInfoApi,
-    updatePasswordApi,
-    updateUserInfoApi,
-  } from '@/apis/user.ts'
-  import {
-    editFormOptions,
-    loginLogsColumns,
-    loginLogsFilter,
-  } from './shared.ts'
+  import { getUserInfoApi, updatePasswordApi } from '@/apis/user.ts'
+  import { loginLogsColumns, loginLogsFilter } from './shared.ts'
 
   /**
    * 用户信息数据
    */
   const userInfo = ref<GetUserInfoTypesRes | null>(null)
-
-  /**
-   * 编辑用户信息相关状态
-   */
-  const showEditDialog = ref(false)
-  const updateLoading = ref(false)
-  const editFormRef = ref()
-  const editFormData = reactive<UpdateUserInfoTypesReq>({
-    username: '',
-    avatar: '',
-    mobile: '',
-    status: true,
-  })
 
   /**
    * 修改密码相关状态
@@ -110,45 +87,6 @@
   ]
 
   /**
-   * 获取用户信息
-   */
-  const fetchUserInfo = async () => {
-    try {
-      const res = await getUserInfoApi()
-      userInfo.value = res
-      // 同步数据到编辑表单
-      Object.assign(editFormData, {
-        username: res.username || '',
-        avatar: res.avatar || '',
-        mobile: res.mobile || '',
-        status: res.status,
-      })
-    } catch (error) {
-      console.error('获取用户信息失败:', error)
-      ElMessage.error('获取用户信息失败')
-    }
-  }
-
-  /**
-   * 处理更新用户信息
-   */
-  const handleUpdateUserInfo = async () => {
-    try {
-      // 表单验证
-      const valid = await editFormRef.value?.validate()
-      if (!valid) return
-
-      updateLoading.value = true
-      await updateUserInfoApi(editFormData)
-      useMessage.success('更新用户信息成功')
-      showEditDialog.value = false
-      await fetchUserInfo()
-    } finally {
-      updateLoading.value = false
-    }
-  }
-
-  /**
    * 处理修改密码
    */
   const handleUpdatePassword = async () => {
@@ -180,8 +118,8 @@
   /**
    * 页面加载时获取用户信息
    */
-  onMounted(() => {
-    fetchUserInfo()
+  onMounted(async () => {
+    userInfo.value = await getUserInfoApi()
   })
 </script>
 
@@ -190,7 +128,7 @@
     <!-- 主要内容区域 -->
     <div class="flex gap-5 flex-1 overflow-hidden">
       <!-- 左侧：用户信息和安全设置 -->
-      <div class="flex-1 flex flex-col gap-5 overflow-y-auto">
+      <div class="flex-1 flex flex-col gap-5 overflow-y-auto h-full">
         <!-- 用户信息 -->
         <el-card class="hover:shadow-lg transition-all duration-300">
           <template #header>
@@ -201,10 +139,6 @@
                 <es-icon name="user" :size="20" />
                 个人信息
               </h3>
-              <el-button type="primary" @click="showEditDialog = true">
-                <es-icon name="edit" :size="16" class="mr-1" />
-                编辑信息
-              </el-button>
             </div>
           </template>
           <div>
@@ -228,25 +162,13 @@
                 <p class="text-base text-gray-500 mb-4">
                   {{ userInfo?.isRoot ? '超级管理员' : '管理员' }}
                 </p>
-                <div class="flex gap-2">
-                  <el-tag v-if="userInfo?.status" type="success" size="small">
-                    <es-icon name="check" :size="14" class="mr-1" />
-                    正常
-                  </el-tag>
-                  <el-tag v-else type="danger" size="small">
-                    <es-icon name="close" :size="14" class="mr-1" />
-                    禁用
-                  </el-tag>
-                  <el-tag v-if="userInfo?.isRoot" type="warning" size="small">
-                    <es-icon name="user" :size="14" class="mr-1" />
-                    超级管理员
-                  </el-tag>
-                </div>
               </div>
             </div>
 
             <div class="gap-5 grid grid-cols-2">
-              <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
+              <div
+                class="bg-gray-50 p-4 rounded-lg border-l-4 border-slate-400"
+              >
                 <div
                   class="flex items-center gap-2 font-semibold mb-2 text-sm text-gray-600"
                 >
@@ -257,7 +179,9 @@
                   {{ userInfo?.mobile || '未设置' }}
                 </div>
               </div>
-              <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+              <div
+                class="p-4 bg-gray-50 rounded-lg border-l-4 border-slate-400"
+              >
                 <div
                   class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
                 >
@@ -268,7 +192,9 @@
                   {{ userInfo?.id || '未知' }}
                 </div>
               </div>
-              <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+              <div
+                class="p-4 bg-gray-50 rounded-lg border-l-4 border-slate-400"
+              >
                 <div
                   class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
                 >
@@ -281,7 +207,9 @@
                   }}
                 </div>
               </div>
-              <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
+              <div
+                class="p-4 bg-gray-50 rounded-lg border-l-4 border-slate-400"
+              >
                 <div
                   class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
                 >
@@ -297,10 +225,85 @@
             </div>
           </div>
         </el-card>
+
+        <!-- 安全设置 -->
+        <el-card class="hover:shadow-lg transition-all duration-300">
+          <template #header>
+            <div class="flex justify-between items-center">
+              <h3
+                class="flex items-center gap-2 text-lg font-semibold text-gray-800"
+              >
+                <es-icon name="lock" :size="20" />
+                安全设置
+              </h3>
+            </div>
+          </template>
+          <div class="space-y-4">
+            <div
+              class="flex items-center justify-between p-4 rounded-lg transition-all bg-gradient-to-r from-blue-50 to-indigo-50 border border-slate-300 hover:shadow-md duration-200"
+            >
+              <div class="flex items-center gap-3">
+                <div class="p-2 bg-blue-100 rounded-full">
+                  <es-icon name="key" :size="18" class="text-blue-600" />
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-800 mb-1">登录密码</h4>
+                  <p class="text-sm text-gray-500">
+                    定期更换密码，保护账户安全
+                  </p>
+                </div>
+              </div>
+              <el-button
+                type="primary"
+                size="small"
+                @click="showPasswordDialog = true"
+              >
+                修改密码
+              </el-button>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-slate-300"
+            >
+              <div class="flex items-center gap-3">
+                <div class="p-2 bg-green-100 rounded-full">
+                  <es-icon name="shield" :size="18" class="text-green-600" />
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-800 mb-1">账户状态</h4>
+                  <p class="text-sm text-gray-500">当前账户状态正常</p>
+                </div>
+              </div>
+              <el-tag type="success" size="small">正常</el-tag>
+            </div>
+
+            <div
+              class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-lg border border-slate-300"
+            >
+              <div class="flex items-center gap-3">
+                <div class="p-2 bg-purple-100 rounded-full">
+                  <es-icon name="phone" :size="18" class="text-purple-600" />
+                </div>
+                <div>
+                  <h4 class="font-semibold text-gray-800 mb-1">手机绑定</h4>
+                  <p class="text-sm text-gray-500">
+                    {{ userInfo?.mobile ? '已绑定手机号' : '未绑定手机号' }}
+                  </p>
+                </div>
+              </div>
+              <el-tag
+                :type="userInfo?.mobile ? 'success' : 'warning'"
+                size="small"
+              >
+                {{ userInfo?.mobile ? '已绑定' : '未绑定' }}
+              </el-tag>
+            </div>
+          </div>
+        </el-card>
       </div>
 
       <!-- 右侧：登录日志 -->
-      <div class="overflow-hidden w-2/3 request-log">
+      <div class="overflow-hidden w-2/3 request-log h-full">
         <el-card
           class="flex flex-col h-full hover:shadow-lg transition-all duration-300"
         >
@@ -340,33 +343,6 @@
       </div>
     </div>
 
-    <!-- 编辑用户信息弹窗 -->
-    <el-dialog
-      v-model="showEditDialog"
-      title="编辑个人信息"
-      width="500px"
-      :close-on-click-modal="false"
-    >
-      <EsForm
-        ref="editFormRef"
-        :form-options="editFormOptions"
-        :model="editFormData"
-        label-width="80px"
-      />
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="showEditDialog = false">取消</el-button>
-          <el-button
-            type="primary"
-            :loading="updateLoading"
-            @click="handleUpdateUserInfo"
-          >
-            确定
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
-
     <!-- 修改密码弹窗 -->
     <el-dialog
       v-model="showPasswordDialog"
@@ -376,7 +352,7 @@
     >
       <EsForm
         ref="passwordFormRef"
-        :form-options="passwordFormOptions"
+        :options="passwordFormOptions"
         :model="passwordFormData"
         label-width="100px"
       />

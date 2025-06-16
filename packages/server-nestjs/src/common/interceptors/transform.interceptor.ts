@@ -11,18 +11,27 @@ export interface Response<T> {
 
 @Injectable()
 export class TransformInterceptor<T>
-  implements NestInterceptor<T, Response<T>>
-{
+  implements NestInterceptor<T, Response<T>> {
   intercept(
     context: ExecutionContext,
     next: CallHandler,
   ): Observable<Response<T>> {
+    const request = context.switchToHttp().getRequest()
+    const response = context.switchToHttp().getResponse()
+
     return next.handle().pipe(
-      map((data) => ({
-        code: 200,
-        data,
-        message: 'success',
-      })),
+      map((data) => {
+        // 如果是 POST 请求且响应状态码为 201，则修改为 200
+        if (request.method === 'POST' && response.statusCode === 201) {
+          response.statusCode = 200
+        }
+
+        return {
+          code: 200,
+          data,
+          message: 'success',
+        }
+      }),
     )
   }
 }

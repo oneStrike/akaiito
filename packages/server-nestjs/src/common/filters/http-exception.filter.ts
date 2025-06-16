@@ -16,7 +16,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
   /**
    * 数据库错误映射表
    */
-  private readonly errorMessageMap: IteratorObject<string, string> = {
+  private readonly errorMessageMap: Record<string, string> = {
     /** 文件上传错误代码 */
     FST_REQ_FILE_TOO_LARGE: '上传文件大小超出系统限制',
     FST_FILES_LIMIT: '上传文件数量超出系统限制',
