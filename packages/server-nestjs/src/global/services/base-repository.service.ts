@@ -15,6 +15,21 @@ export interface BatchResult {
   count: number
 }
 
+// 通用分页查询参数接口
+export interface CommonPaginationOptions<TModelName extends ModelName> {
+  pageSize?: number
+  pageIndex?: number
+  orderBy?: string
+  startDate?: string
+  endDate?: string
+  where?: InferModelTypes<TModelName>['WhereInput']
+  include?: InferModelTypes<TModelName>['Include']
+  select?: InferModelTypes<TModelName>['Select']
+  omit?: InferModelTypes<TModelName>['Omit']
+  // 时间字段名称，用于时间范围查询，默认为 'createdAt'
+  dateField?: string
+}
+
 // 从 Prisma.ModelName 获取所有模型名称
 type ModelName = keyof typeof Prisma.ModelName
 
@@ -164,9 +179,10 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
    * 使用类型安全的方式返回对应的 Prisma 模型
    */
   protected get model(): ModelDelegate<TModelName> {
-    return (this.prisma as any)[
-      this.modelName.toLowerCase()
-    ] as ModelDelegate<TModelName>
+    // 将 PascalCase 转换为 camelCase
+    const camelCaseModelName =
+      this.modelName.charAt(0).toLowerCase() + this.modelName.slice(1)
+    return (this.prisma as any)[camelCaseModelName] as ModelDelegate<TModelName>
   }
 
   /**
@@ -364,59 +380,98 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
   }
 
   /**
-   * 分页查询
-   * @param options 分页选项
-   * @param options.page 页码（从1开始）
-   * @param options.pageSize 每页大小
-   * @param options.where 查询条件
-   * @param options.orderBy 排序条件
-   * @param options.include 关联查询
-   * @param options.select 字段选择
+   * 通用分页查询（支持完整的分页参数处理）
+   * @param options 通用分页选项
    * @returns 分页结果
    */
-  async findManyWithPagination(options?: {
-    page?: number
-    pageSize?: number
-    where?: InferModelTypes<TModelName>['WhereInput']
-    orderBy?: InferModelTypes<TModelName>['OrderByInput']
-    include?: InferModelTypes<TModelName>['Include']
-    select?: InferModelTypes<TModelName>['Select']
-  }): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
+  async findManyWithCommonPagination(
+    options?: CommonPaginationOptions<TModelName>,
+  ): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
     const {
-      page = 1,
-      pageSize = 10,
+      pageSize = 15,
+      pageIndex = 0,
+      orderBy: orderByString,
+      startDate,
+      endDate,
       where,
-      orderBy,
       include,
       select,
+      omit,
+      dateField = 'createdAt',
     } = options || {}
+
     try {
-      this.logger.debug(`分页查询${this.modelName}记录`, {
-        page,
+      this.logger.debug(`通用分页查询${this.modelName}记录`, {
+        pageIndex,
         pageSize,
+        orderByString,
+        startDate,
+        endDate,
         where,
       })
 
-      const skip = (page - 1) * pageSize
+      // 构建查询条件
+      let finalWhere: InferModelTypes<TModelName>['WhereInput'] = where || {}
+
+      // 处理时间范围查询
+      if (startDate || endDate) {
+        const dateCondition: any = {}
+        if (startDate) {
+          dateCondition.gte = new Date(startDate)
+        }
+        if (endDate) {
+          // 结束日期包含当天，所以加一天
+          const endDateTime = new Date(endDate)
+          endDateTime.setDate(endDateTime.getDate() + 1)
+          dateCondition.lt = endDateTime
+        }
+        finalWhere = {
+          ...finalWhere,
+          [dateField]: dateCondition,
+        } as InferModelTypes<TModelName>['WhereInput']
+      }
+
+      // 如果支持软删除，自动过滤软删除记录
+      if (this.supportsSoftDelete) {
+        finalWhere = this.getWhereWithoutDeleted(finalWhere)
+      }
+
+      // 处理排序条件
+      let orderBy: InferModelTypes<TModelName>['OrderByInput'] = {
+        [dateField]: 'desc', // 默认按时间字段倒序
+      } as InferModelTypes<TModelName>['OrderByInput']
+
+      if (orderByString) {
+        try {
+          const customOrderBy = JSON.parse(orderByString)
+          orderBy = { ...orderBy, ...customOrderBy }
+        } catch (error) {
+          this.logger.warn(`排序参数解析失败，使用默认排序: ${error.message}`)
+        }
+      }
+
+      // 计算分页参数
+      const skip = pageIndex * pageSize
 
       // 并行执行查询和计数
       const [data, total] = await Promise.all([
         this.findMany({
-          where,
+          where: finalWhere,
           orderBy,
           skip,
           take: pageSize,
           include,
           select,
+          omit,
         }),
-        this.count(where),
+        this.count(finalWhere),
       ])
 
       const totalPages = Math.ceil(total / pageSize)
 
-      this.logger.debug(`✅ 分页查询${this.modelName}完成`, {
+      this.logger.debug(`✅ 通用分页查询${this.modelName}完成`, {
         total,
-        page,
+        page: pageIndex,
         pageSize,
         totalPages,
         dataCount: data.length,
@@ -425,12 +480,12 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
       return {
         data,
         total,
-        page,
+        page: pageIndex,
         pageSize,
         totalPages,
       }
     } catch (error) {
-      this.logger.error(`❌ 分页查询${this.modelName}记录失败`, error)
+      this.logger.error(`❌ 通用分页查询${this.modelName}记录失败`, error)
       throw error
     }
   }
@@ -621,7 +676,6 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
       const finalWhere = this.supportsSoftDelete
         ? this.getWhereWithoutDeleted(where)
         : where
-
       const result = await this.model.count(
         finalWhere ? { where: finalWhere } : undefined,
       )

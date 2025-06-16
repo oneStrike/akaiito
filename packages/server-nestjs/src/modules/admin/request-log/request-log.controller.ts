@@ -36,9 +36,7 @@ export class RequestLogController {
     summary: '分页查询请求日志',
     model: RequestLogPageResponseDto,
   })
-  async findRequestLogs(
-    @Query() queryDto: QueryRequestLogDto,
-  ): Promise<RequestLogPageResponseDto> {
+  async findRequestLogs(@Query() queryDto: QueryRequestLogDto) {
     return this.requestLogService.findRequestLogs(queryDto)
   }
 

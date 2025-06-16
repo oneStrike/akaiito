@@ -13,7 +13,7 @@ import {
  */
 @Injectable()
 export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'> {
-  protected modelName: 'SystemRequestLog'
+  protected readonly modelName = 'SystemRequestLog'
   readonly logger = new Logger(RequestLogService.name)
 
   /**
@@ -87,65 +87,28 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
         }
       }
 
-      // 时间范围查询
-      if (queryDto.startDate || queryDto.endDate) {
-        whereConditions.createdAt = {}
-        if (queryDto.startDate) {
-          whereConditions.createdAt.gte = new Date(queryDto.startDate)
-        }
-        if (queryDto.endDate) {
-          // 结束日期包含当天，所以加一天
-          const endDate = new Date(queryDto.endDate)
-          endDate.setDate(endDate.getDate() + 1)
-          whereConditions.createdAt.lt = endDate
-        }
-      }
-
-      // 构建排序条件
-      let orderBy: Prisma.SystemRequestLogOrderByWithRelationInput = {
-        createdAt: 'desc', // 默认按创建时间倒序
-      }
-
-      // 如果有自定义排序
-      if (queryDto.orderBy) {
-        try {
-          const customOrderBy = JSON.parse(queryDto.orderBy)
-          orderBy = { ...orderBy, ...customOrderBy }
-        } catch (error) {
-          this.logger.warn(`排序参数解析失败，使用默认排序: ${error.message}`)
-        }
-      }
-
-      // 分页参数
-      const page = queryDto.pageIndex || 0
-      const pageSize = queryDto.pageSize || 15
-      const skip = page * pageSize
-
-      // 执行查询
-      const [data, total] = await Promise.all([
-        this.prisma.systemRequestLog.findMany({
-          where: whereConditions,
-          orderBy,
-          skip,
-          take: pageSize,
-        }),
-        this.prisma.systemRequestLog.count({
-          where: whereConditions,
-        }),
-      ])
-
-      const totalPages = Math.ceil(total / pageSize)
+      // 使用通用分页查询方法
+      const result = await this.findManyWithCommonPagination({
+        pageSize: queryDto.pageSize,
+        pageIndex: queryDto.pageIndex,
+        orderBy: queryDto.orderBy,
+        startDate: queryDto.startDate,
+        endDate: queryDto.endDate,
+        where: whereConditions,
+        dateField: 'createdAt', // 指定时间字段
+      })
 
       this.logger.log(
-        `请求日志查询完成，共 ${total} 条记录，当前第 ${page + 1} 页`,
+        `请求日志查询完成，共 ${result.total} 条记录，当前第 ${result.page + 1} 页`,
       )
 
+      // 返回格式保持与原来一致
       return {
-        list: data as RequestLogDto[],
-        total,
-        page,
-        pageSize,
-        totalPages,
+        list: result.data as RequestLogDto[],
+        total: result.total,
+        page: result.page,
+        pageSize: result.pageSize,
+        totalPages: result.totalPages,
       }
     } catch (error) {
       this.logger.error(`分页查询请求日志失败: ${error.message}`, error.stack)

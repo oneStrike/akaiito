@@ -33,14 +33,6 @@
   const emits = defineEmits<{
     /** 链接列点击事件 */
     (event: 'link', data: any): void
-    /** 表格排序变化事件 */
-    (
-      event: 'sortChange',
-      data: {
-        field: string
-        order: 'asc' | 'desc' | null
-      },
-    ): void
     /** 工具栏操作事件 */
     (event: 'toolbarHandler', data: any): void
     /** 重置事件 */
@@ -240,9 +232,12 @@
    * @param val Element Plus表格排序事件对象
    */
   function handlerSortChange(val: any) {
-    emits('sortChange', {
-      field: val.prop,
-      order: val.order === 'descending' ? 'desc' : 'asc',
+    otherParams.value.pageIndex = 0
+    refresh({
+      orderBy: JSON.stringify({
+        field: val.prop,
+        order: val.order === 'descending' ? 'desc' : 'asc',
+      }),
     })
   }
 
@@ -268,7 +263,6 @@
    * @param values 查询参数
    */
   function filterQuery(values: IterateObject) {
-    console.log(values)
     if (values.dateTimePicker) {
       values.dateTimePicker = [
         (values.startDate = values.dateTimePicker[0]),
