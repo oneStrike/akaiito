@@ -4,7 +4,6 @@ import { BadRequestException, Module, ValidationPipe } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
 import { HttpExceptionFilter } from '@/common/filters/http-exception.filter'
-import { LoggingInterceptor } from '@/common/interceptors/logging.interceptor'
 import { TransformInterceptor } from '@/common/interceptors/transform.interceptor'
 import { LoggerModule } from '@/common/module/logger/logger.module'
 import { MaxMindModule } from '@/common/module/maxmind/maxmind.module'
@@ -50,10 +49,6 @@ import { GlobalModule } from './global/global.module'
           )
         },
       }),
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor, // 日志拦截器，优先级最高
     },
     {
       provide: APP_INTERCEPTOR,
