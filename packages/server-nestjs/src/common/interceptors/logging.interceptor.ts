@@ -58,13 +58,6 @@ export class LoggingInterceptor implements NestInterceptor {
     const logger = this.loggerFactory.createLogger(logModule, logContext)
     this.setRequestContext(logger, request)
 
-    // 记录请求开始
-    logger.debug(`${request.method} ${request.url}`, {
-      headers: this.sanitizeData(request.headers),
-      query: request.query,
-      body: this.sanitizeData(request.body),
-    })
-
     return next.handle().pipe(
       tap((data) => {
         const duration = Date.now() - startTime

@@ -41,7 +41,6 @@ export class AdminRequestLogInterceptor extends BaseRequestLogInterceptor {
    */
   protected getOperationDescription(request: FastifyRequest): string {
     const path = request.url.split('?')[0]
-    const method = request.method
     const action = this.getActionByMethod(request)
 
     // 根据路径和方法生成摘要
