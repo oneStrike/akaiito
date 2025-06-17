@@ -127,11 +127,6 @@ export abstract class BaseRequestLogInterceptor implements NestInterceptor {
       // 构建请求参数字符串
       const requestParams = this.buildRequestParams(request)
 
-      // 输出控制台日志（开发环境）
-      this.logger.log(
-        `${this.getLogPrefix()}${request.method} ${request.url} - ${statusCode} - ${duration}ms - ${clientIp}`,
-      )
-
       // 创建请求日志DTO
       const createRequestLogDto: CreateRequestLogDto = {
         username: this.extractUsername(request),
