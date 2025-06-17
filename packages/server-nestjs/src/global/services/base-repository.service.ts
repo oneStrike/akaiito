@@ -467,22 +467,18 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         this.count(finalWhere),
       ])
 
-      const totalPages = Math.ceil(total / pageSize)
-
       this.logger.debug(`✅ 通用分页查询${this.modelName}完成`, {
         total,
-        page: pageIndex,
+        pageIndex,
         pageSize,
-        totalPages,
         dataCount: data.length,
       })
 
       return {
         data,
         total,
-        page: pageIndex,
+        pageIndex,
         pageSize,
-        totalPages,
       }
     } catch (error) {
       this.logger.error(`❌ 通用分页查询${this.modelName}记录失败`, error)

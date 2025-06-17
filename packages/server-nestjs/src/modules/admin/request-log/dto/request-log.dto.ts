@@ -230,14 +230,6 @@ export class QueryRequestLogDto extends PageDto {
   })
   userId?: number
 
-  @ValidateString({
-    description: 'IP地址模糊查询',
-    example: '192.168',
-    required: false,
-    maxLength: 20,
-  })
-  ipAddress?: string
-
   @ValidateNumber({
     description: '响应状态码',
     example: 200,
@@ -262,49 +254,4 @@ export class QueryRequestLogDto extends PageDto {
     maxLength: 100,
   })
   requestPath?: string
-}
-
-/**
- * 请求日志分页响应DTO
- * 用于返回分页查询结果
- */
-export class RequestLogPageResponseDto {
-  @ApiProperty({
-    description: '请求日志列表',
-    type: [RequestLogDto],
-  })
-  data!: RequestLogDto[]
-
-  @ValidateNumber({
-    description: '总记录数',
-    example: 100,
-    required: true,
-    min: 0,
-  })
-  total!: number
-
-  @ValidateNumber({
-    description: '当前页码',
-    example: 0,
-    required: true,
-    min: 0,
-  })
-  page!: number
-
-  @ValidateNumber({
-    description: '每页大小',
-    example: 15,
-    required: true,
-    min: 1,
-    max: 500,
-  })
-  pageSize!: number
-
-  @ValidateNumber({
-    description: '总页数',
-    example: 7,
-    required: true,
-    min: 0,
-  })
-  totalPages!: number
 }

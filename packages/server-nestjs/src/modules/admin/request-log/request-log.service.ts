@@ -21,7 +21,7 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
    * @param logData 创建请求日志的数据传输对象
    * @returns 创建的请求日志记录
    */
-  async createRequestLog(logData: CreateRequestLogDto): Promise<RequestLogDto> {
+  async createRequestLog(logData: CreateRequestLogDto) {
     try {
       this.logger.log(`创建请求日志记录: ${logData.requestPath}`)
       const requestLog = await this.prisma.systemRequestLog.create({
@@ -42,78 +42,36 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
    * @returns 分页查询结果
    */
   async findRequestLogs(queryDto: QueryRequestLogDto) {
-    try {
-      this.logger.log('开始分页查询请求日志')
+    // 构建查询条件
+    const whereConditions: Prisma.SystemRequestLogWhereInput = {}
 
-      // 构建查询条件
-      const whereConditions: Prisma.SystemRequestLogWhereInput = {}
-
-      // 用户名模糊查询
-      if (queryDto.username) {
-        whereConditions.username = {
-          contains: queryDto.username,
-          mode: 'insensitive',
-        }
+    // 用户名模糊查询
+    if (queryDto.username) {
+      whereConditions.username = {
+        contains: queryDto.username,
+        mode: 'insensitive',
       }
-
-      // 用户ID精确查询
-      if (queryDto.userId) {
-        whereConditions.userId = queryDto.userId
-      }
-
-      // IP地址模糊查询
-      if (queryDto.ipAddress) {
-        whereConditions.ipAddress = {
-          contains: queryDto.ipAddress,
-          mode: 'insensitive',
-        }
-      }
-
-      // 响应状态码精确查询
-      if (queryDto.responseCode) {
-        whereConditions.responseCode = queryDto.responseCode
-      }
-
-      // 请求方法精确查询
-      if (queryDto.httpMethod) {
-        whereConditions.httpMethod = queryDto.httpMethod
-      }
-
-      // API路径模糊查询
-      if (queryDto.requestPath) {
-        whereConditions.requestPath = {
-          contains: queryDto.requestPath,
-          mode: 'insensitive',
-        }
-      }
-
-      // 使用通用分页查询方法
-      const result = await this.findManyWithCommonPagination({
-        pageSize: queryDto.pageSize,
-        pageIndex: queryDto.pageIndex,
-        orderBy: queryDto.orderBy,
-        startDate: queryDto.startDate,
-        endDate: queryDto.endDate,
-        where: whereConditions,
-        dateField: 'createdAt', // 指定时间字段
-      })
-
-      this.logger.log(
-        `请求日志查询完成，共 ${result.total} 条记录，当前第 ${result.page + 1} 页`,
-      )
-
-      // 返回格式保持与原来一致
-      return {
-        list: result.data as RequestLogDto[],
-        total: result.total,
-        page: result.page,
-        pageSize: result.pageSize,
-        totalPages: result.totalPages,
-      }
-    } catch (error) {
-      this.logger.error(`分页查询请求日志失败: ${error.message}`, error.stack)
-      throw error
     }
+
+    // 用户ID精确查询
+    if (queryDto.userId) {
+      whereConditions.userId = queryDto.userId
+    }
+
+    // 响应状态码精确查询
+    if (queryDto.responseCode) {
+      whereConditions.responseCode = queryDto.responseCode
+    }
+
+    // 请求方法精确查询
+    if (queryDto.httpMethod) {
+      whereConditions.httpMethod = queryDto.httpMethod
+    }
+
+    return this.findManyWithCommonPagination({
+      ...queryDto,
+      where: whereConditions,
+    })
   }
 
   /**

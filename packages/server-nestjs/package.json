@@ -21,7 +21,7 @@
     "prisma:generate": "prisma generate",
     "prisma:init": "pnpm prisma:push && pnpm prisma:seed",
     "prisma:pull": "prisma db pull",
-    "prisma:push": "prisma db push",
+    "prisma:push": "prisma db push --force-reset",
     "prisma:seed": "prisma db seed",
     "prisma:update": "pnpm prisma:generate && pnpm prisma:push"
   },

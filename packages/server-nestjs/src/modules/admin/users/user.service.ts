@@ -82,7 +82,7 @@ export class UserService {
       },
     })
     if (!user) {
-      throw new HttpException('账号或密码错误', HttpStatus.NOT_FOUND)
+      throw new HttpException('账号或密码错误', HttpStatus.BAD_REQUEST)
     }
 
     // 尝试解密密码（如果是RSA加密的）
@@ -99,7 +99,7 @@ export class UserService {
       user.password,
     )
     if (!isPasswordValid) {
-      throw new HttpException('账号或密码错误', HttpStatus.UNAUTHORIZED)
+      throw new HttpException('账号或密码错误', HttpStatus.BAD_REQUEST)
     }
 
     // 生成令牌

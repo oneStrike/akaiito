@@ -8,11 +8,7 @@ import {
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
-import {
-  QueryRequestLogDto,
-  RequestLogDto,
-  RequestLogPageResponseDto,
-} from './dto/request-log.dto'
+import { QueryRequestLogDto, RequestLogDto } from './dto/request-log.dto'
 import { RequestLogService } from './request-log.service'
 
 /**
@@ -34,7 +30,7 @@ export class RequestLogController {
   @Get('page')
   @ApiPageDoc({
     summary: '分页查询请求日志',
-    model: RequestLogPageResponseDto,
+    model: RequestLogDto,
   })
   async findRequestLogs(@Query() queryDto: QueryRequestLogDto) {
     return this.requestLogService.findRequestLogs(queryDto)

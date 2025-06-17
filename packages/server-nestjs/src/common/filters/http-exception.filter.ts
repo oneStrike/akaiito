@@ -61,7 +61,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
         status: code,
         message: Array.isArray(response?.message)
           ? response.message.join('，')
-          : response.message,
+          : response.message
+            ? response.message
+            : response,
       }
     }
 
