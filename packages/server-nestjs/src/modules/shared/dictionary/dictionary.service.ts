@@ -2,7 +2,7 @@ import type {
   DictionaryItemWhereInput,
   DictionaryWhereInput,
 } from '@/prisma/client/models'
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { CreateDictionaryItemDto } from './dto/dictionary-item.dto'
 import {
@@ -24,34 +24,17 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
    * @returns 分页数据
    */
   async findDictionaries(queryDto: QueryDictionaryDto) {
-    const { pageIndex = 0, pageSize = 15, name, code, isEnabled } = queryDto
-    // 构建查询条件
     const where: DictionaryWhereInput = {}
-    if (name) {
-      where.name = { contains: name }
+    if (queryDto.code) {
+      where.code = { contains: queryDto.code }
     }
-    if (code) {
-      where.code = { contains: code }
+    if (queryDto.name) {
+      where.name = { contains: queryDto.name }
     }
-    if (isEnabled !== undefined) {
-      where.isEnabled = isEnabled
+    if (queryDto.isEnabled !== undefined) {
+      where.isEnabled = queryDto.isEnabled
     }
-
-    const [data, total] = await Promise.all([
-      this.findMany({
-        where,
-        skip: pageIndex * pageSize,
-        take: pageSize,
-      }),
-      this.count(where),
-    ])
-
-    return {
-      list: data,
-      total,
-      pageIndex,
-      pageSize,
-    }
+    return this.findManyWithCommonPagination({ where, ...queryDto })
   }
 
   /**
@@ -69,17 +52,6 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
       isEnabled,
     } = queryDto
 
-    // 检查字典是否存在
-    const dictionary = await this.prisma.dictionary.findUnique({
-      where: { code: dictionaryCode },
-    })
-    if (!dictionary) {
-      throw new HttpException(
-        `字典编码 "${dictionaryCode}" 不存在`,
-        HttpStatus.NOT_FOUND,
-      )
-    }
-
     // 构建查询条件
     const where: DictionaryItemWhereInput = {
       dictionaryCode,
@@ -94,62 +66,21 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
       where.isEnabled = isEnabled
     }
 
-    try {
-      const [data, total] = await Promise.all([
-        this.prisma.dictionaryItem.findMany({
-          where,
-          skip: pageIndex * pageSize,
-          take: pageSize,
-          orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
-        }),
-        this.prisma.dictionaryItem.count({ where }),
-      ])
+    const [data, total] = await Promise.all([
+      this.prisma.dictionaryItem.findMany({
+        where,
+        skip: pageIndex * pageSize,
+        take: pageSize,
+        orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
+      }),
+      this.prisma.dictionaryItem.count({ where }),
+    ])
 
-      return {
-        list: data,
-        total,
-        pageIndex,
-        pageSize,
-        totalPages: Math.ceil(total / pageSize),
-      }
-    } catch (error) {
-      throw new HttpException(
-        '查询字典项列表失败',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
-    }
-  }
-
-  /**
-   * 根据ID获取字典项详情
-   * @param id 字典项ID
-   * @returns 字典项详情
-   */
-  async findDictionaryItemById(id: number) {
-    try {
-      const dictionaryItem = await this.prisma.dictionaryItem.findUnique({
-        where: { id },
-        include: {
-          dictionary: true,
-        },
-      })
-
-      if (!dictionaryItem) {
-        throw new HttpException(
-          `ID为 ${id} 的字典项不存在`,
-          HttpStatus.NOT_FOUND,
-        )
-      }
-
-      return dictionaryItem
-    } catch (error) {
-      if (error instanceof HttpException) {
-        throw error
-      }
-      throw new HttpException(
-        '获取字典项详情失败',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
+    return {
+      list: data,
+      total,
+      pageIndex,
+      pageSize,
     }
   }
 
@@ -185,45 +116,12 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
    * @param ids 字典项ID
    */
   async deleteDictionaryItem(ids: number[]) {
-    try {
-      await this.prisma.dictionaryItem.deleteMany({
-        where: {
-          id: {
-            in: ids,
-          },
+    return this.prisma.dictionaryItem.deleteMany({
+      where: {
+        id: {
+          in: ids,
         },
-      })
-
-      return { message: '字典项删除成功' }
-    } catch (error) {
-      throw new HttpException(
-        '删除字典项失败',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
-    }
-  }
-
-  /**
-   * 获取所有启用的字典列表（不分页）
-   * @returns 字典列表
-   */
-  async findAllEnabledDictionaries() {
-    try {
-      return await this.prisma.dictionary.findMany({
-        where: { isEnabled: true },
-        orderBy: { createdAt: 'desc' },
-        include: {
-          items: {
-            where: { isEnabled: true },
-            orderBy: { order: 'asc' },
-          },
-        },
-      })
-    } catch (error) {
-      throw new HttpException(
-        '获取字典列表失败',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      )
-    }
+      },
+    })
   }
 }

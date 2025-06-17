@@ -345,9 +345,9 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
     return {
       list: data,
-      total,
-      pageIndex,
-      pageSize,
+        total,
+        pageIndex,
+        pageSize,
     }
   }
 

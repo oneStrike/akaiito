@@ -134,7 +134,7 @@ export abstract class BaseRequestLogInterceptor implements NestInterceptor {
         ipLocation,
         ipAddress: clientIp,
         httpMethod: request.method,
-        requestPath: request.url,
+        requestPath: request.url.split('?')[0],
         userAgent: request.headers['user-agent'] || 'Unknown',
         responseCode: statusCode,
         duration,
@@ -145,17 +145,7 @@ export abstract class BaseRequestLogInterceptor implements NestInterceptor {
 
       // 异步记录日志，不阻塞请求响应
       setImmediate(async () => {
-        try {
-          await this.requestLogService.createRequestLog(createRequestLogDto)
-          this.logger.debug(
-            `${this.getLogPrefix()}请求日志记录成功: ${request.method} ${request.url} - ${statusCode} (${duration}ms)`,
-          )
-        } catch (logError) {
-          this.logger.error(
-            `${this.getLogPrefix()}请求日志记录失败: ${logError.message}`,
-            logError.stack,
-          )
-        }
+        await this.requestLogService.createRequestLog(createRequestLogDto)
       })
     } catch (error) {
       this.logger.error(

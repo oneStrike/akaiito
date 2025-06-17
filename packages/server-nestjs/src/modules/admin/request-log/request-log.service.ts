@@ -22,18 +22,7 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
    * @returns 创建的请求日志记录
    */
   async createRequestLog(logData: CreateRequestLogDto) {
-    try {
-      this.logger.log(`创建请求日志记录: ${logData.requestPath}`)
-      const requestLog = await this.prisma.systemRequestLog.create({
-        data: logData,
-      })
-
-      this.logger.log(`请求日志记录创建成功，ID: ${requestLog.id}`)
-      return requestLog as RequestLogDto
-    } catch (error) {
-      this.logger.error(`创建请求日志记录失败: ${error.message}`, error.stack)
-      throw error
-    }
+    return this.create({ data: logData, select: { id: true } })
   }
 
   /**
