@@ -235,8 +235,7 @@
     otherParams.value.pageIndex = 0
     refresh({
       orderBy: JSON.stringify({
-        field: val.prop,
-        order: val.order === 'descending' ? 'desc' : 'asc',
+        [val.prop]: val.order === 'descending' ? 'desc' : 'asc',
       }),
     })
   }

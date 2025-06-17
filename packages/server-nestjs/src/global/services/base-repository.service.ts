@@ -328,7 +328,6 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
         // 解析失败时使用默认排序
       }
     }
-
     const skip = pageIndex * pageSize
     const [data, total] = await Promise.all([
       this.findMany({
