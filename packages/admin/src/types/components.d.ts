@@ -85,6 +85,7 @@ declare module 'vue' {
     IconMajestHandPointerEventLine: typeof import('~icons/majesticons/hand-pointer-event-line')['default']
     IconMajestImageCircleLine: typeof import('~icons/majesticons/image-circle-line')['default']
     IconMajestListBoxLine: typeof import('~icons/majesticons/list-box-line')['default']
+    IconMajestLockLine: typeof import('~icons/majesticons/lock-line')['default']
     IconMajestLoginHalfCircleLine: typeof import('~icons/majesticons/login-half-circle-line')['default']
     IconMajestMaximizeLine: typeof import('~icons/majesticons/maximize-line')['default']
     IconMajestMinimizeLine: typeof import('~icons/majesticons/minimize-line')['default']

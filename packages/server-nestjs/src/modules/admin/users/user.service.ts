@@ -175,6 +175,7 @@ export class UserService {
     if (!user) {
       throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
     }
+    console.log(user)
 
     // 验证旧密码
     const isPasswordValid = await this.crypto.verifyPassword(
@@ -188,13 +189,17 @@ export class UserService {
     // 加密新密码
     const encryptedPassword = await this.crypto.encryptPassword(newPassword)
 
-    // 更新密码
     await this.prisma.adminUser.update({
       where: { id: userId },
       data: { password: encryptedPassword },
+      select: {
+        id: true,
+      },
     })
 
-    return { message: '密码修改成功' }
+    await this.adminJwtService.logout()
+
+    return userId
   }
 
   /**

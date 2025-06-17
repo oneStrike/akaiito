@@ -99,6 +99,7 @@ const clickHandler = () => {
     <icon-majest-close-line v-if="name === 'close'" />
     <icon-majest-plus-circle-line v-if="name === 'plusCircle'" />
     <icon-majest-close-circle-line v-if="name === 'closeCircle'" />
+    <icon-majest-lock-line v-if="name === 'lock'" />
 
     <icon-tabler-user-edit v-if="name === 'userEdit'" />
   </el-icon>

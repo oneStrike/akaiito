@@ -9,6 +9,7 @@ export interface FormModalProps {
   loading?: boolean
   formProps?: EsFormProps['formProps']
   width?: string | number
+  height?: string | number
 }
 
 const props = withDefaults(defineProps<FormModalProps>(), {
@@ -77,6 +78,7 @@ function formSubmit(val: IterateObject) {
   <es-modal
     v-model="showForm"
     :width="width"
+    :height="height"
     :title="title"
     destroy-on-close
     class="p-2"

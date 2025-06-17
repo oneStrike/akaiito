@@ -19,11 +19,10 @@
    */
   const showPasswordDialog = ref(false)
   const passwordLoading = ref(false)
-  const passwordFormRef = ref()
   const passwordFormData = reactive<UpdatePasswordTypesReq>({
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    oldPassword: 'Aa@123456',
+    newPassword: 'Aa@123456',
+    confirmPassword: 'Aa@123456',
   })
 
   /**
@@ -90,21 +89,13 @@
    * 处理修改密码
    */
   const handleUpdatePassword = async () => {
+    console.log(123)
     try {
       // 表单验证
-      const valid = await passwordFormRef.value?.validate()
-      if (!valid) return
-
       passwordLoading.value = true
       await updatePasswordApi(passwordFormData)
       useMessage.success('修改密码成功')
       showPasswordDialog.value = false
-      // 重置表单
-      Object.assign(passwordFormData, {
-        oldPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      })
     } finally {
       passwordLoading.value = false
     }
@@ -172,7 +163,6 @@
                 <div
                   class="flex items-center gap-2 font-semibold mb-2 text-sm text-gray-600"
                 >
-                  <es-icon name="phone" :size="16" />
                   手机号码
                 </div>
                 <div class="text-base text-gray-800 font-medium">
@@ -185,7 +175,6 @@
                 <div
                   class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
                 >
-                  <es-icon name="user" :size="16" />
                   用户ID
                 </div>
                 <div class="text-base font-medium text-gray-800">
@@ -198,7 +187,6 @@
                 <div
                   class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
                 >
-                  <es-icon name="calendar" :size="16" />
                   注册时间
                 </div>
                 <div class="text-base font-medium text-gray-800">
@@ -213,7 +201,6 @@
                 <div
                   class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
                 >
-                  <es-icon name="clock" :size="16" />
                   更新时间
                 </div>
                 <div class="text-base font-medium text-gray-800">
@@ -240,11 +227,13 @@
           </template>
           <div class="space-y-4">
             <div
-              class="flex items-center justify-between p-4 rounded-lg transition-all bg-gradient-to-r from-blue-50 to-indigo-50 border border-slate-300 hover:shadow-md duration-200"
+              class="flex items-center justify-between p-4 rounded-lg border border-slate-300 hover:shadow-md duration-200"
             >
               <div class="flex items-center gap-3">
-                <div class="p-2 bg-blue-100 rounded-full">
-                  <es-icon name="key" :size="18" class="text-blue-600" />
+                <div
+                  class="p-2 bg-blue-100 rounded-full flex items-center justify-between"
+                >
+                  <es-icon name="lock" :size="18" class="text-blue-600" />
                 </div>
                 <div>
                   <h4 class="font-semibold text-gray-800 mb-1">登录密码</h4>
@@ -263,11 +252,13 @@
             </div>
 
             <div
-              class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-slate-300"
+              class="flex items-center justify-between p-4 rounded-lg border border-slate-300 hover:shadow-md duration-200"
             >
               <div class="flex items-center gap-3">
-                <div class="p-2 bg-green-100 rounded-full">
-                  <es-icon name="shield" :size="18" class="text-green-600" />
+                <div
+                  class="p-2 bg-green-100 rounded-full flex items-center justify-between"
+                >
+                  <es-icon name="user" :size="18" class="text-green-600" />
                 </div>
                 <div>
                   <h4 class="font-semibold text-gray-800 mb-1">账户状态</h4>
@@ -278,10 +269,12 @@
             </div>
 
             <div
-              class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-violet-50 rounded-lg border border-slate-300"
+              class="flex items-center justify-between p-4 rounded-lg border border-slate-300 hover:shadow-md duration-200"
             >
               <div class="flex items-center gap-3">
-                <div class="p-2 bg-purple-100 rounded-full">
+                <div
+                  class="p-2 bg-purple-100 rounded-full flex items-center justify-between"
+                >
                   <es-icon name="phone" :size="18" class="text-purple-600" />
                 </div>
                 <div>
@@ -344,53 +337,20 @@
     </div>
 
     <!-- 修改密码弹窗 -->
-    <el-dialog
-      v-model="showPasswordDialog"
+    <es-modal-form
+      v-if="showPasswordDialog"
+      v-model="passwordFormData"
+      v-model:show="showPasswordDialog"
       title="修改密码"
-      width="450px"
-      :close-on-click-modal="false"
-    >
-      <EsForm
-        ref="passwordFormRef"
-        :options="passwordFormOptions"
-        :model="passwordFormData"
-        label-width="100px"
-      />
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="showPasswordDialog = false">取消</el-button>
-          <el-button
-            type="primary"
-            :loading="passwordLoading"
-            @click="handleUpdatePassword"
-          >
-            确定
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+      :width="600"
+      :height="240"
+      :options="passwordFormOptions"
+      @submit="handleUpdatePassword"
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
-  :deep(.el-dialog) {
-    border-radius: 8px;
-  }
-
-  :deep(.el-dialog__header) {
-    padding: 20px 20px 10px;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  :deep(.el-dialog__body) {
-    padding: 20px;
-  }
-
-  :deep(.el-dialog__footer) {
-    padding: 10px 20px 20px;
-    border-top: 1px solid #e5e7eb;
-  }
-
   .request-log {
     :deep(.el-card__body) {
       height: 93%;
