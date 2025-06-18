@@ -1,12 +1,14 @@
 import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
-import type { EsToolbarProps, ToolbarFilter } from '@/components/es-toolbar/types'
+import type {
+  EsToolbarProps,
+  ToolbarFilter,
+} from '@/components/es-toolbar/types'
 
 export const tableColumns: EsTableColumn = [
   {
     label: '用户名',
     prop: 'username',
-    align: 'center',
     slotName: 'username',
   },
   {
@@ -33,6 +35,7 @@ export const tableColumns: EsTableColumn = [
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',
+    type: 'date',
   },
   {
     label: '操作',
@@ -56,11 +59,11 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: '启用',
-          value: 1,
+          value: true,
         },
         {
           label: '禁用',
-          value: 0,
+          value: false,
         },
       ],
     },
@@ -78,11 +81,11 @@ export const filter: ToolbarFilter = [
       options: [
         {
           label: '超级管理员',
-          value: 1,
+          value: true,
         },
         {
           label: '普通管理员',
-          value: 0,
+          value: false,
         },
       ],
     },
@@ -200,11 +203,11 @@ export const formOptions: EsFormOptions[] = [
       options: [
         {
           label: '超级管理员',
-          value: 1,
+          value: true,
         },
         {
           label: '普通管理员',
-          value: 0,
+          value: false,
         },
       ],
     },

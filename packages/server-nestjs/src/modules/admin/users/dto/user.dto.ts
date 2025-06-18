@@ -5,6 +5,7 @@ import {
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
+import { PageDto } from '@/common/dto/page.dto'
 import { utils } from '@/utils'
 import { TokenDto } from './token.dto'
 
@@ -20,9 +21,9 @@ export class UserDto {
   @ValidateString({
     description: '用户名',
     example: 'admin001',
-    required: false,
+    required: true,
     maxLength: 20,
-    minLength: 6,
+    minLength: 5,
   })
   username!: string
 
@@ -68,16 +69,7 @@ export class UserDto {
   updatedAt: Date
 }
 
-export class UserLoginDto {
-  @ValidateString({
-    description: '用户名',
-    example: 'admin',
-    required: true,
-    maxLength: 18,
-    minLength: 5,
-  })
-  username!: string
-
+export class UserLoginDto extends PickType(UserDto, ['username']) {
   @ValidateString({
     description: '密码',
     example: 'Aa@123456',
@@ -119,7 +111,6 @@ export class LoginResponseDto {
 export class UserRegisterDto extends OmitType(UserDto, [
   'id',
   'status',
-  'isRoot',
   'createdAt',
   'updatedAt',
 ]) {
@@ -143,7 +134,15 @@ export class UpdateUserDto extends OmitType(UserDto, [
   'isRoot',
   'createdAt',
   'updatedAt',
-]) {}
+]) {
+  @ValidateNumber({
+    description: '用户ID',
+    example: 1,
+    required: false,
+    min: 1,
+  })
+  id?: number
+}
 
 export class UpdatePasswordDto extends PickType(TokenDto, ['refreshToken']) {
   @ValidateString({
@@ -166,4 +165,38 @@ export class UpdatePasswordDto extends PickType(TokenDto, ['refreshToken']) {
     required: true,
   })
   confirmPassword!: string
+}
+
+export class UserPageDto extends PageDto {
+  @ValidateString({
+    description: '用户名',
+    example: 'admin001',
+    required: false,
+    maxLength: 20,
+  })
+  username?: string
+
+  @ValidateString({
+    description: '手机号',
+    example: '13800138000',
+    required: false,
+    maxLength: 11,
+  })
+  mobile?: string
+
+  @ValidateBoolean({
+    description: '用户状态',
+    example: true,
+    default: true,
+    required: false,
+  })
+  status?: boolean
+
+  @ValidateBoolean({
+    description: '用户状态',
+    example: false,
+    default: false,
+    required: false,
+  })
+  isRoot?: boolean
 }

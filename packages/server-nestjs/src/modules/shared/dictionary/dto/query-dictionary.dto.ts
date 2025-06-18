@@ -35,7 +35,7 @@ export class QueryDictionaryDto extends PageDto {
 /**
  * 查询数据字典项DTO
  */
-export class QueryDictionaryItemDto extends PageDto {
+export class QueryDictionaryItemDto {
   @ValidateString({
     description: '字典编码',
     example: 'user_status',

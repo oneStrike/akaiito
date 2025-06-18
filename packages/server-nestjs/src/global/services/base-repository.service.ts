@@ -207,24 +207,6 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
   }
 
   /**
-   * 根据ID查找单条记录
-   */
-  async findById(options: {
-    id: number | string
-    include?: InferModelTypes<TModelName>['Include']
-    select?: InferModelTypes<TModelName>['Select']
-    omit?: InferModelTypes<TModelName>['Omit']
-  }): Promise<InferModelTypes<TModelName>['Model'] | null> {
-    const { id, include, select, omit } = options
-    return this.model.findUnique({
-      where: { id } as InferModelTypes<TModelName>['WhereUniqueInput'],
-      ...(include && { include }),
-      ...(select && { select }),
-      ...(omit && { omit }),
-    })
-  }
-
-  /**
    * 根据条件查找单条记录
    */
   async findFirst(options?: {
@@ -344,9 +326,9 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
 
     return {
       list: data,
-        total,
-        pageIndex,
-        pageSize,
+      total,
+      pageIndex,
+      pageSize,
     }
   }
 
@@ -829,6 +811,5 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     ])
 
     return { total, active, deleted }
-
   }
 }

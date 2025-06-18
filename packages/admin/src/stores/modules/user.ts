@@ -29,6 +29,9 @@ export const useUserStore = defineStore('useUserStore', {
   }),
 
   actions: {
+    setUserInfo(userInfo: LoginTypesRes['user']) {
+      this.userInfo = userInfo
+    },
     // 登录
     async signIn(data: LoginTypesReq) {
       const res = await loginApi(data)

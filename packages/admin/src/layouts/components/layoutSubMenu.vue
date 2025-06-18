@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { RouteRecordRaw } from 'vue-router'
+  import type { RouteRecordRaw } from 'vue-router'
 
-export interface LayoutSubMenuProps {
-  menuInfo: RouteRecordRaw
-}
+  export interface LayoutSubMenuProps {
+    menuInfo: RouteRecordRaw
+  }
 
-withDefaults(defineProps<LayoutSubMenuProps>(), {})
+  withDefaults(defineProps<LayoutSubMenuProps>(), {})
 </script>
 
 <template>
@@ -30,4 +30,12 @@ withDefaults(defineProps<LayoutSubMenuProps>(), {})
   </el-sub-menu>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+  ::v-deep(.el-menu-item) {
+
+    &.is-active {
+      background: #ecf5ff;
+      border-radius: 6px;
+    }
+  }
+</style>

@@ -86,9 +86,10 @@ export class DictionaryController {
   }
 
   @Get('items')
-  @ApiPageDoc({
+  @ApiDoc({
     summary: '获取字典项',
     model: DictionaryItemDto,
+    isArray: true,
   })
   getItems(@Query() query: QueryDictionaryItemDto) {
     return this.dictionaryService.findDictionaryItems(query)

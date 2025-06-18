@@ -1,20 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Query,
-  Req,
-  UseInterceptors,
-} from '@nestjs/common'
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { FastifyRequest } from 'fastify'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { Public } from '@/common/decorators/public.decorator'
 import { IdDto } from '@/common/dto/id.dto'
-import { PageDto } from '@/common/dto/page.dto'
-import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
 import { AdminJwtPayload } from '@/modules/admin/auth/admin-jwt.service'
 import {
   RefreshTokenDto,
@@ -27,6 +17,7 @@ import {
   UpdateUserDto,
   UserDto,
   UserLoginDto,
+  UserPageDto,
   UserRegisterDto,
 } from '@/modules/admin/users/dto/user.dto'
 import { UserService } from '@/modules/admin/users/user.service'
@@ -43,8 +34,6 @@ export class UserController {
 
   /**
    * 获取验证码接口
-   * 返回生成的验证码信息
-   * @returns 验证码数据对象
    */
   @Get('getCaptcha')
   @ApiDoc({
@@ -58,9 +47,6 @@ export class UserController {
 
   /**
    * 用户登录接口
-   * 验证用户凭据并返回用户信息和令牌
-   * @param body 登录请求体，包含用户名和密码等信息
-   * @returns 登录成功后的用户数据及访问令牌
    */
   @Post('login')
   @ApiDoc({
@@ -74,7 +60,6 @@ export class UserController {
 
   /**
    * 管理员登出接口
-   * 将当前访问令牌添加到黑名单中
    */
   @Post('logout')
   @ApiDoc({
@@ -89,22 +74,15 @@ export class UserController {
 
   /**
    * 用户注册接口
-   * 创建新用户并返回注册结果
-   * @param body 注册请求体，包含用户名、密码和手机号
-   * @returns 注册成功后的用户数据
    */
   @Post('register')
   @ApiDoc({
     summary: '用户注册',
-    model: UserDto,
+    model: IdDto,
   })
   @Public()
   register(@Body() body: UserRegisterDto) {
-    // 验证密码是否一致
-    if (body.password !== body.confirmPassword) {
-      throw new Error('两次输入的密码不一致')
-    }
-    return this.userService.register(body.username, body.password, body.mobile)
+    return this.userService.register(body)
   }
 
   /**
@@ -190,17 +168,22 @@ export class UserController {
 
   /**
    * 获取管理端用户分页列表接口
-   * 返回按页码和每页数量分页的用户列表数据
-   * @param query 分页查询参数对象，包含 pageIndex 和 pageSize
-   * @returns 分页用户列表数据及总条数
    */
   @Get('getAdminUserPage')
   @ApiPageDoc({
     summary: '获取管理端用户分页列表',
     model: UserDto,
   })
-  @UseInterceptors(useClassSerializerInterceptor(UserDto))
-  getUsers(@Query() query: PageDto) {
-    return this.userService.getUsers(query.pageIndex, query.pageSize)
+  getUsers(@Query() query: UserPageDto) {
+    return this.userService.getUsers(query)
+  }
+
+  @Post('deleteUser')
+  @ApiDoc({
+    summary: '删除用户',
+    model: IdDto,
+  })
+  async deleteUser(@Body() query: IdDto) {
+    return this.userService.delete({ where: { id: query.id } })
   }
 }

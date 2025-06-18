@@ -43,18 +43,13 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
    * @returns 分页数据
    */
   async findDictionaryItems(queryDto: QueryDictionaryItemDto) {
-    const {
-      pageIndex = 0,
-      pageSize = 15,
-      dictionaryCode,
-      name,
-      code,
-      isEnabled,
-    } = queryDto
+    const { dictionaryCode, name, code, isEnabled } = queryDto
 
     // 构建查询条件
     const where: DictionaryItemWhereInput = {
-      dictionaryCode,
+      dictionaryCode: {
+        in: dictionaryCode.split(','),
+      },
     }
     if (name) {
       where.name = { contains: name }
@@ -66,22 +61,10 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
       where.isEnabled = isEnabled
     }
 
-    const [data, total] = await Promise.all([
-      this.prisma.dictionaryItem.findMany({
-        where,
-        skip: pageIndex * pageSize,
-        take: pageSize,
-        orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
-      }),
-      this.prisma.dictionaryItem.count({ where }),
-    ])
-
-    return {
-      list: data,
-      total,
-      pageIndex,
-      pageSize,
-    }
+    return this.prisma.dictionaryItem.findMany({
+      where,
+      orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
+    })
   }
 
   /**

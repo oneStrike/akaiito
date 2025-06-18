@@ -89,8 +89,8 @@
       })
 
       // 更新表格数据
-      tableData.value = response.list || []
-      total.value = response.total || 0
+      tableData.value = Array.isArray(response) ? response : response.list || []
+      total.value = response.total || tableData.value.length
     } catch (error) {
       console.error('获取表格数据失败:', error)
       // 出错时清空数据
