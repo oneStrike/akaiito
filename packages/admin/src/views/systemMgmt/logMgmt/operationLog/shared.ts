@@ -1,14 +1,7 @@
 import type { EsTableColumn } from '@/components/es-table/types'
 import type { ToolbarFilter } from '@/components/es-toolbar/types'
-import { utils } from '@/utils'
 
 export const tableColumns: EsTableColumn = [
-  {
-    label: '手机号',
-    prop: 'userMobile',
-    align: 'center',
-    defaultValue: '-',
-  },
   {
     label: '操作者',
     prop: 'username',
@@ -18,23 +11,23 @@ export const tableColumns: EsTableColumn = [
 
   {
     label: '请求信息',
-    prop: 'apiSummary',
+    prop: 'operationDescription',
     align: 'center',
   },
   {
     label: '请求方式',
-    prop: 'requestMethod',
+    prop: 'httpMethod',
     align: 'center',
   },
 
   {
     label: '操作IP',
-    prop: 'targetIp',
+    prop: 'ipAddress',
     align: 'center',
   },
   {
     label: '操作IP地址',
-    prop: 'ipMappingAddress',
+    prop: 'ipLocation',
     align: 'center',
   },
 
@@ -51,6 +44,7 @@ export const tableColumns: EsTableColumn = [
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',
+    type: 'date',
   },
 ]
 
@@ -102,7 +96,7 @@ export const filter: ToolbarFilter = [
     },
   },
   {
-    field: 'requestMethod',
+    field: 'httpMethod',
     component: 'Select',
     props: {
       span: 6,
@@ -122,15 +116,13 @@ export const filter: ToolbarFilter = [
     },
   },
   {
-    field: 'userMobile',
+    field: 'username',
     component: 'Input',
     props: {
       span: 6,
     },
     componentProps: {
-      placeholder: '手机号',
-      clearable: true,
-      maxlength: 11,
+      placeholder: '操作账号',
     },
   },
 ]

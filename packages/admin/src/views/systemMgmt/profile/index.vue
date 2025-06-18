@@ -26,6 +26,7 @@
     oldPassword: 'Aa@123456',
     newPassword: 'Aa@123456',
     confirmPassword: 'Aa@123456',
+    refreshToken: userStore.token.refreshToken,
   })
 
   /**
@@ -95,10 +96,7 @@
     try {
       // 表单验证
       passwordLoading.value = true
-      await updatePasswordApi({
-        ...passwordFormData,
-        refreshToken: userStore.token.refreshToken,
-      })
+      await updatePasswordApi(passwordFormData)
       useMessage.success('修改密码成功')
       showPasswordDialog.value = false
       userStore.token.accessToken = ''
@@ -126,7 +124,7 @@
     <!-- 主要内容区域 -->
     <div class="flex gap-5 flex-1 overflow-hidden">
       <!-- 左侧：用户信息和安全设置 -->
-      <div class="flex-1 flex flex-col gap-5 overflow-y-auto h-full">
+      <div class="flex-1 flex flex-col gap-5 h-full overflow-y-auto">
         <!-- 用户信息 -->
         <el-card class="hover:shadow-lg transition-all duration-300">
           <template #header>
@@ -238,7 +236,7 @@
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="p-2 bg-blue-100 rounded-full flex items-center justify-between"
+                  class="flex items-center justify-between p-2 bg-blue-100 rounded-full"
                 >
                   <es-icon name="lock" :size="18" class="text-blue-600" />
                 </div>
@@ -263,7 +261,7 @@
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="p-2 bg-green-100 rounded-full flex items-center justify-between"
+                  class="p-2 rounded-full flex items-center justify-between bg-green-100"
                 >
                   <es-icon name="user" :size="18" class="text-green-600" />
                 </div>
@@ -280,7 +278,7 @@
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="p-2 bg-purple-100 rounded-full flex items-center justify-between"
+                  class="p-2 rounded-full flex items-center justify-between bg-purple-100"
                 >
                   <es-icon name="phone" :size="18" class="text-purple-600" />
                 </div>
@@ -303,7 +301,7 @@
       </div>
 
       <!-- 右侧：登录日志 -->
-      <div class="overflow-hidden w-2/3 request-log h-full">
+      <div class="overflow-hidden h-full w-2/3 request-log">
         <el-card
           class="flex flex-col h-full hover:shadow-lg transition-all duration-300"
         >

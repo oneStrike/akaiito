@@ -3,23 +3,18 @@ import type { ToolbarFilter } from '@/components/es-toolbar/types'
 
 export const tableColumns: EsTableColumn = [
   {
-    label: '手机号',
-    prop: 'userMobile',
-    align: 'center',
-  },
-  {
     label: '登录者',
     prop: 'username',
     align: 'center',
   },
   {
     label: '登录IP',
-    prop: 'targetIp',
+    prop: 'ipAddress',
     align: 'center',
   },
   {
     label: '登录地址',
-    prop: 'ipMappingAddress',
+    prop: 'ipLocation',
     align: 'center',
   },
   {
@@ -35,6 +30,7 @@ export const tableColumns: EsTableColumn = [
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',
+    type: 'date',
   },
 ]
 
@@ -71,15 +67,14 @@ export const filter: ToolbarFilter = [
     },
   },
   {
-    field: 'userMobile',
+    field: 'username',
     component: 'Input',
     props: {
       span: 6,
     },
     componentProps: {
-      placeholder: '手机号',
+      placeholder: '登录账号',
       clearable: true,
-      maxlength: 11,
     },
   },
 ]
