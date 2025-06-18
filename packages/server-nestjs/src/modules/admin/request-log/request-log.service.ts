@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
-import { Prisma } from '@/prisma/client'
 import {
   CreateRequestLogDto,
   QueryRequestLogDto,
@@ -34,7 +33,7 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
     return this.findManyWithCommonPagination({
       ...queryDto,
       where: {
-        OR: [
+        AND: [
           { username: { contains: queryDto.username } },
           { userId: queryDto.userId },
           { responseCode: queryDto.responseCode },
