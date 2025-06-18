@@ -73,7 +73,7 @@ export const useUserStore = defineStore('useUserStore', {
     // 退出登录
     async signOut() {
       if (this.token.accessToken) {
-        await logoutApi()
+        await logoutApi(this.token)
       }
       this.token = {
         accessToken: '',

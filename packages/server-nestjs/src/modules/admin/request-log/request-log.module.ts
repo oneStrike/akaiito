@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common'
 import { MaxMindModule } from '@/common/module/maxmind/maxmind.module'
-import { PrismaService } from '@/global/services/prisma.service'
 import { AdminRequestLogInterceptor } from './interceptors/request-log.interceptor'
 import { RequestLogController } from './request-log.controller'
 import { RequestLogService } from './request-log.service'
@@ -22,7 +21,6 @@ import { RequestLogService } from './request-log.service'
   controllers: [RequestLogController],
   providers: [
     RequestLogService,
-    PrismaService, // 注入Prisma服务用于数据库操作
     AdminRequestLogInterceptor,
   ],
   exports: [

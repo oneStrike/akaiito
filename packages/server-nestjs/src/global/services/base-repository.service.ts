@@ -829,5 +829,6 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
     ])
 
     return { total, active, deleted }
+
   }
 }

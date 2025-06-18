@@ -3,7 +3,7 @@
  *  @标签 管理端请求日志模块/分页查询请求日志
  *  @方式 GET
  *  @地址 /api/admin/request-log/page
- *  @更新时间 2025-06-16 01:17:11
+ *  @更新时间 2025-06-18 17:02:21
  */
 
 export interface PageTypesReq {
@@ -28,9 +28,6 @@ export interface PageTypesReq {
   /* 用户ID精确查询 */
   userId?: number
 
-  /* IP地址模糊查询 */
-  ipAddress?: string
-
   /* 响应状态码 */
   responseCode?: number
 
@@ -51,20 +48,47 @@ export interface PageTypesRes {
   /* 总条数 */
   total: number
   list: {
-    /* 请求日志列表 */
-    data: {}[]
+    /* 主键ID */
+    id: number
 
-    /* 总记录数 */
-    total: number
+    /* 用户名 */
+    username?: string
 
-    /* 当前页码 */
-    page: number
+    /* 用户主键ID */
+    userId?: number
 
-    /* 每页大小 */
-    pageSize: number
+    /* 调用IP地址 */
+    ipAddress: string
 
-    /* 总页数 */
-    totalPages: number
+    /* IP映射地址 */
+    ipLocation: string
+
+    /* 响应状态码 */
+    responseCode: number
+
+    /* 响应描述 */
+    responseMessage: string
+
+    /* 请求方法 */
+    httpMethod: string
+
+    /* 请求路径 */
+    requestPath: string
+
+    /* 接口描述信息 */
+    operationDescription: string
+
+    /* 浏览器信息标识 */
+    userAgent: string
+
+    /* 请求参数 */
+    requestParams?: string
+
+    /* 创建时间 */
+    createdAt: string
+
+    /* 更新时间 */
+    updatedAt: string
   }[]
 }
 
@@ -73,7 +97,7 @@ export interface PageTypesRes {
  *  @标签 管理端请求日志模块/查询请求日志详情
  *  @方式 GET
  *  @地址 /api/admin/request-log/detail
- *  @更新时间 2025-06-16 01:17:11
+ *  @更新时间 2025-06-18 17:02:21
  */
 
 export interface DetailTypesReq {

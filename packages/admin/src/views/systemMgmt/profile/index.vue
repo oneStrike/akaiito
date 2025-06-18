@@ -7,12 +7,15 @@
   import { onMounted, reactive, ref } from 'vue'
   import * as requestLogApi from '@/apis/request-log.ts'
   import { getUserInfoApi, updatePasswordApi } from '@/apis/user.ts'
+  import { useUserStore } from '@/stores/modules/user.ts'
   import { loginLogsColumns, loginLogsFilter } from './shared.ts'
 
   /**
    * 用户信息数据
    */
   const userInfo = ref<GetUserInfoTypesRes | null>(null)
+
+  const userStore = useUserStore()
 
   /**
    * 修改密码相关状态
@@ -89,13 +92,17 @@
    * 处理修改密码
    */
   const handleUpdatePassword = async () => {
-    console.log(123)
     try {
       // 表单验证
       passwordLoading.value = true
-      await updatePasswordApi(passwordFormData)
+      await updatePasswordApi({
+        ...passwordFormData,
+        refreshToken: userStore.token.refreshToken,
+      })
       useMessage.success('修改密码成功')
       showPasswordDialog.value = false
+      userStore.token.accessToken = ''
+      await userStore.signOut()
     } finally {
       passwordLoading.value = false
     }

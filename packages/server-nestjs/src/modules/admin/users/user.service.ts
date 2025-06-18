@@ -3,15 +3,17 @@ import * as process from 'node:process'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
 import { Cache } from 'cache-manager'
+import { FastifyRequest } from 'fastify'
 import * as svgCaptcha from 'svg-captcha'
 import { v4 as uuid } from 'uuid'
 import { CryptoService } from '@/common/module/jwt/crypto.service'
 import { RsaService } from '@/common/module/jwt/rsa.service'
 import { PrismaService } from '@/global/services/prisma.service'
 import { AdminJwtService } from '@/modules/admin/auth/admin-jwt.service'
-import { CacheKey } from '@/modules/admin/users/user.constant'
 
-import { UpdateUserDto, UserLoginDto } from './dto/user.dto'
+import { TokenDto } from '@/modules/admin/users/dto/token.dto'
+import { CacheKey } from '@/modules/admin/users/user.constant'
+import { UpdatePasswordDto, UpdateUserDto, UserLoginDto } from './dto/user.dto'
 
 @Injectable()
 export class UserService {
@@ -120,30 +122,10 @@ export class UserService {
   /**
    * 退出登录
    */
-  async logout(req: any) {
-    try {
-      // 从请求头中提取访问令牌
-      const authHeader = req.headers.authorization
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return { success: false, message: 'No token provided' }
-      }
-
-      const accessToken = authHeader.substring(7) // 去掉 'Bearer ' 前缀
-
-      // 从请求中获取刷新令牌（如果有）
-      const refreshToken = req.body?.refreshToken
-
-      // 将令牌添加到黑名单
-      const success = await this.adminJwtService.logout(
-        accessToken,
-        refreshToken,
-      )
-
-      return { success }
-    } catch (error) {
-      console.error('Logout error:', error)
-      return { success: false, message: 'Logout failed' }
-    }
+  async logout(body: TokenDto) {
+    const { accessToken, refreshToken } = body
+    // 将令牌添加到黑名单
+    return this.adminJwtService.logout(accessToken, refreshToken)
   }
 
   /**
@@ -164,9 +146,17 @@ export class UserService {
    */
   async updatePassword(
     userId: number,
-    oldPassword: string,
-    newPassword: string,
+    body: UpdatePasswordDto,
+    req: FastifyRequest,
   ) {
+    const { oldPassword, newPassword, confirmPassword, refreshToken } = body
+    if (newPassword !== confirmPassword) {
+      throw new HttpException('新密码和确认密码不一致', HttpStatus.BAD_REQUEST)
+    }
+
+    const authHeader = req.headers.authorization!
+    const accessToken = authHeader.substring(7) // 去掉 'Bearer ' 前缀
+
     // 查找用户
     const user = await this.prisma.adminUser.findUnique({
       where: { id: userId },
@@ -175,7 +165,6 @@ export class UserService {
     if (!user) {
       throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
     }
-    console.log(user)
 
     // 验证旧密码
     const isPasswordValid = await this.crypto.verifyPassword(
@@ -189,6 +178,8 @@ export class UserService {
     // 加密新密码
     const encryptedPassword = await this.crypto.encryptPassword(newPassword)
 
+    await this.adminJwtService.logout(accessToken, refreshToken)
+
     await this.prisma.adminUser.update({
       where: { id: userId },
       data: { password: encryptedPassword },
@@ -196,8 +187,6 @@ export class UserService {
         id: true,
       },
     })
-
-    await this.adminJwtService.logout()
 
     return userId
   }

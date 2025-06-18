@@ -1,4 +1,4 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger'
+import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import {
   ValidateBoolean,
   ValidateByRegex,
@@ -145,7 +145,7 @@ export class UpdateUserDto extends OmitType(UserDto, [
   'updatedAt',
 ]) {}
 
-export class UpdatePasswordDto {
+export class UpdatePasswordDto extends PickType(TokenDto, ['refreshToken']) {
   @ValidateString({
     description: '密码',
     example: 'Aa@123456',

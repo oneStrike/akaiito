@@ -254,7 +254,6 @@ export class UploadService {
             this.logger.log(
               `文件上传成功: ${file.filename} (${fileSize} bytes, ${processingTime}ms, hash: ${fileHash})`,
             )
-            console.log(this.uploadPath)
             // 计算相对路径（相对于uploads目录）
             const filePath = fullPath
               .replace(process.cwd(), '')

@@ -2,14 +2,13 @@ import {
   Body,
   Controller,
   Get,
-  HttpException,
-  HttpStatus,
   Post,
   Query,
   Req,
   UseInterceptors,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
+import { FastifyRequest } from 'fastify'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { Public } from '@/common/decorators/public.decorator'
@@ -20,6 +19,7 @@ import { AdminJwtPayload } from '@/modules/admin/auth/admin-jwt.service'
 import {
   RefreshTokenDto,
   RefreshTokenResponseDto,
+  TokenDto,
 } from '@/modules/admin/users/dto/token.dto'
 import {
   LoginResponseDto,
@@ -75,19 +75,16 @@ export class UserController {
   /**
    * 管理员登出接口
    * 将当前访问令牌添加到黑名单中
-   * @param req 请求对象，包含授权头
-   * @returns 登出结果
    */
   @Post('logout')
   @ApiDoc({
     summary: '管理员登出',
     model: {
-      type: 'object',
-      properties: { success: { type: 'boolean' } },
+      type: 'boolean',
     },
   })
-  async logout(@Req() req: any) {
-    return this.userService.logout(req)
+  async logout(@Body() body: TokenDto) {
+    return this.userService.logout(body)
   }
 
   /**
@@ -128,10 +125,6 @@ export class UserController {
 
   /**
    * 修改密码接口
-   * 根据当前用户身份验证旧密码并更新为新密码
-   * @param body 包含旧密码、新密码和确认密码的数据对象
-   * @param user 当前登录用户的身份信息
-   * @returns 修改密码后的用户信息
    */
   @Post('updatePassword')
   @ApiDoc({
@@ -141,16 +134,9 @@ export class UserController {
   updatePassword(
     @Body() body: UpdatePasswordDto,
     @CurrentUser() user: AdminJwtPayload,
+    @Req() req: FastifyRequest,
   ) {
-    // 验证新密码是否一致
-    if (body.newPassword !== body.confirmPassword) {
-      throw new HttpException('新密码和确认密码不一致', HttpStatus.BAD_REQUEST)
-    }
-    return this.userService.updatePassword(
-      Number.parseInt(user.sub),
-      body.oldPassword,
-      body.newPassword,
-    )
+    return this.userService.updatePassword(Number.parseInt(user.sub), body, req)
   }
 
   /**
