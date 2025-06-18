@@ -31,35 +31,16 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
    * @returns 分页查询结果
    */
   async findRequestLogs(queryDto: QueryRequestLogDto) {
-    // 构建查询条件
-    const whereConditions: Prisma.SystemRequestLogWhereInput = {}
-
-    // 用户名模糊查询
-    if (queryDto.username) {
-      whereConditions.username = {
-        contains: queryDto.username,
-        mode: 'insensitive',
-      }
-    }
-
-    // 用户ID精确查询
-    if (queryDto.userId) {
-      whereConditions.userId = queryDto.userId
-    }
-
-    // 响应状态码精确查询
-    if (queryDto.responseCode) {
-      whereConditions.responseCode = queryDto.responseCode
-    }
-
-    // 请求方法精确查询
-    if (queryDto.httpMethod) {
-      whereConditions.httpMethod = queryDto.httpMethod
-    }
-
     return this.findManyWithCommonPagination({
       ...queryDto,
-      where: whereConditions,
+      where: {
+        OR: [
+          { username: { contains: queryDto.username } },
+          { userId: queryDto.userId },
+          { responseCode: queryDto.responseCode },
+          { httpMethod: queryDto.httpMethod },
+        ],
+      },
     })
   }
 
@@ -85,161 +66,6 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
       return requestLog as RequestLogDto
     } catch (error) {
       this.logger.error(`查询请求日志详情失败: ${error.message}`, error.stack)
-      throw error
-    }
-  }
-
-  /**
-   * 批量删除请求日志
-   * @param ids 要删除的请求日志ID数组
-   * @returns 删除的记录数量
-   */
-  async deleteRequestLogs(ids: number[]): Promise<number> {
-    try {
-      this.logger.log(`批量删除请求日志，IDs: ${ids.join(', ')}`)
-
-      const result = await this.prisma.systemRequestLog.deleteMany({
-        where: {
-          id: {
-            in: ids,
-          },
-        },
-      })
-
-      this.logger.log(`批量删除请求日志成功，删除 ${result.count} 条记录`)
-      return result.count
-    } catch (error) {
-      this.logger.error(`批量删除请求日志失败: ${error.message}`, error.stack)
-      throw error
-    }
-  }
-
-  /**
-   * 清理过期的请求日志
-   * @param daysToKeep 保留天数，默认30天
-   * @returns 删除的记录数量
-   */
-  async cleanupExpiredLogs(daysToKeep: number = 30): Promise<number> {
-    try {
-      this.logger.log(`开始清理 ${daysToKeep} 天前的请求日志`)
-
-      const cutoffDate = new Date()
-      cutoffDate.setDate(cutoffDate.getDate() - daysToKeep)
-
-      const result = await this.prisma.systemRequestLog.deleteMany({
-        where: {
-          createdAt: {
-            lt: cutoffDate,
-          },
-        },
-      })
-
-      this.logger.log(`清理过期请求日志完成，删除 ${result.count} 条记录`)
-      return result.count
-    } catch (error) {
-      this.logger.error(`清理过期请求日志失败: ${error.message}`, error.stack)
-      throw error
-    }
-  }
-
-  /**
-   * 获取请求日志统计信息
-   * @param startDate 开始日期
-   * @param endDate 结束日期
-   * @returns 统计信息
-   */
-  async getRequestLogStatistics(startDate?: string, endDate?: string) {
-    try {
-      this.logger.log('获取请求日志统计信息')
-
-      const whereConditions: Prisma.SystemRequestLogWhereInput = {}
-
-      // 时间范围查询
-      if (startDate || endDate) {
-        whereConditions.createdAt = {}
-        if (startDate) {
-          whereConditions.createdAt.gte = new Date(startDate)
-        }
-        if (endDate) {
-          const endDateObj = new Date(endDate)
-          endDateObj.setDate(endDateObj.getDate() + 1)
-          whereConditions.createdAt.lt = endDateObj
-        }
-      }
-
-      // 总请求数
-      const totalRequests = await this.prisma.systemRequestLog.count({
-        where: whereConditions,
-      })
-
-      // 成功请求数（2xx状态码）
-      const successRequests = await this.prisma.systemRequestLog.count({
-        where: {
-          ...whereConditions,
-          responseCode: {
-            gte: 200,
-            lt: 300,
-          },
-        },
-      })
-
-      // 错误请求数（4xx和5xx状态码）
-      const errorRequests = await this.prisma.systemRequestLog.count({
-        where: {
-          ...whereConditions,
-          responseCode: {
-            gte: 400,
-          },
-        },
-      })
-
-      // 按请求方法统计
-      const methodStats = await this.prisma.systemRequestLog.groupBy({
-        by: ['httpMethod'],
-        where: whereConditions,
-        _count: {
-          id: true,
-        },
-      })
-
-      // 按状态码统计
-      const statusCodeStats = await this.prisma.systemRequestLog.groupBy({
-        by: ['responseCode'],
-        where: whereConditions,
-        _count: {
-          id: true,
-        },
-        orderBy: {
-          _count: {
-            id: 'desc',
-          },
-        },
-      })
-
-      this.logger.log('请求日志统计信息获取完成')
-
-      return {
-        totalRequests,
-        successRequests,
-        errorRequests,
-        successRate:
-          totalRequests > 0
-            ? ((successRequests / totalRequests) * 100).toFixed(2)
-            : '0.00',
-        methodStats: methodStats.map((stat) => ({
-          method: stat.httpMethod,
-          count: stat._count.id,
-        })),
-        statusCodeStats: statusCodeStats.map((stat) => ({
-          statusCode: stat.responseCode,
-          count: stat._count.id,
-        })),
-      }
-    } catch (error) {
-      this.logger.error(
-        `获取请求日志统计信息失败: ${error.message}`,
-        error.stack,
-      )
       throw error
     }
   }

@@ -1,7 +1,3 @@
-import type {
-  DictionaryItemWhereInput,
-  DictionaryWhereInput,
-} from '@/prisma/client/models'
 import { Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { CreateDictionaryItemDto } from './dto/dictionary-item.dto'
@@ -24,17 +20,28 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
    * @returns 分页数据
    */
   async findDictionaries(queryDto: QueryDictionaryDto) {
-    const where: DictionaryWhereInput = {}
-    if (queryDto.code) {
-      where.code = { contains: queryDto.code }
-    }
-    if (queryDto.name) {
-      where.name = { contains: queryDto.name }
-    }
-    if (queryDto.isEnabled !== undefined) {
-      where.isEnabled = queryDto.isEnabled
-    }
-    return this.findManyWithCommonPagination({ where, ...queryDto })
+    return this.findManyWithCommonPagination({
+      where: {
+        AND: [
+          {
+            code: {
+              contains: queryDto.code,
+            },
+          },
+          {
+            name: {
+              contains: queryDto.name,
+            },
+          },
+          {
+            isEnabled: {
+              equals: queryDto.isEnabled,
+            },
+          },
+        ],
+      },
+      ...queryDto,
+    })
   }
 
   /**
@@ -45,24 +52,29 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
   async findDictionaryItems(queryDto: QueryDictionaryItemDto) {
     const { dictionaryCode, name, code, isEnabled } = queryDto
 
-    // 构建查询条件
-    const where: DictionaryItemWhereInput = {
-      dictionaryCode: {
-        in: dictionaryCode.split(','),
-      },
-    }
-    if (name) {
-      where.name = { contains: name }
-    }
-    if (code) {
-      where.code = { contains: code }
-    }
-    if (isEnabled !== undefined) {
-      where.isEnabled = isEnabled
-    }
-
     return this.prisma.dictionaryItem.findMany({
-      where,
+      where: {
+        dictionaryCode: {
+          in: dictionaryCode.split(','),
+        },
+        AND: [
+          {
+            code: {
+              contains: code,
+            },
+          },
+          {
+            name: {
+              contains: name,
+            },
+          },
+          {
+            isEnabled: {
+              equals: isEnabled,
+            },
+          },
+        ],
+      },
       orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
     })
   }
