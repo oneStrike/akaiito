@@ -331,9 +331,12 @@ export class UserService extends BaseRepositoryService<'AdminUser'> {
         },
       ],
     }
-    return this.findManyWithCommonPagination({
+    return this.findPagination({
       where,
       ...queryDto,
+      omit: {
+        password: true,
+      },
     })
   }
 }

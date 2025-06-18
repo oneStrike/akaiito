@@ -72,16 +72,4 @@ export const loginLogsFilter: EsFormOptions[] = [
       ],
     },
   },
-  {
-    field: 'userMobile',
-    component: 'Input',
-    props: {
-      span: 4,
-    },
-    componentProps: {
-      placeholder: '手机号',
-      clearable: true,
-      maxlength: 11,
-    },
-  },
 ]

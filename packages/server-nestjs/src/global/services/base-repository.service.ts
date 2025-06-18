@@ -259,7 +259,7 @@ export abstract class BaseRepositoryService<TModelName extends ModelName> {
   /**
    * 通用分页查询
    */
-  async findManyWithCommonPagination(
+  async findPagination(
     options?: CommonPaginationOptions<TModelName>,
   ): Promise<PaginationResult<InferModelTypes<TModelName>['Model']>> {
     const {

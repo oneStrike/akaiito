@@ -1,13 +1,6 @@
-import {
-  Controller,
-  Get,
-  ParseIntPipe,
-  Query,
-  UseInterceptors,
-} from '@nestjs/common'
+import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
 import { QueryRequestLogDto, RequestLogDto } from './dto/request-log.dto'
 import { RequestLogService } from './request-log.service'
 
@@ -17,7 +10,6 @@ import { RequestLogService } from './request-log.service'
  */
 @ApiTags('管理端请求日志模块')
 @Controller('admin/request-log')
-@UseInterceptors(useClassSerializerInterceptor(RequestLogDto))
 export class RequestLogController {
   constructor(private readonly requestLogService: RequestLogService) {}
 

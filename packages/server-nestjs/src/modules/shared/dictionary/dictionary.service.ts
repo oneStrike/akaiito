@@ -20,7 +20,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
    * @returns 分页数据
    */
   async findDictionaries(queryDto: QueryDictionaryDto) {
-    return this.findManyWithCommonPagination({
+    return this.findPagination({
       where: {
         AND: [
           {

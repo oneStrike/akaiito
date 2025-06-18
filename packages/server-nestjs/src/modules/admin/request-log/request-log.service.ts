@@ -30,7 +30,8 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
    * @returns 分页查询结果
    */
   async findRequestLogs(queryDto: QueryRequestLogDto) {
-    return this.findManyWithCommonPagination({
+    console.log(queryDto)
+    return this.findPagination({
       ...queryDto,
       where: {
         AND: [
@@ -38,6 +39,7 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
           { userId: queryDto.userId },
           { responseCode: queryDto.responseCode },
           { httpMethod: queryDto.httpMethod },
+          { requestPath: queryDto.requestPath },
         ],
       },
     })
