@@ -108,6 +108,7 @@
 
   const tableRef = templateRef('tableRef')
   const loginLogsParams = ref({
+    requestPath: '/api/admin/user/login',
     username: userStore.userInfo?.username,
   })
 

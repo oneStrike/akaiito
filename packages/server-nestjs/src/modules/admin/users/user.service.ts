@@ -90,7 +90,7 @@ export class UserService extends BaseRepositoryService<'AdminUser'> {
     // 查找用户
     const user = await this.prisma.adminUser.findFirst({
       where: {
-        OR: [{ username: body.username }, { mobile: body.username }],
+        OR: [{ username: body.username }],
       },
     })
     if (!user) {
