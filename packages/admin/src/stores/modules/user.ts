@@ -39,8 +39,8 @@ export const useUserStore = defineStore('useUserStore', {
       this.token = {
         accessToken: res.tokens.accessToken,
         refreshToken: res.tokens.refreshToken,
-        accessExpiresIn: expiresIn.accessToken + timestamp,
-        refreshExpiresIn: expiresIn.refreshToken + timestamp,
+        accessExpiresIn: expiresIn.accessToken / 1000 + timestamp, // 转换为秒
+        refreshExpiresIn: expiresIn.refreshToken / 1000 + timestamp, // 转换为秒
       }
     },
 
@@ -55,14 +55,30 @@ export const useUserStore = defineStore('useUserStore', {
 
     // 刷新token
     async renewToken() {
-      if (!this.getAuthStatus() && this.token.accessToken) {
+      const timestamp = utils.dayjs().unix()
+      const accessTokenWillExpireIn5Min =
+        this.token.accessExpiresIn - timestamp <= 300 // 5分钟 = 300秒
+      const accessTokenExpired = this.token.accessExpiresIn <= timestamp
+      const refreshTokenValid = this.getAuthStatus('refresh')
+
+      // 在accessToken到期前5分钟或已过期，且refreshToken有效时才刷新
+      if (
+        (accessTokenWillExpireIn5Min || accessTokenExpired) &&
+        refreshTokenValid &&
+        this.token.accessToken
+      ) {
         try {
-          this.token.accessToken = await refreshTokenApi({
+          const { tokens } = await refreshTokenApi({
             refreshToken: this.token.refreshToken,
           })
+          this.token.accessToken = tokens.accessToken
+          this.token.refreshToken = tokens.refreshToken
           const { expiresIn } = config.auth
-          const timestamp = utils.dayjs().unix()
-          this.token.accessExpiresIn = expiresIn.accessToken + timestamp
+          const newTimestamp = utils.dayjs().unix()
+          this.token.accessExpiresIn =
+            expiresIn.accessToken / 1000 + newTimestamp // 转换为秒
+          this.token.refreshExpiresIn =
+            expiresIn.refreshToken / 1000 + newTimestamp // 转换为秒
         } catch (e) {
           this.signOut()
           throw new Error('token失效')

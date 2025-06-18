@@ -132,13 +132,7 @@ export class UserService {
    * 刷新访问令牌
    */
   async refreshToken(refreshToken: string) {
-    try {
-      // 验证刷新令牌并获取新的访问令牌
-      const tokens = await this.adminJwtService.refreshAccessToken(refreshToken)
-      return { tokens }
-    } catch (error) {
-      throw new HttpException('无效的刷新令牌', HttpStatus.UNAUTHORIZED)
-    }
+    return this.adminJwtService.refreshAccessToken(refreshToken)
   }
 
   /**
