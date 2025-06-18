@@ -13,11 +13,11 @@
       :request-api="requestLogApi.pageApi"
     >
       <template #responseCode="{ row }">
-        <el-text v-if="row.responseCode === 200" class="mx-1" type="success">
-          操作成功
-        </el-text>
-        <el-text v-else class="mx-1" type="danger">
-          {{ row.responseDesc }}
+        <el-text
+          class="mx-1"
+          :type="row.responseCode === 200 ? 'success' : 'danger'"
+        >
+          {{ row.responseCode }}
         </el-text>
       </template>
     </es-table>

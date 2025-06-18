@@ -3,9 +3,19 @@ import type { ToolbarFilter } from '@/components/es-toolbar/types'
 
 export const tableColumns: EsTableColumn = [
   {
-    label: '登录者',
+    label: '登录账号',
     prop: 'username',
     align: 'center',
+    formatter: (row) => {
+      if (row.username) {
+        return row.username
+      }
+      if (!row.requestParams) {
+        return '-'
+      }
+      const { body } = JSON.parse(row.requestParams)
+      return body.username
+    },
   },
   {
     label: '登录IP',
@@ -13,7 +23,7 @@ export const tableColumns: EsTableColumn = [
     align: 'center',
   },
   {
-    label: '登录地址',
+    label: 'IP地址',
     prop: 'ipLocation',
     align: 'center',
   },

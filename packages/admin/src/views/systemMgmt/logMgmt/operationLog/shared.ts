@@ -32,10 +32,15 @@ export const tableColumns: EsTableColumn = [
   },
 
   {
-    label: '操作结果',
+    label: '状态码',
     prop: 'responseCode',
     align: 'center',
     slotName: 'responseCode',
+  },
+  {
+    label: '操作结果',
+    prop: 'responseMessage',
+    align: 'center',
   },
   {
     label: '操作时间',
