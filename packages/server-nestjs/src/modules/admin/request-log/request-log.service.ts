@@ -33,7 +33,7 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
     const { username, userId, responseCode, httpMethod, requestPath } = queryDto
 
     const where: any = {}
-    
+
     if (username) {
       where.username = { contains: username }
     }
@@ -41,7 +41,6 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
     if (responseCode !== undefined) where.responseCode = responseCode
     if (httpMethod) where.httpMethod = httpMethod
     if (requestPath) where.requestPath = requestPath
-
     return this.findPagination({
       ...queryDto,
       where,

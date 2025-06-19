@@ -3,7 +3,6 @@ import { BaseRepositoryService } from '@/global/services/base-repository.service
 import { PrismaService } from '@/global/services/prisma.service'
 import { ClientNoticeWhereInput } from '@/prisma/client/models/ClientNotice'
 import {
-  BatchDeleteNoticeDto,
   CreateNoticeDto,
   QueryNoticeDto,
   UpdateNoticeDto,
@@ -16,6 +15,8 @@ import {
 @Injectable()
 export class NoticeService extends BaseRepositoryService<'ClientNotice'> {
   protected readonly modelName = 'ClientNotice' as const
+  protected readonly supportsSoftDelete = true
+
   constructor(protected readonly prisma: PrismaService) {
     super(prisma)
   }

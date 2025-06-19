@@ -589,12 +589,8 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       orderBy || ({ id: 'desc' } as ModelTypes<T>['OrderByInput'])
 
     // 转换分页参数
-    const skip =
-      pageIndex !== undefined && pageSize !== undefined
-        ? pageIndex * pageSize
-        : undefined
-    const take = pageSize
-
+    const skip = pageIndex || 0
+    const take = pageSize || 15
     return this.model.findMany({
       ...(finalWhere && { where: finalWhere }),
       orderBy: finalOrderBy,
@@ -685,7 +681,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
         {
           where: finalWhere,
           orderBy,
-          pageIndex: pageIndex - 1, // 转换为从0开始的索引
+          pageIndex,
           pageSize,
           include,
           select,

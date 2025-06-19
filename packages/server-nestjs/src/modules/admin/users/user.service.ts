@@ -310,7 +310,7 @@ export class UserService extends BaseRepositoryService<'AdminUser'> {
     const { username, mobile, status, isRoot } = queryDto
 
     const where: any = {}
-    
+
     if (username) {
       where.username = { contains: username }
     }

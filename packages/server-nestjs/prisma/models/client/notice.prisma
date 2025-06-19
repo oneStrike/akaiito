@@ -41,7 +41,7 @@ model ClientNotice {
   /// 更新时间
   updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
   /// 软删除时间
-  deletedAt       DateTime          @updatedAt @map("deleted_at") @db.Timestamp(0)
+  deletedAt       DateTime?         @map("deleted_at") @db.Timestamp(0)
 
   /// 索引优化
   @@index([status, startTime, endTime]) // 查询已发布且在有效期内的通知
