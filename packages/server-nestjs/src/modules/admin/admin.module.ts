@@ -6,8 +6,9 @@ import { AdminRequestLogInterceptor } from '@/modules/admin/request-log/intercep
 import { AdminUploadModule } from '@/modules/admin/upload/upload.module'
 import { DictionaryModule } from '@/modules/shared/dictionary/dictionary.module'
 import { AdminAuthModule } from './auth/auth.module'
+import { ClientNoticeModule } from './client/notice'
+import { ClientPageConfigModule } from './client/pageConfig'
 import { AdminLoggerModule } from './logger/admin-logger.module'
-import { NoticeModule } from './notice'
 import { RequestLogModule } from './request-log/request-log.module'
 import { AdminUserModule } from './users/user.module'
 
@@ -20,7 +21,8 @@ import { AdminUserModule } from './users/user.module'
     AdminUploadModule,
     DictionaryModule,
     MaxMindModule,
-    NoticeModule,
+    ClientNoticeModule,
+    ClientPageConfigModule,
   ],
   controllers: [DictionaryController],
   providers: [

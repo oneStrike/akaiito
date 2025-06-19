@@ -1,4 +1,4 @@
-import type { Prisma } from '@/prisma/client'
+import type { Prisma } from '@/prisma/client/client'
 import { BadRequestException, Global, Injectable } from '@nestjs/common'
 import { PrismaService } from '@/global/services/prisma.service'
 
@@ -48,7 +48,7 @@ interface ModelTypes<T extends ModelName> {
 interface QueryOptions<T extends ModelName> {
   include?: ModelTypes<T>['Include']
   select?: ModelTypes<T>['Select']
-  omit?: ModelTypes<T>['Select'] // omit 语法与 select 结构一致
+  omit?: ModelTypes<T>['Select']
 }
 
 /**
@@ -58,7 +58,7 @@ export interface CommonPaginationOptions<T extends ModelName>
   extends QueryOptions<T> {
   pageSize?: number
   pageIndex?: number
-  orderBy?: string
+  orderBy?: string | ModelTypes<T>['OrderByInput']
   startDate?: string
   endDate?: string
   where?: ModelTypes<T>['WhereInput']
@@ -72,9 +72,6 @@ export interface CommonPaginationOptions<T extends ModelName>
 @Injectable()
 @Global()
 export abstract class BaseRepositoryService<T extends ModelName> {
-  /**
-   * 默认分页参数，统一管理
-   */
   static readonly MAX_PAGE_SIZE = 500
   static readonly DEFAULT_PAGE_SIZE = 15
   static readonly DEFAULT_PAGE_INDEX = 0
@@ -91,26 +88,36 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   constructor(protected readonly prisma: PrismaService) {}
 
   /**
-   * 获取当前模型的 Prisma 操作对象
+   * 获取当前模型的 Prisma 操作对象，类型安全
    */
   protected get model() {
-    return (this.prisma as any)[this.modelName]
+    return (this.prisma as Record<string, any>)[this.modelName]
+  }
+
+  /**
+   * 默认 select 只返回 id
+   */
+  private defaultSelect(
+    options: Partial<QueryOptions<T>>,
+  ): Partial<QueryOptions<T>> {
+    if (!options?.omit && !options?.select) {
+      return { ...options, select: { id: true } as ModelTypes<T>['Select'] }
+    }
+    return options
   }
 
   /**
    * 构建查询选项，自动处理 select/include/omit，select 与 omit 互斥
    */
-  private buildQueryOptions(options?: QueryOptions<T>) {
+  private buildQueryOptions(options?: Partial<QueryOptions<T>>) {
     if (!options) return { select: { id: true } }
     const { include, select, omit } = options
     if (select && omit)
       throw new Error('Prisma 查询参数 select 和 omit 不能同时使用')
-    return {
-      ...(include && { include }),
-      ...(select && { select }),
-      ...(!select && omit && { omit }),
-      ...(!select && !omit && { select: { id: true } }),
-    }
+    if (select) return { select }
+    if (omit) return { omit }
+    if (include) return { include }
+    return {}
   }
 
   /**
@@ -121,7 +128,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   ): Promise<ModelTypes<T>['Model']> {
     return this.model.create({
       data: options.data,
-      ...this.buildQueryOptions(options),
+      ...this.buildQueryOptions(this.defaultSelect(options)),
     })
   }
 
@@ -144,7 +151,9 @@ export abstract class BaseRepositoryService<T extends ModelName> {
    * 查找首条匹配记录
    */
   async findFirst(
-    options?: { where?: ModelTypes<T>['WhereInput'] } & QueryOptions<T>,
+    options?: { where?: ModelTypes<T>['WhereInput'] } & Partial<
+      QueryOptions<T>
+    >,
   ): Promise<ModelTypes<T>['Model'] | null> {
     const where = this.supportsSoftDelete
       ? this.getWhereWithoutDeleted(options?.where)
@@ -159,11 +168,13 @@ export abstract class BaseRepositoryService<T extends ModelName> {
    * 根据 id 查找单条记录
    */
   async findById(
-    options: { id: number } & QueryOptions<T>,
+    options: { id: number } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model'] | null> {
     const where = this.supportsSoftDelete
-      ? this.getWhereWithoutDeleted({ id: options.id })
-      : { id: options.id }
+      ? this.getWhereWithoutDeleted({
+          id: options.id,
+        } as ModelTypes<T>['WhereInput'])
+      : ({ id: options.id } as ModelTypes<T>['WhereInput'])
     return this.model.findFirst({ where, ...this.buildQueryOptions(options) })
   }
 
@@ -174,11 +185,16 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     options?: {
       where?: ModelTypes<T>['WhereInput']
       orderBy?: ModelTypes<T>['OrderByInput']
-      pageIndex?: number
-      pageSize?: number
-    } & QueryOptions<T>,
-  ): Promise<ModelTypes<T>['Model'][]> {
-    return this._findManyInternal(options, true)
+    } & Partial<QueryOptions<T>>,
+  ): Promise<any[]> {
+    return this._findManyInternal(
+      {
+        ...options,
+        pageSize: BaseRepositoryService.MAX_PAGE_SIZE,
+        pageIndex: 0,
+      },
+      true,
+    )
   }
 
   /**
@@ -186,11 +202,11 @@ export abstract class BaseRepositoryService<T extends ModelName> {
    */
   async findPagination(
     options?: CommonPaginationOptions<T>,
-  ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
+  ): Promise<PaginationResult<any>> {
     const {
       pageSize,
       pageIndex,
-      orderBy: orderByString,
+      orderBy: orderBy2,
       startDate,
       endDate,
       where,
@@ -199,9 +215,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       omit,
       dateField = 'createdAt',
     } = options || {}
-    let finalWhere: ModelTypes<T>['WhereInput'] = where || {}
+    let finalWhere: ModelTypes<T>['WhereInput'] =
+      where || ({} as ModelTypes<T>['WhereInput'])
     if (startDate || endDate) {
-      const dateCondition: any = {}
+      const dateCondition: Record<string, Date> = {}
       if (startDate) dateCondition.gte = new Date(startDate)
       if (endDate) {
         const endDateTime = new Date(endDate)
@@ -211,17 +228,15 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       finalWhere = {
         ...finalWhere,
         [dateField]: dateCondition,
-      } as ModelTypes<T>['WhereInput']
+      }
     }
     let orderBy: ModelTypes<T>['OrderByInput'] = {
       id: 'desc',
     } as ModelTypes<T>['OrderByInput']
-    if (orderByString) {
+    if (orderBy2) {
       try {
-        orderBy = JSON.parse(orderByString)
-      } catch {
-        // ignore
-      }
+        orderBy = typeof orderBy2 === 'string' ? JSON.parse(orderBy2) : orderBy2
+      } catch {}
     }
     return this._paginationInternal(
       {
@@ -244,12 +259,12 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     options: {
       where: ModelTypes<T>['WhereUniqueInput']
       data: ModelTypes<T>['UpdateInput']
-    } & QueryOptions<T>,
+    } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
     return this.model.update({
       where: options.where,
       data: options.data,
-      ...this.buildQueryOptions(options),
+      ...this.buildQueryOptions(this.defaultSelect(options)),
     })
   }
 
@@ -262,12 +277,11 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       data: ModelTypes<T>['UpdateInput']
     } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    // 只传递一次 data，避免多次 data 字段
     const { id, data, ...rest } = options
     return this.update({
       where: { id } as ModelTypes<T>['WhereUniqueInput'],
       data,
-      ...rest,
+      ...this.defaultSelect(rest),
     })
   }
 
@@ -294,7 +308,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   ): Promise<ModelTypes<T>['Model']> {
     return this.model.delete({
       where: options.where,
-      ...this.buildQueryOptions(options),
+      ...this.buildQueryOptions(this.defaultSelect(options)),
     })
   }
 
@@ -306,7 +320,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   ): Promise<ModelTypes<T>['Model']> {
     return this.delete({
       where: { id: options.id } as ModelTypes<T>['WhereUniqueInput'],
-      ...options,
+      ...this.defaultSelect(options),
     })
   }
 
@@ -359,7 +373,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       where: options.where,
       create: options.create,
       update: options.update,
-      ...this.buildQueryOptions(options),
+      ...this.buildQueryOptions(this.defaultSelect(options)),
     })
   }
 
@@ -377,7 +391,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
    */
   async queryRaw<R = any>(options: {
     query: string
-    params?: any[]
+    params?: unknown[]
   }): Promise<R> {
     return this.prisma.$queryRawUnsafe<R>(
       options.query,
@@ -390,7 +404,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
    */
   async executeRaw(options: {
     query: string
-    params?: any[]
+    params?: unknown[]
   }): Promise<number> {
     return this.prisma.$executeRawUnsafe(
       options.query,
@@ -429,7 +443,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   async softDelete(id: number): Promise<ModelTypes<T>['Model']> {
     if (!this.supportsSoftDelete)
       throw new BadRequestException(`${this.modelName} 不支持软删除功能`)
-    const existing = await this.exists({ id } as any)
+    const existing = await this.exists({ id } as ModelTypes<T>['WhereInput'])
     if (!existing) throw new BadRequestException(`删除失败，数据不存在`)
     return this.updateById({
       id,
@@ -537,7 +551,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       pageSize?: number
     } & Partial<QueryOptions<T>>,
     applySoftDeleteFilter = true,
-  ): Promise<ModelTypes<T>['Model'][]> {
+  ): Promise<any[]> {
     const { where, orderBy, pageIndex, pageSize, include, select, omit } =
       options || {}
     let finalWhere = where
@@ -567,7 +581,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       where?: ModelTypes<T>['WhereInput']
       orderBy?: ModelTypes<T>['OrderByInput']
     } & Partial<QueryOptions<T>>,
-  ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
+  ): Promise<PaginationResult<any>> {
     return this._paginationInternal(options, 'withDeleted')
   }
 
@@ -578,7 +592,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       where?: ModelTypes<T>['WhereInput']
       orderBy?: ModelTypes<T>['OrderByInput']
     } & Partial<QueryOptions<T>>,
-  ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
+  ): Promise<PaginationResult<any>> {
     if (!this.supportsSoftDelete) {
       const {
         pageIndex = BaseRepositoryService.DEFAULT_PAGE_INDEX,
@@ -600,7 +614,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       orderBy?: ModelTypes<T>['OrderByInput']
     } & Partial<QueryOptions<T>>,
     mode: 'normal' | 'withDeleted' | 'onlyDeleted' = 'normal',
-  ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
+  ): Promise<PaginationResult<any>> {
     const {
       pageIndex = BaseRepositoryService.DEFAULT_PAGE_INDEX,
       pageSize = BaseRepositoryService.DEFAULT_PAGE_SIZE,
@@ -612,19 +626,12 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     } = options || {}
     let finalWhere = where
     let countWhere = where
-    switch (mode) {
-      case 'normal':
-        if (this.supportsSoftDelete) {
-          finalWhere = this.getWhereWithoutDeleted(where)
-          countWhere = finalWhere
-        }
-        break
-      case 'withDeleted':
-        break
-      case 'onlyDeleted':
-        finalWhere = this.getWhereOnlyDeleted(where)
-        countWhere = finalWhere
-        break
+    if (mode === 'normal' && this.supportsSoftDelete) {
+      finalWhere = this.getWhereWithoutDeleted(where)
+      countWhere = finalWhere
+    } else if (mode === 'onlyDeleted') {
+      finalWhere = this.getWhereOnlyDeleted(where)
+      countWhere = finalWhere
     }
     const [data, total] = await Promise.all([
       this._findManyInternal(

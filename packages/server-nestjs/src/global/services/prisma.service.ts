@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '@/prisma/client'
+import { PrismaClient } from '@/prisma/client/client'
 
 /**
  * Prisma 数据库服务

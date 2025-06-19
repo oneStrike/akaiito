@@ -1,4 +1,4 @@
-import type { PrismaClient } from '../client'
+import type { PrismaClient } from '../client/client'
 
 export async function createInitialWorkCategory(prisma: PrismaClient) {
   const initData = [

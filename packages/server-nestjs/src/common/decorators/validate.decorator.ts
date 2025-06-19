@@ -6,6 +6,7 @@ import {
   IsArray,
   IsBoolean,
   IsDate,
+  IsEnum,
   IsISO8601,
   IsJSON,
   IsNotEmpty,
@@ -64,6 +65,12 @@ interface ValidateStringOptions extends ValidateOptions {
 interface ValidateRegexOptions extends ValidateOptions {
   regex: RegExp
   message?: string
+}
+
+interface ValidateEnumOptions extends Pick<ValidateOptions, 'description' | 'required'> {
+  example?: any
+  enum: object
+  default?: any
 }
 
 /**
@@ -392,5 +399,42 @@ export function ValidateByRegex(options: ValidateRegexOptions) {
   if (options.transform) {
     decorators.push(Transform(options.transform))
   }
+  return applyDecorators(...decorators)
+}
+
+/**
+ * 校验枚举类型
+ * @param options
+ * @constructor
+ */
+export function ValidateEnum(options: ValidateEnumOptions) {
+  const decorators = [
+    ApiProperty({
+      description: options.description,
+      example: options.example,
+      required: options.required,
+      default: options.default,
+      enum: options.enum,
+      nullable: !options.required,
+    }),
+    IsEnum(options.enum),
+  ]
+
+  if (!options.required) {
+    decorators.push(IsOptional())
+  }
+
+  // 添加转换逻辑，处理默认值
+  if (options.default !== undefined) {
+    decorators.push(
+      Transform(({ value }) => {
+        if (value === undefined || value === null) {
+          return options.default
+        }
+        return value
+      }),
+    )
+  }
+
   return applyDecorators(...decorators)
 }

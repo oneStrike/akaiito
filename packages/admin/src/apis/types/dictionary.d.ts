@@ -3,7 +3,7 @@
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/page
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface PageTypesReq {
@@ -73,7 +73,7 @@ export interface PageTypesRes {
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/detail
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface DetailTypesReq {
@@ -113,7 +113,7 @@ export type DetailTypesRes = {
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface CreateTypesReq {
@@ -165,7 +165,7 @@ export type CreateTypesRes = {
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface UpdateTypesReq {
@@ -226,7 +226,7 @@ export type UpdateTypesRes = {
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface DeleteTypesReq {
@@ -245,7 +245,7 @@ export type DeleteTypesRes = {
  *  @标签 字典管理/启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateEnableStatus
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface UpdateEnableStatusTypesReq {
@@ -288,7 +288,7 @@ export type UpdateEnableStatusTypesRes = {
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/items
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface ItemsTypesReq {
@@ -343,7 +343,7 @@ export type ItemsTypesRes = {
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/createItem
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface CreateItemTypesReq {
@@ -407,7 +407,7 @@ export type CreateItemTypesRes = {
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateItem
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface UpdateItemTypesReq {
@@ -474,7 +474,7 @@ export type UpdateItemTypesRes = {
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/deleteItem
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface DeleteItemTypesReq {
@@ -520,7 +520,7 @@ export type DeleteItemTypesRes = {
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateItemStatus
- *  @更新时间 2025-06-19 00:25:41
+ *  @更新时间 2025-06-19 14:31:49
  */
 
 export interface UpdateItemStatusTypesReq {

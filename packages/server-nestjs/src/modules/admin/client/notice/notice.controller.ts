@@ -17,7 +17,7 @@ import {
   UpdateNoticeDto,
   UpdateNoticeStatusDto,
 } from './dto/notice.dto'
-import { NoticeService } from './notice.service'
+import { ClientNoticeService } from './notice.service'
 
 /**
  * 客户端通知控制器
@@ -25,8 +25,8 @@ import { NoticeService } from './notice.service'
  */
 @ApiTags('客户端通知模块')
 @Controller('admin/notice')
-export class NoticeController {
-  constructor(private readonly noticeService: NoticeService) {}
+export class ClientNoticeController {
+  constructor(private readonly noticeService: ClientNoticeService) {}
 
   /**
    * 创建通知

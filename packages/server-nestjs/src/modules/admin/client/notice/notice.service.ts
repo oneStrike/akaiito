@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { PrismaService } from '@/global/services/prisma.service'
+import { NoticeStatusEnum } from '@/prisma/client/enums'
 import { ClientNoticeWhereInput } from '@/prisma/client/models/ClientNotice'
 import {
   CreateNoticeDto,
@@ -13,7 +14,7 @@ import {
  * 提供通知的增删改查等核心业务逻辑
  */
 @Injectable()
-export class NoticeService extends BaseRepositoryService<'ClientNotice'> {
+export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
   protected readonly modelName = 'ClientNotice' as const
   protected readonly supportsSoftDelete = true
 
@@ -79,7 +80,7 @@ export class NoticeService extends BaseRepositoryService<'ClientNotice'> {
 
     return await this.findMany({
       where: {
-        status: 1, // 已发布
+        status: NoticeStatusEnum.PUBLISHED, // 已发布
         ...platformCondition,
         OR: [
           {
@@ -160,7 +161,7 @@ export class NoticeService extends BaseRepositoryService<'ClientNotice'> {
     const notice = await this.findFirst({
       where: {
         id,
-        status: 1,
+        status: NoticeStatusEnum.PUBLISHED,
       },
     })
 

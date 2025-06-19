@@ -3,12 +3,18 @@ import { Exclude } from 'class-transformer'
 import {
   ValidateBoolean,
   ValidateDate,
+  ValidateEnum,
   ValidateNumber,
   ValidateNumberArray,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
+import {
+  NoticePriorityEnum,
+  NoticeStatusEnum,
+  NoticeTypeEnum,
+} from '@/prisma/client/enums'
 
 /**
  * 通知基础DTO
@@ -36,25 +42,23 @@ export class NoticeDto {
   })
   content!: string
 
-  @ValidateNumber({
-    description: '通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告',
-    example: 1,
+  @ValidateEnum({
+    description: '通知类型',
+    example: NoticeTypeEnum.SYSTEM,
     required: false,
-    min: 1,
-    max: 4,
-    default: 1,
+    enum: NoticeTypeEnum,
+    default: NoticeTypeEnum.SYSTEM,
   })
-  type?: number
+  type?: NoticeTypeEnum
 
-  @ValidateNumber({
-    description: '优先级：1-低，2-中，3-高，4-紧急',
-    example: 2,
+  @ValidateEnum({
+    description: '优先级',
+    example: NoticePriorityEnum.MEDIUM,
     required: false,
-    min: 1,
-    max: 4,
-    default: 2,
+    enum: NoticePriorityEnum,
+    default: NoticePriorityEnum.MEDIUM,
   })
-  priority?: number
+  priority?: NoticePriorityEnum
 
   @ValidateDate({
     description: '发布开始时间',
@@ -84,15 +88,14 @@ export class NoticeDto {
   })
   backgroundImage?: string
 
-  @ValidateNumber({
-    description: '发布状态：0-未发布，1-已发布，2-已下线',
-    example: 0,
+  @ValidateEnum({
+    description: '发布状态',
+    example: NoticeStatusEnum.UNPUBLISHED,
     required: false,
-    min: 0,
-    max: 2,
-    default: 0,
+    enum: NoticeStatusEnum,
+    default: NoticeStatusEnum.UNPUBLISHED,
   })
-  status?: number
+  status?: NoticeStatusEnum
 
   @ValidateBoolean({
     description: '是否启用小程序',
@@ -173,9 +176,9 @@ export class NoticeDto {
 }
 
 /**
- * 创建通知DTO
+ * 通知基础字段DTO（用于减少重复代码）
  */
-export class CreateNoticeDto {
+export class BaseNoticeFieldsDto {
   @ValidateString({
     description: '通知标题',
     example: '系统维护通知',
@@ -190,26 +193,29 @@ export class CreateNoticeDto {
   })
   content!: string
 
-  @ValidateNumber({
-    description: '通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告',
-    example: 1,
+  @ValidateEnum({
+    description: '通知类型',
+    example: NoticeTypeEnum.SYSTEM,
     required: false,
-    min: 1,
-    max: 4,
-    default: 1,
+    enum: NoticeTypeEnum,
+    default: NoticeTypeEnum.SYSTEM,
   })
-  type?: number
+  type?: NoticeTypeEnum
 
-  @ValidateNumber({
-    description: '优先级：1-低，2-中，3-高，4-紧急',
-    example: 2,
+  @ValidateEnum({
+    description: '优先级',
+    example: NoticePriorityEnum.MEDIUM,
     required: false,
-    min: 1,
-    max: 4,
-    default: 2,
+    enum: NoticePriorityEnum,
+    default: NoticePriorityEnum.MEDIUM,
   })
-  priority?: number
+  priority?: NoticePriorityEnum
+}
 
+/**
+ * 创建通知DTO
+ */
+export class CreateNoticeDto extends BaseNoticeFieldsDto {
   @ValidateDate({
     description: '发布开始时间',
     example: '2024-01-01T00:00:00.000Z',
@@ -306,23 +312,21 @@ export class UpdateNoticeDto extends IdDto {
   })
   content?: string
 
-  @ValidateNumber({
-    description: '通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告',
-    example: 1,
+  @ValidateEnum({
+    description: '通知类型',
+    example: NoticeTypeEnum.SYSTEM,
     required: false,
-    min: 1,
-    max: 4,
+    enum: NoticeTypeEnum,
   })
-  type?: number
+  type?: NoticeTypeEnum
 
-  @ValidateNumber({
-    description: '优先级：1-低，2-中，3-高，4-紧急',
-    example: 2,
+  @ValidateEnum({
+    description: '优先级',
+    example: NoticePriorityEnum.MEDIUM,
     required: false,
-    min: 1,
-    max: 4,
+    enum: NoticePriorityEnum,
   })
-  priority?: number
+  priority?: NoticePriorityEnum
 
   @ValidateDate({
     description: '发布开始时间',
@@ -352,14 +356,13 @@ export class UpdateNoticeDto extends IdDto {
   })
   backgroundImage?: string
 
-  @ValidateNumber({
-    description: '发布状态：0-未发布，1-已发布，2-已下线',
-    example: 0,
+  @ValidateEnum({
+    description: '发布状态',
+    example: NoticeStatusEnum.UNPUBLISHED,
     required: false,
-    min: 0,
-    max: 2,
+    enum: NoticeStatusEnum,
   })
-  status?: number
+  status?: NoticeStatusEnum
 
   @ValidateBoolean({
     description: '是否启用小程序',
@@ -416,32 +419,29 @@ export class QueryNoticeDto extends PageDto {
   })
   title?: string
 
-  @ValidateNumber({
-    description: '通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告',
-    example: 1,
+  @ValidateEnum({
+    description: '通知类型',
+    example: NoticeTypeEnum.SYSTEM,
     required: false,
-    min: 1,
-    max: 4,
+    enum: NoticeTypeEnum,
   })
-  type?: number
+  type?: NoticeTypeEnum
 
-  @ValidateNumber({
-    description: '优先级：1-低，2-中，3-高，4-紧急',
-    example: 2,
+  @ValidateEnum({
+    description: '优先级',
+    example: NoticePriorityEnum.MEDIUM,
     required: false,
-    min: 1,
-    max: 4,
+    enum: NoticePriorityEnum,
   })
-  priority?: number
+  priority?: NoticePriorityEnum
 
-  @ValidateNumber({
-    description: '发布状态：0-未发布，1-已发布，2-已下线',
-    example: 1,
+  @ValidateEnum({
+    description: '发布状态',
+    example: NoticeStatusEnum.PUBLISHED,
     required: false,
-    min: 0,
-    max: 2,
+    enum: NoticeStatusEnum,
   })
-  status?: number
+  status?: NoticeStatusEnum
 
   @ValidateBoolean({
     description: '是否置顶',
@@ -462,31 +462,11 @@ export class QueryNoticeDto extends PageDto {
  * 通知状态更新DTO
  */
 export class UpdateNoticeStatusDto extends IdDto {
-  @ValidateNumber({
-    description: '发布状态：0-未发布，1-已发布，2-已下线',
-    example: 1,
+  @ValidateEnum({
+    description: '发布状态',
+    example: NoticeStatusEnum.PUBLISHED,
     required: true,
-    min: 0,
-    max: 2,
+    enum: NoticeStatusEnum,
   })
-  status!: number
-}
-
-/**
- * 通知阅读DTO
- */
-export class ReadNoticeDto extends IdDto {}
-
-/**
- * 批量删除通知DTO
- */
-export class BatchDeleteNoticeDto {
-  @ValidateNumberArray({
-    description: '通知ID列表',
-    example: [1, 2, 3],
-    required: true,
-    minLength: 1,
-    maxLength: 100,
-  })
-  ids!: number[]
+  status!: NoticeStatusEnum
 }

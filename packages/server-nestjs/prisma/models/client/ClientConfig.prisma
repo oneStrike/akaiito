@@ -1,0 +1,51 @@
+/// 客户端系统配置
+model ClientConfig {
+  /// 主键id
+  id             Int      @id @default(autoincrement())
+  /// 客户端logo URL
+  appLogo        String   @map("app_logo") @db.VarChar(500)
+  /// 客户端名称
+  appName        String   @map("app_name") @db.VarChar(50)
+  /// 客户端描述
+  appDesc        String?  @map("app_desc") @db.VarChar(200)
+  /// 客户端版本号
+  appVersion     String   @default("1.0.0") @map("app_version") @db.VarChar(20)
+  /// 小说板块状态 0禁用 1启用 2开发中 3维护中
+  novelStatus    Int      @default(1) @map("novel_status")
+  /// 漫画板块状态 0禁用 1启用 2开发中 3维护中
+  comicStatus    Int      @default(1) @map("comic_status")
+  /// 写真板块状态 0禁用 1启用 2开发中 3维护中
+  photoStatus    Int      @default(1) @map("photo_status")
+  /// 视频板块状态 0禁用 1启用 2开发中 3维护中
+  videoStatus    Int      @default(1) @map("video_status")
+  /// 主题色配置
+  themeColor     String   @default("#1890ff") @map("theme_color") @db.VarChar(20)
+  /// 是否启用暗黑模式
+  darkMode       Boolean  @default(false) @map("dark_mode")
+  /// 客户端语言 zh-CN en-US ja-JP
+  language       String   @default("zh-CN") @map("language") @db.VarChar(10)
+  /// 是否启用用户注册
+  allowRegister  Boolean  @default(true) @map("allow_register")
+  /// 是否启用游客模式
+  guestMode      Boolean  @default(false) @map("guest_mode")
+  /// 维护公告内容
+  maintenanceMsg String?  @map("maintenance_msg") @db.Text
+  /// 客户端状态 0正常 1维护中 2停用
+  clientStatus   Int      @default(0) @map("client_status")
+  /// 配置是否生效
+  isActive       Boolean  @default(true) @map("is_active")
+  /// 创建时间
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  /// 更新时间
+  updatedAt      DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  /// 创建者ID
+  createdBy      Int?     @map("created_by")
+  /// 更新者ID
+  updatedBy      Int?     @map("updated_by")
+
+  /// 索引优化
+  @@index([novelStatus, comicStatus, photoStatus, videoStatus], map: "idx_module_status")
+  @@index([clientStatus, isActive], map: "idx_client_active")
+  @@index([createdAt], map: "idx_created_at")
+  @@map("client_config")
+}
