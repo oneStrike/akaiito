@@ -103,16 +103,14 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   private buildQueryOptions(options?: QueryOptions<T>) {
     if (!options) return { select: { id: true } }
     const { include, select, omit } = options
-    const queryOptions: any = {}
-    if (include) queryOptions.include = include
-    // select 和 omit 不能同时使用，优先 select
-    if (select && omit) {
+    if (select && omit)
       throw new Error('Prisma 查询参数 select 和 omit 不能同时使用')
+    return {
+      ...(include && { include }),
+      ...(select && { select }),
+      ...(!select && omit && { omit }),
+      ...(!select && !omit && { select: { id: true } }),
     }
-    if (select) queryOptions.select = select
-    else if (omit) queryOptions.omit = omit
-    else queryOptions.select = { id: true }
-    return queryOptions
   }
 
   /**
@@ -121,8 +119,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   async create(
     options: { data: ModelTypes<T>['CreateInput'] } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { data, ...queryOptions } = options
-    return this.model.create({ data, ...this.buildQueryOptions(queryOptions) })
+    return this.model.create({
+      data: options.data,
+      ...this.buildQueryOptions(options),
+    })
   }
 
   /**
@@ -132,10 +132,11 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     data: ModelTypes<T>['CreateInput'][]
     skipDuplicates?: boolean
   }): Promise<BatchResult> {
-    const { data, skipDuplicates } = options
     return this.model.createMany({
-      data,
-      ...(skipDuplicates !== undefined && { skipDuplicates }),
+      data: options.data,
+      ...(options.skipDuplicates !== undefined && {
+        skipDuplicates: options.skipDuplicates,
+      }),
     })
   }
 
@@ -145,13 +146,12 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   async findFirst(
     options?: { where?: ModelTypes<T>['WhereInput'] } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model'] | null> {
-    const { where, ...queryOptions } = options || {}
-    const finalWhere = this.supportsSoftDelete
-      ? this.getWhereWithoutDeleted(where)
-      : where
+    const where = this.supportsSoftDelete
+      ? this.getWhereWithoutDeleted(options?.where)
+      : options?.where
     return this.model.findFirst({
-      ...(finalWhere && { where: finalWhere }),
-      ...this.buildQueryOptions(queryOptions),
+      ...(where && { where }),
+      ...this.buildQueryOptions(options),
     })
   }
 
@@ -161,14 +161,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   async findById(
     options: { id: number } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model'] | null> {
-    const { id, ...queryOptions } = options
-    const finalWhere = this.supportsSoftDelete
-      ? this.getWhereWithoutDeleted({ id })
-      : { id }
-    return this.model.findFirst({
-      where: finalWhere,
-      ...this.buildQueryOptions(queryOptions),
-    })
+    const where = this.supportsSoftDelete
+      ? this.getWhereWithoutDeleted({ id: options.id })
+      : { id: options.id }
+    return this.model.findFirst({ where, ...this.buildQueryOptions(options) })
   }
 
   /**
@@ -178,16 +174,11 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     options?: {
       where?: ModelTypes<T>['WhereInput']
       orderBy?: ModelTypes<T>['OrderByInput']
+      pageIndex?: number
+      pageSize?: number
     } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model'][]> {
-    return this._findManyInternal(
-      {
-        ...options,
-        pageIndex: 0,
-        pageSize: BaseRepositoryService.MAX_PAGE_SIZE,
-      },
-      true,
-    )
+    return this._findManyInternal(options, true)
   }
 
   /**
@@ -197,8 +188,8 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     options?: CommonPaginationOptions<T>,
   ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
     const {
-      pageSize = BaseRepositoryService.DEFAULT_PAGE_SIZE,
-      pageIndex = BaseRepositoryService.DEFAULT_PAGE_INDEX,
+      pageSize,
+      pageIndex,
       orderBy: orderByString,
       startDate,
       endDate,
@@ -209,7 +200,6 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       dateField = 'createdAt',
     } = options || {}
     let finalWhere: ModelTypes<T>['WhereInput'] = where || {}
-    // 时间范围处理
     if (startDate || endDate) {
       const dateCondition: any = {}
       if (startDate) dateCondition.gte = new Date(startDate)
@@ -229,7 +219,9 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     if (orderByString) {
       try {
         orderBy = JSON.parse(orderByString)
-      } catch {}
+      } catch {
+        // ignore
+      }
     }
     return this._paginationInternal(
       {
@@ -254,11 +246,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       data: ModelTypes<T>['UpdateInput']
     } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { where, data, ...queryOptions } = options
     return this.model.update({
-      where,
-      data,
-      ...this.buildQueryOptions(queryOptions),
+      where: options.where,
+      data: options.data,
+      ...this.buildQueryOptions(options),
     })
   }
 
@@ -271,11 +262,12 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       data: ModelTypes<T>['UpdateInput']
     } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { id, data, ...queryOptions } = options
+    // 只传递一次 data，避免多次 data 字段
+    const { id, data, ...rest } = options
     return this.update({
       where: { id } as ModelTypes<T>['WhereUniqueInput'],
       data,
-      ...queryOptions,
+      ...rest,
     })
   }
 
@@ -286,8 +278,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     where: ModelTypes<T>['WhereInput']
     data: ModelTypes<T>['UpdateInput']
   }): Promise<BatchResult> {
-    const { where, data } = options
-    return this.model.updateMany({ ...(where && { where }), data })
+    return this.model.updateMany({
+      ...(options.where && { where: options.where }),
+      data: options.data,
+    })
   }
 
   /**
@@ -298,8 +292,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       QueryOptions<T>
     >,
   ): Promise<ModelTypes<T>['Model']> {
-    const { where, ...queryOptions } = options
-    return this.model.delete({ where, ...this.buildQueryOptions(queryOptions) })
+    return this.model.delete({
+      where: options.where,
+      ...this.buildQueryOptions(options),
+    })
   }
 
   /**
@@ -308,10 +304,9 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   async deleteById(
     options: { id: number | string } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { id, ...queryOptions } = options
     return this.delete({
-      where: { id } as ModelTypes<T>['WhereUniqueInput'],
-      ...queryOptions,
+      where: { id: options.id } as ModelTypes<T>['WhereUniqueInput'],
+      ...options,
     })
   }
 
@@ -360,12 +355,11 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       update: ModelTypes<T>['UpdateInput']
     } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { where, create, update, ...queryOptions } = options
     return this.model.upsert({
-      where,
-      create,
-      update,
-      ...this.buildQueryOptions(queryOptions),
+      where: options.where,
+      create: options.create,
+      update: options.update,
+      ...this.buildQueryOptions(options),
     })
   }
 
@@ -385,8 +379,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     query: string
     params?: any[]
   }): Promise<R> {
-    const { query, params = [] } = options
-    return this.prisma.$queryRawUnsafe<R>(query, ...params)
+    return this.prisma.$queryRawUnsafe<R>(
+      options.query,
+      ...(options.params || []),
+    )
   }
 
   /**
@@ -396,8 +392,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     query: string
     params?: any[]
   }): Promise<number> {
-    const { query, params = [] } = options
-    return this.prisma.$executeRawUnsafe(query, ...params)
+    return this.prisma.$executeRawUnsafe(
+      options.query,
+      ...(options.params || []),
+    )
   }
 
   /**
@@ -440,24 +438,15 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 批量软删除（只处理未被软删除的记录）
+   * 批量软删除（极致性能：直接 updateMany，无需先查）
    */
   async softDeleteMany(
     where: ModelTypes<T>['WhereInput'],
   ): Promise<BatchResult> {
     if (!this.supportsSoftDelete)
       throw new BadRequestException(`${this.modelName} 不支持软删除功能`)
-    // 只查未软删除的 id
-    const existing = await this.findMany({
-      where: { ...where, deletedAt: null },
-      select: { id: true },
-    })
-    const existingIds = existing
-      .map((item: any) => item.id)
-      .filter((id: unknown): id is number => typeof id === 'number')
-    if (!existingIds.length) return { count: 0 }
     return this.updateMany({
-      where: { id: { in: existingIds } } as any,
+      where: { ...where, deletedAt: null },
       data: { deletedAt: new Date() } as ModelTypes<T>['UpdateInput'],
     })
   }
@@ -492,8 +481,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   async forceDelete(
     options: { id: number | string } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { id, include, select } = options
-    return this.deleteById({ id, include, select })
+    return this.deleteById(options)
   }
 
   /**
@@ -532,9 +520,8 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   ): Promise<ModelTypes<T>['Model'][]> {
     if (!this.supportsSoftDelete) return []
     const { where, ...restOptions } = options || {}
-    const whereOnlyDeleted = this.getWhereOnlyDeleted(where)
     return this._findManyInternal(
-      { where: whereOnlyDeleted, ...restOptions },
+      { where: this.getWhereOnlyDeleted(where), ...restOptions },
       false,
     )
   }
@@ -669,8 +656,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
    */
   async countOnlyDeleted(where?: ModelTypes<T>['WhereInput']): Promise<number> {
     if (!this.supportsSoftDelete) return 0
-    const whereOnlyDeleted = this.getWhereOnlyDeleted(where)
-    return this._countInternal(whereOnlyDeleted, true)
+    return this._countInternal(this.getWhereOnlyDeleted(where), true)
   }
 
   /**
@@ -683,11 +669,10 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       const total = await this._countInternal(where, false)
       return { total, active: total, deleted: 0 }
     }
-    const whereOnlyDeleted = this.getWhereOnlyDeleted(where)
     const [total, active, deleted] = await Promise.all([
       this._countInternal(where, true),
       this._countInternal(where, false),
-      this._countInternal(whereOnlyDeleted, true),
+      this._countInternal(this.getWhereOnlyDeleted(where), true),
     ])
     return { total, active, deleted }
   }
