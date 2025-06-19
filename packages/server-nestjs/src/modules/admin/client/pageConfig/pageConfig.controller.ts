@@ -16,7 +16,6 @@ import {
   IncrementViewCountDto,
   QueryClientPageConfigDto,
   UpdateClientPageConfigDto,
-  UpdatePageConfigStatusDto,
 } from './dto/pageConfig.dto'
 import { ClientPageConfigService } from './pageConfig.service'
 
@@ -51,18 +50,6 @@ export class ClientPageConfigController {
   })
   async findPage(@Query() query: QueryClientPageConfigDto) {
     return this.pageConfigService.findPageConfigPage(query)
-  }
-
-  /**
-   * 获取启用的页面配置列表（客户端使用）
-   */
-  @Get('/active')
-  @ApiDoc({
-    summary: '获取启用的页面配置列表',
-    model: [ClientPageConfigDto],
-  })
-  async findActive(@Query('pageRule') pageRule?: string) {
-    return this.pageConfigService.findActivePageConfigs(pageRule)
   }
 
   /**
@@ -102,22 +89,9 @@ export class ClientPageConfigController {
   }
 
   /**
-   * 更新页面配置状态
-   */
-  @Post('/update-status')
-  @ApiDoc({
-    summary: '更新页面配置状态',
-    model: ClientPageConfigDto,
-  })
-  async updateStatus(@Body() body: UpdatePageConfigStatusDto) {
-    const { id, status } = body
-    return this.pageConfigService.updatePageConfig({ id, status })
-  }
-
-  /**
    * 批量更新页面配置状态
    */
-  @Post('/batch-update-status')
+  @Post('/batch-updateStatus')
   @ApiDoc({
     summary: '批量更新页面配置状态',
     model: Object,
@@ -130,7 +104,7 @@ export class ClientPageConfigController {
   /**
    * 增加页面访问次数
    */
-  @Post('/increment-view')
+  @Post('/incrementView')
   @ApiDoc({
     summary: '增加页面访问次数',
     model: Object,
@@ -140,62 +114,16 @@ export class ClientPageConfigController {
   }
 
   /**
-   * 软删除页面配置
-   */
-  @Post('/delete')
-  @ApiDoc({
-    summary: '软删除页面配置',
-    model: Object,
-  })
-  async delete(@Body() body: IdDto) {
-    return this.pageConfigService.softDelete(body.id)
-  }
-
-  /**
    * 批量软删除页面配置
    */
-  @Post('/batch-delete')
+  @Post('/batchDelete')
   @ApiDoc({
     summary: '批量软删除页面配置',
     model: Object,
   })
   async batchDelete(@Body() body: IdsDto) {
-    return this.pageConfigService.batchSoftDelete(body.ids)
-  }
-
-  /**
-   * 恢复已删除的页面配置
-   */
-  @Post('/restore')
-  @ApiDoc({
-    summary: '恢复已删除的页面配置',
-    model: ClientPageConfigDto,
-  })
-  async restore(@Body() body: IdDto) {
-    return this.pageConfigService.restore(body.id)
-  }
-
-  /**
-   * 永久删除页面配置
-   */
-  @Post('/force-delete')
-  @ApiDoc({
-    summary: '永久删除页面配置',
-    model: Object,
-  })
-  async forceDelete(@Body() body: IdDto) {
-    return this.pageConfigService.forceDelete(body.id)
-  }
-
-  /**
-   * 获取页面配置统计信息
-   */
-  @Get('/statistics')
-  @ApiDoc({
-    summary: '获取页面配置统计信息',
-    model: Object,
-  })
-  async getStatistics() {
-    return this.pageConfigService.getStatistics()
+    return this.pageConfigService.softDeleteMany({
+      id: { in: body.ids },
+    })
   }
 }

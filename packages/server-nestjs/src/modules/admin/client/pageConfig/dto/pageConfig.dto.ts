@@ -190,19 +190,6 @@ export class QueryClientPageConfigDto extends PageDto {
 }
 
 /**
- * 页面配置状态更新DTO
- */
-export class UpdatePageConfigStatusDto extends IdDto {
-  @ValidateEnum({
-    description: '页面状态',
-    example: PageStatusEnum.ENABLED,
-    required: true,
-    enum: PageStatusEnum,
-  })
-  status!: PageStatusEnum
-}
-
-/**
  * 页面配置响应DTO
  */
 export class ClientPageConfigDto {

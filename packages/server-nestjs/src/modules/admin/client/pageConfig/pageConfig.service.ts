@@ -1,5 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
+import { ClientPageConfig } from '@/prisma/client/client'
+import { PageStatusEnum } from '@/prisma/client/enums'
 import { ClientPageConfigWhereInput } from '@/prisma/client/models/ClientPageConfig'
 import {
   CreateClientPageConfigDto,
@@ -226,14 +228,14 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
     const pageConfig = await this.findFirst({
       where: {
         pageCode,
-        status: 'ENABLED',
+        status: PageStatusEnum.ENABLED,
       },
       select: {
         id: true,
       },
     })
 
-    if (!pageConfig) {
+    if (!pageConfig || Array.isArray(pageConfig)) {
       throw new BadRequestException('页面不存在或未启用')
     }
 

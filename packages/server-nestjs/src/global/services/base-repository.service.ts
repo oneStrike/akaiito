@@ -28,8 +28,8 @@ type ModelName = keyof typeof Prisma.ModelName
  * 针对指定模型名，推导出常用的 Prisma 类型
  */
 interface ModelTypes<T extends ModelName> {
-  Model: Prisma.TypeMap['model'][T]['operations']['findMany']['result']
-  WhereInput: Prisma.TypeMap['model'][T]['operations']['findMany']['args']['where']
+  Model: Prisma.TypeMap['model'][T]['operations']['findUnique']['result']
+  WhereInput: Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['where']
   CreateInput: Prisma.TypeMap['model'][T]['operations']['create']['args']['data']
   UpdateInput: Prisma.TypeMap['model'][T]['operations']['update']['args']['data']
   OrderByInput: Prisma.TypeMap['model'][T]['operations']['findMany']['args']['orderBy']

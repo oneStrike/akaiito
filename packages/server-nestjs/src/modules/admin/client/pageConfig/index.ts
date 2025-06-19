@@ -6,7 +6,6 @@ export {
   IncrementViewCountDto,
   QueryClientPageConfigDto,
   UpdateClientPageConfigDto,
-  UpdatePageConfigStatusDto,
 } from './dto/pageConfig.dto'
 // 导出控制器
 export { ClientPageConfigController } from './pageConfig.controller'
