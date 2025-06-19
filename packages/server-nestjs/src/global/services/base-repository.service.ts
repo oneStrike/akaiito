@@ -2,7 +2,9 @@ import type { Prisma } from '@/prisma/client'
 import { BadRequestException, Global, Injectable } from '@nestjs/common'
 import { PrismaService } from '@/global/services/prisma.service'
 
-// 基础类型定义
+/**
+ * 通用分页返回结构
+ */
 export interface PaginationResult<T> {
   list: T[]
   total: number
@@ -10,14 +12,21 @@ export interface PaginationResult<T> {
   pageSize: number
 }
 
+/**
+ * 批量操作返回结构
+ */
 export interface BatchResult {
   count: number
 }
 
-// 从 Prisma.ModelName 获取所有模型名称
+/**
+ * Prisma 所有模型名称类型
+ */
 type ModelName = keyof typeof Prisma.ModelName
 
-// 简化的类型推导，直接使用 Prisma 生成的类型
+/**
+ * 针对指定模型名，推导出常用的 Prisma 类型
+ */
 interface ModelTypes<T extends ModelName> {
   Model: Prisma.TypeMap['model'][T]['operations']['findMany']['result']
   WhereInput: Prisma.TypeMap['model'][T]['operations']['findMany']['args']['where']
@@ -31,17 +40,20 @@ interface ModelTypes<T extends ModelName> {
     ? I
     : never
   Select: Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['select']
-  Omit: Prisma.TypeMap['model'][T]['operations']['findFirst']['args']['omit']
 }
 
-// 通用查询选项类型
+/**
+ * 查询选项类型，支持 include/select/omit
+ */
 interface QueryOptions<T extends ModelName> {
   include?: ModelTypes<T>['Include']
   select?: ModelTypes<T>['Select']
-  omit?: ModelTypes<T>['Omit']
+  omit?: ModelTypes<T>['Select'] // omit 语法与 select 结构一致
 }
 
-// 通用分页查询参数接口
+/**
+ * 通用分页查询参数
+ */
 export interface CommonPaginationOptions<T extends ModelName>
   extends QueryOptions<T> {
   pageSize?: number
@@ -54,115 +66,128 @@ export interface CommonPaginationOptions<T extends ModelName>
 }
 
 /**
- * 抽象数据库服务层
- * 提供通用的数据库操作方法，支持完全自动化的类型推导
- * 包含软删除功能
- *
- * @template T - Prisma模型名称，用于自动推导所有相关类型
+ * 通用基础仓储服务，封装常用数据库操作，支持软删除
+ * @template T Prisma 模型名称
  */
 @Injectable()
 @Global()
 export abstract class BaseRepositoryService<T extends ModelName> {
+  /**
+   * 默认分页参数，统一管理
+   */
+  static readonly MAX_PAGE_SIZE = 500
+  static readonly DEFAULT_PAGE_SIZE = 15
+  static readonly DEFAULT_PAGE_INDEX = 0
+
+  /**
+   * 子类需指定模型名
+   */
   protected abstract readonly modelName: T
+  /**
+   * 是否支持软删除，子类可重写
+   */
   protected readonly supportsSoftDelete: boolean = false
 
   constructor(protected readonly prisma: PrismaService) {}
 
   /**
-   * 获取 Prisma 模型代理
+   * 获取当前模型的 Prisma 操作对象
    */
   protected get model() {
     return (this.prisma as any)[this.modelName]
   }
 
   /**
+   * 构建查询选项，自动处理 select/include/omit，select 与 omit 互斥
+   */
+  private buildQueryOptions(options?: QueryOptions<T>) {
+    if (!options) return { select: { id: true } }
+    const { include, select, omit } = options
+    const queryOptions: any = {}
+    if (include) queryOptions.include = include
+    // select 和 omit 不能同时使用，优先 select
+    if (select && omit) {
+      throw new Error('Prisma 查询参数 select 和 omit 不能同时使用')
+    }
+    if (select) queryOptions.select = select
+    else if (omit) queryOptions.omit = omit
+    else queryOptions.select = { id: true }
+    return queryOptions
+  }
+
+  /**
    * 创建单条记录
    */
   async create(
-    options: {
-      data: ModelTypes<T>['CreateInput']
-    } & Partial<QueryOptions<T>>,
+    options: { data: ModelTypes<T>['CreateInput'] } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { data, include, select, omit } = options
-    return this.model.create({
-      data,
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
-      ...(omit && { omit }),
-    })
+    const { data, ...queryOptions } = options
+    return this.model.create({ data, ...this.buildQueryOptions(queryOptions) })
   }
 
   /**
    * 批量创建记录
    */
-  async createMany(
-    options: {
-      data: ModelTypes<T>['CreateInput'][]
-      skipDuplicates?: boolean
-    } & Partial<QueryOptions<T>>,
-  ): Promise<BatchResult> {
-    const { data, skipDuplicates, include, select, omit } = options
+  async createMany(options: {
+    data: ModelTypes<T>['CreateInput'][]
+    skipDuplicates?: boolean
+  }): Promise<BatchResult> {
+    const { data, skipDuplicates } = options
     return this.model.createMany({
       data,
       ...(skipDuplicates !== undefined && { skipDuplicates }),
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
-      ...(omit && { omit }),
     })
   }
 
   /**
-   * 根据条件查找单条记录
+   * 查找首条匹配记录
    */
   async findFirst(
-    options?: {
-      where?: ModelTypes<T>['WhereInput']
-    } & QueryOptions<T>,
+    options?: { where?: ModelTypes<T>['WhereInput'] } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model'] | null> {
-    const { where, include, select } = options || {}
+    const { where, ...queryOptions } = options || {}
     const finalWhere = this.supportsSoftDelete
       ? this.getWhereWithoutDeleted(where)
       : where
-
     return this.model.findFirst({
       ...(finalWhere && { where: finalWhere }),
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
+      ...this.buildQueryOptions(queryOptions),
     })
   }
 
   /**
-   * 根据id查找单条记录
+   * 根据 id 查找单条记录
    */
   async findById(
-    options?: {
-      id: number
-    } & QueryOptions<T>,
+    options: { id: number } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model'] | null> {
-    const { id, include, select } = options || {}
+    const { id, ...queryOptions } = options
     const finalWhere = this.supportsSoftDelete
       ? this.getWhereWithoutDeleted({ id })
       : { id }
-
     return this.model.findFirst({
-      ...(finalWhere && { where: finalWhere }),
-      ...(include && { include }),
-      ...(select && { select }),
+      where: finalWhere,
+      ...this.buildQueryOptions(queryOptions),
     })
   }
 
   /**
-   * 根据条件查找多条记录
+   * 查找多条记录（可分页、排序）
    */
   async findMany(
     options?: {
       where?: ModelTypes<T>['WhereInput']
       orderBy?: ModelTypes<T>['OrderByInput']
-      pageIndex?: number
-      pageSize?: number
     } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model'][]> {
-    return this._findManyInternal(options, true)
+    return this._findManyInternal(
+      {
+        ...options,
+        pageIndex: 0,
+        pageSize: BaseRepositoryService.MAX_PAGE_SIZE,
+      },
+      true,
+    )
   }
 
   /**
@@ -172,8 +197,8 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     options?: CommonPaginationOptions<T>,
   ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
     const {
-      pageSize = 15,
-      pageIndex = 0,
+      pageSize = BaseRepositoryService.DEFAULT_PAGE_SIZE,
+      pageIndex = BaseRepositoryService.DEFAULT_PAGE_INDEX,
       orderBy: orderByString,
       startDate,
       endDate,
@@ -183,10 +208,8 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       omit,
       dateField = 'createdAt',
     } = options || {}
-
     let finalWhere: ModelTypes<T>['WhereInput'] = where || {}
-
-    // 处理时间范围查询
+    // 时间范围处理
     if (startDate || endDate) {
       const dateCondition: any = {}
       if (startDate) dateCondition.gte = new Date(startDate)
@@ -200,19 +223,14 @@ export abstract class BaseRepositoryService<T extends ModelName> {
         [dateField]: dateCondition,
       } as ModelTypes<T>['WhereInput']
     }
-
     let orderBy: ModelTypes<T>['OrderByInput'] = {
       id: 'desc',
     } as ModelTypes<T>['OrderByInput']
-
     if (orderByString) {
       try {
         orderBy = JSON.parse(orderByString)
-      } catch {
-        // 解析失败时使用默认排序 id
-      }
+      } catch {}
     }
-
     return this._paginationInternal(
       {
         pageIndex,
@@ -236,18 +254,16 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       data: ModelTypes<T>['UpdateInput']
     } & QueryOptions<T>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { where, data, include, select, omit } = options
+    const { where, data, ...queryOptions } = options
     return this.model.update({
       where,
       data,
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
-      ...(omit && { omit }),
+      ...this.buildQueryOptions(queryOptions),
     })
   }
 
   /**
-   * 根据ID更新记录
+   * 根据 id 更新记录
    */
   async updateById(
     options: {
@@ -255,22 +271,21 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       data: ModelTypes<T>['UpdateInput']
     } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { id, data, include, select } = options
+    const { id, data, ...queryOptions } = options
     return this.update({
       where: { id } as ModelTypes<T>['WhereUniqueInput'],
       data,
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
+      ...queryOptions,
     })
   }
 
   /**
-   * 批量更新记录
+   * 批量更新
    */
   async updateMany(options: {
     where: ModelTypes<T>['WhereInput']
     data: ModelTypes<T>['UpdateInput']
-  }): Promise<Prisma.BatchPayload> {
+  }): Promise<BatchResult> {
     const { where, data } = options
     return this.model.updateMany({ ...(where && { where }), data })
   }
@@ -279,75 +294,64 @@ export abstract class BaseRepositoryService<T extends ModelName> {
    * 删除单条记录
    */
   async delete(
-    options: {
-      where: ModelTypes<T>['WhereUniqueInput']
-    } & Partial<QueryOptions<T>>,
+    options: { where: ModelTypes<T>['WhereUniqueInput'] } & Partial<
+      QueryOptions<T>
+    >,
   ): Promise<ModelTypes<T>['Model']> {
-    const { where, include, select } = options
-    return this.model.delete({
-      where,
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
-    })
+    const { where, ...queryOptions } = options
+    return this.model.delete({ where, ...this.buildQueryOptions(queryOptions) })
   }
 
   /**
-   * 根据ID删除记录
+   * 根据 id 删除记录
    */
   async deleteById(
-    options: {
-      id: number | string
-    } & Partial<QueryOptions<T>>,
+    options: { id: number | string } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { id, include, select } = options
+    const { id, ...queryOptions } = options
     return this.delete({
       where: { id } as ModelTypes<T>['WhereUniqueInput'],
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
+      ...queryOptions,
     })
   }
 
   /**
-   * 批量删除记录
+   * 批量删除
    */
-  async deleteMany(
-    where?: ModelTypes<T>['WhereInput'],
-  ): Promise<Prisma.BatchPayload> {
+  async deleteMany(where?: ModelTypes<T>['WhereInput']): Promise<BatchResult> {
     return this.model.deleteMany({ ...(where && { where }) })
   }
 
   /**
-   * 统计记录数量
+   * 统计记录数（不含软删除）
    */
   async count(where?: ModelTypes<T>['WhereInput']): Promise<number> {
     return this._countInternal(where, false)
   }
 
   /**
-   * 检查记录是否存在
+   * 检查是否存在匹配记录
    */
   async exists(where: ModelTypes<T>['WhereInput']): Promise<boolean> {
     return (await this.count(where)) > 0
   }
 
   /**
-   * 内部计数方法，统一处理计数逻辑
+   * 内部计数方法，支持软删除过滤
    */
   private async _countInternal(
     where?: ModelTypes<T>['WhereInput'],
     includeDeleted = false,
   ): Promise<number> {
     let finalWhere = where
-
     if (!includeDeleted && this.supportsSoftDelete) {
       finalWhere = this.getWhereWithoutDeleted(where)
     }
-
     return this.model.count(finalWhere ? { where: finalWhere } : undefined)
   }
 
   /**
-   * 创建或更新记录（upsert）
+   * upsert 操作，存在则更新，不存在则创建
    */
   async upsert(
     options: {
@@ -356,18 +360,17 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       update: ModelTypes<T>['UpdateInput']
     } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
-    const { where, create, update, include, select } = options
+    const { where, create, update, ...queryOptions } = options
     return this.model.upsert({
       where,
       create,
       update,
-      ...(include && { include }),
-      ...(select ? { select } : { select: { id: true } }),
+      ...this.buildQueryOptions(queryOptions),
     })
   }
 
   /**
-   * 执行事务
+   * 事务操作
    */
   async transaction<R>(
     callback: (prisma: PrismaService) => Promise<R>,
@@ -376,7 +379,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 执行原始查询
+   * 执行原生 SQL 查询
    */
   async queryRaw<R = any>(options: {
     query: string
@@ -387,7 +390,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 执行原始操作（增删改）
+   * 执行原生 SQL 写操作
    */
   async executeRaw(options: {
     query: string
@@ -397,55 +400,39 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     return this.prisma.$executeRawUnsafe(query, ...params)
   }
 
-  // ==================== 软删除相关方法 ====================
-
   /**
-   * 获取排除软删除记录的查询条件
+   * 获取未软删除的 where 条件
    */
   protected getWhereWithoutDeleted(
     where?: ModelTypes<T>['WhereInput'],
   ): ModelTypes<T>['WhereInput'] {
-    if (!this.supportsSoftDelete) {
+    if (!this.supportsSoftDelete)
       return where || ({} as ModelTypes<T>['WhereInput'])
-    }
-
-    const baseWhere = where || ({} as ModelTypes<T>['WhereInput'])
-    return {
-      ...baseWhere,
-      deletedAt: null,
-    } as ModelTypes<T>['WhereInput']
+    return { ...(where || {}), deletedAt: null } as ModelTypes<T>['WhereInput']
   }
 
   /**
-   * 获取只包含软删除记录的查询条件
+   * 获取仅软删除的 where 条件
    */
   protected getWhereOnlyDeleted(
     where?: ModelTypes<T>['WhereInput'],
   ): ModelTypes<T>['WhereInput'] {
-    if (!this.supportsSoftDelete) {
+    if (!this.supportsSoftDelete)
       return where || ({} as ModelTypes<T>['WhereInput'])
-    }
-
-    const baseWhere = where || ({} as ModelTypes<T>['WhereInput'])
     return {
-      ...baseWhere,
+      ...(where || {}),
       deletedAt: { not: null },
     } as ModelTypes<T>['WhereInput']
   }
 
   /**
-   * 软删除单条记录
+   * 软删除单条记录（仅标记 deletedAt）
    */
   async softDelete(id: number): Promise<ModelTypes<T>['Model']> {
-    if (!this.supportsSoftDelete) {
+    if (!this.supportsSoftDelete)
       throw new BadRequestException(`${this.modelName} 不支持软删除功能`)
-    }
-
-    const existing = await this.exists({ id })
-    if (!existing) {
-      throw new BadRequestException(`删除失败，数据不存在`)
-    }
-
+    const existing = await this.exists({ id } as any)
+    if (!existing) throw new BadRequestException(`删除失败，数据不存在`)
     return this.updateById({
       id,
       data: { deletedAt: new Date() } as ModelTypes<T>['UpdateInput'],
@@ -453,41 +440,34 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 批量软删除记录
+   * 批量软删除（只处理未被软删除的记录）
    */
   async softDeleteMany(
     where: ModelTypes<T>['WhereInput'],
   ): Promise<BatchResult> {
-    if (!this.supportsSoftDelete) {
+    if (!this.supportsSoftDelete)
       throw new BadRequestException(`${this.modelName} 不支持软删除功能`)
-    }
-
+    // 只查未软删除的 id
     const existing = await this.findMany({
-      where: {
-        ...where,
-        deletedAt: null,
-      },
-      select: {
-        id: true,
-      },
+      where: { ...where, deletedAt: null },
+      select: { id: true },
     })
-
-    // @ts-expect-error ignore
-    const existingIds = existing.map((item) => item.id)
+    const existingIds = existing
+      .map((item: any) => item.id)
+      .filter((id: unknown): id is number => typeof id === 'number')
+    if (!existingIds.length) return { count: 0 }
     return this.updateMany({
-      where: { id: { in: existingIds } },
+      where: { id: { in: existingIds } } as any,
       data: { deletedAt: new Date() } as ModelTypes<T>['UpdateInput'],
     })
   }
 
   /**
-   * 恢复软删除的记录
+   * 恢复软删除的单条记录
    */
   async restore(id: number): Promise<ModelTypes<T>['Model']> {
-    if (!this.supportsSoftDelete) {
-      throw new Error(`${this.modelName} 不支持软删除功能`)
-    }
-
+    if (!this.supportsSoftDelete)
+      throw new BadRequestException(`${this.modelName} 不支持软删除功能`)
     return this.model.update({
       where: { id } as ModelTypes<T>['WhereUniqueInput'],
       data: { deletedAt: null } as ModelTypes<T>['UpdateInput'],
@@ -495,13 +475,11 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 批量恢复软删除的记录
+   * 批量恢复软删除
    */
   async restoreMany(where: ModelTypes<T>['WhereInput']): Promise<BatchResult> {
-    if (!this.supportsSoftDelete) {
-      throw new Error(`${this.modelName} 不支持软删除功能`)
-    }
-
+    if (!this.supportsSoftDelete)
+      throw new BadRequestException(`${this.modelName} 不支持软删除功能`)
     return this.model.updateMany({
       where,
       data: { deletedAt: null } as ModelTypes<T>['UpdateInput'],
@@ -509,19 +487,17 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 永久删除记录（物理删除）
+   * 物理删除单条记录
    */
   async forceDelete(
-    options: {
-      id: number | string
-    } & Partial<QueryOptions<T>>,
+    options: { id: number | string } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model']> {
     const { id, include, select } = options
     return this.deleteById({ id, include, select })
   }
 
   /**
-   * 批量永久删除记录（物理删除）
+   * 批量物理删除
    */
   async forceDeleteMany(
     where: ModelTypes<T>['WhereInput'],
@@ -530,7 +506,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 查找记录（包含软删除记录）
+   * 查找所有（包含软删除）
    */
   async findWithDeleted(
     options?: {
@@ -544,7 +520,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 只查找软删除的记录
+   * 查找仅软删除的记录
    */
   async findOnlyDeleted(
     options?: {
@@ -555,7 +531,6 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model'][]> {
     if (!this.supportsSoftDelete) return []
-
     const { where, ...restOptions } = options || {}
     const whereOnlyDeleted = this.getWhereOnlyDeleted(where)
     return this._findManyInternal(
@@ -565,7 +540,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
-   * 内部查询方法，统一处理查询逻辑
+   * 内部 findMany，支持软删除过滤
    */
   private async _findManyInternal(
     options?: {
@@ -578,32 +553,25 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   ): Promise<ModelTypes<T>['Model'][]> {
     const { where, orderBy, pageIndex, pageSize, include, select, omit } =
       options || {}
-
     let finalWhere = where
     if (applySoftDeleteFilter && this.supportsSoftDelete) {
       finalWhere = this.getWhereWithoutDeleted(where)
     }
-
-    // 设置默认排序为 id
     const finalOrderBy =
       orderBy || ({ id: 'desc' } as ModelTypes<T>['OrderByInput'])
-
-    // 转换分页参数
-    const skip = pageIndex || 0
-    const take = pageSize || 15
+    const skip = pageIndex ?? BaseRepositoryService.DEFAULT_PAGE_INDEX
+    const take = pageSize ?? BaseRepositoryService.DEFAULT_PAGE_SIZE
     return this.model.findMany({
       ...(finalWhere && { where: finalWhere }),
       orderBy: finalOrderBy,
-      ...(skip !== undefined && { skip }),
-      ...(take !== undefined && { take }),
-      ...(include && { include }),
-      ...(select && { select }),
-      ...(omit && { omit }),
+      skip,
+      take,
+      ...this.buildQueryOptions({ include, select, omit }),
     })
   }
 
   /**
-   * 分页查询（包含软删除记录）
+   * 分页查找（包含软删除/仅软删除/正常）
    */
   async findWithDeletedPagination(
     options?: {
@@ -616,9 +584,6 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     return this._paginationInternal(options, 'withDeleted')
   }
 
-  /**
-   * 分页查询软删除记录
-   */
   async findOnlyDeletedPagination(
     options?: {
       pageIndex?: number
@@ -628,14 +593,17 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     } & Partial<QueryOptions<T>>,
   ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
     if (!this.supportsSoftDelete) {
-      const { pageIndex = 1, pageSize = 10 } = options || {}
+      const {
+        pageIndex = BaseRepositoryService.DEFAULT_PAGE_INDEX,
+        pageSize = BaseRepositoryService.DEFAULT_PAGE_SIZE,
+      } = options || {}
       return { list: [], total: 0, pageIndex, pageSize }
     }
     return this._paginationInternal(options, 'onlyDeleted')
   }
 
   /**
-   * 内部分页查询方法，统一处理分页逻辑
+   * 内部分页查询，支持软删除模式
    */
   private async _paginationInternal(
     options?: {
@@ -647,19 +615,16 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     mode: 'normal' | 'withDeleted' | 'onlyDeleted' = 'normal',
   ): Promise<PaginationResult<ModelTypes<T>['Model']>> {
     const {
-      pageIndex = 1,
-      pageSize = 10,
+      pageIndex = BaseRepositoryService.DEFAULT_PAGE_INDEX,
+      pageSize = BaseRepositoryService.DEFAULT_PAGE_SIZE,
       where,
       orderBy,
       include,
       select,
       omit,
     } = options || {}
-
     let finalWhere = where
     let countWhere = where
-
-    // 根据模式处理 where 条件
     switch (mode) {
       case 'normal':
         if (this.supportsSoftDelete) {
@@ -668,14 +633,12 @@ export abstract class BaseRepositoryService<T extends ModelName> {
         }
         break
       case 'withDeleted':
-        // 不做任何过滤，包含所有记录
         break
       case 'onlyDeleted':
         finalWhere = this.getWhereOnlyDeleted(where)
         countWhere = finalWhere
         break
     }
-
     const [data, total] = await Promise.all([
       this._findManyInternal(
         {
@@ -688,26 +651,24 @@ export abstract class BaseRepositoryService<T extends ModelName> {
           omit,
         },
         false,
-      ), // 不再应用软删除过滤，因为已经在上面处理了
+      ),
       this._countInternal(countWhere, mode !== 'normal'),
     ])
-
     return { list: data, total, pageIndex, pageSize }
   }
 
   /**
-   * 统计记录数量（包含软删除）
+   * 统计所有（含软删除）
    */
   async countWithDeleted(where?: ModelTypes<T>['WhereInput']): Promise<number> {
     return this._countInternal(where, true)
   }
 
   /**
-   * 统计软删除记录数量
+   * 统计仅软删除
    */
   async countOnlyDeleted(where?: ModelTypes<T>['WhereInput']): Promise<number> {
     if (!this.supportsSoftDelete) return 0
-
     const whereOnlyDeleted = this.getWhereOnlyDeleted(where)
     return this._countInternal(whereOnlyDeleted, true)
   }
@@ -715,23 +676,19 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   /**
    * 获取软删除统计信息
    */
-  async getSoftDeleteStats(where?: ModelTypes<T>['WhereInput']): Promise<{
-    total: number
-    active: number
-    deleted: number
-  }> {
+  async getSoftDeleteStats(
+    where?: ModelTypes<T>['WhereInput'],
+  ): Promise<{ total: number; active: number; deleted: number }> {
     if (!this.supportsSoftDelete) {
       const total = await this._countInternal(where, false)
       return { total, active: total, deleted: 0 }
     }
-
     const whereOnlyDeleted = this.getWhereOnlyDeleted(where)
     const [total, active, deleted] = await Promise.all([
-      this._countInternal(where, true), // 包含软删除的总数
-      this._countInternal(where, false), // 活跃记录数
-      this._countInternal(whereOnlyDeleted, true), // 软删除记录数
+      this._countInternal(where, true),
+      this._countInternal(where, false),
+      this._countInternal(whereOnlyDeleted, true),
     ])
-
     return { total, active, deleted }
   }
 }
