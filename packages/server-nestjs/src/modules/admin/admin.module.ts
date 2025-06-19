@@ -7,6 +7,7 @@ import { AdminUploadModule } from '@/modules/admin/upload/upload.module'
 import { DictionaryModule } from '@/modules/shared/dictionary/dictionary.module'
 import { AdminAuthModule } from './auth/auth.module'
 import { AdminLoggerModule } from './logger/admin-logger.module'
+import { NoticeModule } from './notice'
 import { RequestLogModule } from './request-log/request-log.module'
 import { AdminUserModule } from './users/user.module'
 
@@ -19,6 +20,7 @@ import { AdminUserModule } from './users/user.module'
     AdminUploadModule,
     DictionaryModule,
     MaxMindModule,
+    NoticeModule,
   ],
   controllers: [DictionaryController],
   providers: [

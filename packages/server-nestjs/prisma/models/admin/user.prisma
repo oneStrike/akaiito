@@ -19,5 +19,9 @@ model AdminUser {
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
+  /// 索引优化
+  @@index([status]) // 按状态查询活跃用户
+  @@index([isRoot]) // 查询超级管理员
+  @@index([createdAt]) // 按创建时间查询
   @@map("admin_user")
 }

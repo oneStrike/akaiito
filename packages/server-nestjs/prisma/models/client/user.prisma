@@ -18,5 +18,9 @@ model ClientUser {
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
+  /// 索引优化
+  @@index([status]) // 按状态查询活跃用户
+  @@index([sex]) // 按性别统计
+  @@index([createdAt]) // 按注册时间查询
   @@map("client_user")
 }

@@ -26,22 +26,25 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
 
   /**
    * 分页查询请求日志
-   * @param queryDto 查询条件和分页参数
-   * @returns 分页查询结果
+   * @param queryDto 查询条件
+   * @returns 分页数据
    */
   async findRequestLogs(queryDto: QueryRequestLogDto) {
-    console.log(queryDto)
+    const { username, userId, responseCode, httpMethod, requestPath } = queryDto
+
+    const where: any = {}
+    
+    if (username) {
+      where.username = { contains: username }
+    }
+    if (userId !== undefined) where.userId = userId
+    if (responseCode !== undefined) where.responseCode = responseCode
+    if (httpMethod) where.httpMethod = httpMethod
+    if (requestPath) where.requestPath = requestPath
+
     return this.findPagination({
       ...queryDto,
-      where: {
-        AND: [
-          { username: { contains: queryDto.username } },
-          { userId: queryDto.userId },
-          { responseCode: queryDto.responseCode },
-          { httpMethod: queryDto.httpMethod },
-          { requestPath: queryDto.requestPath },
-        ],
-      },
+      where,
     })
   }
 

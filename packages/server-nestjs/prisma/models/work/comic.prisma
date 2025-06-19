@@ -51,7 +51,16 @@ model WorkComic {
   /// 分类 隐式多对多
   categories        WorkCategory[]
 
-  @@index([authorId])
+  /// 索引优化
+  @@index([authorId]) // 外键索引（已存在）
+  @@index([isPublish, publishAt]) // 查询已发布的漫画
+  @@index([popularity, virtualPopularity]) // 按人气排序
+  @@index([language, region]) // 按语言和地区查询
+  @@index([isFinished]) // 查询完结状态
+  @@index([viewRule]) // 按查看权限查询
+  @@index([lastUpdated]) // 按最后更新时间排序
+  @@index([name]) // 按名称搜索
+  @@index([ageRating]) // 按年龄分级查询
   @@map("work_comic")
 }
 
@@ -80,6 +89,11 @@ model WorkComicChapter {
   /// 更新时间
   updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamp(0)
 
-  @@index([comicId])
+  /// 索引优化
+  @@index([comicId]) // 外键索引（已存在）
+  @@index([comicId, order]) // 按漫画ID和排序查询章节
+  @@index([isPublish]) // 查询已发布章节
+  @@index([viewRule]) // 按查看权限查询
+  @@index([createdAt]) // 按创建时间排序
   @@map("work_comic_chapter")
 }

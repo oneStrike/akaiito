@@ -15,31 +15,27 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
   protected readonly modelName = 'Dictionary' as const
 
   /**
-   * 分页查询数据字典列表
+   * 分页查询字典列表
    * @param queryDto 查询条件
    * @returns 分页数据
    */
   async findDictionaries(queryDto: QueryDictionaryDto) {
+    const { code, name, isEnabled } = queryDto
+
+    const where: any = {}
+    
+    if (code) {
+      where.code = { contains: code }
+    }
+    if (name) {
+      where.name = { contains: name }
+    }
+    if (isEnabled !== undefined) {
+      where.isEnabled = { equals: isEnabled }
+    }
+
     return this.findPagination({
-      where: {
-        AND: [
-          {
-            code: {
-              contains: queryDto.code,
-            },
-          },
-          {
-            name: {
-              contains: queryDto.name,
-            },
-          },
-          {
-            isEnabled: {
-              equals: queryDto.isEnabled,
-            },
-          },
-        ],
-      },
+      where,
       ...queryDto,
     })
   }
@@ -52,29 +48,24 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
   async findDictionaryItems(queryDto: QueryDictionaryItemDto) {
     const { dictionaryCode, name, code, isEnabled } = queryDto
 
-    return this.prisma.dictionaryItem.findMany({
-      where: {
-        dictionaryCode: {
-          in: dictionaryCode.split(','),
-        },
-        AND: [
-          {
-            code: {
-              contains: code,
-            },
-          },
-          {
-            name: {
-              contains: name,
-            },
-          },
-          {
-            isEnabled: {
-              equals: isEnabled,
-            },
-          },
-        ],
+    const where: any = {
+      dictionaryCode: {
+        in: dictionaryCode.split(','),
       },
+    }
+    
+    if (code) {
+      where.code = { contains: code }
+    }
+    if (name) {
+      where.name = { contains: name }
+    }
+    if (isEnabled !== undefined) {
+      where.isEnabled = { equals: isEnabled }
+    }
+
+    return this.prisma.dictionaryItem.findMany({
+      where,
       orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
     })
   }

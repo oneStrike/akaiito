@@ -39,5 +39,11 @@ model WorkAuthor {
 
   WorkComic WorkComic[]
 
+  /// 索引优化
+  @@index([status]) // 按状态查询可用作者
+  @@index([roles]) // 按身份角色查询
+  @@index([nationality]) // 按国籍查询
+  @@index([gender]) // 按性别查询
+  @@index([name]) // 按名称搜索（支持模糊查询）
   @@map("work_author")
 }

@@ -20,6 +20,9 @@ model ClientPageConfig {
   updatedAt   DateTime       @updatedAt @map("updated_at") @db.Timestamp(0)
   AppNotice   ClientNotice[]
 
+  /// 索引优化
+  @@index([status]) // 按状态查询可用页面
+  @@index([pageRule]) // 按权限级别查询
   @@map("client_page_config")
 }
 
@@ -44,5 +47,7 @@ model ClientConfig {
   /// 更新时间
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
 
+  /// 索引优化
+  @@index([novelZone, comicZone, photsZone, videoZone]) // 按模块状态查询
   @@map("client_config")
 }

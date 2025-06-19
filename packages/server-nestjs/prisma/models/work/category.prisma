@@ -36,5 +36,11 @@ model WorkCategory {
   /// 漫画 隐式多对多
   comics                WorkComic[]
 
+  /// 索引优化
+  @@index([status]) // 按状态查询可用分类
+  @@index([order]) // 按排序查询
+  @@index([popularity, virtualPopularity]) // 按人气排序
+  @@index([photoApplicable, novelApplicable, comicApplicable, illustratorApplicable]) // 按适用类型查询
+  @@index([novelCount, comicCount, photoCount, illustratorCount]) // 按内容数量排序
   @@map("work_category")
 }

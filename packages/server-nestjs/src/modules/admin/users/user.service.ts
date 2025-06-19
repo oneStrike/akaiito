@@ -307,30 +307,23 @@ export class UserService extends BaseRepositoryService<'AdminUser'> {
    * 获取用户列表（分页）
    */
   async getUsers(queryDto: UserPageDto) {
-    const where = {
-      AND: [
-        {
-          username: {
-            contains: queryDto.username,
-          },
-        },
-        {
-          mobile: {
-            contains: queryDto.mobile,
-          },
-        },
-        {
-          status: {
-            equals: queryDto.status,
-          },
-        },
-        {
-          isRoot: {
-            equals: queryDto.isRoot,
-          },
-        },
-      ],
+    const { username, mobile, status, isRoot } = queryDto
+
+    const where: any = {}
+    
+    if (username) {
+      where.username = { contains: username }
     }
+    if (mobile) {
+      where.mobile = { contains: mobile }
+    }
+    if (status !== undefined) {
+      where.status = { equals: status }
+    }
+    if (isRoot !== undefined) {
+      where.isRoot = { equals: isRoot }
+    }
+
     return this.findPagination({
       where,
       ...queryDto,

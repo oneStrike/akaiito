@@ -4,30 +4,52 @@ model ClientNotice {
   id              Int               @id @default(autoincrement())
   /// 标题
   title           String            @db.VarChar(100)
-  /// 内容
-  content         String            @db.Text /// 内容
+  /// 内容详情
+  content         String            @db.Text
+  /// 通知类型 1系统通知 2活动公告 3维护通知 4更新公告
+  type            Int               @default(1) @db.SmallInt
+  /// 优先级 1低 2中 3高 4紧急
+  priority        Int               @default(2) @db.SmallInt
   /// 发布开始时间
   startTime       DateTime?         @map("start_time") @db.Timestamp()
   /// 发布结束时间
   endTime         DateTime?         @map("end_time") @db.Timestamp()
-  appPage         ClientPageConfig? @relation(fields: [pageCode], references: [pageCode])
+  /// 关联页面配置
+  appPage         ClientPageConfig? @relation(fields: [pageCode], references: [pageCode], onDelete: SetNull)
   /// 页面代码，点击公告跳转的页面
-  pageCode        String?           @map("page_code") @db.VarChar(20)
+  pageCode        String?           @map("page_code") @db.VarChar(50)
   /// 通知弹窗的背景图片
   backgroundImage String?           @map("background_image") @db.VarChar(200)
-  /// 是否发布
-  isPublish       Boolean           @default(true) @map("is_publish")
-  /// 是否启用小程序   1 启用 0 禁用
-  enableApplet    Boolean           @default(true) @map("enable_wechat")
-  /// 是否启用H5   1 启用 0 禁用
+  /// 发布状态 0未发布 1已发布 2已下线
+  status          Int               @default(0) @db.SmallInt
+  /// 是否启用小程序
+  enableApplet    Boolean           @default(true) @map("enable_applet")
+  /// 是否启用H5
   enableWeb       Boolean           @default(true) @map("enable_web")
-  /// 是否启用APP   1 启用 0 禁用
+  /// 是否启用APP
   enableApp       Boolean           @default(true) @map("enable_app")
+  /// 是否置顶
+  isTop           Boolean           @default(false) @map("is_top")
+  /// 是否弹窗显示
+  isPopup         Boolean           @default(false) @map("is_popup")
+  /// 排序权重（数值越大越靠前）
+  sortOrder       Int               @default(0) @map("sort_order")
+  /// 阅读次数
+  viewCount       Int               @default(0) @map("view_count")
   /// 创建时间
   createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
   updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
+  /// 软删除时间
+  deletedAt       DateTime          @updatedAt @map("deleted_at") @db.Timestamp(0)
 
-  @@index([pageCode])
+  /// 索引优化
+  @@index([status, startTime, endTime]) // 查询已发布且在有效期内的通知
+  @@index([type, status]) // 按类型和状态查询
+  @@index([priority, isTop, sortOrder]) // 排序相关字段
+  @@index([createdAt]) // 按创建时间查询
+  @@index([pageCode]) // 外键索引
+  @@index([isPopup, status]) // 弹窗通知查询
+  @@index([viewCount]) // 热门通知查询
   @@map("client_notice")
 }
