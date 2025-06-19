@@ -15,7 +15,6 @@ import {
   CreateClientPageConfigDto,
   IncrementViewCountDto,
   QueryClientPageConfigDto,
-  UpdateClientPageConfigDto,
 } from './dto/pageConfig.dto'
 import { ClientPageConfigService } from './pageConfig.service'
 
@@ -55,43 +54,31 @@ export class ClientPageConfigController {
   /**
    * 根据ID查询页面配置详情
    */
-  @Get('/detail/:id')
+  @Get('/detailById')
   @ApiDoc({
     summary: '根据ID查询页面配置详情',
     model: ClientPageConfigDto,
   })
-  async findDetail(@Param('id', ParseIntPipe) id: number) {
+  async findDetail(@Query('id', ParseIntPipe) id: number) {
     return this.pageConfigService.findDetail(id)
   }
 
   /**
    * 根据页面编码查询页面配置详情
    */
-  @Get('/code/:pageCode')
+  @Get('/detailByCode')
   @ApiDoc({
     summary: '根据页面编码查询页面配置详情',
     model: ClientPageConfigDto,
   })
-  async findByCode(@Param('pageCode') pageCode: string) {
+  async findByCode(@Query('pageCode') pageCode: string) {
     return this.pageConfigService.findByPageCode(pageCode)
-  }
-
-  /**
-   * 更新页面配置
-   */
-  @Post('/update')
-  @ApiDoc({
-    summary: '更新页面配置',
-    model: ClientPageConfigDto,
-  })
-  async update(@Body() body: UpdateClientPageConfigDto) {
-    return this.pageConfigService.updatePageConfig(body)
   }
 
   /**
    * 批量更新页面配置状态
    */
-  @Post('/batch-updateStatus')
+  @Post('/batchUpdateStatus')
   @ApiDoc({
     summary: '批量更新页面配置状态',
     model: Object,
