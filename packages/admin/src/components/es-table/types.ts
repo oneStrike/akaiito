@@ -3,11 +3,9 @@ import type { Ref } from 'vue'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 
 export type EsTableColumn = (Partial<TableColumnInstance> & {
-  prop: string
-  slotName?: string
   defaultValue?: string
+  type?: 'image' | 'link' | 'date' | 'index'
 })[]
-
 /**
  * 分页响应数据的通用接口
  * @template T 列表项的数据类型

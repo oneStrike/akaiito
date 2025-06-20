@@ -10,14 +10,12 @@ model ClientPageConfig {
   pageName    String    @map("page_name") @db.VarChar(100)
   /// 页面标题（用于SEO）
   pageTitle   String?   @map("page_title") @db.VarChar(200)
-  /// 页面权限级别（1:游客可访问, 2:需要登录, 3:需要会员, 4:需要VIP）
-  pageRule    Int       @default(1) @map("page_rule") @db.SmallInt
+  /// 页面权限级别（0:游客可访问, 1:需要登录, 2:需要会员, 3:需要VIP）
+  pageRule    Int       @default(0) @map("page_rule") @db.SmallInt
   /// 页面状态（0:禁用, 1:启用, 2:开发中, 3:维护中）
   status      Int       @default(1) @db.SmallInt
   /// 页面描述信息
   description String?   @db.VarChar(500)
-  /// 排序权重（数值越大越靠前）
-  sortOrder   Int       @default(0) @map("sort_order") @db.SmallInt
   /// 访问次数统计
   viewCount   Int       @default(0) @map("view_count")
   /// 创建时间

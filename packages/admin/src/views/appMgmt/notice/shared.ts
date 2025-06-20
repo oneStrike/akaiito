@@ -24,11 +24,6 @@ export const noticeType = [
   },
 ]
 
-export const noticeTypeObj = noticeType.reduce(
-  (acc, cur) => ({ ...acc, [cur.value]: cur.label }),
-  {},
-)
-
 export const noticePriority = [
   {
     label: '低优先级',
@@ -48,16 +43,12 @@ export const noticePriority = [
   },
 ]
 
-export const noticePriorityObj = noticePriority.reduce(
-  (acc, cur) => ({ ...acc, [cur.value]: cur.label }),
-  {},
-)
-
 export const tableColumns: EsTableColumn = [
   {
     label: '标题',
     prop: 'title',
     align: 'center',
+    type: 'link',
   },
   {
     label: '跳转页面',

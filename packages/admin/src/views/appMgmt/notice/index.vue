@@ -3,6 +3,7 @@
   import * as noticeApi from '@/apis/notice.ts'
   import * as pageConfigApi from '@/apis/page-config.ts'
   import { PromptsEnum } from '@/enum/prompts'
+  import NoticeDetail from '@/views/appMgmt/notice/detail.vue'
   import {
     filter,
     formOptions,
@@ -28,8 +29,15 @@
     })
   })
 
+  const showDetail = ref(false)
   const currentRow = ref<(DetailTypesRes & IterateObject) | null>(null)
   const tableRef = useTemplateRef('tableRef')
+
+  const openDetailModal = ({ row }: any) => {
+    currentRow.value = row
+    showDetail.value = true
+  }
+
   const openFormModal = async (row?: DetailTypesRes) => {
     if (row) {
       currentRow.value = await noticeApi.detailApi({ id: row.id })
@@ -86,6 +94,7 @@
       :toolbar="toolbar"
       :columns="tableColumns"
       :request-api="noticeApi.pageApi"
+      @link="openDetailModal"
       @toolbar-handler="openFormModal()"
     >
       <template #enableApplet="{ row }">
@@ -155,6 +164,13 @@
       :title="currentRow ? '编辑' : '添加'"
       :options="formTool.options"
       @submit="submitForm"
+    />
+
+    <NoticeDetail
+      v-if="currentRow && showDetail"
+      :visible="showDetail"
+      :record-id="currentRow.id"
+      @close="((currentRow = null), (showDetail = false))"
     />
   </div>
 </template>

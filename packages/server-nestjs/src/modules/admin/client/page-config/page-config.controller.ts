@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
+import { BatchOperationResultDto } from '@/common/dto/batch.dto'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import {
   ClientPageConfigPageResponseDto,
@@ -15,6 +16,7 @@ import {
   CreateClientPageConfigDto,
   IncrementViewCountDto,
   QueryClientPageConfigDto,
+  UpdateClientPageConfigDto,
 } from './dto/page-config.dto'
 import { ClientPageConfigService } from './page-config.service'
 
@@ -78,10 +80,26 @@ export class ClientPageConfigController {
   /**
    * 批量更新页面配置状态
    */
+  @Post('/update')
+  @ApiDoc({
+    summary: '更新页面配置',
+    model: IdDto,
+  })
+  async update(@Body() body: UpdateClientPageConfigDto) {
+    const { id, ...data } = body
+    return this.pageConfigService.updateById({
+      id,
+      data,
+    })
+  }
+
+  /**
+   * 批量更新页面配置状态
+   */
   @Post('/batchUpdateStatus')
   @ApiDoc({
     summary: '批量更新页面配置状态',
-    model: Object,
+    model: BatchOperationResultDto,
   })
   async batchUpdateStatus(@Body() body: { ids: number[]; status: string }) {
     const { ids, status } = body
@@ -94,7 +112,7 @@ export class ClientPageConfigController {
   @Post('/incrementView')
   @ApiDoc({
     summary: '增加页面访问次数',
-    model: Object,
+    model: IdDto,
   })
   async incrementViewCount(@Body() body: IncrementViewCountDto) {
     return this.pageConfigService.incrementViewCount(body.pageCode)
@@ -106,7 +124,7 @@ export class ClientPageConfigController {
   @Post('/batchDelete')
   @ApiDoc({
     summary: '批量软删除页面配置',
-    model: Object,
+    model: BatchOperationResultDto,
   })
   async batchDelete(@Body() body: IdsDto) {
     return this.pageConfigService.softDeleteMany({

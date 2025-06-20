@@ -3,7 +3,7 @@
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/create
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export interface CreateTypesReq {
@@ -43,7 +43,7 @@ export type CreateTypesRes = {
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/page-config/page
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export interface PageTypesReq {
@@ -125,7 +125,7 @@ export interface PageTypesRes {
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/detailById
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export interface DetailByIdTypesReq {
@@ -177,7 +177,7 @@ export type DetailByIdTypesRes = {
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/detailByCode
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export interface DetailByCodeTypesReq {
@@ -225,22 +225,68 @@ export type DetailByCodeTypesRes = {
 }
 
 /**
+ *  接口 [批量更新页面配置状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-311249084)
+ *  @标签 客户端页面配置模块/批量更新页面配置状态
+ *  @方式 POST
+ *  @地址 /api/admin/page-config/update
+ *  @更新时间 2025-06-21 01:38:08
+ */
+
+export interface UpdateTypesReq {
+  /* 页面编码（唯一标识） */
+  pageCode?: string
+
+  /* 页面路径（URL路径） */
+  pagePath?: string
+
+  /* 页面名称 */
+  pageName?: string
+
+  /* 页面标题（用于SEO） */
+  pageTitle?: string | null
+
+  /* 页面权限级别 */
+  pageRule?: number
+
+  /* 页面状态 */
+  status?: number
+
+  /* 页面描述信息 */
+  description?: string | null
+
+  /* 排序权重（数值越大越靠前） */
+  sortOrder?: number
+
+  /* 页面ID */
+  id: number
+}
+
+/*  */
+export type UpdateTypesRes = {
+  /* 主键id */
+  id: number
+}
+
+/**
  *  接口 [批量更新页面配置状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-311784127)
  *  @标签 客户端页面配置模块/批量更新页面配置状态
  *  @方式 POST
  *  @地址 /api/admin/page-config/batchUpdateStatus
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 /*  */
-export type BatchUpdateStatusTypesRes = {}
+export type BatchUpdateStatusTypesRes = {
+  /* 操作成功的数据亮 */
+  count: number
+}
 
 /**
  *  接口 [增加页面访问次数](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-311784128)
  *  @标签 客户端页面配置模块/增加页面访问次数
  *  @方式 POST
  *  @地址 /api/admin/page-config/incrementView
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export interface IncrementViewTypesReq {
@@ -249,14 +295,17 @@ export interface IncrementViewTypesReq {
 }
 
 /*  */
-export type IncrementViewTypesRes = {}
+export type IncrementViewTypesRes = {
+  /* 主键id */
+  id: number
+}
 
 /**
  *  接口 [批量软删除页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-311784129)
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/batchDelete
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export interface BatchDeleteTypesReq {
@@ -265,4 +314,7 @@ export interface BatchDeleteTypesReq {
 }
 
 /*  */
-export type BatchDeleteTypesRes = {}
+export type BatchDeleteTypesRes = {
+  /* 操作成功的数据亮 */
+  count: number
+}

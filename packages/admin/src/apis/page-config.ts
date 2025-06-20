@@ -8,6 +8,8 @@ import type {
   DetailByIdTypesReq,
   DetailByCodeTypesRes,
   DetailByCodeTypesReq,
+  UpdateTypesRes,
+  UpdateTypesReq,
   BatchUpdateStatusTypesRes,
   IncrementViewTypesRes,
   IncrementViewTypesReq,
@@ -20,7 +22,7 @@ import type {
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/create
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
@@ -39,7 +41,7 @@ export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/page-config/page
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
@@ -56,7 +58,7 @@ export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/detailById
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export const detailByIdApi = (params: DetailByIdTypesReq): Promise<DetailByIdTypesRes> => {
@@ -73,7 +75,7 @@ export const detailByIdApi = (params: DetailByIdTypesReq): Promise<DetailByIdTyp
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/detailByCode
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export const detailByCodeApi = (params: DetailByCodeTypesReq): Promise<DetailByCodeTypesRes> => {
@@ -86,11 +88,30 @@ export const detailByCodeApi = (params: DetailByCodeTypesReq): Promise<DetailByC
 }
 
 /**
+ *  接口 [批量更新页面配置状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-311249084)
+ *  @标签 客户端页面配置模块/批量更新页面配置状态
+ *  @方式 POST
+ *  @地址 /api/admin/page-config/update
+ *  @更新时间 2025-06-21 01:38:08
+ */
+
+export const updateApi = (data: UpdateTypesReq): Promise<UpdateTypesRes> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/api/admin/page-config/update',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
  *  接口 [批量更新页面配置状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-311784127)
  *  @标签 客户端页面配置模块/批量更新页面配置状态
  *  @方式 POST
  *  @地址 /api/admin/page-config/batchUpdateStatus
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export const batchUpdateStatusApi = (): Promise<BatchUpdateStatusTypesRes> => {
@@ -106,7 +127,7 @@ export const batchUpdateStatusApi = (): Promise<BatchUpdateStatusTypesRes> => {
  *  @标签 客户端页面配置模块/增加页面访问次数
  *  @方式 POST
  *  @地址 /api/admin/page-config/incrementView
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export const incrementViewApi = (data: IncrementViewTypesReq): Promise<IncrementViewTypesRes> => {
@@ -125,7 +146,7 @@ export const incrementViewApi = (data: IncrementViewTypesReq): Promise<Increment
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/batchDelete
- *  @更新时间 2025-06-20 22:09:10
+ *  @更新时间 2025-06-21 01:38:08
  */
 
 export const batchDeleteApi = (data: BatchDeleteTypesReq): Promise<BatchDeleteTypesRes> => {

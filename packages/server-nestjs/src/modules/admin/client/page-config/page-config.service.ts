@@ -68,7 +68,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
     return this.findPagination({
       ...queryPageConfigDto,
       where,
-      orderBy: [{ sortOrder: 'desc' }, { createdAt: 'desc' }],
+      orderBy: [{ createdAt: 'desc' }],
     })
   }
 
@@ -88,7 +88,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
 
     return await this.findMany({
       where,
-      orderBy: [{ sortOrder: 'desc' }, { pageName: 'asc' }],
+      orderBy: [{ pageName: 'asc' }],
       select: {
         id: true,
         pageCode: true,
@@ -97,7 +97,6 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
         pageTitle: true,
         pageRule: true,
         description: true,
-        sortOrder: true,
         viewCount: true,
       },
     })
@@ -114,7 +113,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
       include: {
         notices: {
           where: {
-            status: PageStatusEnum.ENABLED,
+            isPublish: true,
             OR: [
               {
                 AND: [
@@ -159,7 +158,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
             title: true,
             type: true,
             priority: true,
-            status: true,
+            isPublish: true,
             isTop: true,
             createdAt: true,
           },
@@ -245,11 +244,6 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
         viewCount: {
           increment: 1,
         },
-      },
-      select: {
-        id: true,
-        pageCode: true,
-        viewCount: true,
       },
     })
   }

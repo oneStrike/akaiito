@@ -1,53 +1,59 @@
 <script setup lang="ts">
-import { createAppPageApi, deleteAppPageApi, getAppPagesApi, updateAppPageApi } from '@/apis/appPageConfig'
-import { PromptsEnum } from '@/enum/prompts'
-import { filter, formOptions, tableColumns, toolbar } from '@/views/appMgmt/pageMgmt/shared'
+  import type { DetailByIdTypesRes } from '@/apis/types/page-config'
+  import * as pageConfigApi from '@/apis/page-config.ts'
+  import { PromptsEnum } from '@/enum/prompts'
+  import {
+    filter,
+    formOptions,
+    tableColumns,
+    toolbar,
+  } from '@/views/appMgmt/pageMgmt/shared'
 
-defineOptions({
-  name: 'PageMgmt',
-})
-type TableItem = ResolveListItem<typeof requestData.value>
+  defineOptions({
+    name: 'PageMgmt',
+  })
 
-const modalFrom = reactive({
-  show: false,
-  loading: false,
-})
+  const modalFrom = reactive({
+    show: false,
+    loading: false,
+  })
 
-const currentRow = ref<TableItem | null>(null)
+  const tableRef = useTemplateRef('tableRef')
+  const currentRow = ref<DetailByIdTypesRes | null>(null)
 
-const { loading, reset, requestData, params } = useRequest(getAppPagesApi)
-
-const openFormModal = (row?: TableItem) => {
-  if (row) {
-    currentRow.value = row
+  const openFormModal = (row?: DetailByIdTypesRes) => {
+    if (row) {
+      currentRow.value = row
+    }
+    modalFrom.show = true
   }
-  modalFrom.show = true
-}
-const submitForm = async (value: TableItem) => {
-  modalFrom.loading = true
-  if (currentRow.value?.id) {
-    value.id = currentRow.value.id
-    await updateAppPageApi(value)
-  } else {
-    await createAppPageApi(value)
+  const submitForm = async (value: DetailByIdTypesRes) => {
+    modalFrom.loading = true
+    if (currentRow.value?.id) {
+      value.id = currentRow.value.id
+      await pageConfigApi.updateApi(value)
+    } else {
+      await pageConfigApi.createApi(value)
+    }
+    useMessage.success(
+      currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
+    )
+    currentRow.value = null
+    modalFrom.loading = false
+    modalFrom.show = false
+    tableRef.value?.reset()
   }
-  useMessage.success(currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED)
-  currentRow.value = null
-  modalFrom.loading = false
-  modalFrom.show = false
-  await reset()
-}
 </script>
 
 <template>
-  <div v-loading="loading" class="main-page">
-    <es-toolbar :toolbar="toolbar" :filter="filter" @query="reset" @reset="reset" @handler="openFormModal()" />
+  <div class="main-page">
     <es-table
-      v-model:page-index="params.pageIndex"
-      v-model:page-size="params.pageSize"
+      ref="tableRef"
       :columns="tableColumns"
-      :data="requestData?.list ?? []"
-      :total="requestData?.total"
+      :toolbar="toolbar"
+      :filter="filter"
+      :request-api="pageConfigApi.pageApi"
+      @toolbar-handler="openFormModal()"
     >
       <template #pageRule="{ row }">
         <el-text v-if="row.pageRule === 1" type="info">普通</el-text>
@@ -62,8 +68,14 @@ const submitForm = async (value: TableItem) => {
         <el-text v-if="row.status === 3" type="danger">维护</el-text>
       </template>
       <template #action="{ row }">
-        <el-button type="primary" link @click="openFormModal(row)"> 编辑</el-button>
-        <es-pop-confirm v-model:loading="loading" :request="deleteAppPageApi" :row="row" @success="reset()" />
+        <el-button type="primary" link @click="openFormModal(row)">
+          编辑
+        </el-button>
+        <es-pop-confirm
+          :request="pageConfigApi.detailByIdApi"
+          :row="row"
+          @success="tableRef?.reset()"
+        />
       </template>
     </es-table>
 

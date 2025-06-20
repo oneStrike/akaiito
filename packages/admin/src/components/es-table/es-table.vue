@@ -420,72 +420,70 @@
       <!-- 动态列渲染 -->
       <el-table-column
         v-for="item in innerColumns"
-        :key="item.columnKey"
+        :key="item.prop"
         v-bind="item"
         class-name="leading-9"
       >
         <template #default="{ row, column, $index }">
           <!-- 自定义插槽列 -->
-          <template v-if="item.slotName">
-            <slot
-              :name="item.slotName"
-              :row="row"
-              :column="column"
-              :index="$index"
-            />
-          </template>
-          <!-- 图片列：支持预览功能 -->
-          <template v-else-if="item.type === 'image'">
-            <el-image
-              fit="contain"
-              class="w-10 align-middle"
-              :src="row[item.prop] || defaultImage"
-              :preview-src-list="row[item.prop] ? [row[item.prop]] : []"
-              :z-index="999999"
-              preview-teleported
-            >
-              <template #error>
-                <el-text type="danger">加载失败</el-text>
-              </template>
-            </el-image>
-          </template>
-          <!-- 链接列：可点击的链接按钮 -->
-          <template v-else-if="item.type === 'link'">
-            <el-tooltip
-              :content="row[item.prop]"
-              :show-after="200"
-              placement="top"
-            >
-              <el-button type="primary" link @click="emits('link', row)">
-                {{ row[item.prop] }}
-              </el-button>
-            </el-tooltip>
-          </template>
-          <!-- 日期列：格式化日期显示 -->
-          <template v-else-if="item.type === 'date'">
-            <span>
+          <slot :name="item.prop" :row="row" :column="column" :index="$index">
+            <!-- 图片列：支持预览功能 -->
+            <template v-if="item.type === 'image'">
+              <el-image
+                fit="contain"
+                class="w-10 align-middle"
+                :src="row[item.prop] || defaultImage"
+                :preview-src-list="row[item.prop] ? [row[item.prop]] : []"
+                :z-index="999999"
+                preview-teleported
+              >
+                <template #error>
+                  <el-text type="danger">加载失败</el-text>
+                </template>
+              </el-image>
+            </template>
+            <!-- 链接列：可点击的链接按钮 -->
+            <template v-else-if="item.type === 'link'">
+              <el-tooltip
+                :content="row[item.prop]"
+                :show-after="200"
+                placement="top"
+              >
+                <el-button
+                  type="primary"
+                  link
+                  @click="emits('link', { row, field: item.prop })"
+                >
+                  {{ row[item.prop] }}
+                </el-button>
+              </el-tooltip>
+            </template>
+            <!-- 日期列：格式化日期显示 -->
+            <template v-else-if="item.type === 'date'">
+              <span>
+                {{
+                  row[item.prop]
+                    ? $dayjs(row[item.prop]).format('YYYY-MM-DD HH:mm:ss')
+                    : '-'
+                }}
+              </span>
+            </template>
+            <!-- 普通文本列：支持自定义格式化函数 -->
+            <template v-else-if="item.type !== 'index'">
               {{
-                row[item.prop]
-                  ? $dayjs(row[item.prop]).format('YYYY-MM-DD HH:mm:ss')
-                  : '-'
+                item.formatter
+                  ? item.formatter(
+                      row,
+                      column,
+                      item.prop ? row[item.prop] : null,
+                      $index,
+                    )
+                  : row[item.prop] || row[item.prop] === 0
+                    ? row[item.prop]
+                    : item.defaultValue || defaultValue
               }}
-            </span>
-          </template>
-          <!-- 普通文本列：支持自定义格式化函数 -->
-          <template v-else-if="item.type !== 'index'">
-            {{
-              item.formatter
-                ? item.formatter(
-                    row,
-                    column,
-                    item.prop ? row[item.prop] : null,
-                    $index,
-                  )
-                : row[item.prop] || row[item.prop] === 0
-                  ? row[item.prop]
-                  : item.defaultValue || defaultValue
-            }}
-          </template>
+            </template>
+          </slot>
         </template>
       </el-table-column>
 
