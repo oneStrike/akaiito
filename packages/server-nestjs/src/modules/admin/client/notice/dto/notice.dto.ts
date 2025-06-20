@@ -14,11 +14,7 @@ import {
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { PageDto } from '@/common/dto/page.dto'
-import {
-  NoticePriorityEnum,
-  NoticeStatusEnum,
-  NoticeTypeEnum,
-} from '../notice.constant'
+import { NoticePriorityEnum, NoticeTypeEnum } from '../notice.constant'
 
 /**
  * 通知基础DTO
@@ -92,14 +88,13 @@ export class BaseNoticeDto {
   })
   backgroundImage?: string
 
-  @ValidateEnum({
-    description: '发布状态',
-    example: NoticeStatusEnum.UNPUBLISHED,
+  @ValidateBoolean({
+    description: '是否发布',
+    example: false,
     required: true,
-    enum: NoticeStatusEnum,
-    default: NoticeStatusEnum.UNPUBLISHED,
+    default: false,
   })
-  status!: NoticeStatusEnum
+  isPublish!: boolean
 
   @ValidateBoolean({
     description: '是否启用小程序',
@@ -177,6 +172,7 @@ export class BaseNoticeDto {
  */
 export class CreateNoticeDto extends OmitType(BaseNoticeDto, [
   'id',
+  'isPublish',
   'viewCount',
   'createdAt',
   'updatedAt',
@@ -185,11 +181,9 @@ export class CreateNoticeDto extends OmitType(BaseNoticeDto, [
 /**
  * 更新通知DTO
  */
-export class UpdateNoticeDto extends OmitType(BaseNoticeDto, [
-  'viewCount',
-  'createdAt',
-  'updatedAt',
-]) {}
+export class UpdateNoticeDto extends PartialType(
+  OmitType(BaseNoticeDto, ['viewCount', 'isPublish', 'createdAt', 'updatedAt']),
+) {}
 
 /**
  * 通知查询DTO
@@ -200,7 +194,7 @@ export class QueryNoticeDto extends IntersectionType(
     'title',
     'type',
     'priority',
-    'status',
+    'isPublish',
     'isTop',
   ]),
 ) {}
@@ -208,7 +202,9 @@ export class QueryNoticeDto extends IntersectionType(
 /**
  * 通知状态更新DTO
  */
-export class UpdateNoticeStatusDto extends PickType(BaseNoticeDto, ['status']) {
+export class UpdateNoticeStatusDto extends PickType(BaseNoticeDto, [
+  'isPublish',
+]) {
   @ValidateNumberArray({
     description: '通知ID列表',
     example: [1, 2, 3],

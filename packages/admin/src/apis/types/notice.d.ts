@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface CreateTypesReq {
@@ -31,8 +31,8 @@ export interface CreateTypesReq {
   /* 通知弹窗背景图片URL */
   backgroundImage?: string | null
 
-  /* 发布状态 */
-  status: number
+  /* 是否发布 */
+  isEnabled: boolean
 
   /* 是否启用小程序 */
   enableApplet: boolean
@@ -64,7 +64,7 @@ export type CreateTypesRes = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/page
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface PageTypesReq {
@@ -92,8 +92,8 @@ export interface PageTypesReq {
   /* 优先级 */
   priority?: number
 
-  /* 发布状态 */
-  status?: number
+  /* 是否发布 */
+  isEnabled?: boolean
 
   /* 是否置顶 */
   isTop?: boolean
@@ -133,8 +133,8 @@ export interface PageTypesRes {
     /* 通知弹窗背景图片URL */
     backgroundImage?: string | null
 
-    /* 发布状态 */
-    status: number
+    /* 是否发布 */
+    isEnabled: boolean
 
     /* 是否启用小程序 */
     enableApplet: boolean
@@ -170,8 +170,13 @@ export interface PageTypesRes {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/detail
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
+
+export interface DetailTypesReq {
+  /* 主键id */
+  id: number
+}
 
 /*  */
 export type DetailTypesRes = {
@@ -202,8 +207,8 @@ export type DetailTypesRes = {
   /* 通知弹窗背景图片URL */
   backgroundImage?: string | null
 
-  /* 发布状态 */
-  status: number
+  /* 是否发布 */
+  isEnabled: boolean
 
   /* 是否启用小程序 */
   enableApplet: boolean
@@ -238,7 +243,7 @@ export type DetailTypesRes = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface UpdateTypesReq {
@@ -269,8 +274,8 @@ export interface UpdateTypesReq {
   /* 通知弹窗背景图片URL */
   backgroundImage?: string | null
 
-  /* 发布状态 */
-  status: number
+  /* 是否发布 */
+  isEnabled: boolean
 
   /* 是否启用小程序 */
   enableApplet: boolean
@@ -302,12 +307,12 @@ export type UpdateTypesRes = {
  *  @标签 客户端通知模块/更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/updateStatus
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface UpdateStatusTypesReq {
-  /* 发布状态 */
-  status: number
+  /* 是否发布 */
+  isEnabled: boolean
 
   /* 通知ID列表 */
   ids: number[]
@@ -324,7 +329,7 @@ export type UpdateStatusTypesRes = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batchDelete
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface BatchDeleteTypesReq {

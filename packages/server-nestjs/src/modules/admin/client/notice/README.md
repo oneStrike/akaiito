@@ -9,7 +9,7 @@
 ### 核心功能
 - ✅ 通知的增删改查（CRUD）
 - ✅ 多平台支持（小程序、H5、APP）
-- ✅ 通知状态管理（未发布、已发布、已下线）
+- ✅ 通知状态管理（未发布、已发布）
 - ✅ 优先级和置顶功能
 - ✅ 弹窗通知支持
 - ✅ 阅读次数统计
@@ -39,7 +39,7 @@
 | endTime | DateTime | 发布结束时间 | ✅ |
 | pageCode | String(50) | 关联页面代码 | |
 | backgroundImage | String(200) | 背景图片URL | |
-| status | SmallInt | 发布状态 (0-2) | ✅ |
+| isPublish | Boolean | 是否发布 | ✅ |
 | enableApplet | Boolean | 启用小程序 | |
 | enableWeb | Boolean | 启用H5 | |
 | enableApp | Boolean | 启用APP | |
@@ -55,10 +55,10 @@
 
 ```sql
 -- 查询已发布且在有效期内的通知
-@@index([status, startTime, endTime])
+@@index([isPublish, startTime, endTime])
 
--- 按类型和状态查询
-@@index([type, status])
+-- 按类型和发布状态查询
+@@index([type, isPublish])
 
 -- 排序相关字段
 @@index([priority, isTop, sortOrder])
@@ -209,9 +209,8 @@ Authorization: Bearer <token>
 - `4`: 紧急
 
 ### 发布状态 (NoticeStatusEnum)
-- `0`: 未发布
-- `1`: 已发布
-- `2`: 已下线
+- `false`: 未发布
+- `true`: 已发布
 
 ### 平台类型 (PlatformEnum)
 - `applet`: 小程序
@@ -232,7 +231,7 @@ export class SomeService {
   async getSystemNotices() {
     return this.noticeService.findMany({
       type: NoticeTypeEnum.SYSTEM,
-      status: 1,
+      isPublish: true,
       pageSize: 10,
       pageIndex: 0,
     })

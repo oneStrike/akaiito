@@ -464,7 +464,11 @@
           <!-- 日期列：格式化日期显示 -->
           <template v-else-if="item.type === 'date'">
             <span>
-              {{ $dayjs(row[item.prop]).format('YYYY-MM-DD HH:mm:ss') }}
+              {{
+                row[item.prop]
+                  ? $dayjs(row[item.prop]).format('YYYY-MM-DD HH:mm:ss')
+                  : '-'
+              }}
             </span>
           </template>
           <!-- 普通文本列：支持自定义格式化函数 -->

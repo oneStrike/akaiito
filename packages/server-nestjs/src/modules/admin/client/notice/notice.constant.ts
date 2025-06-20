@@ -25,9 +25,7 @@ export enum NoticePriorityEnum {
 /// 通知发布状态枚举
 export enum NoticeStatusEnum {
   /** 未发布 */
-  UNPUBLISHED = 0,
+  UNPUBLISHED = false,
   /** 已发布 */
-  PUBLISHED = 1,
-  /** 已下线 */
-  OFFLINE = 2,
+  PUBLISHED = true,
 }

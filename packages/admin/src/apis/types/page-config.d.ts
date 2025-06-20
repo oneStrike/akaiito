@@ -3,7 +3,7 @@
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/create
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface CreateTypesReq {
@@ -43,7 +43,7 @@ export type CreateTypesRes = {
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/page-config/page
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface PageTypesReq {
@@ -125,7 +125,7 @@ export interface PageTypesRes {
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/detailById
- *  @更新时间 2025-06-20 21:28:00
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface DetailByIdTypesReq {
@@ -177,7 +177,7 @@ export type DetailByIdTypesRes = {
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/detailByCode
- *  @更新时间 2025-06-20 21:28:00
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface DetailByCodeTypesReq {
@@ -229,7 +229,7 @@ export type DetailByCodeTypesRes = {
  *  @标签 客户端页面配置模块/批量更新页面配置状态
  *  @方式 POST
  *  @地址 /api/admin/page-config/batchUpdateStatus
- *  @更新时间 2025-06-20 21:28:00
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 /*  */
@@ -240,7 +240,7 @@ export type BatchUpdateStatusTypesRes = {}
  *  @标签 客户端页面配置模块/增加页面访问次数
  *  @方式 POST
  *  @地址 /api/admin/page-config/incrementView
- *  @更新时间 2025-06-20 21:28:00
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface IncrementViewTypesReq {
@@ -256,7 +256,7 @@ export type IncrementViewTypesRes = {}
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/batchDelete
- *  @更新时间 2025-06-20 21:28:00
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface BatchDeleteTypesReq {

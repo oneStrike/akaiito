@@ -1,165 +1,126 @@
 <script setup lang="ts">
-import type {
-  GetAppNoticeDetailTypesRes,
-  GetAppNoticeListTypesRes,
-  UpdateAppNoticeTypesReq,
-} from '@/apis/types/appNotice'
-import {
-  createAppNoticeApi,
-  deleteAppNoticeApi,
-  getAppNoticeDetailApi,
-  getAppNoticeListApi,
-  publishAppNoticeApi,
-  updateAppNoticeApi,
-} from '@/apis/appNotice'
-import { getAppPagesApi } from '@/apis/appPageConfig'
-import { PromptsEnum } from '@/enum/prompts'
-import { utils } from '@/utils'
-import {
-  filter,
-  formOptions,
-  tableColumns,
-  toolbar,
-} from '@/views/appMgmt/notice/shared'
+  import type { DetailTypesRes, UpdateTypesReq } from '@/apis/types/notice'
+  import * as noticeApi from '@/apis/notice.ts'
+  import * as pageConfigApi from '@/apis/page-config.ts'
+  import { PromptsEnum } from '@/enum/prompts'
+  import {
+    filter,
+    formOptions,
+    tableColumns,
+    toolbar,
+  } from '@/views/appMgmt/notice/shared'
 
-defineOptions({
-  name: 'NoticePage',
-})
-type TableItem = GetAppNoticeDetailTypesRes & {
-  enable: string
-}
-
-const modalFrom = reactive({
-  show: false,
-  loading: false,
-})
-const formTool = useFormTool(formOptions)
-getAppPagesApi({ pageSize: '500' }).then((res) => {
-  formTool.specificItem('pageCode', (item) => {
-    item.componentProps!.options = res.list.map((item) => ({
-      label: item.pageName,
-      value: item.pageCode,
-    }))
+  defineOptions({
+    name: 'NoticePage',
   })
-})
 
-const currentRow = ref<TableItem | null>(null)
-
-const { loading, reset, request, requestData, params } = useRequest(
-  getAppNoticeListApi,
-  {
-    hook: formatList,
-  },
-)
-
-function formatList(data: GetAppNoticeListTypesRes) {
-  data.forEach((item: any) => {
-    const { enableWeb, enableApplet, enableApp, startTime, endTime } = item
-    item.statusText = '未发布'
-    item.statusColor = 'primary'
-    item.statusCode = 1
-    if (!enableApp && !enableWeb && !enableApplet) {
-      item.statusText = '暂无可发布平台'
-      item.statusColor = 'danger'
-      item.statusCode = 0
-    } else if (utils.dayjs() > utils.dayjs(endTime)) {
-      item.statusText = '已过期'
-      item.statusColor = 'danger'
-      item.statusCode = 2
-    } else if (item.isPublish) {
-      item.statusText = '已发布'
-      item.statusColor = 'primary'
-      item.statusCode = 3
-    }
+  const modalFrom = reactive({
+    show: false,
+    loading: false,
   })
-  return data
-}
+  const formTool = useFormTool(formOptions)
+  pageConfigApi.pageApi({ pageSize: 500 }).then((res) => {
+    formTool.specificItem('pageCode', (item) => {
+      item.componentProps!.options = res.list.map((item) => ({
+        label: item.pageName,
+        value: item.pageCode,
+      }))
+    })
+  })
 
-const openFormModal = async (row?: TableItem) => {
-  if (row) {
-    currentRow.value = await getAppNoticeDetailApi({ id: row.id })
-    let enable = ''
-    if (currentRow.value!.enableApplet) {
-      enable += '0,'
+  const currentRow = ref<(DetailTypesRes & IterateObject) | null>(null)
+  const tableRef = useTemplateRef('tableRef')
+  const openFormModal = async (row?: DetailTypesRes) => {
+    if (row) {
+      currentRow.value = await noticeApi.detailApi({ id: row.id })
+      currentRow.value.enablePlatform = ''
+      if (currentRow.value.enableApplet) {
+        currentRow.value.enablePlatform += '0,'
+      }
+      if (currentRow.value.enableWeb) {
+        currentRow.value.enablePlatform += '1,'
+      }
+      if (currentRow.value.enableApp) {
+        currentRow.value.enablePlatform += '2,'
+      }
     }
-    if (currentRow.value!.enableWeb) {
-      enable += '1,'
+    modalFrom.show = true
+  }
+  const submitForm = async (value: UpdateTypesReq & IterateObject) => {
+    modalFrom.loading = true
+    if (value.pageCode) {
+      const pages = formTool.getItem('pageCode')[0].componentProps!.options!
+      value.pageName = pages.find(
+        (item) => item.value === value.pageCode,
+      )!.label
     }
-    if (currentRow.value!.enableApp) {
-      enable += '2,'
+    value.enableApplet = value.enablePlatform.includes('0')
+    value.enableWeb = value.enablePlatform.includes('1')
+    value.enableApp = value.enablePlatform.includes('2')
+    if (Array.isArray(value.startTime) && value.startTime.length === 2) {
+      const [startTime, endTime] = value.startTime
+      value.startTime = startTime
+      value.endTime = endTime
     }
-    currentRow.value!.enable = enable
+    if (currentRow.value?.id) {
+      value.id = currentRow.value.id
+      await noticeApi.updateApi(value)
+    } else {
+      await noticeApi.createApi(value)
+    }
+    useMessage.success(
+      currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
+    )
+    currentRow.value = null
+    modalFrom.loading = false
+    modalFrom.show = false
+    tableRef.value?.reset()
   }
-  modalFrom.show = true
-}
-const submitForm = async (
-  value: UpdateAppNoticeTypesReq & { enable: string },
-) => {
-  modalFrom.loading = true
-  if (value.pageCode) {
-    const pages = formTool.getItem('pageCode')[0].componentProps!.options!
-    value.pageName = pages.find((item) => item.value === value.pageCode)!.label
-  }
-  value.enableApplet = value.enable.includes('0')
-  value.enableWeb = value.enable.includes('1')
-  value.enableApp = value.enable.includes('2')
-  if (Array.isArray(value.startTime) && value.startTime.length === 2) {
-    const [startTime, endTime] = value.startTime
-    value.startTime = startTime
-    value.endTime = endTime
-  }
-  if (currentRow.value?.id) {
-    value.id = currentRow.value.id
-    await updateAppNoticeApi(value)
-  } else {
-    await createAppNoticeApi(value)
-  }
-  useMessage.success(
-    currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
-  )
-  currentRow.value = null
-  modalFrom.loading = false
-  modalFrom.show = false
-  await reset()
-}
 </script>
 
 <template>
-  <div v-loading="loading" class="main-page">
+  <div class="main-page">
     <es-table
-      v-model:params="params"
+      ref="tableRef"
       :filter="filter"
       :toolbar="toolbar"
       :columns="tableColumns"
-      :data="requestData ?? []"
-      :total="requestData?.length"
-      @reset="reset"
-      @query="request"
+      :request-api="noticeApi.pageApi"
       @toolbar-handler="openFormModal()"
     >
       <template #enableApplet="{ row }">
         <es-switch
           :row="row"
           field="enableApplet"
-          :request="updateAppNoticeApi"
-          @success="request()"
+          :request="noticeApi.updateApi"
+          @success="tableRef?.refresh()"
         />
       </template>
       <template #enableWeb="{ row }">
         <es-switch
           :row="row"
           field="enableWeb"
-          :request="updateAppNoticeApi"
-          @success="request()"
+          :request="noticeApi.updateApi"
+          @success="tableRef?.refresh()"
         />
       </template>
       <template #enableApp="{ row }">
         <es-switch
           :row="row"
           field="enableApp"
-          :request="updateAppNoticeApi"
-          @success="request()"
+          :request="noticeApi.updateApi"
+          @success="tableRef?.refresh()"
         />
+      </template>
+      <template #isPublish="{ row }">
+        <el-text
+          v-if="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
+          type="danger"
+        >
+          已下线
+        </el-text>
+        <el-text v-else-if="row.isPublish" type="success">已发布</el-text>
+        <el-text v-else-if="!row.isPublish" type="danger">未发布</el-text>
       </template>
 
       <template #status="{ row }">
@@ -170,18 +131,19 @@ const submitForm = async (
           编辑
         </el-button>
         <es-pop-confirm
-          v-model:loading="loading"
-          :request="deleteAppNoticeApi"
+          ids
+          :request="noticeApi.batchDeleteApi"
           :row="row"
-          @success="request()"
+          @success="tableRef?.reset()"
         />
         <es-pop-confirm
-          v-model:loading="loading"
+          :disabled="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
           :confirm-text="row.isPublish ? '取消发布' : '发布'"
-          :request="publishAppNoticeApi"
+          :request="noticeApi.updateStatusApi"
           :row="row"
+          ids
           field="isPublish"
-          @success="request()"
+          @success="tableRef?.refresh()"
         />
       </template>
     </es-table>

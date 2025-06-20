@@ -3,7 +3,7 @@
  *  @标签 管理端请求日志模块/分页查询请求日志
  *  @方式 GET
  *  @地址 /api/admin/request-log/page
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface PageTypesReq {
@@ -97,7 +97,7 @@ export interface PageTypesRes {
  *  @标签 管理端请求日志模块/查询请求日志详情
  *  @方式 GET
  *  @地址 /api/admin/request-log/detail
- *  @更新时间 2025-06-20 21:27:53
+ *  @更新时间 2025-06-20 22:09:10
  */
 
 export interface DetailTypesReq {

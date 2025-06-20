@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  ParseIntPipe,
-  Post,
-  Query,
-} from '@nestjs/common'
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
@@ -61,8 +53,8 @@ export class ClientNoticeController {
     summary: '根据ID查询通知详情',
     model: BaseNoticeDto,
   })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.noticeService.findDetail(id)
+  async findOne(@Query() query: IdDto) {
+    return this.noticeService.findDetail(query.id)
   }
 
   /**
@@ -89,7 +81,7 @@ export class ClientNoticeController {
   async updateStatus(@Body() body: UpdateNoticeStatusDto) {
     return this.noticeService.updateMany({
       where: { id: { in: body.ids } },
-      data: { status: body.status },
+      data: { isPublish: body.isPublish },
     })
   }
 

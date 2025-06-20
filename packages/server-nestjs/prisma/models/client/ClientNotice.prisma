@@ -7,10 +7,10 @@ model ClientNotice {
   title           String            @db.VarChar(100)
   /// 内容详情
   content         String            @db.Text
-  /// 通知类型（1:系统通知, 2:活动公告, 3:维护通知, 4:更新公告）
-  type            Int               @default(1) @db.SmallInt
-  /// 优先级（1:低优先级, 2:中等优先级, 3:高优先级, 4:紧急）
-  priority        Int               @default(2) @db.SmallInt
+  /// 通知类型（0:系统通知, 1:活动公告, 2:维护通知, 3:更新公告）
+  type            Int               @default(0) @db.SmallInt
+  /// 优先级（0:低优先级, 1:中等优先级, 2:高优先级, 3:紧急）
+  priority        Int               @default(1) @db.SmallInt
   /// 发布开始时间
   startTime       DateTime?         @map("start_time") @db.Timestamp()
   /// 发布结束时间
@@ -21,8 +21,8 @@ model ClientNotice {
   pageCode        String?           @map("page_code") @db.VarChar(50)
   /// 通知弹窗的背景图片
   backgroundImage String?           @map("background_image") @db.VarChar(200)
-  /// 发布状态（0:未发布, 1:已发布, 2:已下线）
-  status          Int               @default(0) @db.SmallInt
+  /// 是否发布（true:已发布, false:未发布）
+  isPublish       Boolean           @default(false) @map("is_publish")
   /// 是否启用小程序
   enableApplet    Boolean           @default(true) @map("enable_applet")
   /// 是否启用H5
@@ -45,12 +45,12 @@ model ClientNotice {
   deletedAt       DateTime?         @map("deleted_at") @db.Timestamp(0)
 
   /// 索引优化
-  @@index([status, startTime, endTime]) // 查询已发布且在有效期内的通知
-  @@index([type, status]) // 按类型和状态查询
+  @@index([isPublish, startTime, endTime]) // 查询已发布且在有效期内的通知
+  @@index([type, isPublish]) // 按类型和发布状态查询
   @@index([priority, isTop, sortOrder]) // 排序相关字段
   @@index([createdAt]) // 按创建时间查询
   @@index([pageCode]) // 外键索引
-  @@index([isPopup, status]) // 弹窗通知查询
+  @@index([isPopup, isPublish]) // 弹窗通知查询
   @@index([viewCount]) // 热门通知查询
   @@map("client_notice")
 }

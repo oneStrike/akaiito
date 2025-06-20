@@ -44,7 +44,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
    * @returns 分页的通知列表
    */
   async findNoticePage(queryNoticeDto: QueryNoticeDto) {
-    const { title, type, priority, status, isTop } = queryNoticeDto
+    const { title, type, priority, isPublish, isTop } = queryNoticeDto
 
     const where: ClientNoticeWhereInput = {}
 
@@ -53,7 +53,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     }
     if (type !== undefined) where.type = type
     if (priority !== undefined) where.priority = priority
-    if (status !== undefined) where.status = status
+    if (isPublish !== undefined) where.isPublish = isPublish
     if (isTop !== undefined) where.isTop = isTop
 
     return this.findPagination({
@@ -79,7 +79,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
 
     return await this.findMany({
       where: {
-        status: NoticeStatusEnum.PUBLISHED, // 已发布
+        isPublish: NoticeStatusEnum.PUBLISHED, // 已发布
         ...platformCondition,
         OR: [
           {
@@ -160,7 +160,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     const notice = await this.findFirst({
       where: {
         id,
-        status: NoticeStatusEnum.PUBLISHED,
+        isPublish: NoticeStatusEnum.PUBLISHED,
       },
     })
 
