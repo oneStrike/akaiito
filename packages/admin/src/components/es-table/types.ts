@@ -1,8 +1,8 @@
-import type { TableColumnInstance } from 'element-plus'
+import type { TableColumnCtx } from 'element-plus'
 import type { Ref } from 'vue'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 
-export type EsTableColumn = (Partial<TableColumnInstance> & {
+export type EsTableColumn = (TableColumnCtx<any> & {
   defaultValue?: string
   type?: 'image' | 'link' | 'date' | 'index'
 })[]
