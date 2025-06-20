@@ -23,7 +23,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
     const { code, name, isEnabled } = queryDto
 
     const where: any = {}
-    
+
     if (code) {
       where.code = { contains: code }
     }
@@ -53,7 +53,7 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
         in: dictionaryCode.split(','),
       },
     }
-    
+
     if (code) {
       where.code = { contains: code }
     }

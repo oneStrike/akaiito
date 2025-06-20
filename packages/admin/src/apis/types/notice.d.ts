@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export interface CreateTypesReq {
@@ -13,11 +13,11 @@ export interface CreateTypesReq {
   /* 通知内容详情 */
   content: string
 
-  /* 通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告 */
-  type?: number
+  /* 通知类型 */
+  type: number
 
-  /* 优先级：1-低，2-中，3-高，4-紧急 */
-  priority?: number
+  /* 优先级 */
+  priority: number
 
   /* 发布开始时间 */
   startTime?: string
@@ -31,14 +31,17 @@ export interface CreateTypesReq {
   /* 通知弹窗背景图片URL */
   backgroundImage?: string | null
 
+  /* 发布状态 */
+  status: number
+
   /* 是否启用小程序 */
-  enableApplet?: boolean
+  enableApplet: boolean
 
   /* 是否启用H5 */
-  enableWeb?: boolean
+  enableWeb: boolean
 
   /* 是否启用APP */
-  enableApp?: boolean
+  enableApp: boolean
 
   /* 是否置顶 */
   isTop?: boolean
@@ -61,7 +64,7 @@ export type CreateTypesRes = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/page
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export interface PageTypesReq {
@@ -80,23 +83,20 @@ export interface PageTypesReq {
   /* 结束时间 */
   endDate?: string
 
-  /* 通知标题（模糊搜索） */
+  /* 通知标题 */
   title?: string
 
-  /* 通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告 */
+  /* 通知类型 */
   type?: number
 
-  /* 优先级：1-低，2-中，3-高，4-紧急 */
+  /* 优先级 */
   priority?: number
 
-  /* 发布状态：0-未发布，1-已发布，2-已下线 */
+  /* 发布状态 */
   status?: number
 
   /* 是否置顶 */
   isTop?: boolean
-
-  /* 是否弹窗显示 */
-  isPopup?: boolean
 }
 
 export interface PageTypesRes {
@@ -115,14 +115,11 @@ export interface PageTypesRes {
     /* 通知标题 */
     title: string
 
-    /* 通知内容详情 */
-    content: string
+    /* 通知类型 */
+    type: number
 
-    /* 通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告 */
-    type?: number
-
-    /* 优先级：1-低，2-中，3-高，4-紧急 */
-    priority?: number
+    /* 优先级 */
+    priority: number
 
     /* 发布开始时间 */
     startTime?: string
@@ -136,17 +133,17 @@ export interface PageTypesRes {
     /* 通知弹窗背景图片URL */
     backgroundImage?: string | null
 
-    /* 发布状态：0-未发布，1-已发布，2-已下线 */
-    status?: number
+    /* 发布状态 */
+    status: number
 
     /* 是否启用小程序 */
-    enableApplet?: boolean
+    enableApplet: boolean
 
     /* 是否启用H5 */
-    enableWeb?: boolean
+    enableWeb: boolean
 
     /* 是否启用APP */
-    enableApp?: boolean
+    enableApp: boolean
 
     /* 是否置顶 */
     isTop?: boolean
@@ -165,9 +162,6 @@ export interface PageTypesRes {
 
     /* 更新时间 */
     updatedAt: string
-
-    /* 软删除时间 */
-    deletedAt: string
   }[]
 }
 
@@ -176,7 +170,7 @@ export interface PageTypesRes {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/detail
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 /*  */
@@ -190,11 +184,11 @@ export type DetailTypesRes = {
   /* 通知内容详情 */
   content: string
 
-  /* 通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告 */
-  type?: number
+  /* 通知类型 */
+  type: number
 
-  /* 优先级：1-低，2-中，3-高，4-紧急 */
-  priority?: number
+  /* 优先级 */
+  priority: number
 
   /* 发布开始时间 */
   startTime?: string
@@ -208,17 +202,17 @@ export type DetailTypesRes = {
   /* 通知弹窗背景图片URL */
   backgroundImage?: string | null
 
-  /* 发布状态：0-未发布，1-已发布，2-已下线 */
-  status?: number
+  /* 发布状态 */
+  status: number
 
   /* 是否启用小程序 */
-  enableApplet?: boolean
+  enableApplet: boolean
 
   /* 是否启用H5 */
-  enableWeb?: boolean
+  enableWeb: boolean
 
   /* 是否启用APP */
-  enableApp?: boolean
+  enableApp: boolean
 
   /* 是否置顶 */
   isTop?: boolean
@@ -237,9 +231,6 @@ export type DetailTypesRes = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /* 软删除时间 */
-  deletedAt: string
 }
 
 /**
@@ -247,24 +238,24 @@ export type DetailTypesRes = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export interface UpdateTypesReq {
-  /* 主键id */
+  /* 通知ID */
   id: number
 
   /* 通知标题 */
-  title?: string | null
+  title: string
 
   /* 通知内容详情 */
-  content?: string | null
+  content: string
 
-  /* 通知类型：1-系统通知，2-活动公告，3-维护通知，4-更新公告 */
-  type?: number
+  /* 通知类型 */
+  type: number
 
-  /* 优先级：1-低，2-中，3-高，4-紧急 */
-  priority?: number
+  /* 优先级 */
+  priority: number
 
   /* 发布开始时间 */
   startTime?: string
@@ -278,17 +269,17 @@ export interface UpdateTypesReq {
   /* 通知弹窗背景图片URL */
   backgroundImage?: string | null
 
-  /* 发布状态：0-未发布，1-已发布，2-已下线 */
-  status?: number
+  /* 发布状态 */
+  status: number
 
   /* 是否启用小程序 */
-  enableApplet?: boolean
+  enableApplet: boolean
 
   /* 是否启用H5 */
-  enableWeb?: boolean
+  enableWeb: boolean
 
   /* 是否启用APP */
-  enableApp?: boolean
+  enableApp: boolean
 
   /* 是否置顶 */
   isTop?: boolean
@@ -311,21 +302,21 @@ export type UpdateTypesRes = {
  *  @标签 客户端通知模块/更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/updateStatus
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export interface UpdateStatusTypesReq {
-  /* 主键id */
-  id: number
-
-  /* 发布状态：0-未发布，1-已发布，2-已下线 */
+  /* 发布状态 */
   status: number
+
+  /* 通知ID列表 */
+  ids: number[]
 }
 
 /*  */
 export type UpdateStatusTypesRes = {
   /* 主键id */
-  id: number
+  ids: number[]
 }
 
 /**
@@ -333,7 +324,7 @@ export type UpdateStatusTypesRes = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batchDelete
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export interface BatchDeleteTypesReq {

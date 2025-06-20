@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
+import { PageStatusEnum } from '@/modules/admin/client/page-config/page-code.constant'
 import { ClientPageConfigWhereInput } from '@/prisma/client/models/ClientPageConfig'
 import {
   CreateClientPageConfigDto,
   QueryClientPageConfigDto,
   UpdateClientPageConfigDto,
 } from './dto/page-config.dto'
-import { PageStatusEnum } from '@/modules/admin/client/page-config/page-code.constant'
 
 /**
  * 页面配置服务类

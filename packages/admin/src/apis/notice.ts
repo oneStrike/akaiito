@@ -18,7 +18,7 @@ import type {
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
@@ -37,7 +37,7 @@ export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/page
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
@@ -54,7 +54,7 @@ export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/detail
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const detailApi = (): Promise<DetailTypesRes> => {
@@ -70,7 +70,7 @@ export const detailApi = (): Promise<DetailTypesRes> => {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const updateApi = (data: UpdateTypesReq): Promise<UpdateTypesRes> => {
@@ -89,7 +89,7 @@ export const updateApi = (data: UpdateTypesReq): Promise<UpdateTypesRes> => {
  *  @标签 客户端通知模块/更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/updateStatus
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const updateStatusApi = (data: UpdateStatusTypesReq): Promise<UpdateStatusTypesRes> => {
@@ -108,7 +108,7 @@ export const updateStatusApi = (data: UpdateStatusTypesReq): Promise<UpdateStatu
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batchDelete
- *  @更新时间 2025-06-19 14:31:58
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const batchDeleteApi = (data: BatchDeleteTypesReq): Promise<BatchDeleteTypesRes> => {

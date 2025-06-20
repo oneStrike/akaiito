@@ -29,7 +29,7 @@ import type {
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/page
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
@@ -46,7 +46,7 @@ export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/detail
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const detailApi = (params: DetailTypesReq): Promise<DetailTypesRes> => {
@@ -63,7 +63,7 @@ export const detailApi = (params: DetailTypesReq): Promise<DetailTypesRes> => {
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
@@ -82,7 +82,7 @@ export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const updateApi = (data: UpdateTypesReq): Promise<UpdateTypesRes> => {
@@ -101,7 +101,7 @@ export const updateApi = (data: UpdateTypesReq): Promise<UpdateTypesRes> => {
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const deleteApi = (data: DeleteTypesReq): Promise<DeleteTypesRes> => {
@@ -120,7 +120,7 @@ export const deleteApi = (data: DeleteTypesReq): Promise<DeleteTypesRes> => {
  *  @标签 字典管理/启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateEnableStatus
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const updateEnableStatusApi = (data: UpdateEnableStatusTypesReq): Promise<UpdateEnableStatusTypesRes> => {
@@ -139,7 +139,7 @@ export const updateEnableStatusApi = (data: UpdateEnableStatusTypesReq): Promise
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/items
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const itemsApi = (params: ItemsTypesReq): Promise<ItemsTypesRes> => {
@@ -156,7 +156,7 @@ export const itemsApi = (params: ItemsTypesReq): Promise<ItemsTypesRes> => {
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/createItem
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const createItemApi = (data: CreateItemTypesReq): Promise<CreateItemTypesRes> => {
@@ -175,7 +175,7 @@ export const createItemApi = (data: CreateItemTypesReq): Promise<CreateItemTypes
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateItem
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const updateItemApi = (data: UpdateItemTypesReq): Promise<UpdateItemTypesRes> => {
@@ -194,7 +194,7 @@ export const updateItemApi = (data: UpdateItemTypesReq): Promise<UpdateItemTypes
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/deleteItem
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const deleteItemApi = (data: DeleteItemTypesReq): Promise<DeleteItemTypesRes> => {
@@ -213,7 +213,7 @@ export const deleteItemApi = (data: DeleteItemTypesReq): Promise<DeleteItemTypes
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/updateItemStatus
- *  @更新时间 2025-06-19 14:31:49
+ *  @更新时间 2025-06-20 21:27:53
  */
 
 export const updateItemStatusApi = (data: UpdateItemStatusTypesReq): Promise<UpdateItemStatusTypesRes> => {
