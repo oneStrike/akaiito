@@ -23,7 +23,7 @@ import {
 } from './dto/user.dto'
 
 @Injectable()
-export class UserService extends BaseRepositoryService<'AdminUser'> {
+export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
   protected readonly modelName = 'AdminUser' as const
   constructor(
     private readonly rsa: RsaService,

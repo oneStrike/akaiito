@@ -15,15 +15,15 @@ import {
   CreateClientPageConfigDto,
   IncrementViewCountDto,
   QueryClientPageConfigDto,
-} from './dto/pageConfig.dto'
-import { ClientPageConfigService } from './pageConfig.service'
+} from './dto/page-config.dto'
+import { ClientPageConfigService } from './page-config.service'
 
 /**
  * 客户端页面配置控制器
  * 提供页面配置相关的API接口
  */
 @ApiTags('客户端页面配置模块')
-@Controller('admin/pageConfig')
+@Controller('admin/page-config')
 export class ClientPageConfigController {
   constructor(private readonly pageConfigService: ClientPageConfigService) {}
 

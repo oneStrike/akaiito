@@ -11,7 +11,7 @@ import { RsaPublicKeyDto } from './dto/rsa-public-key.dto'
  */
 @ApiTags('管理端认证模块')
 @Controller('admin/auth')
-export class AuthController {
+export class AdminAuthController {
   constructor(private readonly rsaService: RsaService) {}
 
   /**

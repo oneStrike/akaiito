@@ -10,7 +10,7 @@ import { ClientJwtService } from './client-jwt.service'
  */
 @ApiTags('客户端认证模块')
 @Controller('client/auth')
-export class AuthController {
+export class ClientAuthController {
   constructor(
     private readonly rsaService: RsaService,
     private readonly clientJwtService: ClientJwtService,

@@ -5,8 +5,8 @@ import {
   CreateClientPageConfigDto,
   QueryClientPageConfigDto,
   UpdateClientPageConfigDto,
-} from './dto/pageConfig.dto'
-import { PageStatusEnum } from '@/modules/admin/client/pageConfig/pageCode.constant'
+} from './dto/page-config.dto'
+import { PageStatusEnum } from '@/modules/admin/client/page-config/page-code.constant'
 
 /**
  * 页面配置服务类

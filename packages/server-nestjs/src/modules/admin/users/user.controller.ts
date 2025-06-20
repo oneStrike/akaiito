@@ -1,19 +1,10 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Query,
-  Req,
-  UseInterceptors,
-} from '@nestjs/common'
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { FastifyRequest } from 'fastify'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { Public } from '@/common/decorators/public.decorator'
 import { IdDto } from '@/common/dto/id.dto'
-import { useClassSerializerInterceptor } from '@/common/serializers/class-transformer.serializer'
 import { AdminJwtPayload } from '@/modules/admin/auth/admin-jwt.service'
 import {
   RefreshTokenDto,
@@ -29,7 +20,7 @@ import {
   UserPageDto,
   UserRegisterDto,
 } from '@/modules/admin/users/dto/user.dto'
-import { UserService } from '@/modules/admin/users/user.service'
+import { AdminUserService } from '@/modules/admin/users/user.service'
 import { CaptchaDto } from './dto/captcha.dto'
 
 /**
@@ -38,8 +29,8 @@ import { CaptchaDto } from './dto/captcha.dto'
  */
 @ApiTags('管理端用户模块')
 @Controller('admin/user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+export class AdminUserController {
+  constructor(private readonly userService: AdminUserService) {}
 
   /**
    * 获取验证码接口
