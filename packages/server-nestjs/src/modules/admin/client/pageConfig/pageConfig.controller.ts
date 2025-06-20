@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   ParseIntPipe,
   Post,
   Query,
@@ -11,7 +10,8 @@ import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import {
-  ClientPageConfigDto,
+  ClientPageConfigPageResponseDto,
+  ClientPageConfigResponseDto,
   CreateClientPageConfigDto,
   IncrementViewCountDto,
   QueryClientPageConfigDto,
@@ -45,7 +45,7 @@ export class ClientPageConfigController {
   @Get('/page')
   @ApiPageDoc({
     summary: '分页查询页面配置列表',
-    model: ClientPageConfigDto,
+    model: ClientPageConfigPageResponseDto,
   })
   async findPage(@Query() query: QueryClientPageConfigDto) {
     return this.pageConfigService.findPageConfigPage(query)
@@ -57,7 +57,7 @@ export class ClientPageConfigController {
   @Get('/detailById')
   @ApiDoc({
     summary: '根据ID查询页面配置详情',
-    model: ClientPageConfigDto,
+    model: ClientPageConfigResponseDto,
   })
   async findDetail(@Query('id', ParseIntPipe) id: number) {
     return this.pageConfigService.findDetail(id)
@@ -69,7 +69,7 @@ export class ClientPageConfigController {
   @Get('/detailByCode')
   @ApiDoc({
     summary: '根据页面编码查询页面配置详情',
-    model: ClientPageConfigDto,
+    model: ClientPageConfigResponseDto,
   })
   async findByCode(@Query('pageCode') pageCode: string) {
     return this.pageConfigService.findByPageCode(pageCode)

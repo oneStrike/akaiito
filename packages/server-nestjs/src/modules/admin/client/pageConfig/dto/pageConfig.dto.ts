@@ -1,12 +1,18 @@
-import { Exclude } from 'class-transformer'
 import {
   ValidateEnum,
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
-import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
-import { PageRuleEnum, PageStatusEnum } from '@/prisma/client/enums'
+import { PageRuleEnum, PageStatusEnum } from '../pageCode.constant'
+import {
+  ApiProperty,
+  IntersectionType,
+  OmitType,
+  PartialType,
+  PickType,
+} from '@nestjs/swagger'
+import { IdDto } from '@/common/dto/id.dto'
 
 /**
  * 页面配置基础字段DTO
@@ -85,75 +91,64 @@ export class BasePageConfigFieldsDto {
  */
 export class CreateClientPageConfigDto extends BasePageConfigFieldsDto {}
 
+/**
+ * 更新页面配置DTO
+ */
+export class UpdateClientPageConfigDto extends PartialType(
+  BasePageConfigFieldsDto,
+) {
+  @ValidateNumber({
+    description: '页面ID',
+    example: 1,
+    required: true,
+  })
+  id!: number
+}
 
 /**
  * 页面配置查询DTO
  */
-export class QueryClientPageConfigDto extends PageDto {
-  @ValidateString({
-    description: '页面名称（模糊搜索）',
-    example: '首页',
-    required: false,
-  })
-  pageName?: string
-
-  @ValidateString({
-    description: '页面编码（精确搜索）',
-    example: 'home',
-    required: false,
-  })
-  pageCode?: string
-
-  @ValidateEnum({
-    description: '页面权限级别',
-    example: PageRuleEnum.GUEST,
-    required: false,
-    enum: PageRuleEnum,
-  })
-  pageRule?: PageRuleEnum
-
-  @ValidateEnum({
-    description: '页面状态',
-    example: PageStatusEnum.ENABLED,
-    required: false,
-    enum: PageStatusEnum,
-  })
-  status?: PageStatusEnum
-}
+export class QueryClientPageConfigDto extends IntersectionType(
+  PageDto,
+  PickType(PartialType(BasePageConfigFieldsDto), [
+    'pageName',
+    'pageCode',
+    'pageRule',
+    'status',
+  ]),
+) {}
 
 /**
  * 页面配置响应DTO
  */
-export class ClientPageConfigDto {
-  /// 主键id
-  id!: number
-  /// 页面编码（唯一标识）
-  pageCode!: string
-  /// 页面路径（URL路径）
-  pagePath!: string
-  /// 页面名称
-  pageName!: string
-  /// 页面标题（用于SEO）
-  pageTitle?: string
-  /// 页面权限级别
-  pageRule!: PageRuleEnum
-  /// 页面状态
-  status!: PageStatusEnum
-  /// 页面描述信息
-  description?: string
-  /// 排序权重（数值越大越靠前）
-  sortOrder!: number
-  /// 访问次数统计
+export class ClientPageConfigResponseDto extends IntersectionType(
+  BasePageConfigFieldsDto,
+  IdDto,
+) {
+  @ApiProperty({
+    description: '访问次数统计',
+    example: 100,
+  })
   viewCount!: number
-  /// 创建时间
+  @ApiProperty({
+    description: '创建时间',
+    example: '2021-01-01 00:00:00',
+  })
   createdAt!: Date
-  /// 更新时间
+  @ApiProperty({
+    description: '更新时间',
+    example: '2021-01-01 00:00:00',
+  })
   updatedAt!: Date
-
-  @Exclude()
-  deletedAt?: Date
 }
 
+/**
+ * 页面配置分页响应DTO
+ */
+export class ClientPageConfigPageResponseDto extends OmitType(
+  ClientPageConfigResponseDto,
+  ['description'],
+) {}
 /**
  * 增加页面访问次数DTO
  */

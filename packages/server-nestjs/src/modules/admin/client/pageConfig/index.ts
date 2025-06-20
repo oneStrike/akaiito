@@ -1,7 +1,8 @@
 // 导出Dto
 export {
   BasePageConfigFieldsDto,
-  ClientPageConfigDto,
+  ClientPageConfigPageResponseDto,
+  ClientPageConfigResponseDto,
   CreateClientPageConfigDto,
   IncrementViewCountDto,
   QueryClientPageConfigDto,

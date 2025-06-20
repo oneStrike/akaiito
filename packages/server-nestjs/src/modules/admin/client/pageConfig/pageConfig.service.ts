@@ -1,13 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
-import { ClientPageConfig } from '@/prisma/client/client'
-import { PageStatusEnum } from '@/prisma/client/enums'
 import { ClientPageConfigWhereInput } from '@/prisma/client/models/ClientPageConfig'
 import {
   CreateClientPageConfigDto,
   QueryClientPageConfigDto,
   UpdateClientPageConfigDto,
 } from './dto/pageConfig.dto'
+import { PageStatusEnum } from '@/modules/admin/client/pageConfig/pageCode.constant'
 
 /**
  * 页面配置服务类
@@ -80,7 +79,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
    */
   async findActivePageConfigs(pageRule?: string) {
     const where: ClientPageConfigWhereInput = {
-      status: 'ENABLED', // 只返回启用的页面
+      status: PageStatusEnum.ENABLED, // 只返回启用的页面
     }
 
     if (pageRule) {
@@ -115,7 +114,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
       include: {
         notices: {
           where: {
-            status: 'PUBLISHED',
+            status: PageStatusEnum.ENABLED,
             OR: [
               {
                 AND: [

@@ -1,47 +1,31 @@
 /// 客户端页面配置
-/// 页面权限枚举
-enum PageRuleEnum {
-  GUEST  @map("1") // 游客可访问
-  LOGIN  @map("2") // 需要登录
-  MEMBER @map("3") // 需要会员
-  VIP    @map("4") // 需要VIP
-}
-
-/// 页面状态枚举
-enum PageStatusEnum {
-  DISABLED    @map("0") // 禁用
-  ENABLED     @map("1") // 启用
-  DEVELOPING  @map("2") // 开发中
-  MAINTENANCE @map("3") // 维护中
-}
-
 model ClientPageConfig {
   /// 主键id
-  id          Int            @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   /// 页面编码（唯一标识）
-  pageCode    String         @unique @map("page_code") @db.VarChar(50)
+  pageCode    String    @unique @map("page_code") @db.VarChar(50)
   /// 页面路径（URL路径）
-  pagePath    String         @unique @map("page_path") @db.VarChar(300)
+  pagePath    String    @unique @map("page_path") @db.VarChar(300)
   /// 页面名称
-  pageName    String         @map("page_name") @db.VarChar(100)
+  pageName    String    @map("page_name") @db.VarChar(100)
   /// 页面标题（用于SEO）
-  pageTitle   String?        @map("page_title") @db.VarChar(200)
-  /// 页面权限级别
-  pageRule    PageRuleEnum   @default(GUEST) @map("page_rule")
-  /// 页面状态
-  status      PageStatusEnum @default(ENABLED)
+  pageTitle   String?   @map("page_title") @db.VarChar(200)
+  /// 页面权限级别（1:游客可访问, 2:需要登录, 3:需要会员, 4:需要VIP）
+  pageRule    Int       @default(1) @map("page_rule") @db.SmallInt
+  /// 页面状态（0:禁用, 1:启用, 2:开发中, 3:维护中）
+  status      Int       @default(1) @db.SmallInt
   /// 页面描述信息
-  description String?        @db.VarChar(500)
+  description String?   @db.VarChar(500)
   /// 排序权重（数值越大越靠前）
-  sortOrder   Int            @default(0) @map("sort_order") @db.SmallInt
+  sortOrder   Int       @default(0) @map("sort_order") @db.SmallInt
   /// 访问次数统计
-  viewCount   Int            @default(0) @map("view_count")
+  viewCount   Int       @default(0) @map("view_count")
   /// 创建时间
-  createdAt   DateTime       @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt   DateTime       @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamp(0)
   /// 软删除时间
-  deletedAt   DateTime?      @map("deleted_at") @db.Timestamp(0)
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamp(0)
 
   /// 关联的通知公告
   notices ClientNotice[] @relation("notices")

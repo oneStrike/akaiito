@@ -1,71 +1,48 @@
 /// 系统通知公告
 
-/// 通知类型枚举
-enum NoticeTypeEnum {
-  SYSTEM      @map("1") // 系统通知
-  ACTIVITY    @map("2") // 活动公告
-  MAINTENANCE @map("3") // 维护通知
-  UPDATE      @map("4") // 更新公告
-}
-
-/// 通知优先级枚举
-enum NoticePriorityEnum {
-  LOW    @map("1") // 低优先级
-  MEDIUM @map("2") // 中等优先级
-  HIGH   @map("3") // 高优先级
-  URGENT @map("4") // 紧急
-}
-
-/// 通知发布状态枚举
-enum NoticeStatusEnum {
-  UNPUBLISHED @map("0") // 未发布
-  PUBLISHED   @map("1") // 已发布
-  OFFLINE     @map("2") // 已下线
-}
-
 model ClientNotice {
   /// 主键id
-  id              Int                @id @default(autoincrement())
+  id              Int               @id @default(autoincrement())
   /// 标题
-  title           String             @db.VarChar(100)
+  title           String            @db.VarChar(100)
   /// 内容详情
-  content         String             @db.Text
-  /// 通知类型
-  type            NoticeTypeEnum     @default(SYSTEM)
-  /// 优先级
-  priority        NoticePriorityEnum @default(MEDIUM)
+  content         String            @db.Text
+  /// 通知类型（1:系统通知, 2:活动公告, 3:维护通知, 4:更新公告）
+  type            Int               @default(1) @db.SmallInt
+  /// 优先级（1:低优先级, 2:中等优先级, 3:高优先级, 4:紧急）
+  priority        Int               @default(2) @db.SmallInt
   /// 发布开始时间
-  startTime       DateTime?          @map("start_time") @db.Timestamp()
+  startTime       DateTime?         @map("start_time") @db.Timestamp()
   /// 发布结束时间
-  endTime         DateTime?          @map("end_time") @db.Timestamp()
+  endTime         DateTime?         @map("end_time") @db.Timestamp()
   /// 关联页面配置
-  appPage         ClientPageConfig?  @relation("notices", fields: [pageCode], references: [pageCode], onDelete: SetNull)
+  clientPage      ClientPageConfig? @relation("notices", fields: [pageCode], references: [pageCode], onDelete: SetNull)
   /// 页面代码，点击公告跳转的页面
-  pageCode        String?            @map("page_code") @db.VarChar(50)
+  pageCode        String?           @map("page_code") @db.VarChar(50)
   /// 通知弹窗的背景图片
-  backgroundImage String?            @map("background_image") @db.VarChar(200)
-  /// 发布状态
-  status          NoticeStatusEnum   @default(UNPUBLISHED)
+  backgroundImage String?           @map("background_image") @db.VarChar(200)
+  /// 发布状态（0:未发布, 1:已发布, 2:已下线）
+  status          Int               @default(0) @db.SmallInt
   /// 是否启用小程序
-  enableApplet    Boolean            @default(true) @map("enable_applet")
+  enableApplet    Boolean           @default(true) @map("enable_applet")
   /// 是否启用H5
-  enableWeb       Boolean            @default(true) @map("enable_web")
+  enableWeb       Boolean           @default(true) @map("enable_web")
   /// 是否启用APP
-  enableApp       Boolean            @default(true) @map("enable_app")
+  enableApp       Boolean           @default(true) @map("enable_app")
   /// 是否置顶
-  isTop           Boolean            @default(false) @map("is_top")
+  isTop           Boolean           @default(false) @map("is_top")
   /// 是否弹窗显示
-  isPopup         Boolean            @default(false) @map("is_popup")
+  isPopup         Boolean           @default(false) @map("is_popup")
   /// 排序权重（数值越大越靠前）
-  sortOrder       Int                @default(0) @map("sort_order")
+  sortOrder       Int               @default(0) @map("sort_order")
   /// 阅读次数
-  viewCount       Int                @default(0) @map("view_count")
+  viewCount       Int               @default(0) @map("view_count")
   /// 创建时间
-  createdAt       DateTime           @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamp(0)
   /// 更新时间
-  updatedAt       DateTime           @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
   /// 软删除时间
-  deletedAt       DateTime?          @map("deleted_at") @db.Timestamp(0)
+  deletedAt       DateTime?         @map("deleted_at") @db.Timestamp(0)
 
   /// 索引优化
   @@index([status, startTime, endTime]) // 查询已发布且在有效期内的通知
