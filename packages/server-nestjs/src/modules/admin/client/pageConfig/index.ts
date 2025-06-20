@@ -1,12 +1,3 @@
-// 导出Dto
-export {
-  BasePageConfigFieldsDto,
-  ClientPageConfigPageResponseDto,
-  ClientPageConfigResponseDto,
-  CreateClientPageConfigDto,
-  IncrementViewCountDto,
-  QueryClientPageConfigDto,
-} from './dto/pageConfig.dto'
 // 导出控制器
 export { ClientPageConfigController } from './pageConfig.controller'
 // 导出模块

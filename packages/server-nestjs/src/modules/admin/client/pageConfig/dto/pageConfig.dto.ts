@@ -1,18 +1,18 @@
 import {
-  ValidateEnum,
-  ValidateNumber,
-  ValidateString,
-} from '@/common/decorators/validate.decorator'
-import { PageDto } from '@/common/dto/page.dto'
-import { PageRuleEnum, PageStatusEnum } from '../pageCode.constant'
-import {
   ApiProperty,
   IntersectionType,
   OmitType,
   PartialType,
   PickType,
 } from '@nestjs/swagger'
+import {
+  ValidateEnum,
+  ValidateNumber,
+  ValidateString,
+} from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
+import { PageDto } from '@/common/dto/page.dto'
+import { PageRuleEnum, PageStatusEnum } from '../pageCode.constant'
 
 /**
  * 页面配置基础字段DTO
@@ -130,11 +130,13 @@ export class ClientPageConfigResponseDto extends IntersectionType(
     example: 100,
   })
   viewCount!: number
+
   @ApiProperty({
     description: '创建时间',
     example: '2021-01-01 00:00:00',
   })
   createdAt!: Date
+
   @ApiProperty({
     description: '更新时间',
     example: '2021-01-01 00:00:00',

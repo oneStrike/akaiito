@@ -3,15 +3,6 @@
  * 统一导出通知模块的所有公共接口
  */
 
-// 导出DTO
-export {
-  CreateNoticeDto,
-  NoticeDto,
-  QueryNoticeDto,
-  UpdateNoticeDto,
-  UpdateNoticeStatusDto,
-} from './dto/notice.dto'
-
 // 导出控制器
 export { ClientNoticeController } from './notice.controller'
 

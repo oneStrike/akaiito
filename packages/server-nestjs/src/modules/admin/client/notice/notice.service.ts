@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { PrismaService } from '@/global/services/prisma.service'
-import { NoticeStatusEnum } from '@/prisma/client/enums'
+import { NoticeStatusEnum } from '@/modules/admin/client/notice/notice.constant'
 import { ClientNoticeWhereInput } from '@/prisma/client/models/ClientNotice'
 import {
   CreateNoticeDto,
@@ -44,7 +44,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
    * @returns 分页的通知列表
    */
   async findNoticePage(queryNoticeDto: QueryNoticeDto) {
-    const { title, type, priority, status, isTop, isPopup } = queryNoticeDto
+    const { title, type, priority, status, isTop } = queryNoticeDto
 
     const where: ClientNoticeWhereInput = {}
 
@@ -55,7 +55,6 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     if (priority !== undefined) where.priority = priority
     if (status !== undefined) where.status = status
     if (isTop !== undefined) where.isTop = isTop
-    if (isPopup !== undefined) where.isPopup = isPopup
 
     return this.findPagination({
       ...queryNoticeDto,
@@ -119,7 +118,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     return await this.findById({
       id,
       include: {
-        appPage: {
+        clientPage: {
           select: {
             pageCode: true,
             pageName: true,

@@ -11,8 +11,9 @@ import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import {
+  BaseNoticeDto,
   CreateNoticeDto,
-  NoticeDto,
+  NoticePageResponseDto,
   QueryNoticeDto,
   UpdateNoticeDto,
   UpdateNoticeStatusDto,
@@ -46,7 +47,7 @@ export class ClientNoticeController {
   @Get('/page')
   @ApiPageDoc({
     summary: '分页查询通知列表',
-    model: NoticeDto,
+    model: NoticePageResponseDto,
   })
   async getPage(@Query() query: QueryNoticeDto) {
     return this.noticeService.findNoticePage(query)
@@ -58,7 +59,7 @@ export class ClientNoticeController {
   @Get('detail')
   @ApiDoc({
     summary: '根据ID查询通知详情',
-    model: NoticeDto,
+    model: BaseNoticeDto,
   })
   async findOne(@Param('id', ParseIntPipe) id: number) {
     return this.noticeService.findDetail(id)
@@ -83,11 +84,11 @@ export class ClientNoticeController {
   @Post('updateStatus')
   @ApiDoc({
     summary: '更新通知状态',
-    model: IdDto,
+    model: IdsDto,
   })
   async updateStatus(@Body() body: UpdateNoticeStatusDto) {
-    return this.noticeService.updateById({
-      id: body.id,
+    return this.noticeService.updateMany({
+      where: { id: { in: body.ids } },
       data: { status: body.status },
     })
   }
