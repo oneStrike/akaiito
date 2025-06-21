@@ -129,7 +129,7 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请输入排序权重',
       min: 0,
-      max: 9999999999,
+      max: 99999999,
     },
   },
   {

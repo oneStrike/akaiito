@@ -1,5 +1,9 @@
 <script setup lang="ts">
-  import type { DetailTypesRes, UpdateTypesReq } from '@/apis/types/notice'
+  import type {
+    CreateTypesReq,
+    DetailTypesRes,
+    UpdateTypesReq,
+  } from '@/apis/types/notice'
   import type { EsTableColumn } from '@/components/es-table/types.ts'
   import type { ToolbarFilter } from '@/components/es-toolbar/types.ts'
   import * as noticeApi from '@/apis/notice.ts'
@@ -35,15 +39,38 @@
         pageCode: 6,
         title: 6,
       })
-      tableColumns.value = formOptionsToTableColumn(
+      const columns = formOptionsToTableColumn(
         formTool.options,
-        ['content', 'isPopup', 'isTop', 'startTime', 'backgroundImage'],
+        [
+          'content',
+          'isPopup',
+          'isTop',
+          'startTime',
+          'backgroundImage',
+          'sortOrder',
+        ],
         {
           title: {
             columnType: 'link',
           },
+          enablePlatform: {
+            width: 150,
+            formatter: (row, column, cellValue, index) => {
+              return `${row.enableApplet ? '小程序' : ''} 、${row.enableWeb ? 'H5' : ''} 、${row.enableApp ? 'APP' : ''}`
+            },
+          },
+          createdAt: {
+            width: 200,
+          },
         },
       )
+      columns.splice(columns.length - 1, 0, {
+        label: '状态',
+        prop: 'isPublish',
+        align: 'center',
+        width: 150,
+      })
+      tableColumns.value = columns
     })
   })
 
@@ -69,6 +96,10 @@
       if (currentRow.value.enableApp) {
         currentRow.value.enablePlatform += '2,'
       }
+      currentRow.value.startTime = [
+        currentRow.value.startTime,
+        currentRow.value.endTime,
+      ]
     }
     modalFrom.show = true
   }
@@ -92,15 +123,15 @@
       value.id = currentRow.value.id
       await noticeApi.updateApi(value)
     } else {
-      await noticeApi.createApi(value)
+      await noticeApi.createApi(value as CreateTypesReq)
     }
     useMessage.success(
       currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
     )
-    currentRow.value = null
     modalFrom.loading = false
     modalFrom.show = false
     tableRef.value?.reset()
+    currentRow.value = null
   }
 </script>
 
@@ -116,30 +147,6 @@
       @link="openDetailModal"
       @toolbar-handler="openFormModal()"
     >
-      <template #enableApplet="{ row }">
-        <es-switch
-          :row="row"
-          field="enableApplet"
-          :request="noticeApi.updateApi"
-          @success="tableRef?.refresh()"
-        />
-      </template>
-      <template #enableWeb="{ row }">
-        <es-switch
-          :row="row"
-          field="enableWeb"
-          :request="noticeApi.updateApi"
-          @success="tableRef?.refresh()"
-        />
-      </template>
-      <template #enableApp="{ row }">
-        <es-switch
-          :row="row"
-          field="enableApp"
-          :request="noticeApi.updateApi"
-          @success="tableRef?.refresh()"
-        />
-      </template>
       <template #isPublish="{ row }">
         <el-text
           v-if="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"

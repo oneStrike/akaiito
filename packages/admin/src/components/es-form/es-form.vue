@@ -1,71 +1,71 @@
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus'
-import type { EsFormProps } from '@/components/es-form/types'
+  import type { FormInstance } from 'element-plus'
+  import type { EsFormProps } from '@/components/es-form/types'
 
-const props = withDefaults(defineProps<EsFormProps>(), {
-  modelValue: () => ({}),
-  formProps: () => ({}),
-  showBtn: true,
-  submitText: '提交',
-  resetText: '重置',
-  boxBorder: true,
-})
-const emits = defineEmits<{
-  (event: 'reset'): void
-  (event: 'submit', data: IterateObject): void
-  (event: 'update:modelValue', data: IterateObject): void
-}>()
-const formRef = ref<FormInstance>()
-const formData = ref<IterateObject>({})
-const formOptions = computed(() => {
-  return props.options.map((item) => {
-    if (!item.props) {
-      item.props = {}
-    }
-    const itemWidth = item.props.span ? 100 / item.props.span : 100
-    item.props.style = {
-      width: `${itemWidth}%`,
-    }
-    if (item.componentProps?.defaultValue !== undefined) {
-      formData.value[item.field] = item.componentProps?.defaultValue
-    }
-    return item
+  const props = withDefaults(defineProps<EsFormProps>(), {
+    modelValue: () => ({}),
+    formProps: () => ({}),
+    showBtn: true,
+    submitText: '提交',
+    resetText: '重置',
+    boxBorder: true,
   })
-})
-
-watch(
-  () => props.modelValue,
-  (val) => {
-    formData.value = val
-  },
-  { immediate: true, deep: true },
-)
-
-watch(
-  formData,
-  (val) => {
-    emits('update:modelValue', val)
-  },
-  { deep: true },
-)
-
-function submitForm() {
-  formRef.value?.validate((isValid) => {
-    if (isValid) {
-      emits('submit', toRaw(formData.value))
-    }
+  const emits = defineEmits<{
+    (event: 'reset'): void
+    (event: 'submit', data: IterateObject): void
+    (event: 'update:modelValue', data: IterateObject): void
+  }>()
+  const formRef = ref<FormInstance>()
+  const formData = ref<IterateObject>({})
+  const formOptions = computed(() => {
+    return props.options.map((item) => {
+      if (!item.props) {
+        item.props = {}
+      }
+      const itemWidth = item.props.span ? 100 / item.props.span : 100
+      item.props.style = {
+        width: `${itemWidth}%`,
+      }
+      if (item.componentProps?.defaultValue !== undefined) {
+        formData.value[item.field] = item.componentProps?.defaultValue
+      }
+      return item
+    })
   })
-}
 
-function resetForm() {
-  formRef.value?.resetFields()
-  emits('reset')
-}
+  watch(
+    () => props.modelValue,
+    (val) => {
+      formData.value = val
+    },
+    { immediate: true, deep: true },
+  )
 
-defineExpose({
-  submitForm,
-  resetForm,
-})
+  watch(
+    formData,
+    (val) => {
+      emits('update:modelValue', val)
+    },
+    { deep: true },
+  )
+
+  function submitForm() {
+    formRef.value?.validate((isValid) => {
+      if (isValid) {
+        emits('submit', structuredClone(toRaw(formData.value)))
+      }
+    })
+  }
+
+  function resetForm() {
+    formRef.value?.resetFields()
+    emits('reset')
+  }
+
+  defineExpose({
+    submitForm,
+    resetForm,
+  })
 </script>
 
 <template>
@@ -78,7 +78,11 @@ defineExpose({
         :class="boxBorder ? 'box-border' : ''"
         class="mr-0! px-3!"
       >
-        <slot :name="item.field" :component-props="item.componentProps" :on="item.on">
+        <slot
+          :name="item.field"
+          :component-props="item.componentProps"
+          :on="item.on"
+        >
           <es-upload
             v-if="item.component === 'Upload'"
             v-model="formData[item.field]"
@@ -140,7 +144,11 @@ defineExpose({
           <el-select
             v-if="item.component === 'Select'"
             v-model="formData[item.field]"
-            :clearable="typeof item.componentProps?.clearable === 'boolean' ? item.componentProps?.clearable : true"
+            :clearable="
+              typeof item.componentProps?.clearable === 'boolean'
+                ? item.componentProps?.clearable
+                : true
+            "
             v-bind="item.componentProps"
             v-on="item.on || {}"
           >
@@ -171,7 +179,10 @@ defineExpose({
             start-placeholder="开始时间"
             end-placeholder="结束时间"
             value-format="YYYY-MM-DD HH:mm:ss"
-            :default-time="[new Date(2000, 1, 1, 0, 0, 0), new Date(2000, 1, 1, 23, 59, 59)]"
+            :default-time="[
+              new Date(2000, 1, 1, 0, 0, 0),
+              new Date(2000, 1, 1, 23, 59, 59),
+            ]"
             v-bind="item.componentProps"
             v-on="item.on || {}"
           />
@@ -184,8 +195,9 @@ defineExpose({
           />
 
           <es-editor
-            v-if=" item.component
-              === 'RichText'" v-model="formData[item.field]" v-bind="item.componentProps"
+            v-if="item.component === 'RichText'"
+            v-model="formData[item.field]"
+            v-bind="item.componentProps"
           />
         </slot>
       </el-form-item>
@@ -201,5 +213,4 @@ defineExpose({
   </el-form>
 </template>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
