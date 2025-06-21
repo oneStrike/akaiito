@@ -24,7 +24,6 @@ export const loginLogsColumns: EsTableColumn = [
     label: '登录结果',
     prop: 'responseCode',
     align: 'center',
-    slotName: 'responseCode',
   },
   {
     label: '登录时间',
@@ -33,7 +32,7 @@ export const loginLogsColumns: EsTableColumn = [
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',
-    type: 'date',
+    columnType: 'date',
   },
 ]
 

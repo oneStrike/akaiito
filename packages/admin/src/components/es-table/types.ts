@@ -2,9 +2,9 @@ import type { TableColumnCtx } from 'element-plus'
 import type { Ref } from 'vue'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 
-export type EsTableColumn = (TableColumnCtx<any> & {
+export type EsTableColumn = (Partial<TableColumnCtx<any>> & {
   defaultValue?: string
-  type?: 'image' | 'link' | 'date' | 'index'
+  columnType?: 'image' | 'link' | 'date' | 'index'
 })[]
 /**
  * 分页响应数据的通用接口

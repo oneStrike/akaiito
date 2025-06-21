@@ -23,9 +23,9 @@
   const showPasswordDialog = ref(false)
   const passwordLoading = ref(false)
   const passwordFormData = reactive<UpdatePasswordTypesReq>({
-    oldPassword: 'Aa@123456',
-    newPassword: 'Aa@123456',
-    confirmPassword: 'Aa@123456',
+    oldPassword: '',
+    newPassword: '',
+    confirmPassword: '',
     refreshToken: userStore.token.refreshToken,
   })
 

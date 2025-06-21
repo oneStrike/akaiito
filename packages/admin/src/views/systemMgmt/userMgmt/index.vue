@@ -92,7 +92,7 @@
       @toolbar-handler="handlerToolbar"
     >
       <template #username="{ row }">
-        <div class="flex items-center">
+        <div class="w-full flex items-center justify-center">
           <el-avatar v-if="row.avatar" :src="row.avatar" class="mr-4" />
           <span>{{ row.username }}</span>
         </div>

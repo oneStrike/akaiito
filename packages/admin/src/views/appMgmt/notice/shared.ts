@@ -1,9 +1,5 @@
 import type { EsFormOptions } from '@/components/es-form/types'
-import type { EsTableColumn } from '@/components/es-table/types'
-import type {
-  EsToolbarProps,
-  ToolbarFilter,
-} from '@/components/es-toolbar/types'
+import type { EsToolbarProps } from '@/components/es-toolbar/types.ts'
 
 export const noticeType = [
   {
@@ -40,77 +36,6 @@ export const noticePriority = [
   {
     label: '紧急',
     value: 3,
-  },
-]
-
-export const tableColumns: EsTableColumn = [
-  {
-    label: '标题',
-    prop: 'title',
-    align: 'center',
-    type: 'link',
-  },
-  {
-    label: '跳转页面',
-    prop: 'pageCode',
-    align: 'center',
-    width: 100,
-  },
-
-  {
-    label: '开始时间',
-    prop: 'startTime',
-    align: 'center',
-    width: 180,
-    type: 'date',
-  },
-  {
-    label: '结束时间',
-    prop: 'endTime',
-    align: 'center',
-    width: 180,
-    type: 'date',
-  },
-  {
-    label: '小程序',
-    prop: 'enableApplet',
-    align: 'center',
-    width: 80,
-    slotName: 'enableApplet',
-  },
-  {
-    label: 'WEB',
-    prop: 'enableWeb',
-    align: 'center',
-    width: 80,
-    slotName: 'enableWeb',
-  },
-  {
-    label: 'APP',
-    prop: 'enableApp',
-    align: 'center',
-    width: 80,
-    slotName: 'enableApp',
-  },
-  {
-    label: '状态',
-    prop: 'isPublish',
-    align: 'center',
-    width: 100,
-    slotName: 'isPublish',
-  },
-  {
-    label: '阅读次数',
-    prop: 'viewCount',
-    align: 'center',
-    width: 100,
-  },
-  {
-    label: '操作',
-    prop: 'action',
-    align: 'center',
-    width: 180,
-    slotName: 'action',
   },
 ]
 
@@ -284,19 +209,6 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请输入内容...',
-    },
-  },
-]
-
-export const filter: ToolbarFilter = [
-  {
-    field: 'title',
-    component: 'Input',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '通知标题',
     },
   },
 ]

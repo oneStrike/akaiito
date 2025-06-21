@@ -193,26 +193,6 @@
     })
   }
 
-  /**
-   * 内部列配置
-   * 如果启用了序号列且第一列不是序号列，则自动添加序号列
-   */
-  const innerColumns = computed(() => {
-    if (props.tableIndex && props.columns[0].type !== 'index') {
-      return [
-        {
-          label: '序号',
-          prop: 'index',
-          align: 'center',
-          type: 'index',
-          width: 66,
-        },
-        ...props.columns,
-      ]
-    }
-    return props.columns
-  })
-
   // ==================== 表格交互处理 ====================
   /** 选中的记录（双向绑定） */
   const selectedRecords = defineModel<unknown[] | null>('selected', {
@@ -417,9 +397,15 @@
         width="55"
         class-name="leading-9"
       />
+      <el-table-column
+        type="index"
+        label="序号"
+        width="60"
+        align="center"
+      />
       <!-- 动态列渲染 -->
       <el-table-column
-        v-for="item in innerColumns"
+        v-for="item in columns"
         :key="item.prop"
         v-bind="item"
         class-name="leading-9"
@@ -428,7 +414,7 @@
           <!-- 自定义插槽列 -->
           <slot :name="item.prop" :row="row" :column="column" :index="$index">
             <!-- 图片列：支持预览功能 -->
-            <template v-if="item.type === 'image'">
+            <template v-if="item.columnType === 'image'">
               <el-image
                 fit="contain"
                 class="w-10 align-middle"
@@ -443,7 +429,7 @@
               </el-image>
             </template>
             <!-- 链接列：可点击的链接按钮 -->
-            <template v-else-if="item.type === 'link'">
+            <template v-else-if="item.columnType === 'link'">
               <el-tooltip
                 :content="row[item.prop]"
                 :show-after="200"
@@ -459,7 +445,7 @@
               </el-tooltip>
             </template>
             <!-- 日期列：格式化日期显示 -->
-            <template v-else-if="item.type === 'date'">
+            <template v-else-if="item.columnType === 'date'">
               <span>
                 {{
                   row[item.prop]
@@ -469,7 +455,7 @@
               </span>
             </template>
             <!-- 普通文本列：支持自定义格式化函数 -->
-            <template v-else-if="item.type !== 'index'">
+            <template v-else-if="item.columnType !== 'index'">
               {{
                 item.formatter
                   ? item.formatter(

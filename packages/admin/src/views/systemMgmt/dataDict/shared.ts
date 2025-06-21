@@ -4,6 +4,8 @@ import type {
   EsToolbarProps,
   ToolbarFilter,
 } from '@/components/es-toolbar/types'
+import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
+import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
@@ -32,95 +34,6 @@ export const toolbar: EsToolbarProps['toolbar'] = [
         value: 'disable',
       },
     ],
-  },
-]
-
-export const tableColumns: EsTableColumn = [
-  {
-    label: '名称',
-    prop: 'name',
-    align: 'center',
-    slotName: 'name',
-  },
-  {
-    label: '编码',
-    prop: 'code',
-    align: 'center',
-  },
-  {
-    label: '封面',
-    prop: 'cover',
-    align: 'center',
-    type: 'image',
-  },
-  {
-    label: '创建时间',
-    prop: 'createdAt',
-    align: 'center',
-    type: 'date',
-  },
-  {
-    label: '状态',
-    prop: 'isEnabled',
-    align: 'center',
-    slotName: 'isEnabled',
-  },
-  {
-    label: '备注信息',
-    prop: 'remark',
-    align: 'center',
-  },
-  {
-    label: '操作',
-    prop: 'action',
-    align: 'center',
-    slotName: 'action',
-  },
-]
-
-export const filter: (span: number) => ToolbarFilter = (span = 4) => [
-  {
-    field: 'isEnabled',
-    component: 'Select',
-    props: {
-      span,
-    },
-    componentProps: {
-      placeholder: '状态',
-      clearable: true,
-      options: [
-        {
-          label: '启用',
-          value: true,
-        },
-        {
-          label: '禁用',
-          value: false,
-        },
-      ],
-    },
-  },
-  {
-    field: 'code',
-    component: 'Input',
-    props: {
-      span,
-    },
-    componentProps: {
-      placeholder: '编码',
-      clearable: true,
-    },
-  },
-  {
-    field: 'name',
-    component: 'Input',
-    props: {
-      span,
-    },
-    componentProps: {
-      placeholder: '名称',
-      clearable: true,
-    },
   },
 ]
 
@@ -172,4 +85,34 @@ export const formOptions: EsFormOptions[] = [
       rows: 6,
     },
   },
+]
+
+export const tableColumns: EsTableColumn = formOptionsToTableColumn(formOptions)
+
+export const filter: (span: number) => ToolbarFilter = (span = 4) => [
+  {
+    field: 'isEnabled',
+    component: 'Select',
+    props: {
+      span,
+    },
+    componentProps: {
+      placeholder: '状态',
+      clearable: true,
+      options: [
+        {
+          label: '启用',
+          value: true,
+        },
+        {
+          label: '禁用',
+          value: false,
+        },
+      ],
+    },
+  },
+  ...formOptionsToFilterOptions(formOptions, {
+    code: span,
+    name: span,
+  }),
 ]

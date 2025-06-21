@@ -1,15 +1,14 @@
 <script setup lang="ts">
   import type { DetailTypesRes, UpdateTypesReq } from '@/apis/types/notice'
+  import type { EsTableColumn } from '@/components/es-table/types.ts'
+  import type { ToolbarFilter } from '@/components/es-toolbar/types.ts'
   import * as noticeApi from '@/apis/notice.ts'
   import * as pageConfigApi from '@/apis/page-config.ts'
   import { PromptsEnum } from '@/enum/prompts'
+  import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
+  import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
   import NoticeDetail from '@/views/appMgmt/notice/detail.vue'
-  import {
-    filter,
-    formOptions,
-    tableColumns,
-    toolbar,
-  } from '@/views/appMgmt/notice/shared'
+  import { formOptions, toolbar } from '@/views/appMgmt/notice/shared'
 
   defineOptions({
     name: 'NoticePage',
@@ -19,6 +18,9 @@
     show: false,
     loading: false,
   })
+  const filter = ref<ToolbarFilter>()
+  const tableColumns = ref<EsTableColumn>()
+
   const formTool = useFormTool(formOptions)
   pageConfigApi.pageApi({ pageSize: 500 }).then((res) => {
     formTool.specificItem('pageCode', (item) => {
@@ -26,6 +28,22 @@
         label: item.pageName,
         value: item.pageCode,
       }))
+      filter.value = formOptionsToFilterOptions(formTool.options, {
+        isPopup: 6,
+        priority: 6,
+        type: 6,
+        pageCode: 6,
+        title: 6,
+      })
+      tableColumns.value = formOptionsToTableColumn(
+        formTool.options,
+        ['content', 'isPopup', 'isTop', 'startTime', 'backgroundImage'],
+        {
+          title: {
+            columnType: 'link',
+          },
+        },
+      )
     })
   })
 
@@ -89,6 +107,7 @@
 <template>
   <div class="main-page">
     <es-table
+      v-if="tableColumns"
       ref="tableRef"
       :filter="filter"
       :toolbar="toolbar"

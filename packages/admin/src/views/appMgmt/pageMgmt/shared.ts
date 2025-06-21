@@ -1,5 +1,4 @@
 import type { EsFormOptions } from '@/components/es-form/types'
-import type { EsTableColumn } from '@/components/es-table/types'
 import type {
   EsToolbarProps,
   ToolbarFilter,
@@ -133,10 +132,9 @@ export const formOptions: EsFormOptions[] = [
   },
 ]
 
-export const tableColumns: EsTableColumn = formOptionsToTableColumn(
-  formOptions,
-  ['description'],
-)
+export const tableColumns = formOptionsToTableColumn(formOptions, [
+  'description',
+])
 
 export const filter: ToolbarFilter = formOptionsToFilterOptions(formOptions, {
   pageName: 6,

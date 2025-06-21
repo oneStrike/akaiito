@@ -4,114 +4,8 @@ import type {
   EsToolbarProps,
   ToolbarFilter,
 } from '@/components/es-toolbar/types'
-
-export const tableColumns: EsTableColumn = [
-  {
-    label: '用户名',
-    prop: 'username',
-    slotName: 'username',
-  },
-  {
-    label: '手机号',
-    prop: 'mobile',
-    align: 'center',
-  },
-  {
-    label: '角色',
-    prop: 'isRoot',
-    align: 'center',
-    slotName: 'isRoot',
-  },
-  {
-    label: '状态',
-    prop: 'status',
-    align: 'center',
-    slotName: 'status',
-  },
-  {
-    label: '创建时间',
-    prop: 'createdAt',
-    align: 'center',
-    sortable: 'custom',
-    sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt',
-    type: 'date',
-  },
-  {
-    label: '操作',
-    prop: 'action',
-    align: 'center',
-    slotName: 'action',
-  },
-]
-
-export const filter: ToolbarFilter = [
-  {
-    field: 'status',
-    component: 'Select',
-    props: {
-      span: 5,
-    },
-    componentProps: {
-      placeholder: '状态',
-      clearable: true,
-      maxlength: 11,
-      options: [
-        {
-          label: '启用',
-          value: true,
-        },
-        {
-          label: '禁用',
-          value: false,
-        },
-      ],
-    },
-  },
-  {
-    field: 'isRoot',
-    component: 'Select',
-    props: {
-      span: 5,
-    },
-    componentProps: {
-      placeholder: '角色',
-      clearable: true,
-      maxlength: 11,
-      options: [
-        {
-          label: '超级管理员',
-          value: true,
-        },
-        {
-          label: '普通管理员',
-          value: false,
-        },
-      ],
-    },
-  },
-  {
-    field: 'username',
-    component: 'Input',
-    props: {
-      span: 5,
-    },
-    componentProps: {
-      placeholder: '用户名',
-    },
-  },
-  {
-    field: 'mobile',
-    component: 'Input',
-    props: {
-      span: 5,
-    },
-    componentProps: {
-      placeholder: '手机号',
-      maxlength: 11,
-    },
-  },
-]
+import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
+import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
@@ -257,4 +151,46 @@ export const pwdFormOptions: EsFormOptions[] = [
       showPassword: true,
     },
   },
+]
+
+export const tableColumns: EsTableColumn = [
+  ...formOptionsToTableColumn(
+    formOptions,
+    ['avatar', 'password', 'confirmPassword'],
+    {
+      action: {
+        width: 220,
+      },
+    },
+  ),
+]
+
+export const filter: ToolbarFilter = [
+  {
+    field: 'status',
+    component: 'Select',
+    props: {
+      span: 5,
+    },
+    componentProps: {
+      placeholder: '状态',
+      clearable: true,
+      maxlength: 11,
+      options: [
+        {
+          label: '启用',
+          value: true,
+        },
+        {
+          label: '禁用',
+          value: false,
+        },
+      ],
+    },
+  },
+  ...formOptionsToFilterOptions(formOptions, {
+    isRoot: 5,
+    username: 5,
+    mobile: 5,
+  }),
 ]

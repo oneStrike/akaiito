@@ -35,7 +35,6 @@ export const tableColumns: EsTableColumn = [
     label: '状态码',
     prop: 'responseCode',
     align: 'center',
-    slotName: 'responseCode',
   },
   {
     label: '操作结果',
