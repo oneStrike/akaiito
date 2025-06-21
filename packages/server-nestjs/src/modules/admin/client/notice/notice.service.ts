@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { PrismaService } from '@/global/services/prisma.service'
-import { NoticeStatusEnum } from '@/modules/admin/client/notice/notice.constant'
 import { ClientNoticeWhereInput } from '@/prisma/client/models/ClientNotice'
 import {
   CreateNoticeDto,
@@ -79,7 +78,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
 
     return await this.findMany({
       where: {
-        isPublish: NoticeStatusEnum.PUBLISHED, // 已发布
+        isPublish: true, // 已发布
         ...platformCondition,
         OR: [
           {
@@ -160,7 +159,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     const notice = await this.findFirst({
       where: {
         id,
-        isPublish: NoticeStatusEnum.PUBLISHED,
+        isPublish: true,
       },
     })
 

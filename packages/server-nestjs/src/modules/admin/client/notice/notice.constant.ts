@@ -21,11 +21,3 @@ export enum NoticePriorityEnum {
   /** 紧急 */
   URGENT = 3,
 }
-
-/// 通知发布状态枚举
-export enum NoticeStatusEnum {
-  /** 未发布 */
-  UNPUBLISHED = false,
-  /** 已发布 */
-  PUBLISHED = true,
-}

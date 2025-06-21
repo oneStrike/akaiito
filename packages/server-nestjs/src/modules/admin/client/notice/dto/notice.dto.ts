@@ -13,6 +13,7 @@ import {
   ValidateNumberArray,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
+import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
 import { NoticePriorityEnum, NoticeTypeEnum } from '../notice.constant'
 
@@ -181,8 +182,17 @@ export class CreateNoticeDto extends OmitType(BaseNoticeDto, [
 /**
  * 更新通知DTO
  */
-export class UpdateNoticeDto extends PartialType(
-  OmitType(BaseNoticeDto, ['viewCount', 'isPublish', 'createdAt', 'updatedAt']),
+export class UpdateNoticeDto extends IntersectionType(
+  PartialType(
+    OmitType(BaseNoticeDto, [
+      'id',
+      'viewCount',
+      'isPublish',
+      'createdAt',
+      'updatedAt',
+    ]),
+  ),
+  IdDto,
 ) {}
 
 /**
