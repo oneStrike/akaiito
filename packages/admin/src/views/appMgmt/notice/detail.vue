@@ -89,7 +89,7 @@
       return { label: '已下线', color: 'danger' as const }
     }
 
-    return detail.value.isEnabled
+    return detail.value.isPublish
       ? { label: '已发布', color: 'success' as const }
       : { label: '未发布', color: 'warning' as const }
   })

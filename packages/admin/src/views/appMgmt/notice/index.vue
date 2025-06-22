@@ -45,7 +45,6 @@
           'content',
           'isPopup',
           'isTop',
-          'startTime',
           'backgroundImage',
           'sortOrder',
         ],
@@ -59,9 +58,6 @@
               return `${row.enableApplet ? '小程序' : ''} 、${row.enableWeb ? 'H5' : ''} 、${row.enableApp ? 'APP' : ''}`
             },
           },
-          createdAt: {
-            width: 200,
-          },
         },
       )
       columns.splice(columns.length - 1, 0, {
@@ -70,6 +66,7 @@
         align: 'center',
         width: 150,
       })
+      console.log(columns)
       tableColumns.value = columns
     })
   })
