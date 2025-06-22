@@ -12,9 +12,9 @@ model ClientNotice {
   /// 优先级（0:低优先级, 1:中等优先级, 2:高优先级, 3:紧急）
   priority        Int               @default(1) @db.SmallInt
   /// 发布开始时间
-  startTime       DateTime?         @map("start_time") @db.Timestamp()
+  startTime       DateTime?         @map("start_time") @db.Timestamptz
   /// 发布结束时间
-  endTime         DateTime?         @map("end_time") @db.Timestamp()
+  endTime         DateTime?         @map("end_time") @db.Timestamptz
   /// 关联页面配置
   clientPage      ClientPageConfig? @relation("notices", fields: [pageCode], references: [pageCode], onDelete: SetNull)
   /// 页面代码，点击公告跳转的页面
@@ -38,11 +38,11 @@ model ClientNotice {
   /// 阅读次数
   viewCount       Int               @default(0) @map("view_count")
   /// 创建时间
-  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamptz
   /// 软删除时间
-  deletedAt       DateTime?         @map("deleted_at") @db.Timestamp(0)
+  deletedAt       DateTime?         @map("deleted_at") @db.Timestamptz
 
   /// 索引优化
   @@index([isPublish, startTime, endTime]) // 查询已发布且在有效期内的通知

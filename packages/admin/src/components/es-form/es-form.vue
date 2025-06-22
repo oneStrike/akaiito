@@ -166,7 +166,8 @@
             v-model="formData[item.field]"
             class="w-full!"
             type="date"
-            value-format="YYYY-MM-DD"
+            value-format="YYYY-MM-DD[T]HH:mm:ss[Z]"
+            format="YYYY-MM-DD"
             v-bind="item.componentProps"
             v-on="item.on || {}"
           />
@@ -178,7 +179,8 @@
             range-separator="-"
             start-placeholder="开始时间"
             end-placeholder="结束时间"
-            value-format="YYYY-MM-DD HH:mm:ss"
+            value-format="YYYY-MM-DD[T]HH:mm:ss[Z]"
+            format="YYYY-MM-DD HH:mm:ss"
             :default-time="[
               new Date(2000, 1, 1, 0, 0, 0),
               new Date(2000, 1, 1, 23, 59, 59),

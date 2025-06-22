@@ -23,9 +23,9 @@ model WorkComic {
   /// 是否发布 1：发布 0：不发布
   isPublish         Boolean            @default(false) @db.Boolean
   /// 发布日期
-  publishAt         DateTime?          @map("publish_at") @db.Timestamp(0)
+  publishAt         DateTime?          @map("publish_at") @db.Timestamptz
   /// 最后更新时间
-  lastUpdated       DateTime?          @map("last_updated") @db.Timestamp(0)
+  lastUpdated       DateTime?          @map("last_updated") @db.Timestamptz
   /// 描述
   description       String             @db.VarChar(1000)
   /// 出版社
@@ -43,9 +43,9 @@ model WorkComic {
   /// 备注
   remark            String?            @db.VarChar(1000)
   /// 创建时间
-  createdAt         DateTime           @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt         DateTime           @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt         DateTime           @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt         DateTime           @updatedAt @map("updated_at") @db.Timestamptz
   /// 章节
   chapters          WorkComicChapter[]
   /// 分类 隐式多对多
@@ -85,9 +85,9 @@ model WorkComicChapter {
   /// 漫画内容
   content        String    @default("[]") @map("content") @db.Text
   /// 创建时间
-  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
   /// 索引优化
   @@index([comicId]) // 外键索引（已存在）

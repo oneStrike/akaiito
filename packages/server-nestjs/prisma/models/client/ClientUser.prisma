@@ -14,9 +14,9 @@ model ClientUser {
   /// 性别 0未知 1男 2女
   sex       Int      @default(0) @db.SmallInt
   /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   /// 索引优化
   @@index([status]) // 按状态查询活跃用户

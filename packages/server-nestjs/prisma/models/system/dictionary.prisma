@@ -11,9 +11,9 @@ model Dictionary {
   /// 备注信息
   remark    String?          @db.VarChar(255)
   /// 创建时间
-  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt DateTime         @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt DateTime         @updatedAt @map("updated_at") @db.Timestamptz
   items     DictionaryItem[]
 
   @@map("dictionary")
@@ -37,9 +37,9 @@ model DictionaryItem {
   /// 备注信息
   remark         String?    @db.VarChar(255)
   /// 创建时间
-  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamptz
 
   @@unique([dictionaryCode, code])
   @@index([dictionaryCode])

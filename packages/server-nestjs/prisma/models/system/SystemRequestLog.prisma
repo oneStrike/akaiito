@@ -27,9 +27,9 @@ model SystemRequestLog {
   /// 请求参数
   requestParams        String?  @map("request_params") @db.Text
   /// 创建时间
-  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamp(0)
+  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
   /// 索引优化
   @@index([createdAt]) // 按时间查询日志（最常用）

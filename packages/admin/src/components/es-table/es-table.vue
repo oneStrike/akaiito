@@ -1,19 +1,4 @@
 <script setup lang="ts">
-  /**
-   * EsTable 通用表格组件
-   *
-   * 功能特性：
-   * - 支持分页数据展示
-   * - 支持多种列类型（文本、图片、链接、日期等）
-   * - 支持拖拽排序
-   * - 支持多选功能
-   * - 支持工具栏和筛选器
-   * - 自适应高度计算
-   * - 支持自定义插槽
-   *
-   * @author EsTable Team
-   * @version 1.0.0
-   */
   import type {
     dragEndEvent,
     EsTableProps,
@@ -449,7 +434,7 @@
               <span>
                 {{
                   row[item.prop]
-                    ? $dayjs(row[item.prop]).format('YYYY-MM-DD HH:mm:ss')
+                    ? $dayjs.utc(row[item.prop]).format('YYYY-MM-DD HH:mm:ss')
                     : '-'
                 }}
               </span>
