@@ -165,6 +165,31 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   /**
+   * 根据唯一值查找单条记录
+   */
+  async findByUnique(
+    options: { where: ModelTypes<T>['WhereUniqueInput'] } & Partial<
+      QueryOptions<T>
+    >,
+  ): Promise<ModelTypes<T>['Model'] | null> {
+    // 如果支持软删除，使用 findFirst 以便添加 deletedAt 过滤条件
+    if (this.supportsSoftDelete) {
+      const where = this.getWhereWithoutDeleted(
+        options.where as ModelTypes<T>['WhereInput'],
+      )
+      return this.model.findFirst({
+        where,
+        ...this.buildQueryOptions(options),
+      })
+    }
+    // 不支持软删除时，直接使用 findUnique
+    return this.model.findUnique({
+      where: options.where,
+      ...this.buildQueryOptions(options),
+    })
+  }
+
+  /**
    * 根据 id 查找单条记录
    */
   async findById(

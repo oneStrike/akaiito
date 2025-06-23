@@ -23,7 +23,7 @@ import {
 
 interface ValidateOptions {
   description: string
-  example?: string
+  example?: string | null
   required?: boolean
   default?: string
   transform?: (params: TransformFnParams) => any
@@ -67,7 +67,8 @@ interface ValidateRegexOptions extends ValidateOptions {
   message?: string
 }
 
-interface ValidateEnumOptions extends Pick<ValidateOptions, 'description' | 'required'> {
+interface ValidateEnumOptions
+  extends Pick<ValidateOptions, 'description' | 'required'> {
   example?: any
   enum: object
   default?: any

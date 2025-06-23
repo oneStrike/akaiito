@@ -11,7 +11,7 @@ import type {
  *  @标签 管理端请求日志模块/分页查询请求日志
  *  @方式 GET
  *  @地址 /api/admin/request-log/request-log-page
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const requestLogPageApi = (params: RequestLogPageRequest): Promise<RequestLogPageResponse> => {
@@ -28,7 +28,7 @@ export const requestLogPageApi = (params: RequestLogPageRequest): Promise<Reques
  *  @标签 管理端请求日志模块/查询请求日志详情
  *  @方式 GET
  *  @地址 /api/admin/request-log/request-log-detail
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const requestLogDetailApi = (params: RequestLogDetailRequest): Promise<RequestLogDetailResponse> => {

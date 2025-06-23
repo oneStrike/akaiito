@@ -1,231 +1,303 @@
 /**
- *  接口 [作者分页列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-215698093)
- *  @标签 内容管理/作者管理/作者分页列表
- *  @方式 GET
- *  @地址 /admin/contentMgmt/author/getAuthorPage
- *  @更新时间 2025-05-08 22:15:20
+ *  接口 [创建作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669114)
+ *  @标签 作者管理模块/创建作者
+ *  @方式 POST
+ *  @地址 /api/admin/work/author/create-author
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export interface GetAuthorPageTypesReq {
-  /*  */
-  pageIndex?: number
-
-  /*  */
-  pageSize?: number
-
+export interface CreateAuthorRequest {
   /* 作者姓名 */
-  name?: string
+  name: string
 
-  /* 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频 */
-  roles?: string
+  /* 作者头像URL */
+  avatar?: string | null
 
-  /* 启用状态 */
-  status?: boolean
+  /* 作者描述 */
+  description?: string | null
+
+  /* 启用状态（true: 启用, false: 禁用） */
+  isEnabled: boolean
+
+  /* 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特） */
+  roles?: number
+
+  /* 国籍 */
+  nationality?: string | null
+
+  /* 性别（0: 未知, 1: 男性, 2: 女性, 3: 其他） */
+  gender: number
+
+  /* 社交媒体链接（JSON格式存储多个平台链接） */
+  socialLinks?: string | null
+
+  /* 管理员备注 */
+  remark?: string | null
+
+  /* 平均评分（可为空，支持推荐算法） */
+  rating?: number
+
+  /* 是否为推荐作者（用于前台推荐展示） */
+  featured: boolean
 }
 
-export interface GetAuthorPageTypesRes {
-  list: {
-    /* 主键id */
-    id: number
+/*  */
+export type CreateAuthorResponse = {
+  /* 主键id */
+  id: number
+}
 
-    /* 启用状态 */
-    status: boolean
+/**
+ *  接口 [分页查询作者列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669115)
+ *  @标签 作者管理模块/分页查询作者列表
+ *  @方式 GET
+ *  @地址 /api/admin/work/author/author-page
+ *  @更新时间 2025-06-24 00:15:15
+ */
+
+export interface AuthorPageRequest {
+  /* 单页大小，最大500，默认15 */
+  pageSize?: number
+
+  /* 当前页码 */
+  pageIndex?: number
+
+  /* 排序字段，json格式 */
+  orderBy?: string
+
+  /* 开始时间 */
+  startDate?: string
+
+  /* 结束时间 */
+  endDate?: string
+
+  /* 作者姓名（模糊搜索） */
+  name?: string
+
+  /* 启用状态（true: 启用, false: 禁用） */
+  isEnabled?: boolean
+
+  /* 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特） */
+  roles?: number
+
+  /* 国籍 */
+  nationality?: string
+
+  /* 性别（0: 未知, 1: 男性, 2: 女性, 3: 其他） */
+  gender?: number
+
+  /* 是否为推荐作者（用于前台推荐展示） */
+  featured?: boolean
+}
+
+export interface AuthorPageResponse {
+  /* 当前页码 */
+  pageIndex: number
+
+  /* 每页条数 */
+  pageSize: number
+
+  /* 总条数 */
+  total: number
+  list: {
+    /* 作者ID */
+    id: number
 
     /* 作者姓名 */
     name: string
 
-    /* 作者头像 */
-    avatar: string | null
+    /* 作者头像URL */
+    avatar?: string | null
 
-    /* 包含的角色 */
-    roles: string[]
+    /* 启用状态（true: 启用, false: 禁用） */
+    isEnabled: boolean
 
-    /* 国籍数据字典nationality */
-    nationality?: string | null
+    /* 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特） */
+    roles?: number
 
-    /* 性别 0未知1男2女 */
-    gender?: number
+    /* 性别（0: 未知, 1: 男性, 2: 女性, 3: 其他） */
+    gender: number
 
     /* 创建时间 */
     createdAt: string
 
     /* 更新时间 */
     updatedAt: string
+
+    /* 作品数量（冗余字段，用于提升查询性能） */
+    worksCount: number
+
+    /* 粉丝数量（冗余字段，用于前台展示） */
+    followersCount: number
+
+    /* 平均评分（可为空，支持推荐算法） */
+    rating?: number
+
+    /* 是否为推荐作者（用于前台推荐展示） */
+    featured: boolean
   }[]
-  /* 页码 */
-  pageIndex: number
-
-  /* 单页大小 */
-  pageSize: number
-
-  /* 总条数 */
-  total: number
 }
 
 /**
- *  接口 [获取作者详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-295420478)
- *  @标签 内容管理/作者管理/获取作者详情
+ *  接口 [获取作者详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669116)
+ *  @标签 作者管理模块/获取作者详情
  *  @方式 GET
- *  @地址 /admin/contentMgmt/author/getAuthorDetail
- *  @更新时间 2025-05-13 22:06:30
+ *  @地址 /api/admin/work/author/author-detail
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export interface GetAuthorDetailTypesReq {
-  /* 主键id */
-  id?: number
-}
-
-export interface GetAuthorDetailTypesRes {
+export interface AuthorDetailRequest {
   /* 主键id */
   id: number
+}
 
-  /* 启用状态 */
-  status: boolean
+/*  */
+export type AuthorDetailResponse = {
+  /* 作者ID */
+  id: number
 
   /* 作者姓名 */
   name: string
 
-  /* 作者头像 */
-  avatar: string | null
+  /* 作者头像URL */
+  avatar?: string | null
 
-  /* 作者简介 */
-  description: string
+  /* 作者描述 */
+  description?: string | null
 
-  /* 包含的角色 */
-  roles: string[]
+  /* 启用状态（true: 启用, false: 禁用） */
+  isEnabled: boolean
 
-  /* 国籍数据字典nationality */
+  /* 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特） */
+  roles?: number
+
+  /* 国籍 */
   nationality?: string | null
 
-  /* 社交媒体链接，json数组格式 */
+  /* 性别（0: 未知, 1: 男性, 2: 女性, 3: 其他） */
+  gender: number
+
+  /* 社交媒体链接（JSON格式存储多个平台链接） */
   socialLinks?: string | null
 
-  /* 性别 0未知1男2女 */
-  gender?: number
-
-  /* 备注信息 */
-  remark?: string
+  /* 管理员备注 */
+  remark?: string | null
 
   /* 创建时间 */
   createdAt: string
 
   /* 更新时间 */
   updatedAt: string
+
+  /* 作品数量（冗余字段，用于提升查询性能） */
+  worksCount: number
+
+  /* 粉丝数量（冗余字段，用于前台展示） */
+  followersCount: number
+
+  /* 平均评分（可为空，支持推荐算法） */
+  rating?: number
+
+  /* 是否为推荐作者（用于前台推荐展示） */
+  featured: boolean
 }
 
 /**
- *  接口 [创建作者](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-214490409)
- *  @标签 内容管理/作者管理/创建作者
- *  @方式 POST
- *  @地址 /admin/contentMgmt/author/createAuthor
- *  @更新时间 2024-09-18 00:33:57
+ *  接口 [更新作者信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669117)
+ *  @标签 作者管理模块/更新作者信息
+ *  @方式 PUT
+ *  @地址 /api/admin/work/author/update-author
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export interface CreateAuthorTypesReq {
-  /* 作者姓名 */
-  name: string
-
-  /* 作者头像 */
-  avatar: string | null
-
-  /* 作者简介 */
-  description: string
-
-  /* 包含的角色 */
-  roles: string[]
-
-  /* 国籍数据字典nationality */
-  nationality?: string | null
-
-  /* 社交媒体链接，json数组格式 */
-  socialLinks?: string | null
-
-  /* 性别 0未知1男2女 */
-  gender?: number
-
-  /* 备注信息 */
-  remark?: string
-}
-
-/* 主键id */
-export type CreateAuthorTypesRes = number
-
-/**
- *  接口 [更新作者信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-214498981)
- *  @标签 内容管理/作者管理/更新作者信息
- *  @方式 POST
- *  @地址 /admin/contentMgmt/author/updateAuthor
- *  @更新时间 2024-09-17 23:13:32
- */
-
-export interface UpdateAuthorTypesReq {
-  /* 主键id */
+/*  */
+export type UpdateAuthorResponse = {
+  /* 作者ID */
   id: number
 
   /* 作者姓名 */
   name: string
 
-  /* 作者头像 */
-  avatar: string | null
-
-  /* 作者简介 */
-  description: string
-
-  /* 包含的角色 */
-  roles: string[]
-
-  /* 国籍数据字典nationality */
-  nationality?: string | null
-
-  /* 社交媒体链接，json数组格式 */
-  socialLinks?: string | null
-
-  /* 性别 0未知1男2女 */
-  gender?: number
-
-  /* 备注信息 */
-  remark?: string
-}
-
-export interface UpdateAuthorTypesRes {
-  /* 作者姓名 */
-  name: string
-
-  /* 作者头像 */
-  avatar: string
+  /* 作者头像URL */
+  avatar?: string | null
 
   /* 作者描述 */
-  description: string
+  description?: string | null
 
-  /* 作者内容类型 1==>小说 2==>漫画 3==>图片 4==>视频 */
-  contentType: number
+  /* 启用状态（true: 启用, false: 禁用） */
+  isEnabled: boolean
 
-  /* 作者外部主页 */
-  website: string
+  /* 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特） */
+  roles?: number
+
+  /* 国籍 */
+  nationality?: string | null
+
+  /* 性别（0: 未知, 1: 男性, 2: 女性, 3: 其他） */
+  gender: number
+
+  /* 社交媒体链接（JSON格式存储多个平台链接） */
+  socialLinks?: string | null
+
+  /* 管理员备注 */
+  remark?: string | null
+
+  /* 创建时间 */
+  createdAt: string
+
+  /* 更新时间 */
+  updatedAt: string
+
+  /* 作品数量（冗余字段，用于提升查询性能） */
+  worksCount: number
+
+  /* 粉丝数量（冗余字段，用于前台展示） */
+  followersCount: number
+
+  /* 平均评分（可为空，支持推荐算法） */
+  rating?: number
+
+  /* 是否为推荐作者（用于前台推荐展示） */
+  featured: boolean
 }
 
 /**
- *  接口 [删除作者](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-215740463)
- *  @标签 内容管理/作者管理/删除作者
- *  @方式 POST
- *  @地址 /admin/contentMgmt/author/deleteAuthor
- *  @更新时间 2024-09-16 22:23:28
+ *  接口 [批量更新作者状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669118)
+ *  @标签 作者管理模块/批量更新作者状态
+ *  @方式 PUT
+ *  @地址 /api/admin/work/author/batch-update-author-status
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export interface DeleteAuthorTypesReq {}
-
-/* 删除后的主键id */
-export type DeleteAuthorTypesRes = number
+/*  */
+export type BatchUpdateAuthorStatusResponse = any
 
 /**
- *  接口 [更新作者状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-215740509)
- *  @标签 内容管理/作者管理/更新作者状态
- *  @方式 POST
- *  @地址 /admin/contentMgmt/author/updateAuthorStatus
- *  @更新时间 2024-09-16 22:23:34
+ *  接口 [批量更新作者推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669119)
+ *  @标签 作者管理模块/批量更新作者推荐状态
+ *  @方式 PUT
+ *  @地址 /api/admin/work/author/batch-update-author-featured
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export interface UpdateAuthorStatusTypesReq {}
+/*  */
+export type BatchUpdateAuthorFeaturedResponse = any
 
-/* 主键id */
-export type UpdateAuthorStatusTypesRes = number
+/**
+ *  接口 [软删除作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669120)
+ *  @标签 作者管理模块/软删除作者
+ *  @方式 POST
+ *  @地址 /api/admin/work/author/delete-author
+ *  @更新时间 2025-06-24 00:15:15
+ */
+
+export interface DeleteAuthorRequest {
+  /* 主键id */
+  id: number
+}
+
+/*  */
+export type DeleteAuthorResponse = {
+  /* 主键id */
+  id: number
+}

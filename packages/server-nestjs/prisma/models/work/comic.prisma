@@ -42,6 +42,8 @@ model WorkComic {
   purchaseAmount    Int                @default(0) @map("purchase_amount")
   /// 备注
   remark            String?            @db.VarChar(1000)
+  /// 软删除时间（用于数据恢复或归档）
+  deletedAt         DateTime?          @map("deleted_at") @db.Timestamptz
   /// 创建时间
   createdAt         DateTime           @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间

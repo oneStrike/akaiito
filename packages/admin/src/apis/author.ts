@@ -1,122 +1,140 @@
 import { httpHandler } from '@/utils/request'
 import type {
-  GetAuthorPageTypesRes,
-  GetAuthorPageTypesReq,
-  GetAuthorDetailTypesRes,
-  GetAuthorDetailTypesReq,
-  CreateAuthorTypesRes,
-  CreateAuthorTypesReq,
-  UpdateAuthorTypesRes,
-  UpdateAuthorTypesReq,
-  DeleteAuthorTypesRes,
-  DeleteAuthorTypesReq,
-  UpdateAuthorStatusTypesRes,
-  UpdateAuthorStatusTypesReq,
+  CreateAuthorResponse,
+  CreateAuthorRequest,
+  AuthorPageResponse,
+  AuthorPageRequest,
+  AuthorDetailResponse,
+  AuthorDetailRequest,
+  UpdateAuthorResponse,
+  UpdateAuthorRequest,
+  BatchUpdateAuthorStatusResponse,
+  BatchUpdateAuthorStatusRequest,
+  BatchUpdateAuthorFeaturedResponse,
+  BatchUpdateAuthorFeaturedRequest,
+  DeleteAuthorResponse,
+  DeleteAuthorRequest,
 } from './types/author.d'
 
 /**
- *  接口 [作者分页列表](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-215698093)
- *  @标签 内容管理/作者管理/作者分页列表
- *  @方式 GET
- *  @地址 /admin/contentMgmt/author/getAuthorPage
- *  @更新时间 2025-05-08 22:15:20
+ *  接口 [创建作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669114)
+ *  @标签 作者管理模块/创建作者
+ *  @方式 POST
+ *  @地址 /api/admin/work/author/create-author
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export const getAuthorPageApi = (params: GetAuthorPageTypesReq): Promise<GetAuthorPageTypesRes> => {
+export const createAuthorApi = (data: CreateAuthorRequest): Promise<CreateAuthorResponse> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/api/admin/work/author/create-author',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [分页查询作者列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669115)
+ *  @标签 作者管理模块/分页查询作者列表
+ *  @方式 GET
+ *  @地址 /api/admin/work/author/author-page
+ *  @更新时间 2025-06-24 00:15:15
+ */
+
+export const authorPageApi = (params: AuthorPageRequest): Promise<AuthorPageResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/admin/contentMgmt/author/getAuthorPage',
+    url: '/api/admin/work/author/author-page',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [获取作者详情](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-295420478)
- *  @标签 内容管理/作者管理/获取作者详情
+ *  接口 [获取作者详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669116)
+ *  @标签 作者管理模块/获取作者详情
  *  @方式 GET
- *  @地址 /admin/contentMgmt/author/getAuthorDetail
- *  @更新时间 2025-05-13 22:06:30
+ *  @地址 /api/admin/work/author/author-detail
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export const getAuthorDetailApi = (params: GetAuthorDetailTypesReq): Promise<GetAuthorDetailTypesRes> => {
+export const authorDetailApi = (params: AuthorDetailRequest): Promise<AuthorDetailResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/admin/contentMgmt/author/getAuthorDetail',
+    url: '/api/admin/work/author/author-detail',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [创建作者](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-214490409)
- *  @标签 内容管理/作者管理/创建作者
- *  @方式 POST
- *  @地址 /admin/contentMgmt/author/createAuthor
- *  @更新时间 2024-09-18 00:33:57
+ *  接口 [更新作者信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669117)
+ *  @标签 作者管理模块/更新作者信息
+ *  @方式 PUT
+ *  @地址 /api/admin/work/author/update-author
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export const createAuthorApi = (data: CreateAuthorTypesReq): Promise<CreateAuthorTypesRes> => {
+export const updateAuthorApi = (): Promise<UpdateAuthorResponse> => {
   return httpHandler({
-    method: 'POST',
-    url: '/admin/contentMgmt/author/createAuthor',
+    method: 'PUT',
+    url: '/api/admin/work/author/update-author',
     headers: {
       'Content-Type': 'application/json',
     },
-    data,
   })
 }
 
 /**
- *  接口 [更新作者信息](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-214498981)
- *  @标签 内容管理/作者管理/更新作者信息
- *  @方式 POST
- *  @地址 /admin/contentMgmt/author/updateAuthor
- *  @更新时间 2024-09-17 23:13:32
+ *  接口 [批量更新作者状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669118)
+ *  @标签 作者管理模块/批量更新作者状态
+ *  @方式 PUT
+ *  @地址 /api/admin/work/author/batch-update-author-status
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export const updateAuthorApi = (data: UpdateAuthorTypesReq): Promise<UpdateAuthorTypesRes> => {
+export const batchUpdateAuthorStatusApi = (): Promise<BatchUpdateAuthorStatusResponse> => {
   return httpHandler({
-    method: 'POST',
-    url: '/admin/contentMgmt/author/updateAuthor',
+    method: 'PUT',
+    url: '/api/admin/work/author/batch-update-author-status',
     headers: {
       'Content-Type': 'application/json',
     },
-    data,
   })
 }
 
 /**
- *  接口 [删除作者](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-215740463)
- *  @标签 内容管理/作者管理/删除作者
- *  @方式 POST
- *  @地址 /admin/contentMgmt/author/deleteAuthor
- *  @更新时间 2024-09-16 22:23:28
+ *  接口 [批量更新作者推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669119)
+ *  @标签 作者管理模块/批量更新作者推荐状态
+ *  @方式 PUT
+ *  @地址 /api/admin/work/author/batch-update-author-featured
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export const deleteAuthorApi = (data: DeleteAuthorTypesReq): Promise<DeleteAuthorTypesRes> => {
+export const batchUpdateAuthorFeaturedApi = (): Promise<BatchUpdateAuthorFeaturedResponse> => {
   return httpHandler({
-    method: 'POST',
-    url: '/admin/contentMgmt/author/deleteAuthor',
+    method: 'PUT',
+    url: '/api/admin/work/author/batch-update-author-featured',
     headers: {
       'Content-Type': 'application/json',
     },
-    data,
   })
 }
 
 /**
- *  接口 [更新作者状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-215740509)
- *  @标签 内容管理/作者管理/更新作者状态
+ *  接口 [软删除作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669120)
+ *  @标签 作者管理模块/软删除作者
  *  @方式 POST
- *  @地址 /admin/contentMgmt/author/updateAuthorStatus
- *  @更新时间 2024-09-16 22:23:34
+ *  @地址 /api/admin/work/author/delete-author
+ *  @更新时间 2025-06-24 00:15:15
  */
 
-export const updateAuthorStatusApi = (data: UpdateAuthorStatusTypesReq): Promise<UpdateAuthorStatusTypesRes> => {
+export const deleteAuthorApi = (data: DeleteAuthorRequest): Promise<DeleteAuthorResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/admin/contentMgmt/author/updateAuthorStatus',
+    url: '/api/admin/work/author/delete-author',
     headers: {
       'Content-Type': 'application/json',
     },

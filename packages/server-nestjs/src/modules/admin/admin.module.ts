@@ -11,6 +11,7 @@ import { ClientPageConfigModule } from './client/page-config'
 import { AdminLoggerModule } from './logger/admin-logger.module'
 import { RequestLogModule } from './request-log/request-log.module'
 import { AdminUserModule } from './users/user.module'
+import { WorkModule } from './work/work.module'
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AdminUserModule } from './users/user.module'
     MaxMindModule,
     ClientNoticeModule,
     ClientPageConfigModule,
+    WorkModule,
   ],
   controllers: [DictionaryController],
   providers: [

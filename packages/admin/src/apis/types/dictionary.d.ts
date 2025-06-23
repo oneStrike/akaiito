@@ -3,7 +3,7 @@
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-page
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryPageRequest {
@@ -73,7 +73,7 @@ export interface DictionaryPageResponse {
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-detail
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryDetailRequest {
@@ -113,7 +113,7 @@ export type DictionaryDetailResponse = {
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-create
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryCreateRequest {
@@ -165,7 +165,7 @@ export type DictionaryCreateResponse = {
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-update
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryUpdateRequest {
@@ -226,7 +226,7 @@ export type DictionaryUpdateResponse = {
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-delete
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryDeleteRequest {
@@ -245,7 +245,7 @@ export type DictionaryDeleteResponse = {
  *  @标签 字典管理/启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-update-enable-status
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryUpdateEnableStatusRequest {
@@ -288,7 +288,7 @@ export type DictionaryUpdateEnableStatusResponse = {
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-items
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryItemsRequest {
@@ -343,7 +343,7 @@ export type DictionaryItemsResponse = {
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-create-item
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryCreateItemRequest {
@@ -407,7 +407,7 @@ export type DictionaryCreateItemResponse = {
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-update-item
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryUpdateItemRequest {
@@ -474,7 +474,7 @@ export type DictionaryUpdateItemResponse = {
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-delete-item
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryDeleteItemRequest {
@@ -520,7 +520,7 @@ export type DictionaryDeleteItemResponse = {
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/dictionary-update-item-status
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export interface DictionaryUpdateItemStatusRequest {

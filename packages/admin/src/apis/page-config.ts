@@ -22,7 +22,7 @@ import type {
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/page-config-create
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigCreateApi = (data: PageConfigCreateRequest): Promise<PageConfigCreateResponse> => {
@@ -41,7 +41,7 @@ export const pageConfigCreateApi = (data: PageConfigCreateRequest): Promise<Page
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/page-config/page-config-page
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigPageApi = (params: PageConfigPageRequest): Promise<PageConfigPageResponse> => {
@@ -58,7 +58,7 @@ export const pageConfigPageApi = (params: PageConfigPageRequest): Promise<PageCo
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/page-config-detail-by-id
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigDetailByIdApi = (params: PageConfigDetailByIdRequest): Promise<PageConfigDetailByIdResponse> => {
@@ -75,7 +75,7 @@ export const pageConfigDetailByIdApi = (params: PageConfigDetailByIdRequest): Pr
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/page-config/page-config-detail-by-code
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigDetailByCodeApi = (
@@ -94,7 +94,7 @@ export const pageConfigDetailByCodeApi = (
  *  @标签 客户端页面配置模块/更新页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/page-config-update
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigUpdateApi = (data: PageConfigUpdateRequest): Promise<PageConfigUpdateResponse> => {
@@ -113,7 +113,7 @@ export const pageConfigUpdateApi = (data: PageConfigUpdateRequest): Promise<Page
  *  @标签 客户端页面配置模块/批量更新页面配置状态
  *  @方式 POST
  *  @地址 /api/admin/page-config/page-config-batch-update-status
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigBatchUpdateStatusApi = (): Promise<PageConfigBatchUpdateStatusResponse> => {
@@ -129,7 +129,7 @@ export const pageConfigBatchUpdateStatusApi = (): Promise<PageConfigBatchUpdateS
  *  @标签 客户端页面配置模块/增加页面访问次数
  *  @方式 POST
  *  @地址 /api/admin/page-config/page-config-increment-view
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigIncrementViewApi = (
@@ -150,7 +150,7 @@ export const pageConfigIncrementViewApi = (
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/page-config/page-config-batch-delete
- *  @更新时间 2025-06-23 21:14:46
+ *  @更新时间 2025-06-24 00:15:10
  */
 
 export const pageConfigBatchDeleteApi = (
