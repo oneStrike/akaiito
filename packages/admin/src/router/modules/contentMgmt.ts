@@ -13,7 +13,7 @@ export default {
     {
       name: 'ContentMgmtPage',
       path: '/contentMgmt/contentMgmt',
-      component: () => import('@/views/contentMgmt/comicMgmt/index.vue'),
+      component: () => import('@/views/content-manage/comic-manage/index.vue'),
       meta: {
         title: '漫画',
         icon: 'textbox',
@@ -24,7 +24,7 @@ export default {
     {
       name: 'AuthorPage',
       path: '/contentMgmt/author',
-      component: () => import('@/views/contentMgmt/author/index.vue'),
+      component: () => import('@/views/content-manage/author/index.vue'),
       meta: {
         title: '作者管理',
         icon: 'userEdit',
@@ -35,7 +35,7 @@ export default {
     {
       name: 'ClassifyMgmtPage',
       path: '/contentMgmt/classifyMgmtPage',
-      component: () => import('@/views/contentMgmt/classifyMgmt/index.vue'),
+      component: () => import('@/views/content-manage/classify-manage/index.vue'),
       meta: {
         title: '分类管理',
         icon: 'scale',

@@ -8,13 +8,13 @@
     updateEnableStatusApi,
   } from '@/apis/dictionary'
   import { PromptsEnum } from '@/enum/prompts'
-  import RecordDetails from '@/views/systemMgmt/dataDict/record.vue'
+  import RecordDetails from '@/views/system-manage/data-dict/record.vue'
   import {
     filter,
     formOptions,
     tableColumns,
     toolbar,
-  } from '@/views/systemMgmt/dataDict/shared'
+  } from '@/views/system-manage/data-dict/shared'
 
   defineOptions({
     name: 'DataDict',

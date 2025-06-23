@@ -11,15 +11,15 @@
     updateComicPublishApi,
   } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
-  import AuthorDetail from '@/views/contentMgmt/author/authorDetail.vue'
-  import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
-  import ComicDetail from '@/views/contentMgmt/comicMgmt/comicDetail.vue'
+  import AuthorDetail from '@/views/content-manage/author/authorDetail.vue'
+  import ComicChapter from '@/views/content-manage/comic-manage/chapter.vue'
+  import ComicDetail from '@/views/content-manage/comic-manage/comicDetail.vue'
   import {
     filter,
     formOptions,
     tableColumn,
     toolbar,
-  } from '@/views/contentMgmt/comicMgmt/shared'
+  } from '@/views/content-manage/comic-manage/shared'
 
   defineOptions({
     name: 'ContentMgmtPage',

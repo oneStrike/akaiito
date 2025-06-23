@@ -120,11 +120,11 @@
     <div v-loading="loading" class="p-3">
       <div v-if="detail" class="space-y-6">
         <!-- 头部信息 -->
-        <div class="border-b border-gray-200 pb-4">
+        <div class="pb-4 border-b border-gray-200">
           <h2 class="text-xl font-semibold text-gray-900 mb-3">
             {{ detail.title }}
           </h2>
-          <div class="flex gap-2 flex-wrap">
+          <div class="flex flex-wrap gap-2">
             <el-tag :type="currentNoticeType.color" size="small">
               {{ currentNoticeType.label }}
             </el-tag>
@@ -139,7 +139,7 @@
 
         <!-- 基本信息 -->
         <div>
-          <h3 class="text-base font-medium text-gray-900 mb-3">基本信息</h3>
+          <h3 class="text-gray-900 mb-3 text-base font-medium">基本信息</h3>
           <el-descriptions :column="2" border>
             <el-descriptions-item label="开始时间">
               {{ formatTime(detail.startTime) }}
@@ -186,7 +186,7 @@
             <el-image
               :src="detail.backgroundImage"
               :preview-src-list="[detail.backgroundImage]"
-              class="max-w-md max-h-64 rounded-lg border border-gray-200"
+              class="border border-gray-200 max-w-md max-h-64 rounded-lg"
               fit="contain"
             />
           </div>
@@ -198,7 +198,7 @@
           <div>
             <div
               v-if="detail.content"
-              class="p-4 bg-gray-50 rounded-lg border border-gray-200 min-h-24"
+              class="rounded-lg border border-gray-200 p-4 bg-gray-50 min-h-24"
               v-html="detail.content"
             />
             <el-empty v-else description="暂无内容" />

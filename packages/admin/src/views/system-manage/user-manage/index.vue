@@ -13,7 +13,7 @@
     pwdFormOptions,
     tableColumns,
     toolbar,
-  } from '@/views/systemMgmt/userMgmt/shared'
+  } from '@/views/system-manage/user-manage/shared'
 
   defineOptions({
     name: 'UserMgmt',

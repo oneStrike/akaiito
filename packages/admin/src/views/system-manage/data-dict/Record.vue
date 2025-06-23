@@ -13,7 +13,7 @@
     formOptions,
     tableColumns,
     toolbar,
-  } from '@/views/systemMgmt/dataDict/shared'
+  } from '@/views/system-manage/data-dict/shared'
 
   defineOptions({
     name: 'RecordDetails',

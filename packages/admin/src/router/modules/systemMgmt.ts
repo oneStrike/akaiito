@@ -13,7 +13,7 @@ export default {
     {
       name: 'Profile',
       path: '/profile',
-      component: () => import('@/views/systemMgmt/profile/index.vue'),
+      component: () => import('@/views/system-manage/profile/index.vue'),
       meta: {
         title: '个人中心',
         icon: 'user',
@@ -24,7 +24,7 @@ export default {
     {
       name: 'DataDictionary',
       path: '/dataDictionary',
-      component: () => import('@/views/systemMgmt/dataDict/index.vue'),
+      component: () => import('@/views/system-manage/data-dict/index.vue'),
       meta: {
         title: '数据字典',
         icon: 'dataMinus',
@@ -41,7 +41,7 @@ export default {
         {
           name: 'LoginLogs',
           path: '/logsMgmt/loginLogs',
-          component: () => import('@/views/systemMgmt/logMgmt/loginLog/index.vue'),
+          component: () => import('@/views/system-manage/request-log/login-log/index.vue'),
           meta: {
             title: '登录日志',
             icon: 'login',
@@ -50,7 +50,7 @@ export default {
         {
           name: 'OperationLogs',
           path: '/logsMgmt/operationLogs',
-          component: () => import('@/views/systemMgmt/logMgmt/operationLog/index.vue'),
+          component: () => import('@/views/system-manage/request-log/operation-log/index.vue'),
           meta: {
             title: '操作日志',
             icon: 'handPointer',
@@ -62,7 +62,7 @@ export default {
     {
       name: 'UserMgmt',
       path: '/userMgmt',
-      component: () => import('@/views/systemMgmt/userMgmt/index.vue'),
+      component: () => import('@/views/system-manage/user-manage/index.vue'),
       meta: {
         title: '用户管理',
         icon: 'users',
@@ -71,7 +71,7 @@ export default {
     {
       name: 'ServerStatus',
       path: '/serverStatus',
-      component: () => import('@/views/systemMgmt/serverStatus/index.vue'),
+      component: () => import('@/views/system-manage/server-status/index.vue'),
       meta: {
         title: '系统状态',
         icon: 'server',

@@ -2,8 +2,8 @@
   import type { GetComicDetailTypesRes } from '@/apis/types/comic'
   import { getComicDetailApi, updateComicRuleApi } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
-  import AuthorDetail from '@/views/contentMgmt/author/authorDetail.vue'
-  import ComicChapter from '@/views/contentMgmt/comicMgmt/chapter.vue'
+  import AuthorDetail from '@/views/content-manage/author/authorDetail.vue'
+  import ComicChapter from '@/views/content-manage/comic-manage/chapter.vue'
 
   defineOptions({
     name: 'ComicDetail',
@@ -54,19 +54,19 @@
   >
     <div class="p-4 space-y-6 bg-gray-50 rounded-lg">
       <!-- 顶部：封面和基本信息卡片 -->
-      <div class="bg-white rounded-lg shadow-sm p-4">
+      <div class="rounded-lg p-4 bg-white shadow-sm">
         <div v-loading="loading" class="flex flex-col md:flex-row gap-8">
           <!-- 封面 -->
-          <div class="w-full md:w-48 flex-shrink-0 flex flex-col">
+          <div class="w-full flex flex-col md:w-48 flex-shrink-0">
             <div class="group relative">
               <el-image
                 :src="comicDetail.cover"
                 fit="cover"
-                class="w-full md:w-48 h-64 rounded-lg shadow-sm"
+                class="w-full md:w-48 rounded-lg shadow-sm h-64"
                 :preview-src-list="[comicDetail.cover]"
               />
             </div>
-            <div class="flex flex-wrap gap-1.5 justify-center mt-4">
+            <div class="flex flex-wrap justify-center gap-1.5 mt-4">
               <el-tag
                 v-for="cat in comicDetail.categories"
                 :key="cat.id"
@@ -85,7 +85,7 @@
               <h3 class="text-xl font-bold text-gray-800">
                 {{ comicDetail.name }}
               </h3>
-              <span v-if="comicDetail.alias" class="text-gray-400 text-sm">
+              <span v-if="comicDetail.alias" class="text-sm text-gray-400">
                 ({{ comicDetail.alias }})
               </span>
             </div>
@@ -119,13 +119,13 @@
               </el-descriptions-item>
             </el-descriptions>
 
-            <div class="grid grid-cols-3 gap-4 mt-4">
+            <div class="mt-4 grid grid-cols-3 gap-4">
               <div
                 class="text-center p-3 bg-gray-50 rounded-lg cursor-pointer"
                 @click="chapterModal = true"
               >
                 <div class="text-xs text-gray-500 mb-1">章节数</div>
-                <div class="text-lg font-bold text-primary-600">
+                <div class="font-bold text-lg text-primary-600">
                   {{ comicDetail.chapterCount ?? 0 }}
                 </div>
               </div>
@@ -210,7 +210,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-6 mt-6">
+        <div class="grid gap-6 grid-cols-2 mt-6">
           <!-- 允许下载 -->
           <div
             class="flex items-center justify-between bg-gray-50 rounded-lg p-4"
@@ -249,7 +249,7 @@
           <!-- 作品发布日期 -->
           <div class="bg-gray-50 rounded-lg p-4">
             <span>作品发布日期</span>
-            <div class="mt-1 font-medium text-gray-800">
+            <div class="font-medium text-gray-800 mt-1">
               {{ comicDetail.publishAt }}
             </div>
           </div>

@@ -7,7 +7,7 @@
     formOptions,
     tableColumns,
     toolbar,
-  } from '@/views/appMgmt/pageMgmt/shared'
+  } from '@/views/client-manage/page-manage/shared'
 
   defineOptions({
     name: 'PageMgmt',

@@ -78,7 +78,7 @@
           :z-index="999999"
           fit="cover"
           :src="authorDetail.avatar ?? ''"
-          class="w-32 h-32 rounded-full border border-gray-300 shadow-md"
+          class="border w-32 h-32 rounded-full border-gray-300 shadow-md"
         >
           <template #error>
             <el-text type="danger">加载失败</el-text>
@@ -93,8 +93,8 @@
         </el-descriptions-item>
         <el-descriptions-item label="性别">
           {{
-            gender.find((item) => item.value === authorDetail?.gender)?.label ??
-            '-'
+            gender.find((item) => item.value === authorDetail?.gender)?.label
+            ?? '-'
           }}
         </el-descriptions-item>
         <el-descriptions-item label="国籍">

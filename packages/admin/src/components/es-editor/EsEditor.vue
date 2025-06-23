@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useUpload } from '@/hooks/useUpload'
 import Editor from '@tinymce/tinymce-vue'
-
 import tinymce from 'tinymce/tinymce'
+
+import { useUpload } from '@/hooks/useUpload'
 import 'tinymce/icons/default/icons'
 import 'tinymce/models/dom' // 一定要引入
 import 'tinymce/themes/silver' // 界面UI主题

@@ -13,7 +13,7 @@ export default {
     {
       name: 'Notice',
       path: '/notice',
-      component: () => import('@/views/appMgmt/notice/index.vue'),
+      component: () => import('@/views/client-manage/notice/index.vue'),
       meta: {
         title: '通知公告',
         icon: 'speakerphone',
@@ -23,7 +23,7 @@ export default {
     {
       name: 'PageConfig',
       path: '/pageConfig',
-      component: () => import('@/views/appMgmt/pageMgmt/index.vue'),
+      component: () => import('@/views/client-manage/page-manage/index.vue'),
       meta: {
         title: '页面配置',
         icon: 'textbox',
@@ -33,7 +33,7 @@ export default {
     {
       name: 'SystemConfig',
       path: '/systemConfig',
-      component: () => import('@/views/appMgmt/systemConfig/index.vue'),
+      component: () => import('@/views/client-manage/system-config/index.vue'),
       meta: {
         title: '系统配置',
         icon: 'settings',

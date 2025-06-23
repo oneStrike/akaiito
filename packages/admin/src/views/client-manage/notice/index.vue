@@ -11,8 +11,8 @@
   import { PromptsEnum } from '@/enum/prompts'
   import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
   import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
-  import NoticeDetail from '@/views/appMgmt/notice/detail.vue'
-  import { formOptions, toolbar } from '@/views/appMgmt/notice/shared'
+  import NoticeDetail from '@/views/client-manage/notice/detail.vue'
+  import { formOptions, toolbar } from '@/views/client-manage/notice/shared'
 
   defineOptions({
     name: 'NoticePage',

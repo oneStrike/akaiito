@@ -123,7 +123,7 @@
 <template>
   <div class="h-full flex flex-col p-5 bg-gray-50">
     <!-- 主要内容区域 -->
-    <div class="flex gap-5 flex-1 overflow-hidden">
+    <div class="flex flex-1 gap-5 overflow-hidden">
       <!-- 左侧：用户信息和安全设置 -->
       <div class="flex-1 flex flex-col gap-5 h-full overflow-y-auto">
         <!-- 用户信息 -->
@@ -139,7 +139,7 @@
             </div>
           </template>
           <div>
-            <div class="flex items-center mb-8 pb-6 border-b border-gray-200">
+            <div class="flex items-center pb-6 border-b border-gray-200 mb-8">
               <div class="relative mr-8">
                 <el-avatar
                   :size="80"
@@ -153,7 +153,7 @@
                 />
               </div>
               <div class="flex-1">
-                <h2 class="text-gray-800 text-2xl font-bold mb-2">
+                <h2 class="text-gray-800 font-bold mb-2 text-2xl">
                   {{ userInfo?.username || '未设置' }}
                 </h2>
                 <p class="text-base text-gray-500 mb-4">
@@ -237,7 +237,7 @@
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="flex items-center justify-between p-2 bg-blue-100 rounded-full"
+                  class="flex items-center justify-between p-2 rounded-full bg-blue-100"
                 >
                   <es-icon name="lock" :size="18" class="text-blue-600" />
                 </div>

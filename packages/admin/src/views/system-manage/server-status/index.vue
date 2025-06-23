@@ -159,7 +159,7 @@
               <p class="status-value">{{ systemInfo.system.loadAverage[0] }}</p>
             </div>
           </div>
-          <div class="load-info mt-4">
+          <div class="mt-4 load-info">
             <el-tag
               :type="getStatusType(systemInfo.system.loadAverage[0] * 25)"
               size="small"

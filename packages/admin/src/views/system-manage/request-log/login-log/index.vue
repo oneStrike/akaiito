@@ -3,7 +3,7 @@
   import {
     filter,
     tableColumns,
-  } from '@/views/systemMgmt/logMgmt/loginLog/shared'
+  } from '@/views/system-manage/request-log/login-log/shared'
 
   defineOptions({
     name: 'LoginLogs',
