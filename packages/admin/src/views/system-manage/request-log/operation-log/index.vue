@@ -7,7 +7,7 @@
 
 <template>
   <div class="main-page">
-    <es-table
+    <EsTable
       :filter="filter"
       :columns="tableColumns"
       :request-api="requestLogApi.pageApi"
@@ -20,7 +20,7 @@
           {{ row.responseCode }}
         </el-text>
       </template>
-    </es-table>
+    </EsTable>
   </div>
 </template>
 

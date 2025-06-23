@@ -95,7 +95,7 @@
 
 <template>
   <div class="main-page">
-    <es-table
+    <EsTable
       ref="tableRef"
       v-model:selected="selectionItems"
       :filter="filter(6)"
@@ -111,7 +111,7 @@
         </el-link>
       </template>
       <template #isEnabled="{ row }">
-        <es-switch
+        <EsSwitch
           :request="dataDictApi.dictionaryUpdateEnableStatusApi"
           :row="row"
           ids
@@ -120,16 +120,16 @@
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
-        <es-pop-confirm
+        <EsPopConfirm
           :request="dataDictApi.dictionaryDeleteApi"
           :row="row"
           ids
           @success="tableRef?.refresh()"
         />
       </template>
-    </es-table>
+    </EsTable>
 
-    <es-modal-form
+    <EsModalForm
       v-model:show="formModal.show"
       :default-value="currentRow"
       :title="currentRow ? '添加' : '编辑'"

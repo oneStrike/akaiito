@@ -47,7 +47,7 @@
 
 <template>
   <div class="main-page">
-    <es-table
+    <EsTable
       ref="tableRef"
       :columns="tableColumns"
       :toolbar="toolbar"
@@ -71,16 +71,16 @@
         <el-button type="primary" link @click="openFormModal(row)">
           编辑
         </el-button>
-        <es-pop-confirm
+        <EsPopConfirm
           :request="pageConfigApi.pageConfigBatchDeleteApi"
           :row="row"
           ids
           @success="tableRef?.reset()"
         />
       </template>
-    </es-table>
+    </EsTable>
 
-    <es-modal-form
+    <EsModalForm
       v-model:show="modalFrom.show"
       v-model:loading="modalFrom.loading"
       :default-value="currentRow"

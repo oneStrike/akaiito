@@ -128,7 +128,7 @@
 
 <template>
   <div class="main-page">
-    <es-table
+    <EsTable
       v-if="tableColumns"
       ref="tableRef"
       :filter="filter"
@@ -156,13 +156,13 @@
         <el-button type="primary" link @click="openFormModal(row)">
           编辑
         </el-button>
-        <es-pop-confirm
+        <EsPopConfirm
           ids
           :request="noticeApi.noticeBatchDeleteApi"
           :row="row"
           @success="tableRef?.reset()"
         />
-        <es-pop-confirm
+        <EsPopConfirm
           :disabled="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
           :confirm-text="row.isPublish ? '取消发布' : '发布'"
           :request="noticeApi.noticeUpdateStatusApi"
@@ -172,9 +172,9 @@
           @success="tableRef?.refresh()"
         />
       </template>
-    </es-table>
+    </EsTable>
 
-    <es-modal-form
+    <EsModalForm
       v-model:show="modalFrom.show"
       v-model:loading="modalFrom.loading"
       :default-value="currentRow"

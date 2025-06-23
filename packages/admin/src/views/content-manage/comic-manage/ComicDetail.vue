@@ -45,7 +45,7 @@
 </script>
 
 <template>
-  <es-modal
+  <EsModal
     v-if="visible"
     :model-value="visible"
     :title="`【${comicDetail?.name ?? '漫画'}】详情`"
@@ -57,7 +57,7 @@
       <div class="rounded-lg p-4 bg-white shadow-sm">
         <div v-loading="loading" class="flex flex-col md:flex-row gap-8">
           <!-- 封面 -->
-          <div class="w-full flex flex-col md:w-48 flex-shrink-0">
+          <div class="flex flex-col w-full md:w-48 flex-shrink-0">
             <div class="group relative">
               <el-image
                 :src="comicDetail.cover"
@@ -80,7 +80,7 @@
           </div>
 
           <!-- 基本信息 -->
-          <div class="flex-1 flex flex-col">
+          <div class="flex flex-col flex-1">
             <div class="flex items-center gap-3 mb-4">
               <h3 class="text-xl font-bold text-gray-800">
                 {{ comicDetail.name }}
@@ -213,7 +213,7 @@
         <div class="grid gap-6 grid-cols-2 mt-6">
           <!-- 允许下载 -->
           <div
-            class="flex items-center justify-between bg-gray-50 rounded-lg p-4"
+            class="flex items-center bg-gray-50 rounded-lg p-4 justify-between"
           >
             <span class="text-sm text-gray-500">允许下载</span>
             <el-switch
@@ -305,5 +305,5 @@
       v-model:show="chapterModal"
       :comic="comicDetail!"
     />
-  </es-modal>
+  </EsModal>
 </template>

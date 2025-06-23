@@ -98,8 +98,8 @@
 </script>
 
 <template>
-  <es-modal v-model="modalShow" :title="`【${comic.name}】`" width="900">
-    <es-table
+  <EsModal v-model="modalShow" :title="`【${comic.name}】`" width="900">
+    <EsTable
       v-model:params="params"
       v-loading="loading"
       :toolbar="[toolbar![0]]"
@@ -114,7 +114,7 @@
       @drag-end="sortChapter"
     >
       <template #isPublish="{ row }">
-        <es-switch
+        <EsSwitch
           :row="row"
           :request="updateChapterPublishApi"
           field="isPublish"
@@ -128,14 +128,14 @@
         <el-divider direction="vertical" />
         <el-button link type="primary" @click="openForm(row)">编辑</el-button>
         <el-divider direction="vertical" />
-        <es-pop-confirm
+        <EsPopConfirm
           v-model:loading="loading"
           :request="deleteChapterApi"
           :row="row"
           @success="request"
         />
       </template>
-    </es-table>
+    </EsTable>
 
     <EsModalForm
       v-if="formModal.show"
@@ -159,7 +159,7 @@
       @submit="submit"
       @closed="currentRecord = null"
     />
-  </es-modal>
+  </EsModal>
 </template>
 
 <style scoped lang="scss"></style>

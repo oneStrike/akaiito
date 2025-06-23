@@ -83,7 +83,7 @@
 
 <template>
   <div class="main-page">
-    <es-table
+    <EsTable
       ref="tableRef"
       :toolbar="toolbar"
       :filter="filter"
@@ -104,7 +104,7 @@
       </template>
 
       <template #status="{ row }">
-        <es-switch
+        <EsSwitch
           :request="switchStatus"
           :row="row"
           field="status"
@@ -124,16 +124,16 @@
           修改密码
         </el-button>
 
-        <es-pop-confirm
+        <EsPopConfirm
           :row="row"
           :request="deleteUserApi"
           :disabled="row.id === userStore.userInfo?.id"
           @success="tableRef?.refresh()"
         />
       </template>
-    </es-table>
+    </EsTable>
 
-    <es-modal-form
+    <EsModalForm
       v-model:show="formModal"
       :title="currentRow?.id ? '修改用户' : '添加用户'"
       :options="formTool.options"
@@ -142,7 +142,7 @@
       @closed="currentRow = null"
     />
 
-    <es-modal-form
+    <EsModalForm
       v-model:show="pwdModal"
       title="修改密码"
       :options="pwdFormOptions"

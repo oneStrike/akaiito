@@ -61,7 +61,7 @@
 </script>
 
 <template>
-  <es-modal
+  <EsModal
     v-if="visible"
     :model-value="visible"
     :title="`【${authorDetail?.name ?? '作者'}】详情`"
@@ -129,5 +129,5 @@
         </el-descriptions-item>
       </el-descriptions>
     </div>
-  </es-modal>
+  </EsModal>
 </template>

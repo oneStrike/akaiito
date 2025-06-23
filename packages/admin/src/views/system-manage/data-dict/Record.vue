@@ -119,7 +119,7 @@
 </script>
 
 <template>
-  <es-modal
+  <EsModal
     v-bind="props"
     v-model="showModal"
     class="p-1"
@@ -128,7 +128,7 @@
     @full-screen="computedTableHeight"
   >
     <div v-if="record?.code" class="h-full">
-      <es-table
+      <EsTable
         ref="tableRef"
         v-model:selected="selectionItems"
         v-model:params="tableParams"
@@ -143,7 +143,7 @@
           <span>{{ row.name }}</span>
         </template>
         <template #isEnabled="{ row }">
-          <es-switch
+          <EsSwitch
             :request="dataDictApi.dictionaryUpdateItemStatusApi"
             :row="row"
             ids
@@ -152,16 +152,16 @@
         </template>
         <template #action="{ row }">
           <el-button type="primary" link @click="edit(row)">编辑</el-button>
-          <es-pop-confirm
+          <EsPopConfirm
             :request="dataDictApi.dictionaryDeleteItemApi"
             :row="row"
             ids
             @success="tableRef?.refresh()"
           />
         </template>
-      </es-table>
+      </EsTable>
 
-      <es-modal-form
+      <EsModalForm
         v-model:show="formModalShow"
         :default-value="currentRow"
         :title="currentRow ? '添加' : '编辑'"
@@ -171,7 +171,7 @@
         @closed="currentRow = null"
       />
     </div>
-  </es-modal>
+  </EsModal>
 </template>
 
 <style scoped></style>

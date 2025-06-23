@@ -110,7 +110,7 @@
 </script>
 
 <template>
-  <es-modal
+  <EsModal
     v-if="visible"
     :model-value="visible"
     :title="`【${detail?.title ?? '通知'}】详情`"
@@ -216,7 +216,7 @@
         </div>
       </div>
     </div>
-  </es-modal>
+  </EsModal>
 </template>
 
 <style scoped lang="scss"></style>

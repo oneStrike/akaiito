@@ -1,114 +1,113 @@
 <script lang="ts" setup>
-import type { GetAuthorPageTypesRes } from '@/apis/types/author'
-import {
-  createAuthorApi,
-  deleteAuthorApi,
-  getAuthorDetailApi,
-  getAuthorPageApi,
-  updateAuthorApi,
-  updateAuthorStatusApi,
-} from '@/apis/author'
-import AuthorDetail from './authorDetail.vue'
-import {
-  authorRoles,
-  filter,
-  formOptions,
-  tableColumns,
-  toolbar,
-} from './shared'
+  import type { GetAuthorPageTypesRes } from '@/apis/types/author'
+  import {
+    createAuthorApi,
+    deleteAuthorApi,
+    getAuthorDetailApi,
+    getAuthorPageApi,
+    updateAuthorApi,
+    updateAuthorStatusApi,
+  } from '@/apis/author'
+  import AuthorDetail from './authorDetail.vue'
+  import {
+    authorRoles,
+    filter,
+    formOptions,
+    tableColumns,
+    toolbar,
+  } from './shared'
 
-defineOptions({
-  name: 'Author',
-})
-type Record = GetAuthorPageTypesRes['list'][number]
-
-const modalFrom = reactive({
-  show: false,
-  loading: false,
-})
-const detailModel = ref(false)
-const currentRow = ref<IterateObject | null>(null)
-const formTool = useFormTool(formOptions)
-formTool.fillDict([
-  {
-    field: 'nationality',
-    code: 'nationality',
-  },
-])
-const { reset, request, loading, requestData, params, sortChange } = useRequest(
-  async (params: IterateObject) => {
-    if (Array.isArray(params.roles)) {
-      params.roles = JSON.stringify(params.roles)
-    }
-    return await getAuthorPageApi(params)
-  },
-)
-
-async function submitForm(val: any) {
-  modalFrom.loading = true
-  if (val.website) {
-    val.website = encodeURIComponent(val.website)
-  }
-  if (!val.avatar) {
-    delete val.avatar
-  }
-  if (Array.isArray(val.socialLinks)) {
-    val.socialLinks = JSON.stringify(val.socialLinks)
-  }
-  if (currentRow.value?.id) {
-    val.id = currentRow.value.id
-    await updateAuthorApi(val)
-  } else {
-    await createAuthorApi(val)
-  }
-  modalFrom.show = false
-  useMessage.success({
-    message: currentRow.value?.id ? '修改成功!' : '新增成功！',
+  defineOptions({
+    name: 'Author',
   })
-  currentRow.value = null
-  modalFrom.loading = false
-  request()
-}
+  type Record = GetAuthorPageTypesRes['list'][number]
 
-async function switchStatus(val: any) {
-  await updateAuthorStatusApi(val)
-  await request()
-}
-
-function identity(record: Record) {
-  const identity: string[] = []
-  record.roles.forEach((item) => {
-    authorRoles.forEach((roles) => {
-      if (roles.value === item) {
-        identity.push(roles.label)
+  const modalFrom = reactive({
+    show: false,
+    loading: false,
+  })
+  const detailModel = ref(false)
+  const currentRow = ref<IterateObject | null>(null)
+  const formTool = useFormTool(formOptions)
+  formTool.fillDict([
+    {
+      field: 'nationality',
+      code: 'nationality',
+    },
+  ])
+  const { reset, request, loading, requestData, params, sortChange } =
+    useRequest(async (params: IterateObject) => {
+      if (Array.isArray(params.roles)) {
+        params.roles = JSON.stringify(params.roles)
       }
+      return await getAuthorPageApi(params)
     })
-  })
-  return identity.join('、') || '-'
-}
 
-// 获取详情数据
-async function getDetail(val: Record) {
-  currentRow.value = await getAuthorDetailApi({ id: val.id })
-}
-
-const openFormModal = async (val?: Record) => {
-  if (val) {
-    await getDetail(val)
-  } else {
+  async function submitForm(val: any) {
+    modalFrom.loading = true
+    if (val.website) {
+      val.website = encodeURIComponent(val.website)
+    }
+    if (!val.avatar) {
+      delete val.avatar
+    }
+    if (Array.isArray(val.socialLinks)) {
+      val.socialLinks = JSON.stringify(val.socialLinks)
+    }
+    if (currentRow.value?.id) {
+      val.id = currentRow.value.id
+      await updateAuthorApi(val)
+    } else {
+      await createAuthorApi(val)
+    }
+    modalFrom.show = false
+    useMessage.success({
+      message: currentRow.value?.id ? '修改成功!' : '新增成功！',
+    })
     currentRow.value = null
+    modalFrom.loading = false
+    request()
   }
-  modalFrom.show = true
-}
-const openDetailModal = async (val: Record) => {
-  currentRow.value = val
-  detailModel.value = true
-}
+
+  async function switchStatus(val: any) {
+    await updateAuthorStatusApi(val)
+    await request()
+  }
+
+  function identity(record: Record) {
+    const identity: string[] = []
+    record.roles.forEach((item) => {
+      authorRoles.forEach((roles) => {
+        if (roles.value === item) {
+          identity.push(roles.label)
+        }
+      })
+    })
+    return identity.join('、') || '-'
+  }
+
+  // 获取详情数据
+  async function getDetail(val: Record) {
+    currentRow.value = await getAuthorDetailApi({ id: val.id })
+  }
+
+  const openFormModal = async (val?: Record) => {
+    if (val) {
+      await getDetail(val)
+    } else {
+      currentRow.value = null
+    }
+    modalFrom.show = true
+  }
+  const openDetailModal = async (val: Record) => {
+    currentRow.value = val
+    detailModel.value = true
+  }
 </script>
 
 <template>
   <div v-loading="loading" class="main-page pb-6">
-    <es-table
+    <EsTable
       v-model:params="params"
       :columns="tableColumns"
       :data="requestData?.list ?? []"
@@ -122,7 +121,7 @@ const openDetailModal = async (val: Record) => {
       @toolbar-handler="openFormModal()"
     >
       <template #status="{ row }">
-        <es-switch :request="switchStatus" :row="row" />
+        <EsSwitch :request="switchStatus" :row="row" />
       </template>
 
       <template #roles="{ row }">
@@ -134,16 +133,16 @@ const openDetailModal = async (val: Record) => {
           编辑
         </el-button>
         <el-divider direction="vertical" />
-        <es-pop-confirm
+        <EsPopConfirm
           v-model:loading="loading"
           :request="deleteAuthorApi"
           :row="row"
           @success="request()"
         />
       </template>
-    </es-table>
+    </EsTable>
 
-    <es-modal-form
+    <EsModalForm
       v-if="modalFrom.show"
       v-model:show="modalFrom.show"
       v-model:loading="modalFrom.loading"

@@ -16,7 +16,7 @@
 
 <template>
   <div class="main-page">
-    <es-table
+    <EsTable
       :params="params"
       :filter="filter"
       :columns="tableColumns"
@@ -30,7 +30,7 @@
           {{ row.responseMessage }}
         </el-text>
       </template>
-    </es-table>
+    </EsTable>
   </div>
 </template>
 

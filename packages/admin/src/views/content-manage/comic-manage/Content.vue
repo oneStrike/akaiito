@@ -117,7 +117,7 @@
 </script>
 
 <template>
-  <es-modal v-model="showModel" :width="1020">
+  <EsModal v-model="showModel" :width="1020">
     <div class="p-5">
       <!-- 工具栏 -->
       <div class="w-full flex justify-between">
@@ -160,7 +160,7 @@
       </div>
     </div>
     <!-- 漫画内容列表 -->
-    <es-table
+    <EsTable
       v-model:selected="selected"
       :data="fileList"
       :columns="contentColumn"
@@ -188,12 +188,12 @@
         <span v-else>-</span>
       </template>
       <template #action="{ row }">
-        <es-pop-confirm
+        <EsPopConfirm
           v-model:loading="isLoading"
           :request="deleteContent"
           :row="row"
         />
       </template>
-    </es-table>
-  </es-modal>
+    </EsTable>
+  </EsModal>
 </template>

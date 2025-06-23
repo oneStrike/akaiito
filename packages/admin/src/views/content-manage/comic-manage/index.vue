@@ -124,7 +124,7 @@
 
 <template>
   <div v-loading="loading" class="main-page">
-    <es-table
+    <EsTable
       v-model:params="params"
       :toolbar="toolbar"
       :filter="filter"
@@ -156,7 +156,7 @@
         </el-button>
       </template>
       <template #isPublish="{ row }">
-        <es-switch
+        <EsSwitch
           :row="row"
           :request="updateComicPublishApi"
           field="isPublish"
@@ -190,7 +190,7 @@
           </template>
         </el-dropdown>
       </template>
-    </es-table>
+    </EsTable>
 
     <ComicDetail
       v-if="detailModal"
