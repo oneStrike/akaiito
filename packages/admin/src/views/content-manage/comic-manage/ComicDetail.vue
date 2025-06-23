@@ -148,7 +148,7 @@
 
       <!-- 状态与权限 -->
       <div v-loading="loading" class="bg-white rounded-lg shadow-sm p-4">
-        <div class="flex items-center gap-2 mb-4">
+        <div class="flex items-center mb-4 gap-2">
           <div class="w-1 h-5 bg-primary-500 rounded-sm" />
           <h3 class="text-lg font-medium text-gray-700">状态与权限</h3>
         </div>

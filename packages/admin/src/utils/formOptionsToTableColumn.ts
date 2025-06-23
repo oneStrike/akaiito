@@ -22,6 +22,7 @@ export function formOptionsToTableColumn(
       action: true,
       createdAt: true,
       isEnabled: true,
+      isPublish: true,
     },
     customConfig || {},
   )
@@ -109,6 +110,18 @@ export function formOptionsToTableColumn(
         prop: 'isEnabled',
         label: '状态',
         align: 'center',
+        width: 100,
+      }),
+    )
+  }
+  if (customConfig.isPublish) {
+    // 创建发布列
+    columns.push(
+      createFixedColumn('isPublish', {
+        prop: 'isPublish',
+        label: '发布状态',
+        align: 'center',
+        width: 100,
       }),
     )
   }
@@ -122,6 +135,7 @@ export function formOptionsToTableColumn(
         sortOrders: ['ascending', 'descending'],
         sortBy: 'createdAt',
         columnType: 'date',
+        width: 160,
       }),
     )
   }

@@ -39,29 +39,33 @@
         pageCode: 6,
         title: 6,
       })
-      const columns = formOptionsToTableColumn(
+      tableColumns.value = formOptionsToTableColumn(
         formTool.options,
         ['content', 'isPopup', 'isTop', 'backgroundImage', 'sortOrder'],
         {
+          isPublish: true,
+          isEnabled: false,
+          createdAt: {
+            width: 160,
+          },
+          startTime: {
+            width: 160,
+          },
           title: {
             columnType: 'link',
           },
           enablePlatform: {
             width: 150,
             formatter: (row, column, cellValue, index) => {
-              return `${row.enableApplet ? '小程序' : ''} 、${row.enableWeb ? 'H5' : ''} 、${row.enableApp ? 'APP' : ''}`
+              const platforms = []
+              if (row.enableApplet) platforms.push('小程序')
+              if (row.enableWeb) platforms.push('H5')
+              if (row.enableApp) platforms.push('APP')
+              return platforms.join('、')
             },
           },
         },
       )
-      columns.splice(columns.length - 1, 0, {
-        label: '状态',
-        prop: 'isPublish',
-        align: 'center',
-        width: 150,
-      })
-      console.log(columns)
-      tableColumns.value = columns
     })
   })
 
@@ -87,13 +91,14 @@
       if (currentRow.value.enableApp) {
         currentRow.value.enablePlatform += '2,'
       }
-      currentRow.value.startTime = [
+      currentRow.value.dateTimeRange = [
         currentRow.value.startTime,
         currentRow.value.endTime,
       ]
     }
     modalFrom.show = true
   }
+
   const submitForm = async (value: NoticeUpdateRequest & IterateObject) => {
     modalFrom.loading = true
     if (value.pageCode) {
@@ -105,8 +110,11 @@
     value.enableApplet = value.enablePlatform.includes('0')
     value.enableWeb = value.enablePlatform.includes('1')
     value.enableApp = value.enablePlatform.includes('2')
-    if (Array.isArray(value.startTime) && value.startTime.length === 2) {
-      const [startTime, endTime] = value.startTime
+    if (
+      Array.isArray(value.dateTimeRange) &&
+      value.dateTimeRange.length === 2
+    ) {
+      const [startTime, endTime] = value.dateTimeRange
       value.startTime = startTime
       value.endTime = endTime
     }

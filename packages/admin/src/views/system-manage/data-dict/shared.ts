@@ -91,6 +91,7 @@ export const tableColumns: EsTableColumn = formOptionsToTableColumn(
   formOptions,
   [],
   {
+    isPublish: false,
     createdAt: {
       width: 160,
     },

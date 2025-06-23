@@ -148,7 +148,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'startTime',
+    field: 'dateTimeRange',
     component: 'DateTime',
     props: {
       span: 2,
