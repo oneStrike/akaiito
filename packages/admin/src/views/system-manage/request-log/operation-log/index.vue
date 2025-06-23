@@ -10,7 +10,7 @@
     <EsTable
       :filter="filter"
       :columns="tableColumns"
-      :request-api="requestLogApi.pageApi"
+      :request-api="requestLogApi.requestLogPageApi"
     >
       <template #responseCode="{ row }">
         <el-text

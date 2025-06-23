@@ -1,5 +1,5 @@
 import type { EsFormOptions } from '@/components/es-form/types'
-import { itemsApi } from '@/apis/dictionary'
+import { dictionaryItemsApi } from '@/apis/dictionary.ts'
 import { utils } from '@/utils'
 
 export interface UseFormTool {
@@ -49,7 +49,7 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
   const fillDict: UseFormTool['fillDict'] = async (dict) => {
     dataDictField.push(...dict)
     const codes = dict.map((item) => item.code)
-    const dictData = await itemsApi({
+    const dictData = await dictionaryItemsApi({
       dictionaryCode: codes.join(','),
     })
     const dictDataObj: IterateObject = {}

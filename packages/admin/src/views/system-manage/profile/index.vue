@@ -1,4 +1,8 @@
 <script setup lang="ts">
+  import type {
+    UserInfoByIdResponse,
+    UserUpdatePasswordRequest,
+  } from '@/apis/types/user'
   import type { EsFormOptions } from '@/components/es-form/types'
   import { onMounted, reactive, ref } from 'vue'
   import * as requestLogApi from '@/apis/request-log.ts'
@@ -9,7 +13,7 @@
   /**
    * 用户信息数据
    */
-  const userInfo = ref<GetUserInfoTypesRes | null>(null)
+  const userInfo = ref<UserInfoByIdResponse | null>(null)
 
   const userStore = useUserStore()
 
@@ -18,7 +22,7 @@
    */
   const showPasswordDialog = ref(false)
   const passwordLoading = ref(false)
-  const passwordFormData = reactive<UpdatePasswordTypesReq>({
+  const passwordFormData = reactive<UserUpdatePasswordRequest>({
     oldPassword: '',
     newPassword: '',
     confirmPassword: '',
@@ -112,7 +116,7 @@
    * 页面加载时获取用户信息
    */
   onMounted(async () => {
-    userInfo.value = await getUserInfoApi()
+    userInfo.value = await userApi.userInfoApi()
   })
 </script>
 

@@ -20,7 +20,7 @@
       :params="params"
       :filter="filter"
       :columns="tableColumns"
-      :request-api="requestLogApi.pageApi"
+      :request-api="requestLogApi.requestLogPageApi"
     >
       <template #responseCode="{ row }">
         <el-text v-if="row.responseCode === 200" class="mx-1" type="success">

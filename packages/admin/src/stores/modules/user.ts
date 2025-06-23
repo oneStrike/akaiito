@@ -1,5 +1,5 @@
-import type { LoginTypesReq, LoginTypesRes } from '@/apis/types/user'
-import { loginApi, logoutApi, refreshTokenApi } from '@/apis/user.ts'
+import type { UserLoginRequest, UserLoginResponse } from '@/apis/types/user'
+import * as userApi from '@/apis/user'
 import { config } from '@/config'
 import router from '@/router'
 import { utils } from '@/utils'
@@ -11,7 +11,7 @@ export interface UserState {
     accessExpiresIn: number
     refreshExpiresIn: number
   }
-  userInfo: LoginTypesRes['user'] | null
+  userInfo: UserLoginResponse['user'] | null
 }
 
 export const useUserStore = defineStore('useUserStore', {
@@ -29,12 +29,12 @@ export const useUserStore = defineStore('useUserStore', {
   }),
 
   actions: {
-    setUserInfo(userInfo: LoginTypesRes['user']) {
+    setUserInfo(userInfo: UserLoginResponse['user']) {
       this.userInfo = userInfo
     },
     // 登录
-    async signIn(data: LoginTypesReq) {
-      const res = await loginApi(data)
+    async signIn(data: UserLoginRequest) {
+      const res = await userApi.userLoginApi(data)
       this.userInfo = res.user
 
       const { expiresIn } = config.auth
@@ -71,7 +71,7 @@ export const useUserStore = defineStore('useUserStore', {
         this.token.accessToken
       ) {
         try {
-          const { tokens } = await refreshTokenApi({
+          const { tokens } = await userApi.userRefreshTokenApi({
             refreshToken: this.token.refreshToken,
           })
           this.token.accessToken = tokens.accessToken
@@ -92,7 +92,7 @@ export const useUserStore = defineStore('useUserStore', {
     // 退出登录
     async signOut() {
       if (this.token.accessToken) {
-        await logoutApi(this.token)
+        await userApi.userLogoutApi(this.token)
       }
       this.token = {
         accessToken: '',

@@ -1,13 +1,13 @@
 /**
- *  接口 [获取Admin专用RSA公钥](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-305561272)
+ *  接口 [获取Admin专用RSA公钥](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312647151)
  *  @标签 管理端认证模块/获取Admin专用RSA公钥
  *  @方式 GET
- *  @地址 /api/admin/auth/publicKey
- *  @更新时间 2025-06-23 08:49:43
+ *  @地址 /api/admin/auth/public-key
+ *  @更新时间 2025-06-23 21:14:50
  */
 
 /*  */
-export type PublickeyResponse = {
+export type PublicKeyResponse = {
   /* RSA公钥 */
   publicKey: string
 }

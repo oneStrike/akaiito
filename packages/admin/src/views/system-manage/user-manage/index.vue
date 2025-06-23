@@ -1,11 +1,6 @@
 <script setup lang="ts">
-  import type { GetUserByIdTypesRes } from '@/apis/types/user'
-  import {
-    deleteUserApi,
-    getAdminUserPageApi,
-    registerApi,
-    updateUserInfoApi,
-  } from '@/apis/user'
+  import type { UserInfoByIdResponse } from '@/apis/types/user'
+  import * as userAPi from '@/apis/user'
   import { useUserStore } from '@/stores/modules/user'
   import {
     filter,
@@ -19,7 +14,7 @@
     name: 'UserMgmt',
   })
 
-  type TableItem = GetUserByIdTypesRes
+  type TableItem = UserInfoByIdResponse
 
   const tableRef = useTemplateRef('tableRef')
   const userStore = useUserStore()
@@ -40,7 +35,9 @@
     if (Array.isArray(val.avatar)) {
       val.avatar = val.avatar[0].filePath
     }
-    const api = currentRow.value ? updateUserInfoApi : registerApi
+    const api = currentRow.value
+      ? userAPi.userUpdateInfoApi
+      : userAPi.userRegisterApi
     await api(val)
     useMessage.success(currentRow.value ? '修改成功!' : '添加成功!')
     formModal.value = false
@@ -76,7 +73,7 @@
   }
 
   async function switchStatus(val: any) {
-    await updateUserInfoApi(val)
+    await userAPi.userUpdateInfoApi(val)
     tableRef.value?.refresh()
   }
 </script>
@@ -88,7 +85,7 @@
       :toolbar="toolbar"
       :filter="filter"
       :columns="tableColumns"
-      :request-api="getAdminUserPageApi"
+      :request-api="userAPi.userPageApi"
       @toolbar-handler="handlerToolbar"
     >
       <template #username="{ row }">
@@ -126,7 +123,7 @@
 
         <EsPopConfirm
           :row="row"
-          :request="deleteUserApi"
+          :request="userAPi.userDeleteApi"
           :disabled="row.id === userStore.userInfo?.id"
           @success="tableRef?.refresh()"
         />

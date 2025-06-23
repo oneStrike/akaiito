@@ -19,7 +19,7 @@ export class AdminAuthController {
    * 前端可以使用此公钥对管理员敏感数据进行加密
    * @returns Admin RSA公钥
    */
-  @Get('/publicKey')
+  @Get('/public-key')
   @ApiDoc({
     summary: '获取Admin专用RSA公钥',
     model: RsaPublicKeyDto,

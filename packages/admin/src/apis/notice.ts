@@ -19,7 +19,7 @@ import type {
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/notice-create
- *  @更新时间 2025-06-23 08:49:54
+ *  @更新时间 2025-06-23 21:14:46
  */
 
 export const noticeCreateApi = (data: NoticeCreateRequest): Promise<NoticeCreateResponse> => {
@@ -38,7 +38,7 @@ export const noticeCreateApi = (data: NoticeCreateRequest): Promise<NoticeCreate
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-23 08:49:54
+ *  @更新时间 2025-06-23 21:14:46
  */
 
 export const noticePageApi = (params: NoticePageRequest): Promise<NoticePageResponse> => {
@@ -55,7 +55,7 @@ export const noticePageApi = (params: NoticePageRequest): Promise<NoticePageResp
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-23 08:49:54
+ *  @更新时间 2025-06-23 21:14:46
  */
 
 export const noticeDetailApi = (params: NoticeDetailRequest): Promise<NoticeDetailResponse> => {
@@ -72,7 +72,7 @@ export const noticeDetailApi = (params: NoticeDetailRequest): Promise<NoticeDeta
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/notice-update
- *  @更新时间 2025-06-23 08:49:54
+ *  @更新时间 2025-06-23 21:14:46
  */
 
 export const noticeUpdateApi = (data: NoticeUpdateRequest): Promise<NoticeUpdateResponse> => {
@@ -91,7 +91,7 @@ export const noticeUpdateApi = (data: NoticeUpdateRequest): Promise<NoticeUpdate
  *  @标签 客户端通知模块/更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/notice-update-status
- *  @更新时间 2025-06-23 08:49:54
+ *  @更新时间 2025-06-23 21:14:46
  */
 
 export const noticeUpdateStatusApi = (data: NoticeUpdateStatusRequest): Promise<NoticeUpdateStatusResponse> => {
@@ -110,7 +110,7 @@ export const noticeUpdateStatusApi = (data: NoticeUpdateStatusRequest): Promise<
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/notice-batch-delete
- *  @更新时间 2025-06-23 08:49:54
+ *  @更新时间 2025-06-23 21:14:46
  */
 
 export const noticeBatchDeleteApi = (data: NoticeBatchDeleteRequest): Promise<NoticeBatchDeleteResponse> => {
