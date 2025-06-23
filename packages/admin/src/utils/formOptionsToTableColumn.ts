@@ -8,13 +8,23 @@ const COMPONENT_TYPES = {
   UPLOAD: 'Upload',
 } as const
 
-type CustomConfig = Partial<Record<string, Partial<EsTableColumn[number]>>>
+type CustomConfig = Partial<
+  Record<string, Partial<EsTableColumn[number] | boolean>>
+>
 
 export function formOptionsToTableColumn(
   formOptions: EsFormOptions[],
   omitFields: string[] = [],
   customConfig?: CustomConfig,
 ): EsTableColumn {
+  customConfig = Object.assign(
+    {
+      action: true,
+      createdAt: true,
+      isEnabled: true,
+    },
+    customConfig || {},
+  )
   // 参数校验
   if (!Array.isArray(formOptions)) {
     throw new TypeError('formOptions must be an array')
@@ -80,55 +90,52 @@ export function formOptionsToTableColumn(
     field: string,
     config: Partial<EsTableColumn[number]>,
   ) {
-    if (!omitFields.includes(field)) {
-      const baseConfig: Partial<EsTableColumn[number]> = {
-        align: 'center',
-        ...config,
-      }
-
-      if (customConfig?.[field]) {
-        Object.assign(baseConfig, customConfig[field])
-      }
-
-      return baseConfig as EsTableColumn[number]
+    const baseConfig: Partial<EsTableColumn[number]> = {
+      align: 'center',
+      ...config,
     }
-    return null
+
+    if (customConfig?.[field]) {
+      Object.assign(baseConfig, customConfig[field])
+    }
+
+    return baseConfig as EsTableColumn[number]
   }
 
-  // 创建创建时间列
-  const createdAtColumn = createFixedColumn('createdAt', {
-    label: '创建时间',
-    prop: 'createdAt',
-    sortable: 'custom',
-    sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt',
-    columnType: 'date',
-  })
-
-  // 创建状态列
-  const enabledColumn = createFixedColumn('status', {
-    prop: 'isEnabled',
-    label: '状态',
-    align: 'center',
-  })
-
-  if (enabledColumn) {
-    columns.push(enabledColumn)
+  if (customConfig.isEnabled) {
+    // 创建状态列
+    columns.push(
+      createFixedColumn('isEnabled', {
+        prop: 'isEnabled',
+        label: '状态',
+        align: 'center',
+      }),
+    )
   }
-  if (createdAtColumn) {
-    columns.push(createdAtColumn)
+  if (customConfig.createdAt) {
+    // 创建创建时间列
+    columns.push(
+      createFixedColumn('createdAt', {
+        label: '创建时间',
+        prop: 'createdAt',
+        sortable: 'custom',
+        sortOrders: ['ascending', 'descending'],
+        sortBy: 'createdAt',
+        columnType: 'date',
+      }),
+    )
   }
 
-  // 创建操作列
-  const actionColumn = createFixedColumn('action', {
-    label: '操作',
-    prop: 'action',
-    align: 'center',
-    width: 150,
-  })
-
-  if (actionColumn) {
-    columns.push(actionColumn)
+  if (customConfig.action) {
+    // 创建操作列
+    columns.push(
+      createFixedColumn('action', {
+        label: '操作',
+        prop: 'action',
+        align: 'center',
+        width: 150,
+      }),
+    )
   }
 
   return columns
