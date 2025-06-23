@@ -35,7 +35,7 @@ export class AdminUserController {
   /**
    * 获取验证码接口
    */
-  @Get('getCaptcha')
+  @Get('get-captcha')
   @ApiDoc({
     summary: '获取验证码',
     model: CaptchaDto,
@@ -48,7 +48,7 @@ export class AdminUserController {
   /**
    * 用户登录接口
    */
-  @Post('login')
+  @Post('user-login')
   @ApiDoc({
     summary: '管理员登录',
     model: LoginResponseDto,
@@ -61,7 +61,7 @@ export class AdminUserController {
   /**
    * 管理员登出接口
    */
-  @Post('logout')
+  @Post('user-logout')
   @ApiDoc({
     summary: '管理员登出',
     model: {
@@ -75,7 +75,7 @@ export class AdminUserController {
   /**
    * 用户注册接口
    */
-  @Post('register')
+  @Post('user-register')
   @ApiDoc({
     summary: '用户注册',
     model: IdDto,
@@ -91,7 +91,7 @@ export class AdminUserController {
    * @param body 包含刷新令牌的请求体
    * @returns 新的访问令牌及有效期
    */
-  @Post('refreshToken')
+  @Post('user-refresh-token')
   @ApiDoc({
     summary: '刷新访问令牌',
     model: RefreshTokenResponseDto,
@@ -104,7 +104,7 @@ export class AdminUserController {
   /**
    * 修改密码接口
    */
-  @Post('updatePassword')
+  @Post('user-update-password')
   @ApiDoc({
     summary: '修改密码',
     model: UserDto,
@@ -124,7 +124,7 @@ export class AdminUserController {
    * @param user 当前登录用户的身份信息
    * @returns 更新后的用户信息
    */
-  @Post('updateUserInfo')
+  @Post('user-update-info')
   @ApiDoc({
     summary: '更新用户信息',
     model: UserDto,
@@ -142,7 +142,7 @@ export class AdminUserController {
    * @param user 当前登录用户的身份信息
    * @returns 当前用户的完整信息
    */
-  @Get('getUserInfo')
+  @Get('user-Info')
   @ApiDoc({
     summary: '获取当前用户信息',
     model: UserDto,
@@ -157,7 +157,7 @@ export class AdminUserController {
    * @param query 包含用户ID的查询参数对象
    * @returns 指定ID的用户完整信息
    */
-  @Get('getUserById')
+  @Get('user-info-by-id')
   @ApiDoc({
     summary: '根据ID获取用户信息',
     model: UserDto,
@@ -169,7 +169,7 @@ export class AdminUserController {
   /**
    * 获取管理端用户分页列表接口
    */
-  @Get('getAdminUserPage')
+  @Get('user-page')
   @ApiPageDoc({
     summary: '获取管理端用户分页列表',
     model: UserDto,
@@ -178,7 +178,7 @@ export class AdminUserController {
     return this.userService.getUsers(query)
   }
 
-  @Post('deleteUser')
+  @Post('user-delete')
   @ApiDoc({
     summary: '删除用户',
     model: IdDto,

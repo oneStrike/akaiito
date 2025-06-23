@@ -58,6 +58,10 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     return this.findPagination({
       ...queryNoticeDto,
       where,
+      omit:{
+        content:true,
+        backgroundImage:true,
+      }
     })
   }
 

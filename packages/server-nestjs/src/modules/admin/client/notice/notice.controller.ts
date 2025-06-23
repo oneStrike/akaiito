@@ -24,7 +24,7 @@ export class ClientNoticeController {
   /**
    * 创建通知
    */
-  @Post('/create')
+  @Post('/notice-create')
   @ApiDoc({
     summary: '创建通知消息',
     model: IdDto,
@@ -36,7 +36,7 @@ export class ClientNoticeController {
   /**
    * 分页查询通知列表
    */
-  @Get('/page')
+  @Get('/notice-page')
   @ApiPageDoc({
     summary: '分页查询通知列表',
     model: NoticePageResponseDto,
@@ -48,7 +48,7 @@ export class ClientNoticeController {
   /**
    * 根据ID查询通知详情
    */
-  @Get('detail')
+  @Get('notice-detail')
   @ApiDoc({
     summary: '根据ID查询通知详情',
     model: BaseNoticeDto,
@@ -60,7 +60,7 @@ export class ClientNoticeController {
   /**
    * 更新通知
    */
-  @Post('update')
+  @Post('notice-update')
   @ApiDoc({
     summary: '更新通知消息',
     model: IdDto,
@@ -73,7 +73,7 @@ export class ClientNoticeController {
   /**
    * 更新通知状态
    */
-  @Post('updateStatus')
+  @Post('notice-update-status')
   @ApiDoc({
     summary: '更新通知状态',
     model: IdsDto,
@@ -88,7 +88,7 @@ export class ClientNoticeController {
   /**
    * 批量删除通知
    */
-  @Post('batchDelete')
+  @Post('notice-batch-delete')
   @ApiDoc({
     summary: '批量删除通知',
     model: IdsDto,

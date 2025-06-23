@@ -19,7 +19,7 @@ export class RequestLogController {
    * @param queryDto 查询条件和分页参数
    * @returns 分页查询结果
    */
-  @Get('page')
+  @Get('request-log-page')
   @ApiPageDoc({
     summary: '分页查询请求日志',
     model: RequestLogDto,
@@ -34,7 +34,7 @@ export class RequestLogController {
    * @param id 请求日志ID
    * @returns 请求日志详情
    */
-  @Get('detail')
+  @Get('request-log-detail')
   @ApiDoc({
     summary: '查询请求日志详情',
     model: RequestLogDto,

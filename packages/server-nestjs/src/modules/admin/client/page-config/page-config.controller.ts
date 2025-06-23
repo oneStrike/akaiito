@@ -32,7 +32,7 @@ export class ClientPageConfigController {
   /**
    * 创建页面配置
    */
-  @Post('/create')
+  @Post('/page-config-create')
   @ApiDoc({
     summary: '创建页面配置',
     model: IdDto,
@@ -44,7 +44,7 @@ export class ClientPageConfigController {
   /**
    * 分页查询页面配置列表
    */
-  @Get('/page')
+  @Get('/page-config-page')
   @ApiPageDoc({
     summary: '分页查询页面配置列表',
     model: ClientPageConfigPageResponseDto,
@@ -56,7 +56,7 @@ export class ClientPageConfigController {
   /**
    * 根据ID查询页面配置详情
    */
-  @Get('/detailById')
+  @Get('/page-config-detail-by-id')
   @ApiDoc({
     summary: '根据ID查询页面配置详情',
     model: ClientPageConfigResponseDto,
@@ -68,7 +68,7 @@ export class ClientPageConfigController {
   /**
    * 根据页面编码查询页面配置详情
    */
-  @Get('/detailByCode')
+  @Get('/page-config-detail-by-code')
   @ApiDoc({
     summary: '根据页面编码查询页面配置详情',
     model: ClientPageConfigResponseDto,
@@ -80,7 +80,7 @@ export class ClientPageConfigController {
   /**
    * 批量更新页面配置状态
    */
-  @Post('/update')
+  @Post('/page-config-update')
   @ApiDoc({
     summary: '更新页面配置',
     model: IdDto,
@@ -96,7 +96,7 @@ export class ClientPageConfigController {
   /**
    * 批量更新页面配置状态
    */
-  @Post('/batchUpdateStatus')
+  @Post('/page-config-batch-update-status')
   @ApiDoc({
     summary: '批量更新页面配置状态',
     model: BatchOperationResultDto,
@@ -109,7 +109,7 @@ export class ClientPageConfigController {
   /**
    * 增加页面访问次数
    */
-  @Post('/incrementView')
+  @Post('/page-config-increment-view')
   @ApiDoc({
     summary: '增加页面访问次数',
     model: IdDto,
@@ -121,7 +121,7 @@ export class ClientPageConfigController {
   /**
    * 批量软删除页面配置
    */
-  @Post('/batchDelete')
+  @Post('/page-config-batch-delete')
   @ApiDoc({
     summary: '批量软删除页面配置',
     model: BatchOperationResultDto,

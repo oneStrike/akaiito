@@ -11,7 +11,7 @@ import { UploadService } from '@/common/services/upload.service'
 export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
-  @Post('/uploadFile')
+  @Post('/upload-file')
   @ApiDoc({
     summary: '上传文件',
     model: UploadResponseDto,

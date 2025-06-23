@@ -23,7 +23,7 @@ import {
 export class DictionaryController {
   constructor(private readonly dictionaryService: DictionaryService) {}
 
-  @Get('page')
+  @Get('dictionary-page')
   @ApiPageDoc({
     summary: '分页查询字典',
     model: DictionaryDto,
@@ -32,7 +32,7 @@ export class DictionaryController {
     return this.dictionaryService.findDictionaries(query)
   }
 
-  @Get('detail')
+  @Get('dictionary-detail')
   @ApiDoc({
     summary: '获取字典详情',
     model: DictionaryDto,
@@ -41,7 +41,7 @@ export class DictionaryController {
     return this.dictionaryService.findById(query)
   }
 
-  @Post('create')
+  @Post('dictionary-create')
   @ApiDoc({
     summary: '创建字典',
     model: DictionaryDto,
@@ -52,7 +52,7 @@ export class DictionaryController {
     })
   }
 
-  @Post('update')
+  @Post('dictionary-update')
   @ApiDoc({
     summary: '更新字典',
     model: DictionaryDto,
@@ -64,7 +64,7 @@ export class DictionaryController {
     })
   }
 
-  @Post('delete')
+  @Post('dictionary-delete')
   @ApiDoc({
     summary: '删除字典',
     model: IdsDto,
@@ -73,7 +73,7 @@ export class DictionaryController {
     return this.dictionaryService.deleteMany({ id: { in: query.ids } })
   }
 
-  @Post('updateEnableStatus')
+  @Post('dictionary-update-enable-status')
   @ApiDoc({
     summary: '启用禁用字典',
     model: DictionaryDto,
@@ -85,7 +85,7 @@ export class DictionaryController {
     })
   }
 
-  @Get('items')
+  @Get('dictionary-items')
   @ApiDoc({
     summary: '获取字典项',
     model: DictionaryItemDto,
@@ -95,7 +95,7 @@ export class DictionaryController {
     return this.dictionaryService.findDictionaryItems(query)
   }
 
-  @Post('createItem')
+  @Post('dictionary-create-item')
   @ApiDoc({
     summary: '创建字典项',
     model: DictionaryItemDto,
@@ -104,7 +104,7 @@ export class DictionaryController {
     return this.dictionaryService.createDictionaryItem(createDictionaryItemDto)
   }
 
-  @Post('updateItem')
+  @Post('dictionary-update-item')
   @ApiDoc({
     summary: '更新字典项',
     model: DictionaryItemDto,
@@ -116,7 +116,7 @@ export class DictionaryController {
     })
   }
 
-  @Post('deleteItem')
+  @Post('dictionary-delete-item')
   @ApiDoc({
     summary: '删除字典项',
     model: DictionaryItemDto,
@@ -125,7 +125,7 @@ export class DictionaryController {
     return this.dictionaryService.deleteDictionaryItem(query.ids)
   }
 
-  @Post('updateItemStatus')
+  @Post('dictionary-update-item-status')
   @ApiDoc({
     summary: '启用禁用字典项',
     model: DictionaryItemDto,
