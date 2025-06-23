@@ -87,8 +87,15 @@ export const formOptions: EsFormOptions[] = [
   },
 ]
 
-export const tableColumns: EsTableColumn = formOptionsToTableColumn(formOptions)
-
+export const tableColumns: EsTableColumn = formOptionsToTableColumn(
+  formOptions,
+  [],
+  {
+    createdAt: {
+      width: 160,
+    },
+  },
+)
 export const filter: (span?: number) => ToolbarFilter = (span = 4) => [
   {
     field: 'isEnabled',

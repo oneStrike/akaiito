@@ -8,8 +8,6 @@ const COMPONENT_TYPES = {
   UPLOAD: 'Upload',
 } as const
 
-// 定义更精确的CustomConfig类型
-type CustomConfigItem = Partial<Record<string, Partial<EsTableColumn[number]>>>
 type CustomConfig = Partial<Record<string, Partial<EsTableColumn[number]>>>
 
 export function formOptionsToTableColumn(
@@ -107,6 +105,16 @@ export function formOptionsToTableColumn(
     columnType: 'date',
   })
 
+  // 创建状态列
+  const enabledColumn = createFixedColumn('status', {
+    prop: 'isEnabled',
+    label: '状态',
+    align: 'center',
+  })
+
+  if (enabledColumn) {
+    columns.push(enabledColumn)
+  }
   if (createdAtColumn) {
     columns.push(createdAtColumn)
   }
