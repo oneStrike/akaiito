@@ -1,6 +1,22 @@
 import dayjs from 'dayjs'
 import { generateTypes, isEmptyQuery } from '@/generateTypes'
 
+function toCamelCase(str: string, isPascalCase: boolean = false): string {
+  if (!str) return str
+
+  const words = str.split(/[^a-z0-9]/i).filter(Boolean)
+  if (words.length === 0) return str
+
+  return words
+    .map((word, index) => {
+      if (index === 0 && !isPascalCase) {
+        return word.charAt(0).toLowerCase() + word.slice(1).toLowerCase()
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    })
+    .join('')
+}
+
 function capitalizeFirstLetter(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
@@ -32,12 +48,11 @@ const getName = (path: string, depth = 1): string => {
 
 function formatName(path: string, nameDepth: number) {
   const name = getName(path, nameDepth)
-  const apiName = `${name}Api`
 
   return {
-    handler: apiName,
-    request: `${capitalizeFirstLetter(name)}TypesReq`,
-    response: `${capitalizeFirstLetter(name)}TypesRes`,
+    handler: toCamelCase(`${name}-api`),
+    request: toCamelCase(`${capitalizeFirstLetter(name)}-request`, true),
+    response: toCamelCase(`${capitalizeFirstLetter(name)}-response`, true),
   }
 }
 

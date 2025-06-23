@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { DetailByIdTypesRes } from '@/apis/types/page-config'
+  import type { PageConfigDetailByIdResponse } from '@/apis/types/page-config'
   import * as pageConfigApi from '@/apis/page-config.ts'
   import { PromptsEnum } from '@/enum/prompts'
   import {
@@ -19,21 +19,21 @@
   })
 
   const tableRef = useTemplateRef('tableRef')
-  const currentRow = ref<DetailByIdTypesRes | null>(null)
+  const currentRow = ref<PageConfigDetailByIdResponse | null>(null)
 
-  const openFormModal = (row?: DetailByIdTypesRes) => {
+  const openFormModal = (row?: PageConfigDetailByIdResponse) => {
     if (row) {
       currentRow.value = row
     }
     modalFrom.show = true
   }
-  const submitForm = async (value: DetailByIdTypesRes) => {
+  const submitForm = async (value: PageConfigDetailByIdResponse) => {
     modalFrom.loading = true
     if (currentRow.value?.id) {
       value.id = currentRow.value.id
-      await pageConfigApi.updateApi(value)
+      await pageConfigApi.pageConfigUpdateApi(value)
     } else {
-      await pageConfigApi.createApi(value)
+      await pageConfigApi.pageConfigCreateApi(value)
     }
     useMessage.success(
       currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
@@ -52,7 +52,7 @@
       :columns="tableColumns"
       :toolbar="toolbar"
       :filter="filter"
-      :request-api="pageConfigApi.pageApi"
+      :request-api="pageConfigApi.pageConfigPageApi"
       @toolbar-handler="openFormModal()"
     >
       <template #pageRule="{ row }">
@@ -72,8 +72,9 @@
           编辑
         </el-button>
         <es-pop-confirm
-          :request="pageConfigApi.detailByIdApi"
+          :request="pageConfigApi.pageConfigBatchDeleteApi"
           :row="row"
+          ids
           @success="tableRef?.reset()"
         />
       </template>

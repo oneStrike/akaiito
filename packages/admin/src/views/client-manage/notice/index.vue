@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import type {
-    CreateTypesReq,
-    DetailTypesRes,
-    UpdateTypesReq,
+    NoticeCreateRequest,
+    NoticeDetailResponse,
+    NoticeUpdateRequest,
   } from '@/apis/types/notice'
   import type { EsTableColumn } from '@/components/es-table/types.ts'
   import type { ToolbarFilter } from '@/components/es-toolbar/types.ts'
@@ -11,7 +11,7 @@
   import { PromptsEnum } from '@/enum/prompts'
   import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
   import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
-  import NoticeDetail from '@/views/client-manage/notice/detail.vue'
+  import NoticeDetail from '@/views/client-manage/notice/NoticeDetail.vue'
   import { formOptions, toolbar } from '@/views/client-manage/notice/shared'
 
   defineOptions({
@@ -26,7 +26,7 @@
   const tableColumns = ref<EsTableColumn>()
 
   const formTool = useFormTool(formOptions)
-  pageConfigApi.pageApi({ pageSize: 500 }).then((res) => {
+  pageConfigApi.pageConfigPageApi({ pageSize: 500 }).then((res) => {
     formTool.specificItem('pageCode', (item) => {
       item.componentProps!.options = res.list.map((item) => ({
         label: item.pageName,
@@ -41,13 +41,7 @@
       })
       const columns = formOptionsToTableColumn(
         formTool.options,
-        [
-          'content',
-          'isPopup',
-          'isTop',
-          'backgroundImage',
-          'sortOrder',
-        ],
+        ['content', 'isPopup', 'isTop', 'backgroundImage', 'sortOrder'],
         {
           title: {
             columnType: 'link',
@@ -72,7 +66,7 @@
   })
 
   const showDetail = ref(false)
-  const currentRow = ref<(DetailTypesRes & IterateObject) | null>(null)
+  const currentRow = ref<(NoticeDetailResponse & IterateObject) | null>(null)
   const tableRef = useTemplateRef('tableRef')
 
   const openDetailModal = ({ row }: any) => {
@@ -80,9 +74,9 @@
     showDetail.value = true
   }
 
-  const openFormModal = async (row?: DetailTypesRes) => {
+  const openFormModal = async (row?: NoticeDetailResponse) => {
     if (row) {
-      currentRow.value = await noticeApi.detailApi({ id: row.id })
+      currentRow.value = await noticeApi.noticeDetailApi({ id: row.id })
       currentRow.value.enablePlatform = ''
       if (currentRow.value.enableApplet) {
         currentRow.value.enablePlatform += '0,'
@@ -100,7 +94,7 @@
     }
     modalFrom.show = true
   }
-  const submitForm = async (value: UpdateTypesReq & IterateObject) => {
+  const submitForm = async (value: NoticeUpdateRequest & IterateObject) => {
     modalFrom.loading = true
     if (value.pageCode) {
       const pages = formTool.getItem('pageCode')[0].componentProps!.options!
@@ -118,9 +112,9 @@
     }
     if (currentRow.value?.id) {
       value.id = currentRow.value.id
-      await noticeApi.updateApi(value)
+      await noticeApi.noticeUpdateApi(value)
     } else {
-      await noticeApi.createApi(value as CreateTypesReq)
+      await noticeApi.noticeCreateApi(value as NoticeCreateRequest)
     }
     useMessage.success(
       currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
@@ -140,7 +134,7 @@
       :filter="filter"
       :toolbar="toolbar"
       :columns="tableColumns"
-      :request-api="noticeApi.pageApi"
+      :request-api="noticeApi.noticePageApi"
       @link="openDetailModal"
       @toolbar-handler="openFormModal()"
     >
@@ -164,14 +158,14 @@
         </el-button>
         <es-pop-confirm
           ids
-          :request="noticeApi.batchDeleteApi"
+          :request="noticeApi.noticeBatchDeleteApi"
           :row="row"
           @success="tableRef?.reset()"
         />
         <es-pop-confirm
           :disabled="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
           :confirm-text="row.isPublish ? '取消发布' : '发布'"
-          :request="noticeApi.updateStatusApi"
+          :request="noticeApi.noticeUpdateStatusApi"
           :row="row"
           ids
           field="isPublish"

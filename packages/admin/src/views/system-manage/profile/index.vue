@@ -1,12 +1,8 @@
 <script setup lang="ts">
-  import type {
-    GetUserInfoTypesRes,
-    UpdatePasswordTypesReq,
-  } from '@/apis/types/user.d'
   import type { EsFormOptions } from '@/components/es-form/types'
   import { onMounted, reactive, ref } from 'vue'
   import * as requestLogApi from '@/apis/request-log.ts'
-  import { getUserInfoApi, updatePasswordApi } from '@/apis/user.ts'
+  import * as userApi from '@/apis/user.ts'
   import { useUserStore } from '@/stores/modules/user.ts'
   import { loginLogsColumns, loginLogsFilter } from './shared.ts'
 
@@ -96,7 +92,7 @@
     try {
       // 表单验证
       passwordLoading.value = true
-      await updatePasswordApi(passwordFormData)
+      await userApi.userUpdatePasswordApi(passwordFormData)
       useMessage.success('修改密码成功')
       showPasswordDialog.value = false
       userStore.token.accessToken = ''
@@ -121,7 +117,7 @@
 </script>
 
 <template>
-  <div class="h-full flex flex-col p-5 bg-gray-50">
+  <div class="h-full flex bg-gray-50 flex-col p-5">
     <!-- 主要内容区域 -->
     <div class="flex flex-1 gap-5 overflow-hidden">
       <!-- 左侧：用户信息和安全设置 -->
@@ -131,7 +127,7 @@
           <template #header>
             <div class="flex justify-between items-center">
               <h3
-                class="flex items-center gap-2 text-lg font-semibold text-gray-800"
+                class="flex items-center gap-2 font-semibold text-lg text-gray-800"
               >
                 <es-icon name="user" :size="20" />
                 个人信息
@@ -139,7 +135,7 @@
             </div>
           </template>
           <div>
-            <div class="flex items-center pb-6 border-b border-gray-200 mb-8">
+            <div class="flex items-center border-b border-gray-200 pb-6 mb-8">
               <div class="relative mr-8">
                 <el-avatar
                   :size="80"
@@ -326,7 +322,7 @@
               v-model:params="loginLogsParams"
               :filter="loginLogsFilter"
               :columns="loginLogsColumns"
-              :request-api="requestLogApi.pageApi"
+              :request-api="requestLogApi.requestLogPageApi"
             >
               <template #responseCode="{ row }">
                 <el-tag

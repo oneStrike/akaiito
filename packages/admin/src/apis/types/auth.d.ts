@@ -3,11 +3,11 @@
  *  @标签 管理端认证模块/获取Admin专用RSA公钥
  *  @方式 GET
  *  @地址 /api/admin/auth/publicKey
- *  @更新时间 2025-06-21 01:38:08
+ *  @更新时间 2025-06-23 08:49:43
  */
 
 /*  */
-export type PublicKeyTypesRes = {
+export type PublickeyResponse = {
   /* RSA公钥 */
   publicKey: string
 }

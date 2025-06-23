@@ -1,75 +1,75 @@
 import { httpHandler } from '@/utils/request'
 import type {
-  PageTypesRes,
-  PageTypesReq,
-  DetailTypesRes,
-  DetailTypesReq,
-  CreateTypesRes,
-  CreateTypesReq,
-  UpdateTypesRes,
-  UpdateTypesReq,
-  DeleteTypesRes,
-  DeleteTypesReq,
-  UpdateEnableStatusTypesRes,
-  UpdateEnableStatusTypesReq,
-  ItemsTypesRes,
-  ItemsTypesReq,
-  CreateItemTypesRes,
-  CreateItemTypesReq,
-  UpdateItemTypesRes,
-  UpdateItemTypesReq,
-  DeleteItemTypesRes,
-  DeleteItemTypesReq,
-  UpdateItemStatusTypesRes,
-  UpdateItemStatusTypesReq,
+  DictionaryPageResponse,
+  DictionaryPageRequest,
+  DictionaryDetailResponse,
+  DictionaryDetailRequest,
+  DictionaryCreateResponse,
+  DictionaryCreateRequest,
+  DictionaryUpdateResponse,
+  DictionaryUpdateRequest,
+  DictionaryDeleteResponse,
+  DictionaryDeleteRequest,
+  DictionaryUpdateEnableStatusResponse,
+  DictionaryUpdateEnableStatusRequest,
+  DictionaryItemsResponse,
+  DictionaryItemsRequest,
+  DictionaryCreateItemResponse,
+  DictionaryCreateItemRequest,
+  DictionaryUpdateItemResponse,
+  DictionaryUpdateItemRequest,
+  DictionaryDeleteItemResponse,
+  DictionaryDeleteItemRequest,
+  DictionaryUpdateItemStatusResponse,
+  DictionaryUpdateItemStatusRequest,
 } from './types/dictionary.d'
 
 /**
- *  接口 [分页查询字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-306432894)
+ *  接口 [分页查询字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080008)
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
- *  @地址 /api/admin/dictionary/page
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-page
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
+export const dictionaryPageApi = (params: DictionaryPageRequest): Promise<DictionaryPageResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/dictionary/page',
+    url: '/api/admin/dictionary/dictionary-page',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [获取字典详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-306695290)
+ *  接口 [获取字典详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080009)
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
- *  @地址 /api/admin/dictionary/detail
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-detail
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const detailApi = (params: DetailTypesReq): Promise<DetailTypesRes> => {
+export const dictionaryDetailApi = (params: DictionaryDetailRequest): Promise<DictionaryDetailResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/dictionary/detail',
+    url: '/api/admin/dictionary/dictionary-detail',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [创建字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-306432782)
+ *  接口 [创建字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080010)
  *  @标签 字典管理/创建字典
  *  @方式 POST
- *  @地址 /api/admin/dictionary/create
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-create
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
+export const dictionaryCreateApi = (data: DictionaryCreateRequest): Promise<DictionaryCreateResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/create',
+    url: '/api/admin/dictionary/dictionary-create',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -78,17 +78,17 @@ export const createApi = (data: CreateTypesReq): Promise<CreateTypesRes> => {
 }
 
 /**
- *  接口 [更新字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307008018)
+ *  接口 [更新字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080011)
  *  @标签 字典管理/更新字典
  *  @方式 POST
- *  @地址 /api/admin/dictionary/update
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-update
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const updateApi = (data: UpdateTypesReq): Promise<UpdateTypesRes> => {
+export const dictionaryUpdateApi = (data: DictionaryUpdateRequest): Promise<DictionaryUpdateResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/update',
+    url: '/api/admin/dictionary/dictionary-update',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -97,17 +97,17 @@ export const updateApi = (data: UpdateTypesReq): Promise<UpdateTypesRes> => {
 }
 
 /**
- *  接口 [删除字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307008324)
+ *  接口 [删除字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080012)
  *  @标签 字典管理/删除字典
  *  @方式 POST
- *  @地址 /api/admin/dictionary/delete
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-delete
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const deleteApi = (data: DeleteTypesReq): Promise<DeleteTypesRes> => {
+export const dictionaryDeleteApi = (data: DictionaryDeleteRequest): Promise<DictionaryDeleteResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/delete',
+    url: '/api/admin/dictionary/dictionary-delete',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -116,17 +116,19 @@ export const deleteApi = (data: DeleteTypesReq): Promise<DeleteTypesRes> => {
 }
 
 /**
- *  接口 [启用禁用字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307032726)
+ *  接口 [启用禁用字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080013)
  *  @标签 字典管理/启用禁用字典
  *  @方式 POST
- *  @地址 /api/admin/dictionary/updateEnableStatus
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-update-enable-status
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const updateEnableStatusApi = (data: UpdateEnableStatusTypesReq): Promise<UpdateEnableStatusTypesRes> => {
+export const dictionaryUpdateEnableStatusApi = (
+  data: DictionaryUpdateEnableStatusRequest,
+): Promise<DictionaryUpdateEnableStatusResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/updateEnableStatus',
+    url: '/api/admin/dictionary/dictionary-update-enable-status',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -135,34 +137,34 @@ export const updateEnableStatusApi = (data: UpdateEnableStatusTypesReq): Promise
 }
 
 /**
- *  接口 [获取字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307018281)
+ *  接口 [获取字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080014)
  *  @标签 字典管理/获取字典项
  *  @方式 GET
- *  @地址 /api/admin/dictionary/items
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-items
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const itemsApi = (params: ItemsTypesReq): Promise<ItemsTypesRes> => {
+export const dictionaryItemsApi = (params: DictionaryItemsRequest): Promise<DictionaryItemsResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/dictionary/items',
+    url: '/api/admin/dictionary/dictionary-items',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [创建字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307018937)
+ *  接口 [创建字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080015)
  *  @标签 字典管理/创建字典项
  *  @方式 POST
- *  @地址 /api/admin/dictionary/createItem
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-create-item
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const createItemApi = (data: CreateItemTypesReq): Promise<CreateItemTypesRes> => {
+export const dictionaryCreateItemApi = (data: DictionaryCreateItemRequest): Promise<DictionaryCreateItemResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/createItem',
+    url: '/api/admin/dictionary/dictionary-create-item',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -171,17 +173,17 @@ export const createItemApi = (data: CreateItemTypesReq): Promise<CreateItemTypes
 }
 
 /**
- *  接口 [更新字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307020817)
+ *  接口 [更新字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080016)
  *  @标签 字典管理/更新字典项
  *  @方式 POST
- *  @地址 /api/admin/dictionary/updateItem
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-update-item
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const updateItemApi = (data: UpdateItemTypesReq): Promise<UpdateItemTypesRes> => {
+export const dictionaryUpdateItemApi = (data: DictionaryUpdateItemRequest): Promise<DictionaryUpdateItemResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/updateItem',
+    url: '/api/admin/dictionary/dictionary-update-item',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -190,17 +192,17 @@ export const updateItemApi = (data: UpdateItemTypesReq): Promise<UpdateItemTypes
 }
 
 /**
- *  接口 [删除字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307020818)
+ *  接口 [删除字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080017)
  *  @标签 字典管理/删除字典项
  *  @方式 POST
- *  @地址 /api/admin/dictionary/deleteItem
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-delete-item
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const deleteItemApi = (data: DeleteItemTypesReq): Promise<DeleteItemTypesRes> => {
+export const dictionaryDeleteItemApi = (data: DictionaryDeleteItemRequest): Promise<DictionaryDeleteItemResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/deleteItem',
+    url: '/api/admin/dictionary/dictionary-delete-item',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -209,17 +211,19 @@ export const deleteItemApi = (data: DeleteItemTypesReq): Promise<DeleteItemTypes
 }
 
 /**
- *  接口 [启用禁用字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-307032727)
+ *  接口 [启用禁用字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080018)
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
- *  @地址 /api/admin/dictionary/updateItemStatus
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/dictionary/dictionary-update-item-status
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const updateItemStatusApi = (data: UpdateItemStatusTypesReq): Promise<UpdateItemStatusTypesRes> => {
+export const dictionaryUpdateItemStatusApi = (
+  data: DictionaryUpdateItemStatusRequest,
+): Promise<DictionaryUpdateItemStatusResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/dictionary/updateItemStatus',
+    url: '/api/admin/dictionary/dictionary-update-item-status',
     headers: {
       'Content-Type': 'application/json',
     },

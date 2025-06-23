@@ -1,12 +1,7 @@
 <script setup lang="ts">
+  import type { DictionaryItemsResponse } from '@/apis/types/dictionary'
   import type { EsModalProps } from '@/components/es-modal/types'
-  import {
-    createItemApi,
-    deleteItemApi,
-    itemsApi,
-    updateItemApi,
-    updateItemStatusApi,
-  } from '@/apis/dictionary'
+  import * as dataDictApi from '@/apis/dictionary.ts'
   import { PromptsEnum } from '@/enum/prompts'
   import {
     filter,
@@ -25,11 +20,11 @@
     (event: 'closed'): void
   }>()
 
+  type TableItem = DictionaryItemsResponse[number]
+
   export interface RecordDetails extends EsModalProps {
     record: IterateObject | null
   }
-
-  type TableItem = ResolvedReturnType<typeof itemsApi>['list'][number]
 
   const tableRef = useTemplateRef('tableRef')
   const formLoading = ref(false)
@@ -60,21 +55,29 @@
         case 'delete':
           useConfirm(
             'delete',
-            () => deleteItemApi({ ids }),
+            () => dataDictApi.dictionaryDeleteItemApi({ ids }),
             tableRef.value?.refresh,
           )
           break
         case 'enable':
           useConfirm(
             'enable',
-            () => updateItemStatusApi({ ids, isEnabled: true }),
+            () =>
+              dataDictApi.dictionaryUpdateItemStatusApi({
+                ids,
+                isEnabled: true,
+              }),
             tableRef.value?.refresh,
           )
           break
         case 'disable':
           useConfirm(
             'disable',
-            () => updateItemStatusApi({ ids, isEnabled: false }),
+            () =>
+              dataDictApi.dictionaryUpdateItemStatusApi({
+                ids,
+                isEnabled: false,
+              }),
             tableRef.value?.refresh,
           )
           break
@@ -86,11 +89,14 @@
     formLoading.value = true
     try {
       if (currentRow.value) {
-        await updateItemApi({ ...value, id: currentRow.value.id })
+        await dataDictApi.dictionaryUpdateItemApi({
+          ...value,
+          id: currentRow.value.id,
+        })
         useMessage.success(PromptsEnum.UPDATED)
       } else {
         value.dictionaryCode = props.record?.code
-        await createItemApi(value)
+        await dataDictApi.dictionaryCreateItemApi(value)
         useMessage.success(PromptsEnum.CREATED)
       }
       formModalShow.value = false
@@ -130,7 +136,7 @@
         :toolbar="toolbar"
         :columns="tableColumns"
         :selection="true"
-        :request-api="itemsApi"
+        :request-api="dataDictApi.dictionaryItemsApi"
         @toolbar-handler="handlerToolbar"
       >
         <template #name="{ row }">
@@ -138,7 +144,7 @@
         </template>
         <template #isEnabled="{ row }">
           <es-switch
-            :request="updateItemStatusApi"
+            :request="dataDictApi.dictionaryUpdateItemStatusApi"
             :row="row"
             ids
             @success="tableRef?.refresh()"
@@ -147,7 +153,7 @@
         <template #action="{ row }">
           <el-button type="primary" link @click="edit(row)">编辑</el-button>
           <es-pop-confirm
-            :request="deleteItemApi"
+            :request="dataDictApi.dictionaryDeleteItemApi"
             :row="row"
             ids
             @success="tableRef?.refresh()"

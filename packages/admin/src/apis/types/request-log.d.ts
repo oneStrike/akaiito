@@ -1,12 +1,12 @@
 /**
- *  接口 [分页查询请求日志](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-308932298)
+ *  接口 [分页查询请求日志](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080030)
  *  @标签 管理端请求日志模块/分页查询请求日志
  *  @方式 GET
- *  @地址 /api/admin/request-log/page
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/request-log/request-log-page
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface PageTypesReq {
+export interface RequestLogPageRequest {
   /* 单页大小，最大500，默认15 */
   pageSize?: number
 
@@ -38,7 +38,7 @@ export interface PageTypesReq {
   requestPath?: string
 }
 
-export interface PageTypesRes {
+export interface RequestLogPageResponse {
   /* 当前页码 */
   pageIndex: number
 
@@ -93,20 +93,20 @@ export interface PageTypesRes {
 }
 
 /**
- *  接口 [查询请求日志详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-308932299)
+ *  接口 [查询请求日志详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080031)
  *  @标签 管理端请求日志模块/查询请求日志详情
  *  @方式 GET
- *  @地址 /api/admin/request-log/detail
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/request-log/request-log-detail
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface DetailTypesReq {
+export interface RequestLogDetailRequest {
   /*  */
   id: number
 }
 
 /*  */
-export type DetailTypesRes = {
+export type RequestLogDetailResponse = {
   /* 主键ID */
   id: number
 

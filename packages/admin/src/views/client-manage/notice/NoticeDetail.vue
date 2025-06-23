@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import type { DetailTypesRes } from '@/apis/types/notice'
+  import type { NoticeDetailResponse } from '@/apis/types/notice'
   import dayjs from 'dayjs'
   import * as noticeApi from '@/apis/notice.ts'
   import { noticePriority, noticeType } from './shared'
@@ -21,7 +21,7 @@
   const emits = defineEmits(['close'])
 
   const loading = ref(true)
-  const detail = ref<DetailTypesRes>()
+  const detail = ref<NoticeDetailResponse>()
 
   // 通知类型颜色映射
   const noticeTypeColorMap = {
@@ -43,7 +43,7 @@
   const fetchDetail = async () => {
     if (!props.recordId) return
     loading.value = true
-    detail.value = await noticeApi.detailApi({ id: props.recordId })
+    detail.value = await noticeApi.noticeDetailApi({ id: props.recordId })
     loading.value = false
   }
 

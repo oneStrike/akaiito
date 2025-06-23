@@ -1,12 +1,12 @@
 /**
- *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-310928720)
+ *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080033)
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
- *  @地址 /api/admin/notice/create
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/notice/notice-create
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface CreateTypesReq {
+export interface NoticeCreateRequest {
   /* 通知标题 */
   title: string
 
@@ -51,20 +51,20 @@ export interface CreateTypesReq {
 }
 
 /*  */
-export type CreateTypesRes = {
+export type NoticeCreateResponse = {
   /* 主键id */
   id: number
 }
 
 /**
- *  接口 [分页查询通知列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-310928721)
+ *  接口 [分页查询通知列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080034)
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
- *  @地址 /api/admin/notice/page
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/notice/notice-page
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface PageTypesReq {
+export interface NoticePageRequest {
   /* 单页大小，最大500，默认15 */
   pageSize?: number
 
@@ -96,7 +96,7 @@ export interface PageTypesReq {
   isTop?: boolean
 }
 
-export interface PageTypesRes {
+export interface NoticePageResponse {
   /* 当前页码 */
   pageIndex: number
 
@@ -163,20 +163,20 @@ export interface PageTypesRes {
 }
 
 /**
- *  接口 [根据ID查询通知详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-310928722)
+ *  接口 [根据ID查询通知详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080035)
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
- *  @地址 /api/admin/notice/detail
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/notice/notice-detail
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface DetailTypesReq {
+export interface NoticeDetailRequest {
   /* 主键id */
   id: number
 }
 
 /*  */
-export type DetailTypesRes = {
+export type NoticeDetailResponse = {
   /* 通知ID */
   id: number
 
@@ -236,17 +236,14 @@ export type DetailTypesRes = {
 }
 
 /**
- *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-310928723)
+ *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080036)
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
- *  @地址 /api/admin/notice/update
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/notice/notice-update
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface UpdateTypesReq {
-  /* 通知ID */
-  id?: number
-
+export interface NoticeUpdateRequest {
   /* 通知标题 */
   title?: string
 
@@ -288,23 +285,26 @@ export interface UpdateTypesReq {
 
   /* 排序权重（数值越大越靠前） */
   sortOrder?: number
+
+  /* 主键id */
+  id: number
 }
 
 /*  */
-export type UpdateTypesRes = {
+export type NoticeUpdateResponse = {
   /* 主键id */
   id: number
 }
 
 /**
- *  接口 [更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-310928724)
+ *  接口 [更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080037)
  *  @标签 客户端通知模块/更新通知状态
  *  @方式 POST
- *  @地址 /api/admin/notice/updateStatus
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/notice/notice-update-status
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface UpdateStatusTypesReq {
+export interface NoticeUpdateStatusRequest {
   /* 是否发布 */
   isPublish: boolean
 
@@ -313,26 +313,26 @@ export interface UpdateStatusTypesReq {
 }
 
 /*  */
-export type UpdateStatusTypesRes = {
+export type NoticeUpdateStatusResponse = {
   /* 主键id */
   ids: number[]
 }
 
 /**
- *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-310928725)
+ *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080038)
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
- *  @地址 /api/admin/notice/batchDelete
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/notice/notice-batch-delete
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export interface BatchDeleteTypesReq {
+export interface NoticeBatchDeleteRequest {
   /* 主键id */
   ids: number[]
 }
 
 /*  */
-export type BatchDeleteTypesRes = {
+export type NoticeBatchDeleteResponse = {
   /* 主键id */
   ids: number[]
 }

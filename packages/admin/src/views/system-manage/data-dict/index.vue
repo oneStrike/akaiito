@@ -1,14 +1,8 @@
 <script setup lang="ts">
-  import type { PageTypesRes } from '@/apis/types/dictionary'
-  import {
-    createApi,
-    deleteApi,
-    pageApi,
-    updateApi,
-    updateEnableStatusApi,
-  } from '@/apis/dictionary'
+  import type { DictionaryDetailResponse } from '@/apis/types/dictionary'
+  import * as dataDictApi from '@/apis/dictionary.ts'
   import { PromptsEnum } from '@/enum/prompts'
-  import RecordDetails from '@/views/system-manage/data-dict/record.vue'
+  import RecordDetails from '@/views/system-manage/data-dict/Record.vue'
   import {
     filter,
     formOptions,
@@ -20,12 +14,10 @@
     name: 'DataDict',
   })
 
-  type TableItem = ResolveListItem<PageTypesRes>
-
   const tableRef = useTemplateRef('tableRef')
   const detailModalShow = ref(false)
-  const currentRow = ref<TableItem | null>(null)
-  const selectionItems = ref<TableItem[] | null>(null)
+  const currentRow = ref<DictionaryDetailResponse | null>(null)
+  const selectionItems = ref<DictionaryDetailResponse[] | null>(null)
   const formModal = reactive({
     show: false,
     loading: false,
@@ -40,19 +32,31 @@
     if (Array.isArray(ids)) {
       switch (val) {
         case 'delete':
-          useConfirm('delete', () => deleteApi({ ids }), tableRef.value?.reset)
+          useConfirm(
+            'delete',
+            () => dataDictApi.dictionaryDeleteApi({ ids }),
+            tableRef.value?.reset,
+          )
           break
         case 'enable':
           useConfirm(
             'enable',
-            () => updateEnableStatusApi({ ids, isEnabled: true }),
+            () =>
+              dataDictApi.dictionaryUpdateEnableStatusApi({
+                ids,
+                isEnabled: true,
+              }),
             tableRef.value?.refresh,
           )
           break
         case 'disable':
           useConfirm(
             'disable',
-            () => updateEnableStatusApi({ ids, isEnabled: false }),
+            () =>
+              dataDictApi.dictionaryUpdateEnableStatusApi({
+                ids,
+                isEnabled: false,
+              }),
             tableRef.value?.refresh,
           )
           break
@@ -63,10 +67,13 @@
   async function addDictionary(value: any) {
     formModal.loading = true
     if (currentRow.value) {
-      await updateApi({ ...value, id: currentRow.value.id })
+      await dataDictApi.dictionaryUpdateApi({
+        ...value,
+        id: currentRow.value.id,
+      })
       useMessage.success(PromptsEnum.UPDATED)
     } else {
-      await createApi(value)
+      await dataDictApi.dictionaryCreateApi(value)
       useMessage.success(PromptsEnum.CREATED)
     }
     formModal.show = false
@@ -75,12 +82,12 @@
     tableRef.value?.reset()
   }
 
-  function edit(val: TableItem) {
+  function edit(val: DictionaryDetailResponse) {
     currentRow.value = val
     formModal.show = true
   }
 
-  function showDetail(row: TableItem) {
+  function showDetail(row: DictionaryDetailResponse) {
     detailModalShow.value = true
     currentRow.value = row
   }
@@ -95,7 +102,7 @@
       :toolbar="toolbar"
       :columns="tableColumns"
       :selection="true"
-      :request-api="pageApi"
+      :request-api="dataDictApi.dictionaryPageApi"
       @toolbar-handler="handlerToolbar"
     >
       <template #name="{ row }">
@@ -105,7 +112,7 @@
       </template>
       <template #isEnabled="{ row }">
         <es-switch
-          :request="updateEnableStatusApi"
+          :request="dataDictApi.dictionaryUpdateEnableStatusApi"
           :row="row"
           ids
           @success="tableRef?.refresh()"
@@ -114,7 +121,7 @@
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
         <es-pop-confirm
-          :request="deleteApi"
+          :request="dataDictApi.dictionaryDeleteApi"
           :row="row"
           ids
           @success="tableRef?.refresh()"

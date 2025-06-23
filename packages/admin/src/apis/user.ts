@@ -1,55 +1,55 @@
 import { httpHandler } from '@/utils/request'
 import type {
-  GetCaptchaTypesRes,
-  LoginTypesRes,
-  LoginTypesReq,
-  LogoutTypesRes,
-  LogoutTypesReq,
-  RegisterTypesRes,
-  RegisterTypesReq,
-  RefreshTokenTypesRes,
-  RefreshTokenTypesReq,
-  UpdatePasswordTypesRes,
-  UpdatePasswordTypesReq,
-  UpdateUserInfoTypesRes,
-  UpdateUserInfoTypesReq,
-  GetUserInfoTypesRes,
-  GetUserByIdTypesRes,
-  GetUserByIdTypesReq,
-  GetAdminUserPageTypesRes,
-  GetAdminUserPageTypesReq,
-  DeleteUserTypesRes,
-  DeleteUserTypesReq,
+  GetCaptchaResponse,
+  UserLoginResponse,
+  UserLoginRequest,
+  UserLogoutResponse,
+  UserLogoutRequest,
+  UserRegisterResponse,
+  UserRegisterRequest,
+  UserRefreshTokenResponse,
+  UserRefreshTokenRequest,
+  UserUpdatePasswordResponse,
+  UserUpdatePasswordRequest,
+  UserUpdateInfoResponse,
+  UserUpdateInfoRequest,
+  UserInfoResponse,
+  UserInfoByIdResponse,
+  UserInfoByIdRequest,
+  UserPageResponse,
+  UserPageRequest,
+  UserDeleteResponse,
+  UserDeleteRequest,
 } from './types/user.d'
 
 /**
- *  接口 [获取验证码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303144580)
+ *  接口 [获取验证码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080019)
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
- *  @地址 /api/admin/user/getCaptcha
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/get-captcha
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const getCaptchaApi = (): Promise<GetCaptchaTypesRes> => {
+export const getCaptchaApi = (): Promise<GetCaptchaResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/user/getCaptcha',
+    url: '/api/admin/user/get-captcha',
     headers: {},
   })
 }
 
 /**
- *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303144581)
+ *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080020)
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
- *  @地址 /api/admin/user/login
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-login
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
+export const userLoginApi = (data: UserLoginRequest): Promise<UserLoginResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/user/login',
+    url: '/api/admin/user/user-login',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -58,17 +58,17 @@ export const loginApi = (data: LoginTypesReq): Promise<LoginTypesRes> => {
 }
 
 /**
- *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303281784)
+ *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080021)
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
- *  @地址 /api/admin/user/logout
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-logout
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const logoutApi = (data: LogoutTypesReq): Promise<LogoutTypesRes> => {
+export const userLogoutApi = (data: UserLogoutRequest): Promise<UserLogoutResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/user/logout',
+    url: '/api/admin/user/user-logout',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -77,17 +77,17 @@ export const logoutApi = (data: LogoutTypesReq): Promise<LogoutTypesRes> => {
 }
 
 /**
- *  接口 [用户注册](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303174872)
+ *  接口 [用户注册](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080022)
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
- *  @地址 /api/admin/user/register
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-register
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const registerApi = (data: RegisterTypesReq): Promise<RegisterTypesRes> => {
+export const userRegisterApi = (data: UserRegisterRequest): Promise<UserRegisterResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/user/register',
+    url: '/api/admin/user/user-register',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -96,17 +96,17 @@ export const registerApi = (data: RegisterTypesReq): Promise<RegisterTypesRes> =
 }
 
 /**
- *  接口 [刷新访问令牌](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303174873)
+ *  接口 [刷新访问令牌](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080023)
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
- *  @地址 /api/admin/user/refreshToken
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-refresh-token
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const refreshTokenApi = (data: RefreshTokenTypesReq): Promise<RefreshTokenTypesRes> => {
+export const userRefreshTokenApi = (data: UserRefreshTokenRequest): Promise<UserRefreshTokenResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/user/refreshToken',
+    url: '/api/admin/user/user-refresh-token',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -115,17 +115,17 @@ export const refreshTokenApi = (data: RefreshTokenTypesReq): Promise<RefreshToke
 }
 
 /**
- *  接口 [修改密码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303174892)
+ *  接口 [修改密码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080024)
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
- *  @地址 /api/admin/user/updatePassword
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-update-password
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const updatePasswordApi = (data: UpdatePasswordTypesReq): Promise<UpdatePasswordTypesRes> => {
+export const userUpdatePasswordApi = (data: UserUpdatePasswordRequest): Promise<UserUpdatePasswordResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/user/updatePassword',
+    url: '/api/admin/user/user-update-password',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -134,17 +134,17 @@ export const updatePasswordApi = (data: UpdatePasswordTypesReq): Promise<UpdateP
 }
 
 /**
- *  接口 [更新用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303174893)
+ *  接口 [更新用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080025)
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
- *  @地址 /api/admin/user/updateUserInfo
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-update-info
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const updateUserInfoApi = (data: UpdateUserInfoTypesReq): Promise<UpdateUserInfoTypesRes> => {
+export const userUpdateInfoApi = (data: UserUpdateInfoRequest): Promise<UserUpdateInfoResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/user/updateUserInfo',
+    url: '/api/admin/user/user-update-info',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -153,67 +153,67 @@ export const updateUserInfoApi = (data: UpdateUserInfoTypesReq): Promise<UpdateU
 }
 
 /**
- *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303174876)
+ *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080026)
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
- *  @地址 /api/admin/user/getUserInfo
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-Info
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const getUserInfoApi = (): Promise<GetUserInfoTypesRes> => {
+export const userInfoApi = (): Promise<UserInfoResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/user/getUserInfo',
+    url: '/api/admin/user/user-Info',
     headers: {},
   })
 }
 
 /**
- *  接口 [根据ID获取用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303175045)
+ *  接口 [根据ID获取用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080027)
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
- *  @地址 /api/admin/user/getUserById
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-info-by-id
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const getUserByIdApi = (params: GetUserByIdTypesReq): Promise<GetUserByIdTypesRes> => {
+export const userInfoByIdApi = (params: UserInfoByIdRequest): Promise<UserInfoByIdResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/user/getUserById',
+    url: '/api/admin/user/user-info-by-id',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-303144582)
+ *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080028)
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
- *  @地址 /api/admin/user/getAdminUserPage
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-page
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const getAdminUserPageApi = (params: GetAdminUserPageTypesReq): Promise<GetAdminUserPageTypesRes> => {
+export const userPageApi = (params: UserPageRequest): Promise<UserPageResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/user/getAdminUserPage',
+    url: '/api/admin/user/user-page',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [删除用户](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-310682467)
+ *  接口 [删除用户](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080029)
  *  @标签 管理端用户模块/删除用户
  *  @方式 POST
- *  @地址 /api/admin/user/deleteUser
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/user/user-delete
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const deleteUserApi = (data: DeleteUserTypesReq): Promise<DeleteUserTypesRes> => {
+export const userDeleteApi = (data: UserDeleteRequest): Promise<UserDeleteResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/user/deleteUser',
+    url: '/api/admin/user/user-delete',
     headers: {
       'Content-Type': 'application/json',
     },

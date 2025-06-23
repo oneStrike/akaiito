@@ -1,35 +1,40 @@
 import { httpHandler } from '@/utils/request'
-import type { PageTypesRes, PageTypesReq, DetailTypesRes, DetailTypesReq } from './types/request-log.d'
+import type {
+  RequestLogPageResponse,
+  RequestLogPageRequest,
+  RequestLogDetailResponse,
+  RequestLogDetailRequest,
+} from './types/request-log.d'
 
 /**
- *  接口 [分页查询请求日志](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-308932298)
+ *  接口 [分页查询请求日志](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080030)
  *  @标签 管理端请求日志模块/分页查询请求日志
  *  @方式 GET
- *  @地址 /api/admin/request-log/page
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/request-log/request-log-page
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const pageApi = (params: PageTypesReq): Promise<PageTypesRes> => {
+export const requestLogPageApi = (params: RequestLogPageRequest): Promise<RequestLogPageResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/request-log/page',
+    url: '/api/admin/request-log/request-log-page',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [查询请求日志详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-308932299)
+ *  接口 [查询请求日志详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080031)
  *  @标签 管理端请求日志模块/查询请求日志详情
  *  @方式 GET
- *  @地址 /api/admin/request-log/detail
- *  @更新时间 2025-06-21 01:38:08
+ *  @地址 /api/admin/request-log/request-log-detail
+ *  @更新时间 2025-06-23 08:49:54
  */
 
-export const detailApi = (params: DetailTypesReq): Promise<DetailTypesRes> => {
+export const requestLogDetailApi = (params: RequestLogDetailRequest): Promise<RequestLogDetailResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/api/admin/request-log/detail',
+    url: '/api/admin/request-log/request-log-detail',
     headers: {},
     params,
   })
