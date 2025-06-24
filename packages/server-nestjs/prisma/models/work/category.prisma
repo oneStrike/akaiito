@@ -4,25 +4,25 @@ model WorkCategory {
   /// 分类名称（唯一）
   name               String   @unique @db.VarChar(20)
   /// 分类图标URL
-  icon               String?  @db.VarChar(255) // 增加最大长度限制
-  /// 人气值（冗余字段，用于展示和排序）
+  icon               String?  @db.VarChar(255)
+  /// 人气值（用于展示和排序）
   popularity         Int      @default(0)
-  /// 辅助人气（用于算法动态调整）
-  boostedPopularity  Int      @default(0) @map("virtual_popularity") @db.Integer
+  /// 调整后的人气权重
+  adjustedPopularity Int      @default(0) @map("adjusted_popularity") @db.Integer
   /// 排序值（数值越小越靠前）
   order              Int      @default(0) @db.SmallInt
-  /// 小说数量（冗余字段）
+  /// 小说数量（由物化视图或触发器维护）
   novelCount         Int      @default(0) @map("novel_count") @db.Integer
-  /// 漫画数量（冗余字段）
+  /// 漫画数量
   comicCount         Int      @default(0) @map("manga_count") @db.Integer
-  /// 图集数量（冗余字段）
+  /// 图集数量
   photoCount         Int      @default(0) @map("photo_count") @db.Integer
-  /// 插画作品数量（冗余字段）
-  illustrationCount  Int      @default(0) @map("illustrator_count") @db.Integer
+  /// 插画作品数量
+  illustrationCount  Int      @default(0) @map("illustration_count") @db.Integer
   /// 是否启用
   isEnabled          Boolean  @default(true)
   /// 应用范围（bitmask：1=图集, 2=小说, 4=漫画, 8=插画）
-  applicableTypeBits Int      @default(0) @map("applicable_types") @db.SmallInt
+  applicableTypes    Int      @default(0) @map("applicable_types") @db.SmallInt
   /// 创建时间
   createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
@@ -32,10 +32,8 @@ model WorkCategory {
   comics WorkComic[]
 
   /// 索引优化
-  @@index([applicableTypeBits, isEnabled]) // 更高效过滤组合条件
+  @@index([applicableTypes, isEnabled]) // 更高效过滤组合条件
   @@index([order])
-  @@index([applicableTypeBits])
-  @@index([isEnabled])
   @@index([novelCount, comicCount]) // 支持内容量筛选
   @@index([name]) // 支持快速查找分类名
   @@map("work_category")
