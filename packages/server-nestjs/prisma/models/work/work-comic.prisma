@@ -21,7 +21,7 @@ model WorkComic {
   /// 内容年龄分级
   ageRating         String?            @map("age_rating") @db.VarChar(50)
   /// 是否发布 1：发布 0：不发布
-  isPublish         Boolean            @default(false) @db.Boolean
+  isPublished         Boolean           @map("is_published") @default(false) @db.Boolean
   /// 发布日期
   publishAt         DateTime?          @map("publish_at") @db.Timestamptz
   /// 最后更新时间
@@ -55,7 +55,7 @@ model WorkComic {
 
   /// 索引优化
   @@index([authorId]) // 外键索引（已存在）
-  @@index([isPublish, publishAt]) // 查询已发布的漫画
+  @@index([isPublished, publishAt]) // 查询已发布的漫画
   @@index([popularity, virtualPopularity]) // 按人气排序
   @@index([language, region]) // 按语言和地区查询
   @@index([isFinished]) // 查询完结状态
@@ -72,7 +72,7 @@ model WorkComicChapter {
   /// 章节标题
   title          String    @db.VarChar(20)
   /// 发布状态
-  isPublish      Boolean?  @default(true) @map("is_publish")
+  isPublished      Boolean?  @default(true) @map("is_published")
   /// 关联的漫画id
   comic          WorkComic @relation(fields: [comicId], references: [id])
   comicId        Int       @map("comic_id") @db.Integer
@@ -94,7 +94,7 @@ model WorkComicChapter {
   /// 索引优化
   @@index([comicId]) // 外键索引（已存在）
   @@index([comicId, order]) // 按漫画ID和排序查询章节
-  @@index([isPublish]) // 查询已发布章节
+  @@index([isPublished]) // 查询已发布章节
   @@index([viewRule]) // 按查看权限查询
   @@index([createdAt]) // 按创建时间排序
   @@map("work_comic_chapter")

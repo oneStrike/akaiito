@@ -1,47 +1,50 @@
 model Dictionary {
-  id        Int              @id @default(autoincrement())
+  id              Int              @id @default(autoincrement())
   /// 字典名称
-  name      String           @unique @db.VarChar(50)
+  name            String           @unique @map("name") @db.VarChar(50)
   /// 字典编码
-  code      String           @unique @db.VarChar(50)
-  /// 字典封面
-  cover     String?          @db.VarChar(200)
-  /// 状态 1启用 0禁用
-  isEnabled Boolean          @default(true) @map("is_enabled")
-  /// 备注信息
-  remark    String?          @db.VarChar(255)
+  code            String           @unique @map("code") @db.VarChar(50)
+  /// 字典封面图片URL
+  cover           String?          @map("cover") @db.VarChar(200)
+  /// 字典状态：true=启用，false=禁用
+  isEnabled       Boolean          @default(true) @map("is_enabled")
+  /// 字典描述信息
+  description     String?          @map("description") @db.VarChar(255)
   /// 创建时间
-  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamptz
+  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt DateTime         @updatedAt @map("updated_at") @db.Timestamptz
-  items     DictionaryItem[]
+  updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  /// 字典项列表
+  dictionaryItems DictionaryItem[]
 
   @@map("dictionary")
 }
 
 model DictionaryItem {
-  id             Int        @id @default(autoincrement())
-  /// 父项code
-  dictionary     Dictionary @relation(fields: [dictionaryCode], references: [code], onDelete: Cascade)
-  dictionaryCode String     @map("dictionary_code")
-  /// 子项名称
-  name           String     @db.VarChar(50)
-  // 子项编码
-  code           String     @db.VarChar(50)
-  /// 排序
-  order          Int?       @default(autoincrement()) @db.SmallInt
-  /// 字典封面
-  cover          String?    @unique @db.VarChar(200)
-  /// 状态 1启用 0禁用
-  isEnabled      Boolean    @default(true) @map("is_enabled")
-  /// 备注信息
-  remark         String?    @db.VarChar(255)
+  id               Int        @id @default(autoincrement())
+  /// 所属字典关系
+  parentDictionary Dictionary @relation(fields: [dctionaryCode], references: [code], onDelete: Cascade)
+  /// 所属字典编码
+  dctionaryCode    String     @map("dictionary_code")
+  /// 字典项名称
+  name             String     @map("name") @db.VarChar(50)
+  /// 字典项编码
+  code             String     @map("code") @db.VarChar(50)
+  /// 显示排序（数值越小越靠前）
+  order            Int?       @default(autoincrement()) @map("order") @db.SmallInt
+  /// 字典项图标URL
+  cover            String?    @map("cover") @db.VarChar(200)
+  /// 字典项状态：true=启用，false=禁用
+  isEnabled        Boolean    @default(true) @map("is_enabled")
+  /// 字典项描述信息
+  description      String?    @map("description") @db.VarChar(255)
   /// 创建时间
-  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz
+  createdAt        DateTime   @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt      DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt        DateTime   @updatedAt @map("updated_at") @db.Timestamptz
 
-  @@unique([dictionaryCode, code])
-  @@index([dictionaryCode])
+  @@unique([dctionaryCode, code])
+  @@index([dctionaryCode])
+  @@index([order])
   @@map("dictionary_item")
 }

@@ -1,7 +1,13 @@
 import { Buffer } from 'node:buffer'
 import * as process from 'node:process'
 import { CACHE_MANAGER } from '@nestjs/cache-manager'
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common'
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { Cache } from 'cache-manager'
 import { FastifyRequest } from 'fastify'
 import * as svgCaptcha from 'svg-captcha'
@@ -61,10 +67,10 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
   /**
    * 登录
    */
-  async login(body: UserLoginDto) {
+  async login(body: UserLoginDto, req?: FastifyRequest) {
     // 检查用户输入的验证码
     if (!body.captcha) {
-      throw new HttpException('请输入验证码', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('请输入验证码')
     }
     const captchaText = await this.cacheManager.get(
       CacheKey.CAPTCHA + body.captchaId,
@@ -73,14 +79,14 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
     if (process.env.NODE_ENV === 'production') {
       // 检查验证码是否存在于缓存中
       if (!captchaText) {
-        throw new HttpException('验证码已过期', HttpStatus.BAD_REQUEST)
+        throw new BadRequestException('验证码已过期')
       }
       // 验证码比较（不区分大小写）
       if (
         String(captchaText).toLowerCase() !== String(body.captcha).toLowerCase()
       ) {
         await this.cacheManager.del(CacheKey.CAPTCHA + body.captchaId)
-        throw new HttpException('验证码错误', HttpStatus.BAD_REQUEST)
+        throw new BadRequestException('验证码错误')
       }
     }
 
@@ -91,10 +97,11 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
     const user = await this.prisma.adminUser.findFirst({
       where: {
         OR: [{ username: body.username }],
+        isEnabled: true, // 只查找启用的用户
       },
     })
     if (!user) {
-      throw new HttpException('账号或密码错误', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('账号或密码错误')
     }
 
     // 尝试解密密码（如果是RSA加密的）
@@ -102,7 +109,12 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
     try {
       password = this.rsa.decryptWithAdmin(body.password)
     } catch (error) {
-      throw new HttpException('账号或密码错误', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('账号或密码错误')
+    }
+
+    // 检查账户是否被锁定
+    if (user.isLocked) {
+      throw new UnauthorizedException('账户已被锁定，请联系管理员')
     }
 
     // 验证密码
@@ -111,8 +123,30 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
       user.password,
     )
     if (!isPasswordValid) {
-      throw new HttpException('账号或密码错误', HttpStatus.BAD_REQUEST)
+      // 增加登录失败次数
+      await this.prisma.adminUser.update({
+        where: { id: user.id },
+        data: {
+          loginFailCount: user.loginFailCount + 1,
+          isLocked: user.loginFailCount + 1 >= 5, // 失败5次后锁定账户
+        },
+      })
+      throw new BadRequestException('账号或密码错误')
     }
+
+    // 更新登录信息
+    await this.prisma.adminUser.update({
+      where: { id: user.id },
+      data: {
+        lastLoginAt: new Date(),
+        lastLoginIp:
+          req?.ip ||
+          (req?.headers['x-forwarded-for'] as string) ||
+          (req?.headers['x-real-ip'] as string) ||
+          'unknown',
+        loginFailCount: 0, // 重置登录失败次数
+      },
+    })
 
     // 生成令牌
     const tokens = await this.adminJwtService.generateTokens({
@@ -155,7 +189,7 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
   ) {
     const { oldPassword, newPassword, confirmPassword, refreshToken } = body
     if (newPassword !== confirmPassword) {
-      throw new HttpException('新密码和确认密码不一致', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('新密码和确认密码不一致')
     }
 
     const authHeader = req.headers.authorization!
@@ -167,7 +201,7 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
     })
 
     if (!user) {
-      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('用户不存在')
     }
 
     // 验证旧密码
@@ -176,7 +210,7 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
       user.password,
     )
     if (!isPasswordValid) {
-      throw new HttpException('旧密码错误', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('旧密码错误')
     }
 
     // 加密新密码
@@ -205,7 +239,7 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
       where: { id: userId },
     })
     if (!user) {
-      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('用户不存在')
     }
     // 如果要更新用户名，检查是否已存在
     if (updateData.username && updateData.username !== user.username) {
@@ -214,20 +248,10 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
       })
 
       if (existingUser) {
-        throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST)
+        throw new BadRequestException('用户名已存在')
       }
     }
 
-    // 如果要更新手机号，检查是否已存在
-    if (updateData.mobile && updateData.mobile !== user.mobile) {
-      const existingUser = await this.prisma.adminUser.findFirst({
-        where: { mobile: updateData.mobile },
-      })
-
-      if (existingUser) {
-        throw new HttpException('手机号已存在', HttpStatus.BAD_REQUEST)
-      }
-    }
     // 返回更新后的用户信息（不包含密码）
     return this.prisma.adminUser.update({
       where: { id: userId },
@@ -242,35 +266,34 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
    * 注册管理员用户
    */
   async register(body: UserRegisterDto) {
-    const { username, password, confirmPassword, mobile, avatar, isRoot } = body
+    const { username, password, confirmPassword, avatar, role } = body
     if (password !== confirmPassword) {
-      throw new HttpException('密码和确认密码不一致', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('密码和确认密码不一致')
     }
 
     // 检查用户名是否已存在
     const existingUser = await this.prisma.adminUser.findFirst({
       where: {
-        OR: [{ username }, { mobile }],
+        username,
       },
     })
 
     if (existingUser) {
-      throw new HttpException('用户名或手机号已被使用', HttpStatus.BAD_REQUEST)
+      throw new BadRequestException('用户名已被使用')
     }
 
     // 加密密码
     const encryptedPassword = await this.crypto.encryptPassword(password)
 
     // 创建用户
-
-    // 返回创建的用户（不包含密码）
     return this.prisma.adminUser.create({
       data: {
         username,
         password: encryptedPassword,
-        mobile,
         avatar,
-        isRoot,
+        role: role || 0,
+        isEnabled: true,
+        passwordExpires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90天后过期
       },
       select: {
         id: true,
@@ -287,7 +310,7 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
     })
 
     if (!user) {
-      throw new HttpException('用户不存在', HttpStatus.NOT_FOUND)
+      throw new NotFoundException('用户不存在')
     }
 
     // 返回用户信息（不包含密码）
@@ -295,9 +318,13 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
       id: user.id,
       username: user.username,
       avatar: user.avatar,
-      mobile: user.mobile,
-      status: user.status,
-      isRoot: user.isRoot,
+      isEnabled: user.isEnabled,
+      role: user.role,
+      lastLoginAt: user.lastLoginAt,
+      lastLoginIp: user.lastLoginIp,
+      loginFailCount: user.loginFailCount,
+      isLocked: user.isLocked,
+      passwordExpires: user.passwordExpires,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
     }
@@ -307,21 +334,18 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
    * 获取用户列表（分页）
    */
   async getUsers(queryDto: UserPageDto) {
-    const { username, mobile, status, isRoot } = queryDto
+    const { username, isEnabled, role } = queryDto
 
     const where: any = {}
 
     if (username) {
       where.username = { contains: username }
     }
-    if (mobile) {
-      where.mobile = { contains: mobile }
+    if (isEnabled !== undefined) {
+      where.isEnabled = { equals: isEnabled }
     }
-    if (status !== undefined) {
-      where.status = { equals: status }
-    }
-    if (isRoot !== undefined) {
-      where.isRoot = { equals: isRoot }
+    if (role !== undefined) {
+      where.role = { equals: role }
     }
 
     return this.findPagination({

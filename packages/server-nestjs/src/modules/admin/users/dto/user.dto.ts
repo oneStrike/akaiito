@@ -1,12 +1,11 @@
 import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import {
   ValidateBoolean,
-  ValidateByRegex,
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { PageDto } from '@/common/dto/page.dto'
-import { utils } from '@/utils'
+import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import { TokenDto } from './token.dto'
 
 export class UserDto {
@@ -34,27 +33,57 @@ export class UserDto {
   })
   avatar?: string
 
-  @ValidateByRegex({
-    regex: utils.regexp.validPhone,
-    description: '手机号',
-    example: '13800138000',
-    required: false,
-  })
-  mobile?: string
-
   @ValidateBoolean({
-    description: '用户状态',
+    description: '是否启用',
     example: true,
     default: true,
   })
-  status: boolean
+  isEnabled: boolean
+
+  @ValidateNumber({
+    description: '角色 0普通管理员 1超级管理员',
+    example: 0,
+    default: 0,
+    min: 0,
+    max: 1,
+  })
+  role: number
+
+  @ApiProperty({
+    description: '最后登录时间',
+    example: '2021-01-01 00:00:00',
+    required: false,
+  })
+  lastLoginAt?: Date
+
+  @ApiProperty({
+    description: '最后登录IP',
+    example: '192.168.1.1',
+    required: false,
+  })
+  lastLoginIp?: string
+
+  @ValidateNumber({
+    description: '登录失败次数',
+    example: 0,
+    default: 0,
+    min: 0,
+  })
+  loginFailCount: number
 
   @ValidateBoolean({
-    description: '用户状态',
+    description: '是否锁定',
     example: false,
     default: false,
   })
-  isRoot: boolean
+  isLocked: boolean
+
+  @ApiProperty({
+    description: '密码过期时间',
+    example: '2021-01-01 00:00:00',
+    required: false,
+  })
+  passwordExpires?: Date
 
   @ApiProperty({
     description: '创建时间',
@@ -110,7 +139,12 @@ export class LoginResponseDto {
 
 export class UserRegisterDto extends OmitType(UserDto, [
   'id',
-  'status',
+  'isEnabled',
+  'lastLoginAt',
+  'lastLoginIp',
+  'loginFailCount',
+  'isLocked',
+  'passwordExpires',
   'createdAt',
   'updatedAt',
 ]) {
@@ -131,7 +165,11 @@ export class UserRegisterDto extends OmitType(UserDto, [
 
 export class UpdateUserDto extends OmitType(UserDto, [
   'id',
-  'isRoot',
+  'lastLoginAt',
+  'lastLoginIp',
+  'loginFailCount',
+  'isLocked',
+  'passwordExpires',
   'createdAt',
   'updatedAt',
 ]) {
@@ -176,27 +214,19 @@ export class UserPageDto extends PageDto {
   })
   username?: string
 
-  @ValidateString({
-    description: '手机号',
-    example: '13800138000',
-    required: false,
-    maxLength: 11,
-  })
-  mobile?: string
-
   @ValidateBoolean({
-    description: '用户状态',
+    description: '是否启用',
     example: true,
-    default: true,
     required: false,
   })
-  status?: boolean
+  isEnabled?: boolean
 
-  @ValidateBoolean({
-    description: '用户状态',
-    example: false,
-    default: false,
+  @ValidateNumber({
+    description: '角色 0普通管理员 1超级管理员',
+    example: 0,
     required: false,
+    min: 0,
+    max: 1,
   })
-  isRoot?: boolean
+  role?: number
 }

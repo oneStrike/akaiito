@@ -2,55 +2,55 @@
 
 model ClientNotice {
   /// 主键id
-  id              Int               @id @default(autoincrement())
+  id                   Int               @id @default(autoincrement())
   /// 标题
-  title           String            @db.VarChar(100)
+  title                String            @db.VarChar(100)
   /// 内容详情
-  content         String            @db.Text
+  content              String            @db.Text
   /// 通知类型（0:系统通知, 1:活动公告, 2:维护通知, 3:更新公告）
-  type            Int               @default(0) @db.SmallInt
+  noticeType           Int               @default(0) @map("notice_type") @db.SmallInt
   /// 优先级（0:低优先级, 1:中等优先级, 2:高优先级, 3:紧急）
-  priority        Int               @default(1) @db.SmallInt
+  priorityLevel        Int               @default(1) @map("priority_level") @db.SmallInt
   /// 发布开始时间
-  startTime       DateTime?         @map("start_time") @db.Timestamptz
+  publishStartTime     DateTime?         @map("publish_start_time") @db.Timestamptz
   /// 发布结束时间
-  endTime         DateTime?         @map("end_time") @db.Timestamptz
+  publishEndTime       DateTime?         @map("publish_end_time") @db.Timestamptz
   /// 关联页面配置
-  clientPage      ClientPageConfig? @relation("notices", fields: [pageCode], references: [pageCode], onDelete: SetNull)
+  clientPage           ClientPageConfig? @relation("notices", fields: [targetPageCode], references: [pageCode], onDelete: SetNull)
   /// 页面代码，点击公告跳转的页面
-  pageCode        String?           @map("page_code") @db.VarChar(50)
+  targetPageCode       String?           @map("target_page_code") @db.VarChar(50)
   /// 通知弹窗的背景图片
-  backgroundImage String?           @map("background_image") @db.VarChar(200)
-  /// 是否发布（true:已发布, false:未发布）
-  isPublish       Boolean           @default(false) @map("is_publish")
-  /// 是否启用小程序
-  enableApplet    Boolean           @default(true) @map("enable_applet")
-  /// 是否启用H5
-  enableWeb       Boolean           @default(true) @map("enable_web")
-  /// 是否启用APP
-  enableApp       Boolean           @default(true) @map("enable_app")
-  /// 是否置顶
-  isTop           Boolean           @default(false) @map("is_top")
+  popupBackgroundImage String?           @map("popup_background_image") @db.VarChar(200)
+  /// 发布状态（true:已发布, false:未发布）
+  isPublished          Boolean           @default(false) @map("is_published")
+  /// 是否启用小程序端
+  enableMiniProgram    Boolean           @default(true) @map("enable_mini_program")
+  /// 是否启用H5端
+  enableH5             Boolean           @default(true) @map("enable_h5")
+  /// 是否启用APP端
+  enableMobileApp      Boolean           @default(true) @map("enable_mobile_app")
+  /// 是否置顶显示
+  isPinned             Boolean           @default(false) @map("is_pinned")
   /// 是否弹窗显示
-  isPopup         Boolean           @default(false) @map("is_popup")
+  showAsPopup          Boolean           @default(false) @map("show_as_popup")
   /// 排序权重（数值越大越靠前）
-  sortOrder       Int               @default(0) @map("sort_order")
-  /// 阅读次数
-  viewCount       Int               @default(0) @map("view_count")
+  displayOrder         Int               @default(0) @map("display_order")
+  /// 浏览次数
+  readCount            Int               @default(0) @map("read_count")
   /// 创建时间
-  createdAt       DateTime          @default(now()) @map("created_at") @db.Timestamptz
+  createdAt            DateTime          @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt       DateTime          @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt            DateTime          @updatedAt @map("updated_at") @db.Timestamptz
   /// 软删除时间
-  deletedAt       DateTime?         @map("deleted_at") @db.Timestamptz
+  deletedAt            DateTime?         @map("deleted_at") @db.Timestamptz
 
   /// 索引优化
-  @@index([isPublish, startTime, endTime]) // 查询已发布且在有效期内的通知
-  @@index([type, isPublish]) // 按类型和发布状态查询
-  @@index([priority, isTop, sortOrder]) // 排序相关字段
+  @@index([isPublished, publishStartTime, publishEndTime]) // 查询已发布且在有效期内的通知
+  @@index([noticeType, isPublished]) // 按类型和发布状态查询
+  @@index([priorityLevel, isPinned, displayOrder]) // 排序相关字段
   @@index([createdAt]) // 按创建时间查询
-  @@index([pageCode]) // 外键索引
-  @@index([isPopup, isPublish]) // 弹窗通知查询
-  @@index([viewCount]) // 热门通知查询
+  @@index([targetPageCode]) // 外键索引
+  @@index([showAsPopup, isPublished]) // 弹窗通知查询
+  @@index([readCount]) // 热门通知查询
   @@map("client_notice")
 }

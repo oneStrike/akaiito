@@ -54,8 +54,8 @@ export class AdminUserController {
     model: LoginResponseDto,
   })
   @Public()
-  login(@Body() body: UserLoginDto) {
-    return this.userService.login(body)
+  login(@Body() body: UserLoginDto, @Req() req: FastifyRequest) {
+    return this.userService.login(body, req)
   }
 
   /**

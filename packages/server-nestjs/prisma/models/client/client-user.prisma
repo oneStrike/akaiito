@@ -1,26 +1,39 @@
 model ClientUser {
-  /// 主键id
-  id        Int      @id @default(autoincrement())
-  /// 插件名称
-  username  String   @unique @db.VarChar(50)
-  /// 密码
-  password  String   @db.VarChar(100)
-  /// 头像
-  avatar    String?  @db.VarChar(100)
-  /// 手机号
-  mobile    String?  @unique @db.VarChar(20)
-  /// 状态 0禁用 1正常
-  status    Boolean  @default(true)
-  /// 性别 0未知 1男 2女
-  sex       Int      @default(0) @db.SmallInt
-  /// 创建时间
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  /// 更新时间
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+  /// 主键ID
+  id           Int       @id @default(autoincrement())
+  /// 用户名（登录账号）
+  username     String    @unique @map("username") @db.VarChar(50)
+  /// 用户昵称（显示名称）
+  nickname     String?   @map("nickname") @db.VarChar(100)
+  /// 头像URL地址
+  avatarUrl    String?   @map("avatar_url") @db.VarChar(500)
+  /// 手机号码
+  phoneNumber  String?   @unique @map("phone_number") @db.VarChar(20)
+  /// 邮箱地址
+  emailAddress String?   @unique @map("email_address") @db.VarChar(255)
+  /// 账户状态（true:启用, false:禁用）
+  isActive     Boolean   @default(true) @map("is_active")
+  /// 性别类型（0:未知, 1:男性, 2:女性, 3:其他）
+  genderType   Int       @default(0) @map("gender_type") @db.SmallInt
+  /// 出生日期
+  birthDate    DateTime? @map("birth_date") @db.Date
+  /// 最后登录时间
+  lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz
+  /// 最后登录IP地址
+  lastLoginIp  String?   @map("last_login_ip") @db.VarChar(45)
+  /// 账户创建时间
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  /// 账户更新时间
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  /// 软删除时间
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz
 
   /// 索引优化
-  @@index([status]) // 按状态查询活跃用户
-  @@index([sex]) // 按性别统计
+  @@index([isActive]) // 按账户状态查询活跃用户
+  @@index([genderType]) // 按性别类型统计
   @@index([createdAt]) // 按注册时间查询
+  @@index([lastLoginAt]) // 按最后登录时间查询
+  @@index([phoneNumber]) // 手机号查询优化
+  @@index([emailAddress]) // 邮箱查询优化
   @@map("client_user")
 }
