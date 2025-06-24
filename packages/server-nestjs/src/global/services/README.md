@@ -2,7 +2,8 @@
 
 ## 概述
 
-`BaseRepositoryService` 是一个通用的抽象数据库服务层，基于 NestJS 和 Prisma 构建。它提供了标准化的 CRUD 操作、分页查询、批量操作、事务处理、软删除等功能，帮助开发者快速构建数据访问层。
+`BaseRepositoryService`
+是一个通用的抽象数据库服务层，基于 NestJS 和 Prisma 构建。它提供了标准化的 CRUD 操作、分页查询、批量操作、事务处理、软删除等功能，帮助开发者快速构建数据访问层。
 
 ## 特性
 
@@ -26,20 +27,24 @@
 ```typescript
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@/global/services/prisma.service'
-import { BaseRepositoryService, PaginationResult, BatchResult } from './base-repository.service'
+import {
+  BaseRepositoryService,
+  PaginationResult,
+  BatchResult,
+} from './base-repository.service'
 import { User, Prisma } from '@/prisma/client'
 
 @Injectable()
 export class UserRepositoryService extends BaseRepositoryService<
-  User,                                    // 数据模型类型
-  Prisma.UserWhereInput,                  // 查询条件类型
-  Prisma.UserCreateInput,                 // 创建数据类型
-  Prisma.UserUpdateInput,                 // 更新数据类型
-  Prisma.UserOrderByWithRelationInput,   // 排序条件类型
-  Prisma.UserInclude,                     // 关联查询类型
-  Prisma.UserSelect                       // 字段选择类型
+  User, // 数据模型类型
+  Prisma.UserWhereInput, // 查询条件类型
+  Prisma.UserCreateInput, // 创建数据类型
+  Prisma.UserUpdateInput, // 更新数据类型
+  Prisma.UserOrderByWithRelationInput, // 排序条件类型
+  Prisma.UserInclude, // 关联查询类型
+  Prisma.UserSelect // 字段选择类型
 > {
-  protected readonly modelName = 'User'   // 模型名称（用于日志）
+  protected readonly modelName = 'User' // 模型名称（用于日志）
   protected readonly supportsSoftDelete = true // 启用软删除功能（可选）
 
   constructor(prisma: PrismaService) {
@@ -83,9 +88,7 @@ import { UserRepositoryService } from './user-repository.service'
 
 @Injectable()
 export class UserService {
-  constructor(
-    private readonly userRepository: UserRepositoryService
-  ) {}
+  constructor(private readonly userRepository: UserRepositoryService) {}
 
   async createUser(userData: CreateUserDto) {
     return this.userRepository.create({
@@ -115,13 +118,13 @@ export class UserService {
 // 创建单条记录
 const user = await userService.create({
   name: 'John Doe',
-  email: 'john@example.com'
+  email: 'john@example.com',
 })
 
 // 批量创建
 const users = await userService.createMany([
   { name: 'User 1', email: 'user1@example.com' },
-  { name: 'User 2', email: 'user2@example.com' }
+  { name: 'User 2', email: 'user2@example.com' },
 ])
 ```
 
@@ -133,15 +136,18 @@ const user = await userService.findById(1)
 
 // 根据条件查找单条记录
 const user = await userService.findFirst({
-  email: 'john@example.com'
+  email: 'john@example.com',
 })
 
 // 查找多条记录
-const users = await userService.findMany({
-  status: 'active'
-}, {
-  createdAt: 'desc'
-})
+const users = await userService.findMany(
+  {
+    status: 'active',
+  },
+  {
+    createdAt: 'desc',
+  },
+)
 
 // 分页查询
 const result = await userService.findManyWithPagination(
@@ -150,7 +156,7 @@ const result = await userService.findManyWithPagination(
   { status: 'active' }, // 查询条件
   { createdAt: 'desc' }, // 排序
   { posts: true }, // 关联查询
-  { id: true, name: true, email: true } // 字段选择
+  { id: true, name: true, email: true }, // 字段选择
 )
 ```
 
@@ -159,13 +165,13 @@ const result = await userService.findManyWithPagination(
 ```typescript
 // 根据 ID 更新
 const user = await userService.updateById(1, {
-  name: 'Updated Name'
+  name: 'Updated Name',
 })
 
 // 批量更新
 const result = await userService.updateMany(
   { status: 'inactive' },
-  { status: 'active' }
+  { status: 'active' },
 )
 ```
 
@@ -177,7 +183,7 @@ const user = await userService.deleteById(1)
 
 // 批量删除
 const result = await userService.deleteMany({
-  status: 'inactive'
+  status: 'inactive',
 })
 ```
 
@@ -193,7 +199,7 @@ const user = await userService.softDelete(1)
 
 // 批量软删除
 const result = await userService.softDeleteMany({
-  status: 'inactive'
+  status: 'inactive',
 })
 
 // 恢复软删除的记录
@@ -201,7 +207,7 @@ const user = await userService.restore(1)
 
 // 批量恢复
 const result = await userService.restoreMany({
-  deletedAt: { not: null }
+  deletedAt: { not: null },
 })
 
 // 永久删除（物理删除）
@@ -209,7 +215,7 @@ const user = await userService.forceDelete(1)
 
 // 批量永久删除
 const result = await userService.forceDeleteMany({
-  deletedAt: { not: null }
+  deletedAt: { not: null },
 })
 ```
 
@@ -218,23 +224,23 @@ const result = await userService.forceDeleteMany({
 ```typescript
 // 查找包含软删除记录
 const users = await userService.findManyWithDeleted({
-  name: { contains: 'John' }
+  name: { contains: 'John' },
 })
 
 // 只查找软删除记录
 const deletedUsers = await userService.findOnlyDeleted({
-  deletedAt: { gte: new Date('2024-01-01') }
+  deletedAt: { gte: new Date('2024-01-01') },
 })
 
 // 包含软删除记录的分页查询
-const result = await userService.findManyWithDeletedPagination(
-  1, 10, { status: 'active' }
-)
+const result = await userService.findManyWithDeletedPagination(1, 10, {
+  status: 'active',
+})
 
 // 只查找软删除记录的分页查询
-const result = await userService.findOnlyDeletedPagination(
-  1, 10, { deletedAt: { gte: new Date('2024-01-01') } }
-)
+const result = await userService.findOnlyDeletedPagination(1, 10, {
+  deletedAt: { gte: new Date('2024-01-01') },
+})
 
 // 统计包含软删除记录
 const totalCount = await userService.countWithDeleted()
@@ -263,14 +269,16 @@ const exists = await userRepository.exists({ email: 'john@example.com' })
 
 ```typescript
 const user = await userRepository.upsert(
-  { email: 'john@example.com' },  // 查询条件
-  {                               // 创建数据
+  { email: 'john@example.com' }, // 查询条件
+  {
+    // 创建数据
     email: 'john@example.com',
-    username: 'john'
+    username: 'john',
   },
-  {                               // 更新数据
-    username: 'john_updated'
-  }
+  {
+    // 更新数据
+    username: 'john_updated',
+  },
 )
 ```
 
@@ -279,13 +287,13 @@ const user = await userRepository.upsert(
 ```typescript
 const result = await userRepository.transaction(async (prisma) => {
   const user = await prisma.user.create({
-    data: { username: 'john', email: 'john@example.com' }
+    data: { username: 'john', email: 'john@example.com' },
   })
-  
+
   await prisma.profile.create({
-    data: { userId: user.id, bio: 'Hello world' }
+    data: { userId: user.id, bio: 'Hello world' },
   })
-  
+
   return user
 })
 ```
@@ -296,14 +304,14 @@ const result = await userRepository.transaction(async (prisma) => {
 // 原始查询
 const users = await userRepository.queryRaw<User[]>(
   'SELECT * FROM users WHERE created_at > ?',
-  new Date('2023-01-01')
+  new Date('2023-01-01'),
 )
 
 // 原始操作
 const affectedRows = await userRepository.executeRaw(
   'UPDATE users SET status = ? WHERE created_at < ?',
   'inactive',
-  new Date('2022-01-01')
+  new Date('2022-01-01'),
 )
 ```
 
@@ -315,9 +323,9 @@ const user = await userRepository.findById(1, {
   profile: true,
   posts: {
     include: {
-      comments: true
-    }
-  }
+      comments: true,
+    },
+  },
 })
 
 // 选择特定字段
@@ -325,7 +333,7 @@ const user = await userRepository.findById(1, undefined, {
   id: true,
   username: true,
   email: true,
-  password: false  // 排除密码字段
+  password: false, // 排除密码字段
 })
 ```
 
