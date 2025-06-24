@@ -145,13 +145,13 @@ export class WorkCategoryController {
   /**
    * 根据应用类型查询分类
    */
-  @Get('/by-type/:applicableTypes')
+  @Get('/by-type/:applicableContentTypes')
   @ApiDoc({
     summary: '根据应用类型查询分类',
     model: [CategoryPageResponseDto],
   })
-  async getByType(@Param('applicableTypes') applicableTypes: string) {
-    return this.categoryService.getCategoriesByType(Number(applicableTypes))
+  async getByType(@Param('applicableContentTypes') applicableContentTypes: string) {
+    return this.categoryService.getCategoriesByType(Number(applicableContentTypes))
   }
 
   /**

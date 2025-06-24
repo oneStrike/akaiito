@@ -64,7 +64,7 @@ category/
 ### 查询和统计
 
 - `GET /admin/work/category/stats` - 获取统计信息
-- `GET /admin/work/category/by-type/:applicableTypes` - 按应用类型查询
+- `GET /admin/work/category/by-type/:applicableContentTypes` - 按应用类型查询
 - `GET /admin/work/category/search` - 搜索分类
 - `GET /admin/work/category/popular` - 获取热门分类
 
@@ -82,7 +82,7 @@ interface WorkCategory {
   id: number
   name: string // 分类名称
   description?: string // 分类描述
-  applicableTypes: number         // 应用类型
+  applicableContentTypes: number         // 应用类型
   status: CategoryStatusEnum // 状态
   order: number // 排序值
   popularity: number // 人气值
@@ -96,7 +96,7 @@ interface WorkCategory {
 
 ```typescript
 // 应用类型
-enum CategoryApplicableTypesEnum {
+enum CategoryapplicableContentTypesEnum {
   COMIC = 1, // 漫画
   NOVEL = 2, // 小说
 }
@@ -122,7 +122,7 @@ enum CategoryOrderEnum {
 const createDto: CreateCategoryDto = {
   name: '科幻',
   description: '科幻类作品分类',
-  applicableTypes: CategoryApplicableTypesEnum.COMIC,
+  applicableContentTypes: CategoryapplicableContentTypesEnum.COMIC,
   status: CategoryStatusEnum.ENABLED,
 }
 
@@ -137,7 +137,7 @@ const queryDto: QueryCategoryDto = {
   pageSize: 10,
   name: '科幻',
   status: CategoryStatusEnum.ENABLED,
-  applicableTypes: CategoryApplicableTypesEnum.COMIC,
+  applicableContentTypes: CategoryapplicableContentTypesEnum.COMIC,
 }
 
 const result = await categoryService.getCategoryPage(queryDto)
@@ -183,7 +183,7 @@ const result = await categoryService.updateCategoryStatus(updateDto)
 
 ### 数据库优化
 
-- 在 `name` 和 `applicableTypes` 字段上建立复合索引
+- 在 `name` 和 `applicableContentTypes` 字段上建立复合索引
 - 在 `status` 和 `order` 字段上建立索引
 - 使用数据库级别的唯一约束
 

@@ -53,7 +53,7 @@ export class BaseCategoryDto {
     required: false,
     min: 0,
   })
-  virtualPopularity!: number
+  popularityWeight!: number
 
   @ValidateNumber({
     description: '排序值',
@@ -86,7 +86,7 @@ export class BaseCategoryDto {
     required: false,
     min: 0,
   })
-  photoCount!: number
+  imageSetCount!: number
 
   @ValidateNumber({
     description: '插画数量',
@@ -94,7 +94,7 @@ export class BaseCategoryDto {
     required: false,
     min: 0,
   })
-  illustratorCount!: number
+  artworkCount!: number
 
   @ValidateBoolean({
     description: '是否启用',
@@ -110,7 +110,7 @@ export class BaseCategoryDto {
     min: 1,
     max: 32767,
   })
-  applicableTypes!: number
+  applicableContentTypes!: number
 
   @ValidateString({
     description: '创建时间',
@@ -136,10 +136,10 @@ export class CreateCategoryDto extends OmitType(BaseCategoryDto, [
   'updatedAt',
   'novelCount',
   'comicCount',
-  'photoCount',
-  'illustratorCount',
+  'imageSetCount',
+  'artworkCount',
   'popularity',
-  'virtualPopularity',
+  'popularityWeight',
 ]) {}
 
 /**
@@ -153,8 +153,8 @@ export class UpdateCategoryDto extends IntersectionType(
       'updatedAt',
       'novelCount',
       'comicCount',
-      'photoCount',
-      'illustratorCount',
+      'imageSetCount',
+      'artworkCount',
     ]),
   ),
   IdDto,
@@ -168,7 +168,7 @@ export class QueryCategoryDto extends IntersectionType(
   PickType(PartialType(BaseCategoryDto), [
     'name',
     'isEnabled',
-    'applicableTypes',
+    'applicableContentTypes',
   ]),
 ) {
   @ValidateString({

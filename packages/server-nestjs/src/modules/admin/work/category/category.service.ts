@@ -11,7 +11,7 @@ import {
   UpdateCategoryPopularityDto,
   UpdateCategoryCountDto,
 } from './dto/category.dto'
-import { CategoryApplicableTypesEnum } from './category.constant'
+import { CategoryapplicableContentTypesEnum } from './category.constant'
 
 /**
  * 分类服务类
@@ -41,8 +41,8 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
     }
 
     // 验证应用类型的有效性
-    if (createCategoryDto.applicableTypes) {
-      this.validateApplicableTypes(createCategoryDto.applicableTypes)
+    if (createCategoryDto.applicableContentTypes) {
+      this.validateapplicableContentTypes(createCategoryDto.applicableContentTypes)
     }
 
     // 如果没有指定排序值，设置为最大值+1
@@ -55,11 +55,11 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
       data: {
         ...createCategoryDto,
         popularity: 0,
-        virtualPopularity: 0,
+        popularityWeight: 0,
         novelCount: 0,
         comicCount: 0,
-        photoCount: 0,
-        illustratorCount: 0,
+        imageSetCount: 0,
+        artworkCount: 0,
       },
     })
   }
@@ -75,7 +75,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
       pageSize,
       name,
       isEnabled,
-      applicableTypes,
+      applicableContentTypes,
       keyword,
       sortBy = 'order',
       sortOrder = 'asc',
@@ -98,9 +98,9 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
       where.isEnabled = isEnabled
     }
 
-    if (applicableTypes !== undefined) {
+    if (applicableContentTypes !== undefined) {
       // 使用简单的等值查询
-      where.applicableTypes = applicableTypes
+      where.applicableContentTypes = applicableContentTypes
     }
 
     // 构建排序条件
@@ -157,8 +157,8 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
     }
 
     // 验证应用类型的有效性
-    if (updateData.applicableTypes !== undefined) {
-      this.validateApplicableTypes(updateData.applicableTypes)
+    if (updateData.applicableContentTypes !== undefined) {
+      this.validateapplicableContentTypes(updateData.applicableContentTypes)
     }
 
     return this.updateById({
@@ -241,16 +241,16 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
   /**
    * 验证应用类型
    */
-  private validateApplicableTypes(applicableTypes: number): boolean {
+  private validateapplicableContentTypes(applicableContentTypes: number): boolean {
     const validTypes = [
-      CategoryApplicableTypesEnum.PHOTO,
-      CategoryApplicableTypesEnum.NOVEL,
-      CategoryApplicableTypesEnum.COMIC,
-      CategoryApplicableTypesEnum.ILLUSTRATOR,
+      CategoryapplicableContentTypesEnum.PHOTO,
+      CategoryapplicableContentTypesEnum.NOVEL,
+      CategoryapplicableContentTypesEnum.COMIC,
+      CategoryapplicableContentTypesEnum.ILLUSTRATOR,
     ]
-    
+
     // 检查是否为有效的枚举值
-    return validTypes.includes(applicableTypes)
+    return validTypes.includes(applicableContentTypes)
   }
 
   /**
