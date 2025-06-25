@@ -98,7 +98,7 @@ export class ClientPageConfigController {
   @Post('/batch-update-client-page-status')
   @ApiDoc({
     summary: '批量更新页面配置状态',
-    model: BatchOperationResultDto,
+    model: CountDto,
   })
   async batchUpdateStatus(@Body() body: BatchOperationStatusIdsDto) {
     const { ids, isEnabled } = body
@@ -111,7 +111,7 @@ export class ClientPageConfigController {
   @Post('/batch-delete-client-page')
   @ApiDoc({
     summary: '批量软删除页面配置',
-    model: BatchOperationResultDto,
+    model: CountDto,
   })
   async batchDelete(@Body() body: IdsDto) {
     return this.pageConfigService.softDeleteMany({

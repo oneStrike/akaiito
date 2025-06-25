@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
+import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import { DictionaryService } from '@/modules/shared/dictionary/dictionary.service'
 import { CreateDictionaryDto } from '@/modules/shared/dictionary/dto/create-dictionary.dto'
@@ -44,7 +44,7 @@ export class DictionaryController {
   @Post('create-dictionary')
   @ApiDoc({
     summary: '创建字典',
-    model: DictionaryDto,
+    model: IdDto,
   })
   create(@Body() createDictionaryDto: CreateDictionaryDto) {
     return this.dictionaryService.create({
@@ -55,7 +55,7 @@ export class DictionaryController {
   @Post('update-dictionary')
   @ApiDoc({
     summary: '更新字典',
-    model: DictionaryDto,
+    model: IdDto,
   })
   update(@Body() updateDictionaryDto: DictionaryDto) {
     return this.dictionaryService.update({
@@ -76,7 +76,7 @@ export class DictionaryController {
   @Post('batch-update-dictionary-status')
   @ApiDoc({
     summary: '批量启用禁用字典',
-    model: DictionaryDto,
+    model: CountDto,
   })
   enable(@Body() query: BatchOperationStatusIdsDto) {
     return this.dictionaryService.updateMany({
@@ -98,7 +98,7 @@ export class DictionaryController {
   @Post('create-dictionary-item')
   @ApiDoc({
     summary: '创建字典项',
-    model: DictionaryItemDto,
+    model: IdDto,
   })
   createItem(@Body() createDictionaryItemDto: CreateDictionaryItemDto) {
     return this.dictionaryService.createDictionaryItem(createDictionaryItemDto)
@@ -107,7 +107,7 @@ export class DictionaryController {
   @Post('update-dictionary-item')
   @ApiDoc({
     summary: '更新字典项',
-    model: DictionaryItemDto,
+    model: IdDto,
   })
   updateItem(@Body() updateDictionaryItemDto: UpdateDictionaryItemDto) {
     return this.dictionaryService.updateDictionaryItem({
@@ -119,7 +119,7 @@ export class DictionaryController {
   @Post('delete-dictionary-item')
   @ApiDoc({
     summary: '删除字典项',
-    model: DictionaryItemDto,
+    model: CountDto,
   })
   deleteItem(@Body() query: IdsDto) {
     return this.dictionaryService.deleteDictionaryItem(query.ids)
@@ -128,7 +128,7 @@ export class DictionaryController {
   @Post('update-dictionary-item-status')
   @ApiDoc({
     summary: '启用禁用字典项',
-    model: DictionaryItemDto,
+    model: CountDto,
   })
   enableItem(@Body() query: BatchOperationStatusIdsDto) {
     return this.dictionaryService.updateDictionaryItem(query)

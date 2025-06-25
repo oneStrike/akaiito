@@ -74,7 +74,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     const args: Record<string, any> = {}
     if (select) {
       args.select = select
-    } else {
+    } else if (this.supportsSoftDelete) {
       args.omit = omit
         ? { ...BaseRepositoryService.DEFAULT_OMIT, ...omit }
         : BaseRepositoryService.DEFAULT_OMIT
@@ -94,8 +94,6 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     const args: Record<string, any> = {}
     if (select) {
       args.select = select
-    } else if (omit) {
-      args.omit = { ...BaseRepositoryService.DEFAULT_OMIT, ...omit }
     } else {
       args.select = { id: true }
     }

@@ -25,3 +25,11 @@ export class BatchOperationStatusIdsDto {
   })
   isEnabled!: boolean
 }
+
+export class CountDto {
+  @ApiProperty({
+    description: '操作成功的数据数量',
+    example: 1,
+  })
+  count!: number
+}

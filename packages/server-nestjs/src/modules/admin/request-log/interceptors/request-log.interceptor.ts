@@ -78,8 +78,7 @@ export class AdminRequestLogInterceptor extends BaseRequestLogInterceptor {
    */
   protected extractUsername(request: FastifyRequest): string | undefined {
     const user = request.user as AdminJwtPayload | undefined
-    // @ts-expect-error ignore
-    return user?.username ?? request.body.username
+    return user?.username
   }
 
   /**

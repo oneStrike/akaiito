@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
+import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import { OrderDto } from '@/common/dto/order.dto'
 import { WorkCategoryService } from './category.service'
@@ -75,7 +75,7 @@ export class WorkCategoryController {
   @Post('/batch-update-category-status')
   @ApiDoc({
     summary: '批量更新分类状态',
-    model: IdsDto,
+    model: CountDto,
   })
   async updateStatus(@Body() body: BatchOperationStatusIdsDto) {
     return this.categoryService.updateCategoryStatus(body)
@@ -87,7 +87,7 @@ export class WorkCategoryController {
   @Post('/delete-batch')
   @ApiDoc({
     summary: '批量删除分类',
-    model: IdsDto,
+    model: CountDto,
   })
   async deleteBatch(@Body() body: { ids: number[] }) {
     return this.categoryService.deleteCategoryBatch(body.ids)
