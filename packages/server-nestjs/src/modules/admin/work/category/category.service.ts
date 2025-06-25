@@ -1,17 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
+import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { PrismaService } from '@/global/services/prisma.service'
+import { CategoryTypesEnum } from './category.constant'
 import {
   CreateCategoryDto,
-  UpdateCategoryDto,
   QueryCategoryDto,
-  UpdateCategoryStatusDto,
-  UpdateCategoryOrderDto,
-  CategoryStatsDto,
-  UpdateCategoryPopularityDto,
-  UpdateCategoryCountDto,
+  UpdateCategoryDto,
 } from './dto/category.dto'
-import { CategoryTypesEnum } from './category.constant'
 
 /**
  * 分类服务类
@@ -41,8 +37,8 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
     }
 
     // 验证应用类型的有效性
-    if (createCategoryDto.applicableContentTypes) {
-      this.validateapplicableContentTypes(createCategoryDto.applicableContentTypes)
+    if (createCategoryDto.contentTypes) {
+      this.validateapplicableContentTypes(createCategoryDto.contentTypes)
     }
 
     // 如果没有指定排序值，设置为最大值+1
@@ -59,7 +55,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
         novelCount: 0,
         comicCount: 0,
         imageSetCount: 0,
-        artworkCount: 0,
+        illustrationCount: 0,
       },
     })
   }
@@ -70,16 +66,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
    * @returns 分页结果
    */
   async getCategoryPage(queryDto: QueryCategoryDto) {
-    const {
-      pageIndex,
-      pageSize,
-      name,
-      isEnabled,
-      applicableContentTypes,
-      keyword,
-      sortBy = 'order',
-      sortOrder = 'asc',
-    } = queryDto
+    const { name, isEnabled, contentTypes } = queryDto
 
     // 构建查询条件
     const where: any = {}
@@ -88,34 +75,18 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
       where.name = { contains: name }
     }
 
-    if (keyword) {
-      where.OR = [
-        { name: { contains: keyword } },
-      ]
-    }
-
     if (isEnabled !== undefined) {
       where.isEnabled = isEnabled
     }
 
-    if (applicableContentTypes !== undefined) {
+    if (contentTypes !== undefined) {
       // 使用简单的等值查询
-      where.applicableContentTypes = applicableContentTypes
-    }
-
-    // 构建排序条件
-    const orderBy: any = {}
-    if (sortBy === 'createdAt') {
-      orderBy.createdAt = sortOrder
-    } else {
-      orderBy[sortBy] = sortOrder
+      where.contentTypes = contentTypes
     }
 
     return this.findPagination({
-      pageIndex,
-      pageSize,
       where,
-      orderBy,
+      ...queryDto,
     })
   }
 
@@ -157,8 +128,8 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
     }
 
     // 验证应用类型的有效性
-    if (updateData.applicableContentTypes !== undefined) {
-      this.validateapplicableContentTypes(updateData.applicableContentTypes)
+    if (updateData.contentTypes !== undefined) {
+      this.validateapplicableContentTypes(updateData.contentTypes)
     }
 
     return this.updateById({
@@ -172,7 +143,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
    * @param updateStatusDto 状态更新数据
    * @returns 更新结果
    */
-  async updateCategoryStatus(updateStatusDto: UpdateCategoryStatusDto) {
+  async updateCategoryStatus(updateStatusDto: BatchOperationStatusIdsDto) {
     const { ids, isEnabled } = updateStatusDto
 
     // 验证所有分类是否存在
@@ -190,58 +161,9 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
   }
 
   /**
-   * 批量更新分类排序
-   * @param updateOrderDto 排序更新数据
-   * @returns 更新结果
-   */
-  async updateCategoryOrder(updateOrderDto: UpdateCategoryOrderDto) {
-    const { ids } = updateOrderDto
-
-    // 验证所有分类是否存在
-    const categories = await this.findMany({
-      where: { id: { in: ids } },
-    })
-    if (categories.length !== ids.length) {
-      throw new BadRequestException('部分分类不存在')
-    }
-
-    // 使用事务批量更新排序
-    return this.transaction(async (prisma) => {
-      const updatePromises = ids.map((id, index) =>
-        prisma.workCategory.update({
-          where: { id },
-          data: { order: index + 1 },
-        }),
-      )
-      return Promise.all(updatePromises)
-    })
-  }
-
-  /**
-   * 删除分类
-   * @param id 分类ID
-   * @returns 删除结果
-   */
-  async deleteCategory(id: number) {
-    // 验证分类是否存在
-    const existingCategory = await this.findById({ id })
-    if (!existingCategory) {
-      throw new BadRequestException('分类不存在')
-    }
-
-    // 检查是否有关联的作品
-    const hasWorks = await this.checkCategoryHasWorks(id)
-    if (hasWorks) {
-      throw new BadRequestException('该分类下还有作品，无法删除')
-    }
-
-    return this.deleteById({ id })
-  }
-
-  /**
    * 验证应用类型
    */
-  private validateapplicableContentTypes(applicableContentTypes: number): boolean {
+  private validateapplicableContentTypes(contentTypes: number): boolean {
     const validTypes = [
       CategoryTypesEnum.PHOTO,
       CategoryTypesEnum.NOVEL,
@@ -250,7 +172,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
     ]
 
     // 检查是否为有效的枚举值
-    return validTypes.includes(applicableContentTypes)
+    return validTypes.includes(contentTypes)
   }
 
   /**
@@ -271,5 +193,11 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
     for (const id of ids) {
       const hasWorks = await this.checkCategoryHasWorks(id)
       if (hasWorks) {
-        const category = categories.find(c => c.id === id)
-        throw new BadRequestException(`分类 ${category?.name} 还有作品，无法删除`)
+        const category = categories.find((c) => c.id === id)
+        throw new BadRequestException(
+          `分类 ${category?.name} 还有作品，无法删除`,
+        )
+      }
+    }
+  }
+}

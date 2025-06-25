@@ -80,6 +80,11 @@ export class DictionaryService extends BaseRepositoryService<'Dictionary'> {
       data: {
         ...createDictionaryItemDto,
         isEnabled: createDictionaryItemDto.isEnabled ?? true,
+        parentDictionary: {
+          connect: {
+            code: createDictionaryItemDto.dictionaryCode,
+          },
+        },
       },
     })
   }

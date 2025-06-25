@@ -58,8 +58,6 @@ export class WorkAuthorService extends BaseRepositoryService<'WorkAuthor'> {
    */
   async getAuthorPage(queryAuthorDto: QueryAuthorDto) {
     const {
-      pageIndex = 1,
-      pageSize = 15,
       name,
       isEnabled,
       roles,
@@ -107,10 +105,8 @@ export class WorkAuthorService extends BaseRepositoryService<'WorkAuthor'> {
     }
 
     return this.findPagination({
-      pageIndex,
-      pageSize,
       where,
-      orderBy: { createdAt: 'desc' },
+      ...queryAuthorDto,
       omit: {
         remark: true,
         socialLinks: true,

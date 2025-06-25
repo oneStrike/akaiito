@@ -166,5 +166,5 @@ export class UpdateCategoryDto extends IntersectionType(
  */
 export class QueryCategoryDto extends IntersectionType(
   PageDto,
-  PickType(PartialType(BaseCategoryDto), ['isEnabled', 'contentTypes']),
+  PickType(PartialType(BaseCategoryDto), ['name', 'isEnabled', 'contentTypes']),
 ) {}
