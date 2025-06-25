@@ -30,7 +30,6 @@ model ClientPageConfig {
 
   /// 索引优化
   @@index([accessLevel, pageStatus]) // 按权限级别和状态查询
-  @@index([isEnabled]) // 按启用状态
   @@index([createdAt]) // 按创建时间查询
   @@index([accessCount]) // 热门页面查询
   @@map("client_page_config")

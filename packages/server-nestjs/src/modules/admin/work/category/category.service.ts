@@ -38,7 +38,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
 
     // 验证应用类型的有效性
     if (createCategoryDto.contentTypes) {
-      this.validateapplicableContentTypes(createCategoryDto.contentTypes)
+      this.validateContentTypes(createCategoryDto.contentTypes)
     }
 
     // 如果没有指定排序值，设置为最大值+1
@@ -129,7 +129,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
 
     // 验证应用类型的有效性
     if (updateData.contentTypes !== undefined) {
-      this.validateapplicableContentTypes(updateData.contentTypes)
+      this.validateContentTypes(updateData.contentTypes)
     }
 
     return this.updateById({
@@ -163,7 +163,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
   /**
    * 验证应用类型
    */
-  private validateapplicableContentTypes(contentTypes: number): boolean {
+  private validateContentTypes(contentTypes: number): boolean {
     const validTypes = [
       CategoryTypesEnum.PHOTO,
       CategoryTypesEnum.NOVEL,
@@ -199,5 +199,12 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
         )
       }
     }
+  }
+
+  /**
+   * 检查分类是否有关联的作品
+   */
+  async checkCategoryHasWorks(id: number) {
+    return false
   }
 }

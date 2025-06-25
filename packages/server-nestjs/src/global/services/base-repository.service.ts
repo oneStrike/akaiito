@@ -708,4 +708,79 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     ])
     return { total, active, deleted }
   }
+
+  /**
+   * 获取最大排序值
+   * @param where 查询条件
+   * @returns 最大排序值，如果没有记录则返回0
+   */
+  async getMaxOrder(where?: ModelTypes<T>['WhereInput']): Promise<number> {
+    let finalWhere = where
+    if (this.supportsSoftDelete) {
+      finalWhere = this.getWhereWithoutDeleted(where)
+    }
+
+    const result = await this.model.aggregate({
+      ...(finalWhere && { where: finalWhere }),
+      _max: {
+        order: true,
+      },
+    })
+
+    return result._max.order || 0
+  }
+
+  /**
+   * 拖拽排序 - 交换两条数据的排序值
+   * @param dragId 被拖拽记录的ID
+   * @param targetId 目标位置记录的ID
+   * @returns 操作结果
+   */
+  async dragSort({
+    dragId,
+    targetId,
+  }: {
+    dragId: number
+    targetId: number
+  }): Promise<{
+    dragId: number
+    targetId: number
+  }> {
+    return this.transaction(async () => {
+      // 获取被拖拽记录和目标记录
+      const [dragRecord, targetRecord] = await Promise.all([
+        this.findById({ id: dragId }),
+        this.findById({ id: targetId }),
+      ])
+
+      if (!dragRecord || !targetRecord) {
+        throw new BadRequestException('记录不存在')
+      }
+
+      const dragOrder = (dragRecord as any).order
+      const targetOrder = (targetRecord as any).order
+
+      if (dragOrder === undefined || targetOrder === undefined) {
+        throw new BadRequestException('记录缺少排序字段')
+      }
+
+      if (dragOrder === targetOrder) {
+        return { dragId, targetId }
+      }
+
+      // 交换两条记录的排序值
+      await Promise.all([
+        this.updateById({
+          id: dragId,
+          data: { order: targetOrder } as ModelTypes<T>['UpdateInput'],
+        }),
+        this.updateById({
+          id: targetId,
+          data: { order: dragOrder } as ModelTypes<T>['UpdateInput'],
+        }),
+      ])
+
+      return { dragId, targetId }
+    })
+  }
 }
