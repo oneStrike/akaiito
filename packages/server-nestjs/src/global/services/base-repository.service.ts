@@ -95,16 +95,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     if (select) {
       args.select = select
     } else if (omit) {
-      // 只保留id字段，deletedAt不参与select
-      const fields: any = { id: true }
-      if (omit && typeof omit === 'object') {
-        Object.keys(omit).forEach((k) => {
-          if (omit[k]) {
-            delete fields[k]
-          }
-        })
-      }
-      args.select = fields
+      args.omit = { ...BaseRepositoryService.DEFAULT_OMIT, ...omit }
     } else {
       args.select = { id: true }
     }
