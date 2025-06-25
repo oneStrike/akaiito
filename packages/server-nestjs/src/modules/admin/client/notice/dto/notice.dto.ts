@@ -50,7 +50,7 @@ export class BaseNoticeDto {
     enum: NoticeTypeEnum,
     default: NoticeTypeEnum.SYSTEM,
   })
-  type!: NoticeTypeEnum
+  noticeType!: NoticeTypeEnum
 
   @ValidateEnum({
     description: '优先级',
@@ -59,21 +59,21 @@ export class BaseNoticeDto {
     enum: NoticePriorityEnum,
     default: NoticePriorityEnum.MEDIUM,
   })
-  priority!: NoticePriorityEnum
+  priorityLevel!: NoticePriorityEnum
 
   @ValidateDate({
     description: '发布开始时间',
     example: '2024-01-01T00:00:00.000Z',
     required: false,
   })
-  startTime?: Date
+  publishStartTime?: Date
 
   @ValidateDate({
     description: '发布结束时间',
     example: '2024-12-31T23:59:59.999Z',
     required: false,
   })
-  endTime?: Date
+  publishEndTime?: Date
 
   @ValidateString({
     description: '关联页面代码',
@@ -87,7 +87,7 @@ export class BaseNoticeDto {
     example: 'https://example.com/bg.jpg',
     required: false,
   })
-  backgroundImage?: string
+  popupBackgroundImage?: string
 
   @ValidateBoolean({
     description: '是否发布',
@@ -95,7 +95,7 @@ export class BaseNoticeDto {
     required: true,
     default: false,
   })
-  isPublish!: boolean
+  isPublished!: boolean
 
   @ValidateBoolean({
     description: '是否启用小程序',
@@ -103,7 +103,7 @@ export class BaseNoticeDto {
     required: true,
     default: true,
   })
-  enableApplet!: boolean
+  enableMiniProgram!: boolean
 
   @ValidateBoolean({
     description: '是否启用H5',
@@ -111,7 +111,7 @@ export class BaseNoticeDto {
     required: true,
     default: true,
   })
-  enableWeb!: boolean
+  enableH5!: boolean
 
   @ValidateBoolean({
     description: '是否启用APP',
@@ -119,7 +119,7 @@ export class BaseNoticeDto {
     required: true,
     default: true,
   })
-  enableApp!: boolean
+  enableMobileApp!: boolean
 
   @ValidateBoolean({
     description: '是否置顶',
@@ -127,7 +127,7 @@ export class BaseNoticeDto {
     required: false,
     default: false,
   })
-  isTop?: boolean
+  isPinned?: boolean
 
   @ValidateBoolean({
     description: '是否弹窗显示',
@@ -135,7 +135,7 @@ export class BaseNoticeDto {
     required: false,
     default: false,
   })
-  isPopup?: boolean
+  showAsPopup?: boolean
 
   @ValidateNumber({
     description: '排序权重（数值越大越靠前）',
@@ -144,7 +144,7 @@ export class BaseNoticeDto {
     min: 0,
     default: 0,
   })
-  sortOrder?: number
+  order?: number
 
   @ValidateNumber({
     description: '阅读次数',
@@ -153,7 +153,7 @@ export class BaseNoticeDto {
     min: 0,
     default: 0,
   })
-  viewCount?: number
+  readCount?: number
 
   @ApiProperty({
     description: '创建时间',
@@ -173,8 +173,8 @@ export class BaseNoticeDto {
  */
 export class CreateNoticeDto extends OmitType(BaseNoticeDto, [
   'id',
-  'isPublish',
-  'viewCount',
+  'isPublished',
+  'readCount',
   'createdAt',
   'updatedAt',
 ]) {}
@@ -186,8 +186,8 @@ export class UpdateNoticeDto extends IntersectionType(
   PartialType(
     OmitType(BaseNoticeDto, [
       'id',
-      'viewCount',
-      'isPublish',
+      'readCount',
+      'isPublished',
       'createdAt',
       'updatedAt',
     ]),
@@ -202,10 +202,10 @@ export class QueryNoticeDto extends IntersectionType(
   PageDto,
   PickType(PartialType(BaseNoticeDto), [
     'title',
-    'type',
-    'priority',
-    'isPublish',
-    'isTop',
+    'noticeType',
+    'priorityLevel',
+    'isPublished',
+    'isPinned',
   ]),
 ) {}
 
@@ -213,7 +213,7 @@ export class QueryNoticeDto extends IntersectionType(
  * 通知状态更新DTO
  */
 export class UpdateNoticeStatusDto extends PickType(BaseNoticeDto, [
-  'isPublish',
+  'isPublished',
 ]) {
   @ValidateNumberArray({
     description: '通知ID列表',

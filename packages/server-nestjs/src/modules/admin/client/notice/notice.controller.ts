@@ -24,7 +24,7 @@ export class ClientNoticeController {
   /**
    * 创建通知
    */
-  @Post('/notice-create')
+  @Post('/create-notice')
   @ApiDoc({
     summary: '创建通知消息',
     model: IdDto,
@@ -60,7 +60,7 @@ export class ClientNoticeController {
   /**
    * 更新通知
    */
-  @Post('notice-update')
+  @Post('update-notice')
   @ApiDoc({
     summary: '更新通知消息',
     model: IdDto,
@@ -73,7 +73,7 @@ export class ClientNoticeController {
   /**
    * 更新通知状态
    */
-  @Post('notice-update-status')
+  @Post('update-notice-status')
   @ApiDoc({
     summary: '更新通知状态',
     model: IdsDto,
@@ -81,14 +81,14 @@ export class ClientNoticeController {
   async updateStatus(@Body() body: UpdateNoticeStatusDto) {
     return this.noticeService.updateMany({
       where: { id: { in: body.ids } },
-      data: { isPublish: body.isPublish },
+      data: { isPublished: body.isPublished },
     })
   }
 
   /**
    * 批量删除通知
    */
-  @Post('notice-batch-delete')
+  @Post('batch-delete-notice')
   @ApiDoc({
     summary: '批量删除通知',
     model: IdsDto,

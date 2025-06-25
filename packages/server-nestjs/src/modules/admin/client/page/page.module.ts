@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
-import { ClientPageConfigController } from './page-config.controller'
-import { ClientPageConfigService } from './page-config.service'
+import { ClientPageConfigController } from './page.controller'
+import { ClientPageConfigService } from './page.service'
 
 /**
  * 客户端页面配置模块

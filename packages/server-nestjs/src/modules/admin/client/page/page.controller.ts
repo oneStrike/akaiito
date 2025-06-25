@@ -8,43 +8,45 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { BatchOperationResultDto } from '@/common/dto/batch.dto'
+import {
+  BatchOperationResultDto,
+  BatchOperationStatusIdsDto,
+} from '@/common/dto/batch.dto'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import {
+  BasePageConfigFieldsDto,
   ClientPageConfigPageResponseDto,
   ClientPageConfigResponseDto,
-  CreateClientPageConfigDto,
-  IncrementViewCountDto,
   QueryClientPageConfigDto,
   UpdateClientPageConfigDto,
-} from './dto/page-config.dto'
-import { ClientPageConfigService } from './page-config.service'
+} from './dto/page.dto'
+import { ClientPageConfigService } from './page.service'
 
 /**
  * 客户端页面配置控制器
  * 提供页面配置相关的API接口
  */
 @ApiTags('客户端页面配置模块')
-@Controller('admin/page-config')
+@Controller('admin/client-page')
 export class ClientPageConfigController {
   constructor(private readonly pageConfigService: ClientPageConfigService) {}
 
   /**
    * 创建页面配置
    */
-  @Post('/page-config-create')
+  @Post('/create-client-page')
   @ApiDoc({
     summary: '创建页面配置',
     model: IdDto,
   })
-  async create(@Body() body: CreateClientPageConfigDto) {
+  async create(@Body() body: BasePageConfigFieldsDto) {
     return this.pageConfigService.createPageConfig(body)
   }
 
   /**
    * 分页查询页面配置列表
    */
-  @Get('/page-config-page')
+  @Get('/client-page-page')
   @ApiPageDoc({
     summary: '分页查询页面配置列表',
     model: ClientPageConfigPageResponseDto,
@@ -56,72 +58,57 @@ export class ClientPageConfigController {
   /**
    * 根据ID查询页面配置详情
    */
-  @Get('/page-config-detail-by-id')
+  @Get('/client-page-detail-by-id')
   @ApiDoc({
     summary: '根据ID查询页面配置详情',
     model: ClientPageConfigResponseDto,
   })
   async findDetail(@Query('id', ParseIntPipe) id: number) {
-    return this.pageConfigService.findDetail(id)
+    return this.pageConfigService.findById({ id })
   }
 
   /**
    * 根据页面编码查询页面配置详情
    */
-  @Get('/page-config-detail-by-code')
+  @Get('/client-page-detail-by-code')
   @ApiDoc({
     summary: '根据页面编码查询页面配置详情',
     model: ClientPageConfigResponseDto,
   })
   async findByCode(@Query('pageCode') pageCode: string) {
-    return this.pageConfigService.findByPageCode(pageCode)
+    return this.pageConfigService.findByUnique({ where: { pageCode } })
   }
 
   /**
    * 批量更新页面配置状态
    */
-  @Post('/page-config-update')
+  @Post('/update-client-page')
   @ApiDoc({
     summary: '更新页面配置',
     model: IdDto,
   })
   async update(@Body() body: UpdateClientPageConfigDto) {
     const { id, ...data } = body
-    return this.pageConfigService.updateById({
-      id,
-      data,
-    })
+    return this.pageConfigService.updatePage(body)
   }
 
   /**
    * 批量更新页面配置状态
    */
-  @Post('/page-config-batch-update-status')
+  @Post('/batch-update-client-page-status')
   @ApiDoc({
     summary: '批量更新页面配置状态',
     model: BatchOperationResultDto,
   })
-  async batchUpdateStatus(@Body() body: { ids: number[]; status: string }) {
-    const { ids, status } = body
-    return this.pageConfigService.batchUpdateStatus(ids, status)
-  }
-
-  /**
-   * 增加页面访问次数
-   */
-  @Post('/page-config-increment-view')
-  @ApiDoc({
-    summary: '增加页面访问次数',
-    model: IdDto,
-  })
-  async incrementViewCount(@Body() body: IncrementViewCountDto) {
-    return this.pageConfigService.incrementViewCount(body.pageCode)
+  async batchUpdateStatus(@Body() body: BatchOperationStatusIdsDto) {
+    const { ids, isEnabled } = body
+    return this.pageConfigService.batchUpdateStatus(ids, isEnabled)
   }
 
   /**
    * 批量软删除页面配置
    */
-  @Post('/page-config-batch-delete')
+  @Post('/batch-delete-client-page')
   @ApiDoc({
     summary: '批量软删除页面配置',
     model: BatchOperationResultDto,

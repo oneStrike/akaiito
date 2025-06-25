@@ -16,9 +16,9 @@ model ClientNotice {
   /// 发布结束时间
   publishEndTime       DateTime?         @map("publish_end_time") @db.Timestamptz
   /// 关联页面配置
-  clientPage           ClientPageConfig? @relation("notices", fields: [targetPageCode], references: [pageCode], onDelete: SetNull)
+  clientPage           ClientPageConfig? @relation("notices", fields: [pageCode], references: [pageCode], onDelete: SetNull)
   /// 页面代码，点击公告跳转的页面
-  targetPageCode       String?           @map("target_page_code") @db.VarChar(50)
+  pageCode             String?           @map("page_code") @db.VarChar(50)
   /// 通知弹窗的背景图片
   popupBackgroundImage String?           @map("popup_background_image") @db.VarChar(200)
   /// 发布状态（true:已发布, false:未发布）
@@ -49,7 +49,7 @@ model ClientNotice {
   @@index([noticeType, isPublished]) // 按类型和发布状态查询
   @@index([priorityLevel, isPinned, order]) // 排序相关字段
   @@index([createdAt]) // 按创建时间查询
-  @@index([targetPageCode]) // 外键索引
+  @@index([pageCode]) // 外键索引
   @@index([showAsPopup, isPublished]) // 弹窗通知查询
   @@index([readCount]) // 热门通知查询
   @@map("client_notice")

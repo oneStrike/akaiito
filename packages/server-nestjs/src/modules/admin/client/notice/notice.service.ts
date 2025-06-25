@@ -28,8 +28,8 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
    */
   async createNotice(createNoticeDto: CreateNoticeDto) {
     // 验证时间范围
-    if (createNoticeDto.startTime && createNoticeDto.endTime) {
-      if (createNoticeDto.startTime >= createNoticeDto.endTime) {
+    if (createNoticeDto.publishStartTime && createNoticeDto.publishEndTime) {
+      if (createNoticeDto.publishStartTime >= createNoticeDto.publishEndTime) {
         throw new BadRequestException('发布开始时间不能大于或等于结束时间')
       }
     }
@@ -43,25 +43,26 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
    * @returns 分页的通知列表
    */
   async findNoticePage(queryNoticeDto: QueryNoticeDto) {
-    const { title, type, priority, isPublish, isTop } = queryNoticeDto
+    const { title, noticeType, priorityLevel, isPinned, isPublished } =
+      queryNoticeDto
 
     const where: ClientNoticeWhereInput = {}
 
     if (title) {
       where.title = { contains: title, mode: 'insensitive' }
     }
-    if (type !== undefined) where.type = type
-    if (priority !== undefined) where.priority = priority
-    if (isPublish !== undefined) where.isPublish = isPublish
-    if (isTop !== undefined) where.isTop = isTop
+    if (noticeType !== undefined) where.noticeType = noticeType
+    if (priorityLevel !== undefined) where.priorityLevel = priorityLevel
+    if (isPublished !== undefined) where.isPublished = isPublished
+    if (isPinned !== undefined) where.isPinned = isPinned
 
     return this.findPagination({
       ...queryNoticeDto,
       where,
-      omit:{
-        content:true,
-        backgroundImage:true,
-      }
+      omit: {
+        content: true,
+        popupBackgroundImage: true,
+      },
     })
   }
 
@@ -82,32 +83,35 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
 
     return await this.findMany({
       where: {
-        isPublish: true, // 已发布
+        isPublished: true, // 已发布
         ...platformCondition,
         OR: [
           {
-            AND: [{ startTime: { lte: now } }, { endTime: { gte: now } }],
+            AND: [
+              { publishStartTime: { lte: now } },
+              { publishEndTime: { gte: now } },
+            ],
           },
           {
-            AND: [{ startTime: null }, { endTime: null }],
+            AND: [{ publishStartTime: null }, { publishEndTime: null }],
           },
           {
-            AND: [{ startTime: { lte: now } }, { endTime: null }],
+            AND: [{ publishStartTime: { lte: now } }, { publishEndTime: null }],
           },
           {
-            AND: [{ startTime: null }, { endTime: { gte: now } }],
+            AND: [{ publishStartTime: null }, { publishEndTime: { gte: now } }],
           },
         ],
       },
       orderBy: [
-        { isTop: 'desc' },
-        { priority: 'desc' },
-        { sortOrder: 'desc' },
+        { isPinned: 'desc' },
+        { priorityLevel: 'desc' },
+        { order: 'desc' },
         { createdAt: 'desc' },
       ],
       omit: {
         content: true,
-        backgroundImage: true,
+        popupBackgroundImage: true,
       },
     })
   }
@@ -141,8 +145,8 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     const { id, ...updateData } = updateNoticeDto
 
     // 验证时间范围
-    if (updateData.startTime && updateData.endTime) {
-      if (updateData.startTime >= updateData.endTime) {
+    if (updateData.publishStartTime && updateData.publishEndTime) {
+      if (updateData.publishStartTime >= updateData.publishEndTime) {
         throw new BadRequestException('发布开始时间不能大于或等于结束时间')
       }
     }
@@ -163,7 +167,7 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     const notice = await this.findFirst({
       where: {
         id,
-        isPublish: true,
+        isPublished: true,
       },
     })
 
@@ -175,13 +179,13 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     return await this.update({
       where: { id },
       data: {
-        viewCount: {
+        readCount: {
           increment: 1,
         },
       },
       select: {
         id: true,
-        viewCount: true,
+        readCount: true,
       },
     })
   }

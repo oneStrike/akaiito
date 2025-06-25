@@ -12,7 +12,7 @@ import {
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
-import { PageRuleEnum, PageStatusEnum } from '../page-code.constant'
+import { PageRuleEnum, PageStatusEnum } from '../page.constant'
 
 /**
  * 页面配置基础字段DTO
@@ -57,7 +57,7 @@ export class BasePageConfigFieldsDto {
     enum: PageRuleEnum,
     default: PageRuleEnum.GUEST,
   })
-  pageRule!: PageRuleEnum
+  accessLevel!: PageRuleEnum
 
   @ValidateEnum({
     description: '页面状态',
@@ -66,7 +66,7 @@ export class BasePageConfigFieldsDto {
     enum: PageStatusEnum,
     default: PageStatusEnum.ENABLED,
   })
-  status!: PageStatusEnum
+  pageStatus!: PageStatusEnum
 
   @ValidateString({
     description: '页面描述信息',
@@ -75,21 +75,7 @@ export class BasePageConfigFieldsDto {
     maxLength: 500,
   })
   description?: string
-
-  @ValidateNumber({
-    description: '排序权重（数值越大越靠前）',
-    example: 100,
-    required: false,
-    min: 0,
-    default: 0,
-  })
-  sortOrder?: number
 }
-
-/**
- * 创建页面配置DTO
- */
-export class CreateClientPageConfigDto extends BasePageConfigFieldsDto {}
 
 /**
  * 更新页面配置DTO
@@ -113,8 +99,8 @@ export class QueryClientPageConfigDto extends IntersectionType(
   PickType(PartialType(BasePageConfigFieldsDto), [
     'pageName',
     'pageCode',
-    'pageRule',
-    'status',
+    'accessLevel',
+    'pageStatus',
   ]),
 ) {}
 
@@ -151,6 +137,7 @@ export class ClientPageConfigPageResponseDto extends OmitType(
   ClientPageConfigResponseDto,
   ['description'],
 ) {}
+
 /**
  * 增加页面访问次数DTO
  */

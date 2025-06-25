@@ -10,8 +10,6 @@ model ClientPageConfig {
   pageName    String    @map("page_name") @db.VarChar(100)
   /// 页面标题（用于SEO）
   pageTitle   String?   @map("page_title") @db.VarChar(200)
-  /// 是否启用页面
-  isEnabled   Boolean   @default(true) @map("is_enabled")
   /// 访问权限级别（0:游客可访问, 1:需要登录, 2:需要会员, 3:需要VIP）
   accessLevel Int       @default(0) @map("access_level") @db.SmallInt
   /// 页面状态（0:禁用, 1:启用, 2:开发中, 3:维护中）

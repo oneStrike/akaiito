@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
-import { PageStatusEnum } from '@/modules/admin/client/page-config/page-code.constant'
+import { PageStatusEnum } from '@/modules/admin/client/page/page.constant'
 import { ClientPageConfigWhereInput } from '@/prisma/client/models/ClientPageConfig'
 import {
-  CreateClientPageConfigDto,
+  BasePageConfigFieldsDto,
   QueryClientPageConfigDto,
   UpdateClientPageConfigDto,
-} from './dto/page-config.dto'
+} from './dto/page.dto'
 
 /**
  * 页面配置服务类
@@ -22,7 +22,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
    * @param createPageConfigDto 创建页面配置的数据
    * @returns 创建的页面配置信息
    */
-  async createPageConfig(createPageConfigDto: CreateClientPageConfigDto) {
+  async createPageConfig(createPageConfigDto: BasePageConfigFieldsDto) {
     // 验证页面编码是否已存在
     const existingByCode = await this.findFirst({
       where: { pageCode: createPageConfigDto.pageCode },
@@ -52,7 +52,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
    * @returns 分页的页面配置列表
    */
   async findPageConfigPage(queryPageConfigDto: QueryClientPageConfigDto) {
-    const { pageName, pageCode, pageRule, status } = queryPageConfigDto
+    const { pageName, pageCode, accessLevel, pageStatus } = queryPageConfigDto
 
     const where: ClientPageConfigWhereInput = {}
 
@@ -62,8 +62,8 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
     if (pageCode) {
       where.pageCode = pageCode
     }
-    if (pageRule !== undefined) where.pageRule = pageRule
-    if (status !== undefined) where.status = status
+    if (accessLevel !== undefined) where.accessLevel = accessLevel
+    if (pageStatus !== undefined) where.pageStatus = pageStatus
 
     return this.findPagination({
       ...queryPageConfigDto,
@@ -74,16 +74,16 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
 
   /**
    * 获取启用的页面配置列表（客户端使用）
-   * @param pageRule 页面权限级别过滤
+   * @param accessLevel 页面权限级别过滤
    * @returns 启用的页面配置列表
    */
-  async findActivePageConfigs(pageRule?: string) {
+  async findActivePageConfigs(accessLevel?: string) {
     const where: ClientPageConfigWhereInput = {
-      status: PageStatusEnum.ENABLED, // 只返回启用的页面
+      pageStatus: PageStatusEnum.ENABLED, // 只返回启用的页面
     }
 
-    if (pageRule) {
-      where.pageRule = pageRule as any
+    if (accessLevel) {
+      where.accessLevel = accessLevel as any
     }
 
     return await this.findMany({
@@ -95,79 +95,9 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
         pagePath: true,
         pageName: true,
         pageTitle: true,
-        pageRule: true,
+        accessLevel: true,
         description: true,
-        viewCount: true,
-      },
-    })
-  }
-
-  /**
-   * 根据页面编码查询页面配置详情
-   * @param pageCode 页面编码
-   * @returns 页面配置详情
-   */
-  async findByPageCode(pageCode: string) {
-    const pageConfig = await this.findFirst({
-      where: { pageCode },
-      include: {
-        notices: {
-          where: {
-            isPublish: true,
-            OR: [
-              {
-                AND: [
-                  { startTime: { lte: new Date() } },
-                  { endTime: { gte: new Date() } },
-                ],
-              },
-              {
-                AND: [{ startTime: null }, { endTime: null }],
-              },
-            ],
-          },
-          orderBy: [
-            { isTop: 'desc' },
-            { priority: 'desc' },
-            { createdAt: 'desc' },
-          ],
-          take: 10, // 最多返回10条通知
-        },
-      },
-    })
-
-    if (!pageConfig) {
-      throw new BadRequestException(`页面编码 "${pageCode}" 不存在`)
-    }
-
-    return pageConfig
-  }
-
-  /**
-   * 根据ID查询页面配置详情
-   * @param id 页面配置ID
-   * @returns 页面配置详情
-   */
-  async findDetail(id: number) {
-    return await this.findById({
-      id,
-      include: {
-        notices: {
-          select: {
-            id: true,
-            title: true,
-            type: true,
-            priority: true,
-            isPublish: true,
-            isTop: true,
-            createdAt: true,
-          },
-          orderBy: [
-            { isTop: 'desc' },
-            { priority: 'desc' },
-            { createdAt: 'desc' },
-          ],
-        },
+        accessCount: true,
       },
     })
   }
@@ -177,7 +107,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
    * @param updatePageConfigDto 更新数据
    * @returns 更新后的页面配置信息
    */
-  async updatePageConfig(updatePageConfigDto: UpdateClientPageConfigDto) {
+  async updatePage(updatePageConfigDto: UpdateClientPageConfigDto) {
     const { id, ...updateData } = updatePageConfigDto
 
     // 如果更新页面编码，验证是否已存在
@@ -226,7 +156,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
     const pageConfig = await this.findFirst({
       where: {
         pageCode,
-        status: PageStatusEnum.ENABLED,
+        pageStatus: PageStatusEnum.ENABLED,
       },
       select: {
         id: true,
@@ -241,7 +171,7 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
     return await this.update({
       where: { id: pageConfig.id },
       data: {
-        viewCount: {
+        accessCount: {
           increment: 1,
         },
       },
@@ -251,15 +181,15 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
   /**
    * 批量更新页面状态
    * @param ids 页面配置ID数组
-   * @param status 新状态
+   * @param isEnabled 新状态
    * @returns 更新结果
    */
-  async batchUpdateStatus(ids: number[], status: string) {
+  async batchUpdateStatus(ids: number[], isEnabled: boolean) {
     return await this.updateMany({
       where: {
         id: { in: ids },
       },
-      data: { status: status as any },
+      data: { isEnabled },
     })
   }
 }
