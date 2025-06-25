@@ -34,7 +34,7 @@
         case 'delete':
           useConfirm(
             'delete',
-            () => dataDictApi.dictionaryDeleteApi({ ids }),
+            () => dataDictApi.deleteDictionaryApi({ ids }),
             tableRef.value?.reset,
           )
           break
@@ -42,7 +42,7 @@
           useConfirm(
             'enable',
             () =>
-              dataDictApi.dictionaryUpdateEnableStatusApi({
+              dataDictApi.batchUpdateDictionaryStatusApi({
                 ids,
                 isEnabled: true,
               }),
@@ -53,7 +53,7 @@
           useConfirm(
             'disable',
             () =>
-              dataDictApi.dictionaryUpdateEnableStatusApi({
+              dataDictApi.batchUpdateDictionaryStatusApi({
                 ids,
                 isEnabled: false,
               }),
@@ -67,13 +67,13 @@
   async function addDictionary(value: any) {
     formModal.loading = true
     if (currentRow.value) {
-      await dataDictApi.dictionaryUpdateApi({
+      await dataDictApi.updateDictionaryApi({
         ...value,
         id: currentRow.value.id,
       })
       useMessage.success(PromptsEnum.UPDATED)
     } else {
-      await dataDictApi.dictionaryCreateApi(value)
+      await dataDictApi.createDictionaryApi(value)
       useMessage.success(PromptsEnum.CREATED)
     }
     formModal.show = false
@@ -112,7 +112,7 @@
       </template>
       <template #isEnabled="{ row }">
         <EsSwitch
-          :request="dataDictApi.dictionaryUpdateEnableStatusApi"
+          :request="dataDictApi.batchUpdateDictionaryStatusApi"
           :row="row"
           ids
           @success="tableRef?.refresh()"
@@ -121,7 +121,7 @@
       <template #action="{ row }">
         <el-button type="primary" link @click="edit(row)">编辑</el-button>
         <EsPopConfirm
-          :request="dataDictApi.dictionaryDeleteApi"
+          :request="dataDictApi.deleteDictionaryApi"
           :row="row"
           ids
           @success="tableRef?.refresh()"

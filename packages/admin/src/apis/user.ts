@@ -27,7 +27,7 @@ import type {
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/get-captcha
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export const getCaptchaApi = (): Promise<GetCaptchaResponse> => {
@@ -43,7 +43,7 @@ export const getCaptchaApi = (): Promise<GetCaptchaResponse> => {
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/user-login
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export const userLoginApi = (data: UserLoginRequest): Promise<UserLoginResponse> => {
@@ -62,7 +62,7 @@ export const userLoginApi = (data: UserLoginRequest): Promise<UserLoginResponse>
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
  *  @地址 /api/admin/user/user-logout
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export const userLogoutApi = (data: UserLogoutRequest): Promise<UserLogoutResponse> => {
@@ -81,7 +81,7 @@ export const userLogoutApi = (data: UserLogoutRequest): Promise<UserLogoutRespon
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/user-register
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export const userRegisterApi = (data: UserRegisterRequest): Promise<UserRegisterResponse> => {
@@ -100,7 +100,7 @@ export const userRegisterApi = (data: UserRegisterRequest): Promise<UserRegister
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/user-refresh-token
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export const userRefreshTokenApi = (data: UserRefreshTokenRequest): Promise<UserRefreshTokenResponse> => {
@@ -119,7 +119,7 @@ export const userRefreshTokenApi = (data: UserRefreshTokenRequest): Promise<User
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-password
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export const userUpdatePasswordApi = (data: UserUpdatePasswordRequest): Promise<UserUpdatePasswordResponse> => {
@@ -138,7 +138,7 @@ export const userUpdatePasswordApi = (data: UserUpdatePasswordRequest): Promise<
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-info
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export const userUpdateInfoApi = (data: UserUpdateInfoRequest): Promise<UserUpdateInfoResponse> => {
@@ -157,7 +157,7 @@ export const userUpdateInfoApi = (data: UserUpdateInfoRequest): Promise<UserUpda
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-Info
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export const userInfoApi = (): Promise<UserInfoResponse> => {
@@ -173,7 +173,7 @@ export const userInfoApi = (): Promise<UserInfoResponse> => {
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-info-by-id
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export const userInfoByIdApi = (params: UserInfoByIdRequest): Promise<UserInfoByIdResponse> => {
@@ -190,7 +190,7 @@ export const userInfoByIdApi = (params: UserInfoByIdRequest): Promise<UserInfoBy
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/user-page
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export const userPageApi = (params: UserPageRequest): Promise<UserPageResponse> => {
@@ -207,7 +207,7 @@ export const userPageApi = (params: UserPageRequest): Promise<UserPageResponse> 
  *  @标签 管理端用户模块/删除用户
  *  @方式 POST
  *  @地址 /api/admin/user/user-delete
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export const userDeleteApi = (data: UserDeleteRequest): Promise<UserDeleteResponse> => {

@@ -266,7 +266,7 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
    * 注册管理员用户
    */
   async register(body: UserRegisterDto) {
-    const { username, password, confirmPassword, avatar, role } = body
+    const { username, mobile, password, confirmPassword, avatar, role } = body
     if (password !== confirmPassword) {
       throw new BadRequestException('密码和确认密码不一致')
     }
@@ -274,12 +274,12 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
     // 检查用户名是否已存在
     const existingUser = await this.prisma.adminUser.findFirst({
       where: {
-        username,
+        OR: [{ username }, { mobile: body.mobile }],
       },
     })
 
     if (existingUser) {
-      throw new BadRequestException('用户名已被使用')
+      throw new BadRequestException('用户名或手机号已被使用')
     }
 
     // 加密密码
@@ -293,7 +293,6 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
         avatar,
         role: role || 0,
         isEnabled: true,
-        passwordExpires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000), // 90天后过期
       },
       select: {
         id: true,
@@ -307,6 +306,13 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
   async getUserInfo(userId: number) {
     const user = await this.prisma.adminUser.findUnique({
       where: { id: userId },
+      omit: {
+        password: true,
+        isLocked: true,
+        loginFailCount: true,
+        lastLoginIp: true,
+        lastLoginAt: true,
+      },
     })
 
     if (!user) {
@@ -314,20 +320,7 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
     }
 
     // 返回用户信息（不包含密码）
-    return {
-      id: user.id,
-      username: user.username,
-      avatar: user.avatar,
-      isEnabled: user.isEnabled,
-      role: user.role,
-      lastLoginAt: user.lastLoginAt,
-      lastLoginIp: user.lastLoginIp,
-      loginFailCount: user.loginFailCount,
-      isLocked: user.isLocked,
-      passwordExpires: user.passwordExpires,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    }
+    return user
   }
 
   /**
@@ -353,6 +346,10 @@ export class AdminUserService extends BaseRepositoryService<'AdminUser'> {
       ...queryDto,
       omit: {
         password: true,
+        isLocked: true,
+        loginFailCount: true,
+        lastLoginIp: true,
+        lastLoginAt: true,
       },
     })
   }

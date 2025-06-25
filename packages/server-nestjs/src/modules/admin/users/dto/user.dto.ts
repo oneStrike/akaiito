@@ -5,7 +5,6 @@ import {
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { PageDto } from '@/common/dto/page.dto'
-import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import { TokenDto } from './token.dto'
 
 export class UserDto {
@@ -25,6 +24,13 @@ export class UserDto {
     minLength: 5,
   })
   username!: string
+
+  @ValidateString({
+    description: '手机号',
+    example: '13838384388',
+    required: true,
+  })
+  mobile!: string
 
   @ValidateString({
     description: '头像',
@@ -77,13 +83,6 @@ export class UserDto {
     default: false,
   })
   isLocked: boolean
-
-  @ApiProperty({
-    description: '密码过期时间',
-    example: '2021-01-01 00:00:00',
-    required: false,
-  })
-  passwordExpires?: Date
 
   @ApiProperty({
     description: '创建时间',
@@ -144,7 +143,6 @@ export class UserRegisterDto extends OmitType(UserDto, [
   'lastLoginIp',
   'loginFailCount',
   'isLocked',
-  'passwordExpires',
   'createdAt',
   'updatedAt',
 ]) {
@@ -169,7 +167,6 @@ export class UpdateUserDto extends OmitType(UserDto, [
   'lastLoginIp',
   'loginFailCount',
   'isLocked',
-  'passwordExpires',
   'createdAt',
   'updatedAt',
 ]) {

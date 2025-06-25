@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import type {
-    NoticeCreateRequest,
+    CreateNoticeRequest,
     NoticeDetailResponse,
-    NoticeUpdateRequest,
+    UpdateNoticeRequest,
   } from '@/apis/types/notice'
   import type { EsTableColumn } from '@/components/es-table/types.ts'
   import type { ToolbarFilter } from '@/components/es-toolbar/types.ts'
@@ -99,7 +99,7 @@
     modalFrom.show = true
   }
 
-  const submitForm = async (value: NoticeUpdateRequest & IterateObject) => {
+  const submitForm = async (value: UpdateNoticeRequest & IterateObject) => {
     modalFrom.loading = true
     if (value.pageCode) {
       const pages = formTool.getItem('pageCode')[0].componentProps!.options!
@@ -120,9 +120,9 @@
     }
     if (currentRow.value?.id) {
       value.id = currentRow.value.id
-      await noticeApi.noticeUpdateApi(value)
+      await noticeApi.updateNoticeApi(value)
     } else {
-      await noticeApi.noticeCreateApi(value as NoticeCreateRequest)
+      await noticeApi.createNoticeApi(value as CreateNoticeRequest)
     }
     useMessage.success(
       currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
@@ -166,14 +166,14 @@
         </el-button>
         <EsPopConfirm
           ids
-          :request="noticeApi.noticeBatchDeleteApi"
+          :request="noticeApi.batchDeleteNoticeApi"
           :row="row"
           @success="tableRef?.reset()"
         />
         <EsPopConfirm
           :disabled="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
           :confirm-text="row.isPublish ? '取消发布' : '发布'"
-          :request="noticeApi.noticeUpdateStatusApi"
+          :request="noticeApi.updateNoticeStatusApi"
           :row="row"
           ids
           field="isPublish"

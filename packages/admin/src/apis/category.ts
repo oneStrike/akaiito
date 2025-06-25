@@ -1,46 +1,105 @@
 import { httpHandler } from '@/utils/request'
 import type {
-  GetCategoryPageTypesRes,
-  GetCategoryPageTypesReq,
-  CreateCategoryTypesRes,
-  CreateCategoryTypesReq,
-  UpdateCategoryTypesRes,
-  UpdateCategoryTypesReq,
-  UpdateCategoryStatusTypesRes,
-  UpdateCategoryStatusTypesReq,
-  DeleteCategoryTypesRes,
-  DeleteCategoryTypesReq,
+  CreateCategoryResponse,
+  CreateCategoryRequest,
+  CategoryPageResponse,
+  CategoryPageRequest,
+  CategoryDetailResponse,
+  CategoryDetailRequest,
+  UpdateCategoryResponse,
+  UpdateCategoryRequest,
+  BatchUpdateCategoryStatusResponse,
+  BatchUpdateCategoryStatusRequest,
+  DeleteBatchResponse,
+  CategoryOrderResponse,
+  CategoryOrderRequest,
 } from './types/category.d'
 
 /**
- *  接口 [获取内容分类分页](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-215788540)
- *  @标签 分类管理/获取内容分类分页
- *  @方式 GET
- *  @地址 /admin/contentMgmt/category/getCategoryPage
- *  @更新时间 2024-12-03 20:24:50
+ *  接口 [创建分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391308)
+ *  @标签 分类管理模块/创建分类
+ *  @方式 POST
+ *  @地址 /api/admin/work/category/create-category
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const getCategoryPageApi = (params: GetCategoryPageTypesReq): Promise<GetCategoryPageTypesRes> => {
+export const createCategoryApi = (data: CreateCategoryRequest): Promise<CreateCategoryResponse> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/api/admin/work/category/create-category',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [分页查询分类列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391309)
+ *  @标签 分类管理模块/分页查询分类列表
+ *  @方式 GET
+ *  @地址 /api/admin/work/category/category-page
+ *  @更新时间 2025-06-25 11:22:00
+ */
+
+export const categoryPageApi = (params: CategoryPageRequest): Promise<CategoryPageResponse> => {
   return httpHandler({
     method: 'GET',
-    url: '/admin/contentMgmt/category/getCategoryPage',
+    url: '/api/admin/work/category/category-page',
     headers: {},
     params,
   })
 }
 
 /**
- *  接口 [创建内容分类](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-220368708)
- *  @标签 分类管理/创建内容分类
- *  @方式 POST
- *  @地址 /admin/contentMgmt/category/createCategory
- *  @更新时间 2024-10-07 10:44:25
+ *  接口 [获取分类详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391310)
+ *  @标签 分类管理模块/获取分类详情
+ *  @方式 GET
+ *  @地址 /api/admin/work/category/category-detail
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const createCategoryApi = (data: CreateCategoryTypesReq): Promise<CreateCategoryTypesRes> => {
+export const categoryDetailApi = (params: CategoryDetailRequest): Promise<CategoryDetailResponse> => {
+  return httpHandler({
+    method: 'GET',
+    url: '/api/admin/work/category/category-detail',
+    headers: {},
+    params,
+  })
+}
+
+/**
+ *  接口 [更新分类信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391311)
+ *  @标签 分类管理模块/更新分类信息
+ *  @方式 PUT
+ *  @地址 /api/admin/work/category/update-category
+ *  @更新时间 2025-06-25 11:22:00
+ */
+
+export const updateCategoryApi = (): Promise<UpdateCategoryResponse> => {
+  return httpHandler({
+    method: 'PUT',
+    url: '/api/admin/work/category/update-category',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+/**
+ *  接口 [批量更新分类状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391312)
+ *  @标签 分类管理模块/批量更新分类状态
+ *  @方式 POST
+ *  @地址 /api/admin/work/category/batch-update-category-status
+ *  @更新时间 2025-06-25 11:22:00
+ */
+
+export const batchUpdateCategoryStatusApi = (
+  data: BatchUpdateCategoryStatusRequest,
+): Promise<BatchUpdateCategoryStatusResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/admin/contentMgmt/category/createCategory',
+    url: '/api/admin/work/category/batch-update-category-status',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -49,55 +108,33 @@ export const createCategoryApi = (data: CreateCategoryTypesReq): Promise<CreateC
 }
 
 /**
- *  接口 [更新分类接口](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-220372206)
- *  @标签 分类管理/更新分类接口
+ *  接口 [批量删除分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391313)
+ *  @标签 分类管理模块/批量删除分类
  *  @方式 POST
- *  @地址 /admin/contentMgmt/category/updateCategory
- *  @更新时间 2024-10-07 11:30:01
+ *  @地址 /api/admin/work/category/delete-batch
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const updateCategoryApi = (data: UpdateCategoryTypesReq): Promise<UpdateCategoryTypesRes> => {
+export const deleteBatchApi = (): Promise<DeleteBatchResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/admin/contentMgmt/category/updateCategory',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data,
+    url: '/api/admin/work/category/delete-batch',
+    headers: {},
   })
 }
 
 /**
- *  接口 [更新分类状态](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-220372569)
- *  @标签 分类管理/更新分类状态
+ *  接口 [分类拖拽排序](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391314)
+ *  @标签 分类管理模块/分类拖拽排序
  *  @方式 POST
- *  @地址 /admin/contentMgmt/category/updateCategoryStatus
- *  @更新时间 2024-10-07 11:41:35
+ *  @地址 /api/admin/work/category/category-order
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const updateCategoryStatusApi = (data: UpdateCategoryStatusTypesReq): Promise<UpdateCategoryStatusTypesRes> => {
+export const categoryOrderApi = (data: CategoryOrderRequest): Promise<CategoryOrderResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/admin/contentMgmt/category/updateCategoryStatus',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data,
-  })
-}
-
-/**
- *  接口 [删除分类](https://apifox.com/apidoc/shared-2222281e-f529-4e28-9ebf-a4b667d2982c/api-220372611)
- *  @标签 分类管理/删除分类
- *  @方式 POST
- *  @地址 /admin/contentMgmt/category/deleteCategory
- *  @更新时间 2024-10-07 11:43:30
- */
-
-export const deleteCategoryApi = (data: DeleteCategoryTypesReq): Promise<DeleteCategoryTypesRes> => {
-  return httpHandler({
-    method: 'POST',
-    url: '/admin/contentMgmt/category/deleteCategory',
+    url: '/api/admin/work/category/category-order',
     headers: {
       'Content-Type': 'application/json',
     },

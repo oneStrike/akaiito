@@ -1,31 +1,31 @@
 import { httpHandler } from '@/utils/request'
 import type {
-  NoticeCreateResponse,
-  NoticeCreateRequest,
+  CreateNoticeResponse,
+  CreateNoticeRequest,
   NoticePageResponse,
   NoticePageRequest,
   NoticeDetailResponse,
   NoticeDetailRequest,
-  NoticeUpdateResponse,
-  NoticeUpdateRequest,
-  NoticeUpdateStatusResponse,
-  NoticeUpdateStatusRequest,
-  NoticeBatchDeleteResponse,
-  NoticeBatchDeleteRequest,
+  UpdateNoticeResponse,
+  UpdateNoticeRequest,
+  UpdateNoticeStatusResponse,
+  UpdateNoticeStatusRequest,
+  BatchDeleteNoticeResponse,
+  BatchDeleteNoticeRequest,
 } from './types/notice.d'
 
 /**
- *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080033)
+ *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391297)
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-create
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/create-notice
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const noticeCreateApi = (data: NoticeCreateRequest): Promise<NoticeCreateResponse> => {
+export const createNoticeApi = (data: CreateNoticeRequest): Promise<CreateNoticeResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/notice/notice-create',
+    url: '/api/admin/notice/create-notice',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -38,7 +38,7 @@ export const noticeCreateApi = (data: NoticeCreateRequest): Promise<NoticeCreate
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export const noticePageApi = (params: NoticePageRequest): Promise<NoticePageResponse> => {
@@ -55,7 +55,7 @@ export const noticePageApi = (params: NoticePageRequest): Promise<NoticePageResp
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export const noticeDetailApi = (params: NoticeDetailRequest): Promise<NoticeDetailResponse> => {
@@ -68,17 +68,17 @@ export const noticeDetailApi = (params: NoticeDetailRequest): Promise<NoticeDeta
 }
 
 /**
- *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080036)
+ *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391298)
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-update
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/update-notice
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const noticeUpdateApi = (data: NoticeUpdateRequest): Promise<NoticeUpdateResponse> => {
+export const updateNoticeApi = (data: UpdateNoticeRequest): Promise<UpdateNoticeResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/notice/notice-update',
+    url: '/api/admin/notice/update-notice',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -87,17 +87,17 @@ export const noticeUpdateApi = (data: NoticeUpdateRequest): Promise<NoticeUpdate
 }
 
 /**
- *  接口 [更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080037)
+ *  接口 [更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391299)
  *  @标签 客户端通知模块/更新通知状态
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-update-status
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/update-notice-status
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const noticeUpdateStatusApi = (data: NoticeUpdateStatusRequest): Promise<NoticeUpdateStatusResponse> => {
+export const updateNoticeStatusApi = (data: UpdateNoticeStatusRequest): Promise<UpdateNoticeStatusResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/notice/notice-update-status',
+    url: '/api/admin/notice/update-notice-status',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -106,17 +106,17 @@ export const noticeUpdateStatusApi = (data: NoticeUpdateStatusRequest): Promise<
 }
 
 /**
- *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080038)
+ *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391300)
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-batch-delete
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/batch-delete-notice
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export const noticeBatchDeleteApi = (data: NoticeBatchDeleteRequest): Promise<NoticeBatchDeleteResponse> => {
+export const batchDeleteNoticeApi = (data: BatchDeleteNoticeRequest): Promise<BatchDeleteNoticeResponse> => {
   return httpHandler({
     method: 'POST',
-    url: '/api/admin/notice/notice-batch-delete',
+    url: '/api/admin/notice/batch-delete-notice',
     headers: {
       'Content-Type': 'application/json',
     },

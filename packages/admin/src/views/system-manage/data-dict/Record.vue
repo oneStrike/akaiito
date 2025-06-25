@@ -55,7 +55,7 @@
         case 'delete':
           useConfirm(
             'delete',
-            () => dataDictApi.dictionaryDeleteItemApi({ ids }),
+            () => dataDictApi.deleteDictionaryItemApi({ ids }),
             tableRef.value?.refresh,
           )
           break
@@ -63,7 +63,7 @@
           useConfirm(
             'enable',
             () =>
-              dataDictApi.dictionaryUpdateItemStatusApi({
+              dataDictApi.updateDictionaryItemStatusApi({
                 ids,
                 isEnabled: true,
               }),
@@ -74,7 +74,7 @@
           useConfirm(
             'disable',
             () =>
-              dataDictApi.dictionaryUpdateItemStatusApi({
+              dataDictApi.updateDictionaryItemStatusApi({
                 ids,
                 isEnabled: false,
               }),
@@ -89,14 +89,14 @@
     formLoading.value = true
     try {
       if (currentRow.value) {
-        await dataDictApi.dictionaryUpdateItemApi({
+        await dataDictApi.updateDictionaryItemApi({
           ...value,
           id: currentRow.value.id,
         })
         useMessage.success(PromptsEnum.UPDATED)
       } else {
         value.dictionaryCode = props.record?.code
-        await dataDictApi.dictionaryCreateItemApi(value)
+        await dataDictApi.createDictionaryItemApi(value)
         useMessage.success(PromptsEnum.CREATED)
       }
       formModalShow.value = false
@@ -144,7 +144,7 @@
         </template>
         <template #isEnabled="{ row }">
           <EsSwitch
-            :request="dataDictApi.dictionaryUpdateItemStatusApi"
+            :request="dataDictApi.updateDictionaryItemStatusApi"
             :row="row"
             ids
             @success="tableRef?.refresh()"
@@ -153,7 +153,7 @@
         <template #action="{ row }">
           <el-button type="primary" link @click="edit(row)">编辑</el-button>
           <EsPopConfirm
-            :request="dataDictApi.dictionaryDeleteItemApi"
+            :request="dataDictApi.deleteDictionaryItemApi"
             :row="row"
             ids
             @success="tableRef?.refresh()"

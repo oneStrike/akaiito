@@ -157,7 +157,7 @@
                   {{ userInfo?.username || '未设置' }}
                 </h2>
                 <p class="text-base text-gray-500 mb-4">
-                  {{ userInfo?.isRoot ? '超级管理员' : '管理员' }}
+                  {{ userInfo?.role === 0 ? '超级管理员' : '管理员' }}
                 </p>
               </div>
             </div>

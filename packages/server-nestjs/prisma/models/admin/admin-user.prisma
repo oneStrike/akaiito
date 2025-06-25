@@ -1,30 +1,30 @@
 model AdminUser {
   /// 主键id
-  id              Int       @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   /// 账号
-  username        String    @unique @db.VarChar(20)
+  username       String    @unique @db.VarChar(20)
   /// 密码
-  password        String    @db.VarChar(100)
+  password       String    @db.VarChar(100)
   /// 头像
-  avatar          String?   @db.VarChar(200)
+  avatar         String?   @db.VarChar(200)
+  /// 手机号码
+  mobile         String?   @db.VarChar(11)
   /// 是否启用账号
-  isEnabled       Boolean   @default(true) @map("is_enabled")
+  isEnabled      Boolean   @default(true) @map("is_enabled")
   /// 账号角色
-  role            Int       @default(0) @db.SmallInt
+  role           Int       @default(0) @db.SmallInt
   /// 最后登录时间
-  lastLoginAt     DateTime? @map("last_login_at") @db.Timestamptz
+  lastLoginAt    DateTime? @map("last_login_at") @db.Timestamptz
   /// 最后登录IP
-  lastLoginIp     String?   @map("last_login_ip") @db.VarChar(45)
+  lastLoginIp    String?   @map("last_login_ip") @db.VarChar(45)
   /// 登录失败次数
-  loginFailCount  Int       @default(0) @map("login_fail_count")
+  loginFailCount Int       @default(0) @map("login_fail_count")
   /// 账户锁定状态
-  isLocked        Boolean   @default(false) @map("is_locked")
-  /// 密码过期时间
-  passwordExpires DateTime? @map("password_expires") @db.Timestamptz
+  isLocked       Boolean   @default(false) @map("is_locked")
   /// 创建时间
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
   /// 索引优化
   @@index([isEnabled]) // 按状态查询活跃用户

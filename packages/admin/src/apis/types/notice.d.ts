@@ -1,12 +1,12 @@
 /**
- *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080033)
+ *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391297)
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-create
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/create-notice
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface NoticeCreateRequest {
+export interface CreateNoticeRequest {
   /* 通知标题 */
   title: string
 
@@ -14,44 +14,44 @@ export interface NoticeCreateRequest {
   content: string
 
   /* 通知类型 */
-  type: number
+  noticeType: number
 
   /* 优先级 */
-  priority: number
+  priorityLevel: number
 
   /* 发布开始时间 */
-  startTime?: string
+  publishStartTime?: string
 
   /* 发布结束时间 */
-  endTime?: string
+  publishEndTime?: string
 
   /* 关联页面代码 */
   pageCode?: string | null
 
   /* 通知弹窗背景图片URL */
-  backgroundImage?: string | null
+  popupBackgroundImage?: string | null
 
   /* 是否启用小程序 */
-  enableApplet: boolean
+  enableMiniProgram: boolean
 
   /* 是否启用H5 */
-  enableWeb: boolean
+  enableH5: boolean
 
   /* 是否启用APP */
-  enableApp: boolean
+  enableMobileApp: boolean
 
   /* 是否置顶 */
-  isTop?: boolean
+  isPinned?: boolean
 
   /* 是否弹窗显示 */
-  isPopup?: boolean
+  showAsPopup?: boolean
 
   /* 排序权重（数值越大越靠前） */
-  sortOrder?: number
+  order?: number
 }
 
 /*  */
-export type NoticeCreateResponse = {
+export type CreateNoticeResponse = {
   /* 主键id */
   id: number
 }
@@ -61,7 +61,7 @@ export type NoticeCreateResponse = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface NoticePageRequest {
@@ -84,16 +84,16 @@ export interface NoticePageRequest {
   title?: string
 
   /* 通知类型 */
-  type?: number
+  noticeType?: number
 
   /* 优先级 */
-  priority?: number
+  priorityLevel?: number
 
   /* 是否发布 */
-  isPublish?: boolean
+  isPublished?: boolean
 
   /* 是否置顶 */
-  isTop?: boolean
+  isPinned?: boolean
 }
 
 export interface NoticePageResponse {
@@ -113,46 +113,46 @@ export interface NoticePageResponse {
     title: string
 
     /* 通知类型 */
-    type: number
+    noticeType: number
 
     /* 优先级 */
-    priority: number
+    priorityLevel: number
 
     /* 发布开始时间 */
-    startTime?: string
+    publishStartTime?: string
 
     /* 发布结束时间 */
-    endTime?: string
+    publishEndTime?: string
 
     /* 关联页面代码 */
     pageCode?: string | null
 
     /* 通知弹窗背景图片URL */
-    backgroundImage?: string | null
+    popupBackgroundImage?: string | null
 
     /* 是否发布 */
-    isPublish: boolean
+    isPublished: boolean
 
     /* 是否启用小程序 */
-    enableApplet: boolean
+    enableMiniProgram: boolean
 
     /* 是否启用H5 */
-    enableWeb: boolean
+    enableH5: boolean
 
     /* 是否启用APP */
-    enableApp: boolean
+    enableMobileApp: boolean
 
     /* 是否置顶 */
-    isTop?: boolean
+    isPinned?: boolean
 
     /* 是否弹窗显示 */
-    isPopup?: boolean
+    showAsPopup?: boolean
 
     /* 排序权重（数值越大越靠前） */
-    sortOrder?: number
+    order?: number
 
     /* 阅读次数 */
-    viewCount?: number
+    readCount?: number
 
     /* 创建时间 */
     createdAt: string
@@ -167,7 +167,7 @@ export interface NoticePageResponse {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface NoticeDetailRequest {
@@ -187,46 +187,46 @@ export type NoticeDetailResponse = {
   content: string
 
   /* 通知类型 */
-  type: number
+  noticeType: number
 
   /* 优先级 */
-  priority: number
+  priorityLevel: number
 
   /* 发布开始时间 */
-  startTime?: string
+  publishStartTime?: string
 
   /* 发布结束时间 */
-  endTime?: string
+  publishEndTime?: string
 
   /* 关联页面代码 */
   pageCode?: string | null
 
   /* 通知弹窗背景图片URL */
-  backgroundImage?: string | null
+  popupBackgroundImage?: string | null
 
   /* 是否发布 */
-  isPublish: boolean
+  isPublished: boolean
 
   /* 是否启用小程序 */
-  enableApplet: boolean
+  enableMiniProgram: boolean
 
   /* 是否启用H5 */
-  enableWeb: boolean
+  enableH5: boolean
 
   /* 是否启用APP */
-  enableApp: boolean
+  enableMobileApp: boolean
 
   /* 是否置顶 */
-  isTop?: boolean
+  isPinned?: boolean
 
   /* 是否弹窗显示 */
-  isPopup?: boolean
+  showAsPopup?: boolean
 
   /* 排序权重（数值越大越靠前） */
-  sortOrder?: number
+  order?: number
 
   /* 阅读次数 */
-  viewCount?: number
+  readCount?: number
 
   /* 创建时间 */
   createdAt: string
@@ -236,14 +236,14 @@ export type NoticeDetailResponse = {
 }
 
 /**
- *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080036)
+ *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391298)
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-update
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/update-notice
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface NoticeUpdateRequest {
+export interface UpdateNoticeRequest {
   /* 通知标题 */
   title?: string
 
@@ -251,88 +251,88 @@ export interface NoticeUpdateRequest {
   content?: string
 
   /* 通知类型 */
-  type?: number
+  noticeType?: number
 
   /* 优先级 */
-  priority?: number
+  priorityLevel?: number
 
   /* 发布开始时间 */
-  startTime?: string
+  publishStartTime?: string
 
   /* 发布结束时间 */
-  endTime?: string
+  publishEndTime?: string
 
   /* 关联页面代码 */
   pageCode?: string | null
 
   /* 通知弹窗背景图片URL */
-  backgroundImage?: string | null
+  popupBackgroundImage?: string | null
 
   /* 是否启用小程序 */
-  enableApplet?: boolean
+  enableMiniProgram?: boolean
 
   /* 是否启用H5 */
-  enableWeb?: boolean
+  enableH5?: boolean
 
   /* 是否启用APP */
-  enableApp?: boolean
+  enableMobileApp?: boolean
 
   /* 是否置顶 */
-  isTop?: boolean
+  isPinned?: boolean
 
   /* 是否弹窗显示 */
-  isPopup?: boolean
+  showAsPopup?: boolean
 
   /* 排序权重（数值越大越靠前） */
-  sortOrder?: number
+  order?: number
 
   /* 主键id */
   id: number
 }
 
 /*  */
-export type NoticeUpdateResponse = {
+export type UpdateNoticeResponse = {
   /* 主键id */
   id: number
 }
 
 /**
- *  接口 [更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080037)
+ *  接口 [更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391299)
  *  @标签 客户端通知模块/更新通知状态
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-update-status
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/update-notice-status
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface NoticeUpdateStatusRequest {
+export interface UpdateNoticeStatusRequest {
   /* 是否发布 */
-  isPublish: boolean
+  isPublished: boolean
 
   /* 通知ID列表 */
   ids: number[]
 }
 
 /*  */
-export type NoticeUpdateStatusResponse = {
+export type UpdateNoticeStatusResponse = {
   /* 主键id */
   ids: number[]
 }
 
 /**
- *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080038)
+ *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391300)
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
- *  @地址 /api/admin/notice/notice-batch-delete
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/notice/batch-delete-notice
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface NoticeBatchDeleteRequest {
+export interface BatchDeleteNoticeRequest {
   /* 主键id */
   ids: number[]
 }
 
 /*  */
-export type NoticeBatchDeleteResponse = {
+export type BatchDeleteNoticeResponse = {
   /* 主键id */
   ids: number[]
 }

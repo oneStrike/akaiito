@@ -3,7 +3,7 @@
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/get-captcha
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 /*  */
@@ -20,7 +20,7 @@ export type GetCaptchaResponse = {
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/user-login
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export interface UserLoginRequest {
@@ -56,17 +56,32 @@ export type UserLoginResponse = {
     /* 用户名 */
     username: string
 
+    /* 手机号 */
+    mobile: string
+
     /* 头像 */
     avatar?: string | null
 
-    /* 手机号 */
-    mobile?: string | null
+    /* 是否启用 */
+    isEnabled: boolean
 
-    /* 用户状态 */
-    status: boolean
+    /* 角色 0普通管理员 1超级管理员 */
+    role: number
 
-    /* 用户状态 */
-    isRoot: boolean
+    /* 最后登录时间 */
+    lastLoginAt?: string
+
+    /* 最后登录IP */
+    lastLoginIp?: string
+
+    /* 登录失败次数 */
+    loginFailCount: number
+
+    /* 是否锁定 */
+    isLocked: boolean
+
+    /* 密码过期时间 */
+    passwordExpires?: string
 
     /* 创建时间 */
     createdAt: string
@@ -81,7 +96,7 @@ export type UserLoginResponse = {
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
  *  @地址 /api/admin/user/user-logout
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export interface UserLogoutRequest {
@@ -100,21 +115,21 @@ export type UserLogoutResponse = boolean
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/user-register
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export interface UserRegisterRequest {
   /* 用户名 */
   username: string
 
+  /* 手机号 */
+  mobile: string
+
   /* 头像 */
   avatar?: string | null
 
-  /* 手机号 */
-  mobile?: string | null
-
-  /* 用户状态 */
-  isRoot: boolean
+  /* 角色 0普通管理员 1超级管理员 */
+  role: number
 
   /* 密码 */
   password: string
@@ -134,7 +149,7 @@ export type UserRegisterResponse = {
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/user-refresh-token
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export interface UserRefreshTokenRequest {
@@ -159,7 +174,7 @@ export type UserRefreshTokenResponse = {
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-password
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:21:59
  */
 
 export interface UserUpdatePasswordRequest {
@@ -184,17 +199,32 @@ export type UserUpdatePasswordResponse = {
   /* 用户名 */
   username: string
 
+  /* 手机号 */
+  mobile: string
+
   /* 头像 */
   avatar?: string | null
 
-  /* 手机号 */
-  mobile?: string | null
+  /* 是否启用 */
+  isEnabled: boolean
 
-  /* 用户状态 */
-  status: boolean
+  /* 角色 0普通管理员 1超级管理员 */
+  role: number
 
-  /* 用户状态 */
-  isRoot: boolean
+  /* 最后登录时间 */
+  lastLoginAt?: string
+
+  /* 最后登录IP */
+  lastLoginIp?: string
+
+  /* 登录失败次数 */
+  loginFailCount: number
+
+  /* 是否锁定 */
+  isLocked: boolean
+
+  /* 密码过期时间 */
+  passwordExpires?: string
 
   /* 创建时间 */
   createdAt: string
@@ -208,21 +238,24 @@ export type UserUpdatePasswordResponse = {
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-info
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface UserUpdateInfoRequest {
   /* 用户名 */
   username: string
 
+  /* 手机号 */
+  mobile: string
+
   /* 头像 */
   avatar?: string | null
 
-  /* 手机号 */
-  mobile?: string | null
+  /* 是否启用 */
+  isEnabled: boolean
 
-  /* 用户状态 */
-  status: boolean
+  /* 角色 0普通管理员 1超级管理员 */
+  role: number
 
   /* 用户ID */
   id?: number
@@ -236,17 +269,32 @@ export type UserUpdateInfoResponse = {
   /* 用户名 */
   username: string
 
+  /* 手机号 */
+  mobile: string
+
   /* 头像 */
   avatar?: string | null
 
-  /* 手机号 */
-  mobile?: string | null
+  /* 是否启用 */
+  isEnabled: boolean
 
-  /* 用户状态 */
-  status: boolean
+  /* 角色 0普通管理员 1超级管理员 */
+  role: number
 
-  /* 用户状态 */
-  isRoot: boolean
+  /* 最后登录时间 */
+  lastLoginAt?: string
+
+  /* 最后登录IP */
+  lastLoginIp?: string
+
+  /* 登录失败次数 */
+  loginFailCount: number
+
+  /* 是否锁定 */
+  isLocked: boolean
+
+  /* 密码过期时间 */
+  passwordExpires?: string
 
   /* 创建时间 */
   createdAt: string
@@ -260,7 +308,7 @@ export type UserUpdateInfoResponse = {
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-Info
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 /*  */
@@ -271,17 +319,32 @@ export type UserInfoResponse = {
   /* 用户名 */
   username: string
 
+  /* 手机号 */
+  mobile: string
+
   /* 头像 */
   avatar?: string | null
 
-  /* 手机号 */
-  mobile?: string | null
+  /* 是否启用 */
+  isEnabled: boolean
 
-  /* 用户状态 */
-  status: boolean
+  /* 角色 0普通管理员 1超级管理员 */
+  role: number
 
-  /* 用户状态 */
-  isRoot: boolean
+  /* 最后登录时间 */
+  lastLoginAt?: string
+
+  /* 最后登录IP */
+  lastLoginIp?: string
+
+  /* 登录失败次数 */
+  loginFailCount: number
+
+  /* 是否锁定 */
+  isLocked: boolean
+
+  /* 密码过期时间 */
+  passwordExpires?: string
 
   /* 创建时间 */
   createdAt: string
@@ -295,7 +358,7 @@ export type UserInfoResponse = {
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-info-by-id
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface UserInfoByIdRequest {
@@ -311,17 +374,32 @@ export type UserInfoByIdResponse = {
   /* 用户名 */
   username: string
 
+  /* 手机号 */
+  mobile: string
+
   /* 头像 */
   avatar?: string | null
 
-  /* 手机号 */
-  mobile?: string | null
+  /* 是否启用 */
+  isEnabled: boolean
 
-  /* 用户状态 */
-  status: boolean
+  /* 角色 0普通管理员 1超级管理员 */
+  role: number
 
-  /* 用户状态 */
-  isRoot: boolean
+  /* 最后登录时间 */
+  lastLoginAt?: string
+
+  /* 最后登录IP */
+  lastLoginIp?: string
+
+  /* 登录失败次数 */
+  loginFailCount: number
+
+  /* 是否锁定 */
+  isLocked: boolean
+
+  /* 密码过期时间 */
+  passwordExpires?: string
 
   /* 创建时间 */
   createdAt: string
@@ -335,7 +413,7 @@ export type UserInfoByIdResponse = {
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/user-page
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface UserPageRequest {
@@ -357,14 +435,11 @@ export interface UserPageRequest {
   /* 用户名 */
   username?: string
 
-  /* 手机号 */
-  mobile?: string
+  /* 是否启用 */
+  isEnabled?: boolean
 
-  /* 用户状态 */
-  status?: boolean
-
-  /* 用户状态 */
-  isRoot?: boolean
+  /* 角色 0普通管理员 1超级管理员 */
+  role?: number
 }
 
 export interface UserPageResponse {
@@ -383,17 +458,32 @@ export interface UserPageResponse {
     /* 用户名 */
     username: string
 
+    /* 手机号 */
+    mobile: string
+
     /* 头像 */
     avatar?: string | null
 
-    /* 手机号 */
-    mobile?: string | null
+    /* 是否启用 */
+    isEnabled: boolean
 
-    /* 用户状态 */
-    status: boolean
+    /* 角色 0普通管理员 1超级管理员 */
+    role: number
 
-    /* 用户状态 */
-    isRoot: boolean
+    /* 最后登录时间 */
+    lastLoginAt?: string
+
+    /* 最后登录IP */
+    lastLoginIp?: string
+
+    /* 登录失败次数 */
+    loginFailCount: number
+
+    /* 是否锁定 */
+    isLocked: boolean
+
+    /* 密码过期时间 */
+    passwordExpires?: string
 
     /* 创建时间 */
     createdAt: string
@@ -408,7 +498,7 @@ export interface UserPageResponse {
  *  @标签 管理端用户模块/删除用户
  *  @方式 POST
  *  @地址 /api/admin/user/user-delete
- *  @更新时间 2025-06-24 00:15:10
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface UserDeleteRequest {

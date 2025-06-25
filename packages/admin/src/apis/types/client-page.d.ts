@@ -1,12 +1,12 @@
 /**
- *  接口 [创建页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080039)
+ *  接口 [创建页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391301)
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
- *  @地址 /api/admin/page-config/page-config-create
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/client-page/create-client-page
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface PageConfigCreateRequest {
+export interface CreateClientPageRequest {
   /* 页面编码（唯一标识） */
   pageCode: string
 
@@ -20,33 +20,30 @@ export interface PageConfigCreateRequest {
   pageTitle?: string | null
 
   /* 页面权限级别 */
-  pageRule: number
+  accessLevel: number
 
   /* 页面状态 */
-  status: number
+  pageStatus: number
 
   /* 页面描述信息 */
   description?: string | null
-
-  /* 排序权重（数值越大越靠前） */
-  sortOrder?: number
 }
 
 /*  */
-export type PageConfigCreateResponse = {
+export type CreateClientPageResponse = {
   /* 主键id */
   id: number
 }
 
 /**
- *  接口 [分页查询页面配置列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080040)
+ *  接口 [分页查询页面配置列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391302)
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
- *  @地址 /api/admin/page-config/page-config-page
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/client-page/client-page-page
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface PageConfigPageRequest {
+export interface ClientPagePageRequest {
   /* 单页大小，最大500，默认15 */
   pageSize?: number
 
@@ -69,13 +66,13 @@ export interface PageConfigPageRequest {
   pageName?: string
 
   /* 页面权限级别 */
-  pageRule?: number
+  accessLevel?: number
 
   /* 页面状态 */
-  status?: number
+  pageStatus?: number
 }
 
-export interface PageConfigPageResponse {
+export interface ClientPagePageResponse {
   /* 当前页码 */
   pageIndex: number
 
@@ -98,13 +95,10 @@ export interface PageConfigPageResponse {
     pageTitle?: string | null
 
     /* 页面权限级别 */
-    pageRule: number
+    accessLevel: number
 
     /* 页面状态 */
-    status: number
-
-    /* 排序权重（数值越大越靠前） */
-    sortOrder?: number
+    pageStatus: number
 
     /* 主键id */
     id: number
@@ -121,20 +115,20 @@ export interface PageConfigPageResponse {
 }
 
 /**
- *  接口 [根据ID查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080041)
+ *  接口 [根据ID查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391303)
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
- *  @地址 /api/admin/page-config/page-config-detail-by-id
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/client-page/client-page-detail-by-id
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface PageConfigDetailByIdRequest {
+export interface ClientPageDetailByIdRequest {
   /*  */
   id: number
 }
 
 /*  */
-export type PageConfigDetailByIdResponse = {
+export type ClientPageDetailByIdResponse = {
   /* 页面编码（唯一标识） */
   pageCode: string
 
@@ -148,16 +142,13 @@ export type PageConfigDetailByIdResponse = {
   pageTitle?: string | null
 
   /* 页面权限级别 */
-  pageRule: number
+  accessLevel: number
 
   /* 页面状态 */
-  status: number
+  pageStatus: number
 
   /* 页面描述信息 */
   description?: string | null
-
-  /* 排序权重（数值越大越靠前） */
-  sortOrder?: number
 
   /* 主键id */
   id: number
@@ -173,20 +164,20 @@ export type PageConfigDetailByIdResponse = {
 }
 
 /**
- *  接口 [根据页面编码查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080042)
+ *  接口 [根据页面编码查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391304)
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
- *  @地址 /api/admin/page-config/page-config-detail-by-code
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/client-page/client-page-detail-by-code
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface PageConfigDetailByCodeRequest {
+export interface ClientPageDetailByCodeRequest {
   /*  */
   pageCode: string
 }
 
 /*  */
-export type PageConfigDetailByCodeResponse = {
+export type ClientPageDetailByCodeResponse = {
   /* 页面编码（唯一标识） */
   pageCode: string
 
@@ -200,16 +191,13 @@ export type PageConfigDetailByCodeResponse = {
   pageTitle?: string | null
 
   /* 页面权限级别 */
-  pageRule: number
+  accessLevel: number
 
   /* 页面状态 */
-  status: number
+  pageStatus: number
 
   /* 页面描述信息 */
   description?: string | null
-
-  /* 排序权重（数值越大越靠前） */
-  sortOrder?: number
 
   /* 主键id */
   id: number
@@ -225,14 +213,14 @@ export type PageConfigDetailByCodeResponse = {
 }
 
 /**
- *  接口 [更新页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080043)
+ *  接口 [更新页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391305)
  *  @标签 客户端页面配置模块/更新页面配置
  *  @方式 POST
- *  @地址 /api/admin/page-config/page-config-update
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/client-page/update-client-page
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface PageConfigUpdateRequest {
+export interface UpdateClientPageRequest {
   /* 页面编码（唯一标识） */
   pageCode?: string
 
@@ -246,75 +234,61 @@ export interface PageConfigUpdateRequest {
   pageTitle?: string | null
 
   /* 页面权限级别 */
-  pageRule?: number
+  accessLevel?: number
 
   /* 页面状态 */
-  status?: number
+  pageStatus?: number
 
   /* 页面描述信息 */
   description?: string | null
-
-  /* 排序权重（数值越大越靠前） */
-  sortOrder?: number
 
   /* 页面ID */
   id: number
 }
 
 /*  */
-export type PageConfigUpdateResponse = {
+export type UpdateClientPageResponse = {
   /* 主键id */
   id: number
 }
 
 /**
- *  接口 [批量更新页面配置状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080044)
+ *  接口 [批量更新页面配置状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391306)
  *  @标签 客户端页面配置模块/批量更新页面配置状态
  *  @方式 POST
- *  @地址 /api/admin/page-config/page-config-batch-update-status
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/client-page/batch-update-client-page-status
+ *  @更新时间 2025-06-25 11:22:00
  */
 
+export interface BatchUpdateClientPageStatusRequest {
+  /* 批量操作的 ID 数组 */
+  ids: number[]
+
+  /* 启用或者禁用 */
+  isEnabled: boolean
+}
+
 /*  */
-export type PageConfigBatchUpdateStatusResponse = {
-  /* 操作成功的数据亮 */
+export type BatchUpdateClientPageStatusResponse = {
+  /* 操作成功的数据量 */
   count: number
 }
 
 /**
- *  接口 [增加页面访问次数](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080045)
- *  @标签 客户端页面配置模块/增加页面访问次数
- *  @方式 POST
- *  @地址 /api/admin/page-config/page-config-increment-view
- *  @更新时间 2025-06-24 00:15:10
- */
-
-export interface PageConfigIncrementViewRequest {
-  /* 页面编码 */
-  pageCode: string
-}
-
-/*  */
-export type PageConfigIncrementViewResponse = {
-  /* 主键id */
-  id: number
-}
-
-/**
- *  接口 [批量软删除页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080046)
+ *  接口 [批量软删除页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391307)
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
- *  @地址 /api/admin/page-config/page-config-batch-delete
- *  @更新时间 2025-06-24 00:15:10
+ *  @地址 /api/admin/client-page/batch-delete-client-page
+ *  @更新时间 2025-06-25 11:22:00
  */
 
-export interface PageConfigBatchDeleteRequest {
+export interface BatchDeleteClientPageRequest {
   /* 主键id */
   ids: number[]
 }
 
 /*  */
-export type PageConfigBatchDeleteResponse = {
-  /* 操作成功的数据亮 */
+export type BatchDeleteClientPageResponse = {
+  /* 操作成功的数据量 */
   count: number
 }

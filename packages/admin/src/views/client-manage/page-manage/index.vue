@@ -1,6 +1,6 @@
 <script setup lang="ts">
-  import type { PageConfigDetailByIdResponse } from '@/apis/types/page-config'
-  import * as pageConfigApi from '@/apis/page-config.ts'
+  import type { ClientPageDetailByIdResponse } from '@/apis/types/client-page'
+  import * as clientPageApi from '@/apis/client-page'
   import { PromptsEnum } from '@/enum/prompts'
   import {
     filter,
@@ -19,21 +19,21 @@
   })
 
   const tableRef = useTemplateRef('tableRef')
-  const currentRow = ref<PageConfigDetailByIdResponse | null>(null)
+  const currentRow = ref<ClientPageDetailByIdResponse | null>(null)
 
-  const openFormModal = (row?: PageConfigDetailByIdResponse) => {
+  const openFormModal = (row?: ClientPageDetailByIdResponse) => {
     if (row) {
       currentRow.value = row
     }
     modalFrom.show = true
   }
-  const submitForm = async (value: PageConfigDetailByIdResponse) => {
+  const submitForm = async (value: ClientPageDetailByIdResponse) => {
     modalFrom.loading = true
     if (currentRow.value?.id) {
       value.id = currentRow.value.id
-      await pageConfigApi.pageConfigUpdateApi(value)
+      await clientPageApi.updateClientPageApi(value)
     } else {
-      await pageConfigApi.pageConfigCreateApi(value)
+      await clientPageApi.createClientPageApi(value)
     }
     useMessage.success(
       currentRow.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
@@ -52,7 +52,7 @@
       :columns="tableColumns"
       :toolbar="toolbar"
       :filter="filter"
-      :request-api="pageConfigApi.pageConfigPageApi"
+      :request-api="clientPageApi.clientPagePageApi"
       @toolbar-handler="openFormModal()"
     >
       <template #pageRule="{ row }">
@@ -72,7 +72,7 @@
           编辑
         </el-button>
         <EsPopConfirm
-          :request="pageConfigApi.pageConfigBatchDeleteApi"
+          :request="clientPageApi.batchDeleteClientPageApi"
           :row="row"
           ids
           @success="tableRef?.reset()"

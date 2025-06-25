@@ -25,9 +25,9 @@ model Dictionary {
 model DictionaryItem {
   id               Int        @id @default(autoincrement())
   /// 所属字典关系
-  parentDictionary Dictionary @relation(fields: [dctionaryCode], references: [code], onDelete: Cascade)
+  parentDictionary Dictionary @relation(fields: [dictionaryCode], references: [code], onDelete: Cascade)
   /// 所属字典编码
-  dctionaryCode    String     @map("dictionary_code")
+  dictionaryCode   String     @map("dictionary_code")
   /// 字典项名称
   name             String     @map("name") @db.VarChar(50)
   /// 字典项编码
@@ -47,8 +47,8 @@ model DictionaryItem {
   /// 软删除时间
   deletedAt        DateTime?  @map("deleted_at") @db.Timestamptz
 
-  @@unique([dctionaryCode, code])
-  @@index([dctionaryCode])
+  @@unique([dictionaryCode, code])
+  @@index([dictionaryCode])
   @@index([order])
   @@map("dictionary_item")
 }

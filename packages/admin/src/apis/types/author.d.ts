@@ -3,7 +3,7 @@
  *  @标签 作者管理模块/创建作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/create-author
- *  @更新时间 2025-06-24 00:15:15
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface CreateAuthorRequest {
@@ -34,9 +34,6 @@ export interface CreateAuthorRequest {
   /* 管理员备注 */
   remark?: string | null
 
-  /* 平均评分（可为空，支持推荐算法） */
-  rating?: number
-
   /* 是否为推荐作者（用于前台推荐展示） */
   featured: boolean
 }
@@ -52,7 +49,7 @@ export type CreateAuthorResponse = {
  *  @标签 作者管理模块/分页查询作者列表
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-page
- *  @更新时间 2025-06-24 00:15:15
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface AuthorPageRequest {
@@ -130,9 +127,6 @@ export interface AuthorPageResponse {
     /* 粉丝数量（冗余字段，用于前台展示） */
     followersCount: number
 
-    /* 平均评分（可为空，支持推荐算法） */
-    rating?: number
-
     /* 是否为推荐作者（用于前台推荐展示） */
     featured: boolean
   }[]
@@ -143,7 +137,7 @@ export interface AuthorPageResponse {
  *  @标签 作者管理模块/获取作者详情
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-detail
- *  @更新时间 2025-06-24 00:15:15
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface AuthorDetailRequest {
@@ -195,9 +189,6 @@ export type AuthorDetailResponse = {
   /* 粉丝数量（冗余字段，用于前台展示） */
   followersCount: number
 
-  /* 平均评分（可为空，支持推荐算法） */
-  rating?: number
-
   /* 是否为推荐作者（用于前台推荐展示） */
   featured: boolean
 }
@@ -207,7 +198,7 @@ export type AuthorDetailResponse = {
  *  @标签 作者管理模块/更新作者信息
  *  @方式 PUT
  *  @地址 /api/admin/work/author/update-author
- *  @更新时间 2025-06-24 00:15:15
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 /*  */
@@ -254,9 +245,6 @@ export type UpdateAuthorResponse = {
   /* 粉丝数量（冗余字段，用于前台展示） */
   followersCount: number
 
-  /* 平均评分（可为空，支持推荐算法） */
-  rating?: number
-
   /* 是否为推荐作者（用于前台推荐展示） */
   featured: boolean
 }
@@ -266,7 +254,7 @@ export type UpdateAuthorResponse = {
  *  @标签 作者管理模块/批量更新作者状态
  *  @方式 PUT
  *  @地址 /api/admin/work/author/batch-update-author-status
- *  @更新时间 2025-06-24 00:15:15
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 /*  */
@@ -277,7 +265,7 @@ export type BatchUpdateAuthorStatusResponse = any
  *  @标签 作者管理模块/批量更新作者推荐状态
  *  @方式 PUT
  *  @地址 /api/admin/work/author/batch-update-author-featured
- *  @更新时间 2025-06-24 00:15:15
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 /*  */
@@ -288,7 +276,7 @@ export type BatchUpdateAuthorFeaturedResponse = any
  *  @标签 作者管理模块/软删除作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/delete-author
- *  @更新时间 2025-06-24 00:15:15
+ *  @更新时间 2025-06-25 11:22:00
  */
 
 export interface DeleteAuthorRequest {
