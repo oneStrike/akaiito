@@ -57,7 +57,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   static readonly DEFAULT_OMIT = { deletedAt: true }
 
   protected abstract readonly modelName: T
-  protected readonly supportsSoftDelete = false
+  protected readonly supportsSoftDelete: boolean = false
 
   constructor(protected readonly prisma: PrismaService) {}
 
