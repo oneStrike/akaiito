@@ -13,16 +13,10 @@ import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { WorkCategoryService } from './category.service'
 import {
-  CategoryDetailResponseDto,
-  CategoryPageResponseDto,
-  CategoryStatsDto,
+  BaseCategoryDto,
   CreateCategoryDto,
   QueryCategoryDto,
-  UpdateCategoryCountDto,
   UpdateCategoryDto,
-  UpdateCategoryOrderDto,
-  UpdateCategoryPopularityDto,
-  UpdateCategoryStatusDto,
 } from './dto/category.dto'
 
 /**
@@ -52,7 +46,7 @@ export class WorkCategoryController {
   @Get('/category-page')
   @ApiPageDoc({
     summary: '分页查询分类列表',
-    model: CategoryPageResponseDto,
+    model: BaseCategoryDto,
   })
   async getPage(@Query() query: QueryCategoryDto) {
     return this.categoryService.getCategoryPage(query)
@@ -61,13 +55,13 @@ export class WorkCategoryController {
   /**
    * 获取分类详情
    */
-  @Get('/category-detail/:id')
+  @Get('/category-detail')
   @ApiDoc({
     summary: '获取分类详情',
-    model: CategoryDetailResponseDto,
+    model: BaseCategoryDto,
   })
-  async getDetail(@Param() params: IdDto) {
-    return this.categoryService.getCategoryDetail(params.id)
+  async getDetail(@Query() query: IdDto) {
+    return this.categoryService.getCategoryDetail(query.id)
   }
 
   /**
@@ -76,7 +70,7 @@ export class WorkCategoryController {
   @Put('/update-category')
   @ApiDoc({
     summary: '更新分类信息',
-    model: CategoryDetailResponseDto,
+    model: IdDto,
   })
   async update(@Body() body: UpdateCategoryDto) {
     return this.categoryService.updateCategory(body)
@@ -150,8 +144,12 @@ export class WorkCategoryController {
     summary: '根据应用类型查询分类',
     model: [CategoryPageResponseDto],
   })
-  async getByType(@Param('applicableContentTypes') applicableContentTypes: string) {
-    return this.categoryService.getCategoriesByType(Number(applicableContentTypes))
+  async getByType(
+    @Param('applicableContentTypes') applicableContentTypes: string,
+  ) {
+    return this.categoryService.getCategoriesByType(
+      Number(applicableContentTypes),
+    )
   }
 
   /**

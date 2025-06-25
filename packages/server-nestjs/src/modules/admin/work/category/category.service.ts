@@ -11,7 +11,7 @@ import {
   UpdateCategoryPopularityDto,
   UpdateCategoryCountDto,
 } from './dto/category.dto'
-import { CategoryapplicableContentTypesEnum } from './category.constant'
+import { CategoryTypesEnum } from './category.constant'
 
 /**
  * 分类服务类
@@ -243,10 +243,10 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
    */
   private validateapplicableContentTypes(applicableContentTypes: number): boolean {
     const validTypes = [
-      CategoryapplicableContentTypesEnum.PHOTO,
-      CategoryapplicableContentTypesEnum.NOVEL,
-      CategoryapplicableContentTypesEnum.COMIC,
-      CategoryapplicableContentTypesEnum.ILLUSTRATOR,
+      CategoryTypesEnum.PHOTO,
+      CategoryTypesEnum.NOVEL,
+      CategoryTypesEnum.COMIC,
+      CategoryTypesEnum.ILLUSTRATOR,
     ]
 
     // 检查是否为有效的枚举值

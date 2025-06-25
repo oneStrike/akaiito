@@ -9,12 +9,3 @@ export class IdEnabledDto extends IdDto {
   })
   isEnabled: boolean
 }
-
-export class IdsEnabledDto extends IdsDto {
-  @ValidateBoolean({
-    description: '状态 true启用 false禁用',
-    example: true,
-    required: true,
-  })
-  isEnabled: boolean
-}

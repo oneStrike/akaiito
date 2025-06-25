@@ -128,15 +128,6 @@ export class BaseAuthorDto {
   })
   followersCount!: number
 
-  @ValidateNumber({
-    description: '平均评分（可为空，支持推荐算法）',
-    example: 4.5,
-    required: false,
-    min: 0,
-    max: 5,
-  })
-  rating?: number
-
   @ValidateBoolean({
     description: '是否为推荐作者（用于前台推荐展示）',
     example: false,
@@ -196,20 +187,6 @@ export class QueryAuthorDto extends IntersectionType(
 }
 
 /**
- * 更新作者状态DTO
- */
-export class UpdateAuthorStatusDto extends PickType(BaseAuthorDto, [
-  'isEnabled',
-]) {
-  @ValidateNumberArray({
-    description: '作者ID列表',
-    example: [1, 2, 3],
-    required: true,
-  })
-  ids!: number[]
-}
-
-/**
  * 更新作者推荐状态DTO
  */
 export class UpdateAuthorFeaturedDto extends PickType(BaseAuthorDto, [
@@ -237,36 +214,3 @@ export class AuthorPageResponseDto extends OmitType(BaseAuthorDto, [
  * 作者详情响应DTO
  */
 export class AuthorDetailResponseDto extends BaseAuthorDto {}
-
-/**
- * 作者统计DTO
- */
-export class AuthorStatsDto {
-  @ValidateNumber({
-    description: '总作者数',
-    example: 100,
-    required: true,
-  })
-  totalAuthors!: number
-
-  @ValidateNumber({
-    description: '启用作者数',
-    example: 80,
-    required: true,
-  })
-  enabledAuthors!: number
-
-  @ValidateNumber({
-    description: '推荐作者数',
-    example: 10,
-    required: true,
-  })
-  featuredAuthors!: number
-
-  @ValidateNumber({
-    description: '本月新增作者数',
-    example: 5,
-    required: true,
-  })
-  monthlyNewAuthors!: number
-}

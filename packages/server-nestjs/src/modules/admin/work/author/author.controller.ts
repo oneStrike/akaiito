@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
+import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { WorkAuthorService } from './author.service'
 import {
@@ -11,7 +12,6 @@ import {
   QueryAuthorDto,
   UpdateAuthorDto,
   UpdateAuthorFeaturedDto,
-  UpdateAuthorStatusDto,
 } from './dto/author.dto'
 
 /**
@@ -79,7 +79,7 @@ export class WorkAuthorController {
     summary: '批量更新作者状态',
     model: { count: 'number' },
   })
-  async updateStatus(@Body() body: UpdateAuthorStatusDto) {
+  async updateStatus(@Body() body: BatchOperationStatusIdsDto) {
     return this.authorService.updateAuthorStatus(body)
   }
 

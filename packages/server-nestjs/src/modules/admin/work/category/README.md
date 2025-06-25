@@ -96,7 +96,7 @@ interface WorkCategory {
 
 ```typescript
 // 应用类型
-enum CategoryapplicableContentTypesEnum {
+enum CategoryTypesEnum {
   COMIC = 1, // 漫画
   NOVEL = 2, // 小说
 }
@@ -122,7 +122,7 @@ enum CategoryOrderEnum {
 const createDto: CreateCategoryDto = {
   name: '科幻',
   description: '科幻类作品分类',
-  applicableContentTypes: CategoryapplicableContentTypesEnum.COMIC,
+  applicableContentTypes: CategoryTypesEnum.COMIC,
   status: CategoryStatusEnum.ENABLED,
 }
 
@@ -137,7 +137,7 @@ const queryDto: QueryCategoryDto = {
   pageSize: 10,
   name: '科幻',
   status: CategoryStatusEnum.ENABLED,
-  applicableContentTypes: CategoryapplicableContentTypesEnum.COMIC,
+  applicableContentTypes: CategoryTypesEnum.COMIC,
 }
 
 const result = await categoryService.getCategoryPage(queryDto)
