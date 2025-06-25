@@ -34,7 +34,7 @@ model ClientNotice {
   /// 是否弹窗显示
   showAsPopup          Boolean           @default(false) @map("show_as_popup")
   /// 排序权重（数值越大越靠前）
-  displayOrder         Int               @default(0) @map("display_order")
+  order                Int               @default(0) @map("order")
   /// 浏览次数
   readCount            Int               @default(0) @map("read_count")
   /// 创建时间
@@ -47,7 +47,7 @@ model ClientNotice {
   /// 索引优化
   @@index([isPublished, publishStartTime, publishEndTime]) // 查询已发布且在有效期内的通知
   @@index([noticeType, isPublished]) // 按类型和发布状态查询
-  @@index([priorityLevel, isPinned, displayOrder]) // 排序相关字段
+  @@index([priorityLevel, isPinned, order]) // 排序相关字段
   @@index([createdAt]) // 按创建时间查询
   @@index([targetPageCode]) // 外键索引
   @@index([showAsPopup, isPublished]) // 弹窗通知查询

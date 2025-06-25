@@ -1,35 +1,38 @@
 /// 客户端页面配置
 model ClientPageConfig {
   /// 主键id
-  id              Int       @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   /// 页面编码（唯一标识）
-  pageCode        String    @unique @map("page_code") @db.VarChar(50)
+  pageCode    String    @unique @map("page_code") @db.VarChar(50)
   /// 页面路径（URL路径）
-  pagePath        String    @unique @map("page_path") @db.VarChar(300)
+  pagePath    String    @unique @map("page_path") @db.VarChar(300)
   /// 页面名称
-  pageName        String    @map("page_name") @db.VarChar(100)
+  pageName    String    @map("page_name") @db.VarChar(100)
   /// 页面标题（用于SEO）
-  pageTitle       String?   @map("page_title") @db.VarChar(200)
+  pageTitle   String?   @map("page_title") @db.VarChar(200)
+  /// 是否启用页面
+  isEnabled   Boolean   @default(true) @map("is_enabled")
   /// 访问权限级别（0:游客可访问, 1:需要登录, 2:需要会员, 3:需要VIP）
-  accessLevel     Int       @default(0) @map("access_level") @db.SmallInt
+  accessLevel Int       @default(0) @map("access_level") @db.SmallInt
   /// 页面状态（0:禁用, 1:启用, 2:开发中, 3:维护中）
-  pageStatus      Int       @default(1) @map("page_status") @db.SmallInt
+  pageStatus  Int       @default(1) @map("page_status") @db.SmallInt
   /// 页面描述信息
-  pageDescription String?   @map("page_description") @db.VarChar(500)
+  description String?   @map("description") @db.VarChar(500)
   /// 访问次数统计
-  accessCount     Int       @default(0) @map("access_count")
+  accessCount Int       @default(0) @map("access_count")
   /// 创建时间
-  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
   /// 软删除时间
-  deletedAt       DateTime? @map("deleted_at") @db.Timestamptz
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz
 
   /// 关联的通知公告
   notices ClientNotice[] @relation("notices")
 
   /// 索引优化
   @@index([accessLevel, pageStatus]) // 按权限级别和状态查询
+  @@index([isEnabled]) // 按启用状态
   @@index([createdAt]) // 按创建时间查询
   @@index([accessCount]) // 热门页面查询
   @@map("client_page_config")

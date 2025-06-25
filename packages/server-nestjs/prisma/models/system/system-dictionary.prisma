@@ -14,6 +14,8 @@ model Dictionary {
   createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
   updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz
+  /// 软删除时间
+  deletedAt       DateTime?        @map("deleted_at") @db.Timestamptz
   /// 字典项列表
   dictionaryItems DictionaryItem[]
 
@@ -42,6 +44,8 @@ model DictionaryItem {
   createdAt        DateTime   @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
   updatedAt        DateTime   @updatedAt @map("updated_at") @db.Timestamptz
+  /// 软删除时间
+  deletedAt        DateTime?  @map("deleted_at") @db.Timestamptz
 
   @@unique([dctionaryCode, code])
   @@index([dctionaryCode])

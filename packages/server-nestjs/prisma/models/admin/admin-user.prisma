@@ -7,9 +7,9 @@ model AdminUser {
   password        String    @db.VarChar(100)
   /// 头像
   avatar          String?   @db.VarChar(200)
-  /// 状态 正常或不正常
+  /// 是否启用账号
   isEnabled       Boolean   @default(true) @map("is_enabled")
-  /// 是否是超级管理员 1是0否
+  /// 账号角色
   role            Int       @default(0) @db.SmallInt
   /// 最后登录时间
   lastLoginAt     DateTime? @map("last_login_at") @db.Timestamptz
@@ -28,7 +28,7 @@ model AdminUser {
 
   /// 索引优化
   @@index([isEnabled]) // 按状态查询活跃用户
-  @@index([role]) // 查询超级管理员
+  @@index([role]) // 查询账号角色
   @@index([createdAt]) // 按创建时间查询
   @@index([lastLoginAt]) // 按最后登录时间查询
   @@index([isLocked]) // 查询锁定账户

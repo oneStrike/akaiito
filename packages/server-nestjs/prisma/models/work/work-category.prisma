@@ -1,40 +1,40 @@
 model WorkCategory {
   /// 主键ID
-  id                     Int       @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
   /// 分类名称（唯一）
-  name                   String    @unique @db.VarChar(20)
+  name              String    @unique @db.VarChar(20)
   /// 分类图标URL
-  icon                   String?   @db.VarChar(255)
+  icon              String?   @db.VarChar(255)
   /// 人气值（用于展示和排序）
-  popularity             Int       @default(0)
+  popularity        Int       @default(0)
   /// 自定义人气权重
-  popularityWeight       Int       @default(0) @map("popularity_weight") @db.Integer
+  popularityWeight  Int       @default(0) @map("popularity_weight") @db.Integer
   /// 排序值（数值越小越靠前）
-  order                  Int       @default(0) @db.SmallInt
+  order             Int       @default(0) @db.SmallInt
   /// 小说数量
-  novelCount             Int       @default(0) @map("novel_count") @db.Integer
+  novelCount        Int       @default(0) @map("novel_count") @db.Integer
   /// 漫画数量
-  comicCount             Int       @default(0) @map("comic_count") @db.Integer
+  comicCount        Int       @default(0) @map("comic_count") @db.Integer
   /// 图集数量
-  imageSetCount          Int       @default(0) @map("image_set_count") @db.Integer
+  imageSetCount     Int       @default(0) @map("image_set_count") @db.Integer
   /// 插画作品数量
-  artworkCount           Int       @default(0) @map("artwork_count") @db.Integer
+  illustrationCount Int       @default(0) @map("illustration_count") @db.Integer
   /// 是否启用
-  isEnabled              Boolean   @default(true)
+  isEnabled         Boolean   @default(true) @map("is_enabled")
   /// 内容适用类型（bitmask：1=图集, 2=小说, 4=漫画, 8=插画）
-  applicableContentTypes Int       @default(0) @map("applicable_types") @db.SmallInt
+  contentTypes      Int       @default(0) @map("content_types") @db.SmallInt
   /// 创建时间
-  createdAt              DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt              DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz
   /// 软删除时间
-  deletedAt              DateTime? @map("deleted_at") @db.Timestamptz
+  deletedAt         DateTime? @map("deleted_at") @db.Timestamptz
 
   // 关联关系
   relatedComics WorkComic[]
 
   /// 索引优化
-  @@index([applicableContentTypes, isEnabled]) // 更高效过滤组合条件
+  @@index([contentTypes, isEnabled]) // 更高效过滤组合条件
   @@index([order])
   @@index([novelCount, comicCount]) // 支持内容量筛选
   @@index([name]) // 支持快速查找分类名

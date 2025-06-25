@@ -12,7 +12,7 @@ model ClientUser {
   /// 邮箱地址
   emailAddress String?   @unique @map("email_address") @db.VarChar(255)
   /// 账户状态（true:启用, false:禁用）
-  isActive     Boolean   @default(true) @map("is_active")
+  isEnabled    Boolean   @default(true) @map("is_enabled")
   /// 性别类型（0:未知, 1:男性, 2:女性, 3:其他）
   genderType   Int       @default(0) @map("gender_type") @db.SmallInt
   /// 出生日期
@@ -29,7 +29,7 @@ model ClientUser {
   deletedAt    DateTime? @map("deleted_at") @db.Timestamptz
 
   /// 索引优化
-  @@index([isActive]) // 按账户状态查询活跃用户
+  @@index([isEnabled]) // 按账户状态查询活跃用户
   @@index([genderType]) // 按性别类型统计
   @@index([createdAt]) // 按注册时间查询
   @@index([lastLoginAt]) // 按最后登录时间查询

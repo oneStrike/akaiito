@@ -9,13 +9,19 @@ model WorkAuthor {
   /// 作者描述
   description    String?   @db.VarChar(1000)
   /// 启用状态（true: 启用, false: 禁用）
-  isEnabled      Boolean   @default(true)
+  isEnabled      Boolean   @default(true) @map("is_enabled")
   /// 作者身份角色（位运算：1=作家, 2=插画家, 3=漫画家, 4=模特）
   roles          Int?      @default(0) @db.SmallInt
   /// 国籍
   nationality    String?   @db.VarChar(50)
   /// 性别（0: 未知, 1: 男性, 2: 女性, 3: 其他）
   gender         Int       @default(0) @db.SmallInt
+  /// 作品数量（冗余字段，用于提升查询性能）
+  worksCount     Int       @default(0) @map("works_count")
+  /// 粉丝数量（冗余字段，用于前台展示）
+  followersCount Int       @default(0) @map("followers_count")
+  /// 是否为推荐作者（用于前台推荐展示）
+  featured       Boolean   @default(false)
   /// 社交媒体链接（JSON格式存储多个平台链接）
   socialLinks    String?   @map("social_links") @db.VarChar(1000)
   /// 管理员备注
@@ -24,12 +30,6 @@ model WorkAuthor {
   createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
   updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
-  /// 作品数量（冗余字段，用于提升查询性能）
-  worksCount     Int       @default(0)
-  /// 粉丝数量（冗余字段，用于前台展示）
-  followersCount Int       @default(0)
-  /// 是否为推荐作者（用于前台推荐展示）
-  featured       Boolean   @default(false)
   /// 软删除时间（用于数据恢复或归档）
   deletedAt      DateTime? @map("deleted_at") @db.Timestamptz
 
