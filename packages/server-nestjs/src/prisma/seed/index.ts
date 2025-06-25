@@ -15,5 +15,8 @@ Promise.all([
   createInitialDataDictionary(prisma),
   createInitialWorkCategory(prisma),
 ])
-  .catch(() => process.exit(1))
+  .catch((err) => {
+    console.log(err)
+    process.exit(1)
+  })
   .finally(() => prisma.$disconnect())
