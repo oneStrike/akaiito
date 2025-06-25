@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface CreateNoticeRequest {
@@ -61,7 +61,7 @@ export type CreateNoticeResponse = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface NoticePageRequest {
@@ -167,7 +167,7 @@ export interface NoticePageResponse {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface NoticeDetailRequest {
@@ -240,7 +240,7 @@ export type NoticeDetailResponse = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface UpdateNoticeRequest {
@@ -297,14 +297,14 @@ export type UpdateNoticeResponse = {
 }
 
 /**
- *  接口 [更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391299)
- *  @标签 客户端通知模块/更新通知状态
+ *  接口 [批量更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313845564)
+ *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
- *  @地址 /api/admin/notice/update-notice-status
- *  @更新时间 2025-06-25 11:22:00
+ *  @地址 /api/admin/notice/batch-update-notice-status
+ *  @更新时间 2025-06-25 22:49:04
  */
 
-export interface UpdateNoticeStatusRequest {
+export interface BatchUpdateNoticeStatusRequest {
   /* 是否发布 */
   isPublished: boolean
 
@@ -313,9 +313,9 @@ export interface UpdateNoticeStatusRequest {
 }
 
 /*  */
-export type UpdateNoticeStatusResponse = {
-  /* 主键id */
-  ids: number[]
+export type BatchUpdateNoticeStatusResponse = {
+  /* 操作成功的数据数量 */
+  count: number
 }
 
 /**
@@ -323,7 +323,7 @@ export type UpdateNoticeStatusResponse = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface BatchDeleteNoticeRequest {
@@ -333,6 +333,6 @@ export interface BatchDeleteNoticeRequest {
 
 /*  */
 export type BatchDeleteNoticeResponse = {
-  /* 主键id */
-  ids: number[]
+  /* 操作成功的数据数量 */
+  count: number
 }

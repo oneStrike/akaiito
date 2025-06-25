@@ -4,19 +4,19 @@ import type { EsToolbarProps } from '@/components/es-toolbar/types.ts'
 export const noticeType = [
   {
     label: '系统通知',
-    value: 0,
-  },
-  {
-    label: '活动公告',
     value: 1,
   },
   {
-    label: '维护通知',
+    label: '活动公告',
     value: 2,
   },
   {
+    label: '维护通知',
+    value: 4,
+  },
+  {
     label: '更新公告',
-    value: 3,
+    value: 5,
   },
 ]
 
@@ -54,7 +54,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'type',
+    field: 'noticeType',
     component: 'Select',
     props: {
       span: 2,
@@ -66,7 +66,6 @@ export const formOptions: EsFormOptions[] = [
       options: noticeType,
     },
   },
-
   {
     field: 'enablePlatform',
     component: 'Checkbox',
@@ -79,23 +78,23 @@ export const formOptions: EsFormOptions[] = [
       placeholder: '请选择发布平台',
       options: [
         {
-          label: '小程序',
-          value: 0,
-        },
-        {
-          label: 'WEB',
+          label: 'H5',
           value: 1,
         },
         {
           label: 'APP',
           value: 2,
         },
+        {
+          label: '小程序',
+          value: 4,
+        },
       ],
     },
   },
 
   {
-    field: 'priority',
+    field: 'priorityLevel',
     component: 'Select',
     props: {
       span: 2,
@@ -120,7 +119,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'sortOrder',
+    field: 'order',
     component: 'InputNumber',
     props: {
       span: 2,
@@ -133,7 +132,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'backgroundImage',
+    field: 'popupBackgroundImage',
     component: 'Upload',
     props: {
       span: 2,
@@ -159,7 +158,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'isTop',
+    field: 'isPinned',
     component: 'Radio',
     props: {
       span: 2,
@@ -180,7 +179,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'isPopup',
+    field: 'showAsPopup',
     component: 'Radio',
     props: {
       span: 2,

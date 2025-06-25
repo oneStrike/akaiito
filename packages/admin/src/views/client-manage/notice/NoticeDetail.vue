@@ -53,13 +53,13 @@
   // 计算属性
   const currentNoticeType = computed(() => {
     const typeItem =
-      noticeType.find((item) => item.value === detail.value?.type) ||
+      noticeType.find((item) => item.value === detail.value?.noticeType) ||
       noticeType[0]
     return {
       label: typeItem.label,
       color:
         (noticeTypeColorMap[
-          detail.value?.type as keyof typeof noticeTypeColorMap
+          detail.value?.noticeType as keyof typeof noticeTypeColorMap
         ] as 'primary' | 'success' | 'warning' | 'info' | 'danger') ||
         'primary',
     }
@@ -67,13 +67,13 @@
 
   const currentPriority = computed(() => {
     const priorityItem =
-      noticePriority.find((item) => item.value === detail.value?.priority) ||
+      noticePriority.find((item) => item.value === detail.value?.priorityLevel) ||
       noticePriority[1]
     return {
       label: priorityItem.label,
       color:
         (priorityColorMap[
-          detail.value?.priority as keyof typeof priorityColorMap
+          detail.value?.priorityLevel as keyof typeof priorityColorMap
         ] as 'primary' | 'success' | 'warning' | 'info' | 'danger') ||
         'primary',
     }
@@ -83,13 +83,13 @@
     if (!detail.value) return { label: '未知', color: 'info' as const }
 
     const now = new Date()
-    const endTime = detail.value.endTime ? new Date(detail.value.endTime) : null
+    const endTime = detail.value.publishEndTime ? new Date(detail.value.publishEndTime) : null
 
     if (endTime && endTime < now) {
       return { label: '已下线', color: 'danger' as const }
     }
 
-    return detail.value.isPublish
+    return detail.value.isPublished
       ? { label: '已发布', color: 'success' as const }
       : { label: '未发布', color: 'warning' as const }
   })
@@ -142,16 +142,16 @@
           <h3 class="text-gray-900 mb-3 text-base font-medium">基本信息</h3>
           <el-descriptions :column="2" border>
             <el-descriptions-item label="开始时间">
-              {{ formatTime(detail.startTime) }}
+              {{ formatTime(detail.publishStartTime) }}
             </el-descriptions-item>
             <el-descriptions-item label="结束时间">
-              {{ formatTime(detail.endTime) }}
+              {{ formatTime(detail.publishEndTime) }}
             </el-descriptions-item>
             <el-descriptions-item label="创建时间">
               {{ formatTime(detail.createdAt) }}
             </el-descriptions-item>
             <el-descriptions-item label="阅读次数">
-              {{ detail.viewCount || 0 }}
+              {{ detail.readCount || 0 }}
             </el-descriptions-item>
           </el-descriptions>
         </div>
@@ -161,13 +161,13 @@
           <h3 class="text-base font-medium text-gray-900 mb-3">发布设置</h3>
           <el-descriptions :column="2" border>
             <el-descriptions-item label="是否置顶">
-              {{ detail.isTop ? '是' : '否' }}
+              {{ detail.isPinned ? '是' : '否' }}
             </el-descriptions-item>
             <el-descriptions-item label="是否弹窗">
-              {{ detail.isPopup ? '是' : '否' }}
+              {{ detail.showAsPopup ? '是' : '否' }}
             </el-descriptions-item>
             <el-descriptions-item label="排序权重">
-              {{ detail.sortOrder || 0 }}
+              {{ detail.order || 0 }}
             </el-descriptions-item>
             <el-descriptions-item label="启用平台">
               {{
@@ -180,12 +180,12 @@
         </div>
 
         <!-- 背景图片 -->
-        <div v-if="detail.backgroundImage">
+        <div v-if="detail.popupBackgroundImage">
           <h3 class="text-base font-medium text-gray-900 mb-3">背景图片</h3>
           <div class="text-center">
             <el-image
-              :src="detail.backgroundImage"
-              :preview-src-list="[detail.backgroundImage]"
+              :src="detail.popupBackgroundImage"
+              :preview-src-list="[detail.popupBackgroundImage]"
               class="border border-gray-200 max-w-md max-h-64 rounded-lg"
               fit="contain"
             />

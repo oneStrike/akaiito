@@ -6,8 +6,8 @@
   } from '@/apis/types/notice'
   import type { EsTableColumn } from '@/components/es-table/types.ts'
   import type { ToolbarFilter } from '@/components/es-toolbar/types.ts'
+  import * as clientPageApi from '@/apis/client-page.ts'
   import * as noticeApi from '@/apis/notice.ts'
-  import * as pageConfigApi from '@/apis/page-config.ts'
   import { PromptsEnum } from '@/enum/prompts'
   import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
   import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
@@ -26,22 +26,22 @@
   const tableColumns = ref<EsTableColumn>()
 
   const formTool = useFormTool(formOptions)
-  pageConfigApi.pageConfigPageApi({ pageSize: 500 }).then((res) => {
+  clientPageApi.clientPagePageApi({ pageSize: 500 }).then((res) => {
     formTool.specificItem('pageCode', (item) => {
       item.componentProps!.options = res.list.map((item) => ({
         label: item.pageName,
         value: item.pageCode,
       }))
       filter.value = formOptionsToFilterOptions(formTool.options, {
-        isPopup: 6,
-        priority: 6,
-        type: 6,
+        showAsPopup: 6,
+        priorityLevel: 6,
+        noticeType: 6,
         pageCode: 6,
         title: 6,
       })
       tableColumns.value = formOptionsToTableColumn(
         formTool.options,
-        ['content', 'isPopup', 'isTop', 'backgroundImage', 'sortOrder'],
+        ['content', 'showAsPopup', 'isPinned', 'popupBackgroundImage', 'order'],
         {
           isPublish: true,
           isEnabled: false,
@@ -100,6 +100,7 @@
   }
 
   const submitForm = async (value: UpdateNoticeRequest & IterateObject) => {
+    console.log(value)
     modalFrom.loading = true
     if (value.pageCode) {
       const pages = formTool.getItem('pageCode')[0].componentProps!.options!
@@ -173,7 +174,7 @@
         <EsPopConfirm
           :disabled="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
           :confirm-text="row.isPublish ? '取消发布' : '发布'"
-          :request="noticeApi.updateNoticeStatusApi"
+          :request="noticeApi.batchUpdateNoticeStatusApi"
           :row="row"
           ids
           field="isPublish"

@@ -21,7 +21,7 @@ import type {
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/create-client-page
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export const createClientPageApi = (data: CreateClientPageRequest): Promise<CreateClientPageResponse> => {
@@ -40,7 +40,7 @@ export const createClientPageApi = (data: CreateClientPageRequest): Promise<Crea
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-page
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export const clientPagePageApi = (params: ClientPagePageRequest): Promise<ClientPagePageResponse> => {
@@ -57,7 +57,7 @@ export const clientPagePageApi = (params: ClientPagePageRequest): Promise<Client
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-id
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export const clientPageDetailByIdApi = (params: ClientPageDetailByIdRequest): Promise<ClientPageDetailByIdResponse> => {
@@ -74,7 +74,7 @@ export const clientPageDetailByIdApi = (params: ClientPageDetailByIdRequest): Pr
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-code
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export const clientPageDetailByCodeApi = (
@@ -93,7 +93,7 @@ export const clientPageDetailByCodeApi = (
  *  @标签 客户端页面配置模块/更新页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/update-client-page
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export const updateClientPageApi = (data: UpdateClientPageRequest): Promise<UpdateClientPageResponse> => {
@@ -112,7 +112,7 @@ export const updateClientPageApi = (data: UpdateClientPageRequest): Promise<Upda
  *  @标签 客户端页面配置模块/批量更新页面配置状态
  *  @方式 POST
  *  @地址 /api/admin/client-page/batch-update-client-page-status
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export const batchUpdateClientPageStatusApi = (
@@ -133,7 +133,7 @@ export const batchUpdateClientPageStatusApi = (
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/batch-delete-client-page
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export const batchDeleteClientPageApi = (

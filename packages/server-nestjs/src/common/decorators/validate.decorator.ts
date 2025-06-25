@@ -404,11 +404,24 @@ export function ValidateByRegex(options: ValidateRegexOptions) {
 }
 
 /**
+ * 检测枚举是否为数字枚举
+ * @param enumObject 枚举对象
+ * @returns 是否为数字枚举
+ */
+function isNumberEnum(enumObject: object): boolean {
+  const values = Object.values(enumObject)
+  return values.some((value) => typeof value === 'number')
+}
+
+/**
  * 校验枚举类型
  * @param options
  * @constructor
  */
 export function ValidateEnum(options: ValidateEnumOptions) {
+  // 自动检测枚举类型
+  const isNumEnum = isNumberEnum(options.enum)
+
   const decorators = [
     ApiProperty({
       description: options.description,
@@ -425,17 +438,34 @@ export function ValidateEnum(options: ValidateEnumOptions) {
     decorators.push(IsOptional())
   }
 
-  // 添加转换逻辑，处理默认值
-  if (options.default !== undefined) {
-    decorators.push(
-      Transform(({ value }) => {
-        if (value === undefined || value === null) {
-          return options.default
+  // 添加转换逻辑，处理默认值和类型转换
+  decorators.push(
+    Transform(({ value }) => {
+      // 处理默认值
+      if (value === undefined || value === null) {
+        return options.default
+      }
+
+      // 如果是数字枚举且值为字符串，尝试转换为数字
+      if (isNumEnum && typeof value === 'string') {
+        const numValue = Number(value)
+        // 检查转换后的数字是否在枚举值中
+        if (
+          !Number.isNaN(numValue) &&
+          Object.values(options.enum).includes(numValue)
+        ) {
+          return numValue
         }
-        return value
-      }),
-    )
-  }
+        // 如果数字转换失败，检查字符串是否在枚举键中
+        if (Object.keys(options.enum).includes(value)) {
+          return (options.enum as any)[value]
+        }
+      }
+
+      // 如果是字符串枚举，直接返回
+      return value
+    }),
+  )
 
   return applyDecorators(...decorators)
 }

@@ -3,7 +3,7 @@
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-page
- *  @更新时间 2025-06-25 11:21:59
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface DictionaryPageRequest {
@@ -73,7 +73,7 @@ export interface DictionaryPageResponse {
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-detail
- *  @更新时间 2025-06-25 11:21:59
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface DictionaryDetailRequest {
@@ -113,7 +113,7 @@ export type DictionaryDetailResponse = {
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface CreateDictionaryRequest {
@@ -135,29 +135,8 @@ export interface CreateDictionaryRequest {
 
 /*  */
 export type CreateDictionaryResponse = {
-  /* 字典ID */
+  /* 主键id */
   id: number
-
-  /* 字典名称 */
-  name: string
-
-  /* 字典编码 */
-  code: string
-
-  /* 字典封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
 }
 
 /**
@@ -165,7 +144,7 @@ export type CreateDictionaryResponse = {
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface UpdateDictionaryRequest {
@@ -196,29 +175,8 @@ export interface UpdateDictionaryRequest {
 
 /*  */
 export type UpdateDictionaryResponse = {
-  /* 字典ID */
+  /* 主键id */
   id: number
-
-  /* 字典名称 */
-  name: string
-
-  /* 字典编码 */
-  code: string
-
-  /* 字典封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
 }
 
 /**
@@ -226,7 +184,7 @@ export type UpdateDictionaryResponse = {
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface DeleteDictionaryRequest {
@@ -245,7 +203,7 @@ export type DeleteDictionaryResponse = {
  *  @标签 字典管理/批量启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/batch-update-dictionary-status
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface BatchUpdateDictionaryStatusRequest {
@@ -258,29 +216,8 @@ export interface BatchUpdateDictionaryStatusRequest {
 
 /*  */
 export type BatchUpdateDictionaryStatusResponse = {
-  /* 字典ID */
-  id: number
-
-  /* 字典名称 */
-  name: string
-
-  /* 字典编码 */
-  code: string
-
-  /* 字典封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
+  /* 操作成功的数据数量 */
+  count: number
 }
 
 /**
@@ -288,7 +225,7 @@ export type BatchUpdateDictionaryStatusResponse = {
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-items
- *  @更新时间 2025-06-25 11:21:59
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface DictionaryItemsRequest {
@@ -343,7 +280,7 @@ export type DictionaryItemsResponse = {
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary-item
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface CreateDictionaryItemRequest {
@@ -371,35 +308,8 @@ export interface CreateDictionaryItemRequest {
 
 /*  */
 export type CreateDictionaryItemResponse = {
-  /* 字典项ID */
+  /* 主键id */
   id: number
-
-  /* 字典编码 */
-  dictionaryCode: string
-
-  /* 字典项名称 */
-  name: string
-
-  /* 字典项编码 */
-  code: string
-
-  /* 排序 */
-  order?: number
-
-  /* 字典项封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
 }
 
 /**
@@ -407,7 +317,7 @@ export type CreateDictionaryItemResponse = {
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface UpdateDictionaryItemRequest {
@@ -438,35 +348,8 @@ export interface UpdateDictionaryItemRequest {
 
 /*  */
 export type UpdateDictionaryItemResponse = {
-  /* 字典项ID */
+  /* 主键id */
   id: number
-
-  /* 字典编码 */
-  dictionaryCode: string
-
-  /* 字典项名称 */
-  name: string
-
-  /* 字典项编码 */
-  code: string
-
-  /* 排序 */
-  order?: number
-
-  /* 字典项封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
 }
 
 /**
@@ -474,7 +357,7 @@ export type UpdateDictionaryItemResponse = {
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary-item
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface DeleteDictionaryItemRequest {
@@ -484,35 +367,8 @@ export interface DeleteDictionaryItemRequest {
 
 /*  */
 export type DeleteDictionaryItemResponse = {
-  /* 字典项ID */
-  id: number
-
-  /* 字典编码 */
-  dictionaryCode: string
-
-  /* 字典项名称 */
-  name: string
-
-  /* 字典项编码 */
-  code: string
-
-  /* 排序 */
-  order?: number
-
-  /* 字典项封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
+  /* 操作成功的数据数量 */
+  count: number
 }
 
 /**
@@ -520,7 +376,7 @@ export type DeleteDictionaryItemResponse = {
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item-status
- *  @更新时间 2025-06-25 11:22:00
+ *  @更新时间 2025-06-25 22:49:04
  */
 
 export interface UpdateDictionaryItemStatusRequest {
@@ -533,33 +389,6 @@ export interface UpdateDictionaryItemStatusRequest {
 
 /*  */
 export type UpdateDictionaryItemStatusResponse = {
-  /* 字典项ID */
-  id: number
-
-  /* 字典编码 */
-  dictionaryCode: string
-
-  /* 字典项名称 */
-  name: string
-
-  /* 字典项编码 */
-  code: string
-
-  /* 排序 */
-  order?: number
-
-  /* 字典项封面 */
-  cover?: string | null
-
-  /* 状态 true启用 false禁用 */
-  isEnabled: boolean
-
-  /* 备注信息 */
-  remark?: string | null
-
-  /* 创建时间 */
-  createdAt: string
-
-  /* 更新时间 */
-  updatedAt: string
+  /* 操作成功的数据数量 */
+  count: number
 }

@@ -1,5 +1,5 @@
 /// 通知类型枚举
-  export enum NoticeTypeEnum {
+export enum NoticeTypeEnum {
   /** 系统通知 */
   SYSTEM = 0,
   /** 活动公告 */
