@@ -153,13 +153,13 @@ export async function createInitialDataDictionary(prisma: PrismaClient) {
         },
         update: {
           ...subItem,
-          dictionary: {
+          parentDictionary: {
             connect: { code: item.code },
           },
         },
         create: {
           ...subItem,
-          dictionary: {
+          parentDictionary: {
             connect: { code: item.code },
           },
         },

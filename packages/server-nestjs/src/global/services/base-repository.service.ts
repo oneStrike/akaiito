@@ -75,6 +75,8 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   static readonly MAX_PAGE_SIZE = 500
   static readonly DEFAULT_PAGE_SIZE = 15
   static readonly DEFAULT_PAGE_INDEX = 0
+  static readonly DEFAULT_SELECT = { id: true }
+  static readonly DEFAULT_OMIT = { deletedAt: true }
 
   /**
    * 子类需指定模型名
@@ -101,7 +103,26 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     options: Partial<QueryOptions<T>>,
   ): Partial<QueryOptions<T>> {
     if (!options?.omit && !options?.select) {
-      return { ...options, select: { id: true } as ModelTypes<T>['Select'] }
+      return {
+        ...options,
+        select: BaseRepositoryService.DEFAULT_SELECT,
+      }
+    }
+    return options
+  }
+
+  /**
+   * 默认omit 去除deletedAt
+   */
+  private defaultOmit(options?: Partial<QueryOptions<T>>) {
+    if (!options?.select) {
+      return {
+        ...options,
+        omit: {
+          ...(options?.omit ?? {}),
+          ...BaseRepositoryService.DEFAULT_OMIT,
+        },
+      }
     }
     return options
   }
@@ -160,7 +181,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       : options?.where
     return this.model.findFirst({
       ...(where && { where }),
-      ...this.buildQueryOptions(options),
+      ...this.buildQueryOptions(this.defaultOmit(options)),
     })
   }
 
@@ -179,13 +200,13 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       )
       return this.model.findFirst({
         where,
-        ...this.buildQueryOptions(options),
+        ...this.buildQueryOptions(this.defaultOmit(options)),
       })
     }
     // 不支持软删除时，直接使用 findUnique
     return this.model.findUnique({
       where: options.where,
-      ...this.buildQueryOptions(options),
+      ...this.buildQueryOptions(this.defaultOmit(options)),
     })
   }
 
@@ -200,7 +221,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
           id: options.id,
         } as ModelTypes<T>['WhereInput'])
       : ({ id: options.id } as ModelTypes<T>['WhereInput'])
-    return this.model.findFirst({ where, ...this.buildQueryOptions(options) })
+    return this.model.findFirst({ where, ...this.defaultOmit(options) })
   }
 
   /**
@@ -214,7 +235,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   ): Promise<any[]> {
     return this._findManyInternal(
       {
-        ...options,
+        ...this.defaultOmit(options),
         pageSize: BaseRepositoryService.MAX_PAGE_SIZE,
         pageIndex: 0,
       },
@@ -647,8 +668,8 @@ export abstract class BaseRepositoryService<T extends ModelName> {
       orderBy,
       include,
       select,
-      omit,
     } = options || {}
+    const { omit } = this.defaultOmit(options)
     let finalWhere = where
     let countWhere = where
     if (mode === 'normal' && this.supportsSoftDelete) {

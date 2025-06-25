@@ -16,7 +16,7 @@ import {
 @Injectable()
 export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
   protected readonly modelName = 'WorkCategory' as const
-  protected readonly supportsSoftDelete = false // 分类不支持软删除
+  protected readonly supportsSoftDelete = true // 分类不支持软删除
 
   constructor(protected readonly prisma: PrismaService) {
     super(prisma)
