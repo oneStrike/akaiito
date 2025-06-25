@@ -15,7 +15,11 @@ import {
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
-import { NoticePriorityEnum, NoticeTypeEnum } from '../notice.constant'
+import {
+  EnablePlatformEnum,
+  NoticePriorityEnum,
+  NoticeTypeEnum,
+} from '../notice.constant'
 
 /**
  * 通知基础DTO
@@ -97,29 +101,13 @@ export class BaseNoticeDto {
   })
   isPublished!: boolean
 
-  @ValidateBoolean({
-    description: '是否启用小程序',
-    example: true,
+  @ValidateEnum({
+    description: '启用的平台',
+    example: EnablePlatformEnum.APP,
     required: true,
-    default: true,
+    enum: EnablePlatformEnum,
   })
-  enableMiniProgram!: boolean
-
-  @ValidateBoolean({
-    description: '是否启用H5',
-    example: true,
-    required: true,
-    default: true,
-  })
-  enableH5!: boolean
-
-  @ValidateBoolean({
-    description: '是否启用APP',
-    example: true,
-    required: true,
-    default: true,
-  })
-  enableMobileApp!: boolean
+  enablePlatform!: EnablePlatformEnum
 
   @ValidateBoolean({
     description: '是否置顶',

@@ -21,3 +21,13 @@ export enum NoticePriorityEnum {
   /** 紧急 */
   URGENT = 3,
 }
+
+// 启用的平台
+export enum EnablePlatformEnum {
+  /** H5 */
+  H5 = 1,
+  /** APP */
+  APP = 2,
+  /** 小程序 */
+  MINI_PROGRAM = 4,
+}
