@@ -2,7 +2,8 @@
   import type { NoticeDetailResponse } from '@/apis/types/notice'
   import dayjs from 'dayjs'
   import * as noticeApi from '@/apis/notice.ts'
-  import { noticePriority, noticeType } from './shared'
+  import { useBitmask } from '@/hooks/useBitmask.ts'
+  import { enablePlatform, noticePriority, noticeType } from './shared'
 
   defineOptions({
     name: 'NoticeDetail',
@@ -67,8 +68,9 @@
 
   const currentPriority = computed(() => {
     const priorityItem =
-      noticePriority.find((item) => item.value === detail.value?.priorityLevel) ||
-      noticePriority[1]
+      noticePriority.find(
+        (item) => item.value === detail.value?.priorityLevel,
+      ) || noticePriority[1]
     return {
       label: priorityItem.label,
       color:
@@ -83,7 +85,9 @@
     if (!detail.value) return { label: '未知', color: 'info' as const }
 
     const now = new Date()
-    const endTime = detail.value.publishEndTime ? new Date(detail.value.publishEndTime) : null
+    const endTime = detail.value.publishEndTime
+      ? new Date(detail.value.publishEndTime)
+      : null
 
     if (endTime && endTime < now) {
       return { label: '已下线', color: 'danger' as const }
@@ -96,11 +100,11 @@
 
   const enabledPlatforms = computed(() => {
     if (!detail.value) return []
-    const platforms = []
-    if (detail.value.enableApplet) platforms.push('小程序')
-    if (detail.value.enableWeb) platforms.push('H5')
-    if (detail.value.enableApp) platforms.push('APP')
-    return platforms
+    return (
+      useBitmask
+        .getLabels(detail.value.enablePlatform, enablePlatform)
+        .join('、') || '暂无启用的平台'
+    )
   })
 
   // 格式化时间
@@ -142,10 +146,10 @@
           <h3 class="text-gray-900 mb-3 text-base font-medium">基本信息</h3>
           <el-descriptions :column="2" border>
             <el-descriptions-item label="开始时间">
-              {{ formatTime(detail.publishStartTime) }}
+              {{ formatTime(detail.publishStartTime!) }}
             </el-descriptions-item>
             <el-descriptions-item label="结束时间">
-              {{ formatTime(detail.publishEndTime) }}
+              {{ formatTime(detail.publishEndTime!) }}
             </el-descriptions-item>
             <el-descriptions-item label="创建时间">
               {{ formatTime(detail.createdAt) }}
@@ -170,11 +174,7 @@
               {{ detail.order || 0 }}
             </el-descriptions-item>
             <el-descriptions-item label="启用平台">
-              {{
-                enabledPlatforms.length > 0
-                  ? enabledPlatforms.join('、')
-                  : '暂无启用平台'
-              }}
+              {{ enabledPlatforms }}
             </el-descriptions-item>
           </el-descriptions>
         </div>

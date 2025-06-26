@@ -3,7 +3,7 @@
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/create-client-page
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CreateClientPageRequest {
@@ -40,7 +40,7 @@ export type CreateClientPageResponse = {
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-page
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface ClientPagePageRequest {
@@ -119,7 +119,7 @@ export interface ClientPagePageResponse {
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-id
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface ClientPageDetailByIdRequest {
@@ -168,7 +168,7 @@ export type ClientPageDetailByIdResponse = {
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-code
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface ClientPageDetailByCodeRequest {
@@ -217,7 +217,7 @@ export type ClientPageDetailByCodeResponse = {
  *  @标签 客户端页面配置模块/更新页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/update-client-page
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface UpdateClientPageRequest {
@@ -257,12 +257,12 @@ export type UpdateClientPageResponse = {
  *  @标签 客户端页面配置模块/批量更新页面配置状态
  *  @方式 POST
  *  @地址 /api/admin/client-page/batch-update-client-page-status
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface BatchUpdateClientPageStatusRequest {
   /* 批量操作的 ID 数组 */
-  ids: number[]
+  ids: []
 
   /* 启用或者禁用 */
   isEnabled: boolean
@@ -279,12 +279,12 @@ export type BatchUpdateClientPageStatusResponse = {
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/batch-delete-client-page
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface BatchDeleteClientPageRequest {
   /* 主键id */
-  ids: number[]
+  ids: []
 }
 
 /*  */

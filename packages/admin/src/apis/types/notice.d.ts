@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CreateNoticeRequest {
@@ -20,10 +20,10 @@ export interface CreateNoticeRequest {
   priorityLevel: number
 
   /* 发布开始时间 */
-  publishStartTime?: string
+  publishStartTime?: string | null
 
   /* 发布结束时间 */
-  publishEndTime?: string
+  publishEndTime?: string | null
 
   /* 关联页面代码 */
   pageCode?: string | null
@@ -31,23 +31,17 @@ export interface CreateNoticeRequest {
   /* 通知弹窗背景图片URL */
   popupBackgroundImage?: string | null
 
-  /* 是否启用小程序 */
-  enableMiniProgram: boolean
-
-  /* 是否启用H5 */
-  enableH5: boolean
-
-  /* 是否启用APP */
-  enableMobileApp: boolean
+  /* 启用的平台 */
+  enablePlatform: number
 
   /* 是否置顶 */
-  isPinned?: boolean
+  isPinned?: boolean | null
 
   /* 是否弹窗显示 */
-  showAsPopup?: boolean
+  showAsPopup?: boolean | null
 
   /* 排序权重（数值越大越靠前） */
-  order?: number
+  order?: number | null
 }
 
 /*  */
@@ -61,7 +55,7 @@ export type CreateNoticeResponse = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface NoticePageRequest {
@@ -94,6 +88,9 @@ export interface NoticePageRequest {
 
   /* 是否置顶 */
   isPinned?: boolean
+
+  /* 是否弹窗显示 */
+  showAsPopup?: boolean
 }
 
 export interface NoticePageResponse {
@@ -119,10 +116,10 @@ export interface NoticePageResponse {
     priorityLevel: number
 
     /* 发布开始时间 */
-    publishStartTime?: string
+    publishStartTime?: string | null
 
     /* 发布结束时间 */
-    publishEndTime?: string
+    publishEndTime?: string | null
 
     /* 关联页面代码 */
     pageCode?: string | null
@@ -133,26 +130,20 @@ export interface NoticePageResponse {
     /* 是否发布 */
     isPublished: boolean
 
-    /* 是否启用小程序 */
-    enableMiniProgram: boolean
-
-    /* 是否启用H5 */
-    enableH5: boolean
-
-    /* 是否启用APP */
-    enableMobileApp: boolean
+    /* 启用的平台 */
+    enablePlatform: number
 
     /* 是否置顶 */
-    isPinned?: boolean
+    isPinned?: boolean | null
 
     /* 是否弹窗显示 */
-    showAsPopup?: boolean
+    showAsPopup?: boolean | null
 
     /* 排序权重（数值越大越靠前） */
-    order?: number
+    order?: number | null
 
     /* 阅读次数 */
-    readCount?: number
+    readCount?: number | null
 
     /* 创建时间 */
     createdAt: string
@@ -167,7 +158,7 @@ export interface NoticePageResponse {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface NoticeDetailRequest {
@@ -193,10 +184,10 @@ export type NoticeDetailResponse = {
   priorityLevel: number
 
   /* 发布开始时间 */
-  publishStartTime?: string
+  publishStartTime?: string | null
 
   /* 发布结束时间 */
-  publishEndTime?: string
+  publishEndTime?: string | null
 
   /* 关联页面代码 */
   pageCode?: string | null
@@ -207,26 +198,20 @@ export type NoticeDetailResponse = {
   /* 是否发布 */
   isPublished: boolean
 
-  /* 是否启用小程序 */
-  enableMiniProgram: boolean
-
-  /* 是否启用H5 */
-  enableH5: boolean
-
-  /* 是否启用APP */
-  enableMobileApp: boolean
+  /* 启用的平台 */
+  enablePlatform: number
 
   /* 是否置顶 */
-  isPinned?: boolean
+  isPinned?: boolean | null
 
   /* 是否弹窗显示 */
-  showAsPopup?: boolean
+  showAsPopup?: boolean | null
 
   /* 排序权重（数值越大越靠前） */
-  order?: number
+  order?: number | null
 
   /* 阅读次数 */
-  readCount?: number
+  readCount?: number | null
 
   /* 创建时间 */
   createdAt: string
@@ -240,7 +225,7 @@ export type NoticeDetailResponse = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface UpdateNoticeRequest {
@@ -257,10 +242,10 @@ export interface UpdateNoticeRequest {
   priorityLevel?: number
 
   /* 发布开始时间 */
-  publishStartTime?: string
+  publishStartTime?: string | null
 
   /* 发布结束时间 */
-  publishEndTime?: string
+  publishEndTime?: string | null
 
   /* 关联页面代码 */
   pageCode?: string | null
@@ -268,23 +253,17 @@ export interface UpdateNoticeRequest {
   /* 通知弹窗背景图片URL */
   popupBackgroundImage?: string | null
 
-  /* 是否启用小程序 */
-  enableMiniProgram?: boolean
-
-  /* 是否启用H5 */
-  enableH5?: boolean
-
-  /* 是否启用APP */
-  enableMobileApp?: boolean
+  /* 启用的平台 */
+  enablePlatform?: number
 
   /* 是否置顶 */
-  isPinned?: boolean
+  isPinned?: boolean | null
 
   /* 是否弹窗显示 */
-  showAsPopup?: boolean
+  showAsPopup?: boolean | null
 
   /* 排序权重（数值越大越靠前） */
-  order?: number
+  order?: number | null
 
   /* 主键id */
   id: number
@@ -301,7 +280,7 @@ export type UpdateNoticeResponse = {
  *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-update-notice-status
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface BatchUpdateNoticeStatusRequest {
@@ -309,7 +288,7 @@ export interface BatchUpdateNoticeStatusRequest {
   isPublished: boolean
 
   /* 通知ID列表 */
-  ids: number[]
+  ids: []
 }
 
 /*  */
@@ -323,12 +302,12 @@ export type BatchUpdateNoticeStatusResponse = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface BatchDeleteNoticeRequest {
   /* 主键id */
-  ids: number[]
+  ids: []
 }
 
 /*  */

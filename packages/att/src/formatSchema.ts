@@ -4,7 +4,7 @@ export function formatSchema(schemas: IterateObject[]) {
   const schemaArr: IterateObject = {}
   schemas.forEach((item) => {
     const { properties, required, 'x-apifox-orders': orders } = item.jsonSchema
-    orders.forEach((field: string) => {
+    orders?.forEach((field: string) => {
       let type = properties[field]?.type
       let isArray = false
       if (!Array.isArray(schemaArr[item.id])) {

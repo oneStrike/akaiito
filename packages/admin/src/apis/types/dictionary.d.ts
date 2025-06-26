@@ -3,7 +3,7 @@
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-page
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface DictionaryPageRequest {
@@ -73,7 +73,7 @@ export interface DictionaryPageResponse {
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-detail
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface DictionaryDetailRequest {
@@ -113,7 +113,7 @@ export type DictionaryDetailResponse = {
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CreateDictionaryRequest {
@@ -127,7 +127,7 @@ export interface CreateDictionaryRequest {
   cover?: string | null
 
   /* 状态 true启用 false禁用 */
-  isEnabled?: boolean
+  isEnabled?: boolean | null
 
   /* 备注信息 */
   remark?: string | null
@@ -144,7 +144,7 @@ export type CreateDictionaryResponse = {
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface UpdateDictionaryRequest {
@@ -184,18 +184,18 @@ export type UpdateDictionaryResponse = {
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface DeleteDictionaryRequest {
   /* 主键id */
-  ids: number[]
+  ids: []
 }
 
 /*  */
 export type DeleteDictionaryResponse = {
   /* 主键id */
-  ids: number[]
+  ids: []
 }
 
 /**
@@ -203,12 +203,12 @@ export type DeleteDictionaryResponse = {
  *  @标签 字典管理/批量启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/batch-update-dictionary-status
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface BatchUpdateDictionaryStatusRequest {
   /* 批量操作的 ID 数组 */
-  ids: number[]
+  ids: []
 
   /* 启用或者禁用 */
   isEnabled: boolean
@@ -225,7 +225,7 @@ export type BatchUpdateDictionaryStatusResponse = {
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-items
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface DictionaryItemsRequest {
@@ -257,7 +257,7 @@ export type DictionaryItemsResponse = {
   code: string
 
   /* 排序 */
-  order?: number
+  order?: number | null
 
   /* 字典项封面 */
   cover?: string | null
@@ -280,7 +280,7 @@ export type DictionaryItemsResponse = {
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary-item
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CreateDictionaryItemRequest {
@@ -294,13 +294,13 @@ export interface CreateDictionaryItemRequest {
   code: string
 
   /* 排序 */
-  order?: number
+  order?: number | null
 
   /* 字典项封面 */
   cover?: string | null
 
   /* 状态 true启用 false禁用 */
-  isEnabled?: boolean
+  isEnabled?: boolean | null
 
   /* 备注信息 */
   remark?: string | null
@@ -317,7 +317,7 @@ export type CreateDictionaryItemResponse = {
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface UpdateDictionaryItemRequest {
@@ -331,13 +331,13 @@ export interface UpdateDictionaryItemRequest {
   code: string
 
   /* 排序 */
-  order?: number
+  order?: number | null
 
   /* 字典项封面 */
   cover?: string | null
 
   /* 状态 true启用 false禁用 */
-  isEnabled?: boolean
+  isEnabled?: boolean | null
 
   /* 备注信息 */
   remark?: string | null
@@ -357,12 +357,12 @@ export type UpdateDictionaryItemResponse = {
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary-item
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface DeleteDictionaryItemRequest {
   /* 主键id */
-  ids: number[]
+  ids: []
 }
 
 /*  */
@@ -376,12 +376,12 @@ export type DeleteDictionaryItemResponse = {
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item-status
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface UpdateDictionaryItemStatusRequest {
   /* 批量操作的 ID 数组 */
-  ids: number[]
+  ids: []
 
   /* 启用或者禁用 */
   isEnabled: boolean

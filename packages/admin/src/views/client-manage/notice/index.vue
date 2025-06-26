@@ -106,7 +106,7 @@
         (item) => item.value === value.pageCode,
       )!.label
     }
-    value.enablePlatform = useBitmask.set(value.enablePlatform)
+    value.enablePlatform = useBitmask.set(String(value.enablePlatform))
     if (Array.isArray(value.dateTimeRange) && value.dateTimeRange[0]) {
       const [startTime, endTime] = value.dateTimeRange
       value.publishStartTime = startTime
@@ -165,7 +165,11 @@
           @success="tableRef?.reset()"
         />
         <EsPopConfirm
-          :disabled="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
+          :disabled="
+            !row.isPublished
+            && row.publishEndTime
+            && $dayjs(row.publishEndTime).isBefore($dayjs())
+          "
           :confirm-text="row.isPublished ? '取消发布' : '发布'"
           :request="noticeApi.batchUpdateNoticeStatusApi"
           :row="row"

@@ -3,7 +3,7 @@
  *  @标签 分类管理模块/创建分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/create-category
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CreateCategoryRequest {
@@ -14,13 +14,13 @@ export interface CreateCategoryRequest {
   icon?: string | null
 
   /* 排序值 */
-  order?: number
+  order?: number | null
 
   /* 是否启用 */
-  isEnabled?: boolean
+  isEnabled?: boolean | null
 
   /* 应用类型 */
-  contentTypes?: number
+  contentTypes?: number | null
 }
 
 /*  */
@@ -34,7 +34,7 @@ export type CreateCategoryResponse = {
  *  @标签 分类管理模块/分页查询分类列表
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-page
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CategoryPageRequest {
@@ -83,31 +83,31 @@ export interface CategoryPageResponse {
     icon?: string | null
 
     /* 人气值 */
-    popularity?: number
+    popularity?: number | null
 
     /* 辅助人气值 */
-    popularityWeight?: number
+    popularityWeight?: number | null
 
     /* 排序值 */
-    order?: number
+    order?: number | null
 
     /* 小说数量 */
-    novelCount?: number
+    novelCount?: number | null
 
     /* 漫画数量 */
-    comicCount?: number
+    comicCount?: number | null
 
     /* 图片数量 */
-    imageSetCount?: number
+    imageSetCount?: number | null
 
     /* 插画数量 */
-    illustrationCount?: number
+    illustrationCount?: number | null
 
     /* 是否启用 */
-    isEnabled?: boolean
+    isEnabled?: boolean | null
 
     /* 应用类型 */
-    contentTypes?: number
+    contentTypes?: number | null
 
     /* 创建时间 */
     createdAt?: string | null
@@ -122,7 +122,7 @@ export interface CategoryPageResponse {
  *  @标签 分类管理模块/获取分类详情
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-detail
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CategoryDetailRequest {
@@ -142,31 +142,31 @@ export type CategoryDetailResponse = {
   icon?: string | null
 
   /* 人气值 */
-  popularity?: number
+  popularity?: number | null
 
   /* 辅助人气值 */
-  popularityWeight?: number
+  popularityWeight?: number | null
 
   /* 排序值 */
-  order?: number
+  order?: number | null
 
   /* 小说数量 */
-  novelCount?: number
+  novelCount?: number | null
 
   /* 漫画数量 */
-  comicCount?: number
+  comicCount?: number | null
 
   /* 图片数量 */
-  imageSetCount?: number
+  imageSetCount?: number | null
 
   /* 插画数量 */
-  illustrationCount?: number
+  illustrationCount?: number | null
 
   /* 是否启用 */
-  isEnabled?: boolean
+  isEnabled?: boolean | null
 
   /* 应用类型 */
-  contentTypes?: number
+  contentTypes?: number | null
 
   /* 创建时间 */
   createdAt?: string | null
@@ -180,7 +180,7 @@ export type CategoryDetailResponse = {
  *  @标签 分类管理模块/更新分类信息
  *  @方式 PUT
  *  @地址 /api/admin/work/category/update-category
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 /*  */
@@ -194,12 +194,12 @@ export type UpdateCategoryResponse = {
  *  @标签 分类管理模块/批量更新分类状态
  *  @方式 POST
  *  @地址 /api/admin/work/category/batch-update-category-status
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface BatchUpdateCategoryStatusRequest {
   /* 批量操作的 ID 数组 */
-  ids: number[]
+  ids: []
 
   /* 启用或者禁用 */
   isEnabled: boolean
@@ -216,7 +216,7 @@ export type BatchUpdateCategoryStatusResponse = {
  *  @标签 分类管理模块/批量删除分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/delete-batch
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 /*  */
@@ -230,7 +230,7 @@ export type DeleteBatchResponse = {
  *  @标签 分类管理模块/分类拖拽排序
  *  @方式 POST
  *  @地址 /api/admin/work/category/category-order
- *  @更新时间 2025-06-25 22:49:04
+ *  @更新时间 2025-06-26 22:27:01
  */
 
 export interface CategoryOrderRequest {
