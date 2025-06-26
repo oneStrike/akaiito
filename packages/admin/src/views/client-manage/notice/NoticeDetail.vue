@@ -208,13 +208,17 @@
         <!-- 关联页面 -->
         <div v-if="detail.pageCode">
           <h3 class="text-base font-medium text-gray-900 mb-3">关联页面</h3>
-          <div
-            class="px-3 py-2 bg-gray-100 rounded-md font-mono text-sm text-gray-700"
-          >
-            {{ detail.clientPage.pageCode }}
-            {{ detail.clientPage.pageName }}
-            {{ detail.clientPage.pagePath }}
-          </div>
+          <el-descriptions :column="2" border :label-width="100">
+            <el-descriptions-item label="页面名称">
+              {{ detail.clientPage.pageName }}
+            </el-descriptions-item>
+            <el-descriptions-item label="页面编码">
+              {{ detail.clientPage.pageCode }}
+            </el-descriptions-item>
+            <el-descriptions-item label="页面路径">
+              {{ detail.clientPage.pagePath }}
+            </el-descriptions-item>
+          </el-descriptions>
         </div>
       </div>
     </div>

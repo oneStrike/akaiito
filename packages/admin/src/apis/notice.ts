@@ -15,11 +15,11 @@ import type {
 } from './types/notice.d'
 
 /**
- *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391297)
+ *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450868)
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export const createNoticeApi = (data: CreateNoticeRequest): Promise<CreateNoticeResponse> => {
@@ -34,11 +34,11 @@ export const createNoticeApi = (data: CreateNoticeRequest): Promise<CreateNotice
 }
 
 /**
- *  接口 [分页查询通知列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080034)
+ *  接口 [分页查询通知列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450869)
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export const noticePageApi = (params: NoticePageRequest): Promise<NoticePageResponse> => {
@@ -55,7 +55,7 @@ export const noticePageApi = (params: NoticePageRequest): Promise<NoticePageResp
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:40
  */
 
 export const noticeDetailApi = (params: NoticeDetailRequest): Promise<NoticeDetailResponse> => {
@@ -68,11 +68,11 @@ export const noticeDetailApi = (params: NoticeDetailRequest): Promise<NoticeDeta
 }
 
 /**
- *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391298)
+ *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450870)
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export const updateNoticeApi = (data: UpdateNoticeRequest): Promise<UpdateNoticeResponse> => {
@@ -87,11 +87,11 @@ export const updateNoticeApi = (data: UpdateNoticeRequest): Promise<UpdateNotice
 }
 
 /**
- *  接口 [批量更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313845564)
+ *  接口 [批量更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450871)
  *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-update-notice-status
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export const batchUpdateNoticeStatusApi = (
@@ -108,11 +108,11 @@ export const batchUpdateNoticeStatusApi = (
 }
 
 /**
- *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-313391300)
+ *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450872)
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export const batchDeleteNoticeApi = (data: BatchDeleteNoticeRequest): Promise<BatchDeleteNoticeResponse> => {

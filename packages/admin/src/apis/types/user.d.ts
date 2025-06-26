@@ -1,9 +1,9 @@
 /**
- *  接口 [获取验证码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080019)
+ *  接口 [获取验证码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450885)
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/get-captcha
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 /*  */
@@ -16,11 +16,11 @@ export type GetCaptchaResponse = {
 }
 
 /**
- *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080020)
+ *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450886)
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/user-login
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserLoginRequest {
@@ -89,11 +89,11 @@ export type UserLoginResponse = {
 }
 
 /**
- *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080021)
+ *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450887)
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
  *  @地址 /api/admin/user/user-logout
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserLogoutRequest {
@@ -108,11 +108,11 @@ export interface UserLogoutRequest {
 export type UserLogoutResponse = boolean
 
 /**
- *  接口 [用户注册](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080022)
+ *  接口 [用户注册](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450888)
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/user-register
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserRegisterRequest {
@@ -142,11 +142,11 @@ export type UserRegisterResponse = {
 }
 
 /**
- *  接口 [刷新访问令牌](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080023)
+ *  接口 [刷新访问令牌](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450889)
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/user-refresh-token
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserRefreshTokenRequest {
@@ -167,11 +167,11 @@ export type UserRefreshTokenResponse = {
 }
 
 /**
- *  接口 [修改密码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080024)
+ *  接口 [修改密码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450890)
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-password
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserUpdatePasswordRequest {
@@ -228,11 +228,11 @@ export type UserUpdatePasswordResponse = {
 }
 
 /**
- *  接口 [更新用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080025)
+ *  接口 [更新用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450891)
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-info
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserUpdateInfoRequest {
@@ -295,11 +295,11 @@ export type UserUpdateInfoResponse = {
 }
 
 /**
- *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080026)
+ *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450892)
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-Info
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 /*  */
@@ -342,11 +342,11 @@ export type UserInfoResponse = {
 }
 
 /**
- *  接口 [根据ID获取用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080027)
+ *  接口 [根据ID获取用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450893)
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-info-by-id
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserInfoByIdRequest {
@@ -394,11 +394,11 @@ export type UserInfoByIdResponse = {
 }
 
 /**
- *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080028)
+ *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450894)
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/user-page
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserPageRequest {
@@ -476,11 +476,11 @@ export interface UserPageResponse {
 }
 
 /**
- *  接口 [删除用户](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080029)
+ *  接口 [删除用户](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450895)
  *  @标签 管理端用户模块/删除用户
  *  @方式 POST
  *  @地址 /api/admin/user/user-delete
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface UserDeleteRequest {

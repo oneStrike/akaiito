@@ -1,9 +1,9 @@
 /**
- *  接口 [创建作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669114)
+ *  接口 [创建作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450906)
  *  @标签 作者管理模块/创建作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/create-author
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface CreateAuthorRequest {
@@ -45,11 +45,11 @@ export type CreateAuthorResponse = {
 }
 
 /**
- *  接口 [分页查询作者列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669115)
+ *  接口 [分页查询作者列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450907)
  *  @标签 作者管理模块/分页查询作者列表
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-page
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface AuthorPageRequest {
@@ -133,11 +133,11 @@ export interface AuthorPageResponse {
 }
 
 /**
- *  接口 [获取作者详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669116)
+ *  接口 [获取作者详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450908)
  *  @标签 作者管理模块/获取作者详情
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-detail
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface AuthorDetailRequest {
@@ -194,11 +194,11 @@ export type AuthorDetailResponse = {
 }
 
 /**
- *  接口 [更新作者信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669117)
+ *  接口 [更新作者信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450909)
  *  @标签 作者管理模块/更新作者信息
  *  @方式 PUT
  *  @地址 /api/admin/work/author/update-author
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 /*  */
@@ -208,11 +208,11 @@ export type UpdateAuthorResponse = {
 }
 
 /**
- *  接口 [批量更新作者状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669118)
+ *  接口 [批量更新作者状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450910)
  *  @标签 作者管理模块/批量更新作者状态
  *  @方式 PUT
  *  @地址 /api/admin/work/author/batch-update-author-status
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 /*  */
@@ -222,11 +222,11 @@ export type BatchUpdateAuthorStatusResponse = {
 }
 
 /**
- *  接口 [批量更新作者推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669119)
+ *  接口 [批量更新作者推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450911)
  *  @标签 作者管理模块/批量更新作者推荐状态
  *  @方式 PUT
  *  @地址 /api/admin/work/author/batch-update-author-featured
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 /*  */
@@ -236,11 +236,11 @@ export type BatchUpdateAuthorFeaturedResponse = {
 }
 
 /**
- *  接口 [软删除作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312669120)
+ *  接口 [软删除作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450912)
  *  @标签 作者管理模块/软删除作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/delete-author
- *  @更新时间 2025-06-26 23:01:37
+ *  @更新时间 2025-06-27 01:20:45
  */
 
 export interface DeleteAuthorRequest {
