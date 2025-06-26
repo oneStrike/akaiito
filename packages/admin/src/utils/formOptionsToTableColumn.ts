@@ -20,9 +20,7 @@ export function formOptionsToTableColumn(
   customConfig = Object.assign(
     {
       action: true,
-      createdAt: true,
-      isEnabled: true,
-      isPublish: true,
+      createdAt: false,
     },
     customConfig || {},
   )
@@ -103,28 +101,6 @@ export function formOptionsToTableColumn(
     return baseConfig as EsTableColumn[number]
   }
 
-  if (customConfig.isEnabled) {
-    // 创建状态列
-    columns.push(
-      createFixedColumn('isEnabled', {
-        prop: 'isEnabled',
-        label: '状态',
-        align: 'center',
-        width: 100,
-      }),
-    )
-  }
-  if (customConfig.isPublish) {
-    // 创建发布列
-    columns.push(
-      createFixedColumn('isPublish', {
-        prop: 'isPublish',
-        label: '发布状态',
-        align: 'center',
-        width: 100,
-      }),
-    )
-  }
   if (customConfig.createdAt) {
     // 创建创建时间列
     columns.push(

@@ -157,6 +157,7 @@
     "useAttrs": "readonly",
     "useBase64": "readonly",
     "useBattery": "readonly",
+    "useBitmask": "readonly",
     "useBluetooth": "readonly",
     "useBreakpoints": "readonly",
     "useBroadcastChannel": "readonly",

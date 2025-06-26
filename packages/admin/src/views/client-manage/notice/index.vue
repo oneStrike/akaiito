@@ -13,7 +13,11 @@
   import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
   import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
   import NoticeDetail from '@/views/client-manage/notice/NoticeDetail.vue'
-  import { formOptions, toolbar } from '@/views/client-manage/notice/shared'
+  import {
+    enablePlatform,
+    formOptions,
+    toolbar,
+  } from '@/views/client-manage/notice/shared'
 
   defineOptions({
     name: 'NoticePage',
@@ -44,29 +48,33 @@
         formTool.options,
         ['content', 'showAsPopup', 'isPinned', 'popupBackgroundImage', 'order'],
         {
-          isPublish: true,
-          isEnabled: false,
-          createdAt: {
+          dateTimeRange: {
+            label: '通知结束时间',
             width: 160,
+            prop: 'publishEndTime',
           },
-          startTime: {
-            width: 160,
+          action: {
+            width: 200,
           },
           title: {
             columnType: 'link',
           },
           enablePlatform: {
             width: 150,
-            formatter: (row, column, cellValue, index) => {
-              const platforms = []
-              if (row.enableApplet) platforms.push('小程序')
-              if (row.enableWeb) platforms.push('H5')
-              if (row.enableApp) platforms.push('APP')
-              return platforms.join('、')
+            formatter: (row) => {
+              return useBitmask
+                .getLabels(row.enablePlatform, enablePlatform)
+                .join('、')
             },
           },
         },
       )
+      tableColumns.value.splice(-1, 0, {
+        width: 120,
+        label: '发布状态',
+        prop: 'isPublished',
+        align: 'center',
+      } as EsTableColumn[number])
     })
   })
 
@@ -83,8 +91,8 @@
     if (row) {
       currentRow.value = await noticeApi.noticeDetailApi({ id: row.id })
       currentRow.value.dateTimeRange = [
-        currentRow.value.startTime,
-        currentRow.value.endTime,
+        currentRow.value.publishStartTime,
+        currentRow.value.publishEndTime,
       ]
     }
     modalFrom.show = true
@@ -101,8 +109,8 @@
     value.enablePlatform = useBitmask.set(value.enablePlatform)
     if (Array.isArray(value.dateTimeRange) && value.dateTimeRange[0]) {
       const [startTime, endTime] = value.dateTimeRange
-      value.startTime = startTime
-      value.endTime = endTime
+      value.publishStartTime = startTime
+      value.publishEndTime = endTime
     }
     if (currentRow.value?.id) {
       value.id = currentRow.value.id
@@ -132,15 +140,15 @@
       @link="openDetailModal"
       @toolbar-handler="openFormModal()"
     >
-      <template #isPublish="{ row }">
+      <template #isPublished="{ row }">
         <el-text
           v-if="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
           type="danger"
         >
           已下线
         </el-text>
-        <el-text v-else-if="row.isPublish" type="success">已发布</el-text>
-        <el-text v-else-if="!row.isPublish" type="danger">未发布</el-text>
+        <el-text v-else-if="row.isPublished" type="success">已发布</el-text>
+        <el-text v-else-if="!row.isPublished" type="danger">未发布</el-text>
       </template>
 
       <template #status="{ row }">
@@ -158,11 +166,11 @@
         />
         <EsPopConfirm
           :disabled="row.endTime && $dayjs(row.endTime).isBefore($dayjs())"
-          :confirm-text="row.isPublish ? '取消发布' : '发布'"
+          :confirm-text="row.isPublished ? '取消发布' : '发布'"
           :request="noticeApi.batchUpdateNoticeStatusApi"
           :row="row"
           ids
-          field="isPublish"
+          field="isPublished"
           @success="tableRef?.refresh()"
         />
       </template>

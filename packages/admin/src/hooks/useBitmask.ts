@@ -3,7 +3,7 @@ export const useBitmask = {
    * 将逗号分隔的 bit 值转换为整数 bitmask
    */
   set(bitmask: string): number {
-    return bitmask
+    return String(bitmask)
       .split(',')
       .reduce((acc, val) => acc + Number.parseInt(val, 10), 0)
   },
@@ -13,6 +13,20 @@ export const useBitmask = {
    */
   has(bitmask: number, flag: number): boolean {
     return (bitmask & flag) === flag
+  },
+
+  /**
+   * 获取所有被设置的 bit 对应的label值
+   */
+  getLabels(bitmask: number, labels: any[]): string[] {
+    const result: string[] = []
+    this.split(bitmask).forEach((flag) => {
+      const option = labels.find((item) => item.value === flag)
+      if (option) {
+        result.push(option.label)
+      }
+    })
+    return result
   },
 
   /**
