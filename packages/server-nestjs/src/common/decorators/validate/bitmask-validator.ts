@@ -3,6 +3,7 @@ import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
 } from 'class-validator'
+import { NumberEnumLike } from './types'
 
 /**
  * 位掩码验证器
@@ -18,7 +19,7 @@ export class BitmaskValidator implements ValidatorConstraintInterface {
    * @returns 验证结果
    */
   validate(value: any, args: ValidationArguments): boolean {
-    const [enumObject] = args.constraints as [Record<string, number>]
+    const [enumObject] = args.constraints as [NumberEnumLike]
 
     // 空值由IsOptional处理
     if (value === undefined || value === null) {
@@ -61,7 +62,7 @@ export class BitmaskValidator implements ValidatorConstraintInterface {
    * @returns 错误消息
    */
   defaultMessage(args: ValidationArguments): string {
-    const [enumObject] = args.constraints as [Record<string, number>]
+    const [enumObject] = args.constraints as [NumberEnumLike]
     const enumValues = Object.values(enumObject).filter(
       (enumValue): enumValue is number => typeof enumValue === 'number',
     )

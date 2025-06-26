@@ -6,6 +6,7 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import {
+  ValidateBitmask,
   ValidateBoolean,
   ValidateDate,
   ValidateEnum,
@@ -101,12 +102,11 @@ export class BaseNoticeDto {
   })
   isPublished!: boolean
 
-  @ValidateNumber({
+  @ValidateBitmask({
     description: '启用的平台',
-    example: 1,
+    example: EnablePlatformEnum.APP,
     required: true,
-    min: 1,
-    max: 15,
+    enum: EnablePlatformEnum,
   })
   enablePlatform!: EnablePlatformEnum
 

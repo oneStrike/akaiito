@@ -103,13 +103,29 @@ export interface ValidateRegexOptions extends BaseValidateOptions {
 }
 
 /**
+ * 枚举类型定义
+ * 支持TypeScript原生枚举和手动定义的枚举对象
+ */
+export type EnumLike = Record<string | number, string | number>
+
+/**
+ * 数字枚举类型定义
+ * 专门用于位掩码验证，支持TypeScript数字枚举的双向映射
+ * 允许字符串键映射到数字值，数字键映射到字符串值（反向映射）
+ */
+export type NumberEnumLike =
+  | Record<string, number>
+  | Record<number, string>
+  | (Record<string, number> & Record<number, string>)
+
+/**
  * 枚举验证选项
  */
 export interface ValidateEnumOptions extends BaseValidateOptions {
   /** 示例值 */
   example?: any
-  /** 枚举对象 */
-  enum: Record<string, string | number>
+  /** 枚举对象，支持字符串和数字枚举 */
+  enum: EnumLike
   /** 默认值 */
   default?: any
 }
@@ -121,7 +137,7 @@ export interface ValidateBitmaskOptions extends BaseValidateOptions {
   /** 示例值 */
   example?: number
   /** 枚举对象，必须为数字枚举 */
-  enum: Record<string, number>
+  enum: NumberEnumLike
   /** 默认值 */
   default?: number
 }
