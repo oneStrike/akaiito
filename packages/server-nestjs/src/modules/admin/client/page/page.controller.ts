@@ -90,19 +90,6 @@ export class ClientPageConfigController {
   }
 
   /**
-   * 批量更新页面配置状态
-   */
-  @Post('/batch-update-client-page-status')
-  @ApiDoc({
-    summary: '批量更新页面配置状态',
-    model: CountDto,
-  })
-  async batchUpdateStatus(@Body() body: BatchOperationStatusIdsDto) {
-    const { ids, isEnabled } = body
-    return this.pageConfigService.batchUpdateStatus(ids, isEnabled)
-  }
-
-  /**
    * 批量软删除页面配置
    */
   @Post('/batch-delete-client-page')

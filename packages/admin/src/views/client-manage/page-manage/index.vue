@@ -55,17 +55,11 @@
       :request-api="clientPageApi.clientPagePageApi"
       @toolbar-handler="openFormModal()"
     >
-      <template #accessLevel="{ row }">
-        <el-text v-if="row.accessLevel === 1" type="info">普通</el-text>
-        <el-text v-if="row.accessLevel === 2" type="primary">登录</el-text>
-        <el-text v-if="row.accessLevel === 3" type="danger">会员</el-text>
-      </template>
-
       <template #pageStatus="{ row }">
         <el-text v-if="row.pageStatus === 0" type="info">禁用</el-text>
         <el-text v-if="row.pageStatus === 1" type="primary">正常</el-text>
-        <el-text v-if="row.pageStatus === 2" type="warning">开发</el-text>
-        <el-text v-if="row.pageStatus === 3" type="danger">维护</el-text>
+        <el-text v-if="row.pageStatus === 2" type="warning">开发中</el-text>
+        <el-text v-if="row.pageStatus === 3" type="danger">维护中</el-text>
       </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openFormModal(row)">

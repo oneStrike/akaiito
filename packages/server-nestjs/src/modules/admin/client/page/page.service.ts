@@ -52,21 +52,18 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
    * @returns 分页的页面配置列表
    */
   async findPageConfigPage(queryPageConfigDto: QueryClientPageConfigDto) {
-    const { pageName, pageCode, accessLevel, pageStatus } = queryPageConfigDto
+    const { pageName, pageCode, accessLevel, pageStatus, ...other } =
+      queryPageConfigDto
 
     const where: ClientPageConfigWhereInput = {}
 
-    if (pageName) {
-      where.pageName = { contains: pageName, mode: 'insensitive' }
-    }
-    if (pageCode) {
-      where.pageCode = pageCode
-    }
+    if (pageName) where.pageName = { contains: pageName, mode: 'insensitive' }
+    if (pageCode) where.pageCode = pageCode
     if (accessLevel !== undefined) where.accessLevel = accessLevel
     if (pageStatus !== undefined) where.pageStatus = pageStatus
 
     return this.findPagination({
-      ...queryPageConfigDto,
+      ...other,
       where,
       orderBy: [{ createdAt: 'desc' }],
     })
@@ -175,21 +172,6 @@ export class ClientPageConfigService extends BaseRepositoryService<'ClientPageCo
           increment: 1,
         },
       },
-    })
-  }
-
-  /**
-   * 批量更新页面状态
-   * @param ids 页面配置ID数组
-   * @param isEnabled 新状态
-   * @returns 更新结果
-   */
-  async batchUpdateStatus(ids: number[], isEnabled: boolean) {
-    return await this.updateMany({
-      where: {
-        id: { in: ids },
-      },
-      data: { isEnabled },
     })
   }
 }

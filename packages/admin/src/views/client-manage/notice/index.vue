@@ -31,52 +31,60 @@
   const tableColumns = ref<EsTableColumn>()
 
   const formTool = useFormTool(formOptions)
-  clientPageApi.clientPagePageApi({ pageSize: 500 }).then((res) => {
-    formTool.specificItem('pageCode', (item) => {
-      item.componentProps!.options = res.list.map((item) => ({
-        label: item.pageName,
-        value: item.pageCode,
-      }))
-      filter.value = formOptionsToFilterOptions(formTool.options, {
-        showAsPopup: 6,
-        priorityLevel: 6,
-        noticeType: 6,
-        pageCode: 6,
-        title: 6,
-      })
-      tableColumns.value = formOptionsToTableColumn(
-        formTool.options,
-        ['content', 'showAsPopup', 'isPinned', 'popupBackgroundImage', 'order'],
-        {
-          dateTimeRange: {
-            label: '通知结束时间',
-            width: 160,
-            prop: 'publishEndTime',
-          },
-          action: {
-            width: 200,
-          },
-          title: {
-            columnType: 'link',
-          },
-          enablePlatform: {
-            width: 150,
-            formatter: (row) => {
-              return useBitmask
-                .getLabels(row.enablePlatform, enablePlatform)
-                .join('、')
+  clientPageApi
+    .clientPagePageApi({ pageSize: 500, pageStatus: 1 })
+    .then((res) => {
+      formTool.specificItem('pageCode', (item) => {
+        item.componentProps!.options = res.list.map((item) => ({
+          label: item.pageName,
+          value: item.pageCode,
+        }))
+        filter.value = formOptionsToFilterOptions(formTool.options, {
+          showAsPopup: 6,
+          priorityLevel: 6,
+          noticeType: 6,
+          pageCode: 6,
+          title: 6,
+        })
+        tableColumns.value = formOptionsToTableColumn(
+          formTool.options,
+          [
+            'content',
+            'showAsPopup',
+            'isPinned',
+            'popupBackgroundImage',
+            'order',
+          ],
+          {
+            dateTimeRange: {
+              label: '通知结束时间',
+              width: 160,
+              prop: 'publishEndTime',
+            },
+            action: {
+              width: 200,
+            },
+            title: {
+              columnType: 'link',
+            },
+            enablePlatform: {
+              width: 150,
+              formatter: (row) => {
+                return useBitmask
+                  .getLabels(row.enablePlatform, enablePlatform)
+                  .join('、')
+              },
             },
           },
-        },
-      )
-      tableColumns.value.splice(-1, 0, {
-        width: 120,
-        label: '发布状态',
-        prop: 'isPublished',
-        align: 'center',
-      } as EsTableColumn[number])
+        )
+        tableColumns.value.splice(-1, 0, {
+          width: 120,
+          label: '发布状态',
+          prop: 'isPublished',
+          align: 'center',
+        } as EsTableColumn[number])
+      })
     })
-  })
 
   const showDetail = ref(false)
   const currentRow = ref<(NoticeDetailResponse & IterateObject) | null>(null)
@@ -166,9 +174,9 @@
         />
         <EsPopConfirm
           :disabled="
-            !row.isPublished
-            && row.publishEndTime
-            && $dayjs(row.publishEndTime).isBefore($dayjs())
+            !row.isPublished &&
+            row.publishEndTime &&
+            $dayjs(row.publishEndTime).isBefore($dayjs())
           "
           :confirm-text="row.isPublished ? '取消发布' : '发布'"
           :request="noticeApi.batchUpdateNoticeStatusApi"
