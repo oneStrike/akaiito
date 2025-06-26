@@ -55,7 +55,19 @@ export class ClientNoticeController {
     model: BaseNoticeDto,
   })
   async findOne(@Query() query: IdDto) {
-    return this.noticeService.findByUnique({ where: query })
+    return this.noticeService.findByUnique({
+      where: query,
+      include: {
+        clientPage: {
+          select: {
+            id: true,
+            pageCode: true,
+            pageName: true,
+            pagePath: true,
+          },
+        },
+      },
+    })
   }
 
   /**

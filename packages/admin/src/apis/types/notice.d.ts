@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-06-26 22:27:01
+ *  @更新时间 2025-06-26 23:01:37
  */
 
 export interface CreateNoticeRequest {
@@ -42,6 +42,9 @@ export interface CreateNoticeRequest {
 
   /* 排序权重（数值越大越靠前） */
   order?: number | null
+
+  /* 通知所关联的客户端页面信息 */
+  clientPage: {}
 }
 
 /*  */
@@ -55,7 +58,7 @@ export type CreateNoticeResponse = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-26 22:27:01
+ *  @更新时间 2025-06-26 23:01:37
  */
 
 export interface NoticePageRequest {
@@ -150,6 +153,9 @@ export interface NoticePageResponse {
 
     /* 更新时间 */
     updatedAt: string
+
+    /* 通知所关联的客户端页面信息 */
+    clientPage: {}
   }[]
 }
 
@@ -158,7 +164,7 @@ export interface NoticePageResponse {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-26 22:27:01
+ *  @更新时间 2025-06-26 23:01:37
  */
 
 export interface NoticeDetailRequest {
@@ -218,6 +224,9 @@ export type NoticeDetailResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /* 通知所关联的客户端页面信息 */
+  clientPage: {}
 }
 
 /**
@@ -225,7 +234,7 @@ export type NoticeDetailResponse = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-06-26 22:27:01
+ *  @更新时间 2025-06-26 23:01:37
  */
 
 export interface UpdateNoticeRequest {
@@ -265,6 +274,9 @@ export interface UpdateNoticeRequest {
   /* 排序权重（数值越大越靠前） */
   order?: number | null
 
+  /* 通知所关联的客户端页面信息 */
+  clientPage?: {}
+
   /* 主键id */
   id: number
 }
@@ -280,7 +292,7 @@ export type UpdateNoticeResponse = {
  *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-update-notice-status
- *  @更新时间 2025-06-26 22:27:01
+ *  @更新时间 2025-06-26 23:01:37
  */
 
 export interface BatchUpdateNoticeStatusRequest {
@@ -302,7 +314,7 @@ export type BatchUpdateNoticeStatusResponse = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-06-26 22:27:01
+ *  @更新时间 2025-06-26 23:01:37
  */
 
 export interface BatchDeleteNoticeRequest {

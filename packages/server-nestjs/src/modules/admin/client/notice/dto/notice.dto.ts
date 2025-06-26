@@ -16,11 +16,19 @@ import {
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
+import { BasePageConfigFieldsDto } from '@/modules/admin/client/page/dto/page.dto'
 import {
   EnablePlatformEnum,
   NoticePriorityEnum,
   NoticeTypeEnum,
 } from '../notice.constant'
+
+export class ClientPageDto extends PickType(BasePageConfigFieldsDto, [
+  'id',
+  'pageCode',
+  'pageName',
+  'pagePath',
+]) {}
 
 /**
  * 通知基础DTO
@@ -155,6 +163,12 @@ export class BaseNoticeDto {
     example: '2024-01-01T00:00:00.000Z',
   })
   updatedAt?: Date
+
+  @ApiProperty({
+    description: '通知所关联的客户端页面信息',
+    type: ClientPageDto,
+  })
+  clientPage?: ClientPageDto
 }
 
 /**

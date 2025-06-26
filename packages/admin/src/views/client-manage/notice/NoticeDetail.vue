@@ -211,7 +211,9 @@
           <div
             class="px-3 py-2 bg-gray-100 rounded-md font-mono text-sm text-gray-700"
           >
-            {{ detail.pageCode }}
+            {{ detail.clientPage.pageCode }}
+            {{ detail.clientPage.pageName }}
+            {{ detail.clientPage.pagePath }}
           </div>
         </div>
       </div>
