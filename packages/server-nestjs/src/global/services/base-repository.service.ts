@@ -82,7 +82,7 @@ export abstract class BaseRepositoryService<T extends ModelName> {
     if (include) {
       args.include = include
     }
-    return args
+    return { ...options, ...args }
   }
 
   /**
@@ -165,10 +165,11 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   async findById(
     options: { id: number } & Partial<QueryOptions<T>>,
   ): Promise<ModelTypes<T>['Model'] | null> {
-    const where = this.getWhere({
-      id: options.id,
-    } as ModelTypes<T>['WhereInput'])
-    return this.model.findFirst({ where, ...this.buildQueryArgs(options) })
+    const { id, ...args } = options
+    return this.findByUnique({
+      where: { id },
+      ...this.buildQueryArgs(args),
+    })
   }
 
   async findMany(

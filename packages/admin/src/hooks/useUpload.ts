@@ -1,12 +1,12 @@
 import type { UploadFiles } from 'element-plus'
-import type { FileTypesRes } from '@/apis/types/upload'
+import type { UploadFileResponse } from '@/apis/types/upload'
 import { useMessage } from '@/hooks/useFeedback'
 import { httpHandler } from '@/utils/request'
 
 type files = string | Blob
-type UploadFileRes = FileTypesRes
+type UploadFileRes = UploadFileResponse
 const api = {
-  common: '/api/admin/upload/uploadFile',
+  common: '/api/admin/upload/upload-file',
   comic: '/admin/comic/chapter/createComicChapterContent',
 }
 

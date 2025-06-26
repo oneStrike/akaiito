@@ -43,8 +43,14 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
    * @returns 分页的通知列表
    */
   async findNoticePage(queryNoticeDto: QueryNoticeDto) {
-    const { title, noticeType, priorityLevel, isPinned, isPublished } =
-      queryNoticeDto
+    const {
+      title,
+      noticeType,
+      priorityLevel,
+      isPinned,
+      isPublished,
+      showAsPopup,
+    } = queryNoticeDto
 
     const where: ClientNoticeWhereInput = {}
 
@@ -55,9 +61,9 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
     if (priorityLevel !== undefined) where.priorityLevel = priorityLevel
     if (isPublished !== undefined) where.isPublished = isPublished
     if (isPinned !== undefined) where.isPinned = isPinned
+    if (showAsPopup !== undefined) where.showAsPopup = showAsPopup
 
     return this.findPagination({
-      ...queryNoticeDto,
       where,
       omit: {
         content: true,
@@ -112,26 +118,6 @@ export class ClientNoticeService extends BaseRepositoryService<'ClientNotice'> {
       omit: {
         content: true,
         popupBackgroundImage: true,
-      },
-    })
-  }
-
-  /**
-   * 根据ID查询通知详情
-   * @param id 通知ID
-   * @returns 通知详情
-   */
-  async findDetail(id: number) {
-    return await this.findById({
-      id,
-      include: {
-        clientPage: {
-          select: {
-            pageCode: true,
-            pageName: true,
-            pagePath: true,
-          },
-        },
       },
     })
   }

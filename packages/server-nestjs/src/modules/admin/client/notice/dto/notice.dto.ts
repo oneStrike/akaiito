@@ -195,6 +195,7 @@ export class QueryNoticeDto extends IntersectionType(
     'priorityLevel',
     'isPublished',
     'isPinned',
+    'showAsPopup',
   ]),
 ) {}
 

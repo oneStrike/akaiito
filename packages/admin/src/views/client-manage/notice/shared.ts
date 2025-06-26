@@ -157,6 +157,8 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请选择通知时间',
+      disabledDate: (date: Date) =>
+        new Date(date).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0),
     },
   },
   {

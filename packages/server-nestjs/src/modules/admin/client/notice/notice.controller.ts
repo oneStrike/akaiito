@@ -55,7 +55,7 @@ export class ClientNoticeController {
     model: BaseNoticeDto,
   })
   async findOne(@Query() query: IdDto) {
-    return this.noticeService.findDetail(query.id)
+    return this.noticeService.findByUnique({ where: query })
   }
 
   /**
@@ -67,8 +67,7 @@ export class ClientNoticeController {
     model: IdDto,
   })
   async update(@Body() body: UpdateNoticeDto) {
-    const { id, ...data } = body
-    return this.noticeService.updateById({ id, data })
+    return this.noticeService.updateNotice(body)
   }
 
   /**

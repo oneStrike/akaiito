@@ -5,7 +5,7 @@
     UploadProps,
     UploadUserFile,
   } from 'element-plus'
-  import type { FileTypesRes } from '@/apis/types/upload'
+  import type { UploadFileResponse } from '@/apis/types/upload'
   import type { EsUploadProps } from '@/components/es-upload/types'
   /**
    * ES Upload 组件 - 基于 Element Plus Upload 的封装组件
@@ -30,11 +30,11 @@
   // Events 定义 - 组件事件
   const emits = defineEmits<{
     /** 文件上传成功后触发 */
-    (event: 'change', data: FileTypesRes): void
+    (event: 'change', data: UploadFileResponse): void
     /** 文件移除时触发 */
     (event: 'remove', data: UploadFile): void
     /** v-model 双向绑定更新 */
-    (event: 'update:modelValue', data: string | string[] | FileTypesRes[]): void
+    (event: 'update:modelValue', data: string | string[] | UploadFileResponse[]): void
     /** 上传错误时触发 */
     (event: 'updateError', data: Error[]): void
   }>()
@@ -272,7 +272,7 @@
     )
 
     if (uploadRes?.success) {
-      // FileTypesRes 本身就是数组类型，直接触发change事件
+      // UploadFileResponse 本身就是数组类型，直接触发change事件
       emits('change', uploadRes.success)
       const elUpload = uploadRes.success.map((item) => ({
         ...item,
