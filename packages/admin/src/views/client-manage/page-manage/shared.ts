@@ -6,7 +6,7 @@ import type {
 import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
 import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 
-export const pageRule = [
+export const accessLevel = [
   {
     label: '游客',
     value: 0,
@@ -93,7 +93,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'pageRule',
+    field: 'accessLevel',
     component: 'Radio',
     props: {
       span: 2,
@@ -102,11 +102,11 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请选择页面权限',
-      options: pageRule,
+      options: accessLevel,
     },
   },
   {
-    field: 'status',
+    field: 'pageStatus',
     component: 'Radio',
     props: {
       span: 2,
@@ -138,8 +138,8 @@ export const tableColumns = formOptionsToTableColumn(formOptions, [
 
 export const filter: ToolbarFilter = formOptionsToFilterOptions(formOptions, {
   pageName: 6,
-  pageRule: 6,
-  status: 6,
+  accessLevel: 6,
+  pageStatus: 6,
 })
 
 export const toolbar: EsToolbarProps['toolbar'] = [
