@@ -101,11 +101,12 @@ export class BaseNoticeDto {
   })
   isPublished!: boolean
 
-  @ValidateEnum({
+  @ValidateNumber({
     description: '启用的平台',
-    example: EnablePlatformEnum.APP,
+    example: 1,
     required: true,
-    enum: EnablePlatformEnum,
+    min: 1,
+    max: 15,
   })
   enablePlatform!: EnablePlatformEnum
 

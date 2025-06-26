@@ -4,19 +4,19 @@ import type { EsToolbarProps } from '@/components/es-toolbar/types.ts'
 export const noticeType = [
   {
     label: '系统通知',
-    value: 1,
+    value: 0,
   },
   {
     label: '活动公告',
-    value: 2,
+    value: 1,
   },
   {
     label: '维护通知',
-    value: 4,
+    value: 2,
   },
   {
     label: '更新公告',
-    value: 5,
+    value: 3,
   },
 ]
 
@@ -39,6 +39,20 @@ export const noticePriority = [
   },
 ]
 
+export const enablePlatform = [
+  {
+    label: 'H5',
+    value: 1,
+  },
+  {
+    label: 'APP',
+    value: 2,
+  },
+  {
+    label: '小程序',
+    value: 4,
+  },
+]
 export const formOptions: EsFormOptions[] = [
   {
     field: 'title',
@@ -76,20 +90,8 @@ export const formOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请选择发布平台',
-      options: [
-        {
-          label: 'H5',
-          value: 1,
-        },
-        {
-          label: 'APP',
-          value: 2,
-        },
-        {
-          label: '小程序',
-          value: 4,
-        },
-      ],
+      options: enablePlatform,
+      valueType: 'bitmask',
     },
   },
 

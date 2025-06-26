@@ -9,6 +9,7 @@
   import * as clientPageApi from '@/apis/client-page.ts'
   import * as noticeApi from '@/apis/notice.ts'
   import { PromptsEnum } from '@/enum/prompts'
+  import { useBitmask } from '@/hooks/useBitmask.ts'
   import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
   import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
   import NoticeDetail from '@/views/client-manage/notice/NoticeDetail.vue'
@@ -81,16 +82,6 @@
   const openFormModal = async (row?: NoticeDetailResponse) => {
     if (row) {
       currentRow.value = await noticeApi.noticeDetailApi({ id: row.id })
-      currentRow.value.enablePlatform = ''
-      if (currentRow.value.enableApplet) {
-        currentRow.value.enablePlatform += '0,'
-      }
-      if (currentRow.value.enableWeb) {
-        currentRow.value.enablePlatform += '1,'
-      }
-      if (currentRow.value.enableApp) {
-        currentRow.value.enablePlatform += '2,'
-      }
       currentRow.value.dateTimeRange = [
         currentRow.value.startTime,
         currentRow.value.endTime,
@@ -100,7 +91,6 @@
   }
 
   const submitForm = async (value: UpdateNoticeRequest & IterateObject) => {
-    console.log(value)
     modalFrom.loading = true
     if (value.pageCode) {
       const pages = formTool.getItem('pageCode')[0].componentProps!.options!
@@ -108,13 +98,8 @@
         (item) => item.value === value.pageCode,
       )!.label
     }
-    value.enableApplet = value.enablePlatform.includes('0')
-    value.enableWeb = value.enablePlatform.includes('1')
-    value.enableApp = value.enablePlatform.includes('2')
-    if (
-      Array.isArray(value.dateTimeRange) &&
-      value.dateTimeRange.length === 2
-    ) {
+    value.enablePlatform = useBitmask.set(value.enablePlatform)
+    if (Array.isArray(value.dateTimeRange) && value.dateTimeRange[0]) {
       const [startTime, endTime] = value.dateTimeRange
       value.startTime = startTime
       value.endTime = endTime
