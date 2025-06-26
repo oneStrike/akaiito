@@ -1,26 +1,20 @@
 <script lang="ts" setup>
-  import type { GetAuthorPageTypesRes } from '@/apis/types/author'
+  import type { AuthorDetailResponse } from '@/apis/types/author'
   import {
+    authorDetailApi,
+    authorPageApi,
+    batchUpdateAuthorStatusApi,
     createAuthorApi,
     deleteAuthorApi,
-    getAuthorDetailApi,
-    getAuthorPageApi,
     updateAuthorApi,
-    updateAuthorStatusApi,
   } from '@/apis/author'
   import AuthorDetail from './authorDetail.vue'
-  import {
-    authorRoles,
-    filter,
-    formOptions,
-    tableColumns,
-    toolbar,
-  } from './shared'
+  import { filter, formOptions, tableColumns, toolbar } from './shared'
 
   defineOptions({
     name: 'Author',
   })
-  type Record = GetAuthorPageTypesRes['list'][number]
+  type Record = AuthorDetailResponse
 
   const modalFrom = reactive({
     show: false,
@@ -29,19 +23,13 @@
   const detailModel = ref(false)
   const currentRow = ref<IterateObject | null>(null)
   const formTool = useFormTool(formOptions)
+  const tableRef = useTemplateRef('tableRef')
   formTool.fillDict([
     {
       field: 'nationality',
       code: 'nationality',
     },
   ])
-  const { reset, request, loading, requestData, params, sortChange } =
-    useRequest(async (params: IterateObject) => {
-      if (Array.isArray(params.roles)) {
-        params.roles = JSON.stringify(params.roles)
-      }
-      return await getAuthorPageApi(params)
-    })
 
   async function submitForm(val: any) {
     modalFrom.loading = true
@@ -66,29 +54,17 @@
     })
     currentRow.value = null
     modalFrom.loading = false
-    request()
+    tableRef.value?.reset()
   }
 
   async function switchStatus(val: any) {
-    await updateAuthorStatusApi(val)
-    await request()
-  }
-
-  function identity(record: Record) {
-    const identity: string[] = []
-    record.roles.forEach((item) => {
-      authorRoles.forEach((roles) => {
-        if (roles.value === item) {
-          identity.push(roles.label)
-        }
-      })
-    })
-    return identity.join('、') || '-'
+    await batchUpdateAuthorStatusApi(val)
+    tableRef.value?.reset()
   }
 
   // 获取详情数据
   async function getDetail(val: Record) {
-    currentRow.value = await getAuthorDetailApi({ id: val.id })
+    currentRow.value = await authorDetailApi({ id: val.id })
   }
 
   const openFormModal = async (val?: Record) => {
@@ -106,26 +82,18 @@
 </script>
 
 <template>
-  <div v-loading="loading" class="main-page pb-6">
+  <div class="main-page pb-6">
     <EsTable
-      v-model:params="params"
+      ref="tableRef"
       :columns="tableColumns"
-      :data="requestData?.list ?? []"
-      :total="requestData?.total"
+      :request-api="authorPageApi"
       :filter="filter"
       :toolbar="toolbar"
       @link="openDetailModal"
-      @reset="reset"
-      @query="request"
-      @sort-change="sortChange"
       @toolbar-handler="openFormModal()"
     >
       <template #status="{ row }">
         <EsSwitch :request="switchStatus" :row="row" />
-      </template>
-
-      <template #roles="{ row }">
-        <span>{{ identity(row) }}</span>
       </template>
 
       <template #action="{ row }">
@@ -134,10 +102,9 @@
         </el-button>
         <el-divider direction="vertical" />
         <EsPopConfirm
-          v-model:loading="loading"
           :request="deleteAuthorApi"
           :row="row"
-          @success="request()"
+          @success="tableRef?.refresh()"
         />
       </template>
     </EsTable>

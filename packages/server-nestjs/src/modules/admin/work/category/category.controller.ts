@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
-import { IdDto, IdsDto } from '@/common/dto/id.dto'
+import { IdDto } from '@/common/dto/id.dto'
 import { OrderDto } from '@/common/dto/order.dto'
 import { WorkCategoryService } from './category.service'
 import {

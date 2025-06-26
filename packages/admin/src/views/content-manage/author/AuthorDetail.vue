@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { GetAuthorDetailTypesRes } from '@/apis/types/author'
-  import { getAuthorDetailApi } from '@/apis/author.ts'
-  import { getDataDictionaryItemsApi } from '@/apis/dictionary.ts'
+  import { authorDetailApi } from '@/apis/author.ts'
+  import { dictionaryItemsApi } from '@/apis/dictionary.ts'
   import { utils } from '@/utils'
   import { authorRoles, gender } from './shared.ts'
 
@@ -25,13 +25,13 @@
   const authorDetail = ref<GetAuthorDetailTypesRes>(
     {} as GetAuthorDetailTypesRes,
   )
-  getAuthorDetailApi({ id: props.authorId }).then((data) => {
+  authorDetailApi({ id: props.authorId }).then((data) => {
     authorDetail.value = data
     loading.value = false
   })
 
   const nationalityData = ref<IterateObject[]>([])
-  getDataDictionaryItemsApi({
+  dictionaryItemsApi({
     dictionaryCode: 'nationality',
   }).then(({ nationality }) => {
     nationalityData.value = nationality
@@ -93,8 +93,8 @@
         </el-descriptions-item>
         <el-descriptions-item label="性别">
           {{
-            gender.find((item) => item.value === authorDetail?.gender)?.label
-            ?? '-'
+            gender.find((item) => item.value === authorDetail?.gender)?.label ??
+            '-'
           }}
         </el-descriptions-item>
         <el-descriptions-item label="国籍">
