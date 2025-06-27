@@ -106,7 +106,6 @@ export class WorkAuthorService extends BaseRepositoryService<'WorkAuthor'> {
 
     return this.findPagination({
       where,
-      ...queryAuthorDto,
       omit: {
         remark: true,
         socialLinks: true,

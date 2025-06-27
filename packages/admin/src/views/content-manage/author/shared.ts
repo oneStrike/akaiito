@@ -4,23 +4,26 @@ import type {
   EsToolbarProps,
   ToolbarFilter,
 } from '@/components/es-toolbar/types'
+import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
+import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 
 export const authorRoles = [
   {
     label: '作家',
-    value: 'WRITER',
-  },
-  {
-    label: '漫画家',
-    value: 'COMIC_ARTIST',
+    value: 1,
   },
   {
     label: '插画师',
-    value: 'ILLUSTRATOR',
+    value: 2,
   },
   {
+    label: '漫画家',
+    value: 4,
+  },
+
+  {
     label: '模特',
-    value: 'MODEL',
+    value: 8,
   },
 ]
 
@@ -36,48 +39,6 @@ export const gender = [
   {
     label: '女',
     value: 2,
-  },
-]
-
-export const tableColumns: EsTableColumn = [
-  {
-    label: '姓名',
-    prop: 'name',
-    align: 'center',
-    type: 'link',
-  },
-  {
-    label: '头像',
-    prop: 'avatar',
-    align: 'center',
-    type: 'image',
-  },
-  {
-    label: '身份',
-    prop: 'roles',
-    align: 'center',
-    slotName: 'roles',
-    width: 200,
-  },
-  {
-    label: '状态',
-    prop: 'status',
-    align: 'center',
-    slotName: 'status',
-  },
-  {
-    label: '创建时间',
-    prop: 'createdAt',
-    align: 'center',
-    sortable: 'custom',
-    sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt',
-  },
-  {
-    label: '操作',
-    prop: 'action',
-    align: 'center',
-    slotName: 'action',
   },
 ]
 
@@ -183,55 +144,16 @@ export const formOptions: EsFormOptions[] = [
   },
 ]
 
-export const filter: ToolbarFilter = [
-  {
-    field: 'status',
-    component: 'Select',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '状态',
-      clearable: true,
-      options: [
-        {
-          label: '启用',
-          value: 1,
-        },
-        {
-          label: '禁用',
-          value: 0,
-        },
-      ],
-    },
-  },
-  {
-    field: 'roles',
-    component: 'Select',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '内容类型',
-      clearable: true,
-      multiple: true,
-      collapseTags: true,
-      options: authorRoles,
-    },
-  },
-  {
-    field: 'name',
-    component: 'Input',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '作者名称',
-      clearable: true,
-    },
-  },
-]
+export const tableColumns: EsTableColumn = formOptionsToTableColumn(
+  formOptions,
+  ['remark', 'socialLinks', 'description'],
+)
 
+export const filter: ToolbarFilter = formOptionsToFilterOptions(formOptions, {
+  gender: 6,
+  roles: 6,
+  name: 6,
+})
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
     type: 'button',

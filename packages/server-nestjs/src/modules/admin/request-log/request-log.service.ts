@@ -42,7 +42,6 @@ export class RequestLogService extends BaseRepositoryService<'SystemRequestLog'>
     if (httpMethod) where.httpMethod = httpMethod
     if (requestPath) where.requestPath = requestPath
     return this.findPagination({
-      ...queryDto,
       where,
     })
   }

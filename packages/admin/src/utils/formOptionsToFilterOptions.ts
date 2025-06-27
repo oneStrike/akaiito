@@ -28,6 +28,13 @@ export function formOptionsToFilterOptions<T extends EsFormOptions>(
         item.component = 'Select'
       }
 
+      // 如果是 Checkbox 组件，替换为 Select 组件
+      if (item.component === 'Checkbox') {
+        item.component = 'Select'
+        item.componentProps.multiple = true
+        item.componentProps.collapseTags = true
+      }
+
       // 更新 props，清除 label 并设置 span
       item.props = {
         ...item.props,
