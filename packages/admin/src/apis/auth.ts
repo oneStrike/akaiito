@@ -6,7 +6,7 @@ import type { PublicKeyResponse } from './types/auth.d'
  *  @标签 管理端认证模块/获取Admin专用RSA公钥
  *  @方式 GET
  *  @地址 /api/admin/auth/public-key
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export const publicKeyApi = (): Promise<PublicKeyResponse> => {

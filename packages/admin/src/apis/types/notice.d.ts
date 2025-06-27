@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface CreateNoticeRequest {
@@ -73,7 +73,7 @@ export type CreateNoticeResponse = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface NoticePageRequest {
@@ -196,7 +196,7 @@ export interface NoticePageResponse {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface NoticeDetailRequest {
@@ -281,7 +281,7 @@ export type NoticeDetailResponse = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface UpdateNoticeRequest {
@@ -354,7 +354,7 @@ export type UpdateNoticeResponse = {
  *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-update-notice-status
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface BatchUpdateNoticeStatusRequest {
@@ -362,7 +362,7 @@ export interface BatchUpdateNoticeStatusRequest {
   isPublished: boolean
 
   /* 通知ID列表 */
-  ids: {}[]
+  ids: number[]
 }
 
 /*  */
@@ -379,12 +379,12 @@ export type BatchUpdateNoticeStatusResponse = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface BatchDeleteNoticeRequest {
   /* 主键id */
-  ids: {}[]
+  ids: number[]
 }
 
 /*  */

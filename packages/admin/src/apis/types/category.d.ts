@@ -3,7 +3,7 @@
  *  @标签 分类管理模块/创建分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/create-category
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface CreateCategoryRequest {
@@ -37,7 +37,7 @@ export type CreateCategoryResponse = {
  *  @标签 分类管理模块/分页查询分类列表
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-page
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface CategoryPageRequest {
@@ -130,7 +130,7 @@ export interface CategoryPageResponse {
  *  @标签 分类管理模块/获取分类详情
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-detail
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface CategoryDetailRequest {
@@ -191,7 +191,7 @@ export type CategoryDetailResponse = {
  *  @标签 分类管理模块/更新分类信息
  *  @方式 PUT
  *  @地址 /api/admin/work/category/update-category
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 /*  */
@@ -208,12 +208,12 @@ export type UpdateCategoryResponse = {
  *  @标签 分类管理模块/批量更新分类状态
  *  @方式 POST
  *  @地址 /api/admin/work/category/batch-update-category-status
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface BatchUpdateCategoryStatusRequest {
   /* 批量操作的 ID 数组 */
-  ids: {}[]
+  ids: number[]
 
   /* 启用或者禁用 */
   isEnabled: boolean
@@ -233,7 +233,7 @@ export type BatchUpdateCategoryStatusResponse = {
  *  @标签 分类管理模块/批量删除分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/delete-batch
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 /*  */
@@ -250,7 +250,7 @@ export type DeleteBatchResponse = {
  *  @标签 分类管理模块/分类拖拽排序
  *  @方式 POST
  *  @地址 /api/admin/work/category/category-order
- *  @更新时间 2025-06-28 01:29:05
+ *  @更新时间 2025-06-28 01:48:41
  */
 
 export interface CategoryOrderRequest {

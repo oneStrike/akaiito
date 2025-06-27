@@ -64,7 +64,7 @@ export function ValidateNumberArray(options: ValidateNumberArrayOptions) {
     required: options.required ?? true,
     default: options.default,
     nullable: !(options.required ?? true),
-    type: [Number],
+    type: Number,
     isArray: true,
   }
 
