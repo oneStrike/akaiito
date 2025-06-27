@@ -16,11 +16,11 @@ import type {
 } from './types/category.d'
 
 /**
- *  接口 [创建分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450913)
+ *  接口 [创建分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969285)
  *  @标签 分类管理模块/创建分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/create-category
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const createCategoryApi = (data: CreateCategoryRequest): Promise<CreateCategoryResponse> => {
@@ -35,11 +35,11 @@ export const createCategoryApi = (data: CreateCategoryRequest): Promise<CreateCa
 }
 
 /**
- *  接口 [分页查询分类列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450914)
+ *  接口 [分页查询分类列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969286)
  *  @标签 分类管理模块/分页查询分类列表
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-page
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const categoryPageApi = (params: CategoryPageRequest): Promise<CategoryPageResponse> => {
@@ -52,11 +52,11 @@ export const categoryPageApi = (params: CategoryPageRequest): Promise<CategoryPa
 }
 
 /**
- *  接口 [获取分类详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450915)
+ *  接口 [获取分类详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969287)
  *  @标签 分类管理模块/获取分类详情
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-detail
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const categoryDetailApi = (params: CategoryDetailRequest): Promise<CategoryDetailResponse> => {
@@ -69,11 +69,11 @@ export const categoryDetailApi = (params: CategoryDetailRequest): Promise<Catego
 }
 
 /**
- *  接口 [更新分类信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450916)
+ *  接口 [更新分类信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969288)
  *  @标签 分类管理模块/更新分类信息
  *  @方式 PUT
  *  @地址 /api/admin/work/category/update-category
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const updateCategoryApi = (): Promise<UpdateCategoryResponse> => {
@@ -87,11 +87,11 @@ export const updateCategoryApi = (): Promise<UpdateCategoryResponse> => {
 }
 
 /**
- *  接口 [批量更新分类状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450917)
+ *  接口 [批量更新分类状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969289)
  *  @标签 分类管理模块/批量更新分类状态
  *  @方式 POST
  *  @地址 /api/admin/work/category/batch-update-category-status
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const batchUpdateCategoryStatusApi = (
@@ -108,11 +108,11 @@ export const batchUpdateCategoryStatusApi = (
 }
 
 /**
- *  接口 [批量删除分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450918)
+ *  接口 [批量删除分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969290)
  *  @标签 分类管理模块/批量删除分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/delete-batch
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const deleteBatchApi = (): Promise<DeleteBatchResponse> => {
@@ -124,11 +124,11 @@ export const deleteBatchApi = (): Promise<DeleteBatchResponse> => {
 }
 
 /**
- *  接口 [分类拖拽排序](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450919)
+ *  接口 [分类拖拽排序](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969291)
  *  @标签 分类管理模块/分类拖拽排序
  *  @方式 POST
  *  @地址 /api/admin/work/category/category-order
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const categoryOrderApi = (data: CategoryOrderRequest): Promise<CategoryOrderResponse> => {

@@ -284,7 +284,10 @@ export function generateTypes(
       // 引用类型
       responseStr = `
       /* ${responseData?.description || ''} */
-      export type ${resName} = {${extractRefs(responseData.$ref, dataModel)}}
+      export type ${resName} = {${extractRefs(responseData.$ref, dataModel)}
+      /** 任意合法数值 */
+    [property: string]: any;
+    }
       `
     } else if (Array.isArray(dataType)) {
       // 联合类型
@@ -298,6 +301,8 @@ export function generateTypes(
       /* ${responseData?.description || ''} */
       export type ${resName} = {
       ${handlerJsonScheme(responseData.items, dataModel, true)}
+      /** 任意合法数值 */
+    [property: string]: any;
     }[]
       `
     } else if (dataType !== 'object') {
@@ -310,7 +315,9 @@ export function generateTypes(
       // 对象类型
       responseStr = `
       export interface ${resName} {
-      ${handlerJsonScheme(responseData, dataModel, true)}
+      ${handlerJsonScheme(responseData, dataModel, true).replace('}[]', '\n/** 任意合法数值 */\n    [property: string]: any; }[] ')}
+      /** 任意合法数值 */
+    [property: string]: any;
     }
       `
     }

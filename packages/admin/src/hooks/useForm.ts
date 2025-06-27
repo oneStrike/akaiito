@@ -111,7 +111,7 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
         dictItemCache.set(item.code, Object.fromEntries(dictMap))
       }
     })
-
+    console.log(dictItemCache)
     return Object.fromEntries(dictItemCache)
   }
 

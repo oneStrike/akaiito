@@ -1,9 +1,9 @@
 /**
- *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450868)
+ *  接口 [创建通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969273)
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface CreateNoticeRequest {
@@ -63,14 +63,17 @@ export interface CreateNoticeRequest {
 export type CreateNoticeResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [分页查询通知列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450869)
+ *  接口 [分页查询通知列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969274)
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface NoticePageRequest {
@@ -180,15 +183,20 @@ export interface NoticePageResponse {
       /* 页面名称 */
       pageName: string
     }
+
+    /** 任意合法数值 */
+    [property: string]: any
   }[]
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [根据ID查询通知详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-312080035)
+ *  接口 [根据ID查询通知详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969275)
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-06-27 01:20:40
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface NoticeDetailRequest {
@@ -263,14 +271,17 @@ export type NoticeDetailResponse = {
     /* 页面名称 */
     pageName: string
   }
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450870)
+ *  接口 [更新通知消息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969276)
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface UpdateNoticeRequest {
@@ -333,14 +344,17 @@ export interface UpdateNoticeRequest {
 export type UpdateNoticeResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450871)
+ *  接口 [批量更新通知状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969277)
  *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-update-notice-status
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface BatchUpdateNoticeStatusRequest {
@@ -355,14 +369,17 @@ export interface BatchUpdateNoticeStatusRequest {
 export type BatchUpdateNoticeStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450872)
+ *  接口 [批量删除通知](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969278)
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface BatchDeleteNoticeRequest {
@@ -374,4 +391,7 @@ export interface BatchDeleteNoticeRequest {
 export type BatchDeleteNoticeResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }

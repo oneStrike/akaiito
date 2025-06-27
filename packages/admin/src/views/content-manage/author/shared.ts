@@ -144,10 +144,20 @@ export const formOptions: EsFormOptions[] = [
   },
 ]
 
-export const tableColumns: EsTableColumn = formOptionsToTableColumn(
-  formOptions,
-  ['remark', 'socialLinks', 'description'],
-)
+const [name, roles, genderColumn, nationality, action] =
+  formOptionsToTableColumn(formOptions, [
+    'remark',
+    'socialLinks',
+    'description',
+    'avatar',
+  ])
+export const tableColumns: EsTableColumn = [
+  name,
+  roles,
+  genderColumn,
+  nationality,
+  action,
+]
 
 export const filter: ToolbarFilter = formOptionsToFilterOptions(formOptions, {
   gender: 6,

@@ -1,9 +1,9 @@
 /**
- *  接口 [创建页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450899)
+ *  接口 [创建页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969279)
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/create-client-page
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface CreateClientPageRequest {
@@ -36,14 +36,17 @@ export interface CreateClientPageRequest {
 export type CreateClientPageResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [分页查询页面配置列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450900)
+ *  接口 [分页查询页面配置列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969280)
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-page
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface ClientPagePageRequest {
@@ -114,15 +117,20 @@ export interface ClientPagePageResponse {
 
     /* 更新时间 */
     updatedAt: string
+
+    /** 任意合法数值 */
+    [property: string]: any
   }[]
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [根据ID查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450901)
+ *  接口 [根据ID查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969281)
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-id
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface ClientPageDetailByIdRequest {
@@ -164,14 +172,17 @@ export type ClientPageDetailByIdResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [根据页面编码查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450902)
+ *  接口 [根据页面编码查询页面配置详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969282)
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-code
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface ClientPageDetailByCodeRequest {
@@ -213,14 +224,17 @@ export type ClientPageDetailByCodeResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [更新页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450903)
+ *  接口 [更新页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969283)
  *  @标签 客户端页面配置模块/更新页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/update-client-page
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface UpdateClientPageRequest {
@@ -253,36 +267,17 @@ export interface UpdateClientPageRequest {
 export type UpdateClientPageResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量更新页面配置状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450904)
- *  @标签 客户端页面配置模块/批量更新页面配置状态
- *  @方式 POST
- *  @地址 /api/admin/client-page/batch-update-client-page-status
- *  @更新时间 2025-06-27 01:20:45
- */
-
-export interface BatchUpdateClientPageStatusRequest {
-  /* 批量操作的 ID 数组 */
-  ids: {}[]
-
-  /* 启用或者禁用 */
-  isEnabled: boolean
-}
-
-/*  */
-export type BatchUpdateClientPageStatusResponse = {
-  /* 操作成功的数据数量 */
-  count: number
-}
-
-/**
- *  接口 [批量软删除页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450905)
+ *  接口 [批量软删除页面配置](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969284)
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/batch-delete-client-page
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export interface BatchDeleteClientPageRequest {
@@ -294,4 +289,7 @@ export interface BatchDeleteClientPageRequest {
 export type BatchDeleteClientPageResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }

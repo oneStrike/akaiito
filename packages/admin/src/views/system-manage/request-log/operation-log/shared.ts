@@ -1,7 +1,6 @@
-import type { EsTableColumn } from '@/components/es-table/types'
 import type { ToolbarFilter } from '@/components/es-toolbar/types'
 
-export const tableColumns: EsTableColumn = [
+export const tableColumns = [
   {
     label: '操作者',
     prop: 'username',
@@ -48,7 +47,7 @@ export const tableColumns: EsTableColumn = [
     sortable: 'custom',
     sortOrders: ['ascending', 'descending'],
     sortBy: 'createdAt',
-    type: 'date',
+    columnType: 'date',
   },
 ]
 

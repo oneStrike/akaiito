@@ -23,11 +23,11 @@ import type {
 } from './types/user.d'
 
 /**
- *  接口 [获取验证码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450885)
+ *  接口 [获取验证码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969259)
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/get-captcha
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const getCaptchaApi = (): Promise<GetCaptchaResponse> => {
@@ -39,11 +39,11 @@ export const getCaptchaApi = (): Promise<GetCaptchaResponse> => {
 }
 
 /**
- *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450886)
+ *  接口 [管理员登录](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969260)
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/user-login
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userLoginApi = (data: UserLoginRequest): Promise<UserLoginResponse> => {
@@ -58,11 +58,11 @@ export const userLoginApi = (data: UserLoginRequest): Promise<UserLoginResponse>
 }
 
 /**
- *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450887)
+ *  接口 [管理员登出](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969261)
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
  *  @地址 /api/admin/user/user-logout
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userLogoutApi = (data: UserLogoutRequest): Promise<UserLogoutResponse> => {
@@ -77,11 +77,11 @@ export const userLogoutApi = (data: UserLogoutRequest): Promise<UserLogoutRespon
 }
 
 /**
- *  接口 [用户注册](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450888)
+ *  接口 [用户注册](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969262)
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/user-register
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userRegisterApi = (data: UserRegisterRequest): Promise<UserRegisterResponse> => {
@@ -96,11 +96,11 @@ export const userRegisterApi = (data: UserRegisterRequest): Promise<UserRegister
 }
 
 /**
- *  接口 [刷新访问令牌](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450889)
+ *  接口 [刷新访问令牌](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969263)
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/user-refresh-token
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userRefreshTokenApi = (data: UserRefreshTokenRequest): Promise<UserRefreshTokenResponse> => {
@@ -115,11 +115,11 @@ export const userRefreshTokenApi = (data: UserRefreshTokenRequest): Promise<User
 }
 
 /**
- *  接口 [修改密码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450890)
+ *  接口 [修改密码](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969264)
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-password
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userUpdatePasswordApi = (data: UserUpdatePasswordRequest): Promise<UserUpdatePasswordResponse> => {
@@ -134,11 +134,11 @@ export const userUpdatePasswordApi = (data: UserUpdatePasswordRequest): Promise<
 }
 
 /**
- *  接口 [更新用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450891)
+ *  接口 [更新用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969265)
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-info
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userUpdateInfoApi = (data: UserUpdateInfoRequest): Promise<UserUpdateInfoResponse> => {
@@ -153,11 +153,11 @@ export const userUpdateInfoApi = (data: UserUpdateInfoRequest): Promise<UserUpda
 }
 
 /**
- *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450892)
+ *  接口 [获取当前用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969266)
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-Info
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userInfoApi = (): Promise<UserInfoResponse> => {
@@ -169,11 +169,11 @@ export const userInfoApi = (): Promise<UserInfoResponse> => {
 }
 
 /**
- *  接口 [根据ID获取用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450893)
+ *  接口 [根据ID获取用户信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969267)
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-info-by-id
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userInfoByIdApi = (params: UserInfoByIdRequest): Promise<UserInfoByIdResponse> => {
@@ -186,11 +186,11 @@ export const userInfoByIdApi = (params: UserInfoByIdRequest): Promise<UserInfoBy
 }
 
 /**
- *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450894)
+ *  接口 [获取管理端用户分页列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969268)
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/user-page
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userPageApi = (params: UserPageRequest): Promise<UserPageResponse> => {
@@ -203,11 +203,11 @@ export const userPageApi = (params: UserPageRequest): Promise<UserPageResponse> 
 }
 
 /**
- *  接口 [删除用户](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314450895)
+ *  接口 [删除用户](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969269)
  *  @标签 管理端用户模块/删除用户
  *  @方式 POST
  *  @地址 /api/admin/user/user-delete
- *  @更新时间 2025-06-27 01:20:45
+ *  @更新时间 2025-06-28 01:29:05
  */
 
 export const userDeleteApi = (data: UserDeleteRequest): Promise<UserDeleteResponse> => {
