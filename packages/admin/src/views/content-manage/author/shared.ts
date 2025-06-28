@@ -144,18 +144,31 @@ export const formOptions: EsFormOptions[] = [
   },
 ]
 
-const [name, roles, genderColumn, nationality, action] =
-  formOptionsToTableColumn(formOptions, [
-    'remark',
-    'socialLinks',
-    'description',
-    'avatar',
-  ])
+const [name, roles, genderColumn, action] = formOptionsToTableColumn(
+  formOptions,
+  ['remark', 'socialLinks', 'description', 'avatar', 'nationality'],
+  {
+    roles: {
+      formatter: (row) => {
+        return useBitmask.getLabels(row.roles, authorRoles).join('、')
+      },
+    },
+  },
+)
 export const tableColumns: EsTableColumn = [
   name,
   roles,
   genderColumn,
-  nationality,
+  {
+    prop: 'worksCount',
+    label: '作品数量',
+    align: 'center',
+  } as any,
+  {
+    prop: 'followersCount',
+    label: '粉丝数',
+    align: 'center',
+  } as any,
   action,
 ]
 

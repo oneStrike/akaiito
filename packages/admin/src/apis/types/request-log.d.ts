@@ -1,9 +1,9 @@
 /**
- *  接口 [分页查询请求日志](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969270)
+ *  接口 [分页查询请求日志](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090639)
  *  @标签 管理端请求日志模块/分页查询请求日志
  *  @方式 GET
  *  @地址 /api/admin/request-log/request-log-page
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface RequestLogPageRequest {
@@ -98,11 +98,11 @@ export interface RequestLogPageResponse {
 }
 
 /**
- *  接口 [查询请求日志详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969271)
+ *  接口 [查询请求日志详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090640)
  *  @标签 管理端请求日志模块/查询请求日志详情
  *  @方式 GET
  *  @地址 /api/admin/request-log/request-log-detail
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface RequestLogDetailRequest {

@@ -1,9 +1,9 @@
 /**
- *  接口 [创建作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314968803)
+ *  接口 [创建作者](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090610)
  *  @标签 作者管理模块/创建作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/create-author
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface CreateAuthorRequest {
@@ -48,11 +48,11 @@ export type CreateAuthorResponse = {
 }
 
 /**
- *  接口 [分页查询作者列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969242)
+ *  接口 [分页查询作者列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090611)
  *  @标签 作者管理模块/分页查询作者列表
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-page
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface AuthorPageRequest {
@@ -141,11 +141,11 @@ export interface AuthorPageResponse {
 }
 
 /**
- *  接口 [获取作者详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314968802)
+ *  接口 [获取作者详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090612)
  *  @标签 作者管理模块/获取作者详情
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-detail
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface AuthorDetailRequest {
@@ -205,12 +205,47 @@ export type AuthorDetailResponse = {
 }
 
 /**
- *  接口 [更新作者信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969243)
+ *  接口 [更新作者信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090613)
  *  @标签 作者管理模块/更新作者信息
- *  @方式 PUT
+ *  @方式 POST
  *  @地址 /api/admin/work/author/update-author
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
+
+export interface UpdateAuthorRequest {
+  /* 作者姓名 */
+  name?: string
+
+  /* 作者头像URL */
+  avatar?: string | null
+
+  /* 作者描述 */
+  description?: string | null
+
+  /* 启用状态（true: 启用, false: 禁用） */
+  isEnabled?: boolean
+
+  /* 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特） */
+  roles?: number | null
+
+  /* 国籍 */
+  nationality?: string | null
+
+  /* 性别（0: 未知, 1: 男性, 2: 女性, 3: 其他） */
+  gender?: number
+
+  /* 社交媒体链接（JSON格式存储多个平台链接） */
+  socialLinks?: string | null
+
+  /* 管理员备注 */
+  remark?: string | null
+
+  /* 是否为推荐作者（用于前台推荐展示） */
+  featured?: boolean
+
+  /* 主键id */
+  id: number
+}
 
 /*  */
 export type UpdateAuthorResponse = {
@@ -222,12 +257,20 @@ export type UpdateAuthorResponse = {
 }
 
 /**
- *  接口 [批量更新作者状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969244)
+ *  接口 [批量更新作者状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090614)
  *  @标签 作者管理模块/批量更新作者状态
- *  @方式 PUT
+ *  @方式 POST
  *  @地址 /api/admin/work/author/batch-update-author-status
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
+
+export interface BatchUpdateAuthorStatusRequest {
+  /* 批量操作的 ID 数组 */
+  ids: number[]
+
+  /* 启用或者禁用 */
+  isEnabled: boolean
+}
 
 /*  */
 export type BatchUpdateAuthorStatusResponse = {
@@ -239,12 +282,20 @@ export type BatchUpdateAuthorStatusResponse = {
 }
 
 /**
- *  接口 [批量更新作者推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969245)
+ *  接口 [批量更新作者推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090615)
  *  @标签 作者管理模块/批量更新作者推荐状态
- *  @方式 PUT
+ *  @方式 POST
  *  @地址 /api/admin/work/author/batch-update-author-featured
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
+
+export interface BatchUpdateAuthorFeaturedRequest {
+  /* 是否为推荐作者（用于前台推荐展示） */
+  featured: boolean
+
+  /* 作者ID列表 */
+  ids: number[]
+}
 
 /*  */
 export type BatchUpdateAuthorFeaturedResponse = {
@@ -260,7 +311,7 @@ export type BatchUpdateAuthorFeaturedResponse = {
  *  @标签 作者管理模块/软删除作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/delete-author
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface DeleteAuthorRequest {

@@ -145,6 +145,8 @@ export class CreateAuthorDto extends OmitType(BaseAuthorDto, [
   'createdAt',
   'updatedAt',
   'worksCount',
+  'isEnabled',
+  'featured',
   'followersCount',
 ]) {}
 

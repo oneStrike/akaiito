@@ -1,9 +1,9 @@
 /**
- *  接口 [上传文件](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969272)
+ *  接口 [上传文件](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090641)
  *  @标签 管理端文件上传/上传文件
  *  @方式 POST
  *  @地址 /api/admin/upload/upload-file
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 /*  */

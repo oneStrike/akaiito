@@ -30,7 +30,7 @@
       code: 'nationality',
     },
   ])
-
+  console.log(tableColumns)
   async function submitForm(val: any) {
     modalFrom.loading = true
     if (val.website) {
@@ -42,6 +42,7 @@
     if (Array.isArray(val.socialLinks)) {
       val.socialLinks = JSON.stringify(val.socialLinks)
     }
+    val.roles = useBitmask.set(val.roles)
     if (currentRow.value?.id) {
       val.id = currentRow.value.id
       await updateAuthorApi(val)

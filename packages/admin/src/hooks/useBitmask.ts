@@ -2,7 +2,7 @@ export const useBitmask = {
   /**
    * 将逗号分隔的 bit 值转换为整数 bitmask
    */
-  set(bitmask: string ): number {
+  set(bitmask: string | number[]): number {
     return String(bitmask)
       .split(',')
       .reduce((acc, val) => acc + Number.parseInt(val, 10), 0)

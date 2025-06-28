@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
@@ -61,7 +61,7 @@ export class WorkAuthorController {
   /**
    * 更新作者信息
    */
-  @Put('/update-author')
+  @Post('/update-author')
   @ApiDoc({
     summary: '更新作者信息',
     model: IdDto,
@@ -73,7 +73,7 @@ export class WorkAuthorController {
   /**
    * 批量更新作者状态
    */
-  @Put('/batch-update-author-status')
+  @Post('/batch-update-author-status')
   @ApiDoc({
     summary: '批量更新作者状态',
     model: CountDto,
@@ -85,7 +85,7 @@ export class WorkAuthorController {
   /**
    * 批量更新作者推荐状态
    */
-  @Put('/batch-update-author-featured')
+  @Post('/batch-update-author-featured')
   @ApiDoc({
     summary: '批量更新作者推荐状态',
     model: CountDto,

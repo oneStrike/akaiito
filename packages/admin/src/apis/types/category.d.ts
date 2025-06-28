@@ -1,9 +1,9 @@
 /**
- *  接口 [创建分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969285)
+ *  接口 [创建分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090654)
  *  @标签 分类管理模块/创建分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/create-category
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface CreateCategoryRequest {
@@ -33,11 +33,11 @@ export type CreateCategoryResponse = {
 }
 
 /**
- *  接口 [分页查询分类列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969286)
+ *  接口 [分页查询分类列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090655)
  *  @标签 分类管理模块/分页查询分类列表
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-page
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface CategoryPageRequest {
@@ -126,11 +126,11 @@ export interface CategoryPageResponse {
 }
 
 /**
- *  接口 [获取分类详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969287)
+ *  接口 [获取分类详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090656)
  *  @标签 分类管理模块/获取分类详情
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-detail
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface CategoryDetailRequest {
@@ -187,11 +187,11 @@ export type CategoryDetailResponse = {
 }
 
 /**
- *  接口 [更新分类信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969288)
+ *  接口 [更新分类信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090657)
  *  @标签 分类管理模块/更新分类信息
  *  @方式 PUT
  *  @地址 /api/admin/work/category/update-category
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 /*  */
@@ -204,11 +204,11 @@ export type UpdateCategoryResponse = {
 }
 
 /**
- *  接口 [批量更新分类状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969289)
+ *  接口 [批量更新分类状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090658)
  *  @标签 分类管理模块/批量更新分类状态
  *  @方式 POST
  *  @地址 /api/admin/work/category/batch-update-category-status
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface BatchUpdateCategoryStatusRequest {
@@ -229,11 +229,11 @@ export type BatchUpdateCategoryStatusResponse = {
 }
 
 /**
- *  接口 [批量删除分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969290)
+ *  接口 [批量删除分类](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090659)
  *  @标签 分类管理模块/批量删除分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/delete-batch
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 /*  */
@@ -246,11 +246,11 @@ export type DeleteBatchResponse = {
 }
 
 /**
- *  接口 [分类拖拽排序](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-314969291)
+ *  接口 [分类拖拽排序](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090660)
  *  @标签 分类管理模块/分类拖拽排序
  *  @方式 POST
  *  @地址 /api/admin/work/category/category-order
- *  @更新时间 2025-06-28 01:48:41
+ *  @更新时间 2025-06-28 20:37:04
  */
 
 export interface CategoryOrderRequest {
