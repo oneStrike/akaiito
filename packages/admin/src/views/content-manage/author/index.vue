@@ -32,9 +32,7 @@
   ])
   async function submitForm(val: any) {
     modalFrom.loading = true
-    if (val.website) {
-      val.website = encodeURIComponent(val.website)
-    }
+    console.log(val.socialLinks)
     if (Array.isArray(val.socialLinks)) {
       val.socialLinks = JSON.stringify(val.socialLinks)
     }

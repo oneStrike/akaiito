@@ -1,50 +1,50 @@
 <script setup lang="ts">
-import { utils } from '@/utils'
+  import { utils } from '@/utils'
 
-export interface EsDynamicFieldPairProps {
-  modelValue?: string | { label: string; value: string }[]
-  placeholder?: string[]
-}
+  export interface EsDynamicFieldPairProps {
+    modelValue?: string | { label: string; value: string }[]
+    placeholder?: string[]
+  }
 
-const props = withDefaults(defineProps<EsDynamicFieldPairProps>(), {
-  placeholder: () => ['请输入', '请输入'],
-  modelValue: () => [{ label: '', value: '' }],
-})
-
-const emits = defineEmits<{
-  (
-    event: 'update:modelValue',
-    val: null | string | { label: string; value: string }[],
-  ): void
-}>()
-
-const innerItems = ref<{ label: string; value: string }[]>([])
-watch(
-  () => props.modelValue,
-  (val) => {
-    val = utils.parseJson(val)
-    innerItems.value = Array.isArray(val) ? val : [{ label: '', value: '' }]
-  },
-  { deep: true, immediate: true },
-)
-
-function addItem() {
-  innerItems.value.push({ label: '', value: '' })
-}
-
-function removeItem(idx: number) {
-  innerItems.value.splice(idx, 1)
-}
-
-function valueInputChange() {
-  const emitData: typeof props.modelValue = []
-  innerItems.value.forEach((item) => {
-    if (item.label && item.value) {
-      emitData.push(item)
-    }
+  const props = withDefaults(defineProps<EsDynamicFieldPairProps>(), {
+    placeholder: () => ['请输入', '请输入'],
+    modelValue: () => [{ label: '', value: '' }],
   })
-  emits('update:modelValue', emitData.length ? emitData : null)
-}
+
+  const emits = defineEmits<{
+    (
+      event: 'update:modelValue',
+      val: null | string | { label: string; value: string }[],
+    ): void
+  }>()
+
+  const innerItems = ref<{ label: string; value: string }[]>([])
+  watch(
+    () => props.modelValue,
+    (val) => {
+      val = utils.parseJson(val)
+      innerItems.value = Array.isArray(val) ? val : [{ label: '', value: '' }]
+    },
+    { deep: true, immediate: true },
+  )
+
+  function addItem() {
+    innerItems.value.push({ label: '', value: '' })
+  }
+
+  function removeItem(idx: number) {
+    innerItems.value.splice(idx, 1)
+  }
+
+  function valueInputChange() {
+    const emitData: typeof props.modelValue = []
+    innerItems.value.forEach((item) => {
+      emitData.push(structuredClone(toRaw(item)))
+    })
+    // 只有当所有项都为空时才发送 null
+    const hasAnyContent = emitData.some((item) => item.label || item.value)
+    emits('update:modelValue', hasAnyContent ? emitData : null)
+  }
 </script>
 
 <template>
@@ -93,7 +93,7 @@ function valueInputChange() {
 </template>
 
 <style>
-.input-with-select .el-input-group__prepend {
-  background-color: var(--el-fill-color-blank);
-}
+  .input-with-select .el-input-group__prepend {
+    background-color: var(--el-fill-color-blank);
+  }
 </style>

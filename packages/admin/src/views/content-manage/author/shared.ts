@@ -81,7 +81,7 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请选择身份',
       options: authorRoles,
-      valueType: 'array',
+      valueType: 'bitmask',
     },
   },
   {

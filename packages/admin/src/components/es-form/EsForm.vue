@@ -52,7 +52,8 @@
   function submitForm() {
     formRef.value?.validate((isValid) => {
       if (isValid) {
-        emits('submit', structuredClone(toRaw(formData.value)))
+        console.log(formData.value.socialLinks[0])
+          emits('submit', structuredClone(toRaw(formData.value)))
       }
     })
   }
