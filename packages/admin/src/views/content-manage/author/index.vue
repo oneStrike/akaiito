@@ -30,14 +30,10 @@
       code: 'nationality',
     },
   ])
-  console.log(tableColumns)
   async function submitForm(val: any) {
     modalFrom.loading = true
     if (val.website) {
       val.website = encodeURIComponent(val.website)
-    }
-    if (!val.avatar) {
-      delete val.avatar
     }
     if (Array.isArray(val.socialLinks)) {
       val.socialLinks = JSON.stringify(val.socialLinks)
@@ -77,8 +73,10 @@
     modalFrom.show = true
   }
   const openDetailModal = async (val: Record) => {
-    currentRow.value = val
-    detailModel.value = true
+    if (val.field === 'name') {
+      currentRow.value = val.row
+      detailModel.value = true
+    }
   }
 </script>
 

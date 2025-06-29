@@ -177,6 +177,7 @@
     "useCurrentElement": "readonly",
     "useCycleList": "readonly",
     "useDark": "readonly",
+    "useDataDict": "readonly",
     "useDateFormat": "readonly",
     "useDebounce": "readonly",
     "useDebounceFn": "readonly",

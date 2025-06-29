@@ -34,7 +34,10 @@
     /** 文件移除时触发 */
     (event: 'remove', data: UploadFile): void
     /** v-model 双向绑定更新 */
-    (event: 'update:modelValue', data: string | string[] | UploadFileResponse[]): void
+    (
+      event: 'update:modelValue',
+      data: string | string[] | UploadFileResponse[],
+    ): void
     /** 上传错误时触发 */
     (event: 'updateError', data: Error[]): void
   }>()
@@ -314,6 +317,7 @@
     const fileIndex = fileList.value.findIndex(
       (item) => item.url === uploadFile.url,
     )
+    fileList.value.splice(fileIndex, 1)
     if (fileIndex !== -1) {
       handleEmitData()
     }

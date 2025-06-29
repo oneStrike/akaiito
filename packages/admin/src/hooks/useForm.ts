@@ -114,9 +114,8 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
 
     // 处理数据字典项
     // 使用Set和Array.from保证唯一性和性能
-    const uniqueOptions = Array.from(
-      new Set(dataDictField.map((item) => item.field)),
-    )
+    // 批量更新缓存
+    dictItemCache = Array.from(new Set(dataDictField.map((item) => item.field)))
       .map((field) => ({ field, code: fieldToDictCodeMap.get(field)! }))
       .filter(({ code }) => code)
       .reduce((acc, { field, code }) => {
@@ -141,9 +140,6 @@ export function useFormTool(schema?: EsFormOptions[]): UseFormTool {
 
         return acc
       }, new Map<string, Record<string, string>>())
-
-    // 批量更新缓存
-    dictItemCache = uniqueOptions
 
     return Object.fromEntries(dictItemCache)
   }

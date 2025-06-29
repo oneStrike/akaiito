@@ -382,12 +382,7 @@
         width="55"
         class-name="leading-9"
       />
-      <el-table-column
-        type="index"
-        label="序号"
-        width="60"
-        align="center"
-      />
+      <el-table-column type="index" label="序号" width="60" align="center" />
       <!-- 动态列渲染 -->
       <el-table-column
         v-for="item in columns"
@@ -416,7 +411,7 @@
             <!-- 链接列：可点击的链接按钮 -->
             <template v-else-if="item.columnType === 'link'">
               <el-tooltip
-                :content="row[item.prop]"
+                :content="String(row[item.prop])"
                 :show-after="200"
                 placement="top"
               >

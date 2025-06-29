@@ -256,7 +256,7 @@ export class UploadService {
             )
             // 计算相对路径（相对于uploads目录）
             const filePath = fullPath
-              .replace(process.cwd(), '')
+              .replace(process.cwd(), '/')
               .replace(/^[/\\]/, '')
               .replace(/\\/g, '/')
 
