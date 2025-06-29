@@ -1,0 +1,33 @@
+/// 漫画作者关联表（多对多关系中间表）
+model WorkComicAuthor {
+  /// 主键ID
+  id       Int @id @default(autoincrement())
+  /// 漫画ID
+  comicId  Int @map("comic_id")
+  /// 作者ID
+  authorId Int @map("author_id")
+  /// 作者角色类型（1=原作者, 2=插画师, 4=编剧, 8=其他）
+  roleType Int @default(1) @map("role_type") @db.SmallInt
+  /// 是否为主要作者
+  isPrimary Boolean @default(false) @map("is_primary")
+  /// 排序权重（用于多作者时的显示顺序）
+  sortOrder Int @default(0) @map("sort_order") @db.SmallInt
+  /// 创建时间
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  /// 更新时间
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  // 关联关系
+  comic  WorkComic  @relation(fields: [comicId], references: [id], onDelete: Cascade)
+  author WorkAuthor @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  /// 复合唯一索引（防止重复关联）
+  @@unique([comicId, authorId])
+  /// 索引优化
+  @@index([comicId]) // 按漫画查询作者
+  @@index([authorId]) // 按作者查询漫画
+  @@index([roleType]) // 按角色类型查询
+  @@index([isPrimary]) // 查询主要作者
+  @@index([sortOrder]) // 按排序查询
+  @@map("work_comic_author")
+}

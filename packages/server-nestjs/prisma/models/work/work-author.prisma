@@ -33,8 +33,8 @@ model WorkAuthor {
   /// 软删除时间（用于数据恢复或归档）
   deletedAt      DateTime? @map("deleted_at") @db.Timestamptz
 
-  // 关联关系
-  WorkComic WorkComic[]
+  // 关联关系 - 多对多关系通过中间表
+  comicAuthors WorkComicAuthor[]
 
   /// 索引优化
   @@index([isEnabled]) // 按状态查询可用作者

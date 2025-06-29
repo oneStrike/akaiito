@@ -1,0 +1,28 @@
+model WorkComicCategory {
+  /// 漫画ID
+  comicId    Int @map("comic_id")
+  /// 分类ID  
+  categoryId Int @map("category_id")
+  /// 是否为主要分类
+  isPrimary  Boolean @default(false) @map("is_primary")
+  /// 分类权重（用于排序显示）
+  weight     Int @default(0)
+  /// 关联时间
+  createdAt  DateTime @default(now()) @map("created_at")
+  /// 更新时间
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  // 关联关系
+  comic    WorkComic    @relation(fields: [comicId], references: [id], onDelete: Cascade)
+  category WorkCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  // 复合主键
+  @@id([comicId, categoryId])
+  // 索引优化
+  @@index([categoryId]) // 按分类查询漫画
+  @@index([isPrimary]) // 查询主要分类
+  @@index([weight]) // 按权重排序
+  @@index([comicId, weight]) // 按漫画ID和权重排序
+  @@index([categoryId, isPrimary]) // 按分类查询主要关联
+  @@map("work_comic_category")
+}

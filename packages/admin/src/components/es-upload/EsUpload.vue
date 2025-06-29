@@ -337,6 +337,7 @@
       :multiple="multiple"
       :on-preview="onPreview"
       :on-remove="remove"
+      :limit="maxCount"
       :before-upload="beforeUpload"
       :http-request="upload"
       class="es-upload__wrapper"

@@ -83,11 +83,11 @@
         <div class="author-meta">
           <div class="meta-tags">
             <el-tag
+               v-if="authorDetail.gender !== undefined"
                type="info"
                size="small"
                effect="plain"
                class="meta-tag"
-               v-if="authorDetail.gender !== undefined"
              >
                {{ gender.find((item) => item.value === authorDetail?.gender)?.label ?? '未知' }}
              </el-tag>
@@ -292,7 +292,6 @@
   font-size: 12px;
   border-radius: 4px;
 }
-
 
   .author-desc {
     font-size: 14px;

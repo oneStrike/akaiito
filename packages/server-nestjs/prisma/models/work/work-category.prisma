@@ -30,8 +30,8 @@ model WorkCategory {
   /// 软删除时间
   deletedAt         DateTime? @map("deleted_at") @db.Timestamptz
 
-  // 关联关系
-  relatedComics WorkComic[]
+  // 关联关系 - 多对多关系通过中间表
+  categoryComics WorkComicCategory[]
 
   /// 索引优化
   @@index([contentTypes, isEnabled]) // 更高效过滤组合条件
