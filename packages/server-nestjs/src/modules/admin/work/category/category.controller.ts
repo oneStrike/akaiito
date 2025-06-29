@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
@@ -60,7 +60,7 @@ export class WorkCategoryController {
   /**
    * 更新分类信息
    */
-  @Put('/update-category')
+  @Post('/update-category')
   @ApiDoc({
     summary: '更新分类信息',
     model: IdDto,

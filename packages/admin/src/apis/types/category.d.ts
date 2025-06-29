@@ -3,7 +3,7 @@
  *  @标签 分类管理模块/创建分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/create-category
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface CreateCategoryRequest {
@@ -37,7 +37,7 @@ export type CreateCategoryResponse = {
  *  @标签 分类管理模块/分页查询分类列表
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-page
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface CategoryPageRequest {
@@ -130,7 +130,7 @@ export interface CategoryPageResponse {
  *  @标签 分类管理模块/获取分类详情
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-detail
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface CategoryDetailRequest {
@@ -187,12 +187,38 @@ export type CategoryDetailResponse = {
 }
 
 /**
- *  接口 [更新分类信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090657)
+ *  接口 [更新分类信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315212859)
  *  @标签 分类管理模块/更新分类信息
- *  @方式 PUT
+ *  @方式 POST
  *  @地址 /api/admin/work/category/update-category
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:45
  */
+
+export interface UpdateCategoryRequest {
+  /* 分类名称 */
+  name?: string
+
+  /* 分类图标URL */
+  icon?: string | null
+
+  /* 人气值 */
+  popularity?: number | null
+
+  /* 辅助人气值 */
+  popularityWeight?: number | null
+
+  /* 排序值 */
+  order?: number | null
+
+  /* 是否启用 */
+  isEnabled?: boolean | null
+
+  /* 应用类型 */
+  contentTypes?: number | null
+
+  /* 主键id */
+  id: number
+}
 
 /*  */
 export type UpdateCategoryResponse = {
@@ -208,7 +234,7 @@ export type UpdateCategoryResponse = {
  *  @标签 分类管理模块/批量更新分类状态
  *  @方式 POST
  *  @地址 /api/admin/work/category/batch-update-category-status
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface BatchUpdateCategoryStatusRequest {
@@ -233,7 +259,7 @@ export type BatchUpdateCategoryStatusResponse = {
  *  @标签 分类管理模块/批量删除分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/delete-batch
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 /*  */
@@ -250,7 +276,7 @@ export type DeleteBatchResponse = {
  *  @标签 分类管理模块/分类拖拽排序
  *  @方式 POST
  *  @地址 /api/admin/work/category/category-order
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface CategoryOrderRequest {

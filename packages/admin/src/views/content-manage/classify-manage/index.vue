@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import type { GetCategoryPageTypesRes } from '@/apis/types/category'
+  import type { CategoryDetailResponse } from '@/apis/types/category'
   import {
+    batchUpdateCategoryStatusApi,
+    categoryPageApi,
     createCategoryApi,
-    deleteCategoryApi,
-    getCategoryPageApi,
+    deleteBatchApi,
     updateCategoryApi,
-    updateCategoryStatusApi,
   } from '@/apis/category'
   import {
     filter,
@@ -14,23 +14,15 @@
     toolbar,
   } from '@/views/content-manage/classify-manage/shared'
 
-  type Record = GetCategoryPageTypesRes['list'][number] & {
-    contentModel: string
-  }
+  type Record = CategoryDetailResponse
 
+  const tableRef = useTemplateRef('tableRef')
   const formTool = useFormTool(formOptions)
   const currentRow = ref<Record | null>(null)
   const formModal = reactive({
     show: false,
     loading: false,
   })
-  const { requestData, params, sortChange, reset, request, loading } =
-    useRequest(getCategoryPageApi)
-
-  async function switchStatus(val: any) {
-    await updateCategoryStatusApi(val)
-    await request()
-  }
 
   const openEditForm = (row: Record) => {
     const {
@@ -57,18 +49,8 @@
     formModal.show = true
   }
 
-  const formatModelType = (contentModel: string, d: number | string = 0) => {
-    return {
-      novelApplicable: contentModel.includes('1') ? 1 : d,
-      comicApplicable: contentModel.includes('2') ? 1 : d,
-      illustratorApplicable: contentModel.includes('3') ? 1 : d,
-      photoApplicable: contentModel.includes('4') ? 1 : d,
-    }
-  }
-
   async function submitForm(val: Record) {
     formModal.loading = true
-    val = Object.assign(val, formatModelType(val.contentModel))
     if (currentRow.value?.id) {
       val.id = currentRow.value.id
       await updateCategoryApi(val)
@@ -81,16 +63,7 @@
       message: currentRow.value?.id ? '修改成功!' : '新增成功！',
     })
     currentRow.value = null
-    request()
-  }
-
-  const filterCategory = (val: IterateObject) => {
-    request(
-      Object.assign(
-        JSON.parse(JSON.stringify(val)),
-        formatModelType(val.contentModel?.join(',') ?? '', ''),
-      ),
-    )
+    tableRef.value?.refresh()
   }
 
   function toolbarHandler() {
@@ -99,21 +72,17 @@
 </script>
 
 <template>
-  <div v-loading="loading" class="main-page pb-6">
+  <div class="main-page pb-6">
     <EsTable
-      v-model:params="params"
+      ref="tableRef"
       :filter="filter"
       :toolbar="toolbar"
       :columns="tableColumns"
-      :data="requestData?.list ?? []"
-      :total="requestData?.total"
-      @sort-change="sortChange"
+      :request-api="categoryPageApi"
       @toolbar-handler="toolbarHandler"
-      @reset="reset"
-      @query="request"
     >
       <template #status="{ row }">
-        <es-switch :request="switchStatus" :row="row" />
+        <es-switch :request="batchUpdateCategoryStatusApi" :row="row" />
       </template>
 
       <template #action="{ row }">
@@ -121,10 +90,9 @@
           编辑
         </el-button>
         <EsPopConfirm
-          v-model:loading="loading"
-          :request="deleteCategoryApi"
+          :request="deleteBatchApi"
           :row="row"
-          @success="reset()"
+          @success="tableRef?.reset()"
         />
       </template>
     </EsTable>

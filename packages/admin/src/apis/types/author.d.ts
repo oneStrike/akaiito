@@ -3,7 +3,7 @@
  *  @标签 作者管理模块/创建作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/create-author
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface CreateAuthorRequest {
@@ -15,9 +15,6 @@ export interface CreateAuthorRequest {
 
   /* 作者描述 */
   description?: string | null
-
-  /* 启用状态（true: 启用, false: 禁用） */
-  isEnabled: boolean
 
   /* 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特） */
   roles?: number | null
@@ -33,9 +30,6 @@ export interface CreateAuthorRequest {
 
   /* 管理员备注 */
   remark?: string | null
-
-  /* 是否为推荐作者（用于前台推荐展示） */
-  featured: boolean
 }
 
 /*  */
@@ -52,7 +46,7 @@ export type CreateAuthorResponse = {
  *  @标签 作者管理模块/分页查询作者列表
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-page
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface AuthorPageRequest {
@@ -145,7 +139,7 @@ export interface AuthorPageResponse {
  *  @标签 作者管理模块/获取作者详情
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-detail
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface AuthorDetailRequest {
@@ -209,7 +203,7 @@ export type AuthorDetailResponse = {
  *  @标签 作者管理模块/更新作者信息
  *  @方式 POST
  *  @地址 /api/admin/work/author/update-author
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface UpdateAuthorRequest {
@@ -261,7 +255,7 @@ export type UpdateAuthorResponse = {
  *  @标签 作者管理模块/批量更新作者状态
  *  @方式 POST
  *  @地址 /api/admin/work/author/batch-update-author-status
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface BatchUpdateAuthorStatusRequest {
@@ -286,7 +280,7 @@ export type BatchUpdateAuthorStatusResponse = {
  *  @标签 作者管理模块/批量更新作者推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/author/batch-update-author-featured
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface BatchUpdateAuthorFeaturedRequest {
@@ -311,7 +305,7 @@ export type BatchUpdateAuthorFeaturedResponse = {
  *  @标签 作者管理模块/软删除作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/delete-author
- *  @更新时间 2025-06-28 20:37:04
+ *  @更新时间 2025-06-30 00:37:37
  */
 
 export interface DeleteAuthorRequest {
