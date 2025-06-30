@@ -21,7 +21,7 @@ model WorkCategory {
   illustrationCount Int       @default(0) @map("illustration_count") @db.Integer
   /// 是否启用
   isEnabled         Boolean   @default(true) @map("is_enabled")
-  /// 内容适用类型（bitmask：1=图集, 2=小说, 4=漫画, 8=插画）
+  /// 内容适用类型（bitmask：1=漫画, 2=小说, 4=插画, 8=图集）
   contentTypes      Int       @default(0) @map("content_types") @db.SmallInt
   /// 创建时间
   createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz

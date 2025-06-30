@@ -89,12 +89,7 @@ export interface RequestLogPageResponse {
 
     /* 更新时间 */
     updatedAt: string
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -153,7 +148,4 @@ export type RequestLogDetailResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

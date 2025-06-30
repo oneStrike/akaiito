@@ -31,15 +31,17 @@ export function formOptionsToFilterOptions<T extends EsFormOptions>(
       // 如果是 Checkbox 组件，替换为 Select 组件
       if (item.component === 'Checkbox') {
         item.component = 'Select'
+        item.componentProps.clearable = true
         item.componentProps.multiple = true
         item.componentProps.collapseTags = true
+        item.componentProps.collapseTagsTooltip = true
       }
 
       // 更新 props，清除 label 并设置 span
       item.props = {
         ...item.props,
         label: '',
-        span: selectFields[item.field as Extract<T['field'], string>],
+        span: selectFields[item.field as Extract<T['field'], string>] || 6,
       }
 
       // 添加到结果数组中

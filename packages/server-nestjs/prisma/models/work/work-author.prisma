@@ -10,7 +10,7 @@ model WorkAuthor {
   description    String?   @db.VarChar(1000)
   /// 启用状态（true: 启用, false: 禁用）
   isEnabled      Boolean   @default(true) @map("is_enabled")
-  /// 作者身份角色（位运算：1=作家, 2=插画家, 4=漫画家, 8=模特）
+  /// 作者身份角色（位运算：1=漫画家, 2=作家, 4=插画师, 8=模特）
   roles          Int?      @default(0) @db.SmallInt
   /// 国籍
   nationality    String?   @db.VarChar(50)

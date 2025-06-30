@@ -25,26 +25,6 @@
   })
 
   const openEditForm = (row: Record) => {
-    const {
-      novelApplicable,
-      comicApplicable,
-      illustratorApplicable,
-      photosApplicable,
-    } = row
-    const contentModel = []
-    if (novelApplicable) {
-      contentModel.push(1)
-    }
-    if (comicApplicable) {
-      contentModel.push(2)
-    }
-    if (illustratorApplicable) {
-      contentModel.push(3)
-    }
-    if (photosApplicable) {
-      contentModel.push(4)
-    }
-    row.contentModel = contentModel.join(',')
     currentRow.value = row
     formModal.show = true
   }
@@ -81,7 +61,7 @@
       :request-api="categoryPageApi"
       @toolbar-handler="toolbarHandler"
     >
-      <template #status="{ row }">
+      <template #isEnabled="{ row }">
         <es-switch :request="batchUpdateCategoryStatusApi" :row="row" />
       </template>
 

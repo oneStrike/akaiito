@@ -27,9 +27,6 @@ export interface CreateCategoryRequest {
 export type CreateCategoryResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -117,12 +114,7 @@ export interface CategoryPageResponse {
 
     /* 更新时间 */
     updatedAt?: string | null
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -181,9 +173,6 @@ export type CategoryDetailResponse = {
 
   /* 更新时间 */
   updatedAt?: string | null
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -224,9 +213,6 @@ export interface UpdateCategoryRequest {
 export type UpdateCategoryResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -249,9 +235,6 @@ export interface BatchUpdateCategoryStatusRequest {
 export type BatchUpdateCategoryStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -266,9 +249,6 @@ export type BatchUpdateCategoryStatusResponse = {
 export type DeleteBatchResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -294,7 +274,4 @@ export type CategoryOrderResponse = {
 
   /* 当前拖拽数据的id */
   dragId: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

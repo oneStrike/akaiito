@@ -10,7 +10,4 @@
 export type PublicKeyResponse = {
   /* RSA公钥 */
   publicKey: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

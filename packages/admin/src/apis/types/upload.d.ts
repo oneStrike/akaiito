@@ -31,7 +31,4 @@ export type UploadFileResponse = {
 
   /* 上传时间 */
   uploadTime: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }[]

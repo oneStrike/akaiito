@@ -9,18 +9,17 @@ import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 
 export const authorRoles = [
   {
-    label: '作家',
+    label: '漫画家',
     value: 1,
   },
   {
-    label: '插画师',
+    label: '作家',
     value: 2,
   },
   {
-    label: '漫画家',
+    label: '插画师',
     value: 4,
   },
-
   {
     label: '模特',
     value: 8,
