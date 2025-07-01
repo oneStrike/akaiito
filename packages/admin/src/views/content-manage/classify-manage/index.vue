@@ -62,7 +62,12 @@
       @toolbar-handler="toolbarHandler"
     >
       <template #isEnabled="{ row }">
-        <es-switch :request="batchUpdateCategoryStatusApi" :row="row" />
+        <es-switch
+          :request="batchUpdateCategoryStatusApi"
+          ids
+          :row="row"
+          @success="tableRef?.refresh()"
+        />
       </template>
 
       <template #action="{ row }">
@@ -71,7 +76,9 @@
         </el-button>
         <EsPopConfirm
           :request="deleteBatchApi"
+          ids
           :row="row"
+          :disabled="row.isEnabled"
           @success="tableRef?.reset()"
         />
       </template>

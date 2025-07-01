@@ -1,65 +1,105 @@
 model WorkComic {
   /// 主键id
-  id               Int                @id @default(autoincrement())
+  id               Int                 @id @default(autoincrement())
   /// 漫画名称
-  name             String             @db.VarChar(50)
-  /// 漫画别名
-  alias            String             @db.VarChar(50)
-  /// 封面
-  cover            String             @db.VarChar(255)
-  /// 热度
-  popularity       Int                @default(0) @db.Integer
-  /// 虚拟热度
-  popularityWeight Int                @default(0) @map("popularity_weight") @db.Integer
-  /// 语言
-  language         String             @db.VarChar(20)
-  /// 地区
-  region           String             @db.VarChar(20)
+  name             String              @db.VarChar(100)
+  /// 漫画别名（多个别名用逗号分隔）
+  alias            String?             @db.VarChar(200)
+  /// 热度（真实数据）
+  popularity       Int                 @default(0) @db.Integer
+  /// 虚拟热度（用于运营调整）
+  popularityWeight Int                 @default(0) @map("popularity_weight") @db.Integer
+  /// 语言代码（如：zh-CN, en-US, ja-JP）
+  language         String              @db.VarChar(10)
+  /// 地区代码（如：CN, US, JP）
+  region           String              @db.VarChar(10)
   /// 作者关系 - 多对多关系通过中间表
   comicAuthors     WorkComicAuthor[]
-  /// 内容年龄分级
-  ageRating        String?            @map("age_rating") @db.VarChar(50)
-  /// 是否发布 1：发布 0：不发布
-  isPublished      Boolean            @default(false) @map("is_published") @db.Boolean
+  /// 内容年龄分级（G=全年龄, PG=建议家长指导, PG-13=13岁以上, R=限制级, NC-17=17岁以下禁止）
+  ageRating        String?             @map("age_rating") @db.VarChar(10)
+  /// 发布状态（0=草稿, 1=已发布, 2=下架, 3=删除）
+  publishStatus    Int                 @default(0) @map("publish_status") @db.SmallInt
   /// 发布日期
-  publishAt        DateTime?          @map("publish_at") @db.Timestamptz
-  /// 最后更新时间
-  lastUpdated      DateTime?          @map("last_updated") @db.Timestamptz
-  /// 描述
-  description      String             @db.VarChar(1000)
+  publishAt        DateTime?           @map("publish_at") @db.Timestamptz
+  /// 最后更新时间（内容更新时间）
+  lastUpdated      DateTime?           @map("last_updated") @db.Timestamptz
+  /// 漫画简介
+  description      String              @db.Text
   /// 出版社
-  publisher        String?            @db.VarChar(30)
-  /// 是否已经完结
-  isFinished       Boolean            @default(false) @map("is_finished")
+  publisher        String?             @db.VarChar(100)
+  /// 原作来源（如：小说改编、游戏改编等）
+  originalSource   String?             @map("original_source") @db.VarChar(100)
+  /// 连载状态（0=未开始, 1=连载中, 2=已完结, 3=暂停, 4=停更）
+  serialStatus     Int                 @default(0) @map("serial_status") @db.SmallInt
+  /// 是否已经完结（冗余字段，便于查询）
+  isFinished       Boolean             @default(false) @map("is_finished")
+  /// 总阅读次数
+  totalViews       Int                 @default(0) @map("total_views") @db.Integer
+  /// 收藏数
+  favoriteCount    Int                 @default(0) @map("favorite_count") @db.Integer
+  /// 评论总数
+  commentCount     Int                 @default(0) @map("comment_count") @db.Integer
+  /// 点赞总数
+  likeCount        Int                 @default(0) @map("like_count") @db.Integer
+  /// 评分（1-10分，保留一位小数）
+  rating           Float?              @db.DoublePrecision
+  /// 评分人数
+  ratingCount      Int                 @default(0) @map("rating_count") @db.Integer
   /// 是否允许下载
-  canDownload      Boolean            @default(true) @map("can_download")
+  canDownload      Boolean             @default(true) @map("can_download")
   /// 是否允许评论
-  canComment       Boolean            @default(true) @map("can_comment")
-  /// 查看规则 0 所有人  1登录 2会员 3购买
-  readRule         Int                @default(0) @map("read_rule") @db.SmallInt
-  /// 购买需要消耗的金额
-  purchaseAmount   Int                @default(0) @map("purchase_amount")
-  /// 备注
-  remark           String?            @db.VarChar(1000)
+  canComment       Boolean             @default(true) @map("can_comment")
+  /// 查看规则（0=所有人, 1=登录用户, 2=会员, 3=积分购买）
+  readRule         Int                 @default(0) @map("read_rule") @db.SmallInt
+  /// 购买需要消耗的金额（分为单位）
+  purchaseAmount   Int                 @default(0) @map("purchase_amount")
+  /// SEO标题
+  seoTitle         String?             @map("seo_title") @db.VarChar(200)
+  /// SEO描述
+  seoDescription   String?             @map("seo_description") @db.VarChar(500)
+  /// SEO关键词（逗号分隔）
+  seoKeywords      String?             @map("seo_keywords") @db.VarChar(500)
+  /// 是否推荐到首页
+  isRecommended    Boolean             @default(false) @map("is_recommended")
+  /// 是否热门
+  isHot            Boolean             @default(false) @map("is_hot")
+  /// 是否新作
+  isNew            Boolean             @default(false) @map("is_new")
+  /// 版权信息
+  copyright        String?             @db.VarChar(500)
+  /// 免责声明
+  disclaimer       String?             @db.Text
+  /// 备注（内部使用）
+  remark           String?             @db.VarChar(1000)
   /// 软删除时间（用于数据恢复或归档）
-  deletedAt        DateTime?          @map("deleted_at") @db.Timestamptz
+  deletedAt        DateTime?           @map("deleted_at") @db.Timestamptz
   /// 创建时间
-  createdAt        DateTime           @default(now()) @map("created_at") @db.Timestamptz
+  createdAt        DateTime            @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt        DateTime           @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt        DateTime            @updatedAt @map("updated_at") @db.Timestamptz
   /// 关联的章节
   relatedChapters  WorkComicChapter[]
   /// 分类关系 - 多对多关系通过中间表
   comicCategories  WorkComicCategory[]
 
   /// 索引优化
-  @@index([isPublished, publishAt]) // 查询已发布的漫画
+  @@index([publishStatus, publishAt]) // 查询已发布的漫画
   @@index([popularity, popularityWeight]) // 按人气排序
   @@index([language, region]) // 按语言和地区查询
-  @@index([isFinished]) // 查询完结状态
+  @@index([serialStatus, isFinished]) // 查询连载和完结状态
   @@index([readRule]) // 按查看权限查询
   @@index([lastUpdated]) // 按最后更新时间排序
   @@index([name]) // 按名称搜索
   @@index([ageRating]) // 按年龄分级查询
+  @@index([rating, ratingCount]) // 按评分排序
+  @@index([totalViews]) // 按阅读量排序
+  @@index([favoriteCount]) // 按收藏数排序
+  @@index([isRecommended]) // 推荐内容查询
+  @@index([isHot, isNew]) // 热门和新作查询
+  @@index([publishStatus, isRecommended]) // 首页推荐查询
+  @@index([publishStatus, serialStatus, lastUpdated]) // 更新列表查询
+  @@index([tags]) // 标签搜索
+  @@index([createdAt]) // 按创建时间排序
+  @@index([deletedAt]) // 软删除查询
   @@map("work_comic")
 }
