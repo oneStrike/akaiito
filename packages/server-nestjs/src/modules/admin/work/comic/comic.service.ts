@@ -27,6 +27,8 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
    * @returns 创建的漫画信息
    */
   async createComic(createComicDto: CreateComicDto) {
+    const { authorIds, categoryIds, ...comicData } = createComicDto
+
     // 验证漫画名称是否已存在
     const existingComic = await this.findFirst({
       where: {
@@ -37,8 +39,55 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       throw new BadRequestException('漫画名称已存在')
     }
 
+    // 验证作者是否存在
+    if (!authorIds || authorIds.length === 0) {
+      throw new BadRequestException('至少需要关联一个作者')
+    }
+
+    const existingAuthors = await this.prisma.workAuthor.findMany({
+      where: {
+        id: { in: authorIds },
+        isEnabled: true,
+      },
+    })
+
+    if (existingAuthors.length !== authorIds.length) {
+      throw new BadRequestException('部分作者不存在或已禁用')
+    }
+
+    // 验证分类是否存在
+    const existingCategories = await this.prisma.workCategory.findMany({
+      where: {
+        id: { in: categoryIds },
+        isEnabled: true,
+      },
+    })
+
+    if (existingCategories.length !== categoryIds.length) {
+      throw new BadRequestException('部分分类不存在或已禁用')
+    }
+
     return this.create({
-      data: createComicDto,
+      data: {
+        ...comicData,
+        // 创建作者关联关系
+        comicAuthors: {
+          create: authorIds.map((authorId, index) => ({
+            authorId,
+            roleType: 1, // 默认为原作者
+            isPrimary: index === 0, // 第一个作者设为主要作者
+            sortOrder: index,
+          })),
+        },
+        // 创建分类关联关系
+        comicCategories: {
+          create: categoryIds.map((categoryId, index) => ({
+            categoryId,
+            isPrimary: index === 0, // 第一个分类设为主要分类
+            weight: categoryIds.length - index, // 权重递减
+          })),
+        },
+      },
     })
   }
 
@@ -61,7 +110,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       isHot,
       isNew,
       publisher,
-      tag,
     } = queryComicDto
 
     // 构建查询条件
@@ -133,18 +181,9 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       }
     }
 
-    // 标签搜索
-    if (tag) {
-      where.tags = {
-        contains: tag,
-        mode: 'insensitive',
-      }
-    }
-
     return this.findPagination({
       where,
       omit: {
-        tags: true,
         remark: true,
         copyright: true,
         description: true,
@@ -165,35 +204,41 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     const comic = await this.findById({
       id,
       include: {
-        authors: {
+        comicAuthors: {
           include: {
             author: {
               select: {
                 id: true,
                 name: true,
                 avatar: true,
+                description: true,
               },
             },
           },
+          orderBy: {
+            sortOrder: 'asc',
+          },
         },
-        categories: {
+        comicCategories: {
           include: {
             category: {
               select: {
                 id: true,
                 name: true,
-                slug: true,
+                icon: true,
               },
             },
           },
+          orderBy: {
+            weight: 'desc',
+          },
         },
-        chapters: {
+        relatedChapters: {
           select: {
             id: true,
             title: true,
             chapterNumber: true,
-            publishStatus: true,
-            publishedAt: true,
+            isPublished: true,
           },
           orderBy: {
             chapterNumber: 'asc',
@@ -215,7 +260,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
    * @returns 更新后的漫画信息
    */
   async updateComic(updateComicDto: UpdateComicDto) {
-    const { id, ...updateData } = updateComicDto
+    const { id, authorIds, categoryIds, ...updateData } = updateComicDto
 
     // 验证漫画是否存在
     const existingComic = await this.findById({ id })
@@ -236,33 +281,84 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       }
     }
 
-    // 如果更新slug，验证是否唯一
-    if (updateData.slug && updateData.slug !== existingComic.slug) {
-      const duplicateSlug = await this.findFirst({
+    // 验证作者是否存在（如果提供了authorIds）
+    if (authorIds && authorIds.length > 0) {
+      const existingAuthors = await this.prisma.workAuthor.findMany({
         where: {
-          slug: updateData.slug,
-          id: { not: id },
+          id: { in: authorIds },
+          isEnabled: true,
         },
       })
-      if (duplicateSlug) {
-        throw new BadRequestException('URL别名已存在')
+
+      if (existingAuthors.length !== authorIds.length) {
+        throw new BadRequestException('部分作者不存在或已禁用')
       }
     }
 
-    // 验证标签格式
-    if (updateData.tags) {
-      try {
-        JSON.parse(updateData.tags)
-      } catch {
-        throw new BadRequestException(
-          '标签格式不正确，请使用有效的JSON数组格式',
-        )
+    // 验证分类是否存在（如果提供了categoryIds）
+    if (categoryIds && categoryIds.length > 0) {
+      const existingCategories = await this.prisma.workCategory.findMany({
+        where: {
+          id: { in: categoryIds },
+          isEnabled: true,
+        },
+      })
+
+      if (existingCategories.length !== categoryIds.length) {
+        throw new BadRequestException('部分分类不存在或已禁用')
       }
     }
 
-    return this.updateById({
-      id,
-      data: updateData,
+    // 使用事务更新漫画及其关联关系
+    return this.prisma.$transaction(async (tx) => {
+      // 更新漫画基本信息
+      const updatedComic = await tx.workComic.update({
+        where: { id },
+        data: updateData,
+      })
+
+      // 更新作者关联关系（如果提供了authorIds）
+      if (authorIds !== undefined) {
+        // 删除现有的作者关联
+        await tx.workComicAuthor.deleteMany({
+          where: { comicId: id },
+        })
+
+        // 创建新的作者关联
+        if (authorIds.length > 0) {
+          await tx.workComicAuthor.createMany({
+            data: authorIds.map((authorId, index) => ({
+              comicId: id,
+              authorId,
+              roleType: 1, // 默认为原作者
+              isPrimary: index === 0, // 第一个作者设为主要作者
+              sortOrder: index,
+            })),
+          })
+        }
+      }
+
+      // 更新分类关联关系（如果提供了categoryIds）
+      if (categoryIds !== undefined) {
+        // 删除现有的分类关联
+        await tx.workComicCategory.deleteMany({
+          where: { comicId: id },
+        })
+
+        // 创建新的分类关联
+        if (categoryIds.length > 0) {
+          await tx.workComicCategory.createMany({
+            data: categoryIds.map((categoryId, index) => ({
+              comicId: id,
+              categoryId,
+              isPrimary: index === 0, // 第一个分类设为主要分类
+              weight: categoryIds.length - index, // 权重递减
+            })),
+          })
+        }
+      }
+
+      return updatedComic
     })
   }
 
@@ -282,7 +378,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         publishStatus,
         // 如果设置为已发布且没有发布时间，则设置当前时间
         ...(publishStatus === ComicPublishStatusEnum.PUBLISHED && {
-          publishedAt: new Date(),
+          publishAt: new Date(),
         }),
       },
     })
@@ -387,15 +483,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       },
     })
 
-    // 统计已发布章节数
-    const publishedChapters = await this.prisma.workComicChapter.count({
-      where: {
-        comicId,
-        publishStatus: 1, // 已发布状态
-        deletedAt: null,
-      },
-    })
-
     // 统计总阅读数（从章节阅读数汇总）
     const chapterViews = await this.prisma.workComicChapter.aggregate({
       where: {
@@ -413,7 +500,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       id: comicId,
       data: {
         totalChapters,
-        publishedChapters,
         totalViews,
       },
     })

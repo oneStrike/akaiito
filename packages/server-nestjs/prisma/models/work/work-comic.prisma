@@ -5,6 +5,8 @@ model WorkComic {
   name             String              @db.VarChar(100)
   /// 漫画别名（多个别名用逗号分隔）
   alias            String?             @db.VarChar(200)
+  /// 漫画封面URL
+  cover            String              @db.VarChar(500)
   /// 热度（真实数据）
   popularity       Int                 @default(0) @db.Integer
   /// 虚拟热度（用于运营调整）
@@ -33,6 +35,8 @@ model WorkComic {
   serialStatus     Int                 @default(0) @map("serial_status") @db.SmallInt
   /// 是否已经完结（冗余字段，便于查询）
   isFinished       Boolean             @default(false) @map("is_finished")
+  /// 总章节数
+  totalChapters    Int                 @default(0) @map("total_chapters") @db.Integer
   /// 总阅读次数
   totalViews       Int                 @default(0) @map("total_views") @db.Integer
   /// 收藏数
@@ -59,6 +63,8 @@ model WorkComic {
   seoDescription   String?             @map("seo_description") @db.VarChar(500)
   /// SEO关键词（逗号分隔）
   seoKeywords      String?             @map("seo_keywords") @db.VarChar(500)
+  /// 推荐权重（影响推荐排序）
+  recommendWeight  Float               @default(1.0) @map("recommend_weight") @db.DoublePrecision
   /// 是否推荐到首页
   isRecommended    Boolean             @default(false) @map("is_recommended")
   /// 是否热门
@@ -98,7 +104,6 @@ model WorkComic {
   @@index([isHot, isNew]) // 热门和新作查询
   @@index([publishStatus, isRecommended]) // 首页推荐查询
   @@index([publishStatus, serialStatus, lastUpdated]) // 更新列表查询
-  @@index([tags]) // 标签搜索
   @@index([createdAt]) // 按创建时间排序
   @@index([deletedAt]) // 软删除查询
   @@map("work_comic")

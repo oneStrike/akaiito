@@ -1,0 +1,262 @@
+// 注意：Prisma 目前不直接支持视图定义，这些是建议的数据库视图
+// 需要在数据库迁移脚本中手动创建这些视图
+
+/*
+-- 用户基础信息视图（常用查询字段）
+CREATE VIEW client_user_basic_view AS
+SELECT 
+  u.id,
+  u.username,
+  u.nickname,
+  u.avatar_url,
+  u.status,
+  u.gender,
+  u.level,
+  u.experience,
+  u.points,
+  u.phone_verified,
+  u.email_verified,
+  u.country_code,
+  u.city,
+  u.language,
+  u.created_at,
+  u.last_active_at,
+  CASE 
+    WHEN u.last_active_at > NOW() - INTERVAL '7 days' THEN 'active'
+    WHEN u.last_active_at > NOW() - INTERVAL '30 days' THEN 'inactive'
+    ELSE 'dormant'
+  END as activity_status,
+  DATE_PART('year', AGE(u.birth_date)) as age_calculated
+FROM client_user u
+WHERE u.deleted_at IS NULL;
+
+-- 用户统计分析视图
+CREATE VIEW client_user_stats_view AS
+SELECT 
+  u.id,
+  u.username,
+  u.level,
+  u.experience,
+  u.points,
+  u.total_spent,
+  COALESCE(login_stats.login_count, 0) as total_logins,
+  COALESCE(login_stats.last_login_at, u.created_at) as last_login_at,
+  COALESCE(checkin_stats.total_checkins, 0) as total_checkins,
+  COALESCE(checkin_stats.consecutive_days, 0) as current_consecutive_checkins,
+  COALESCE(points_stats.total_earned, 0) as total_points_earned,
+  COALESCE(points_stats.total_spent, 0) as total_points_spent,
+  COALESCE(tag_stats.tag_count, 0) as user_tag_count,
+  COALESCE(invite_stats.invite_count, 0) as total_invites,
+  u.created_at,
+  u.updated_at
+FROM client_user u
+LEFT JOIN (
+  SELECT 
+    user_id,
+    COUNT(*) as login_count,
+    MAX(login_at) as last_login_at
+  FROM client_user_login_history 
+  WHERE is_success = true
+  GROUP BY user_id
+) login_stats ON u.id = login_stats.user_id
+LEFT JOIN (
+  SELECT 
+    user_id,
+    COUNT(*) as total_checkins,
+    MAX(consecutive_days) as consecutive_days
+  FROM client_user_daily_checkin
+  GROUP BY user_id
+) checkin_stats ON u.id = checkin_stats.user_id
+LEFT JOIN (
+  SELECT 
+    user_id,
+    SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) as total_earned,
+    SUM(CASE WHEN amount < 0 THEN ABS(amount) ELSE 0 END) as total_spent
+  FROM client_user_points_history
+  WHERE is_processed = true AND is_reverted = false
+  GROUP BY user_id
+) points_stats ON u.id = points_stats.user_id
+LEFT JOIN (
+  SELECT 
+    user_id,
+    COUNT(*) as tag_count
+  FROM client_user_tag_relation
+  WHERE expires_at IS NULL OR expires_at > NOW()
+  GROUP BY user_id
+) tag_stats ON u.id = tag_stats.user_id
+LEFT JOIN (
+  SELECT 
+    inviter_id,
+    COUNT(*) as invite_count
+  FROM client_user
+  WHERE inviter_id IS NOT NULL
+  GROUP BY inviter_id
+) invite_stats ON u.id = invite_stats.inviter_id
+WHERE u.deleted_at IS NULL;
+
+-- 用户活跃度分析视图
+CREATE VIEW client_user_activity_view AS
+SELECT 
+  u.id,
+  u.username,
+  u.status,
+  u.level,
+  u.created_at,
+  u.last_active_at,
+  u.last_login_at,
+  CASE 
+    WHEN u.last_active_at > NOW() - INTERVAL '1 day' THEN 'daily_active'
+    WHEN u.last_active_at > NOW() - INTERVAL '7 days' THEN 'weekly_active'
+    WHEN u.last_active_at > NOW() - INTERVAL '30 days' THEN 'monthly_active'
+    ELSE 'inactive'
+  END as activity_level,
+  DATE_PART('day', NOW() - u.last_active_at) as days_since_last_active,
+  DATE_PART('day', NOW() - u.created_at) as account_age_days,
+  COALESCE(recent_logins.login_count_7d, 0) as logins_last_7_days,
+  COALESCE(recent_logins.login_count_30d, 0) as logins_last_30_days,
+  COALESCE(recent_checkins.checkin_count_7d, 0) as checkins_last_7_days,
+  COALESCE(recent_checkins.checkin_count_30d, 0) as checkins_last_30_days
+FROM client_user u
+LEFT JOIN (
+  SELECT 
+    user_id,
+    COUNT(CASE WHEN login_at > NOW() - INTERVAL '7 days' THEN 1 END) as login_count_7d,
+    COUNT(CASE WHEN login_at > NOW() - INTERVAL '30 days' THEN 1 END) as login_count_30d
+  FROM client_user_login_history
+  WHERE is_success = true
+  GROUP BY user_id
+) recent_logins ON u.id = recent_logins.user_id
+LEFT JOIN (
+  SELECT 
+    user_id,
+    COUNT(CASE WHEN checkin_at > NOW() - INTERVAL '7 days' THEN 1 END) as checkin_count_7d,
+    COUNT(CASE WHEN checkin_at > NOW() - INTERVAL '30 days' THEN 1 END) as checkin_count_30d
+  FROM client_user_daily_checkin
+  GROUP BY user_id
+) recent_checkins ON u.id = recent_checkins.user_id
+WHERE u.deleted_at IS NULL;
+
+-- 用户地理分布视图
+CREATE VIEW client_user_geo_view AS
+SELECT 
+  u.country_code,
+  u.province,
+  u.city,
+  u.timezone,
+  u.language,
+  COUNT(*) as user_count,
+  COUNT(CASE WHEN u.status = 'ACTIVE' THEN 1 END) as active_user_count,
+  COUNT(CASE WHEN u.last_active_at > NOW() - INTERVAL '30 days' THEN 1 END) as monthly_active_count,
+  AVG(u.experience) as avg_experience,
+  AVG(u.points) as avg_points,
+  MIN(u.created_at) as first_user_created,
+  MAX(u.created_at) as last_user_created
+FROM client_user u
+WHERE u.deleted_at IS NULL
+GROUP BY u.country_code, u.province, u.city, u.timezone, u.language
+ORDER BY user_count DESC;
+
+-- 用户等级分布视图
+CREATE VIEW client_user_level_view AS
+SELECT 
+  u.level,
+  u.gender,
+  COUNT(*) as user_count,
+  COUNT(CASE WHEN u.status = 'ACTIVE' THEN 1 END) as active_count,
+  AVG(u.experience) as avg_experience,
+  AVG(u.points) as avg_points,
+  AVG(u.total_spent) as avg_total_spent,
+  AVG(DATE_PART('day', NOW() - u.created_at)) as avg_account_age_days,
+  COUNT(CASE WHEN u.last_active_at > NOW() - INTERVAL '7 days' THEN 1 END) as weekly_active_count,
+  COUNT(CASE WHEN u.last_active_at > NOW() - INTERVAL '30 days' THEN 1 END) as monthly_active_count
+FROM client_user u
+WHERE u.deleted_at IS NULL
+GROUP BY u.level, u.gender
+ORDER BY u.level, u.gender;
+
+-- 用户标签热度视图
+CREATE VIEW client_user_tag_popularity_view AS
+SELECT 
+  t.id as tag_id,
+  t.name as tag_name,
+  t.display_name,
+  t.type as tag_type,
+  COUNT(utr.id) as usage_count,
+  COUNT(DISTINCT utr.user_id) as unique_users,
+  AVG(utr.weight) as avg_weight,
+  AVG(utr.confidence) as avg_confidence,
+  COUNT(CASE WHEN utr.source = 'manual' THEN 1 END) as manual_count,
+  COUNT(CASE WHEN utr.source = 'system' THEN 1 END) as system_count,
+  COUNT(CASE WHEN utr.source = 'auto' THEN 1 END) as auto_count,
+  MAX(utr.added_at) as last_used_at
+FROM client_user_tag t
+LEFT JOIN client_user_tag_relation utr ON t.id = utr.tag_id
+WHERE t.status = 'ACTIVE' 
+  AND (utr.expires_at IS NULL OR utr.expires_at > NOW())
+GROUP BY t.id, t.name, t.display_name, t.type
+ORDER BY usage_count DESC;
+
+-- 用户邀请关系视图
+CREATE VIEW client_user_invitation_view AS
+SELECT 
+  inviter.id as inviter_id,
+  inviter.username as inviter_username,
+  inviter.level as inviter_level,
+  COUNT(invitee.id) as total_invites,
+  COUNT(CASE WHEN invitee.status = 'ACTIVE' THEN 1 END) as active_invites,
+  COUNT(CASE WHEN invitee.email_verified = true THEN 1 END) as verified_invites,
+  SUM(invitee.total_spent) as invitee_total_spent,
+  AVG(invitee.experience) as avg_invitee_experience,
+  MIN(invitee.created_at) as first_invite_date,
+  MAX(invitee.created_at) as last_invite_date
+FROM client_user inviter
+LEFT JOIN client_user invitee ON inviter.id = invitee.inviter_id
+WHERE inviter.deleted_at IS NULL
+  AND (invitee.deleted_at IS NULL OR invitee.id IS NULL)
+GROUP BY inviter.id, inviter.username, inviter.level
+HAVING COUNT(invitee.id) > 0
+ORDER BY total_invites DESC;
+
+*/
+
+// 以下是建议的索引优化（在迁移脚本中创建）
+/*
+-- 复合索引优化建议
+CREATE INDEX CONCURRENTLY idx_client_user_activity_analysis 
+  ON client_user (status, last_active_at, level) 
+  WHERE deleted_at IS NULL;
+
+CREATE INDEX CONCURRENTLY idx_client_user_geo_analysis 
+  ON client_user (country_code, province, city, status) 
+  WHERE deleted_at IS NULL;
+
+CREATE INDEX CONCURRENTLY idx_client_user_level_analysis 
+  ON client_user (level, experience, points, status) 
+  WHERE deleted_at IS NULL;
+
+CREATE INDEX CONCURRENTLY idx_client_user_verification_status 
+  ON client_user (email_verified, phone_verified, status) 
+  WHERE deleted_at IS NULL;
+
+CREATE INDEX CONCURRENTLY idx_client_user_invitation_analysis 
+  ON client_user (inviter_id, status, created_at) 
+  WHERE deleted_at IS NULL AND inviter_id IS NOT NULL;
+
+-- 部分索引（针对活跃用户）
+CREATE INDEX CONCURRENTLY idx_active_users_last_login 
+  ON client_user (last_login_at DESC) 
+  WHERE status = 'ACTIVE' AND deleted_at IS NULL;
+
+CREATE INDEX CONCURRENTLY idx_active_users_points 
+  ON client_user (points DESC, level) 
+  WHERE status = 'ACTIVE' AND deleted_at IS NULL;
+
+-- 表达式索引
+CREATE INDEX CONCURRENTLY idx_client_user_age 
+  ON client_user (DATE_PART('year', AGE(birth_date))) 
+  WHERE birth_date IS NOT NULL AND deleted_at IS NULL;
+
+CREATE INDEX CONCURRENTLY idx_client_user_account_age 
+  ON client_user (DATE_PART('day', NOW() - created_at)) 
+  WHERE deleted_at IS NULL;
+*/

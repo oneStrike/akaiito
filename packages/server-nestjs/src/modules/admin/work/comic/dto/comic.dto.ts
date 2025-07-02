@@ -111,7 +111,7 @@ export class BaseComicDto {
     example: '2024-01-01T00:00:00.000Z',
     required: false,
   })
-  publishedAt?: Date
+  publishAt?: Date
 
   @ValidateString({
     description: '漫画简介',
@@ -153,23 +153,21 @@ export class BaseComicDto {
   })
   isFinished!: boolean
 
-  @ValidateEnum({
-    description: '下载权限',
-    example: ComicDownloadPermissionEnum.ALLOWED,
+  @ValidateBoolean({
+    description: '是否允许下载',
+    example: true,
     required: true,
-    enum: ComicDownloadPermissionEnum,
-    default: ComicDownloadPermissionEnum.FORBIDDEN,
+    default: true,
   })
-  downloadPermission!: ComicDownloadPermissionEnum
+  canDownload!: boolean
 
-  @ValidateEnum({
-    description: '评论权限',
-    example: ComicCommentPermissionEnum.ALLOWED,
+  @ValidateBoolean({
+    description: '是否允许评论',
+    example: true,
     required: true,
-    enum: ComicCommentPermissionEnum,
-    default: ComicCommentPermissionEnum.ALLOWED,
+    default: true,
   })
-  commentPermission!: ComicCommentPermissionEnum
+  canComment!: boolean
 
   @ValidateEnum({
     description: '阅读规则',
@@ -369,7 +367,23 @@ export class CreateComicDto extends OmitType(BaseComicDto, [
   'isRecommended',
   'isHot',
   'isNew',
-]) {}
+]) {
+  @ValidateNumberArray({
+    description: '关联的作者ID列表',
+    example: [1, 2],
+    required: true,
+    minItems: 1,
+  })
+  authorIds!: number[]
+
+  @ValidateNumberArray({
+    description: '关联的分类ID列表',
+    example: [1, 2, 3],
+    required: true,
+    minItems: 1,
+  })
+  categoryIds!: number[]
+}
 
 /**
  * 更新漫画DTO
@@ -389,7 +403,23 @@ export class UpdateComicDto extends IntersectionType(
     ]),
   ),
   IdDto,
-) {}
+) {
+  @ValidateNumberArray({
+    description: '关联的作者ID列表（可选，传入则更新关联关系）',
+    example: [1, 2],
+    required: false,
+    minItems: 1,
+  })
+  authorIds?: number[]
+
+  @ValidateNumberArray({
+    description: '关联的分类ID列表（可选，传入则更新关联关系）',
+    example: [1, 2, 3],
+    required: false,
+    minItems: 1,
+  })
+  categoryIds?: number[]
+}
 
 /**
  * 查询漫画DTO
@@ -423,13 +453,6 @@ export class QueryComicDto extends IntersectionType(
     required: false,
   })
   publisher?: string
-
-  @ValidateString({
-    description: '标签搜索',
-    example: '热血',
-    required: false,
-  })
-  tag?: string
 }
 
 /**
@@ -437,6 +460,20 @@ export class QueryComicDto extends IntersectionType(
  */
 export class UpdateComicRecommendedDto extends PickType(BaseComicDto, [
   'isRecommended',
+]) {
+  @ValidateNumberArray({
+    description: '漫画ID列表',
+    example: [1, 2, 3],
+    required: true,
+  })
+  ids!: number[]
+}
+
+/**
+ * 更新漫画推荐状态DTO
+ */
+export class UpdateComicStatusDto extends PickType(BaseComicDto, [
+  'publishStatus',
 ]) {
   @ValidateNumberArray({
     description: '漫画ID列表',
@@ -488,4 +525,40 @@ export class BatchOperationStatusIdsDto {
     enum: ComicPublishStatusEnum,
   })
   publishStatus!: ComicPublishStatusEnum
+}
+
+/**
+ * 更新漫画评分DTO
+ */
+export class UpdateComicRatingDto extends IdDto {
+  @ValidateNumber({
+    description: '评分（1-10分）',
+    example: 8.5,
+    required: true,
+    min: 1,
+    max: 10,
+  })
+  rating!: number
+
+  @ValidateNumber({
+    description: '用户ID（可选）',
+    example: 1,
+    required: false,
+    min: 1,
+  })
+  userId?: number
+}
+
+/**
+ * 增加计数DTO
+ */
+export class IncrementCountDto extends IdDto {
+  @ValidateNumber({
+    description: '增加数量',
+    example: 1,
+    required: false,
+    min: 1,
+    default: 1,
+  })
+  increment?: number
 }

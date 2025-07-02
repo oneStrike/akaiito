@@ -23,7 +23,7 @@
     "prisma:pull": "prisma db pull",
     "prisma:push": "prisma db push --force-reset",
     "prisma:seed": "prisma db seed",
-    "prisma:update": "pnpm prisma:generate && pnpm prisma:push && pnpm prisma:seed"
+    "prisma:update": "rimraf ./src/prisma/client && pnpm prisma:generate && pnpm prisma:push && pnpm prisma:seed"
   },
   "dependencies": {
     "@akaiito/types": "workspace:^",

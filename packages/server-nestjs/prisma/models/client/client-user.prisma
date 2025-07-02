@@ -1,39 +1,225 @@
+/**
+ * 用户性别常量定义
+ * 0: 未知性别 - 用户未设置或不愿透露性别信息
+ * 1: 男性 - 生理性别为男性的用户
+ * 2: 女性 - 生理性别为女性的用户
+ * 3: 其他 - 非二元性别或其他性别认同的用户
+ */
+
+/**
+ * 用户等级常量定义
+ * 0: 青铜会员 - 新注册用户默认等级，基础权益
+ * 1: 白银会员 - 达到一定活跃度或消费的用户，享受更多权益
+ * 2: 黄金会员 - 中级会员，享受优质服务和专属功能
+ * 3: 铂金会员 - 高级会员，享受高端服务和优先支持
+ * 4: 钻石会员 - 顶级会员，享受最高级别的服务和特权
+ * 5: VIP会员 - 超级会员，享受所有特权和定制化服务
+ */
+
+/**
+ * 用户状态常量定义
+ * 0: 正常激活 - 账户正常可用，可以正常登录和使用所有功能
+ * 1: 未激活 - 新注册账户，需要邮箱或手机验证后才能正常使用
+ * 2: 暂停使用 - 临时禁用账户，通常因为违规行为或安全问题
+ * 3: 永久封禁 - 账户被永久禁用，无法恢复使用
+ * 4: 已删除 - 用户主动删除账户或系统清理的无效账户
+ */
+
 model ClientUser {
   /// 主键ID
-  id           Int       @id @default(autoincrement())
-  /// 用户名（登录账号）
-  username     String    @unique @map("username") @db.VarChar(50)
-  /// 用户昵称（显示名称）
-  nickname     String?   @map("nickname") @db.VarChar(100)
+  id           String    @id @default(cuid()) @map("id")
+  /// 用户名（登录账号，3-20位字母数字下划线）
+  username     String    @unique @map("username") @db.VarChar(20)
+  /// 用户昵称（显示名称，1-30位）
+  nickname     String?   @map("nickname") @db.VarChar(30)
+  /// 真实姓名
+  realName     String?   @map("real_name") @db.VarChar(50)
+  /// 密码哈希值（bcrypt加密）
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  /// 密码盐值
+  passwordSalt String    @map("password_salt") @db.VarChar(32)
   /// 头像URL地址
   avatarUrl    String?   @map("avatar_url") @db.VarChar(500)
-  /// 手机号码
+  /// 手机号码（支持国际格式）
   phoneNumber  String?   @unique @map("phone_number") @db.VarChar(20)
+  /// 手机号是否已验证
+  phoneVerified Boolean  @default(false) @map("phone_verified")
   /// 邮箱地址
   emailAddress String?   @unique @map("email_address") @db.VarChar(255)
-  /// 账户状态（true:启用, false:禁用）
-  isEnabled    Boolean   @default(true) @map("is_enabled")
-  /// 性别类型（0:未知, 1:男性, 2:女性, 3:其他）
-  genderType   Int       @default(0) @map("gender_type") @db.SmallInt
+  /// 邮箱是否已验证
+  emailVerified Boolean  @default(false) @map("email_verified")
+  /// 账户状态（0:正常激活 1:未激活 2:暂停使用 3:永久封禁 4:已删除）
+  /// 默认值为1（未激活），新注册用户需要验证后才能正常使用
+  status       Int        @default(1) @map("status") @db.SmallInt
+  /// 性别类型（0:未知 1:男性 2:女性 3:其他）
+  /// 默认值为0（未知），用户可以选择不透露性别信息
+  gender       Int        @default(0) @map("gender") @db.SmallInt
   /// 出生日期
   birthDate    DateTime? @map("birth_date") @db.Date
-  /// 最后登录时间
-  lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz
-  /// 最后登录IP地址
-  lastLoginIp  String?   @map("last_login_ip") @db.VarChar(45)
-  /// 账户创建时间
+  /// 年龄（自动计算字段）
+  age          Int?      @map("age") @db.SmallInt
+  /// 个人简介
+  bio          String?   @map("bio") @db.VarChar(500)
+  /// 个人网站
+  website      String?   @map("website") @db.VarChar(255)
+  
+  // === 地理位置信息 ===
+  /// 国家代码（ISO 3166-1 alpha-2）
+  countryCode  String?   @map("country_code") @db.VarChar(2)
+  /// 省份/州
+  province     String?   @map("province") @db.VarChar(100)
+  /// 城市
+  city         String?   @map("city") @db.VarChar(100)
+  /// 时区
+  timezone     String?   @map("timezone") @db.VarChar(50)
+  /// 语言偏好（ISO 639-1）
+  language     String    @default("zh") @map("language") @db.VarChar(10)
+  
+  // === 用户等级与积分 ===
+  /// 用户等级（0:青铜会员 1:白银会员 2:黄金会员 3:铂金会员 4:钻石会员 5:VIP会员）
+  /// 默认值为0（青铜会员），新注册用户的初始等级
+  level        Int       @default(0) @map("level") @db.SmallInt
+  /// 经验值（用于计算用户等级提升的积累值）
+  /// 通过日常活动、消费、完成任务等方式获得，达到阈值可升级
+  experience   Int       @default(0) @map("experience")
+  /// 积分余额（用户当前可用的积分数量）
+  /// 可通过签到、消费、活动等方式获得，可用于兑换商品或服务
+  points       Int       @default(0) @map("points")
+  /// 累计消费金额（分为单位，避免浮点数精度问题）
+  /// 记录用户在平台的总消费金额，用于等级计算和用户价值分析
+  totalSpent   Int       @default(0) @map("total_spent")
+  /// 邀请码（用户专属的邀请码，用于推广和获得奖励）
+  /// 系统自动生成的唯一标识，其他用户可通过此码注册获得奖励
+  inviteCode   String?   @unique @map("invite_code") @db.VarChar(10)
+  /// 邀请人ID（推荐该用户注册的上级用户ID）
+  /// 用于构建邀请关系链，计算推广奖励和佣金分成
+  inviterId    String?   @map("inviter_id")
+  /// 邀请人关系
+  inviter      ClientUser? @relation("UserInvitation", fields: [inviterId], references: [id])
+  /// 被邀请用户列表
+  invitees     ClientUser[] @relation("UserInvitation")
+  
+  // === 关联表关系 ===
+  /// 用户详细配置
+  profile      ClientUserProfile?
+  /// 登录历史记录
+  loginHistory ClientUserLoginHistory[]
+  /// 用户设备列表
+  devices      ClientUserDevice[]
+  /// 积分变动历史
+  pointsHistory ClientUserPointsHistory[]
+  /// 每日签到记录
+  dailyCheckins ClientUserDailyCheckin[]
+  /// 等级变更历史
+  levelHistory ClientUserLevelHistory[]
+  /// 用户标签关联
+  userTags     ClientUserTagRelation[]
+  /// 用户画像分析
+  profileAnalysis ClientUserProfileAnalysis?
+  
+  // === 安全相关 ===
+  /// 两步验证是否启用（增强账户安全性的双因子认证）
+  /// 启用后用户登录需要输入密码+验证码，有效防止账户被盗
+  twoFactorEnabled Boolean @default(false) @map("two_factor_enabled")
+  /// 两步验证密钥（TOTP算法的共享密钥）
+  /// 用于生成时间基础的一次性密码，与Google Authenticator等应用配合使用
+  twoFactorSecret String? @map("two_factor_secret") @db.VarChar(32)
+  /// 登录失败次数（连续登录失败的累计次数）
+  /// 达到阈值后将触发账户锁定机制，防止暴力破解攻击
+  loginFailCount Int     @default(0) @map("login_fail_count")
+  /// 账户锁定到期时间（账户被锁定的解锁时间）
+  /// 超过此时间后账户自动解锁，用户可以重新尝试登录
+  lockedUntil    DateTime? @map("locked_until") @db.Timestamptz
+  /// 最后登录时间（用户最近一次成功登录的时间戳）
+  /// 用于分析用户活跃度和检测异常登录行为
+  lastLoginAt    DateTime? @map("last_login_at") @db.Timestamptz
+  /// 最后登录IP地址（支持IPv4和IPv6格式）
+  /// 用于安全审计和异地登录检测，最大45字符支持IPv6完整格式
+  lastLoginIp    String?   @map("last_login_ip") @db.VarChar(45)
+  /// 最后登录设备信息（User-Agent或设备指纹）
+  /// 记录用户使用的浏览器、操作系统等信息，用于设备识别和安全分析
+  lastLoginDevice String? @map("last_login_device") @db.VarChar(255)
+  /// 最后登录地理位置（根据IP解析的地理信息）
+  /// 格式如"北京市,中国"，用于异地登录提醒和用户行为分析
+  lastLoginLocation String? @map("last_login_location") @db.VarChar(255)
+  
+  // === 偏好设置 ===
+  /// 是否接收邮件通知（系统消息、活动推广等邮件通知开关）
+  /// 包括订单状态、安全提醒、营销活动等各类邮件通知
+  emailNotification Boolean @default(true) @map("email_notification")
+  /// 是否接收短信通知（重要消息的短信通知开关）
+  /// 主要用于验证码、安全提醒、重要订单状态等关键信息
+  smsNotification Boolean @default(true) @map("sms_notification")
+  /// 是否接收推送通知（移动端和浏览器推送通知开关）
+  /// 控制App推送、浏览器通知等实时消息推送功能
+  pushNotification Boolean @default(true) @map("push_notification")
+  /// 隐私设置：是否公开个人资料（其他用户是否可以查看个人信息）
+  /// 关闭后其他用户无法查看昵称、头像、个人简介等信息
+  profilePublic Boolean @default(true) @map("profile_public")
+  /// 隐私设置：是否允许搜索（其他用户是否可以通过搜索找到该用户）
+  /// 关闭后用户无法通过用户名、昵称等方式被其他用户搜索到
+  searchable    Boolean @default(true) @map("searchable")
+  
+  // === 时间戳 ===
+  /// 账户创建时间（用户注册时的时间戳）
+  /// 自动设置为当前时间，用于统计新用户注册趋势和用户生命周期分析
   createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  /// 账户更新时间
+  /// 账户更新时间（任何字段修改时自动更新的时间戳）
+  /// Prisma自动维护，用于数据同步和变更追踪
   updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz
-  /// 软删除时间
+  /// 最后活跃时间（用户最后一次操作的时间戳）
+  /// 包括登录、浏览、购买等任何用户行为，用于活跃度分析和休眠用户识别
+  lastActiveAt DateTime? @map("last_active_at") @db.Timestamptz
+  /// 邮箱验证时间（用户完成邮箱验证的时间戳）
+  /// 记录用户邮箱验证的具体时间，用于安全审计和验证状态追踪
+  emailVerifiedAt DateTime? @map("email_verified_at") @db.Timestamptz
+  /// 手机验证时间（用户完成手机号验证的时间戳）
+  /// 记录用户手机验证的具体时间，用于安全审计和实名认证流程
+  phoneVerifiedAt DateTime? @map("phone_verified_at") @db.Timestamptz
+  /// 软删除时间（用户删除账户的时间戳）
+  /// 非空表示账户已被软删除，可用于数据恢复和清理策略
   deletedAt    DateTime? @map("deleted_at") @db.Timestamptz
 
-  /// 索引优化
-  @@index([isEnabled]) // 按账户状态查询活跃用户
-  @@index([genderType]) // 按性别类型统计
-  @@index([createdAt]) // 按注册时间查询
-  @@index([lastLoginAt]) // 按最后登录时间查询
-  @@index([phoneNumber]) // 手机号查询优化
-  @@index([emailAddress]) // 邮箱查询优化
+  // === 复合索引优化 ===
+  /// 状态和软删除索引：快速查询正常用户，排除已删除账户
+  /// 使用场景：用户列表查询、活跃用户统计、状态筛选
+  @@index([status, deletedAt])
+  /// 等级和经验值索引：用户等级排行榜和升级判断
+  /// 使用场景：等级排行榜、用户升级检查、会员权益查询
+  @@index([level, experience])
+  /// 注册时间和状态索引：新用户注册趋势分析
+  /// 使用场景：注册统计报表、新用户转化分析、时间段筛选
+  @@index([createdAt, status])
+  /// 最后登录时间和状态索引：用户活跃度分析
+  /// 使用场景：活跃用户识别、流失用户分析、登录统计
+  @@index([lastLoginAt, status])
+  /// 地理位置索引：用户地域分布统计
+  /// 使用场景：地域用户分析、本地化服务、区域运营策略
+  @@index([countryCode, city])
+  /// 邀请关系索引：推广体系和佣金计算
+  /// 使用场景：邀请链查询、推广效果统计、佣金结算
+  @@index([inviterId])
+  /// 手机号验证状态索引：手机号管理和验证查询
+  /// 使用场景：手机号验证检查、重复注册防护、联系方式管理
+  @@index([phoneNumber, phoneVerified])
+  /// 邮箱验证状态索引：邮箱管理和验证查询
+  /// 使用场景：邮箱验证检查、重复注册防护、邮件发送策略
+  @@index([emailAddress, emailVerified])
+  /// 积分和等级索引：积分排行榜和等级权益查询
+  /// 使用场景：积分排行榜、等级权益判断、积分兑换资格
+  @@index([points, level])
+  /// 性别和年龄索引：用户画像分析和精准营销
+  /// 使用场景：用户画像统计、目标用户筛选、个性化推荐
+  @@index([gender, age])
+  /// 语言和时区索引：国际化支持和本地化服务
+  /// 使用场景：多语言用户统计、时区消息推送、本地化内容
+  @@index([language, timezone])
+  /// 最后活跃时间索引：用户活跃度监控和流失预警
+  /// 使用场景：活跃度分析、流失用户识别、用户生命周期管理
+  @@index([lastActiveAt])
+  /// 消费金额和等级索引：用户价值分析和VIP服务
+  /// 使用场景：高价值用户识别、消费能力分析、VIP权益管理
+  @@index([totalSpent, level])
+  
   @@map("client_user")
 }

@@ -1,183 +1,202 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common'
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ApiDoc } from '@/common/decorators/api-doc.decorator'
+import { Body, Controller, Get, Post, Query } from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
+import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
+import { CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { WorkComicService } from './comic.service'
 import {
-  BatchOperationStatusIdsDto,
   CreateComicDto,
+  IncrementCountDto,
   QueryComicDto,
   UpdateComicDto,
   UpdateComicHotDto,
   UpdateComicNewDto,
+  UpdateComicRatingDto,
   UpdateComicRecommendedDto,
+  UpdateComicStatusDto,
 } from './dto/comic.dto'
 
 /**
  * 漫画管理控制器
- * 提供漫画的增删改查等API接口
+ * 提供漫画相关的API接口
  */
-@ApiTags('漫画管理')
+@ApiTags('漫画管理模块')
 @Controller('admin/work/comic')
 export class WorkComicController {
-  constructor(private readonly workComicService: WorkComicService) {}
+  constructor(private readonly comicService: WorkComicService) {}
 
   /**
    * 创建漫画
    */
-  @Post('createComic')
+  @Post('/create-comic')
   @ApiDoc({
     summary: '创建漫画',
     model: IdDto,
   })
-  async createComic(@Body() createComicDto: CreateComicDto) {
-    return this.workComicService.createComic(createComicDto)
+  async create(@Body() body: CreateComicDto) {
+    return this.comicService.createComic(body)
   }
 
   /**
    * 分页查询漫画列表
    */
-  @Get('comicPage')
-  @ApiDoc({
+  @Get('/comic-page')
+  @ApiPageDoc({
     summary: '分页查询漫画列表',
     model: QueryComicDto,
   })
-  async getComicPage(@Query() queryComicDto: QueryComicDto) {
-    return this.workComicService.getComicPage(queryComicDto)
+  async getPage(@Query() query: QueryComicDto) {
+    return this.comicService.getComicPage(query)
   }
 
   /**
    * 获取漫画详情
    */
-  @Get('comicDetail')
-  @ApiOperation({ summary: '获取漫画详情' })
-  async getComicDetail(@Query() query: IdDto) {
-    return this.workComicService.getComicDetail(query.id)
+  @Get('/comic-detail')
+  @ApiDoc({
+    summary: '获取漫画详情',
+    model: IdDto,
+  })
+  async getDetail(@Query() query: IdDto) {
+    return this.comicService.getComicDetail(query.id)
   }
 
   /**
    * 更新漫画信息
    */
-  @Patch(':id')
-  @ApiOperation({ summary: '更新漫画信息' })
-  async updateComic(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateComicDto: Omit<UpdateComicDto, 'id'>,
-  ) {
-    return this.workComicService.updateComic({ ...updateComicDto, id })
+  @Post('/update-comic')
+  @ApiDoc({
+    summary: '更新漫画信息',
+    model: IdDto,
+  })
+  async update(@Body() body: UpdateComicDto) {
+    return this.comicService.updateComic(body)
   }
 
   /**
    * 批量更新漫画发布状态
    */
-  @Patch('batch/status')
-  @ApiOperation({ summary: '批量更新漫画发布状态' })
-  async updateComicStatus(@Body() updateStatusDto: BatchOperationStatusIdsDto) {
-    return this.workComicService.updateComicStatus(updateStatusDto)
+  @Post('/batch-update-comic-status')
+  @ApiDoc({
+    summary: '批量更新漫画发布状态',
+    model: CountDto,
+  })
+  async updateStatus(@Body() body: UpdateComicStatusDto) {
+    return this.comicService.updateComicStatus(body)
   }
 
   /**
    * 批量更新漫画推荐状态
    */
-  @Patch('batch/recommended')
-  @ApiOperation({ summary: '批量更新漫画推荐状态' })
-  async updateComicRecommended(
-    @Body() updateRecommendedDto: UpdateComicRecommendedDto,
-  ) {
-    return this.workComicService.updateComicRecommended(updateRecommendedDto)
+  @Post('/batch-update-comic-recommended')
+  @ApiDoc({
+    summary: '批量更新漫画推荐状态',
+    model: CountDto,
+  })
+  async updateRecommended(@Body() body: UpdateComicRecommendedDto) {
+    return this.comicService.updateComicRecommended(body)
   }
 
   /**
    * 批量更新漫画热门状态
    */
-  @Patch('batch/hot')
-  @ApiOperation({ summary: '批量更新漫画热门状态' })
-  async updateComicHot(@Body() updateHotDto: UpdateComicHotDto) {
-    return this.workComicService.updateComicHot(updateHotDto)
+  @Post('/batch-update-comic-hot')
+  @ApiDoc({
+    summary: '批量更新漫画热门状态',
+    model: CountDto,
+  })
+  async updateHot(@Body() body: UpdateComicHotDto) {
+    return this.comicService.updateComicHot(body)
   }
 
   /**
    * 批量更新漫画新作状态
    */
-  @Patch('batch/new')
-  @ApiOperation({ summary: '批量更新漫画新作状态' })
-  async updateComicNew(@Body() updateNewDto: UpdateComicNewDto) {
-    return this.workComicService.updateComicNew(updateNewDto)
+  @Post('/batch-update-comic-new')
+  @ApiDoc({
+    summary: '批量更新漫画新作状态',
+    model: CountDto,
+  })
+  async updateNew(@Body() body: UpdateComicNewDto) {
+    return this.comicService.updateComicNew(body)
   }
 
   /**
    * 软删除漫画
    */
-  @Delete(':id')
-  @ApiOperation({ summary: '软删除漫画' })
-  async deleteComic(@Param('id', ParseIntPipe) id: number) {
-    return this.workComicService.deleteComic(id)
+  @Post('/delete-comic')
+  @ApiDoc({
+    summary: '软删除漫画',
+    model: IdDto,
+  })
+  async delete(@Body() body: IdDto) {
+    return this.comicService.deleteComic(body.id)
   }
 
   /**
    * 更新漫画统计数据
    */
-  @Patch(':id/stats')
-  @ApiOperation({ summary: '更新漫画统计数据' })
-  async updateComicStats(@Param('id', ParseIntPipe) id: number) {
-    return this.workComicService.updateComicStats(id)
+  @Post('/update-comic-stats')
+  @ApiDoc({
+    summary: '更新漫画统计数据',
+    model: IdDto,
+  })
+  async updateStats(@Body() body: IdDto) {
+    return this.comicService.updateComicStats(body.id)
   }
 
   /**
    * 更新漫画评分
    */
-  @Patch(':id/rating')
-  @ApiOperation({ summary: '更新漫画评分' })
-  async updateComicRating(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: { rating: number; userId?: number },
-  ) {
-    return this.workComicService.updateComicRating(id, body.rating, body.userId)
+  @Post('/update-comic-rating')
+  @ApiDoc({
+    summary: '更新漫画评分',
+    model: IdDto,
+  })
+  async updateRating(@Body() body: UpdateComicRatingDto) {
+    return this.comicService.updateComicRating(
+      body.id,
+      body.rating,
+      body.userId,
+    )
   }
 
   /**
    * 增加漫画收藏数
    */
-  @Patch(':id/favorite')
-  @ApiOperation({ summary: '增加漫画收藏数' })
-  async incrementFavoriteCount(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: { increment?: number },
-  ) {
-    return this.workComicService.incrementFavoriteCount(id, body.increment || 1)
+  @Post('/increment-favorite-count')
+  @ApiDoc({
+    summary: '增加漫画收藏数',
+    model: IdDto,
+  })
+  async incrementFavoriteCount(@Body() body: IncrementCountDto) {
+    return this.comicService.incrementFavoriteCount(
+      body.id,
+      body.increment || 1,
+    )
   }
 
   /**
    * 增加漫画点赞数
    */
-  @Patch(':id/like')
-  @ApiOperation({ summary: '增加漫画点赞数' })
-  async incrementLikeCount(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: { increment?: number },
-  ) {
-    return this.workComicService.incrementLikeCount(id, body.increment || 1)
+  @Post('/increment-like-count')
+  @ApiDoc({
+    summary: '增加漫画点赞数',
+    model: IdDto,
+  })
+  async incrementLikeCount(@Body() body: IncrementCountDto) {
+    return this.comicService.incrementLikeCount(body.id, body.increment || 1)
   }
 
   /**
    * 增加漫画评论数
    */
-  @Patch(':id/comment')
-  @ApiOperation({ summary: '增加漫画评论数' })
-  async incrementCommentCount(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: { increment?: number },
-  ) {
-    return this.workComicService.incrementCommentCount(id, body.increment || 1)
+  @Post('/increment-comment-count')
+  @ApiDoc({
+    summary: '增加漫画评论数',
+    model: IdDto,
+  })
+  async incrementCommentCount(@Body() body: IncrementCountDto) {
+    return this.comicService.incrementCommentCount(body.id, body.increment || 1)
   }
 }

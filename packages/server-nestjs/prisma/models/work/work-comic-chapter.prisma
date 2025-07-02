@@ -20,12 +20,6 @@ model WorkComicChapter {
   purchaseAmount    Int       @default(0) @map("purchase_amount")
   /// 漫画内容（JSON格式存储图片URL数组）
   contents          String    @default("[]") @db.Text
-  /// 章节页数
-  pageCount         Int       @default(0) @map("page_count") @db.Integer
-  /// 预计阅读时长（分钟）
-  estimatedReadTime Int?      @map("estimated_read_time") @db.SmallInt
-  /// 章节字数（如果有文字内容）
-  wordCount         Int?      @map("word_count") @db.Integer
   /// 是否为试读章节
   isPreview         Boolean   @default(false) @map("is_preview")
   /// 发布时间

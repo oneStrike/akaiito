@@ -1,5 +1,5 @@
 import { ValidateBoolean } from '../decorators/validate.decorator'
-import { IdDto, IdsDto } from './id.dto'
+import { IdDto } from './id.dto'
 
 export class IdEnabledDto extends IdDto {
   @ValidateBoolean({
