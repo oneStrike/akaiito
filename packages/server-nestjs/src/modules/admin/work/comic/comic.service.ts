@@ -376,10 +376,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       },
       data: {
         publishStatus,
-        // 如果设置为已发布且没有发布时间，则设置当前时间
-        ...(publishStatus === ComicPublishStatusEnum.PUBLISHED && {
-          publishAt: new Date(),
-        }),
       },
     })
   }
@@ -446,12 +442,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
    * @returns 删除结果
    */
   async deleteComic(id: number) {
-    // 验证漫画是否存在
-    const existingComic = await this.findById({ id })
-    if (!existingComic) {
-      throw new BadRequestException('漫画不存在')
-    }
-
     // 检查是否有关联的章节
     const chapterCount = await this.prisma.workComicChapter.count({
       where: {
@@ -467,126 +457,5 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     }
 
     return this.softDelete(id)
-  }
-
-  /**
-   * 更新漫画统计数据（冗余字段维护）
-   * @param comicId 漫画ID
-   * @returns 更新结果
-   */
-  async updateComicStats(comicId: number) {
-    // 统计章节数
-    const totalChapters = await this.prisma.workComicChapter.count({
-      where: {
-        comicId,
-        deletedAt: null,
-      },
-    })
-
-    // 统计总阅读数（从章节阅读数汇总）
-    const chapterViews = await this.prisma.workComicChapter.aggregate({
-      where: {
-        comicId,
-        deletedAt: null,
-      },
-      _sum: {
-        viewCount: true,
-      },
-    })
-
-    const totalViews = chapterViews._sum.viewCount || 0
-
-    return this.updateById({
-      id: comicId,
-      data: {
-        totalChapters,
-        totalViews,
-      },
-    })
-  }
-
-  /**
-   * 更新漫画评分
-   * @param comicId 漫画ID
-   * @param rating 新评分
-   * @param userId 用户ID（可选，用于防重复评分）
-   * @returns 更新结果
-   */
-  async updateComicRating(comicId: number, rating: number, userId?: number) {
-    if (rating < 1 || rating > 10) {
-      throw new BadRequestException('评分必须在1-10之间')
-    }
-
-    // 验证漫画是否存在
-    const existingComic = await this.findById({ id: comicId })
-    if (!existingComic) {
-      throw new BadRequestException('漫画不存在')
-    }
-
-    // 这里可以添加用户评分记录的逻辑
-    // 暂时简化处理，直接更新平均评分
-    const currentRating = existingComic.rating || 0
-    const currentCount = existingComic.ratingCount || 0
-    const newCount = currentCount + 1
-    const newRating = (currentRating * currentCount + rating) / newCount
-
-    return this.updateById({
-      id: comicId,
-      data: {
-        rating: Math.round(newRating * 10) / 10, // 保留1位小数
-        ratingCount: newCount,
-      },
-    })
-  }
-
-  /**
-   * 增加漫画收藏数
-   * @param comicId 漫画ID
-   * @param increment 增量（默认为1）
-   * @returns 更新结果
-   */
-  async incrementFavoriteCount(comicId: number, increment: number = 1) {
-    return this.updateById({
-      id: comicId,
-      data: {
-        favoriteCount: {
-          increment,
-        },
-      },
-    })
-  }
-
-  /**
-   * 增加漫画点赞数
-   * @param comicId 漫画ID
-   * @param increment 增量（默认为1）
-   * @returns 更新结果
-   */
-  async incrementLikeCount(comicId: number, increment: number = 1) {
-    return this.updateById({
-      id: comicId,
-      data: {
-        likeCount: {
-          increment,
-        },
-      },
-    })
-  }
-
-  /**
-   * 增加漫画评论数
-   * @param comicId 漫画ID
-   * @param increment 增量（默认为1）
-   * @returns 更新结果
-   */
-  async incrementCommentCount(comicId: number, increment: number = 1) {
-    return this.updateById({
-      id: comicId,
-      data: {
-        commentCount: {
-          increment,
-        },
-      },
-    })
   }
 }

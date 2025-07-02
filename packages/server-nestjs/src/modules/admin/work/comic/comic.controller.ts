@@ -6,12 +6,10 @@ import { IdDto } from '@/common/dto/id.dto'
 import { WorkComicService } from './comic.service'
 import {
   CreateComicDto,
-  IncrementCountDto,
   QueryComicDto,
   UpdateComicDto,
   UpdateComicHotDto,
   UpdateComicNewDto,
-  UpdateComicRatingDto,
   UpdateComicRecommendedDto,
   UpdateComicStatusDto,
 } from './dto/comic.dto'
@@ -131,72 +129,5 @@ export class WorkComicController {
   })
   async delete(@Body() body: IdDto) {
     return this.comicService.deleteComic(body.id)
-  }
-
-  /**
-   * 更新漫画统计数据
-   */
-  @Post('/update-comic-stats')
-  @ApiDoc({
-    summary: '更新漫画统计数据',
-    model: IdDto,
-  })
-  async updateStats(@Body() body: IdDto) {
-    return this.comicService.updateComicStats(body.id)
-  }
-
-  /**
-   * 更新漫画评分
-   */
-  @Post('/update-comic-rating')
-  @ApiDoc({
-    summary: '更新漫画评分',
-    model: IdDto,
-  })
-  async updateRating(@Body() body: UpdateComicRatingDto) {
-    return this.comicService.updateComicRating(
-      body.id,
-      body.rating,
-      body.userId,
-    )
-  }
-
-  /**
-   * 增加漫画收藏数
-   */
-  @Post('/increment-favorite-count')
-  @ApiDoc({
-    summary: '增加漫画收藏数',
-    model: IdDto,
-  })
-  async incrementFavoriteCount(@Body() body: IncrementCountDto) {
-    return this.comicService.incrementFavoriteCount(
-      body.id,
-      body.increment || 1,
-    )
-  }
-
-  /**
-   * 增加漫画点赞数
-   */
-  @Post('/increment-like-count')
-  @ApiDoc({
-    summary: '增加漫画点赞数',
-    model: IdDto,
-  })
-  async incrementLikeCount(@Body() body: IncrementCountDto) {
-    return this.comicService.incrementLikeCount(body.id, body.increment || 1)
-  }
-
-  /**
-   * 增加漫画评论数
-   */
-  @Post('/increment-comment-count')
-  @ApiDoc({
-    summary: '增加漫画评论数',
-    model: IdDto,
-  })
-  async incrementCommentCount(@Body() body: IncrementCountDto) {
-    return this.comicService.incrementCommentCount(body.id, body.increment || 1)
   }
 }

@@ -350,10 +350,13 @@ export abstract class BaseRepositoryService<T extends ModelName> {
   }
 
   async softDelete(id: number): Promise<ModelTypes<T>['Model']> {
-    if (!this.supportsSoftDelete)
+    if (!this.supportsSoftDelete) {
       throw new BadRequestException(`${this.modelName} 不支持软删除功能`)
-    if (!(await this.exists({ id } as ModelTypes<T>['WhereInput'])))
+    }
+
+    if (!(await this.exists({ id } as ModelTypes<T>['WhereInput']))) {
       throw new BadRequestException('删除失败，数据不存在')
+    }
     return this.updateById({
       id,
       data: { deletedAt: new Date() } as ModelTypes<T>['UpdateInput'],

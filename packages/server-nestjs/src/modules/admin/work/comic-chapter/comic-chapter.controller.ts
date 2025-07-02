@@ -120,18 +120,6 @@ export class WorkComicChapterController {
   }
 
   /**
-   * 恢复软删除的章节
-   */
-  @Post('/restore-comic-chapter')
-  @ApiDoc({
-    summary: '恢复软删除的章节',
-    model: IdDto,
-  })
-  async restore(@Body() body: IdDto) {
-    return this.comicChapterService.restoreComicChapter(body.id)
-  }
-
-  /**
    * 获取指定漫画的章节列表
    */
   @Get('/chapters-by-comic')
