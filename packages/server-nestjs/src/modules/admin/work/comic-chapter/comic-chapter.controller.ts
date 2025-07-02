@@ -10,7 +10,6 @@ import {
   CreateComicChapterDto,
   QueryComicChapterDto,
   UpdateChapterPublishStatusDto,
-  UpdateChapterReadRuleDto,
   UpdateComicChapterDto,
 } from './dto/comic-chapter.dto'
 
@@ -81,30 +80,6 @@ export class WorkComicChapterController {
   })
   async updatePublishStatus(@Body() body: UpdateChapterPublishStatusDto) {
     return this.comicChapterService.updateChapterPublishStatus(body)
-  }
-
-  /**
-   * 批量更新章节查看规则
-   */
-  @Post('/batch-update-chapter-read-rule')
-  @ApiDoc({
-    summary: '批量更新章节查看规则',
-    model: CountDto,
-  })
-  async updateReadRule(@Body() body: UpdateChapterReadRuleDto) {
-    return this.comicChapterService.updateChapterReadRule(body)
-  }
-
-  /**
-   * 软删除章节
-   */
-  @Post('/delete-comic-chapter')
-  @ApiDoc({
-    summary: '软删除章节',
-    model: IdDto,
-  })
-  async delete(@Body() body: IdDto) {
-    return this.comicChapterService.deleteComicChapter(body.id)
   }
 
   /**
