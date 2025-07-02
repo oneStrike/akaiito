@@ -3,7 +3,7 @@
  *  @标签 管理端文件上传/上传文件
  *  @方式 POST
  *  @地址 /api/admin/upload/upload-file
- *  @更新时间 2025-06-30 00:37:37
+ *  @更新时间 2025-07-02 23:25:13
  */
 
 /*  */
@@ -31,4 +31,7 @@ export type UploadFileResponse = {
 
   /* 上传时间 */
   uploadTime: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }[]

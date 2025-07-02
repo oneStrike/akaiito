@@ -14,13 +14,7 @@ import {
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
-import {
-  ComicCommentPermissionEnum,
-  ComicDownloadPermissionEnum,
-  ComicPublishStatusEnum,
-  ComicReadRuleEnum,
-  ComicSerialStatusEnum,
-} from '../comic.constant'
+import { ComicReadRuleEnum, ComicSerialStatusEnum } from '../comic.constant'
 
 /**
  * 漫画基础DTO
@@ -97,14 +91,13 @@ export class BaseComicDto {
   })
   ageRating!: string
 
-  @ValidateEnum({
+  @ValidateBoolean({
     description: '发布状态',
-    example: ComicPublishStatusEnum.PUBLISHED,
+    example: true,
     required: true,
-    enum: ComicPublishStatusEnum,
-    default: ComicPublishStatusEnum.DRAFT,
+    default: true,
   })
-  publishStatus!: ComicPublishStatusEnum
+  isPublished!: boolean
 
   @ValidateDate({
     description: '发布日期',
@@ -372,7 +365,6 @@ export class CreateComicDto extends OmitType(BaseComicDto, [
     description: '关联的作者ID列表',
     example: [1, 2],
     required: true,
-    minItems: 1,
   })
   authorIds!: number[]
 
@@ -380,7 +372,6 @@ export class CreateComicDto extends OmitType(BaseComicDto, [
     description: '关联的分类ID列表',
     example: [1, 2, 3],
     required: true,
-    minItems: 1,
   })
   categoryIds!: number[]
 }
@@ -408,7 +399,6 @@ export class UpdateComicDto extends IntersectionType(
     description: '关联的作者ID列表（可选，传入则更新关联关系）',
     example: [1, 2],
     required: false,
-    minItems: 1,
   })
   authorIds?: number[]
 
@@ -416,7 +406,6 @@ export class UpdateComicDto extends IntersectionType(
     description: '关联的分类ID列表（可选，传入则更新关联关系）',
     example: [1, 2, 3],
     required: false,
-    minItems: 1,
   })
   categoryIds?: number[]
 }
@@ -428,7 +417,7 @@ export class QueryComicDto extends IntersectionType(
   PageDto,
   PickType(PartialType(BaseComicDto), [
     'name',
-    'publishStatus',
+    'isPublished',
     'serialStatus',
     'language',
     'region',
@@ -473,7 +462,7 @@ export class UpdateComicRecommendedDto extends PickType(BaseComicDto, [
  * 更新漫画推荐状态DTO
  */
 export class UpdateComicStatusDto extends PickType(BaseComicDto, [
-  'publishStatus',
+  'isPublished',
 ]) {
   @ValidateNumberArray({
     description: '漫画ID列表',
@@ -518,13 +507,12 @@ export class BatchOperationStatusIdsDto {
   })
   ids!: number[]
 
-  @ValidateEnum({
+  @ValidateBoolean({
     description: '发布状态',
-    example: ComicPublishStatusEnum.PUBLISHED,
+    example: true,
     required: true,
-    enum: ComicPublishStatusEnum,
   })
-  publishStatus!: ComicPublishStatusEnum
+  isPublished!: boolean
 }
 
 /**

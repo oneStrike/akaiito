@@ -1,7 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { WorkComicWhereInput } from '@/prisma/client/models/WorkComic'
-import { ComicPublishStatusEnum } from './comic.constant'
 import {
   BatchOperationStatusIdsDto,
   CreateComicDto,

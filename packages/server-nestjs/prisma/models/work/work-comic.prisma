@@ -19,8 +19,8 @@ model WorkComic {
   comicAuthors     WorkComicAuthor[]
   /// 内容年龄分级（G=全年龄, PG=建议家长指导, PG-13=13岁以上, R=限制级, NC-17=17岁以下禁止）
   ageRating        String?             @map("age_rating") @db.VarChar(10)
-  /// 发布状态（0=草稿, 1=已发布, 2=下架, 3=删除）
-  publishStatus    Int                 @default(0) @map("publish_status") @db.SmallInt
+  /// 发布状态
+  isPublished      Boolean             @default(true) @map("is_published")
   /// 发布日期
   publishAt        DateTime?           @map("publish_at") @db.Timestamptz
   /// 最后更新时间（内容更新时间）
@@ -89,7 +89,7 @@ model WorkComic {
   comicCategories  WorkComicCategory[]
 
   /// 索引优化
-  @@index([publishStatus, publishAt]) // 查询已发布的漫画
+  @@index([isPublished, publishAt]) // 查询已发布的漫画
   @@index([popularity, popularityWeight]) // 按人气排序
   @@index([language, region]) // 按语言和地区查询
   @@index([serialStatus, isFinished]) // 查询连载和完结状态
@@ -102,8 +102,8 @@ model WorkComic {
   @@index([favoriteCount]) // 按收藏数排序
   @@index([isRecommended]) // 推荐内容查询
   @@index([isHot, isNew]) // 热门和新作查询
-  @@index([publishStatus, isRecommended]) // 首页推荐查询
-  @@index([publishStatus, serialStatus, lastUpdated]) // 更新列表查询
+  @@index([isPublished, isRecommended]) // 首页推荐查询
+  @@index([isPublished, serialStatus, lastUpdated]) // 更新列表查询
   @@index([createdAt]) // 按创建时间排序
   @@index([deletedAt]) // 软删除查询
   @@map("work_comic")

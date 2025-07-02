@@ -3,7 +3,7 @@ import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import { useFormTool } from '@/hooks/useForm'
 
-const viewRule = [
+export const readRule = [
   {
     label: '所有人',
     value: 0,
@@ -22,6 +22,29 @@ const viewRule = [
   },
 ]
 
+export const serialStatus = [
+  {
+    label: '未开始',
+    value: 0,
+  },
+  {
+    label: '连载中',
+    value: 1,
+  },
+  {
+    label: '已完结',
+    value: 2,
+  },
+  {
+    label: '暂停',
+    value: 3,
+  },
+  {
+    label: '停更',
+    value: 4,
+  },
+]
+
 export const toolbar: EsToolbarProps['toolbar'] = [
   {
     type: 'button',
@@ -37,311 +60,6 @@ export const toolbar: EsToolbarProps['toolbar'] = [
     value: 'parse',
     props: {
       type: 'primary',
-    },
-  },
-]
-
-export const tableColumn: EsTableColumn = [
-  {
-    prop: 'name',
-    label: '名称',
-    align: 'center',
-    slotName: 'name',
-  },
-  {
-    prop: 'cover',
-    label: '封面',
-    align: 'center',
-    type: 'image',
-  },
-  {
-    prop: 'popularity',
-    label: '热度',
-    align: 'center',
-    sortable: 'custom',
-    sortOrders: ['ascending', 'descending'],
-    sortBy: 'popularity',
-  },
-  {
-    prop: 'isFinished',
-    label: '作品状态',
-    align: 'center',
-    slotName: 'isFinished',
-  },
-  {
-    prop: 'author',
-    label: '作者',
-    align: 'center',
-    slotName: 'author',
-  },
-  {
-    prop: 'viewRule',
-    label: '浏览权限',
-    align: 'center',
-    formatter: (row) => {
-      return viewRule.find((item) => item.value === row.viewRule)?.label ?? '-'
-    },
-  },
-  {
-    prop: 'lastUpdated',
-    label: '最后更新时间',
-    align: 'center',
-    sortable: 'custom',
-    sortOrders: ['ascending', 'descending'],
-    sortBy: 'lastUpdated',
-  },
-  {
-    prop: 'isPublish',
-    label: '发布状态',
-    align: 'center',
-    slotName: 'isPublish',
-  },
-
-  {
-    prop: 'action',
-    label: '操作',
-    align: 'center',
-    width: 200,
-    slotName: 'action',
-  },
-]
-
-export const chapterColumn: EsTableColumn = [
-  {
-    prop: 'title',
-    label: '章节名称',
-    align: 'center',
-  },
-  {
-    prop: 'createdAt',
-    label: '创建时间',
-    align: 'center',
-    sortable: 'custom',
-    sortOrders: ['ascending', 'descending'],
-    sortBy: 'createdAt',
-  },
-  {
-    prop: 'isPublish',
-    label: '发布状态',
-    align: 'center',
-    slotName: 'isPublish',
-  },
-  {
-    prop: 'viewRule',
-    label: '浏览权限',
-    align: 'center',
-    formatter: (row) => {
-      return viewRule.find((item) => item.value === row.viewRule)?.label ?? '-'
-    },
-  },
-  {
-    prop: 'action',
-    label: '操作',
-    align: 'center',
-    width: 200,
-    slotName: 'action',
-  },
-]
-
-export const contentColumn: EsTableColumn = [
-  {
-    prop: 'imagePreview',
-    label: '预览图片',
-    align: 'center',
-    slotName: 'imagePreview',
-  },
-  {
-    prop: 'imageInfo',
-    label: '图片信息',
-    align: 'center',
-    slotName: 'imageInfo',
-  },
-  {
-    prop: 'createdAt',
-    label: '上传时间',
-    align: 'center',
-    slotName: 'createdAt',
-  },
-  {
-    prop: 'action',
-    label: '操作',
-    align: 'center',
-    slotName: 'action',
-  },
-]
-
-export const chapterFilter: EsFormOptions[] = [
-  {
-    field: 'isPublish',
-    component: 'Select',
-    props: {
-      span: 4,
-    },
-    componentProps: {
-      placeholder: '发布状态',
-      options: [
-        {
-          label: '已发布',
-          value: true,
-        },
-        {
-          label: '未发布',
-          value: false,
-        },
-      ],
-    },
-  },
-  {
-    field: 'title',
-    component: 'Input',
-    props: {
-      span: 4,
-    },
-    componentProps: {
-      placeholder: '章节名称',
-      maxlength: 50,
-    },
-  },
-]
-
-export const chapterFormOptions: EsFormOptions[] = [
-  {
-    field: 'title',
-    component: 'Input',
-    props: {
-      label: '章节标题',
-      rules: useValidate.required('章节标题'),
-    },
-    componentProps: {
-      placeholder: '请输入章节标题',
-      maxlength: 50,
-    },
-  },
-  {
-    field: 'order',
-    component: 'InputNumber',
-    props: {
-      label: '排序',
-    },
-    componentProps: {
-      placeholder: '请输入排序',
-    },
-  },
-  {
-    field: 'viewRule',
-    component: 'Radio',
-    props: {
-      span: 2,
-      label: '查看规则',
-      rules: useValidate.required('查看规则'),
-    },
-    componentProps: {
-      placeholder: '请输入查看规则',
-      maxlength: 50,
-      defaultValue: 0,
-      options: viewRule,
-    },
-  },
-  {
-    field: 'purchaseAmount',
-    component: 'InputNumber',
-    props: {
-      span: 2,
-      label: '购买金额',
-      rules: useValidate.required('购买金额'),
-    },
-    componentProps: {
-      min: 1,
-      max: 999999,
-      placeholder: '请输入购买金额',
-      maxlength: 50,
-    },
-  },
-  {
-    field: 'remark',
-    component: 'Textarea',
-    props: {
-      label: '备注',
-    },
-    componentProps: {
-      placeholder: '请填写章节备注',
-      rows: 5,
-    },
-  },
-]
-
-export const filter: EsFormOptions[] = [
-  {
-    field: 'isPublish',
-    component: 'Select',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '发布状态',
-      options: [
-        {
-          label: '已完结',
-          value: true,
-        },
-        {
-          label: '连载中',
-          value: false,
-        },
-      ],
-    },
-  },
-  {
-    field: 'viewRule',
-    component: 'Select',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '浏览权限',
-      options: viewRule,
-    },
-  },
-  {
-    field: 'isFinished',
-    component: 'Select',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '是否完结',
-      options: [
-        {
-          label: '已完结',
-          value: true,
-        },
-        {
-          label: '连载中',
-          value: false,
-        },
-      ],
-    },
-  },
-  {
-    field: 'name',
-    component: 'Input',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '漫画名称',
-      maxlength: 50,
-    },
-  },
-  {
-    field: 'authorName',
-    component: 'Input',
-    props: {
-      span: 6,
-    },
-    componentProps: {
-      placeholder: '作者名称',
-      maxlength: 50,
     },
   },
 ]
@@ -389,7 +107,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'authorId',
+    field: 'authorIds',
     component: 'Select',
     props: {
       span: 2,
@@ -397,6 +115,7 @@ export const formOptions: EsFormOptions[] = [
       rules: useValidate.required('作者'),
     },
     componentProps: {
+      multiple: true,
       remote: true,
       filterable: true,
       placeholder: '请输入关键字进行搜索',
@@ -556,7 +275,7 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
-    field: 'viewRule',
+    field: 'readRule',
     component: 'Radio',
     props: {
       span: 2,
@@ -564,7 +283,7 @@ export const formOptions: EsFormOptions[] = [
       rules: useValidate.required('浏览权限'),
     },
     componentProps: {
-      options: viewRule,
+      options: readRule,
     },
   },
   {
@@ -602,6 +321,328 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请输入备注',
       rows: 5,
+    },
+  },
+]
+
+export const tableColumn: EsTableColumn = [
+  {
+    prop: 'name',
+    label: '名称',
+    align: 'center',
+    slotName: 'name',
+  },
+  {
+    prop: 'cover',
+    label: '封面',
+    align: 'center',
+    type: 'image',
+  },
+  {
+    prop: 'popularity',
+    label: '热度',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'popularity',
+  },
+  {
+    prop: 'isFinished',
+    label: '作品状态',
+    align: 'center',
+    slotName: 'isFinished',
+  },
+  {
+    prop: 'author',
+    label: '作者',
+    align: 'center',
+    slotName: 'author',
+  },
+  {
+    prop: 'categories',
+    label: '分类',
+    align: 'center',
+    slotName: 'categories',
+  },
+  {
+    prop: 'readRule',
+    label: '浏览权限',
+    align: 'center',
+    formatter: (row) => {
+      return readRule.find((item) => item.value === row.readRule)?.label ?? '-'
+    },
+  },
+  {
+    prop: 'lastUpdated',
+    label: '最后更新时间',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'lastUpdated',
+  },
+  {
+    prop: 'isPublish',
+    label: '发布状态',
+    align: 'center',
+    slotName: 'isPublish',
+  },
+
+  {
+    prop: 'action',
+    label: '操作',
+    align: 'center',
+    width: 200,
+    slotName: 'action',
+  },
+]
+
+export const chapterColumn: EsTableColumn = [
+  {
+    prop: 'title',
+    label: '章节名称',
+    align: 'center',
+  },
+  {
+    prop: 'createdAt',
+    label: '创建时间',
+    align: 'center',
+    sortable: 'custom',
+    sortOrders: ['ascending', 'descending'],
+    sortBy: 'createdAt',
+  },
+  {
+    prop: 'isPublish',
+    label: '发布状态',
+    align: 'center',
+    slotName: 'isPublish',
+  },
+  {
+    prop: 'readRule',
+    label: '浏览权限',
+    align: 'center',
+    formatter: (row) => {
+      return readRule.find((item) => item.value === row.readRule)?.label ?? '-'
+    },
+  },
+  {
+    prop: 'action',
+    label: '操作',
+    align: 'center',
+    width: 200,
+    slotName: 'action',
+  },
+]
+
+export const contentColumn: EsTableColumn = [
+  {
+    prop: 'imagePreview',
+    label: '预览图片',
+    align: 'center',
+    slotName: 'imagePreview',
+  },
+  {
+    prop: 'imageInfo',
+    label: '图片信息',
+    align: 'center',
+    slotName: 'imageInfo',
+  },
+  {
+    prop: 'createdAt',
+    label: '上传时间',
+    align: 'center',
+    slotName: 'createdAt',
+  },
+  {
+    prop: 'action',
+    label: '操作',
+    align: 'center',
+    slotName: 'action',
+  },
+]
+
+export const chapterFilter: EsFormOptions[] = [
+  {
+    field: 'isPublish',
+    component: 'Select',
+    props: {
+      span: 4,
+    },
+    componentProps: {
+      placeholder: '发布状态',
+      options: [
+        {
+          label: '已发布',
+          value: true,
+        },
+        {
+          label: '未发布',
+          value: false,
+        },
+      ],
+    },
+  },
+  {
+    field: 'title',
+    component: 'Input',
+    props: {
+      span: 4,
+    },
+    componentProps: {
+      placeholder: '章节名称',
+      maxlength: 50,
+    },
+  },
+]
+
+export const chapterFormOptions: EsFormOptions[] = [
+  {
+    field: 'title',
+    component: 'Input',
+    props: {
+      label: '章节标题',
+      rules: useValidate.required('章节标题'),
+    },
+    componentProps: {
+      placeholder: '请输入章节标题',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'order',
+    component: 'InputNumber',
+    props: {
+      label: '排序',
+    },
+    componentProps: {
+      placeholder: '请输入排序',
+    },
+  },
+  {
+    field: 'readRule',
+    component: 'Radio',
+    props: {
+      span: 2,
+      label: '查看规则',
+      rules: useValidate.required('查看规则'),
+    },
+    componentProps: {
+      placeholder: '请输入查看规则',
+      maxlength: 50,
+      defaultValue: 0,
+      options: readRule,
+    },
+  },
+  {
+    field: 'purchaseAmount',
+    component: 'InputNumber',
+    props: {
+      span: 2,
+      label: '购买金额',
+      rules: useValidate.required('购买金额'),
+    },
+    componentProps: {
+      min: 1,
+      max: 999999,
+      placeholder: '请输入购买金额',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'remark',
+    component: 'Textarea',
+    props: {
+      label: '备注',
+    },
+    componentProps: {
+      placeholder: '请填写章节备注',
+      rows: 5,
+    },
+  },
+]
+
+export const filter: EsFormOptions[] = [
+  {
+    field: 'isPublish',
+    component: 'Select',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '发布状态',
+      options: [
+        {
+          label: '已完结',
+          value: true,
+        },
+        {
+          label: '连载中',
+          value: false,
+        },
+      ],
+    },
+  },
+  {
+    field: 'readRule',
+    component: 'Select',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '浏览权限',
+      options: readRule,
+    },
+  },
+  {
+    field: 'isFinished',
+    component: 'Select',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '是否完结',
+      options: [
+        {
+          label: '已完结',
+          value: true,
+        },
+        {
+          label: '连载中',
+          value: false,
+        },
+      ],
+    },
+  },
+  {
+    field: 'name',
+    component: 'Input',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '漫画名称',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'authorName',
+    component: 'Input',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '作者名称（支持多作者搜索）',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'categoryName',
+    component: 'Input',
+    props: {
+      span: 6,
+    },
+    componentProps: {
+      placeholder: '分类名称',
+      maxlength: 50,
     },
   },
 ]

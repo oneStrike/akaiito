@@ -1,19 +1,19 @@
 <script lang="ts" setup>
   import type { GetComicDetailTypesRes } from '@/apis/types/comic'
-  import { getAuthorPageApi } from '@/apis/author'
-  import { getCategoryPageApi } from '@/apis/category'
+  import { authorPageApi } from '@/apis/author'
+  import { categoryPageApi } from '@/apis/category'
   import {
+    batchUpdateComicStatusApi,
+    comicDetailApi,
+    comicPageApi,
     createComicApi,
     deleteComicApi,
-    getComicDetailApi,
-    getComicPageApi,
     updateComicApi,
-    updateComicPublishApi,
   } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
-  import AuthorDetail from '@/views/content-manage/author/authorDetail.vue'
-  import ComicChapter from '@/views/content-manage/comic-manage/chapter.vue'
-  import ComicDetail from '@/views/content-manage/comic-manage/comicDetail.vue'
+  import AuthorDetail from '@/views/content-manage/author/AuthorDetail.vue'
+  import ComicChapter from '@/views/content-manage/comic-manage/Chapter.vue'
+  import ComicDetail from '@/views/content-manage/comic-manage/ComicDetail.vue'
   import {
     filter,
     formOptions,
@@ -42,7 +42,7 @@
   })
 
   const { request, requestData, params, loading, sortChange } =
-    useRequest(getComicPageApi)
+    useRequest(comicPageApi)
   const formTool = useFormTool(formOptions)
   formTool.fillDict([
     { field: 'language', code: 'work_language' },
@@ -50,14 +50,14 @@
     { field: 'publisher', code: 'work_publisher' },
     { field: 'ageRating', code: 'work_age_rating' },
   ])
-  formTool.specificItem('authorId', (item) => {
+  formTool.specificItem('authorIds', (item) => {
     item.componentProps!.remoteMethod = async (val: string) => {
       if (val) {
         item.componentProps!.loading = true
-        const data = await getAuthorPageApi({
+        const data = await authorPageApi({
           name: val,
           pageSize: 500,
-          status: true,
+          isEnabled: true,
         })
         item.componentProps!.options = data.list.map((item) => ({
           label: item.name,
@@ -67,7 +67,7 @@
       }
     }
   })
-  getCategoryPageApi({ pageSize: 500 }).then(({ list }) => {
+  categoryPageApi({ pageSize: 500 }).then(({ list }) => {
     formTool.specificItem('categoryIds', (item) => {
       item.componentProps!.options = list.map((item) => ({
         label: item.name,
@@ -104,10 +104,14 @@
   }
 
   async function editRow(row: GetComicDetailTypesRes) {
-    currentComic.value = await getComicDetailApi({ id: row.id })
+    curr  ic.value = await comicDetailApi({ id: row.id })
     formModal.defaultValue = {
       ...currentComic.value,
-      categoryIds: currentComic.value.categories.map((item) => item.id),
+      authorIds:
+        currentComic.value.comicAuthors?.map((item) => item.authorId) || [],
+      categoryIds:
+        currentComic.value.comicCategories?.map((item) => item.categoryId) ||
+        [],
     }
     formModal.show = true
   }
@@ -116,8 +120,8 @@
     formTool.toggleDisplay(['purchaseAmount'], val.viewRule === 3)
   }
 
-  function openAuthorDetail(row: Record<any, any>) {
-    authorModal.authorId = row.author.id
+  function openAuthorDetail(author: Record<any, any>) {
+    authorModal.authorId = author.id
     authorModal.show = true
   }
 </script>
@@ -151,14 +155,53 @@
       </template>
 
       <template #author="{ row }">
-        <el-button link type="primary" @click="openAuthorDetail(row)">
-          {{ row.author?.name }}
-        </el-button>
+        <div
+          v-if="row.comicAuthors && row.comicAuthors.length > 0"
+          class="flex flex-wrap gap-1"
+        >
+          <el-button
+            v-for="comicAuthor in row.comicAuthors"
+            :key="comicAuthor.authorId"
+            link
+            type="primary"
+            size="small"
+            @click="openAuthorDetail(comicAuthor.author)"
+          >
+            {{ comicAuthor.author?.name }}
+            <el-tag
+              v-if="comicAuthor.isPrimary"
+              size="small"
+              type="success"
+              class="ml-1"
+            >
+              主
+            </el-tag>
+          </el-button>
+        </div>
+        <span v-else class="text-gray-400">暂无作者</span>
       </template>
+
+      <template #categories="{ row }">
+        <div
+          v-if="row.comicCategories && row.comicCategories.length > 0"
+          class="flex flex-wrap gap-1"
+        >
+          <el-tag
+            v-for="comicCategory in row.comicCategories"
+            :key="comicCategory.categoryId"
+            size="small"
+            :type="comicCategory.isPrimary ? 'primary' : 'info'"
+          >
+            {{ comicCategory.category?.name }}
+          </el-tag>
+        </div>
+        <span v-else class="text-gray-400">暂无分类</span>
+      </template>
+
       <template #isPublish="{ row }">
         <EsSwitch
           :row="row"
-          :request="updateComicPublishApi"
+          :request="batchUpdateComicStatusApi"
           field="isPublish"
           @success="request"
         />
