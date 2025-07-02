@@ -6,9 +6,9 @@ import { WorkComicChapterWhereInput } from '@/prisma/client/models/WorkComicChap
 import {
   CreateComicChapterDto,
   QueryComicChapterDto,
-  UpdateComicChapterDto,
   UpdateChapterPublishStatusDto,
   UpdateChapterReadRuleDto,
+  UpdateComicChapterDto,
 } from './dto/comic-chapter.dto'
 
 /**
@@ -56,7 +56,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       try {
         const contents = JSON.parse(createComicChapterDto.contents)
         if (!Array.isArray(contents)) {
-          throw new Error('内容必须是数组格式')
+          throw new TypeError('内容必须是数组格式')
         }
       } catch {
         throw new BadRequestException(
@@ -74,13 +74,8 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
    * @returns 分页章节列表
    */
   async getComicChapterPage(queryComicChapterDto: QueryComicChapterDto) {
-    const {
-      title,
-      isPublished,
-      comicId,
-      readRule,
-      isPreview,
-    } = queryComicChapterDto
+    const { title, isPublished, comicId, readRule, isPreview } =
+      queryComicChapterDto
 
     // 构建查询条件
     const where: WorkComicChapterWhereInput = {}
@@ -140,8 +135,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
         relatedComic: {
           select: {
             id: true,
-            title: true,
-            status: true,
+            name: true,
           },
         },
       },
@@ -192,7 +186,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       try {
         const contents = JSON.parse(updateData.contents)
         if (!Array.isArray(contents)) {
-          throw new Error('内容必须是数组格式')
+          throw new TypeError('内容必须是数组格式')
         }
       } catch {
         throw new BadRequestException(
@@ -278,19 +272,8 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     const { ids } = batchDeleteDto
 
     return this.deleteMany({
-      where: {
-        id: { in: ids },
-      },
+      id: { in: ids },
     })
-  }
-
-  /**
-   * 恢复软删除的章节
-   * @param id 章节ID
-   * @returns 恢复结果
-   */
-  async restoreComicChapter(id: number) {
-    return this.restoreById({ id })
   }
 
   /**
@@ -304,10 +287,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
         comicId,
         isPublished: true,
       },
-      orderBy: [
-        { sortOrder: 'asc' },
-        { chapterNumber: 'asc' },
-      ],
+      orderBy: [{ sortOrder: 'asc' }, { chapterNumber: 'asc' }],
       omit: {
         contents: true,
         remark: true,

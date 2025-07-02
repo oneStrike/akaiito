@@ -97,7 +97,8 @@ export class BaseComicChapterDto {
 
   @ValidateString({
     description: '漫画内容（JSON格式存储图片URL数组）',
-    example: '["https://example.com/page1.jpg", "https://example.com/page2.jpg"]',
+    example:
+      '["https://example.com/page1.jpg", "https://example.com/page2.jpg"]',
     required: true,
     default: '[]',
   })
@@ -242,7 +243,6 @@ export class UpdateChapterPublishStatusDto {
     description: '章节ID列表',
     example: [1, 2, 3],
     required: true,
-    minItems: 1,
   })
   ids!: number[]
 
@@ -262,7 +262,6 @@ export class UpdateChapterReadRuleDto {
     description: '章节ID列表',
     example: [1, 2, 3],
     required: true,
-    minItems: 1,
   })
   ids!: number[]
 

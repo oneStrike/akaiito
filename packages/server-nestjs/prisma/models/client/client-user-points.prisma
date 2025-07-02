@@ -35,10 +35,9 @@ model ClientUserPointsHistory {
   userId      String @map("user_id")
   /// 关联用户
   user        ClientUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // === 积分变动信息 ===
   /// 变动类型（0:获得 1:消费 2:退还 3:过期 4:管理员调整 5:积分转移）
-  /// 用于区分积分变动的操作类型，便于统计和分析
   changeType  Int @map("change_type") @db.SmallInt
   /// 积分来源（0:注册 1:登录 2:签到 3:邀请 4:购买 5:评价 6:分享 7:任务 8:活动 9:退款 10:管理员 11:系统 12:转入 13:转出 14:过期）
   /// 详细记录积分的具体来源，用于用户行为分析和运营决策
@@ -49,7 +48,7 @@ model ClientUserPointsHistory {
   balanceBefore Int @map("balance_before")
   /// 变动后余额
   balanceAfter Int @map("balance_after")
-  
+
   // === 关联信息 ===
   /// 关联订单ID
   orderId     String? @map("order_id") @db.VarChar(50)
@@ -61,7 +60,7 @@ model ClientUserPointsHistory {
   inviterId   String? @map("inviter_id")
   /// 转账目标用户ID（积分转移时使用）
   targetUserId String? @map("target_user_id")
-  
+
   // === 详细信息 ===
   /// 变动描述
   description String @map("description") @db.VarChar(500)
@@ -71,7 +70,7 @@ model ClientUserPointsHistory {
   expiresAt   DateTime? @map("expires_at") @db.Timestamptz
   /// 操作员ID（管理员操作时记录）
   operatorId  String? @map("operator_id")
-  
+
   // === 状态信息 ===
   /// 是否已处理
   isProcessed Boolean @default(true) @map("is_processed")
@@ -81,13 +80,13 @@ model ClientUserPointsHistory {
   revertedAt  DateTime? @map("reverted_at") @db.Timestamptz
   /// 撤销原因
   revertReason String? @map("revert_reason") @db.VarChar(255)
-  
+
   // === 时间戳 ===
   /// 创建时间
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
   updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
-  
+
   @@index([userId, createdAt]) // 用户积分历史查询
   @@index([changeType, source]) // 积分变动类型统计
   @@index([orderId]) // 订单关联查询
@@ -107,7 +106,7 @@ model ClientUserDailyCheckin {
   userId      String @map("user_id")
   /// 关联用户
   user        ClientUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // === 签到信息 ===
   /// 签到日期
   checkinDate DateTime @map("checkin_date") @db.Date
@@ -123,7 +122,7 @@ model ClientUserDailyCheckin {
   bonusType   String? @map("bonus_type") @db.VarChar(50)
   /// 奖励数量
   bonusAmount Int? @map("bonus_amount")
-  
+
   // === 签到详情 ===
   /// 签到IP地址
   ipAddress   String? @map("ip_address") @db.VarChar(45)
@@ -131,13 +130,13 @@ model ClientUserDailyCheckin {
   deviceInfo  String? @map("device_info") @db.VarChar(255)
   /// 签到地理位置
   location    String? @map("location") @db.VarChar(255)
-  
+
   // === 时间戳 ===
   /// 签到时间
   checkinAt   DateTime @default(now()) @map("checkin_at") @db.Timestamptz
   /// 创建时间
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
-  
+
   @@unique([userId, checkinDate]) // 每天只能签到一次
   @@index([userId, checkinDate]) // 用户签到历史查询
   @@index([consecutiveDays]) // 连续签到排行
@@ -154,7 +153,7 @@ model ClientUserLevelHistory {
   userId      String @map("user_id")
   /// 关联用户
   user        ClientUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // === 等级变更信息 ===
   /// 变更前等级（0:青铜 1:白银 2:黄金 3:铂金 4:钻石 5:VIP）
   /// 记录用户等级变更前的等级状态
@@ -168,19 +167,19 @@ model ClientUserLevelHistory {
   reason      String @map("reason") @db.VarChar(255)
   /// 是否为升级
   isUpgrade   Boolean @map("is_upgrade")
-  
+
   // === 奖励信息 ===
   /// 等级奖励积分
   rewardPoints Int? @map("reward_points")
   /// 等级奖励描述
   rewardDescription String? @map("reward_description") @db.VarChar(500)
-  
+
   // === 时间戳 ===
   /// 变更时间
   changedAt   DateTime @default(now()) @map("changed_at") @db.Timestamptz
   /// 创建时间
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
-  
+
   @@index([userId, changedAt]) // 用户等级历史查询
   @@index([fromLevel, toLevel]) // 等级变更统计
   @@index([isUpgrade, changedAt]) // 升级统计

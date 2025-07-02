@@ -9,9 +9,9 @@ import {
   ComicChapterPageResponseDto,
   CreateComicChapterDto,
   QueryComicChapterDto,
-  UpdateComicChapterDto,
   UpdateChapterPublishStatusDto,
   UpdateChapterReadRuleDto,
+  UpdateComicChapterDto,
 } from './dto/comic-chapter.dto'
 
 /**

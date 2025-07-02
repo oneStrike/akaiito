@@ -6,39 +6,13 @@ model ClientUserProfile {
   userId   String @unique @map("user_id")
   /// 关联用户
   user     ClientUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  // === 详细个人信息 ===
-  /// 身份证号码（加密存储）
-  idCardNumber String? @map("id_card_number") @db.VarChar(255)
-  /// 职业
-  occupation   String? @map("occupation") @db.VarChar(100)
-  /// 公司名称
-  company      String? @map("company") @db.VarChar(200)
-  /// 学历
-  education    String? @map("education") @db.VarChar(50)
-  /// 年收入范围
-  incomeRange  String? @map("income_range") @db.VarChar(50)
-  /// 婚姻状况
-  maritalStatus String? @map("marital_status") @db.VarChar(20)
-  
+
   // === 兴趣爱好标签 ===
   /// 兴趣标签（JSON数组）
   interests    Json?   @map("interests")
   /// 技能标签（JSON数组）
   skills       Json?   @map("skills")
-  
-  // === 社交媒体链接 ===
-  /// 微信号
-  wechatId     String? @map("wechat_id") @db.VarChar(50)
-  /// QQ号
-  qqNumber     String? @map("qq_number") @db.VarChar(20)
-  /// 微博链接
-  weiboUrl     String? @map("weibo_url") @db.VarChar(255)
-  /// GitHub链接
-  githubUrl    String? @map("github_url") @db.VarChar(255)
-  /// LinkedIn链接
-  linkedinUrl  String? @map("linkedin_url") @db.VarChar(255)
-  
+
   // === 应用偏好设置 ===
   /// 主题偏好（light/dark/auto）
   themePreference String @default("auto") @map("theme_preference") @db.VarChar(10)
@@ -48,7 +22,7 @@ model ClientUserProfile {
   animationEnabled Boolean @default(true) @map("animation_enabled")
   /// 是否启用声音效果
   soundEnabled Boolean @default(true) @map("sound_enabled")
-  
+
   // === 隐私设置 ===
   /// 是否显示在线状态
   showOnlineStatus Boolean @default(true) @map("show_online_status")
@@ -60,13 +34,7 @@ model ClientUserProfile {
   showAge      Boolean @default(false) @map("show_age")
   /// 是否公开地理位置
   showLocation Boolean @default(false) @map("show_location")
-  
-  // === 通知偏好 ===
-  /// 通知偏好设置（JSON对象）
-  notificationSettings Json? @map("notification_settings")
-  /// 免打扰时间段（JSON对象）
-  quietHours   Json?   @map("quiet_hours")
-  
+
   // === 安全设置 ===
   /// 是否启用登录地点验证
   locationVerification Boolean @default(false) @map("location_verification")
@@ -74,13 +42,13 @@ model ClientUserProfile {
   deviceVerification Boolean @default(false) @map("device_verification")
   /// 密码最后修改时间
   passwordChangedAt DateTime? @map("password_changed_at") @db.Timestamptz
-  
+
   // === 时间戳 ===
   /// 创建时间
   createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
   updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
-  
+
   @@index([userId]) // 用户ID索引
   @@map("client_user_profile")
 }
@@ -93,7 +61,7 @@ model ClientUserLoginHistory {
   userId      String @map("user_id")
   /// 关联用户
   user        ClientUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // === 登录信息 ===
   /// 登录IP地址
   ipAddress   String @map("ip_address") @db.VarChar(45)
@@ -109,11 +77,9 @@ model ClientUserLoginHistory {
   isSuccess   Boolean @map("is_success")
   /// 失败原因
   failReason  String? @map("fail_reason") @db.VarChar(255)
-  /// 会话ID
-  sessionId   String? @map("session_id") @db.VarChar(128)
   /// 登出时间
   logoutAt    DateTime? @map("logout_at") @db.Timestamptz
-  
+
   // === 风险评估 ===
   /// 风险等级（low/medium/high）
   riskLevel   String? @map("risk_level") @db.VarChar(10)
@@ -121,11 +87,11 @@ model ClientUserLoginHistory {
   isSuspicious Boolean @default(false) @map("is_suspicious")
   /// 是否需要额外验证
   needsVerification Boolean @default(false) @map("needs_verification")
-  
+
   // === 时间戳 ===
   /// 登录时间
   loginAt     DateTime @default(now()) @map("login_at") @db.Timestamptz
-  
+
   @@index([userId, loginAt]) // 用户登录历史查询
   @@index([ipAddress]) // IP地址查询
   @@index([isSuccess, loginAt]) // 登录成功率统计
@@ -142,7 +108,7 @@ model ClientUserDevice {
   userId      String @map("user_id")
   /// 关联用户
   user        ClientUser @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   // === 设备信息 ===
   /// 设备唯一标识
   deviceId    String @unique @map("device_id") @db.VarChar(128)
@@ -154,13 +120,7 @@ model ClientUserDevice {
   osName      String? @map("os_name") @db.VarChar(50)
   /// 操作系统版本
   osVersion   String? @map("os_version") @db.VarChar(50)
-  /// 浏览器名称
-  browserName String? @map("browser_name") @db.VarChar(50)
-  /// 浏览器版本
-  browserVersion String? @map("browser_version") @db.VarChar(50)
-  /// 设备指纹
-  fingerprint String? @map("fingerprint") @db.VarChar(255)
-  
+
   // === 设备状态 ===
   /// 是否为受信任设备
   isTrusted   Boolean @default(false) @map("is_trusted")
@@ -178,7 +138,7 @@ model ClientUserDevice {
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
   updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
-  
+
   @@index([userId, isActive]) // 用户活跃设备查询
   @@index([deviceId]) // 设备ID查询
   @@index([isTrusted]) // 受信任设备查询
