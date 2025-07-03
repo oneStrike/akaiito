@@ -174,7 +174,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       }
     }
 
-    return this.findPagination({
+    const pageData = await this.findPagination({
       where,
       select: {
         // 必须明确指定需要的所有字段
@@ -203,6 +203,20 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         },
       },
     })
+
+    console.log(pageData.list)
+    pageData.list = pageData.list.map((item) => {
+      return {
+        ...item,
+        comicAuthors: item.comicAuthors.map((author) => ({
+          ...author.author,
+          roleType: author.roleType,
+          isPrimary: author.isPrimary,
+          sortOrder: author.sortOrder,
+        })),
+      }
+    })
+    return pageData
   }
 
   /**
