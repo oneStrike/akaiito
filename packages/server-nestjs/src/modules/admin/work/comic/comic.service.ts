@@ -367,14 +367,14 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
    * @returns 更新结果
    */
   async updateComicStatus(updateStatusDto: BatchOperationStatusIdsDto) {
-    const { ids, publishStatus } = updateStatusDto
+    const { ids, isPublished } = updateStatusDto
 
     return this.updateMany({
       where: {
         id: { in: ids },
       },
       data: {
-        publishStatus,
+        isPublished,
       },
     })
   }

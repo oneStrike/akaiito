@@ -5,6 +5,7 @@ import { CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { WorkComicService } from './comic.service'
 import {
+  BaseComicDto,
   CreateComicDto,
   QueryComicDto,
   UpdateComicDto,
@@ -53,7 +54,7 @@ export class WorkComicController {
   @Get('/comic-detail')
   @ApiDoc({
     summary: '获取漫画详情',
-    model: IdDto,
+    model: BaseComicDto,
   })
   async getDetail(@Query() query: IdDto) {
     return this.comicService.getComicDetail(query.id)

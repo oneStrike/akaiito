@@ -3,7 +3,7 @@
  *  @标签 漫画管理模块/创建漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/create-comic
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface CreateComicRequest {
@@ -106,7 +106,7 @@ export type CreateComicResponse = {
  *  @标签 漫画管理模块/分页查询漫画列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-page
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface ComicPageRequest {
@@ -230,7 +230,7 @@ export interface ComicPageResponse {
  *  @标签 漫画管理模块/获取漫画详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-detail
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface ComicDetailRequest {
@@ -240,8 +240,125 @@ export interface ComicDetailRequest {
 
 /*  */
 export type ComicDetailResponse = {
-  /* 主键id */
+  /* 漫画ID */
   id: number
+
+  /* 漫画名称 */
+  name: string
+
+  /* 漫画别名（支持多别名，用逗号分隔） */
+  alias?: string | null
+
+  /* 漫画封面URL */
+  cover: string
+
+  /* 热度值（用于排序） */
+  popularity: number
+
+  /* 虚拟热度热度权重（影响热度计算） */
+  popularityWeight: number
+
+  /* 语言代码 */
+  language: string
+
+  /* 地区代码 */
+  region: string
+
+  /* 年龄分级 */
+  ageRating: string
+
+  /* 发布状态 */
+  isPublished: boolean
+
+  /* 发布日期 */
+  publishAt?: string | null
+
+  /* 漫画简介 */
+  description: string
+
+  /* 出版社 */
+  publisher?: string | null
+
+  /* 原始来源 */
+  originalSource?: string | null
+
+  /* 连载状态 */
+  serialStatus: number
+
+  /* 是否完结 */
+  isFinished: boolean
+
+  /* 是否允许下载 */
+  canDownload: boolean
+
+  /* 是否允许评论 */
+  canComment: boolean
+
+  /* 阅读规则 */
+  readRule: number
+
+  /* 购买金额（分为单位） */
+  purchaseAmount?: number | null
+
+  /* 总章节数 */
+  totalChapters: number
+
+  /* 总阅读次数 */
+  totalViews: number
+
+  /* 收藏数 */
+  favoriteCount: number
+
+  /* 评论总数 */
+  commentCount: number
+
+  /* 点赞总数 */
+  likeCount: number
+
+  /* 评分（1-10分，保留1位小数） */
+  rating?: number | null
+
+  /* 评分人数 */
+  ratingCount: number
+
+  /* SEO标题 */
+  seoTitle?: string | null
+
+  /* SEO描述 */
+  seoDescription?: string | null
+
+  /* SEO关键词 */
+  seoKeywords?: string | null
+
+  /* 推荐权重（影响推荐排序） */
+  recommendWeight: number
+
+  /* 是否推荐 */
+  isRecommended: boolean
+
+  /* 是否热门 */
+  isHot: boolean
+
+  /* 是否新作 */
+  isNew: boolean
+
+  /* 版权信息 */
+  copyright?: string | null
+
+  /* 免责声明 */
+  disclaimer?: string | null
+
+  /* 管理员备注 */
+  remark?: string | null
+
+  /* 软删除时间 */
+  deletedAt?: string | null
+
+  /* 创建时间 */
+  createdAt: string
+
+  /* 更新时间 */
+  updatedAt: string
 }
 
 /**
@@ -249,7 +366,7 @@ export type ComicDetailResponse = {
  *  @标签 漫画管理模块/更新漫画信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic/update-comic
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface UpdateComicRequest {
@@ -367,7 +484,7 @@ export type UpdateComicResponse = {
  *  @标签 漫画管理模块/批量更新漫画发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-status
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface BatchUpdateComicStatusRequest {
@@ -389,7 +506,7 @@ export type BatchUpdateComicStatusResponse = {
  *  @标签 漫画管理模块/批量更新漫画推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-recommended
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface BatchUpdateComicRecommendedRequest {
@@ -411,7 +528,7 @@ export type BatchUpdateComicRecommendedResponse = {
  *  @标签 漫画管理模块/批量更新漫画热门状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-hot
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface BatchUpdateComicHotRequest {
@@ -433,7 +550,7 @@ export type BatchUpdateComicHotResponse = {
  *  @标签 漫画管理模块/批量更新漫画新作状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-new
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface BatchUpdateComicNewRequest {
@@ -455,7 +572,7 @@ export type BatchUpdateComicNewResponse = {
  *  @标签 漫画管理模块/软删除漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/delete-comic
- *  @更新时间 2025-07-03 09:44:10
+ *  @更新时间 2025-07-03 10:55:39
  */
 
 export interface DeleteComicRequest {
