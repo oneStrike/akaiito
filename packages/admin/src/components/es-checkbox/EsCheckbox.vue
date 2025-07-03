@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { useBitmask } from '@/hooks/useBitmask.ts'
+  import { useBitMask } from '@/hooks/useBitMask'
 
   interface IterateObject {
     [key: string]: string | number | undefined
@@ -7,7 +7,7 @@
 
   export interface EsCheckboxProps {
     modelValue?: string | (string | number)[] | number
-    valueType?: 'string' | 'array' | 'bitmask'
+    valueType?: 'string' | 'array' | 'bitMask'
     options: {
       label: string
       value: string | number
@@ -83,11 +83,11 @@
       if (Array.isArray(props.modelValue)) {
         return props.modelValue
       } else if (
-        props.valueType === 'bitmask' &&
+        props.valueType === 'bitMask' &&
         typeof props.modelValue === 'number'
       ) {
         try {
-          const bitmaskResult = useBitmask.split(props.modelValue)
+          const bitmaskResult = useBitMask.split(props.modelValue)
           if (Array.isArray(bitmaskResult)) {
             return bitmaskResult
           }

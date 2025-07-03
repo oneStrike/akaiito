@@ -91,7 +91,7 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请选择发布平台',
       options: enablePlatform,
-      valueType: 'bitmask',
+      valueType: 'bitMask',
     },
   },
 

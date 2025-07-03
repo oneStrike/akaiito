@@ -9,7 +9,7 @@
   import * as clientPageApi from '@/apis/client-page.ts'
   import * as noticeApi from '@/apis/notice.ts'
   import { PromptsEnum } from '@/enum/prompts'
-  import { useBitmask } from '@/hooks/useBitmask.ts'
+  import { useBitMask } from '@/hooks/useBitMask'
   import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
   import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
   import NoticeDetail from '@/views/client-manage/notice/NoticeDetail.vue'
@@ -70,7 +70,7 @@
             enablePlatform: {
               width: 150,
               formatter: (row) => {
-                return useBitmask
+                return useBitMask
                   .getLabels(row.enablePlatform, enablePlatform)
                   .join('、')
               },
@@ -114,7 +114,7 @@
         (item) => item.value === value.pageCode,
       )!.label
     }
-    value.enablePlatform = useBitmask.set(String(value.enablePlatform))
+    value.enablePlatform = useBitMask.set(String(value.enablePlatform))
     if (Array.isArray(value.dateTimeRange) && value.dateTimeRange[0]) {
       const [startTime, endTime] = value.dateTimeRange
       value.publishStartTime = startTime
@@ -174,9 +174,9 @@
         />
         <EsPopConfirm
           :disabled="
-            !row.isPublished &&
-            row.publishEndTime &&
-            $dayjs(row.publishEndTime).isBefore($dayjs())
+            !row.isPublished
+            && row.publishEndTime
+            && $dayjs(row.publishEndTime).isBefore($dayjs())
           "
           :confirm-text="row.isPublished ? '取消发布' : '发布'"
           :request="noticeApi.batchUpdateNoticeStatusApi"

@@ -1,6 +1,4 @@
-import type { PrismaClient } from '../client/client'
-
-export async function createInitialDataDictionary(prisma: PrismaClient) {
+export async function createInitialDataDictionary(prisma: any) {
   const initData = [
     {
       name: '作品语言',

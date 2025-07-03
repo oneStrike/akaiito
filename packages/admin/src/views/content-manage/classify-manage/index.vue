@@ -31,6 +31,7 @@
 
   async function submitForm(val: Record) {
     formModal.loading = true
+    val.contentTypes = useBitMask.set(val.contentTypes as unknown as number[])
     if (currentRow.value?.id) {
       val.id = currentRow.value.id
       await updateCategoryApi(val)

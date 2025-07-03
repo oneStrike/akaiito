@@ -36,7 +36,7 @@
     if (Array.isArray(val.socialLinks)) {
       val.socialLinks = JSON.stringify(val.socialLinks)
     }
-    val.roles = useBitmask.set(val.roles)
+    val.roles = useBitMask.set(val.roles)
     if (currentRow.value?.id) {
       val.id = currentRow.value.id
       await updateAuthorApi(val)

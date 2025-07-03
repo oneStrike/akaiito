@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-07-02 23:25:13
+ *  @更新时间 2025-07-03 09:44:10
  */
 
 export interface CreateNoticeRequest {
@@ -63,9 +63,6 @@ export interface CreateNoticeRequest {
 export type CreateNoticeResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -73,7 +70,7 @@ export type CreateNoticeResponse = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-07-02 23:25:13
+ *  @更新时间 2025-07-03 09:44:10
  */
 
 export interface NoticePageRequest {
@@ -183,12 +180,7 @@ export interface NoticePageResponse {
       /* 页面名称 */
       pageName: string
     }
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -196,7 +188,7 @@ export interface NoticePageResponse {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-07-02 23:25:13
+ *  @更新时间 2025-07-03 09:44:10
  */
 
 export interface NoticeDetailRequest {
@@ -271,9 +263,6 @@ export type NoticeDetailResponse = {
     /* 页面名称 */
     pageName: string
   }
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -281,7 +270,7 @@ export type NoticeDetailResponse = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-07-02 23:25:13
+ *  @更新时间 2025-07-03 09:44:10
  */
 
 export interface UpdateNoticeRequest {
@@ -344,9 +333,6 @@ export interface UpdateNoticeRequest {
 export type UpdateNoticeResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -354,7 +340,7 @@ export type UpdateNoticeResponse = {
  *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-update-notice-status
- *  @更新时间 2025-07-02 23:25:13
+ *  @更新时间 2025-07-03 09:44:10
  */
 
 export interface BatchUpdateNoticeStatusRequest {
@@ -369,9 +355,6 @@ export interface BatchUpdateNoticeStatusRequest {
 export type BatchUpdateNoticeStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -379,7 +362,7 @@ export type BatchUpdateNoticeStatusResponse = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-07-02 23:25:13
+ *  @更新时间 2025-07-03 09:44:10
  */
 
 export interface BatchDeleteNoticeRequest {
@@ -391,7 +374,4 @@ export interface BatchDeleteNoticeRequest {
 export type BatchDeleteNoticeResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

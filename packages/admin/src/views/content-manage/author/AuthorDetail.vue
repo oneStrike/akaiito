@@ -26,7 +26,7 @@
     authorDetail.value = await useDataDict.fillRow(data, {
       nationality: 'nationality',
     })
-    rolesLabel.value = useBitmask
+    rolesLabel.value = useBitMask
       .getLabels(authorDetail.value.roles!, authorRoles)
       .join('、')
     loading.value = false
@@ -49,10 +49,10 @@
     :width="800"
     @closed="emits('close')"
   >
-    <div v-loading="loading" class="p-5 bg-gray-50 min-h-[400px]">
+    <div v-loading="loading" class="bg-gray-50 p-5 min-h-[400px]">
       <!-- 作者卡片 -->
       <div
-        class="bg-white rounded-xl p-6 mb-5 flex items-start gap-5 shadow-sm"
+        class="flex bg-white rounded-xl p-6 mb-5 items-start gap-5 shadow-sm"
       >
         <div class="relative flex-shrink-0">
           <el-image
@@ -65,7 +65,7 @@
           >
             <template #error>
               <div
-                class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-gray-400 text-2xl"
+                class="w-20 h-20 rounded-full flex bg-gray-100 items-center justify-center text-gray-400 text-2xl"
               >
                 <i class="el-icon-user" />
               </div>
@@ -73,14 +73,14 @@
           </el-image>
           <div
             v-if="authorDetail.featured"
-            class="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center text-white text-xs shadow-sm"
+            class="rounded-full flex items-center justify-center shadow-sm absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 text-white text-xs"
           >
             <i class="el-icon-star-on" />
           </div>
         </div>
 
         <div class="flex-1 min-w-0">
-          <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center mb-3 justify-between">
             <h3 class="text-xl font-semibold text-gray-800 m-0">
               {{ authorDetail.name || '未知作者' }}
             </h3>
@@ -100,7 +100,7 @@
                 type="info"
                 size="small"
                 effect="plain"
-                class="mr-1 mb-1 text-xs rounded"
+                class="text-xs mr-1 mb-1 rounded"
               >
                 {{
                   gender.find((item) => item.value === authorDetail?.gender)
@@ -150,7 +150,7 @@
 
           <p
             v-if="authorDetail.description"
-            class="text-sm text-gray-600 leading-6 m-0"
+            class="m-0 text-sm text-gray-600 leading-6"
           >
             {{ authorDetail.description }}
           </p>
@@ -158,9 +158,9 @@
       </div>
 
       <!-- 统计数据 -->
-      <div class="grid grid-cols-2 gap-4 mb-5">
+      <div class="mb-5 grid grid-cols-2 gap-4">
         <div class="bg-white rounded-lg p-5 text-center shadow-sm">
-          <div class="text-2xl font-semibold text-blue-500 mb-1">
+          <div class="text-2xl font-semibold mb-1 text-blue-500">
             {{ authorDetail.followersCount || 0 }}
           </div>
           <div class="text-sm text-gray-600">关注者</div>
@@ -181,18 +181,18 @@
         <div
           class="flex items-center gap-2 text-base font-medium text-gray-800 mb-4 pb-2"
         >
-          <i class="el-icon-link text-blue-500 text-base" />
+          <i class="text-blue-500 text-base el-icon-link" />
           <span>社交媒体</span>
         </div>
-        <div class="flex flex-col gap-2">
+        <div class="flex gap-2 flex-col">
           <div
             v-for="(item, idx) in socialLinks"
             :key="idx"
-            class="flex items-center py-3 px-4 bg-gray-50 rounded-lg cursor-pointer transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:border-blue-500"
+            class="flex items-center bg-gray-50 rounded-lg py-3 px-4 cursor-pointer transition-all duration-200 text-gray-700 hover:bg-gray-100 hover:border-blue-500"
             @click="openLink(item.value)"
           >
             <div class="flex-1 min-w-0">
-              <div class="text-sm font-medium mb-0.5 text-gray-800">
+              <div class="text-sm font-medium text-gray-800 mb-0.5">
                 {{ item.label }}
               </div>
               <div
@@ -202,9 +202,9 @@
               </div>
             </div>
             <div
-              class="w-5 h-5 flex items-center justify-center opacity-50 transition-opacity duration-200 hover:opacity-80"
+              class="w-5 h-5 flex items-center justify-center duration-200 opacity-50 transition-opacity hover:opacity-80"
             >
-              <i class="el-icon-arrow-right text-xs text-gray-600" />
+              <i class="text-xs text-gray-600 el-icon-arrow-right" />
             </div>
           </div>
         </div>
@@ -215,13 +215,13 @@
         <div
           class="flex items-center gap-2 text-base font-medium text-gray-800 mb-4 pb-2"
         >
-          <i class="el-icon-time text-blue-500 text-base" />
+          <i class="text-blue-500 text-base el-icon-time" />
           <span>系统信息</span>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div class="flex flex-col gap-1">
             <span
-              class="text-xs text-gray-500 font-medium uppercase tracking-wider"
+              class="text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               创建时间
             </span>

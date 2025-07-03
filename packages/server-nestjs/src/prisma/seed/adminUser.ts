@@ -1,6 +1,4 @@
-import type { PrismaClient } from '../client/client'
-
-export async function createInitialAdminAccount(prisma: PrismaClient) {
+export async function createInitialAdminAccount(prisma: any) {
   const accountInfo = {
     username: 'admin',
     mobile: '18888888888',

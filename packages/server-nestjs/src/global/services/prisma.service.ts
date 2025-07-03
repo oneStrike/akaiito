@@ -6,7 +6,9 @@ import {
   OnModuleInit,
 } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { PrismaPg } from '@prisma/adapter-pg'
+// import { PrismaPg } from '@prisma/adapter-pg'
+
+import { withAccelerate } from '@prisma/extension-accelerate'
 import { PrismaClient } from '@/prisma/client/client'
 
 /**
@@ -34,14 +36,16 @@ export class PrismaService
     }
 
     // 🔧 配置 PostgreSQL 适配器
-    const adapter = new PrismaPg({
-      connectionString: databaseUrl,
-    })
+    // const adapter = new PrismaPg({
+    //   connectionString: databaseUrl,
+    // })
 
     // 🚀 初始化 Prisma 客户端配置
-    super({
-      adapter,
-    })
+    // super({
+    //   adapter,
+    // })
+    super()
+    this.$extends(withAccelerate())
   }
 
   /**

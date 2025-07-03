@@ -2,7 +2,7 @@
   import type { NoticeDetailResponse } from '@/apis/types/notice'
   import dayjs from 'dayjs'
   import * as noticeApi from '@/apis/notice.ts'
-  import { useBitmask } from '@/hooks/useBitmask.ts'
+  import { useBitMask } from '@/hooks/useBitMask'
   import { enablePlatform, noticePriority, noticeType } from './shared'
 
   defineOptions({
@@ -101,7 +101,7 @@
   const enabledPlatforms = computed(() => {
     if (!detail.value) return []
     return (
-      useBitmask
+      useBitMask
         .getLabels(detail.value.enablePlatform, enablePlatform)
         .join('、') || '暂无启用的平台'
     )

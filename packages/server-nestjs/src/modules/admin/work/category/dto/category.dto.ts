@@ -107,7 +107,7 @@ export class BaseCategoryDto {
   @ValidateNumber({
     description: '应用类型',
     example: 2,
-    required: false,
+    required: true,
     min: 1,
     max: 32767,
   })

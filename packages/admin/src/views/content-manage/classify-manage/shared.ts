@@ -60,6 +60,7 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请选择内容类型',
       options: contentType,
+      valueType: 'bitMask',
     },
   },
   {

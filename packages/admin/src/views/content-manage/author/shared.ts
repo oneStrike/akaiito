@@ -80,7 +80,7 @@ export const formOptions: EsFormOptions[] = [
     componentProps: {
       placeholder: '请选择身份',
       options: authorRoles,
-      valueType: 'bitmask',
+      valueType: 'bitMask',
     },
   },
   {
@@ -149,7 +149,7 @@ const [avatar, name, roles, genderColumn, action] = formOptionsToTableColumn(
   {
     roles: {
       formatter: (row) => {
-        return useBitmask.getLabels(row.roles, authorRoles).join('、')
+        return useBitMask.getLabels(row.roles, authorRoles).join('、')
       },
     },
     name: {
