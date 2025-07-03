@@ -98,7 +98,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
   async getComicPage(queryComicDto: QueryComicDto) {
     const {
       name,
-      publishStatus,
+      isPublished,
       serialStatus,
       language,
       region,
@@ -123,8 +123,8 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     }
 
     // 发布状态筛选
-    if (publishStatus !== undefined) {
-      where.publishStatus = publishStatus
+    if (isPublished !== undefined) {
+      where.isPublished = isPublished
     }
 
     // 连载状态筛选
@@ -209,8 +209,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
               select: {
                 id: true,
                 name: true,
-                avatar: true,
-                description: true,
               },
             },
           },

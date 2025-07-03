@@ -42,7 +42,7 @@ export class WorkComicController {
   @Get('/comic-page')
   @ApiPageDoc({
     summary: '分页查询漫画列表',
-    model: QueryComicDto,
+    model: BaseComicDto,
   })
   async getPage(@Query() query: QueryComicDto) {
     return this.comicService.getComicPage(query)

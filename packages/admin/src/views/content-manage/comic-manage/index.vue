@@ -104,7 +104,7 @@
   }
 
   async function editRow(row: GetComicDetailTypesRes) {
-    curr  ic.value = await comicDetailApi({ id: row.id })
+    currentComic.value = await comicDetailApi({ id: row.id })
     formModal.defaultValue = {
       ...currentComic.value,
       authorIds:
