@@ -104,7 +104,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       region,
       ageRating,
       readRule,
-      isFinished,
       isRecommended,
       isHot,
       isNew,
@@ -152,11 +151,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       where.readRule = readRule
     }
 
-    // 完结状态筛选
-    if (typeof isFinished === 'boolean') {
-      where.isFinished = isFinished
-    }
-
     // 推荐状态筛选
     if (typeof isRecommended === 'boolean') {
       where.isRecommended = isRecommended
@@ -182,14 +176,31 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
 
     return this.findPagination({
       where,
-      omit: {
-        remark: true,
-        copyright: true,
-        description: true,
-        disclaimer: true,
-        seoTitle: true,
-        seoKeywords: true,
-        seoDescription: true,
+      select: {
+        // 必须明确指定需要的所有字段
+        id: true,
+        name: true,
+        cover: true,
+        serialStatus: true,
+        readRule: true,
+        isHot: true,
+        isNew: true,
+        createdAt: true,
+        updatedAt: true,
+        // 关联关系
+        comicAuthors: {
+          select: {
+            roleType: true,
+            isPrimary: true,
+            sortOrder: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     })
   }
