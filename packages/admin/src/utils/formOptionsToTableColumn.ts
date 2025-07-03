@@ -9,7 +9,7 @@ const COMPONENT_TYPES = {
 } as const
 
 type CustomConfig = Partial<
-  Record<string, Partial<EsTableColumn[number] | boolean>>
+  Record<string, Partial<EsTableColumn[number] & { index?: number }> | boolean>
 >
 
 export function formOptionsToTableColumn(
@@ -128,5 +128,20 @@ export function formOptionsToTableColumn(
     )
   }
 
-  return columns
+  // 根据 index 属性对列进行排序
+  return columns.sort((a, b) => {
+    const aIndex =
+      (customConfig?.[a.prop as string] as any)?.index ??
+      Number.MAX_SAFE_INTEGER
+    const bIndex =
+      (customConfig?.[b.prop as string] as any)?.index ??
+      Number.MAX_SAFE_INTEGER
+
+    // 如果 index 相同，保持原有顺序
+    if (aIndex === bIndex) {
+      return 0
+    }
+
+    return aIndex - bIndex
+  })
 }

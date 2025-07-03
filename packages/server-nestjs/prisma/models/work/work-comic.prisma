@@ -33,8 +33,6 @@ model WorkComic {
   originalSource   String?             @map("original_source") @db.VarChar(100)
   /// 连载状态（0=未开始, 1=连载中, 2=已完结, 3=暂停, 4=停更）
   serialStatus     Int                 @default(0) @map("serial_status") @db.SmallInt
-  /// 是否已经完结（冗余字段，便于查询）
-  isFinished       Boolean             @default(false) @map("is_finished")
   /// 总章节数
   totalChapters    Int                 @default(0) @map("total_chapters") @db.Integer
   /// 总阅读次数

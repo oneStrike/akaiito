@@ -5,6 +5,7 @@ import type { EsToolbarProps } from '@/components/es-toolbar/types'
 export type EsTableColumn = (Partial<TableColumnCtx<any>> & {
   defaultValue?: string
   columnType?: 'image' | 'link' | 'date' | 'index'
+  index?: number
 })[]
 /**
  * 分页响应数据的通用接口

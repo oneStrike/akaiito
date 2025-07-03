@@ -64,11 +64,11 @@ export class BaseComicDto {
   @ValidateNumber({
     description: '虚拟热度热度权重（影响热度计算）',
     example: 1.0,
-    required: true,
+    required: false,
     min: 0,
     default: 1.0,
   })
-  popularityWeight!: number
+  popularityWeight?: number
 
   @ValidateString({
     description: '语言代码',
@@ -137,14 +137,6 @@ export class BaseComicDto {
     default: ComicSerialStatusEnum.SERIALIZING,
   })
   serialStatus!: ComicSerialStatusEnum
-
-  @ValidateBoolean({
-    description: '是否完结',
-    example: false,
-    required: true,
-    default: false,
-  })
-  isFinished!: boolean
 
   @ValidateBoolean({
     description: '是否允许下载',
@@ -269,11 +261,11 @@ export class BaseComicDto {
   @ValidateNumber({
     description: '推荐权重（影响推荐排序）',
     example: 1.0,
-    required: true,
+    required: false,
     min: 0,
     default: 1.0,
   })
-  recommendWeight!: number
+  recommendWeight?: number
 
   @ValidateBoolean({
     description: '是否推荐',
@@ -349,6 +341,8 @@ export class BaseComicDto {
 export class CreateComicDto extends OmitType(BaseComicDto, [
   'id',
   'createdAt',
+  'popularity',
+  'isPublished',
   'updatedAt',
   'deletedAt',
   'totalChapters',
@@ -423,7 +417,6 @@ export class QueryComicDto extends IntersectionType(
     'region',
     'ageRating',
     'readRule',
-    'isFinished',
     'isRecommended',
     'isHot',
     'isNew',

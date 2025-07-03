@@ -1,45 +1,41 @@
 model WorkComicChapter {
   /// 主键id
-  id                Int       @id @default(autoincrement())
+  id             Int       @id @default(autoincrement())
   /// 章节标题
-  title             String    @db.VarChar(100)
+  title          String    @db.VarChar(100)
   /// 章节副标题或描述
-  subtitle          String?   @db.VarChar(200)
+  subtitle       String?   @db.VarChar(200)
   /// 发布状态
-  isPublished       Boolean   @default(false) @map("is_published")
+  isPublished    Boolean   @default(false) @map("is_published")
   /// 关联的漫画id
-  relatedComic      WorkComic @relation(fields: [comicId], references: [id], onDelete: Cascade)
-  comicId           Int       @map("comic_id") @db.Integer
+  relatedComic   WorkComic @relation(fields: [comicId], references: [id], onDelete: Cascade)
+  comicId        Int       @map("comic_id") @db.Integer
   /// 章节序号（用于排序）
-  chapterNumber     Float     @map("chapter_number") @db.DoublePrecision
-  /// 排序权重（用于精确控制显示顺序）
-  sortOrder         Int       @default(0) @map("sort_order") @db.Integer
+  chapterNumber  Float     @map("chapter_number") @db.DoublePrecision
   /// 查看规则 0公开 1登录 2会员 3购买
-  readRule          Int       @default(0) @map("read_rule") @db.SmallInt
+  readRule       Int       @default(0) @map("read_rule") @db.SmallInt
   /// 购买需要消耗的金额
-  purchaseAmount    Int       @default(0) @map("purchase_amount")
+  purchaseAmount Int       @default(0) @map("purchase_amount")
   /// 漫画内容（JSON格式存储图片URL数组）
-  contents          String    @default("[]") @db.Text
+  contents       String    @default("[]") @db.Text
   /// 是否为试读章节
-  isPreview         Boolean   @default(false) @map("is_preview")
+  isPreview      Boolean   @default(false) @map("is_preview")
   /// 发布时间
-  publishAt         DateTime? @map("publish_at") @db.Timestamptz
-  /// 章节缩略图
-  thumbnail         String?   @db.VarChar(255)
+  publishAt      DateTime? @map("publish_at") @db.Timestamptz
   /// 阅读次数
-  viewCount         Int       @default(0) @map("view_count") @db.Integer
+  viewCount      Int       @default(0) @map("view_count") @db.Integer
   /// 点赞数
-  likeCount         Int       @default(0) @map("like_count") @db.Integer
+  likeCount      Int       @default(0) @map("like_count") @db.Integer
   /// 评论数
-  commentCount      Int       @default(0) @map("comment_count") @db.Integer
+  commentCount   Int       @default(0) @map("comment_count") @db.Integer
   /// 备注
-  remark            String?   @db.VarChar(1000)
+  remark         String?   @db.VarChar(1000)
   /// 创建时间
-  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
-  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
   /// 软删除时间（用于数据恢复或归档）
-  deletedAt         DateTime? @map("deleted_at") @db.Timestamptz
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz
 
   @@unique([comicId, chapterNumber]) // 确保同一漫画的章节号唯一
   /// 索引优化
