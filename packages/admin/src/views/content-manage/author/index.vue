@@ -8,7 +8,7 @@
     deleteAuthorApi,
     updateAuthorApi,
   } from '@/apis/author'
-  import AuthorDetail from './authorDetail.vue'
+  import AuthorDetail from './AuthorDetail.vue'
   import { filter, formOptions, tableColumns, toolbar } from './shared'
 
   defineOptions({
@@ -70,7 +70,7 @@
     }
     modalFrom.show = true
   }
-  const openDetailModal = async (val: Record) => {
+  const openDetailModal = async (val: { field: string; row: Record }) => {
     if (val.field === 'name') {
       currentRow.value = val.row
       detailModel.value = true

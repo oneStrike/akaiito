@@ -3,12 +3,12 @@ import { dictionaryItemsApi } from '@/apis/dictionary.ts'
 export const useDataDict = {
   fillRow: async <T extends Record<string, any>>(
     data: T,
-    fields: Record<keyof T, string>,
+    dictMap: Partial<Record<keyof T, string>>,
   ) => {
     const codes: string[] = []
     // 收集所有需要查询的字典编码
-    for (const fieldKey in fields) {
-      const code = fields[fieldKey]
+    for (const fieldKey in dictMap) {
+      const code = dictMap[fieldKey]
       if (code) {
         codes.push(code)
       }
@@ -20,8 +20,8 @@ export const useDataDict = {
     })
 
     // 将字典数据填充回 data 对象
-    for (const fieldKey in fields) {
-      const dictKey = fields[fieldKey] // 获取字段对应的字典 key
+    for (const fieldKey in dictMap) {
+      const dictKey = dictMap[fieldKey] // 获取字段对应的字典 key
       if (dictKey) {
         const target = dictData.find((item) => item.code === data[dictKey])
         // @ts-expect-error ignore

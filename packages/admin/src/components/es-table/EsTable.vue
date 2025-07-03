@@ -398,8 +398,8 @@
               <el-image
                 fit="contain"
                 class="w-10 align-middle"
-                :src="row[item.prop] || defaultImage"
-                :preview-src-list="row[item.prop] ? [row[item.prop]] : []"
+                :src="row[item.prop!] || defaultImage"
+                :preview-src-list="row[item!.prop!] ? [row[item.prop!]] : []"
                 :z-index="999999"
                 preview-teleported
               >
@@ -411,7 +411,7 @@
             <!-- 链接列：可点击的链接按钮 -->
             <template v-else-if="item.columnType === 'link'">
               <el-tooltip
-                :content="String(row[item.prop])"
+                :content="String(row[item.prop!])"
                 :show-after="200"
                 placement="top"
               >
@@ -420,7 +420,7 @@
                   link
                   @click="emits('link', { row, field: item.prop })"
                 >
-                  {{ row[item.prop] }}
+                  {{ row[item.prop!] }}
                 </el-button>
               </el-tooltip>
             </template>
@@ -428,8 +428,8 @@
             <template v-else-if="item.columnType === 'date'">
               <span>
                 {{
-                  row[item.prop]
-                    ? $dayjs.utc(row[item.prop]).format('YYYY-MM-DD HH:mm:ss')
+                  row[item.prop!]
+                    ? $dayjs.utc(row[item.prop!]).format('YYYY-MM-DD HH:mm:ss')
                     : '-'
                 }}
               </span>
@@ -444,8 +444,8 @@
                       item.prop ? row[item.prop] : null,
                       $index,
                     )
-                  : row[item.prop] || row[item.prop] === 0
-                    ? row[item.prop]
+                  : row[item.prop!] || row[item.prop!] === 0
+                    ? row[item.prop!]
                     : item.defaultValue || defaultValue
               }}
             </template>

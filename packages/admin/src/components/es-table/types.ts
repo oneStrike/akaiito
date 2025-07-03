@@ -2,7 +2,7 @@ import type { TableColumnCtx } from 'element-plus'
 import type { Ref } from 'vue'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 
-export type EsTableColumn = (TableColumnCtx<any> & {
+export type EsTableColumn = (Partial<TableColumnCtx<any>> & {
   defaultValue?: string
   columnType?: 'image' | 'link' | 'date' | 'index'
 })[]

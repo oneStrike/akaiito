@@ -1,4 +1,5 @@
 import type { EsFormOptions } from '@/components/es-form/types'
+import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
 import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
@@ -94,7 +95,7 @@ export const formOptions: EsFormOptions[] = [
 const [icon, name, contentTypes, popularityWeight, order, action] =
   formOptionsToTableColumn(formOptions)
 
-export const tableColumns = [
+export const tableColumns: EsTableColumn = [
   icon,
   name,
   contentTypes,
