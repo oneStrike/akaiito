@@ -3,7 +3,7 @@
  *  @标签 漫画管理模块/创建漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/create-comic
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface CreateComicRequest {
@@ -99,6 +99,9 @@ export interface CreateComicRequest {
 export type CreateComicResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -106,7 +109,7 @@ export type CreateComicResponse = {
  *  @标签 漫画管理模块/分页查询漫画列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-page
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface ComicPageRequest {
@@ -172,57 +175,131 @@ export interface ComicPageResponse {
   /* 总条数 */
   total: number
   list: {
-    /* 单页大小，最大500，默认15 */
-    pageSize?: number | null
+    /* 漫画ID */
+    id: number
 
-    /* 当前页码 */
-    pageIndex?: number | null
+    /* 漫画名称 */
+    name: string
 
-    /* 排序字段，json格式 */
-    orderBy?: string | null
+    /* 漫画别名（支持多别名，用逗号分隔） */
+    alias?: string | null
 
-    /* 开始时间 */
-    startDate?: string | null
+    /* 漫画封面URL */
+    cover: string
 
-    /* 结束时间 */
-    endDate?: string | null
+    /* 热度值（用于排序） */
+    popularity: number
 
-    /* 漫画名称（模糊搜索） */
-    name?: string | null
+    /* 虚拟热度热度权重（影响热度计算） */
+    popularityWeight: number
 
     /* 语言代码 */
-    language?: string
+    language: string
 
     /* 地区代码 */
-    region?: string
+    region: string
 
     /* 年龄分级 */
-    ageRating?: string
+    ageRating: string
 
     /* 发布状态 */
-    isPublished?: boolean
+    isPublished: boolean
+
+    /* 发布日期 */
+    publishAt?: string | null
+
+    /* 漫画简介 */
+    description: string
+
+    /* 出版社 */
+    publisher?: string | null
+
+    /* 原始来源 */
+    originalSource?: string | null
 
     /* 连载状态 */
-    serialStatus?: number
+    serialStatus: number
 
     /* 是否完结 */
-    isFinished?: boolean
+    isFinished: boolean
+
+    /* 是否允许下载 */
+    canDownload: boolean
+
+    /* 是否允许评论 */
+    canComment: boolean
 
     /* 阅读规则 */
-    readRule?: number
+    readRule: number
+
+    /* 购买金额（分为单位） */
+    purchaseAmount?: number | null
+
+    /* 总章节数 */
+    totalChapters: number
+
+    /* 总阅读次数 */
+    totalViews: number
+
+    /* 收藏数 */
+    favoriteCount: number
+
+    /* 评论总数 */
+    commentCount: number
+
+    /* 点赞总数 */
+    likeCount: number
+
+    /* 评分（1-10分，保留1位小数） */
+    rating?: number | null
+
+    /* 评分人数 */
+    ratingCount: number
+
+    /* SEO标题 */
+    seoTitle?: string | null
+
+    /* SEO描述 */
+    seoDescription?: string | null
+
+    /* SEO关键词 */
+    seoKeywords?: string | null
+
+    /* 推荐权重（影响推荐排序） */
+    recommendWeight: number
 
     /* 是否推荐 */
-    isRecommended?: boolean
+    isRecommended: boolean
 
     /* 是否热门 */
-    isHot?: boolean
+    isHot: boolean
 
     /* 是否新作 */
-    isNew?: boolean
+    isNew: boolean
 
-    /* 出版社（模糊搜索） */
-    publisher?: string | null
+    /* 版权信息 */
+    copyright?: string | null
+
+    /* 免责声明 */
+    disclaimer?: string | null
+
+    /* 管理员备注 */
+    remark?: string | null
+
+    /* 软删除时间 */
+    deletedAt?: string | null
+
+    /* 创建时间 */
+    createdAt: string
+
+    /* 更新时间 */
+    updatedAt: string
+
+    /** 任意合法数值 */
+    [property: string]: any
   }[]
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -230,7 +307,7 @@ export interface ComicPageResponse {
  *  @标签 漫画管理模块/获取漫画详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-detail
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface ComicDetailRequest {
@@ -359,6 +436,9 @@ export type ComicDetailResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -366,7 +446,7 @@ export type ComicDetailResponse = {
  *  @标签 漫画管理模块/更新漫画信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic/update-comic
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UpdateComicRequest {
@@ -477,6 +557,9 @@ export interface UpdateComicRequest {
 export type UpdateComicResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -484,7 +567,7 @@ export type UpdateComicResponse = {
  *  @标签 漫画管理模块/批量更新漫画发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-status
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface BatchUpdateComicStatusRequest {
@@ -499,6 +582,9 @@ export interface BatchUpdateComicStatusRequest {
 export type BatchUpdateComicStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -506,7 +592,7 @@ export type BatchUpdateComicStatusResponse = {
  *  @标签 漫画管理模块/批量更新漫画推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-recommended
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface BatchUpdateComicRecommendedRequest {
@@ -521,6 +607,9 @@ export interface BatchUpdateComicRecommendedRequest {
 export type BatchUpdateComicRecommendedResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -528,7 +617,7 @@ export type BatchUpdateComicRecommendedResponse = {
  *  @标签 漫画管理模块/批量更新漫画热门状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-hot
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface BatchUpdateComicHotRequest {
@@ -543,6 +632,9 @@ export interface BatchUpdateComicHotRequest {
 export type BatchUpdateComicHotResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -550,7 +642,7 @@ export type BatchUpdateComicHotResponse = {
  *  @标签 漫画管理模块/批量更新漫画新作状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-new
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface BatchUpdateComicNewRequest {
@@ -565,6 +657,9 @@ export interface BatchUpdateComicNewRequest {
 export type BatchUpdateComicNewResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -572,7 +667,7 @@ export type BatchUpdateComicNewResponse = {
  *  @标签 漫画管理模块/软删除漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/delete-comic
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface DeleteComicRequest {
@@ -584,4 +679,7 @@ export interface DeleteComicRequest {
 export type DeleteComicResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }

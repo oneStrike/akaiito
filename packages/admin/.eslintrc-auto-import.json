@@ -5,6 +5,8 @@
     "ComputedRef": "readonly",
     "DirectiveBinding": "readonly",
     "EffectScope": "readonly",
+    "ElMessage": "readonly",
+    "ElMessageBox": "readonly",
     "ExtractDefaultPropTypes": "readonly",
     "ExtractPropTypes": "readonly",
     "ExtractPublicPropTypes": "readonly",

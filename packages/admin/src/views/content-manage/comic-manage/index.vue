@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import type { GetComicDetailTypesRes } from '@/apis/types/comic'
+  import type { ComicDetailResponse } from '@/apis/types/comic'
   import { authorPageApi } from '@/apis/author'
   import { categoryPageApi } from '@/apis/category'
   import {
@@ -11,9 +11,6 @@
     updateComicApi,
   } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
-  import AuthorDetail from '@/views/content-manage/author/AuthorDetail.vue'
-  import ComicChapter from '@/views/content-manage/comic-manage/Chapter.vue'
-  import ComicDetail from '@/views/content-manage/comic-manage/ComicDetail.vue'
   import {
     filter,
     formOptions,
@@ -35,14 +32,13 @@
     show: false,
   })
 
-  const currentComic = ref<GetComicDetailTypesRes | null>(null)
+  const currentComic = ref<ComicDetailResponse | null>(null)
   const authorModal = reactive({
     show: false,
     authorId: null,
   })
 
-  const { request, requestData, params, loading, sortChange } =
-    useRequest(comicPageApi)
+  const tableRef = useTemplateRef('tableRef')
   const formTool = useFormTool(formOptions)
   formTool.fillDict([
     { field: 'language', code: 'work_language' },
@@ -100,10 +96,10 @@
       currentComic.value?.id ? PromptsEnum.UPDATED : PromptsEnum.CREATED,
     )
     currentComic.value = null
-    request()
+    tableRef.value?.refresh()
   }
 
-  async function editRow(row: GetComicDetailTypesRes) {
+  async function editRow(row: ComicDetailResponse) {
     currentComic.value = await comicDetailApi({ id: row.id })
     formModal.defaultValue = {
       ...currentComic.value,
@@ -116,7 +112,7 @@
     formModal.show = true
   }
 
-  function formChange(val: GetComicDetailTypesRes) {
+  function formChange(val: ComicDetailResponse) {
     formTool.toggleDisplay(['purchaseAmount'], val.viewRule === 3)
   }
 
@@ -127,17 +123,14 @@
 </script>
 
 <template>
-  <div v-loading="loading" class="main-page">
+  <div class="main-page">
     <EsTable
-      v-model:params="params"
+      ref="tableRef"
       :toolbar="toolbar"
       :filter="filter"
       :columns="tableColumn"
-      :data="requestData?.list ?? []"
-      :total="requestData?.total"
+      :request-api="comicPageApi"
       @toolbar-handler="toolbarHandler"
-      @query="request"
-      @sort-change="sortChange"
     >
       <template #name="{ row }">
         <el-button
@@ -203,7 +196,7 @@
           :row="row"
           :request="batchUpdateComicStatusApi"
           field="isPublish"
-          @success="request"
+          @success="tableRef?.reset()"
         />
       </template>
       <template #action="{ row }">
@@ -223,10 +216,9 @@
             <el-dropdown-menu>
               <el-dropdown-item>
                 <es-pop-confirm
-                  v-model:loading="loading"
                   :request="deleteComicApi"
                   :row="row"
-                  @success="request"
+                  @success="tableRef?.refresh()"
                 />
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -234,27 +226,6 @@
         </el-dropdown>
       </template>
     </EsTable>
-
-    <ComicDetail
-      v-if="detailModal"
-      :visible="detailModal"
-      :comic-id="currentComic!.id"
-      :data-dict="formTool.getDictItem()"
-      @close="detailModal = false"
-    />
-
-    <ComicChapter
-      v-if="chapterModal.show"
-      v-model:show="chapterModal.show"
-      :comic="currentComic!"
-    />
-
-    <AuthorDetail
-      v-if="authorModal.show && authorModal.authorId"
-      :author-id="authorModal.authorId"
-      :visible="authorModal.show"
-      @close="authorModal.show = false"
-    />
 
     <EsModalForm
       v-if="formModal.show"

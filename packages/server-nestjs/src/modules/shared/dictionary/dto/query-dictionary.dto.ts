@@ -40,7 +40,7 @@ export class QueryDictionaryItemDto {
     description: '字典编码',
     example: 'user_status',
     required: true,
-    maxLength: 50,
+    maxLength: 500,
   })
   dictionaryCode!: string
 

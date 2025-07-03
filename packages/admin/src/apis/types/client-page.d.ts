@@ -3,7 +3,7 @@
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/create-client-page
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface CreateClientPageRequest {
@@ -36,6 +36,9 @@ export interface CreateClientPageRequest {
 export type CreateClientPageResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -43,7 +46,7 @@ export type CreateClientPageResponse = {
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-page
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface ClientPagePageRequest {
@@ -114,7 +117,12 @@ export interface ClientPagePageResponse {
 
     /* 更新时间 */
     updatedAt: string
+
+    /** 任意合法数值 */
+    [property: string]: any
   }[]
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -122,7 +130,7 @@ export interface ClientPagePageResponse {
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-id
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface ClientPageDetailByIdRequest {
@@ -164,6 +172,9 @@ export type ClientPageDetailByIdResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -171,7 +182,7 @@ export type ClientPageDetailByIdResponse = {
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-code
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface ClientPageDetailByCodeRequest {
@@ -213,6 +224,9 @@ export type ClientPageDetailByCodeResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -220,7 +234,7 @@ export type ClientPageDetailByCodeResponse = {
  *  @标签 客户端页面配置模块/更新页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/update-client-page
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UpdateClientPageRequest {
@@ -253,6 +267,9 @@ export interface UpdateClientPageRequest {
 export type UpdateClientPageResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -260,7 +277,7 @@ export type UpdateClientPageResponse = {
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/batch-delete-client-page
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface BatchDeleteClientPageRequest {
@@ -272,4 +289,7 @@ export interface BatchDeleteClientPageRequest {
 export type BatchDeleteClientPageResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }

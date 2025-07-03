@@ -3,7 +3,7 @@
  *  @标签 管理端用户模块/获取验证码
  *  @方式 GET
  *  @地址 /api/admin/user/get-captcha
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 /*  */
@@ -13,6 +13,9 @@ export type GetCaptchaResponse = {
 
   /* 验证码 */
   data: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -20,7 +23,7 @@ export type GetCaptchaResponse = {
  *  @标签 管理端用户模块/管理员登录
  *  @方式 POST
  *  @地址 /api/admin/user/user-login
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserLoginRequest {
@@ -86,6 +89,9 @@ export type UserLoginResponse = {
     /* 更新时间 */
     updatedAt: string
   }
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -93,7 +99,7 @@ export type UserLoginResponse = {
  *  @标签 管理端用户模块/管理员登出
  *  @方式 POST
  *  @地址 /api/admin/user/user-logout
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserLogoutRequest {
@@ -112,7 +118,7 @@ export type UserLogoutResponse = boolean
  *  @标签 管理端用户模块/用户注册
  *  @方式 POST
  *  @地址 /api/admin/user/user-register
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserRegisterRequest {
@@ -139,6 +145,9 @@ export interface UserRegisterRequest {
 export type UserRegisterResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -146,7 +155,7 @@ export type UserRegisterResponse = {
  *  @标签 管理端用户模块/刷新访问令牌
  *  @方式 POST
  *  @地址 /api/admin/user/user-refresh-token
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserRefreshTokenRequest {
@@ -164,6 +173,9 @@ export type UserRefreshTokenResponse = {
     /* 刷新令牌 */
     refreshToken: string
   }
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -171,7 +183,7 @@ export type UserRefreshTokenResponse = {
  *  @标签 管理端用户模块/修改密码
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-password
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserUpdatePasswordRequest {
@@ -225,6 +237,9 @@ export type UserUpdatePasswordResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -232,7 +247,7 @@ export type UserUpdatePasswordResponse = {
  *  @标签 管理端用户模块/更新用户信息
  *  @方式 POST
  *  @地址 /api/admin/user/user-update-info
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserUpdateInfoRequest {
@@ -292,6 +307,9 @@ export type UserUpdateInfoResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -299,7 +317,7 @@ export type UserUpdateInfoResponse = {
  *  @标签 管理端用户模块/获取当前用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-Info
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 /*  */
@@ -339,6 +357,9 @@ export type UserInfoResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -346,7 +367,7 @@ export type UserInfoResponse = {
  *  @标签 管理端用户模块/根据ID获取用户信息
  *  @方式 GET
  *  @地址 /api/admin/user/user-info-by-id
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserInfoByIdRequest {
@@ -391,6 +412,9 @@ export type UserInfoByIdResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -398,7 +422,7 @@ export type UserInfoByIdResponse = {
  *  @标签 管理端用户模块/获取管理端用户分页列表
  *  @方式 GET
  *  @地址 /api/admin/user/user-page
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserPageRequest {
@@ -472,7 +496,12 @@ export interface UserPageResponse {
 
     /* 更新时间 */
     updatedAt: string
+
+    /** 任意合法数值 */
+    [property: string]: any
   }[]
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -480,7 +509,7 @@ export interface UserPageResponse {
  *  @标签 管理端用户模块/删除用户
  *  @方式 POST
  *  @地址 /api/admin/user/user-delete
- *  @更新时间 2025-07-03 10:55:39
+ *  @更新时间 2025-07-03 19:41:52
  */
 
 export interface UserDeleteRequest {
@@ -492,4 +521,7 @@ export interface UserDeleteRequest {
 export type UserDeleteResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }

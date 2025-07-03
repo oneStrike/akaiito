@@ -87,16 +87,22 @@ export const formOptions: EsFormOptions[] = [
   },
 ]
 
-export const tableColumns: EsTableColumn = formOptionsToTableColumn(
-  formOptions,
-  [],
-  {
-    isPublish: false,
-    createdAt: {
-      width: 160,
-    },
+const columns = formOptionsToTableColumn(formOptions, [], {
+  isPublish: false,
+  createdAt: {
+    width: 160,
   },
-)
+})
+
+columns.splice(-1, 0, {
+  label: '状态',
+  width: 120,
+  prop: 'isEnabled',
+  align: 'center',
+})
+
+export const tableColumns: EsTableColumn = columns
+
 export const filter: (span?: number) => ToolbarFilter = (span = 4) => [
   {
     field: 'isEnabled',
