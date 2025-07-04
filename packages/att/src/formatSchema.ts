@@ -85,8 +85,15 @@ export function formatSchema(schemas: SchemaItem[]): Record<string, FieldDefinit
             jsonSchema: fieldProperty.items,
           }])
           fieldType = nestedSchema.temp
-        } else {
+        } else if (itemType) {
           fieldType = itemType === 'integer' ? 'number' : itemType
+        } else {
+          pendingRefs.push({
+            schemaKey: schemaItem.id,
+            fieldIndex: fields.length,
+            refs: [fieldProperty.items.$ref],
+          })
+          fieldType = 'pending'
         }
       } else if (Array.isArray(fieldType)) {
         // 处理联合类型
@@ -114,6 +121,5 @@ export function formatSchema(schemas: SchemaItem[]): Record<string, FieldDefinit
     const typeString = extractRefs(refs[0], schemaMap)
     schemaMap[schemaKey][fieldIndex].type = `{${typeString}}`
   }
-
   return schemaMap
 }

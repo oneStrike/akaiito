@@ -117,7 +117,6 @@ function handlerRefsOld(refs: string, dataModel: IterateObject, overrides?: Iter
  */
 export function extractRefs(refs: string | IterateObject, dataModel: IterateObject): string {
   let typesStr = ''
-
   if (typeof refs === 'string') {
     typesStr = handlerRefsOld(refs, dataModel)
   } else if (refs && Object.keys(refs).length) {
@@ -151,7 +150,6 @@ function handlerJsonScheme(
     if (properties && Object.keys(properties).length) {
       for (const propertiesKey in properties) {
         const item = properties[propertiesKey]
-
         if (item.type === 'object') {
           // 处理嵌套对象
           if (item.properties && Object.keys(item.properties)) {

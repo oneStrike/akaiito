@@ -21,11 +21,11 @@ import type {
 } from './types/comic.d'
 
 /**
- *  接口 [创建漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377091)
+ *  接口 [创建漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836321)
  *  @标签 漫画管理模块/创建漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/create-comic
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const createComicApi = (data: CreateComicRequest): Promise<CreateComicResponse> => {
@@ -44,7 +44,7 @@ export const createComicApi = (data: CreateComicRequest): Promise<CreateComicRes
  *  @标签 漫画管理模块/分页查询漫画列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-page
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:14
  */
 
 export const comicPageApi = (params: ComicPageRequest): Promise<ComicPageResponse> => {
@@ -57,11 +57,11 @@ export const comicPageApi = (params: ComicPageRequest): Promise<ComicPageRespons
 }
 
 /**
- *  接口 [获取漫画详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377093)
+ *  接口 [获取漫画详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836322)
  *  @标签 漫画管理模块/获取漫画详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-detail
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const comicDetailApi = (params: ComicDetailRequest): Promise<ComicDetailResponse> => {
@@ -74,11 +74,11 @@ export const comicDetailApi = (params: ComicDetailRequest): Promise<ComicDetailR
 }
 
 /**
- *  接口 [更新漫画信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377094)
+ *  接口 [更新漫画信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836323)
  *  @标签 漫画管理模块/更新漫画信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic/update-comic
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const updateComicApi = (data: UpdateComicRequest): Promise<UpdateComicResponse> => {
@@ -93,11 +93,11 @@ export const updateComicApi = (data: UpdateComicRequest): Promise<UpdateComicRes
 }
 
 /**
- *  接口 [批量更新漫画发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377095)
+ *  接口 [批量更新漫画发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836324)
  *  @标签 漫画管理模块/批量更新漫画发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-status
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const batchUpdateComicStatusApi = (
@@ -114,11 +114,11 @@ export const batchUpdateComicStatusApi = (
 }
 
 /**
- *  接口 [批量更新漫画推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377096)
+ *  接口 [批量更新漫画推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836325)
  *  @标签 漫画管理模块/批量更新漫画推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-recommended
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const batchUpdateComicRecommendedApi = (
@@ -135,11 +135,11 @@ export const batchUpdateComicRecommendedApi = (
 }
 
 /**
- *  接口 [批量更新漫画热门状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377097)
+ *  接口 [批量更新漫画热门状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836326)
  *  @标签 漫画管理模块/批量更新漫画热门状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-hot
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const batchUpdateComicHotApi = (data: BatchUpdateComicHotRequest): Promise<BatchUpdateComicHotResponse> => {
@@ -154,11 +154,11 @@ export const batchUpdateComicHotApi = (data: BatchUpdateComicHotRequest): Promis
 }
 
 /**
- *  接口 [批量更新漫画新作状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377098)
+ *  接口 [批量更新漫画新作状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836327)
  *  @标签 漫画管理模块/批量更新漫画新作状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-new
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const batchUpdateComicNewApi = (data: BatchUpdateComicNewRequest): Promise<BatchUpdateComicNewResponse> => {
@@ -173,11 +173,11 @@ export const batchUpdateComicNewApi = (data: BatchUpdateComicNewRequest): Promis
 }
 
 /**
- *  接口 [软删除漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377099)
+ *  接口 [软删除漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836328)
  *  @标签 漫画管理模块/软删除漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/delete-comic
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const deleteComicApi = (data: DeleteComicRequest): Promise<DeleteComicResponse> => {

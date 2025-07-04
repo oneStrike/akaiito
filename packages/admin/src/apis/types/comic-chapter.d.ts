@@ -1,9 +1,9 @@
 /**
- *  接口 [创建漫画章节](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377105)
+ *  接口 [创建漫画章节](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836381)
  *  @标签 漫画章节管理模块/创建漫画章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/create-comic-chapter
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface CreateComicChapterRequest {
@@ -51,14 +51,17 @@ export interface CreateComicChapterRequest {
 export type CreateComicChapterResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [分页查询漫画章节列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377106)
+ *  接口 [分页查询漫画章节列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836382)
  *  @标签 漫画章节管理模块/分页查询漫画章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-page
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface ComicChapterPageRequest {
@@ -153,15 +156,20 @@ export interface ComicChapterPageResponse {
 
     /* 更新时间 */
     updatedAt: string
+
+    /** 任意合法数值 */
+    [property: string]: any
   }[]
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [获取漫画章节详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377107)
+ *  接口 [获取漫画章节详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836383)
  *  @标签 漫画章节管理模块/获取漫画章节详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-detail
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface ComicChapterDetailRequest {
@@ -227,14 +235,17 @@ export type ComicChapterDetailResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [更新漫画章节信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377108)
+ *  接口 [更新漫画章节信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836384)
  *  @标签 漫画章节管理模块/更新漫画章节信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/update-comic-chapter
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface UpdateComicChapterRequest {
@@ -285,14 +296,17 @@ export interface UpdateComicChapterRequest {
 export type UpdateComicChapterResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量更新章节发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377109)
+ *  接口 [批量更新章节发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836385)
  *  @标签 漫画章节管理模块/批量更新章节发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-publish-status
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface BatchUpdateChapterPublishStatusRequest {
@@ -307,14 +321,17 @@ export interface BatchUpdateChapterPublishStatusRequest {
 export type BatchUpdateChapterPublishStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量软删除章节](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377112)
+ *  接口 [批量软删除章节](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836386)
  *  @标签 漫画章节管理模块/批量软删除章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-delete-comic-chapter
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface BatchDeleteComicChapterRequest {
@@ -329,14 +346,17 @@ export interface BatchDeleteComicChapterRequest {
 export type BatchDeleteComicChapterResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [获取指定漫画的章节列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377114)
+ *  接口 [获取指定漫画的章节列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836387)
  *  @标签 漫画章节管理模块/获取指定漫画的章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/chapters-by-comic
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 /*  */

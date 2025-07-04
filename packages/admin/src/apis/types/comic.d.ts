@@ -1,9 +1,9 @@
 /**
- *  接口 [创建漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377091)
+ *  接口 [创建漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836321)
  *  @标签 漫画管理模块/创建漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/create-comic
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface CreateComicRequest {
@@ -90,6 +90,9 @@ export interface CreateComicRequest {
 export type CreateComicResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
@@ -97,7 +100,7 @@ export type CreateComicResponse = {
  *  @标签 漫画管理模块/分页查询漫画列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-page
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:14
  */
 
 export interface ComicPageRequest {
@@ -173,10 +176,31 @@ export interface ComicPageResponse {
     cover: string
 
     /* 漫画分类 */
-    comicCategories: []
+    comicCategories: {
+      /* 分类ID */
+      id: number
+
+      /* 分类名称 */
+      name: string
+
+      /** 任意合法数值 */
+      [property: string]: any
+    }[]
 
     /* 漫画作者 */
-    comicAuthors: []
+    comicAuthors: {
+      /* 作者ID */
+      id: number
+
+      /* 作者名称 */
+      name: string
+
+      /* 是否为主要作者 */
+      isPrimary: boolean
+
+      /* 排序 */
+      sortOrder: number
+    }[]
 
     /* 热度值（用于排序） */
     popularity: number
@@ -283,14 +307,16 @@ export interface ComicPageResponse {
     /* 更新时间 */
     updatedAt: string
   }[]
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [获取漫画详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377093)
+ *  接口 [获取漫画详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836322)
  *  @标签 漫画管理模块/获取漫画详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-detail
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface ComicDetailRequest {
@@ -313,10 +339,28 @@ export type ComicDetailResponse = {
   cover: string
 
   /* 漫画分类 */
-  comicCategories: []
+  comicCategories: {
+    /* 分类ID */
+    id: number
+
+    /* 分类名称 */
+    name: string
+  }[]
 
   /* 漫画作者 */
-  comicAuthors: []
+  comicAuthors: {
+    /* 作者ID */
+    id: number
+
+    /* 作者名称 */
+    name: string
+
+    /* 是否为主要作者 */
+    isPrimary: boolean
+
+    /* 排序 */
+    sortOrder: number
+  }[]
 
   /* 热度值（用于排序） */
   popularity: number
@@ -422,14 +466,17 @@ export type ComicDetailResponse = {
 
   /* 更新时间 */
   updatedAt: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [更新漫画信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377094)
+ *  接口 [更新漫画信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836323)
  *  @标签 漫画管理模块/更新漫画信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic/update-comic
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface UpdateComicRequest {
@@ -537,14 +584,17 @@ export interface UpdateComicRequest {
 export type UpdateComicResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量更新漫画发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377095)
+ *  接口 [批量更新漫画发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836324)
  *  @标签 漫画管理模块/批量更新漫画发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-status
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface BatchUpdateComicStatusRequest {
@@ -559,14 +609,17 @@ export interface BatchUpdateComicStatusRequest {
 export type BatchUpdateComicStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量更新漫画推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377096)
+ *  接口 [批量更新漫画推荐状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836325)
  *  @标签 漫画管理模块/批量更新漫画推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-recommended
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface BatchUpdateComicRecommendedRequest {
@@ -581,14 +634,17 @@ export interface BatchUpdateComicRecommendedRequest {
 export type BatchUpdateComicRecommendedResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量更新漫画热门状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377097)
+ *  接口 [批量更新漫画热门状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836326)
  *  @标签 漫画管理模块/批量更新漫画热门状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-hot
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface BatchUpdateComicHotRequest {
@@ -603,14 +659,17 @@ export interface BatchUpdateComicHotRequest {
 export type BatchUpdateComicHotResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [批量更新漫画新作状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377098)
+ *  接口 [批量更新漫画新作状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836327)
  *  @标签 漫画管理模块/批量更新漫画新作状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-new
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface BatchUpdateComicNewRequest {
@@ -625,14 +684,17 @@ export interface BatchUpdateComicNewRequest {
 export type BatchUpdateComicNewResponse = {
   /* 操作成功的数据数量 */
   count: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }
 
 /**
- *  接口 [软删除漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-316377099)
+ *  接口 [软删除漫画](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836328)
  *  @标签 漫画管理模块/软删除漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/delete-comic
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export interface DeleteComicRequest {
@@ -644,4 +706,7 @@ export interface DeleteComicRequest {
 export type DeleteComicResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
 }

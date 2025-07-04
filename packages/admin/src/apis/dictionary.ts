@@ -25,11 +25,11 @@ import type {
 } from './types/dictionary.d'
 
 /**
- *  接口 [分页查询字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090616)
+ *  接口 [分页查询字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836329)
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-page
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const dictionaryPageApi = (params: DictionaryPageRequest): Promise<DictionaryPageResponse> => {
@@ -42,11 +42,11 @@ export const dictionaryPageApi = (params: DictionaryPageRequest): Promise<Dictio
 }
 
 /**
- *  接口 [获取字典详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090617)
+ *  接口 [获取字典详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836330)
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-detail
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const dictionaryDetailApi = (params: DictionaryDetailRequest): Promise<DictionaryDetailResponse> => {
@@ -59,11 +59,11 @@ export const dictionaryDetailApi = (params: DictionaryDetailRequest): Promise<Di
 }
 
 /**
- *  接口 [创建字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090618)
+ *  接口 [创建字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836331)
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const createDictionaryApi = (data: CreateDictionaryRequest): Promise<CreateDictionaryResponse> => {
@@ -78,11 +78,11 @@ export const createDictionaryApi = (data: CreateDictionaryRequest): Promise<Crea
 }
 
 /**
- *  接口 [更新字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090619)
+ *  接口 [更新字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836332)
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const updateDictionaryApi = (data: UpdateDictionaryRequest): Promise<UpdateDictionaryResponse> => {
@@ -97,11 +97,11 @@ export const updateDictionaryApi = (data: UpdateDictionaryRequest): Promise<Upda
 }
 
 /**
- *  接口 [删除字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090620)
+ *  接口 [删除字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836333)
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const deleteDictionaryApi = (data: DeleteDictionaryRequest): Promise<DeleteDictionaryResponse> => {
@@ -116,11 +116,11 @@ export const deleteDictionaryApi = (data: DeleteDictionaryRequest): Promise<Dele
 }
 
 /**
- *  接口 [批量启用禁用字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090621)
+ *  接口 [批量启用禁用字典](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836334)
  *  @标签 字典管理/批量启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/batch-update-dictionary-status
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const batchUpdateDictionaryStatusApi = (
@@ -137,11 +137,11 @@ export const batchUpdateDictionaryStatusApi = (
 }
 
 /**
- *  接口 [获取字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090622)
+ *  接口 [获取字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836335)
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-items
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const dictionaryItemsApi = (params: DictionaryItemsRequest): Promise<DictionaryItemsResponse> => {
@@ -154,11 +154,11 @@ export const dictionaryItemsApi = (params: DictionaryItemsRequest): Promise<Dict
 }
 
 /**
- *  接口 [创建字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090623)
+ *  接口 [创建字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836336)
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary-item
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const createDictionaryItemApi = (data: CreateDictionaryItemRequest): Promise<CreateDictionaryItemResponse> => {
@@ -173,11 +173,11 @@ export const createDictionaryItemApi = (data: CreateDictionaryItemRequest): Prom
 }
 
 /**
- *  接口 [更新字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090624)
+ *  接口 [更新字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836337)
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const updateDictionaryItemApi = (data: UpdateDictionaryItemRequest): Promise<UpdateDictionaryItemResponse> => {
@@ -192,11 +192,11 @@ export const updateDictionaryItemApi = (data: UpdateDictionaryItemRequest): Prom
 }
 
 /**
- *  接口 [删除字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090625)
+ *  接口 [删除字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836338)
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary-item
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const deleteDictionaryItemApi = (data: DeleteDictionaryItemRequest): Promise<DeleteDictionaryItemResponse> => {
@@ -211,11 +211,11 @@ export const deleteDictionaryItemApi = (data: DeleteDictionaryItemRequest): Prom
 }
 
 /**
- *  接口 [启用禁用字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090626)
+ *  接口 [启用禁用字典项](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836339)
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item-status
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 export const updateDictionaryItemStatusApi = (

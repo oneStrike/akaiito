@@ -1,9 +1,9 @@
 /**
- *  接口 [上传文件](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-315090641)
+ *  接口 [上传文件](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836354)
  *  @标签 管理端文件上传/上传文件
  *  @方式 POST
  *  @地址 /api/admin/upload/upload-file
- *  @更新时间 2025-07-04 15:34:40
+ *  @更新时间 2025-07-04 16:24:21
  */
 
 /*  */
@@ -31,4 +31,7 @@ export type UploadFileResponse = {
 
   /* 上传时间 */
   uploadTime: string
+
+  /** 任意合法数值 */
+  [property: string]: any
 }[]
