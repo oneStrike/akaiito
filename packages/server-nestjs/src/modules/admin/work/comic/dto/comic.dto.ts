@@ -1,4 +1,5 @@
 import {
+  ApiProperty,
   IntersectionType,
   OmitType,
   PartialType,
@@ -15,6 +16,65 @@ import {
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
 import { ComicReadRuleEnum, ComicSerialStatusEnum } from '../comic.constant'
+
+/**
+ * 漫画作者DTO
+ */
+export class ComicAuthorDto {
+  @ApiProperty({
+    description: '作者ID',
+    example: 1,
+    required: true,
+    type: Number,
+  })
+  id!: IdDto
+
+  @ApiProperty({
+    description: '作者名称',
+    example: '村上春树',
+    required: true,
+    type: String,
+  })
+  name!: string
+
+  @ApiProperty({
+    description: '是否为主要作者',
+    example: true,
+    required: true,
+    type: Boolean,
+  })
+  isPrimary!: boolean
+
+  @ApiProperty({
+    description: '排序',
+    example: 1,
+    required: true,
+    type: Number,
+  })
+  sortOrder!: boolean
+}
+
+/**
+ * 漫画分类DTO
+ */
+
+export class ComicCategoryDto {
+  @ApiProperty({
+    description: '分类ID',
+    example: 1,
+    required: true,
+    type: Number,
+  })
+  id!: IdDto
+
+  @ApiProperty({
+    description: '分类名称',
+    example: '科幻',
+    required: true,
+    type: String,
+  })
+  name!: string
+}
 
 /**
  * 漫画基础DTO
@@ -51,6 +111,44 @@ export class BaseComicDto {
     maxLength: 500,
   })
   cover!: string
+
+  @ApiProperty({
+    description: '漫画分类',
+    example: [
+      {
+        id: 1,
+        name: '科幻',
+      },
+      {
+        id: 2,
+        name: '冒险',
+      },
+    ],
+    required: true,
+    type: [ComicCategoryDto], // 明确指定类型为 ComicCategoryDto 数组
+  })
+  comicCategories!: ComicCategoryDto[]
+
+  @ApiProperty({
+    description: '漫画作者',
+    example: [
+      {
+        id: 1,
+        name: '村上春树',
+        isPrimary: true,
+        sortOrder: 1,
+      },
+      {
+        id: 2,
+        name: '东野圭吾',
+        isPrimary: false,
+        sortOrder: 2,
+      },
+    ],
+    required: true,
+    type: [ComicAuthorDto], // 明确指定类型为 ComicAuthorDto 数组
+  })
+  comicAuthors!: ComicAuthorDto[]
 
   @ValidateNumber({
     description: '热度值（用于排序）',
@@ -354,6 +452,8 @@ export class CreateComicDto extends OmitType(BaseComicDto, [
   'isRecommended',
   'isHot',
   'isNew',
+  'comicCategories',
+  'comicAuthors',
 ]) {
   @ValidateNumberArray({
     description: '关联的作者ID列表',
@@ -385,6 +485,8 @@ export class UpdateComicDto extends IntersectionType(
       'commentCount',
       'likeCount',
       'ratingCount',
+      'comicCategories',
+      'comicAuthors',
     ]),
   ),
   IdDto,

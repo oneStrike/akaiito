@@ -180,6 +180,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         // 必须明确指定需要的所有字段
         id: true,
         name: true,
+        alias: true,
         cover: true,
         serialStatus: true,
         readRule: true,
@@ -190,7 +191,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         // 关联关系
         comicAuthors: {
           select: {
-            roleType: true,
             isPrimary: true,
             sortOrder: true,
             author: {
@@ -245,23 +245,11 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
               select: {
                 id: true,
                 name: true,
-                icon: true,
               },
             },
           },
           orderBy: {
             weight: 'desc',
-          },
-        },
-        relatedChapters: {
-          select: {
-            id: true,
-            title: true,
-            chapterNumber: true,
-            isPublished: true,
-          },
-          orderBy: {
-            chapterNumber: 'asc',
           },
         },
       },

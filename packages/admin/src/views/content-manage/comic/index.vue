@@ -104,16 +104,16 @@
     formModal.defaultValue = {
       ...currentComic.value,
       authorIds:
-        currentComic.value.comicAuthors?.map((item) => item.authorId) || [],
+        currentComic.value.comicAuthors?.map((item) => item.id) || [],
       categoryIds:
-        currentComic.value.comicCategories?.map((item) => item.categoryId) ||
+        currentComic.value.comicCategories?.map((item) => item.id) ||
         [],
     }
     formModal.show = true
   }
 
   function formChange(val: ComicDetailResponse) {
-    formTool.toggleDisplay(['purchaseAmount'], val.viewRule === 3)
+    formTool.toggleDisplay(['purchaseAmount'], val.readRule === 3)
   }
 
   function openAuthorDetail(author: Record<any, any>) {
@@ -147,31 +147,22 @@
         </el-text>
       </template>
 
-      <template #author="{ row }">
+      <template #authorIds="{ row }">
         <div
           v-if="row.comicAuthors && row.comicAuthors.length > 0"
-          class="flex flex-wrap gap-1"
+          class="flex flex-wrap gap-1 justify-center"
         >
-          <el-button
+          <el-tag
             v-for="comicAuthor in row.comicAuthors"
             :key="comicAuthor.authorId"
-            link
-            type="primary"
             size="small"
-            @click="openAuthorDetail(comicAuthor.author)"
+            class="ml-1 cursor-pointer"
+            :type="comicAuthor.isPrimary ? 'primary' : 'info'"
+            @click="openAuthorDetail(row)"
           >
-            {{ comicAuthor.author?.name }}
-            <el-tag
-              v-if="comicAuthor.isPrimary"
-              size="small"
-              type="success"
-              class="ml-1"
-            >
-              主
-            </el-tag>
-          </el-button>
+            {{ comicAuthor?.name }}
+          </el-tag>
         </div>
-        <span v-else class="text-gray-400">暂无作者</span>
       </template>
 
       <template #categories="{ row }">

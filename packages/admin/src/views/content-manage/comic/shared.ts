@@ -416,6 +416,9 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
       columnType: 'image',
       index: 0,
     },
+    action: {
+      width: 200,
+    },
   },
 )
 

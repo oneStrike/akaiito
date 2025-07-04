@@ -20,7 +20,7 @@ import type {
  *  @标签 漫画章节管理模块/创建漫画章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/create-comic-chapter
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const createComicChapterApi = (data: CreateComicChapterRequest): Promise<CreateComicChapterResponse> => {
@@ -39,7 +39,7 @@ export const createComicChapterApi = (data: CreateComicChapterRequest): Promise<
  *  @标签 漫画章节管理模块/分页查询漫画章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-page
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const comicChapterPageApi = (params: ComicChapterPageRequest): Promise<ComicChapterPageResponse> => {
@@ -56,7 +56,7 @@ export const comicChapterPageApi = (params: ComicChapterPageRequest): Promise<Co
  *  @标签 漫画章节管理模块/获取漫画章节详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-detail
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const comicChapterDetailApi = (params: ComicChapterDetailRequest): Promise<ComicChapterDetailResponse> => {
@@ -73,7 +73,7 @@ export const comicChapterDetailApi = (params: ComicChapterDetailRequest): Promis
  *  @标签 漫画章节管理模块/更新漫画章节信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/update-comic-chapter
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const updateComicChapterApi = (data: UpdateComicChapterRequest): Promise<UpdateComicChapterResponse> => {
@@ -92,7 +92,7 @@ export const updateComicChapterApi = (data: UpdateComicChapterRequest): Promise<
  *  @标签 漫画章节管理模块/批量更新章节发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-publish-status
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const batchUpdateChapterPublishStatusApi = (
@@ -113,7 +113,7 @@ export const batchUpdateChapterPublishStatusApi = (
  *  @标签 漫画章节管理模块/批量软删除章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-delete-comic-chapter
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const batchDeleteComicChapterApi = (
@@ -134,7 +134,7 @@ export const batchDeleteComicChapterApi = (
  *  @标签 漫画章节管理模块/获取指定漫画的章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/chapters-by-comic
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const chaptersByComicApi = (): Promise<ChaptersByComicResponse> => {

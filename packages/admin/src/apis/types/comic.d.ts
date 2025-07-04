@@ -3,7 +3,7 @@
  *  @标签 漫画管理模块/创建漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/create-comic
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface CreateComicRequest {
@@ -16,11 +16,8 @@ export interface CreateComicRequest {
   /* 漫画封面URL */
   cover: string
 
-  /* 热度值（用于排序） */
-  popularity: number
-
   /* 虚拟热度热度权重（影响热度计算） */
-  popularityWeight: number
+  popularityWeight?: number | null
 
   /* 语言代码 */
   language: string
@@ -30,9 +27,6 @@ export interface CreateComicRequest {
 
   /* 年龄分级 */
   ageRating: string
-
-  /* 发布状态 */
-  isPublished: boolean
 
   /* 发布日期 */
   publishAt?: string | null
@@ -48,9 +42,6 @@ export interface CreateComicRequest {
 
   /* 连载状态 */
   serialStatus: number
-
-  /* 是否完结 */
-  isFinished: boolean
 
   /* 是否允许下载 */
   canDownload: boolean
@@ -77,7 +68,7 @@ export interface CreateComicRequest {
   seoKeywords?: string | null
 
   /* 推荐权重（影响推荐排序） */
-  recommendWeight: number
+  recommendWeight?: number | null
 
   /* 版权信息 */
   copyright?: string | null
@@ -106,7 +97,7 @@ export type CreateComicResponse = {
  *  @标签 漫画管理模块/分页查询漫画列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-page
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface ComicPageRequest {
@@ -142,9 +133,6 @@ export interface ComicPageRequest {
 
   /* 连载状态 */
   serialStatus?: number
-
-  /* 是否完结 */
-  isFinished?: boolean
 
   /* 阅读规则 */
   readRule?: number
@@ -184,11 +172,17 @@ export interface ComicPageResponse {
     /* 漫画封面URL */
     cover: string
 
+    /* 漫画分类 */
+    comicCategories: []
+
+    /* 漫画作者 */
+    comicAuthors: []
+
     /* 热度值（用于排序） */
     popularity: number
 
     /* 虚拟热度热度权重（影响热度计算） */
-    popularityWeight: number
+    popularityWeight?: number | null
 
     /* 语言代码 */
     language: string
@@ -216,9 +210,6 @@ export interface ComicPageResponse {
 
     /* 连载状态 */
     serialStatus: number
-
-    /* 是否完结 */
-    isFinished: boolean
 
     /* 是否允许下载 */
     canDownload: boolean
@@ -263,7 +254,7 @@ export interface ComicPageResponse {
     seoKeywords?: string | null
 
     /* 推荐权重（影响推荐排序） */
-    recommendWeight: number
+    recommendWeight?: number | null
 
     /* 是否推荐 */
     isRecommended: boolean
@@ -299,7 +290,7 @@ export interface ComicPageResponse {
  *  @标签 漫画管理模块/获取漫画详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-detail
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface ComicDetailRequest {
@@ -321,11 +312,17 @@ export type ComicDetailResponse = {
   /* 漫画封面URL */
   cover: string
 
+  /* 漫画分类 */
+  comicCategories: []
+
+  /* 漫画作者 */
+  comicAuthors: []
+
   /* 热度值（用于排序） */
   popularity: number
 
   /* 虚拟热度热度权重（影响热度计算） */
-  popularityWeight: number
+  popularityWeight?: number | null
 
   /* 语言代码 */
   language: string
@@ -353,9 +350,6 @@ export type ComicDetailResponse = {
 
   /* 连载状态 */
   serialStatus: number
-
-  /* 是否完结 */
-  isFinished: boolean
 
   /* 是否允许下载 */
   canDownload: boolean
@@ -400,7 +394,7 @@ export type ComicDetailResponse = {
   seoKeywords?: string | null
 
   /* 推荐权重（影响推荐排序） */
-  recommendWeight: number
+  recommendWeight?: number | null
 
   /* 是否推荐 */
   isRecommended: boolean
@@ -435,7 +429,7 @@ export type ComicDetailResponse = {
  *  @标签 漫画管理模块/更新漫画信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic/update-comic
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface UpdateComicRequest {
@@ -452,7 +446,7 @@ export interface UpdateComicRequest {
   popularity?: number
 
   /* 虚拟热度热度权重（影响热度计算） */
-  popularityWeight?: number
+  popularityWeight?: number | null
 
   /* 语言代码 */
   language?: string
@@ -480,9 +474,6 @@ export interface UpdateComicRequest {
 
   /* 连载状态 */
   serialStatus?: number
-
-  /* 是否完结 */
-  isFinished?: boolean
 
   /* 是否允许下载 */
   canDownload?: boolean
@@ -512,7 +503,7 @@ export interface UpdateComicRequest {
   seoKeywords?: string | null
 
   /* 推荐权重（影响推荐排序） */
-  recommendWeight?: number
+  recommendWeight?: number | null
 
   /* 是否推荐 */
   isRecommended?: boolean
@@ -553,7 +544,7 @@ export type UpdateComicResponse = {
  *  @标签 漫画管理模块/批量更新漫画发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-status
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface BatchUpdateComicStatusRequest {
@@ -575,7 +566,7 @@ export type BatchUpdateComicStatusResponse = {
  *  @标签 漫画管理模块/批量更新漫画推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-recommended
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface BatchUpdateComicRecommendedRequest {
@@ -597,7 +588,7 @@ export type BatchUpdateComicRecommendedResponse = {
  *  @标签 漫画管理模块/批量更新漫画热门状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-hot
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface BatchUpdateComicHotRequest {
@@ -619,7 +610,7 @@ export type BatchUpdateComicHotResponse = {
  *  @标签 漫画管理模块/批量更新漫画新作状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-new
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface BatchUpdateComicNewRequest {
@@ -641,7 +632,7 @@ export type BatchUpdateComicNewResponse = {
  *  @标签 漫画管理模块/软删除漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/delete-comic
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export interface DeleteComicRequest {

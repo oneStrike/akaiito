@@ -20,7 +20,7 @@ import type {
  *  @标签 分类管理模块/创建分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/create-category
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const createCategoryApi = (data: CreateCategoryRequest): Promise<CreateCategoryResponse> => {
@@ -39,7 +39,7 @@ export const createCategoryApi = (data: CreateCategoryRequest): Promise<CreateCa
  *  @标签 分类管理模块/分页查询分类列表
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-page
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const categoryPageApi = (params: CategoryPageRequest): Promise<CategoryPageResponse> => {
@@ -56,7 +56,7 @@ export const categoryPageApi = (params: CategoryPageRequest): Promise<CategoryPa
  *  @标签 分类管理模块/获取分类详情
  *  @方式 GET
  *  @地址 /api/admin/work/category/category-detail
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const categoryDetailApi = (params: CategoryDetailRequest): Promise<CategoryDetailResponse> => {
@@ -73,7 +73,7 @@ export const categoryDetailApi = (params: CategoryDetailRequest): Promise<Catego
  *  @标签 分类管理模块/更新分类信息
  *  @方式 POST
  *  @地址 /api/admin/work/category/update-category
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const updateCategoryApi = (data: UpdateCategoryRequest): Promise<UpdateCategoryResponse> => {
@@ -92,7 +92,7 @@ export const updateCategoryApi = (data: UpdateCategoryRequest): Promise<UpdateCa
  *  @标签 分类管理模块/批量更新分类状态
  *  @方式 POST
  *  @地址 /api/admin/work/category/batch-update-category-status
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const batchUpdateCategoryStatusApi = (
@@ -113,7 +113,7 @@ export const batchUpdateCategoryStatusApi = (
  *  @标签 分类管理模块/批量删除分类
  *  @方式 POST
  *  @地址 /api/admin/work/category/delete-batch
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const deleteBatchApi = (): Promise<DeleteBatchResponse> => {
@@ -129,7 +129,7 @@ export const deleteBatchApi = (): Promise<DeleteBatchResponse> => {
  *  @标签 分类管理模块/分类拖拽排序
  *  @方式 POST
  *  @地址 /api/admin/work/category/category-order
- *  @更新时间 2025-07-03 19:41:52
+ *  @更新时间 2025-07-04 15:34:40
  */
 
 export const categoryOrderApi = (data: CategoryOrderRequest): Promise<CategoryOrderResponse> => {
