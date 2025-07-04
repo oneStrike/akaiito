@@ -36,9 +36,6 @@ export interface CreateClientPageRequest {
 export type CreateClientPageResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -117,12 +114,7 @@ export interface ClientPagePageResponse {
 
     /* 更新时间 */
     updatedAt: string
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -172,9 +164,6 @@ export type ClientPageDetailByIdResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -224,9 +213,6 @@ export type ClientPageDetailByCodeResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -267,9 +253,6 @@ export interface UpdateClientPageRequest {
 export type UpdateClientPageResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -289,7 +272,4 @@ export interface BatchDeleteClientPageRequest {
 export type BatchDeleteClientPageResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

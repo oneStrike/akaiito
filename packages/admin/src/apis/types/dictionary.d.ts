@@ -65,12 +65,7 @@ export interface DictionaryPageResponse {
 
     /* 更新时间 */
     updatedAt: string
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -111,9 +106,6 @@ export type DictionaryDetailResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -145,9 +137,6 @@ export interface CreateDictionaryRequest {
 export type CreateDictionaryResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -188,9 +177,6 @@ export interface UpdateDictionaryRequest {
 export type UpdateDictionaryResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -210,9 +196,6 @@ export interface DeleteDictionaryRequest {
 export type DeleteDictionaryResponse = {
   /* 主键id */
   ids: number[]
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -235,9 +218,6 @@ export interface BatchUpdateDictionaryStatusRequest {
 export type BatchUpdateDictionaryStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -293,9 +273,6 @@ export type DictionaryItemsResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }[]
 
 /**
@@ -333,9 +310,6 @@ export interface CreateDictionaryItemRequest {
 export type CreateDictionaryItemResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -376,9 +350,6 @@ export interface UpdateDictionaryItemRequest {
 export type UpdateDictionaryItemResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -398,9 +369,6 @@ export interface DeleteDictionaryItemRequest {
 export type DeleteDictionaryItemResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -423,7 +391,4 @@ export interface UpdateDictionaryItemStatusRequest {
 export type UpdateDictionaryItemStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

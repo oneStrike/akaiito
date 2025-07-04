@@ -306,6 +306,18 @@ export const formOptions: EsFormOptions[] = [
     },
   },
   {
+    field: 'description',
+    component: 'Textarea',
+    props: {
+      label: '简介',
+      rules: useValidate.required('简介'),
+    },
+    componentProps: {
+      placeholder: '请输入简介',
+      rows: 5,
+    },
+  },
+  {
     field: 'seoTitle',
     component: 'Input',
     props: {
@@ -364,18 +376,7 @@ export const formOptions: EsFormOptions[] = [
       rows: 5,
     },
   },
-  {
-    field: 'description',
-    component: 'Textarea',
-    props: {
-      label: '简介',
-      rules: useValidate.required('简介'),
-    },
-    componentProps: {
-      placeholder: '请输入简介',
-      rows: 5,
-    },
-  },
+
   {
     field: 'remark',
     component: 'Textarea',

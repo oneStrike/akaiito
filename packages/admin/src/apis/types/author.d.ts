@@ -36,9 +36,6 @@ export interface CreateAuthorRequest {
 export type CreateAuthorResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -126,12 +123,7 @@ export interface AuthorPageResponse {
 
     /* 是否为推荐作者（用于前台推荐展示） */
     featured: boolean
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -193,9 +185,6 @@ export type AuthorDetailResponse = {
 
   /* 是否为推荐作者（用于前台推荐展示） */
   featured: boolean
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -245,9 +234,6 @@ export interface UpdateAuthorRequest {
 export type UpdateAuthorResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -270,9 +256,6 @@ export interface BatchUpdateAuthorStatusRequest {
 export type BatchUpdateAuthorStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -295,9 +278,6 @@ export interface BatchUpdateAuthorFeaturedRequest {
 export type BatchUpdateAuthorFeaturedResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -317,7 +297,4 @@ export interface DeleteAuthorRequest {
 export type DeleteAuthorResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

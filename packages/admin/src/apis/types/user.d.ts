@@ -13,9 +13,6 @@ export type GetCaptchaResponse = {
 
   /* 验证码 */
   data: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -89,9 +86,6 @@ export type UserLoginResponse = {
     /* 更新时间 */
     updatedAt: string
   }
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -145,9 +139,6 @@ export interface UserRegisterRequest {
 export type UserRegisterResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -173,9 +164,6 @@ export type UserRefreshTokenResponse = {
     /* 刷新令牌 */
     refreshToken: string
   }
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -237,9 +225,6 @@ export type UserUpdatePasswordResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -307,9 +292,6 @@ export type UserUpdateInfoResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -357,9 +339,6 @@ export type UserInfoResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -412,9 +391,6 @@ export type UserInfoByIdResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -496,12 +472,7 @@ export interface UserPageResponse {
 
     /* 更新时间 */
     updatedAt: string
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -521,7 +492,4 @@ export interface UserDeleteRequest {
 export type UserDeleteResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

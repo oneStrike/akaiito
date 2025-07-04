@@ -203,8 +203,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         },
       },
     })
-
-    console.log(pageData.list)
     pageData.list = pageData.list.map((item) => {
       return {
         ...item,

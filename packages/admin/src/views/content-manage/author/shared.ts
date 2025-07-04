@@ -60,7 +60,7 @@ export const formOptions: EsFormOptions[] = [
     component: 'Input',
     props: {
       span: 2,
-      label: '作者',
+      label: '姓名',
       rules: useValidate.required('作者名字'),
     },
     componentProps: {

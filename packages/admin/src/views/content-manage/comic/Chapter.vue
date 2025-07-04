@@ -14,13 +14,13 @@
     updateChapterPublishApi,
   } from '@/apis/chapter'
   import { PromptsEnum } from '@/enum/prompts'
-  import ComicContent from '@/views/content-manage/comic-manage/content.vue'
+  import ComicContent from '@/views/content-manage/comic/content.vue'
   import {
     chapterColumn,
     chapterFilter,
     chapterFormOptions,
     toolbar,
-  } from '@/views/content-manage/comic-manage/shared'
+  } from '@/views/content-manage/comic/shared'
 
   type TableItem = ResolveListItem<typeof requestData.value>
 

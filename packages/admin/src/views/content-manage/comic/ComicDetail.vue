@@ -3,7 +3,7 @@
   import { getComicDetailApi, updateComicRuleApi } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
   import AuthorDetail from '@/views/content-manage/author/authorDetail.vue'
-  import ComicChapter from '@/views/content-manage/comic-manage/chapter.vue'
+  import ComicChapter from '@/views/content-manage/comic/chapter.vue'
 
   defineOptions({
     name: 'ComicDetail',
@@ -121,7 +121,7 @@
 
             <div class="mt-4 grid grid-cols-3 gap-4">
               <div
-                class="text-center p-3 bg-gray-50 rounded-lg cursor-pointer"
+                class="bg-gray-50 rounded-lg text-center p-3 cursor-pointer"
                 @click="chapterModal = true"
               >
                 <div class="text-xs text-gray-500 mb-1">章节数</div>

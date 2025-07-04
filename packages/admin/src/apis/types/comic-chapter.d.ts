@@ -51,9 +51,6 @@ export interface CreateComicChapterRequest {
 export type CreateComicChapterResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -156,12 +153,7 @@ export interface ComicChapterPageResponse {
 
     /* 更新时间 */
     updatedAt: string
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -235,9 +227,6 @@ export type ComicChapterDetailResponse = {
 
   /* 更新时间 */
   updatedAt: string
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -296,9 +285,6 @@ export interface UpdateComicChapterRequest {
 export type UpdateComicChapterResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -321,9 +307,6 @@ export interface BatchUpdateChapterPublishStatusRequest {
 export type BatchUpdateChapterPublishStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -346,9 +329,6 @@ export interface BatchDeleteComicChapterRequest {
 export type BatchDeleteComicChapterResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**

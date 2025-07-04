@@ -63,9 +63,6 @@ export interface CreateNoticeRequest {
 export type CreateNoticeResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -183,12 +180,7 @@ export interface NoticePageResponse {
       /* 页面名称 */
       pageName: string
     }
-
-    /** 任意合法数值 */
-    [property: string]: any
   }[]
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -271,9 +263,6 @@ export type NoticeDetailResponse = {
     /* 页面名称 */
     pageName: string
   }
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -344,9 +333,6 @@ export interface UpdateNoticeRequest {
 export type UpdateNoticeResponse = {
   /* 主键id */
   id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -369,9 +355,6 @@ export interface BatchUpdateNoticeStatusRequest {
 export type BatchUpdateNoticeStatusResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }
 
 /**
@@ -391,7 +374,4 @@ export interface BatchDeleteNoticeRequest {
 export type BatchDeleteNoticeResponse = {
   /* 操作成功的数据数量 */
   count: number
-
-  /** 任意合法数值 */
-  [property: string]: any
 }

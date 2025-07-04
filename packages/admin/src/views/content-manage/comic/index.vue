@@ -16,7 +16,7 @@
     formOptions,
     tableColumn,
     toolbar,
-  } from '@/views/content-manage/comic-manage/shared'
+  } from '@/views/content-manage/comic/shared'
 
   defineOptions({
     name: 'ContentMgmtPage',

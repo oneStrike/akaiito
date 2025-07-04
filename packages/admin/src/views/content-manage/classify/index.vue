@@ -12,7 +12,7 @@
     formOptions,
     tableColumns,
     toolbar,
-  } from '@/views/content-manage/classify-manage/shared'
+  } from '@/views/content-manage/classify/shared'
 
   type Record = CategoryDetailResponse
 
