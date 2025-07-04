@@ -32,7 +32,6 @@ export function formOptionsToTableColumn(
     createdAt: false,
     ...customConfig,
   }
-
   const columns: EsTableColumn = []
   // 使用Set提高查找效率
   const omitFieldsSet = new Set(omitFields)
@@ -47,34 +46,38 @@ export function formOptionsToTableColumn(
       align: 'center',
     }
 
-    // 使用常量代替硬编码值提升可维护性
-    const { component } = item
-    if (
-      component === COMPONENT_TYPES.DATE ||
-      component === COMPONENT_TYPES.DATETIME
-    ) {
-      column.columnType = 'date'
-    } else if (component === COMPONENT_TYPES.UPLOAD) {
-      column.columnType = 'image'
+    // 合并自定义配置（先合并，避免被默认配置覆盖）
+    const fieldConfig = config[item.field]
+    if (fieldConfig) {
+      Object.assign(column, fieldConfig)
+      delete config[item.field]
     }
 
-    // 为选项创建Map以提高查找效率
-    const options = item.componentProps?.options
-    if (Array.isArray(options) && options.length > 0) {
-      const optionsMap = new Map(
-        options.map((option) => [option.value, option.label]),
-      )
-
-      column.formatter = (row, tableColumn, cellValue) => {
-        return optionsMap.get(cellValue) ?? '-'
+    // 使用常量代替硬编码值提升可维护性（只在没有自定义columnType时设置默认值）
+    const { component } = item
+    if (!column.columnType) {
+      if (
+        component === COMPONENT_TYPES.DATE ||
+        component === COMPONENT_TYPES.DATETIME
+      ) {
+        column.columnType = 'date'
+      } else if (component === COMPONENT_TYPES.UPLOAD) {
+        column.columnType = 'image'
       }
     }
 
-    // 合并自定义配置
-    const fieldConfig = config[item.field]
-    if (fieldConfig && typeof fieldConfig === 'object') {
-      Object.assign(column, fieldConfig)
-      delete config[item.field]
+    // 为选项创建Map以提高查找效率（只在没有自定义formatter时设置默认formatter）
+    if (!column.formatter) {
+      const options = item.componentProps?.options
+      if (Array.isArray(options) && options.length > 0) {
+        const optionsMap = new Map(
+          options.map((option) => [option.value, option.label]),
+        )
+
+        column.formatter = (row, tableColumn, cellValue) => {
+          return optionsMap.get(cellValue) ?? '-'
+        }
+      }
     }
 
     columns.push(column as EsTableColumn[number])
@@ -121,7 +124,6 @@ export function formOptionsToTableColumn(
       } as EsTableColumn[number])
     }
   }
-
   // 优化排序逻辑：有index的列按数值排序，固定列排在最后
   return columns.sort((a, b) => {
     const aIndex = 'index' in a ? (a as any).index : undefined

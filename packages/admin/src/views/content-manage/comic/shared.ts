@@ -418,8 +418,7 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
     },
     publishAt: {
       formatter: (row: any) => {
-        console.log(row)
-        return row.publishAt ? row.publishAt.split('-')[0] : '-'
+        return row.publishAt ? row.publishAt.split('T')[0] : '-'
       },
     },
     action: {

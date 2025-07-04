@@ -425,7 +425,7 @@
               </el-tooltip>
             </template>
             <!-- 日期列：格式化日期显示 -->
-            <template v-else-if="item.columnType === 'date'">
+            <template v-else-if="item.columnType === 'date' && !item.formatter">
               <span>
                 {{
                   row[item.prop!]
@@ -435,7 +435,7 @@
               </span>
             </template>
             <!-- 普通文本列：支持自定义格式化函数 -->
-            <template v-else-if="item.columnType !== 'index'">
+            <template v-else>
               {{
                 item.formatter
                   ? item.formatter(
