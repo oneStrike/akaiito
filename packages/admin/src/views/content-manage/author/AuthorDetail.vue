@@ -49,14 +49,16 @@
     :width="800"
     @closed="emits('close')"
   >
-    <div v-loading="loading" class="layout-container">
+    <div v-loading="loading" class="p-4">
       <!-- 作者卡片 -->
-      <div class="card mb-5">
+      <el-card class="mb-5">
         <div class="flex items-start gap-5">
           <div class="relative flex-shrink-0">
             <el-image
               preview-teleported
-              :preview-src-list="authorDetail.avatar ? [authorDetail.avatar] : []"
+              :preview-src-list="
+                authorDetail.avatar ? [authorDetail.avatar] : []
+              "
               :z-index="999999"
               fit="cover"
               :src="authorDetail.avatar ?? ''"
@@ -64,7 +66,11 @@
             >
               <template #error>
                 <div
-                  class="w-20 h-20 rounded-full flex bg-gray-100 items-center justify-center text-gray-400 text-2xl"
+                  class="w-20 h-20 rounded-full flex items-center justify-center text-2xl"
+                  :style="{
+                    backgroundColor: 'var(--el-fill-color-light)',
+                    color: 'var(--el-text-color-placeholder)',
+                  }"
                 >
                   <i class="el-icon-user" />
                 </div>
@@ -80,14 +86,18 @@
 
           <div class="flex-1 min-w-0">
             <div class="flex items-center justify-between mb-3">
-              <h3 class="title-section m-0">
+              <h3
+                class="text-lg font-semibold m-0"
+                :style="{ color: 'var(--el-text-color-primary)' }"
+              >
                 {{ authorDetail.name || '未知作者' }}
               </h3>
-              <span
-                :class="authorDetail.isEnabled ? 'status-success' : 'status-danger'"
+              <el-tag
+                :type="authorDetail.isEnabled ? 'success' : 'danger'"
+                size="small"
               >
                 {{ authorDetail.isEnabled ? '已启用' : '已禁用' }}
-              </span>
+              </el-tag>
             </div>
 
             <div class="mb-4">
@@ -145,63 +155,129 @@
               </div>
             </div>
 
-            <p v-if="authorDetail.description" class="text-regular m-0">
+            <p
+              v-if="authorDetail.description"
+              class="m-0"
+              :style="{ color: 'var(--el-text-color-regular)' }"
+            >
               {{ authorDetail.description }}
             </p>
           </div>
         </div>
-      </div>
+      </el-card>
 
       <!-- 统计数据 -->
-      <div class="layout-grid-2 mb-5">
-        <div class="content-stats">
-          <div class="text-2xl mb-1 font-semibold text-primary">
+      <div class="grid grid-cols-2 gap-4 mb-5">
+        <el-card class="text-center">
+          <div
+            class="text-2xl mb-1 font-semibold"
+            :style="{ color: 'var(--el-color-primary)' }"
+          >
             {{ authorDetail.followersCount || 0 }}
           </div>
-          <div class="title-sub">关注者</div>
-        </div>
-        <div class="content-stats">
-          <div class="text-2xl font-semibold text-primary mb-1">
+          <div
+            class="text-sm"
+            :style="{ color: 'var(--el-text-color-regular)' }"
+          >
+            关注者
+          </div>
+        </el-card>
+        <el-card class="text-center">
+          <div
+            class="text-2xl font-semibold mb-1"
+            :style="{ color: 'var(--el-color-primary)' }"
+          >
             {{ authorDetail.worksCount || 0 }}
           </div>
-          <div class="title-sub">作品数量</div>
-        </div>
+          <div
+            class="text-sm"
+            :style="{ color: 'var(--el-text-color-regular)' }"
+          >
+            作品数量
+          </div>
+        </el-card>
       </div>
 
       <!-- 社交链接 -->
-      <div v-if="socialLinks?.length" class="card mb-4">
-        <div class="layout-header">
-          <div class="accent-bar-primary" />
-          <h3 class="title-section">社交媒体</h3>
-        </div>
+      <el-card v-if="socialLinks?.length" class="mb-4">
+        <template #header>
+          <div class="flex items-center gap-2">
+            <div
+              class="w-1 h-4 rounded"
+              :style="{ backgroundColor: 'var(--el-color-primary)' }"
+            ></div>
+            <h3
+              class="text-base font-semibold m-0"
+              :style="{ color: 'var(--el-text-color-primary)' }"
+            >
+              社交媒体
+            </h3>
+          </div>
+        </template>
         <div class="space-y-2">
           <div
             v-for="(item, idx) in socialLinks"
             :key="idx"
-            class="flex items-center justify-between p-3 rounded cursor-pointer hover:bg-gray-100 transition-colors border border-[var(--el-border-color-light)]"
+            class="flex items-center justify-between p-3 rounded cursor-pointer transition-colors"
+            :style="{ border: '1px solid var(--el-border-color-light)' }"
             @click="openLink(item.value)"
+            @mouseenter="
+              $event.target.style.backgroundColor = 'var(--el-fill-color-light)'
+            "
+            @mouseleave="$event.target.style.backgroundColor = 'transparent'"
           >
             <div class="flex-1 min-w-0">
-              <div class="title-sub mb-1">{{ item.label }}</div>
-              <div class="text-regular text-xs truncate">{{ item.value }}</div>
+              <div
+                class="text-sm font-medium mb-1"
+                :style="{ color: 'var(--el-text-color-primary)' }"
+              >
+                {{ item.label }}
+              </div>
+              <div
+                class="text-xs truncate"
+                :style="{ color: 'var(--el-text-color-regular)' }"
+              >
+                {{ item.value }}
+              </div>
             </div>
             <div class="w-5 h-5 flex items-center justify-center opacity-50">
-              <i class="text-xs text-regular el-icon-arrow-right" />
+              <i
+                class="text-xs el-icon-arrow-right"
+                :style="{ color: 'var(--el-text-color-placeholder)' }"
+              />
             </div>
           </div>
         </div>
-      </div>
+      </el-card>
 
       <!-- 系统信息 -->
-      <div class="card mb-4">
-        <div class="layout-header">
-          <div class="accent-bar-info" />
-          <h3 class="title-section">系统信息</h3>
-        </div>
-        <div class="layout-grid-2">
-          <div class="content-section">
-            <div class="title-sub">创建时间</div>
-            <div class="text-primary">
+      <el-card class="mb-4">
+        <template #header>
+          <div class="flex items-center gap-2">
+            <div
+              class="w-1 h-4 rounded"
+              :style="{ backgroundColor: 'var(--el-color-success)' }"
+            ></div>
+            <h3
+              class="text-base font-semibold m-0"
+              :style="{ color: 'var(--el-text-color-primary)' }"
+            >
+              系统信息
+            </h3>
+          </div>
+        </template>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-1">
+            <div
+              class="text-sm font-medium"
+              :style="{ color: 'var(--el-text-color-regular)' }"
+            >
+              创建时间
+            </div>
+            <div
+              class="text-sm"
+              :style="{ color: 'var(--el-text-color-primary)' }"
+            >
               {{
                 $dayjs
                   .utc(authorDetail.createdAt)
@@ -209,9 +285,17 @@
               }}
             </div>
           </div>
-          <div class="content-section">
-            <div class="title-sub">更新时间</div>
-            <div class="text-primary">
+          <div class="space-y-1">
+            <div
+              class="text-sm font-medium"
+              :style="{ color: 'var(--el-text-color-regular)' }"
+            >
+              更新时间
+            </div>
+            <div
+              class="text-sm"
+              :style="{ color: 'var(--el-text-color-primary)' }"
+            >
               {{
                 $dayjs
                   .utc(authorDetail.updatedAt)
@@ -219,12 +303,22 @@
               }}
             </div>
           </div>
-          <div v-if="authorDetail.remark" class="content-section col-span-2">
-            <div class="title-sub">备注</div>
-            <div class="text-primary">{{ authorDetail.remark }}</div>
+          <div v-if="authorDetail.remark" class="col-span-2 space-y-1">
+            <div
+              class="text-sm font-medium"
+              :style="{ color: 'var(--el-text-color-regular)' }"
+            >
+              备注
+            </div>
+            <div
+              class="text-sm"
+              :style="{ color: 'var(--el-text-color-primary)' }"
+            >
+              {{ authorDetail.remark }}
+            </div>
           </div>
         </div>
-      </div>
+      </el-card>
     </div>
   </EsModal>
 </template>
