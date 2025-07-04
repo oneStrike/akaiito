@@ -91,9 +91,9 @@
     :width="900"
     @closed="emits('close')"
   >
-    <div class="p-4 space-y-6 bg-gray-50 rounded-lg">
+    <div class="layout-container">
       <!-- 顶部：封面和基本信息卡片 -->
-      <div class="rounded-lg bg-white shadow-sm p-6">
+      <div class="card">
         <div v-loading="loading" class="flex flex-col gap-8 lg:flex-row">
           <!-- 封面 -->
           <div class="flex flex-col w-full flex-shrink-0 lg:w-56">
@@ -152,7 +152,7 @@
             <!-- 标题区域 -->
             <div class="mb-6">
               <div class="flex items-center gap-3 mb-2">
-                <h3 class="font-bold text-gray-800 text-2xl">
+                <h3 class="font-bold text-2xl text-primary">
                   {{ comicDetail.name }}
                 </h3>
                 <el-tag
@@ -162,10 +162,10 @@
                   {{ comicDetail.isPublished ? '已发布' : '未发布' }}
                 </el-tag>
               </div>
-              <p v-if="comicDetail.alias" class="text-sm text-gray-500 mb-2">
+              <p v-if="comicDetail.alias" class="text-sm mb-2 text-regular">
                 别名：{{ comicDetail.alias }}
               </p>
-              <div class="flex items-center gap-4 text-sm text-gray-600">
+              <div class="flex items-center gap-4 text-sm text-regular">
                 <span>ID: {{ comicDetail.id }}</span>
                 <span>
                   连载状态: {{ getSerialStatusText(comicDetail.serialStatus) }}
@@ -235,37 +235,31 @@
             <!-- 统计数据 -->
             <div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
               <div
-                class="rounded-lg text-center p-4 cursor-pointer border bg-gradient-to-r from-blue-50 to-blue-100 hover:shadow-md transition-shadow"
+                class="content-stats cursor-pointer hover:shadow-md transition-shadow"
                 @click="chapterModal = true"
               >
-                <div class="text-xs mb-1 text-blue-600">章节数</div>
-                <div class="font-bold text-xl text-blue-700">
+                <div class="text-xs mb-1 text-primary">章节数</div>
+                <div class="font-bold text-xl text-primary">
                   {{ comicDetail.totalChapters ?? 0 }}
                 </div>
               </div>
-              <div
-                class="bg-gradient-to-r rounded-lg text-center p-4 border from-orange-50 to-orange-100"
-              >
-                <div class="text-xs mb-1 text-orange-600">总阅读</div>
-                <div class="text-xl font-bold text-orange-700">
+              <div class="content-stats">
+                <div class="text-xs mb-1 text-warning">总阅读</div>
+                <div class="text-xl font-bold text-warning">
                   {{ comicDetail.totalViews ?? 0 }}
                 </div>
               </div>
-              <div
-                class="bg-gradient-to-r rounded-lg text-center p-4 border from-green-50 to-green-100"
-              >
-                <div class="text-xs mb-1 text-green-600">收藏数</div>
-                <div class="text-xl font-bold text-green-700">
+              <div class="content-stats">
+                <div class="text-xs mb-1 text-success">收藏数</div>
+                <div class="text-xl font-bold text-success">
                   {{ comicDetail.favoriteCount ?? 0 }}
                 </div>
               </div>
-              <div
-                class="bg-gradient-to-r rounded-lg text-center p-4 border from-purple-50 to-purple-100"
-              >
-                <div class="text-xs mb-1 text-purple-600">评分</div>
-                <div class="text-xl font-bold text-purple-700">
+              <div class="content-stats">
+                <div class="text-xs mb-1 text-info">评分</div>
+                <div class="text-xl font-bold text-info">
                   {{ formatRating(comicDetail.rating) }}
-                  <span class="text-xs text-purple-500">
+                  <span class="text-xs text-regular">
                     ({{ comicDetail.ratingCount }}人)
                   </span>
                 </div>
@@ -276,53 +270,43 @@
       </div>
 
       <!-- 数据统计与权重 -->
-      <div v-loading="loading" class="bg-white rounded-lg shadow-sm p-6">
-        <div class="flex items-center mb-6 gap-2">
-          <div
-            class="w-1 rounded-sm h-6 bg-gradient-to-b from-blue-500 to-purple-500"
-          />
-          <h3 class="text-lg text-gray-700 font-semibold">数据统计与权重</h3>
+      <div v-loading="loading" class="card">
+        <div class="layout-header">
+          <div class="accent-bar-primary" />
+          <h3 class="title-section">数据统计与权重</h3>
         </div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="layout-grid-4">
           <!-- 热度值 -->
-          <div
-            class="from-orange-50 rounded-lg p-4 border bg-gradient-to-br to-red-50 border-orange-100"
-          >
-            <div class="text-sm text-orange-600 mb-2 font-medium">热度值</div>
-            <div class="text-2xl font-bold text-orange-700">
+          <div class="content-section">
+            <div class="text-sm mb-2 font-medium text-warning">热度值</div>
+            <div class="text-2xl font-bold text-warning">
               {{ comicDetail.popularity ?? 0 }}
             </div>
           </div>
 
           <!-- 虚拟热度权重 -->
-          <div
-            class="bg-gradient-to-br from-blue-50 rounded-lg p-4 border to-indigo-50 border-blue-100"
-          >
-            <div class="text-sm text-blue-600 mb-2 font-medium">
+          <div class="content-section">
+            <div class="text-sm mb-2 font-medium text-theme">
               虚拟热度权重
             </div>
-            <div class="text-2xl font-bold text-blue-700">
+            <div class="text-2xl font-bold text-theme">
               {{ comicDetail.popularityWeight ?? 0 }}
             </div>
           </div>
 
           <!-- 推荐权重 -->
-          <div
-            class="bg-gradient-to-br from-purple-50 rounded-lg p-4 border to-pink-50 border-purple-100"
-          >
-            <div class="text-sm text-purple-600 mb-2 font-medium">推荐权重</div>
-            <div class="text-2xl font-bold text-purple-700">
+          <div class="content-section">
+            <div class="text-sm mb-2 font-medium text-info">推荐权重</div>
+            <div class="text-2xl font-bold text-info">
               {{ comicDetail.recommendWeight ?? 0 }}
             </div>
           </div>
 
           <!-- 互动数据 -->
-          <div
-            class="bg-gradient-to-br from-green-50 rounded-lg p-4 border to-emerald-50 border-green-100"
-          >
-            <div class="text-sm text-green-600 mb-2 font-medium">评论/点赞</div>
-            <div class="text-lg font-bold text-green-700">
+          <div class="content-section">
+            <div class="text-sm mb-2 font-medium text-success">评论/点赞</div>
+            <div class="text-lg font-bold text-success">
               {{ comicDetail.commentCount ?? 0 }} /
               {{ comicDetail.likeCount ?? 0 }}
             </div>
@@ -331,22 +315,18 @@
       </div>
 
       <!-- 权限设置 -->
-      <div v-loading="loading" class="bg-white rounded-lg shadow-sm p-6">
-        <div class="flex items-center mb-6 gap-2">
-          <div
-            class="w-1 h-6 bg-gradient-to-b rounded-sm from-green-500 to-blue-500"
-          />
-          <h3 class="text-lg font-semibold text-gray-700">权限设置</h3>
+      <div v-loading="loading" class="card">
+        <div class="layout-header">
+          <div class="accent-bar-success" />
+          <h3 class="title-section">权限设置</h3>
         </div>
 
-        <div class="grid gap-6 grid-cols-1 lg:grid-cols-2">
+        <div class="layout-grid-2">
           <!-- 允许下载 -->
-          <div
-            class="flex items-center justify-between bg-gradient-to-r rounded-lg p-4 border from-gray-50 to-gray-100"
-          >
+          <div class="content-flex">
             <div class="flex flex-col">
-              <span class="text-sm font-medium text-gray-700">允许下载</span>
-              <span class="text-xs text-gray-500">
+              <span class="text-sm font-medium text-primary">允许下载</span>
+              <span class="text-xs text-regular">
                 控制用户是否可以下载漫画
               </span>
             </div>
@@ -361,12 +341,10 @@
           </div>
 
           <!-- 允许评论 -->
-          <div
-            class="flex items-center justify-between bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 border"
-          >
+          <div class="content-flex">
             <div class="flex flex-col">
-              <span class="text-sm font-medium text-gray-700">允许评论</span>
-              <span class="text-xs text-gray-500">
+              <span class="text-sm font-medium text-primary">允许评论</span>
+              <span class="text-xs text-regular">
                 控制用户是否可以发表评论
               </span>
             </div>
@@ -383,40 +361,32 @@
       </div>
 
       <!-- SEO信息 -->
-      <div v-loading="loading" class="bg-white rounded-lg shadow-sm p-6">
-        <div class="flex items-center mb-6 gap-2">
-          <div
-            class="w-1 h-6 bg-gradient-to-b to-purple-500 rounded-sm from-indigo-500"
-          />
-          <h3 class="text-lg font-semibold text-gray-700">SEO优化信息</h3>
+      <div v-loading="loading" class="card">
+        <div class="layout-header">
+          <div class="accent-bar-primary" />
+          <h3 class="title-section">SEO优化信息</h3>
         </div>
 
         <div class="space-y-4">
-          <div
-            class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-100"
-          >
-            <div class="text-sm font-medium text-blue-700 mb-2">SEO标题</div>
-            <div class="text-gray-800">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-theme">SEO标题</div>
+            <div class="text-primary">
               {{ comicDetail.seoTitle || '未设置' }}
             </div>
           </div>
 
-          <div
-            class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4 border border-green-100"
-          >
-            <div class="text-sm font-medium text-green-700 mb-2">SEO描述</div>
-            <div class="text-gray-800">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-success">SEO描述</div>
+            <div class="text-primary">
               {{ comicDetail.seoDescription || '未设置' }}
             </div>
           </div>
 
-          <div
-            class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4 border border-purple-100"
-          >
-            <div class="text-sm font-medium text-purple-700 mb-2">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-info">
               SEO关键词
             </div>
-            <div class="text-gray-800">
+            <div class="text-primary">
               {{ comicDetail.seoKeywords || '未设置' }}
             </div>
           </div>
@@ -424,29 +394,23 @@
       </div>
 
       <!-- 版权与法律信息 -->
-      <div v-loading="loading" class="bg-white rounded-lg shadow-sm p-6">
-        <div class="flex items-center mb-6 gap-2">
-          <div
-            class="w-1 h-6 bg-gradient-to-b rounded-sm from-yellow-500 to-orange-500"
-          />
-          <h3 class="text-lg font-semibold text-gray-700">版权与法律信息</h3>
+      <div v-loading="loading" class="card">
+        <div class="layout-header">
+          <div class="accent-bar-warning" />
+          <h3 class="title-section">版权与法律信息</h3>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div
-            class="bg-gradient-to-r rounded-lg p-4 border from-yellow-50 to-orange-50 border-yellow-100"
-          >
-            <div class="text-sm font-medium mb-2 text-yellow-700">版权信息</div>
-            <div class="text-gray-800 text-sm">
+        <div class="layout-grid-2">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-warning">版权信息</div>
+            <div class="text-sm text-primary">
               {{ comicDetail.copyright || '未设置' }}
             </div>
           </div>
 
-          <div
-            class="bg-gradient-to-r to-pink-50 rounded-lg p-4 border from-red-50 border-red-100"
-          >
-            <div class="text-sm font-medium mb-2 text-red-700">免责声明</div>
-            <div class="text-gray-800 text-sm">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-error">免责声明</div>
+            <div class="text-sm text-primary">
               {{ comicDetail.disclaimer || '未设置' }}
             </div>
           </div>
@@ -454,48 +418,40 @@
       </div>
 
       <!-- 时间信息 -->
-      <div v-loading="loading" class="bg-white rounded-lg shadow-sm p-6">
-        <div class="flex items-center mb-6 gap-2">
-          <div
-            class="w-1 h-6 bg-gradient-to-b rounded-sm from-gray-500 to-gray-700"
-          />
-          <h3 class="text-lg font-semibold text-gray-700">时间信息</h3>
+      <div v-loading="loading" class="card">
+        <div class="layout-header">
+          <div class="accent-bar-neutral" />
+          <h3 class="title-section">时间信息</h3>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div
-            class="bg-gradient-to-r from-blue-50 rounded-lg p-4 border border-blue-100 to-cyan-50"
-          >
-            <div class="text-sm font-medium text-blue-700 mb-2">发布日期</div>
-            <div class="text-gray-800">
+        <div class="layout-grid-2">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-theme">发布日期</div>
+            <div class="text-primary">
               {{ comicDetail.publishAt || '未设置' }}
             </div>
           </div>
 
-          <div
-            class="bg-gradient-to-r from-green-50 rounded-lg p-4 border border-green-100 to-teal-50"
-          >
-            <div class="text-sm font-medium text-green-700 mb-2">创建时间</div>
-            <div class="text-gray-800">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-success">创建时间</div>
+            <div class="text-primary">
               {{ comicDetail.createdAt }}
             </div>
           </div>
 
-          <div
-            class="bg-gradient-to-r from-purple-50 rounded-lg p-4 border border-purple-100 to-violet-50"
-          >
-            <div class="text-sm font-medium text-purple-700 mb-2">更新时间</div>
-            <div class="text-gray-800">
+          <div class="content-section">
+            <div class="text-sm font-medium mb-2 text-info">更新时间</div>
+            <div class="text-primary">
               {{ comicDetail.updatedAt }}
             </div>
           </div>
 
           <div
             v-if="comicDetail.deletedAt"
-            class="bg-gradient-to-r from-red-50 to-pink-50 rounded-lg p-4 border border-red-100"
+            class="content-section"
           >
-            <div class="text-sm font-medium text-red-700 mb-2">删除时间</div>
-            <div class="text-gray-800">
+            <div class="text-sm font-medium mb-2 text-error">删除时间</div>
+            <div class="text-primary">
               {{ comicDetail.deletedAt }}
             </div>
           </div>
@@ -503,31 +459,23 @@
       </div>
 
       <!-- 作品描述与备注 -->
-      <div v-loading="loading" class="bg-white rounded-lg shadow-sm p-6">
-        <div class="flex items-center mb-6 gap-2">
-          <div
-            class="w-1 h-6 bg-gradient-to-b rounded-sm from-emerald-500 to-green-500"
-          />
-          <h3 class="text-lg font-semibold text-gray-700">作品描述与备注</h3>
+      <div v-loading="loading" class="card">
+        <div class="layout-header">
+          <div class="accent-bar-solid" />
+          <h3 class="title-section">作品描述与备注</h3>
         </div>
 
         <div class="space-y-6">
           <div>
-            <h4 class="text-base font-medium text-gray-700 mb-3">作品描述</h4>
-            <div
-              class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 border text-gray-800 min-h-24 leading-relaxed"
-            >
+            <h4 class="title-card mb-3">作品描述</h4>
+            <div class="content-section text-sm leading-relaxed">
               {{ comicDetail.description || '暂无描述' }}
             </div>
           </div>
 
           <div v-if="comicDetail.remark">
-            <h4 class="text-base font-medium text-gray-700 mb-3">管理员备注</h4>
-            <div
-              class="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4 border text-gray-800 min-h-24 leading-relaxed border-yellow-200"
-            >
-              -50 rounded-lg p-4 border border-yellow-200 text-gray-800 min-h-24
-              leading-relaxed" >
+            <h4 class="title-card mb-3">管理员备注</h4>
+            <div class="content-highlight text-sm leading-relaxed">
               {{ comicDetail.remark }}
             </div>
           </div>

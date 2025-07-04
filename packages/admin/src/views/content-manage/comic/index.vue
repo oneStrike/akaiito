@@ -240,6 +240,7 @@
       v-if="detailModal"
       :visible="detailModal"
       :comic-id="currentComic!.id"
+      @close="detailModal = false"
     />
   </div>
 </template>

@@ -121,30 +121,29 @@
 </script>
 
 <template>
-  <div class="h-full flex bg-gray-50 flex-col p-5">
+  <div class="layout-container h-full flex flex-col">
     <!-- 主要内容区域 -->
     <div class="flex flex-1 gap-5 overflow-hidden">
       <!-- 左侧：用户信息和安全设置 -->
       <div class="flex-1 flex flex-col gap-5 h-full overflow-y-auto">
         <!-- 用户信息 -->
-        <el-card class="hover:shadow-lg transition-all duration-300">
-          <template #header>
-            <div class="flex justify-between items-center">
-              <h3
-                class="flex items-center gap-2 font-semibold text-lg text-gray-800"
-              >
-                <es-icon name="user" :size="20" />
-                个人信息
-              </h3>
-            </div>
-          </template>
-          <div>
-            <div class="flex items-center border-b border-gray-200 pb-6 mb-8">
+        <div class="card">
+          <div class="layout-header">
+            <div class="accent-bar-primary" />
+            <h3 class="title-section">
+              <es-icon name="user" :size="20" />
+              个人信息
+            </h3>
+          </div>
+          <div class="content-section">
+            <div
+              class="flex items-center pb-6 mb-8 border-b border-[var(--el-border-color-light)]"
+            >
               <div class="relative mr-8">
                 <el-avatar
                   :size="80"
                   :src="userInfo?.avatar ?? ''"
-                  class="border-gray-200 border-3 shadow-lg"
+                  class="border-3 shadow-lg border-[var(--el-border-color-light)]"
                 />
                 <el-badge
                   value="在线"
@@ -153,63 +152,47 @@
                 />
               </div>
               <div class="flex-1">
-                <h2 class="text-gray-800 font-bold mb-2 text-2xl">
+                <h2 class="title-page mb-2">
                   {{ userInfo?.username || '未设置' }}
                 </h2>
-                <p class="text-base text-gray-500 mb-4">
+                <p class="text-regular mb-4">
                   {{ userInfo?.role === 0 ? '超级管理员' : '管理员' }}
                 </p>
               </div>
             </div>
 
-            <div class="gap-5 grid grid-cols-2">
+            <div class="layout-grid-2">
               <div
-                class="bg-gray-50 p-4 rounded-lg border-l-4 border-slate-400"
+                class="content-section border-l-4 border-l-[var(--el-color-info)]"
               >
-                <div
-                  class="flex items-center gap-2 font-semibold mb-2 text-sm text-gray-600"
-                >
-                  手机号码
-                </div>
-                <div class="text-base text-gray-800 font-medium">
+                <div class="title-sub mb-2">手机号码</div>
+                <div class="text-primary font-medium">
                   {{ userInfo?.mobile || '未设置' }}
                 </div>
               </div>
               <div
-                class="p-4 bg-gray-50 rounded-lg border-l-4 border-slate-400"
+                class="content-section border-l-4 border-l-[var(--el-color-info)]"
               >
-                <div
-                  class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
-                >
-                  用户ID
-                </div>
-                <div class="text-base font-medium text-gray-800">
+                <div class="title-sub mb-2">用户ID</div>
+                <div class="text-primary font-medium">
                   {{ userInfo?.id || '未知' }}
                 </div>
               </div>
               <div
-                class="p-4 bg-gray-50 rounded-lg border-l-4 border-slate-400"
+                class="content-section border-l-4 border-l-[var(--el-color-info)]"
               >
-                <div
-                  class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
-                >
-                  注册时间
-                </div>
-                <div class="text-base font-medium text-gray-800">
+                <div class="title-sub mb-2">注册时间</div>
+                <div class="text-primary font-medium">
                   {{
                     $dayjs(userInfo?.createdAt).format('YYYY-MM-DD HH:mm:ss')
                   }}
                 </div>
               </div>
               <div
-                class="p-4 bg-gray-50 rounded-lg border-l-4 border-slate-400"
+                class="content-section border-l-4 border-l-[var(--el-color-info)]"
               >
-                <div
-                  class="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2"
-                >
-                  更新时间
-                </div>
-                <div class="text-base font-medium text-gray-800">
+                <div class="title-sub mb-2">更新时间</div>
+                <div class="text-primary font-medium">
                   {{
                     $dayjs(userInfo?.updatedAt).format('YYYY-MM-DD HH:mm:ss')
                   }}
@@ -217,35 +200,34 @@
               </div>
             </div>
           </div>
-        </el-card>
+        </div>
 
         <!-- 安全设置 -->
-        <el-card class="hover:shadow-lg transition-all duration-300">
-          <template #header>
-            <div class="flex justify-between items-center">
-              <h3
-                class="flex items-center gap-2 text-lg font-semibold text-gray-800"
-              >
-                <es-icon name="lock" :size="20" />
-                安全设置
-              </h3>
-            </div>
-          </template>
+        <div class="card">
+          <div class="layout-header">
+            <div class="accent-bar-warning" />
+            <h3 class="title-section">
+              <es-icon name="lock" :size="20" />
+              安全设置
+            </h3>
+          </div>
           <div class="space-y-4">
             <div
-              class="flex items-center justify-between p-4 rounded-lg border border-slate-300 hover:shadow-md duration-200"
+              class="flex items-center justify-between p-4 rounded-lg hover:shadow-md duration-200 border border-[var(--el-border-color-light)]"
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="flex items-center justify-between p-2 rounded-full bg-blue-100"
+                  class="flex items-center justify-center p-2 rounded-full bg-[var(--el-color-primary-light-9)]"
                 >
-                  <es-icon name="lock" :size="18" class="text-blue-600" />
+                  <es-icon
+                    name="lock"
+                    :size="18"
+                    class="text-[var(--el-color-primary)]"
+                  />
                 </div>
                 <div>
-                  <h4 class="font-semibold text-gray-800 mb-1">登录密码</h4>
-                  <p class="text-sm text-gray-500">
-                    定期更换密码，保护账户安全
-                  </p>
+                  <h4 class="title-card mb-1">登录密码</h4>
+                  <p class="text-regular text-sm">定期更换密码，保护账户安全</p>
                 </div>
               </div>
               <el-button
@@ -258,68 +240,72 @@
             </div>
 
             <div
-              class="flex items-center justify-between p-4 rounded-lg border border-slate-300 hover:shadow-md duration-200"
+              class="flex items-center justify-between p-4 rounded-lg hover:shadow-md duration-200 border border-[var(--el-border-color-light)]"
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="p-2 rounded-full flex items-center justify-between bg-green-100"
+                  class="p-2 rounded-full flex items-center justify-center bg-[var(--el-color-success-light-9)]"
                 >
-                  <es-icon name="user" :size="18" class="text-green-600" />
+                  <es-icon
+                    name="user"
+                    :size="18"
+                    class="text-[var(--el-color-success)]"
+                  />
                 </div>
                 <div>
-                  <h4 class="font-semibold text-gray-800 mb-1">账户状态</h4>
-                  <p class="text-sm text-gray-500">当前账户状态正常</p>
+                  <h4 class="title-card mb-1">账户状态</h4>
+                  <p class="text-regular text-sm">当前账户状态正常</p>
                 </div>
               </div>
-              <el-tag type="success" size="small">正常</el-tag>
+              <span class="status-success">正常</span>
             </div>
 
             <div
-              class="flex items-center justify-between p-4 rounded-lg border border-slate-300 hover:shadow-md duration-200"
+              class="flex items-center justify-between p-4 rounded-lg hover:shadow-md duration-200 border border-[var(--el-border-color-light)]"
             >
               <div class="flex items-center gap-3">
                 <div
-                  class="p-2 rounded-full flex items-center justify-between bg-purple-100"
+                  class="p-2 rounded-full flex items-center justify-center bg-[var(--el-color-warning-light-9)]"
                 >
-                  <es-icon name="phone" :size="18" class="text-purple-600" />
+                  <es-icon
+                    name="phone"
+                    :size="18"
+                    class="text-[var(--el-color-warning)]"
+                  />
                 </div>
                 <div>
-                  <h4 class="font-semibold text-gray-800 mb-1">手机绑定</h4>
-                  <p class="text-sm text-gray-500">
+                  <h4 class="title-card mb-1">手机绑定</h4>
+                  <p class="text-regular text-sm">
                     {{ userInfo?.mobile ? '已绑定手机号' : '未绑定手机号' }}
                   </p>
                 </div>
               </div>
-              <el-tag
-                :type="userInfo?.mobile ? 'success' : 'warning'"
-                size="small"
+              <span
+                :class="userInfo?.mobile ? 'status-success' : 'status-warning'"
               >
                 {{ userInfo?.mobile ? '已绑定' : '未绑定' }}
-              </el-tag>
+              </span>
             </div>
           </div>
-        </el-card>
+        </div>
       </div>
 
       <!-- 右侧：登录日志 -->
       <div class="overflow-hidden h-full w-2/3 request-log">
-        <el-card
-          class="flex flex-col h-full hover:shadow-lg transition-all duration-300"
-        >
-          <template #header>
-            <div class="flex justify-between items-center">
-              <h3
-                class="flex items-center gap-2 text-lg font-semibold text-gray-800"
-              >
-                <es-icon name="listBox" :size="20" />
-                登录日志
-              </h3>
+        <div class="card flex flex-col h-full">
+          <div class="layout-header">
+            <div class="accent-bar-info" />
+            <h3 class="title-section">
+              <es-icon name="listBox" :size="20" />
+              登录日志
+            </h3>
+            <div class="ml-auto">
               <el-button @click="tableRef?.refresh()">
                 <es-icon name="reload" :size="16" class="mr-1" />
                 刷新
               </el-button>
             </div>
-          </template>
+          </div>
           <div class="flex-1 overflow-hidden">
             <es-table
               ref="tableRef"
@@ -329,16 +315,19 @@
               :request-api="requestLogApi.requestLogPageApi"
             >
               <template #responseCode="{ row }">
-                <el-tag
-                  :type="row.responseCode === 200 ? 'success' : 'danger'"
-                  size="small"
+                <span
+                  :class="
+                    row.responseCode === 200
+                      ? 'status-success'
+                      : 'status-danger'
+                  "
                 >
                   {{ row.responseCode === 200 ? '成功' : '失败' }}
-                </el-tag>
+                </span>
               </template>
             </es-table>
           </div>
-        </el-card>
+        </div>
       </div>
     </div>
 
@@ -351,6 +340,7 @@
       :width="600"
       :height="240"
       :options="passwordFormOptions"
+      :loading="passwordLoading"
       @submit="handleUpdatePassword"
     />
   </div>

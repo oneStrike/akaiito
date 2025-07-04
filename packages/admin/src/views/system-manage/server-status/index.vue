@@ -78,8 +78,8 @@
   <div class="server-status">
     <!-- 页面标题 -->
     <div class="mb-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-2">服务器状态监控</h2>
-      <p class="text-gray-600">实时监控系统资源使用情况</p>
+      <h2 class="text-2xl font-bold mb-2" style="color: var(--el-text-color-primary)">服务器状态监控</h2>
+      <p style="color: var(--el-text-color-regular)">实时监控系统资源使用情况</p>
     </div>
 
     <!-- 系统概览卡片 -->
@@ -224,10 +224,10 @@
               {{ systemInfo.memory.total }} GB
             </el-descriptions-item>
             <el-descriptions-item label="已使用">
-              <span class="text-red-500">{{ systemInfo.memory.used }} GB</span>
+              <span style="color: var(--el-color-danger)">{{ systemInfo.memory.used }} GB</span>
             </el-descriptions-item>
             <el-descriptions-item label="可用内存">
-              <span class="text-green-500">
+              <span style="color: var(--el-color-success)">
                 {{ systemInfo.memory.available }} GB
               </span>
             </el-descriptions-item>
@@ -255,10 +255,10 @@
               {{ systemInfo.disk.total }} GB
             </el-descriptions-item>
             <el-descriptions-item label="已使用">
-              <span class="text-red-500">{{ systemInfo.disk.used }} GB</span>
+              <span style="color: var(--el-color-danger)">{{ systemInfo.disk.used }} GB</span>
             </el-descriptions-item>
             <el-descriptions-item label="可用空间">
-              <span class="text-green-500">
+              <span style="color: var(--el-color-success)">
                 {{ systemInfo.disk.available }} GB
               </span>
             </el-descriptions-item>
@@ -339,18 +339,19 @@
 <style scoped lang="scss">
   .server-status {
     padding: 20px;
-    background-color: #f5f7fa;
+    background-color: var(--el-bg-color-page);
     min-height: calc(100vh - 120px);
 
     .status-card {
       height: 140px;
       transition: all 0.3s ease;
-      border: none;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--el-border-color-light);
+      box-shadow: var(--el-box-shadow-light);
+      background-color: var(--el-bg-color);
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: var(--el-box-shadow);
       }
 
       :deep(.el-card__body) {
@@ -401,7 +402,7 @@
       h3 {
         margin: 0;
         font-size: 14px;
-        color: #666;
+        color: var(--el-text-color-regular);
         font-weight: 500;
       }
 
@@ -409,7 +410,7 @@
         margin: 5px 0 0 0;
         font-size: 24px;
         font-weight: bold;
-        color: #333;
+        color: var(--el-text-color-primary);
       }
     }
 
@@ -421,8 +422,9 @@
 
     .detail-card {
       margin-bottom: 20px;
-      border: none;
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--el-border-color-light);
+      box-shadow: var(--el-box-shadow-light);
+      background-color: var(--el-bg-color);
 
       .card-header {
         display: flex;
@@ -432,30 +434,30 @@
         .card-title {
           font-size: 16px;
           font-weight: 600;
-          color: #333;
+          color: var(--el-text-color-primary);
         }
       }
 
       :deep(.el-descriptions__label) {
         font-weight: 500;
-        color: #666;
+        color: var(--el-text-color-regular);
       }
 
       :deep(.el-descriptions__content) {
-        color: #333;
+        color: var(--el-text-color-primary);
       }
     }
 
     .network-item {
       text-align: center;
       padding: 20px;
-      background: #f8f9fa;
+      background: var(--el-fill-color-lighter);
       border-radius: 8px;
       margin-bottom: 10px;
 
       .network-label {
         font-size: 14px;
-        color: #666;
+        color: var(--el-text-color-regular);
         margin-bottom: 10px;
       }
 
@@ -503,7 +505,7 @@
   // 进度条自定义样式
   :deep(.el-progress-bar__outer) {
     border-radius: 10px;
-    background-color: #f0f2f5;
+    background-color: var(--el-fill-color-light);
   }
 
   :deep(.el-progress-bar__inner) {
