@@ -29,26 +29,3 @@
     </template>
   </el-sub-menu>
 </template>
-
-<style scoped lang="scss">
-  ::v-deep(.el-menu-item) {
-    &:hover {
-      background: #f0f0f0;
-    }
-
-    &.is-active {
-      background: #ecf5ff;
-      border-radius: 6px;
-    }
-  }
-  ::v-deep(.el-sub-menu__title) {
-    &:hover {
-      background: #f0f0f0;
-    }
-  }
-  ::v-deep(.el-menu-item) {
-    &:hover {
-      background: #f0f0f0 !important;
-    }
-  }
-</style>

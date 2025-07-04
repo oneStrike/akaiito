@@ -69,9 +69,21 @@ export default defineConfig({
     [
       /^border-(.*)$/,
       ([, c], { theme }: { theme: any }) => ({
-        [`border-${c}`]: `1px solid ${theme.colors.borderColor}`,
+        'border-color': theme.colors[c] || theme.colors.borderColor,
       }),
-      { autocomplete: 'border-<top|right|bottom|left>' },
+      {
+        autocomplete:
+          'border-<theme|error|success|info|warning|primary|regular|secondary|disabled|borderColor>',
+      },
+    ],
+    // 添加默认border颜色规则
+    [
+      'border',
+      {
+        'border-width': '1px',
+        'border-style': 'solid',
+        'border-color': 'var(--el-border-color-light)',
+      },
     ],
   ],
   theme: {

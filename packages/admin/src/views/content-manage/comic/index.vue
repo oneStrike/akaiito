@@ -11,6 +11,7 @@
     updateComicApi,
   } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
+  import ComicDetail from '@/views/content-manage/comic/ComicDetail.vue'
   import {
     filter,
     formOptions,
@@ -77,7 +78,7 @@
       formModal.defaultValue = {
         canComment: true,
         canDownload: true,
-        viewRule: 0,
+        readRule: 0,
       }
       formModal.show = true
     }
@@ -188,11 +189,11 @@
         <span v-else class="text-gray-400">暂无分类</span>
       </template>
 
-      <template #isPublish="{ row }">
+      <template #isPublished="{ row }">
         <EsSwitch
           :row="row"
           :request="batchUpdateComicStatusApi"
-          field="isPublish"
+          field="isPublished"
           @success="tableRef?.reset()"
         />
       </template>
@@ -233,6 +234,12 @@
       :options="formTool.options"
       @update:model-value="formChange"
       @submit="submitForm"
+    />
+
+    <ComicDetail
+      v-if="detailModal"
+      :visible="detailModal"
+      :comic-id="currentComic!.id"
     />
   </div>
 </template>
