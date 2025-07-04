@@ -143,7 +143,7 @@ export const formOptions: EsFormOptions[] = [
   },
 ]
 
-const [avatar, name, roles, genderColumn, action] = formOptionsToTableColumn(
+export const tableColumns: EsTableColumn = formOptionsToTableColumn(
   formOptions,
   ['remark', 'socialLinks', 'description', 'nationality'],
   {
@@ -155,27 +155,22 @@ const [avatar, name, roles, genderColumn, action] = formOptionsToTableColumn(
     name: {
       columnType: 'link',
     },
+    worksCount: {
+      label: '作品数量',
+      align: 'center',
+      columnType: 'link',
+    },
+    followersCount: {
+      label: '粉丝数',
+      align: 'center',
+      columnType: 'link',
+    },
+    isEnabled: {
+      label: '状态',
+      align: 'center',
+    },
   },
 )
-export const tableColumns: EsTableColumn = [
-  avatar,
-  name,
-  roles,
-  genderColumn,
-  {
-    prop: 'worksCount',
-    label: '作品数量',
-    align: 'center',
-    columnType: 'link',
-  } as any,
-  {
-    prop: 'followersCount',
-    label: '粉丝数',
-    align: 'center',
-    columnType: 'link',
-  } as any,
-  action,
-]
 
 export const filter: ToolbarFilter = formOptionsToFilterOptions(formOptions, {
   gender: 6,

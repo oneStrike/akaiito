@@ -89,8 +89,8 @@
       @link="openDetailModal"
       @toolbar-handler="openFormModal()"
     >
-      <template #status="{ row }">
-        <EsSwitch :request="switchStatus" :row="row" />
+      <template #isEnabled="{ row }">
+        <EsSwitch :request="switchStatus" ids :row="row" />
       </template>
 
       <template #action="{ row }">
