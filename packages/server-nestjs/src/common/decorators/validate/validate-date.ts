@@ -2,7 +2,7 @@ import { applyDecorators } from '@nestjs/common'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
 import { Transform } from 'class-transformer'
 import { IsDate, IsOptional } from 'class-validator'
-import { ValidateDateOptions } from './types'
+import { ValidateDateTimeOptions } from './types'
 
 /**
  * 日期类型验证装饰器
@@ -32,7 +32,7 @@ import { ValidateDateOptions } from './types'
  * @param options 验证选项配置
  * @returns 装饰器函数
  */
-export function ValidateDate(options: ValidateDateOptions) {
+export function ValidateDate(options: ValidateDateTimeOptions) {
   // 参数验证
   if (!options.description) {
     throw new Error('ValidateDate: description is required')

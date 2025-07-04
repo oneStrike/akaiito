@@ -199,7 +199,7 @@ export class BaseComicDto {
 
   @ValidateDate({
     description: '发布日期',
-    example: '2024-01-01T00:00:00.000Z',
+    example: '2024-01-01',
     required: false,
   })
   publishAt?: Date

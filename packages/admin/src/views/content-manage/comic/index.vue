@@ -103,12 +103,18 @@
     currentComic.value = await comicDetailApi({ id: row.id })
     formModal.defaultValue = {
       ...currentComic.value,
-      authorIds:
-        currentComic.value.comicAuthors?.map((item) => item.id) || [],
+      authorIds: currentComic.value.comicAuthors?.map((item) => item.id) || [],
       categoryIds:
-        currentComic.value.comicCategories?.map((item) => item.id) ||
-        [],
+        currentComic.value.comicCategories?.map((item) => item.id) || [],
     }
+    formTool.specificItem('authorIds', (item) => {
+      item.componentProps!.options = currentComic.value?.comicAuthors?.map(
+        (item) => ({
+          label: item.name,
+          value: item.id,
+        }),
+      )
+    })
     formModal.show = true
   }
 

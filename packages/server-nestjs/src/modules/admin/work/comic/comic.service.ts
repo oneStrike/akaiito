@@ -188,6 +188,8 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         isNew: true,
         createdAt: true,
         updatedAt: true,
+        publishAt: true,
+        isPublished: true,
         // 关联关系
         comicAuthors: {
           select: {
@@ -227,16 +229,15 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       id,
       include: {
         comicAuthors: {
-          include: {
+          select: {
+            isPrimary: true,
+            sortOrder: true,
             author: {
               select: {
                 id: true,
                 name: true,
               },
             },
-          },
-          orderBy: {
-            sortOrder: 'asc',
           },
         },
         comicCategories: {
@@ -258,7 +259,15 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     if (!comic) {
       throw new BadRequestException('漫画不存在')
     }
+    comic.comicAuthors = comic.comicAuthors!.map((author) => ({
+      ...author.author,
+      isPrimary: author.isPrimary,
+      sortOrder: author.sortOrder,
+    }))
 
+    comic.comicCategories = comic.comicCategories!.map((category) => ({
+      ...category.category,
+    }))
     return comic
   }
 

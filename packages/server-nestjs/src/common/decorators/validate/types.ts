@@ -61,7 +61,7 @@ export interface ValidateNumberArrayOptions extends BaseValidateOptions {
 /**
  * 日期验证选项
  */
-export interface ValidateDateOptions extends BaseValidateOptions {
+export interface ValidateDateTimeOptions extends BaseValidateOptions {
   /** 示例值 */
   example?: string | Date | null
   /** 默认值 */

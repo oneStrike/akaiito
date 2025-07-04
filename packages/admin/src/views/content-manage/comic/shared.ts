@@ -416,6 +416,12 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
       columnType: 'image',
       index: 0,
     },
+    publishAt: {
+      formatter: (row: any) => {
+        console.log(row)
+        return row.publishAt ? row.publishAt.split('-')[0] : '-'
+      },
+    },
     action: {
       width: 200,
     },

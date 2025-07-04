@@ -41,7 +41,6 @@ model WorkComicChapter {
   /// 索引优化
   @@index([comicId]) // 外键索引
   @@index([comicId, chapterNumber]) // 按漫画ID和章节号查询
-  @@index([comicId, sortOrder]) // 按漫画ID和排序权重查询
   @@index([isPublished, publishAt]) // 查询已发布章节
   @@index([readRule]) // 按查看权限查询
   @@index([isPreview]) // 查询试读章节

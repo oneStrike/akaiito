@@ -22,7 +22,7 @@ model WorkComic {
   /// 发布状态
   isPublished      Boolean             @default(true) @map("is_published")
   /// 发布日期
-  publishAt        DateTime?           @map("publish_at") @db.Timestamptz
+  publishAt        DateTime?           @map("publish_at") @db.Date
   /// 最后更新时间（内容更新时间）
   lastUpdated      DateTime?           @map("last_updated") @db.Timestamptz
   /// 漫画简介
@@ -90,7 +90,7 @@ model WorkComic {
   @@index([isPublished, publishAt]) // 查询已发布的漫画
   @@index([popularity, popularityWeight]) // 按人气排序
   @@index([language, region]) // 按语言和地区查询
-  @@index([serialStatus, isFinished]) // 查询连载和完结状态
+  @@index([serialStatus]) // 查询连载和完结状态
   @@index([readRule]) // 按查看权限查询
   @@index([lastUpdated]) // 按最后更新时间排序
   @@index([name]) // 按名称搜索
