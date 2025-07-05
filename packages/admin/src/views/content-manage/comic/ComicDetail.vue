@@ -11,7 +11,6 @@
   const props = withDefaults(defineProps<Props>(), {
     visible: false,
   })
-
   const emits = defineEmits(['close', 'updateRule'])
 
   interface Props {
@@ -29,8 +28,7 @@
   // 获取漫画详情
   const fetchComicDetail = async () => {
     try {
-      const data = await comicDetailApi({ id: props.comicId })
-      comicDetail.value = data
+      comicDetail.value = await comicDetailApi({ id: props.comicId })
     } catch (error) {
       useMessage.error('获取漫画详情失败')
     } finally {
@@ -144,19 +142,6 @@
                 </el-tag>
               </div>
             </div>
-            <!-- 分类标签 -->
-            <div class="flex flex-wrap justify-center gap-1.5 mt-4">
-              <el-tag
-                v-for="cat in comicDetail.comicCategories"
-                :key="cat.id"
-                size="small"
-                effect="plain"
-                type="primary"
-                class="!mr-0"
-              >
-                {{ cat.name }}
-              </el-tag>
-            </div>
           </div>
 
           <!-- 基本信息 -->
@@ -176,41 +161,58 @@
                   {{ comicDetail.isPublished ? '已发布' : '未发布' }}
                 </el-tag>
               </div>
-              <p
-                v-if="comicDetail.alias"
-                class="text-sm text-gray-600 dark:text-gray-400 mb-3 m-0"
-              >
-                别名：{{ comicDetail.alias }}
-              </p>
-              <div
-                class="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-400"
-              >
-                <div class="flex items-center gap-1">
-                  <span class="font-medium">ID:</span>
-                  <span>{{ comicDetail.id }}</span>
-                </div>
-                <div class="flex items-center gap-1">
-                  <span class="font-medium">连载状态:</span>
-                  <span>
-                    {{ getSerialStatusText(comicDetail.serialStatus) }}
-                  </span>
-                </div>
-                <div class="flex items-center gap-1">
-                  <span class="font-medium">阅读规则:</span>
-                  <span>
-                    {{
-                      getReadRuleText(
-                        comicDetail.readRule,
-                        comicDetail.purchaseAmount,
-                      )
-                    }}
-                  </span>
-                </div>
-              </div>
             </div>
 
             <!-- 详细信息 -->
             <el-descriptions :column="2" label-width="90px" border size="small">
+              <!-- 核心基础信息 -->
+              <el-descriptions-item label="ID">
+                <el-tag size="small" type="info" effect="plain">
+                  {{ comicDetail.id }}
+                </el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item v-if="comicDetail.alias" label="别名">
+                <span class="text-gray-700 dark:text-gray-300">
+                  {{ comicDetail.alias }}
+                </span>
+              </el-descriptions-item>
+              <el-descriptions-item label="连载状态">
+                <el-tag
+                  :type="
+                    comicDetail.serialStatus === 1
+                      ? 'success'
+                      : comicDetail.serialStatus === 2
+                        ? 'info'
+                        : 'warning'
+                  "
+                  size="small"
+                >
+                  {{ getSerialStatusText(comicDetail.serialStatus) }}
+                </el-tag>
+              </el-descriptions-item>
+              <el-descriptions-item label="阅读规则">
+                <el-tag
+                  :type="
+                    comicDetail.readRule === 0
+                      ? 'success'
+                      : comicDetail.readRule === 1
+                        ? 'info'
+                        : comicDetail.readRule === 2
+                          ? 'warning'
+                          : 'danger'
+                  "
+                  size="small"
+                >
+                  {{
+                    getReadRuleText(
+                      comicDetail.readRule,
+                      comicDetail.purchaseAmount,
+                    )
+                  }}
+                </el-tag>
+              </el-descriptions-item>
+
+              <!-- 创作信息 -->
               <el-descriptions-item label="作者">
                 <div class="flex flex-wrap gap-2">
                   <el-link
@@ -234,32 +236,42 @@
                 </div>
               </el-descriptions-item>
               <el-descriptions-item label="出版社">
-                {{ comicDetail.publisher || '-' }}
-              </el-descriptions-item>
-              <el-descriptions-item label="地区">
                 {{
-                  dataDict?.work_region[comicDetail.region]
-                  || comicDetail.region
+                  comicDetail.publisher
+                    ? dataDict?.work_publisher[comicDetail.publisher]
+                    : '-'
                 }}
+              </el-descriptions-item>
+
+              <!-- 作品属性 -->
+              <el-descriptions-item label="地区">
+                {{ dataDict?.work_region[comicDetail.region] || '-' }}
               </el-descriptions-item>
               <el-descriptions-item label="语言">
-                {{
-                  dataDict?.work_language[comicDetail.language]
-                  || comicDetail.language
-                }}
+                {{ dataDict?.work_language[comicDetail.language] || '-' }}
               </el-descriptions-item>
               <el-descriptions-item label="年龄分级">
-                {{
-                  dataDict?.work_age_rating[comicDetail.ageRating]
-                  || comicDetail.ageRating
-                }}
+                {{ dataDict?.work_age_rating[comicDetail.ageRating] || '-' }}
               </el-descriptions-item>
               <el-descriptions-item label="原始来源">
                 {{ comicDetail.originalSource || '-' }}
               </el-descriptions-item>
+
+              <!-- 分类信息（独占一行） -->
+              <el-descriptions-item label="分类" :span="2">
+                <div class="flex flex-wrap gap-2">
+                  <el-tag
+                    v-for="category in comicDetail.comicCategories"
+                    :key="category.id"
+                    size="small"
+                    type="primary"
+                    effect="light"
+                  >
+                    {{ category.name }}
+                  </el-tag>
+                </div>
+              </el-descriptions-item>
             </el-descriptions>
-
-
           </div>
         </div>
       </el-card>
@@ -276,47 +288,54 @@
 
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <!-- 章节数 -->
-          <div class="text-center p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-200 dark:border-gray-700" @click="chapterModal = true">
+          <div
+            class="text-center p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg transition-colors border border-gray-200 dark:border-gray-700"
+            @click="chapterModal = true"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
               章节数
             </div>
-            <div
-              class="text-2xl font-bold text-blue-600 dark:text-blue-400"
-            >
+            <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
               {{ comicDetail.totalChapters ?? 0 }}
             </div>
           </div>
 
           <!-- 总阅读 -->
-          <div class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div
+            class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
               总阅读
             </div>
-            <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">
+            <div
+              class="text-2xl font-bold text-orange-600 dark:text-orange-400"
+            >
               {{ comicDetail.totalViews ?? 0 }}
             </div>
           </div>
 
           <!-- 收藏数 -->
-          <div class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div
+            class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
               收藏数
             </div>
-            <div
-              class="text-2xl font-bold text-green-600 dark:text-green-400"
-            >
+            <div class="text-2xl font-bold text-green-600 dark:text-green-400">
               {{ comicDetail.favoriteCount ?? 0 }}
             </div>
           </div>
 
           <!-- 评分 -->
-          <div class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div
+            class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
@@ -336,7 +355,9 @@
         <!-- 权重数据 -->
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4 mt-6">
           <!-- 热度值 -->
-          <div class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div
+            class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
@@ -350,7 +371,9 @@
           </div>
 
           <!-- 虚拟热度权重 -->
-          <div class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div
+            class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
@@ -362,7 +385,9 @@
           </div>
 
           <!-- 推荐权重 -->
-          <div class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div
+            class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
@@ -376,7 +401,9 @@
           </div>
 
           <!-- 互动数据 -->
-          <div class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+          <div
+            class="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+          >
             <div
               class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium"
             >
@@ -447,188 +474,6 @@
         </div>
       </el-card>
 
-      <!-- SEO信息 -->
-      <el-card v-loading="loading">
-        <template #header>
-          <h3
-            class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0"
-          >
-            SEO优化信息
-          </h3>
-        </template>
-
-        <div class="space-y-4">
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              SEO标题
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{ comicDetail.seoTitle || '未设置' }}
-            </div>
-          </div>
-
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              SEO描述
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{ comicDetail.seoDescription || '未设置' }}
-            </div>
-          </div>
-
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              SEO关键词
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{ comicDetail.seoKeywords || '未设置' }}
-            </div>
-          </div>
-        </div>
-      </el-card>
-
-      <!-- 版权与法律信息 -->
-      <el-card v-loading="loading">
-        <template #header>
-          <h3
-            class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0"
-          >
-            版权与法律信息
-          </h3>
-        </template>
-
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              版权信息
-            </div>
-            <div class="text-sm text-gray-700 dark:text-gray-300">
-              {{ comicDetail.copyright || '未设置' }}
-            </div>
-          </div>
-
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              免责声明
-            </div>
-            <div class="text-sm text-gray-700 dark:text-gray-300">
-              {{ comicDetail.disclaimer || '未设置' }}
-            </div>
-          </div>
-        </div>
-      </el-card>
-
-      <!-- 时间信息 -->
-      <el-card v-loading="loading">
-        <template #header>
-          <h3
-            class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0"
-          >
-            时间信息
-          </h3>
-        </template>
-
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              发布日期
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{
-                comicDetail.publishAt
-                  ? $dayjs.utc(comicDetail.publishAt).format('YYYY-MM-DD')
-                  : '未设置'
-              }}
-            </div>
-          </div>
-
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              创建时间
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{
-                $dayjs.utc(comicDetail?.createdAt).format('YYYY-MM-DD HH:mm:ss')
-              }}
-            </div>
-          </div>
-
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              更新时间
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{
-                $dayjs.utc(comicDetail.updatedAt).format('YYYY-MM-DD HH:mm:ss')
-              }}
-            </div>
-          </div>
-
-          <div
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
-            >
-              章节最后更新时间
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{
-                $dayjs
-                  .utc(comicDetail.lastUpdated)
-                  .format('YYYY-MM-DD HH:mm:ss')
-              }}
-            </div>
-          </div>
-
-          <div
-            v-if="comicDetail.deletedAt"
-            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-          >
-            <div
-              class="text-sm font-medium text-red-600 dark:text-red-400 mb-2"
-            >
-              删除时间
-            </div>
-            <div class="text-gray-700 dark:text-gray-300">
-              {{ $dayjs(comicDetail.deletedAt).format('YYYY-MM-DD HH:mm:ss') }}
-            </div>
-          </div>
-        </div>
-      </el-card>
-
       <!-- 作品描述与备注 -->
       <el-card v-loading="loading">
         <template #header>
@@ -659,7 +504,7 @@
             <h4
               class="text-base font-medium text-gray-900 dark:text-gray-100 mb-3 m-0"
             >
-              管理员备注
+              备注
             </h4>
             <div
               class="p-4 border border-orange-200 dark:border-orange-700 rounded-lg text-sm leading-relaxed bg-orange-50 dark:bg-orange-900/20"
@@ -671,6 +516,191 @@
           </div>
         </div>
       </el-card>
+
+      <!-- 技术性信息分组 -->
+      <div class="space-y-6">
+        <!-- SEO信息 -->
+        <el-card v-loading="loading">
+          <template #header>
+            <h3
+              class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0"
+            >
+              SEO优化信息
+            </h3>
+          </template>
+
+          <div class="space-y-4">
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                SEO标题
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{ comicDetail.seoTitle || '未设置' }}
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                SEO描述
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{ comicDetail.seoDescription || '未设置' }}
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                SEO关键词
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{ comicDetail.seoKeywords || '未设置' }}
+              </div>
+            </div>
+          </div>
+        </el-card>
+
+        <!-- 版权与法律信息 -->
+        <el-card v-loading="loading">
+          <template #header>
+            <h3
+              class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0"
+            >
+              版权与法律信息
+            </h3>
+          </template>
+
+          <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                版权信息
+              </div>
+              <div class="text-sm text-gray-700 dark:text-gray-300">
+                {{ comicDetail.copyright || '未设置' }}
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                免责声明
+              </div>
+              <div class="text-sm text-gray-700 dark:text-gray-300">
+                {{ comicDetail.disclaimer || '未设置' }}
+              </div>
+            </div>
+          </div>
+        </el-card>
+
+        <!-- 时间信息 -->
+        <el-card v-loading="loading">
+          <template #header>
+            <h3
+              class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0"
+            >
+              时间信息
+            </h3>
+          </template>
+
+          <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                发布日期
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{
+                  comicDetail.publishAt
+                    ? $dayjs.utc(comicDetail.publishAt).format('YYYY-MM-DD')
+                    : '未设置'
+                }}
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                创建时间
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{
+                  $dayjs.utc(comicDetail?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+                }}
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                更新时间
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{
+                  $dayjs.utc(comicDetail.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+                }}
+              </div>
+            </div>
+
+            <div
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2"
+              >
+                章节最后更新时间
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{
+                  $dayjs
+                    .utc(comicDetail.lastUpdated)
+                    .format('YYYY-MM-DD HH:mm:ss')
+                }}
+              </div>
+            </div>
+
+            <div
+              v-if="comicDetail.deletedAt"
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+            >
+              <div
+                class="text-sm font-medium text-red-600 dark:text-red-400 mb-2"
+              >
+                删除时间
+              </div>
+              <div class="text-gray-700 dark:text-gray-300">
+                {{ $dayjs(comicDetail.deletedAt).format('YYYY-MM-DD HH:mm:ss') }}
+              </div>
+            </div>
+          </div>
+        </el-card>
+      </div>
     </div>
 
     <AuthorDetail

@@ -29,29 +29,29 @@ export async function createInitialDataDictionary(prisma: any) {
     work_language: [
       {
         name: '中文',
-        code: 'zh',
+        code: 'ZH',
       },
       {
         name: '英文',
-        code: 'en',
+        code: 'EN',
       },
       {
         name: '日文',
-        code: 'jp',
+        code: 'JP',
       },
     ],
     work_region: [
       {
         name: '中国',
-        code: 'zh',
+        code: 'ZH',
       },
       {
         name: '美国',
-        code: 'en',
+        code: 'EN',
       },
       {
         name: '日本',
-        code: 'jp',
+        code: 'JP',
       },
     ],
     work_age_rating: [

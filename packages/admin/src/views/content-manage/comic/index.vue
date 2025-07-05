@@ -39,6 +39,7 @@
     authorId: null,
   })
 
+  const dataDict = ref<IterateObject>({})
   const tableRef = useTemplateRef('tableRef')
   const formTool = useFormTool(formOptions)
   formTool.fillDict([
@@ -240,6 +241,7 @@
       v-if="detailModal"
       :visible="detailModal"
       :comic-id="currentComic!.id"
+      :data-dict="formTool.getDictItem()"
       @close="detailModal = false"
     />
   </div>
