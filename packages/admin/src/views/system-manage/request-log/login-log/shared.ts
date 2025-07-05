@@ -1,6 +1,7 @@
+import type { EsTableColumn } from '@/components/es-table/types.ts'
 import type { ToolbarFilter } from '@/components/es-toolbar/types'
 
-export const tableColumns = [
+export const tableColumns: EsTableColumn = [
   {
     label: '登录账号',
     prop: 'username',

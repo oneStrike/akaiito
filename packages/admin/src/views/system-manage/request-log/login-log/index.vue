@@ -10,7 +10,7 @@
   })
 
   const params = reactive({
-    requestPath: '/api/admin/user/login',
+    requestPath: '/api/admin/user/user-login',
   })
 </script>
 

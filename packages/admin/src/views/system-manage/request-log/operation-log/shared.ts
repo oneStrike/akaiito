@@ -10,8 +10,9 @@ export const tableColumns = [
 
   {
     label: '请求信息',
-    prop: 'operationDescription',
+    prop: 'requestPath',
     align: 'center',
+    width: 300,
   },
   {
     label: '请求方式',
