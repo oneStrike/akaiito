@@ -15,7 +15,7 @@ const breadcrumbNavigator = (val: string) => {
 </script>
 
 <template>
-  <div class="flex h-60px pl-4 pr-4 items-center justify-between border-bottom">
+  <div class="flex h-60px pl-4 pr-4 items-center justify-between border-b">
     <div class="flex items-center">
       <es-icon
         :name="

@@ -49,7 +49,7 @@ function toggleFullScreenStatus() {
     @closed="close('closed')"
   >
     <template #header="{ close, titleId, titleClass }">
-      <div class="flex justify-between border-bottom pb-4">
+      <div class="flex justify-between border-b pb-4">
         <h4 :id="titleId" :class="titleClass">
           {{ title }}
         </h4>
@@ -71,7 +71,7 @@ function toggleFullScreenStatus() {
     </el-scrollbar>
 
     <template #footer>
-      <div class="dialog-footer border-top pt-4">
+      <div class="dialog-footer border-t pt-4">
         <el-button :loading="loading" @click="elDialogRef!.visible = false, close('closed')"> 关闭</el-button>
         <el-button type="primary" :loading="loading" @click="emits('handler')"> 确定</el-button>
       </div>

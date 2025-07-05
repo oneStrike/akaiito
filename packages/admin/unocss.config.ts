@@ -51,14 +51,9 @@ export default defineConfig({
     'text-regular',
     'text-secondary',
     'text-disabled',
-    'border-theme',
-    'border-error',
-    'border-success',
-    'border-info',
-    'border-warning',
-    'border-primary',
   ],
   rules: [
+    // 文本颜色规则
     [
       /^text-(.*)$/,
       // @ts-expect-error ignore
@@ -68,23 +63,50 @@ export default defineConfig({
           'text-<theme|error|success|info|warning|primary|regular|secondary|disabled|borderColor>',
       },
     ],
+    // 边框规则 - 统一处理所有边框情况
     [
-      /^border-(.*)$/,
-      ([, c], { theme }: { theme: any }) => ({
-        'border-color': theme.colors[c] || theme.colors.borderColor,
-      }),
-      {
-        autocomplete:
-          'border-<theme|error|success|info|warning|primary|regular|secondary|disabled|borderColor>',
+      /^border(?:-([lrtbxy]))?(?:-(.*))?$/,
+      ([, direction, color], { theme }: { theme: any }) => {
+        // 方向映射
+        const directionMap: Record<string, string[]> = {
+          l: ['left'],
+          r: ['right'],
+          t: ['top'],
+          b: ['bottom'],
+          x: ['left', 'right'],
+          y: ['top', 'bottom'],
+        }
+
+        // 获取颜色值，默认为info
+        const colorValue = color
+          ? theme.colors[color] || theme.colors.borderColor
+          : theme.colors.borderColor
+        // 如果没有方向，设置全边框
+        if (!direction) {
+          return {
+            'border-width': '1px',
+            'border-style': 'solid',
+            'border-color': colorValue,
+          }
+        }
+
+        // 设置指定方向的边框
+        const borderDirections = directionMap[direction]
+        const styles: Record<string, string> = {}
+        borderDirections.forEach((dir) => {
+          styles[`border-${dir}-width`] = '1px'
+          styles[`border-${dir}-style`] = 'solid'
+          styles[`border-${dir}-color`] = colorValue
+        })
+        return styles
       },
-    ],
-    // 添加默认border颜色规则
-    [
-      'border',
       {
-        'border-width': '1px',
-        'border-style': 'solid',
-        'border-color': 'var(--el-border-color-light)',
+        autocomplete: [
+          'border',
+          'border-<l|r|t|b|x|y>',
+          'border-<theme|error|success|info|warning|primary|regular|secondary|disabled|borderColor>',
+          'border-<l|r|t|b|x|y>-<theme|error|success|info|warning|primary|regular|secondary|disabled|borderColor>',
+        ],
       },
     ],
   ],
