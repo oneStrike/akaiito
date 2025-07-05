@@ -10,6 +10,9 @@ model WorkComicChapter {
   /// 关联的漫画id
   relatedComic   WorkComic @relation(fields: [comicId], references: [id], onDelete: Cascade)
   comicId        Int       @map("comic_id") @db.Integer
+  /// 关联的版本id（可选，null表示原版章节）
+  relatedVersion WorkComicVersion? @relation(fields: [versionId], references: [id], onDelete: Cascade)
+  versionId      Int?      @map("version_id") @db.Integer
   /// 章节序号（用于排序）
   chapterNumber  Float     @map("chapter_number") @db.DoublePrecision
   /// 查看规则 0公开 1登录 2会员 3购买
@@ -37,10 +40,13 @@ model WorkComicChapter {
   /// 软删除时间（用于数据恢复或归档）
   deletedAt      DateTime? @map("deleted_at") @db.Timestamptz
 
-  @@unique([comicId, chapterNumber]) // 确保同一漫画的章节号唯一
+  @@unique([comicId, versionId, chapterNumber]) // 确保同一漫画版本的章节号唯一
   /// 索引优化
   @@index([comicId]) // 外键索引
+  @@index([versionId]) // 版本外键索引
+  @@index([comicId, versionId]) // 按漫画ID和版本ID查询
   @@index([comicId, chapterNumber]) // 按漫画ID和章节号查询
+  @@index([versionId, chapterNumber]) // 按版本ID和章节号查询
   @@index([isPublished, publishAt]) // 查询已发布章节
   @@index([readRule]) // 按查看权限查询
   @@index([isPreview]) // 查询试读章节

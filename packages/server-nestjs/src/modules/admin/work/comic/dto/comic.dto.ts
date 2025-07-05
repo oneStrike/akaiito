@@ -204,6 +204,14 @@ export class BaseComicDto {
   })
   publishAt?: Date
 
+  @ApiProperty({
+    description: '最后更新时间',
+    example: '2025-10-10',
+    required: false,
+    type: Date,
+  })
+  lastUpdated: Date
+
   @ValidateString({
     description: '漫画简介',
     example: '这是一部关于巨人的漫画...',

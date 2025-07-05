@@ -81,10 +81,12 @@ model WorkComic {
   createdAt        DateTime            @default(now()) @map("created_at") @db.Timestamptz
   /// 更新时间
   updatedAt        DateTime            @updatedAt @map("updated_at") @db.Timestamptz
-  /// 关联的章节
+  /// 关联的章节（包含原版和各版本章节）
   relatedChapters  WorkComicChapter[]
   /// 分类关系 - 多对多关系通过中间表
   comicCategories  WorkComicCategory[]
+  /// 版本关系 - 一对多关系
+  comicVersions    WorkComicVersion[]
 
   /// 索引优化
   @@index([isPublished, publishAt]) // 查询已发布的漫画

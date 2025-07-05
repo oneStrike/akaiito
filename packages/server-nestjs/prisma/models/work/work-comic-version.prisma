@@ -1,0 +1,76 @@
+/// 漫画版本表（用于管理不同语言版本、汉化组等）
+model WorkComicVersion {
+  /// 主键ID
+  id                 Int       @id @default(autoincrement())
+  /// 关联的原始漫画ID
+  comicId            Int       @map("comic_id")
+  /// 版本名称（如：英语版、日语版、XX汉化组等）
+  versionName        String    @db.VarChar(100)
+  /// 语言代码（如：zh-CN, en-US, ja-JP）
+  language           String    @db.VarChar(10)
+  /// 翻译组/汉化组名称
+  translatorGroup    String?   @map("translator_group") @db.VarChar(100)
+  /// 版本描述
+  description        String?   @db.Text
+  /// 是否为推荐版本
+  isRecommended      Boolean   @default(false) @map("is_recommended")
+  /// 是否启用
+  isEnabled          Boolean   @default(true) @map("is_enabled")
+  /// 发布状态
+  isPublished        Boolean   @default(false) @map("is_published")
+  /// 发布时间
+  publishAt          DateTime? @map("publish_at") @db.Timestamptz
+  /// 最后更新时间
+  lastUpdated        DateTime? @map("last_updated") @db.Timestamptz
+  /// 总阅读次数
+  totalViews         Int       @default(0) @map("total_views") @db.Integer
+  /// 收藏数
+  favoriteCount      Int       @default(0) @map("favorite_count") @db.Integer
+  /// 点赞数
+  likeCount          Int       @default(0) @map("like_count") @db.Integer
+  /// 评分（1-10分，保留一位小数）
+  rating             Float?    @db.DoublePrecision
+  /// 评分人数
+  ratingCount        Int       @default(0) @map("rating_count") @db.Integer
+  /// 查看规则（0=所有人, 1=登录用户, 2=会员, 3=积分购买）
+  readRule           Int       @default(0) @map("read_rule") @db.SmallInt
+  /// 购买需要消耗的金额（分为单位）
+  purchaseAmount     Int       @default(0) @map("purchase_amount")
+  /// 版权信息
+  copyright          String?   @db.VarChar(500)
+  /// 免责声明
+  disclaimer         String?   @db.Text
+  /// 备注（内部使用）
+  remark             String?   @db.VarChar(1000)
+  /// 排序权重（用于版本列表排序）
+  sortOrder          Int       @default(0) @map("sort_order") @db.SmallInt
+  /// 软删除时间（用于数据恢复或归档）
+  deletedAt          DateTime? @map("deleted_at") @db.Timestamptz
+  /// 创建时间
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  /// 更新时间
+  updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  // 关联关系
+  /// 关联的原始漫画
+  originalComic WorkComic          @relation(fields: [comicId], references: [id], onDelete: Cascade)
+  /// 版本章节关系（统一章节表）
+  chapters      WorkComicChapter[]
+
+  /// 唯一约束
+  @@unique([comicId, language, versionName]) // 确保同一漫画的同语言版本名称唯一
+  /// 索引优化
+  @@index([comicId]) // 外键索引
+  @@index([language]) // 按语言和地区查询
+  @@index([isPublished, publishAt]) // 查询已发布版本
+  @@index([isEnabled, isRecommended]) // 查询推荐版本
+  @@index([totalViews]) // 按阅读量排序
+  @@index([favoriteCount]) // 按收藏数排序
+  @@index([rating, ratingCount]) // 按评分排序
+  @@index([lastUpdated]) // 按最后更新时间排序
+  @@index([sortOrder]) // 按排序权重排序
+  @@index([translatorGroup]) // 按翻译组查询
+  @@index([createdAt]) // 按创建时间排序
+  @@index([deletedAt]) // 软删除查询
+  @@map("work_comic_version")
+}
