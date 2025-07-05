@@ -163,8 +163,8 @@
           <div class="flex flex-col flex-1">
             <!-- 标题区域 -->
             <div class="mb-6">
-              <div class="flex items-center gap-3 mb-2">
-                <h3 class="font-bold text-2xl el-text-primary">
+              <div class="flex items-center gap-3 mb-3">
+                <h3 class="font-bold text-2xl text-gray-900 dark:text-gray-100 m-0">
                   {{ comicDetail.name }}
                 </h3>
                 <el-tag
@@ -174,23 +174,29 @@
                   {{ comicDetail.isPublished ? '已发布' : '未发布' }}
                 </el-tag>
               </div>
-              <p v-if="comicDetail.alias" class="text-sm mb-2 el-text-regular">
+              <p v-if="comicDetail.alias" class="text-sm text-gray-600 dark:text-gray-400 mb-3 m-0">
                 别名：{{ comicDetail.alias }}
               </p>
-              <div class="flex items-center gap-4 text-sm el-text-regular">
-                <span>ID: {{ comicDetail.id }}</span>
-                <span>
-                  连载状态: {{ getSerialStatusText(comicDetail.serialStatus) }}
-                </span>
-                <span>
-                  阅读规则:
-                  {{
-                    getReadRuleText(
-                      comicDetail.readRule,
-                      comicDetail.purchaseAmount,
-                    )
-                  }}
-                </span>
+              <div class="flex flex-col gap-2 text-sm text-gray-600 dark:text-gray-400">
+                <div class="flex items-center gap-1">
+                  <span class="font-medium">ID:</span>
+                  <span>{{ comicDetail.id }}</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="font-medium">连载状态:</span>
+                  <span>{{ getSerialStatusText(comicDetail.serialStatus) }}</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="font-medium">阅读规则:</span>
+                  <span>
+                    {{
+                      getReadRuleText(
+                        comicDetail.readRule,
+                        comicDetail.purchaseAmount,
+                      )
+                    }}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -250,28 +256,28 @@
                 class="text-center cursor-pointer hover:shadow-md transition-shadow"
                 @click="chapterModal = true"
               >
-                <div class="text-xs mb-1 el-text-primary">章节数</div>
-                <div class="font-bold text-xl el-text-primary">
+                <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">章节数</div>
+                <div class="font-bold text-2xl text-blue-600 dark:text-blue-400">
                   {{ comicDetail.totalChapters ?? 0 }}
                 </div>
               </el-card>
               <el-card class="text-center">
-                <div class="text-xs mb-1 el-text-warning">总阅读</div>
-                <div class="text-xl font-bold el-text-warning">
+                <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">总阅读</div>
+                <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">
                   {{ comicDetail.totalViews ?? 0 }}
                 </div>
               </el-card>
               <el-card class="text-center">
-                <div class="text-xs mb-1 el-text-success">收藏数</div>
-                <div class="text-xl font-bold el-text-success">
+                <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">收藏数</div>
+                <div class="text-2xl font-bold text-green-600 dark:text-green-400">
                   {{ comicDetail.favoriteCount ?? 0 }}
                 </div>
               </el-card>
               <el-card class="text-center">
-                <div class="text-xs mb-1 el-text-info">评分</div>
-                <div class="text-xl font-bold el-text-info">
+                <div class="text-xs text-gray-500 dark:text-gray-400 mb-2">评分</div>
+                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
                   {{ formatRating(comicDetail.rating) }}
-                  <span class="text-xs el-text-regular">
+                  <span class="text-xs text-gray-500 dark:text-gray-400 ml-1">
                     ({{ comicDetail.ratingCount }}人)
                   </span>
                 </div>
@@ -284,47 +290,44 @@
       <!-- 数据统计与权重 -->
       <el-card v-loading="loading">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div class="w-1 h-4 rounded el-bg-primary" />
-            <h3 class="text-lg font-semibold m-0 el-text-primary">
-              数据统计与权重
-            </h3>
-          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0">
+            数据统计与权重
+          </h3>
         </template>
 
         <div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
           <!-- 热度值 -->
           <div class="text-center p-4">
-            <div class="text-sm mb-2 font-medium el-text-warning">热度值</div>
-            <div class="text-2xl font-bold el-text-warning">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium">热度值</div>
+            <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">
               {{ comicDetail.popularity ?? 0 }}
             </div>
           </div>
 
           <!-- 虚拟热度权重 -->
           <div class="text-center p-4">
-            <div class="text-sm mb-2 font-medium el-text-primary">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium">
               虚拟热度权重
             </div>
-            <div class="text-2xl font-bold el-text-primary">
+            <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">
               {{ comicDetail.popularityWeight ?? 0 }}
             </div>
           </div>
 
           <!-- 推荐权重 -->
           <div class="text-center p-4">
-            <div class="text-sm mb-2 font-medium el-text-info">推荐权重</div>
-            <div class="text-2xl font-bold el-text-info">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium">推荐权重</div>
+            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
               {{ comicDetail.recommendWeight ?? 0 }}
             </div>
           </div>
 
           <!-- 互动数据 -->
           <div class="text-center p-4">
-            <div class="text-sm mb-2 font-medium el-text-success">
+            <div class="text-sm text-gray-500 dark:text-gray-400 mb-2 font-medium">
               评论/点赞
             </div>
-            <div class="text-lg font-bold el-text-success">
+            <div class="text-lg font-bold text-green-600 dark:text-green-400">
               {{ comicDetail.commentCount ?? 0 }} /
               {{ comicDetail.likeCount ?? 0 }}
             </div>
@@ -335,22 +338,19 @@
       <!-- 权限设置 -->
       <el-card v-loading="loading">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div class="w-1 h-4 rounded el-bg-success" />
-            <h3 class="text-lg font-semibold m-0 el-text-primary">权限设置</h3>
-          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0">权限设置</h3>
         </template>
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <!-- 允许下载 -->
           <div
-            class="flex items-center justify-between p-4 border rounded el-border-light"
+            class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
           >
             <div class="flex flex-col">
-              <span class="text-sm font-medium el-text-primary">允许下载</span>
-              <span class="text-xs el-text-regular">
+              <div class="text-sm font-medium text-gray-900 dark:text-gray-100">允许下载</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">
                 控制用户是否可以下载漫画
-              </span>
+              </div>
             </div>
             <el-switch
               v-model="comicDetail.canDownload"
@@ -364,13 +364,13 @@
 
           <!-- 允许评论 -->
           <div
-            class="flex items-center justify-between p-4 border rounded el-border-light"
+            class="flex items-center justify-between p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
           >
             <div class="flex flex-col">
-              <span class="text-sm font-medium el-text-primary">允许评论</span>
-              <span class="text-xs el-text-regular">
+              <div class="text-sm font-medium text-gray-900 dark:text-gray-100">允许评论</div>
+              <div class="text-xs text-gray-500 dark:text-gray-400">
                 控制用户是否可以发表评论
-              </span>
+              </div>
             </div>
             <el-switch
               v-model="comicDetail.canComment"
@@ -387,32 +387,29 @@
       <!-- SEO信息 -->
       <el-card v-loading="loading">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div class="w-1 h-4 rounded el-bg-primary" />
-            <h3 class="text-lg font-semibold m-0 el-text-primary">
-              SEO优化信息
-            </h3>
-          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0">
+            SEO优化信息
+          </h3>
         </template>
 
         <div class="space-y-4">
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-primary">SEO标题</div>
-            <div class="el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">SEO标题</div>
+            <div class="text-gray-700 dark:text-gray-300">
               {{ comicDetail.seoTitle || '未设置' }}
             </div>
           </div>
 
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-success">SEO描述</div>
-            <div class="el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">SEO描述</div>
+            <div class="text-gray-700 dark:text-gray-300">
               {{ comicDetail.seoDescription || '未设置' }}
             </div>
           </div>
 
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-info">SEO关键词</div>
-            <div class="el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">SEO关键词</div>
+            <div class="text-gray-700 dark:text-gray-300">
               {{ comicDetail.seoKeywords || '未设置' }}
             </div>
           </div>
@@ -422,25 +419,22 @@
       <!-- 版权与法律信息 -->
       <el-card v-loading="loading">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div class="w-1 h-4 rounded el-bg-warning" />
-            <h3 class="text-lg font-semibold m-0 el-text-primary">
-              版权与法律信息
-            </h3>
-          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0">
+            版权与法律信息
+          </h3>
         </template>
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-warning">版权信息</div>
-            <div class="text-sm el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">版权信息</div>
+            <div class="text-sm text-gray-700 dark:text-gray-300">
               {{ comicDetail.copyright || '未设置' }}
             </div>
           </div>
 
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-danger">免责声明</div>
-            <div class="text-sm el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">免责声明</div>
+            <div class="text-sm text-gray-700 dark:text-gray-300">
               {{ comicDetail.disclaimer || '未设置' }}
             </div>
           </div>
@@ -450,40 +444,37 @@
       <!-- 时间信息 -->
       <el-card v-loading="loading">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div class="w-1 h-4 rounded el-bg-regular" />
-            <h3 class="text-lg font-semibold m-0 el-text-primary">时间信息</h3>
-          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0">时间信息</h3>
         </template>
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-primary">发布日期</div>
-            <div class="el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">发布日期</div>
+            <div class="text-gray-700 dark:text-gray-300">
               {{ comicDetail.publishAt || '未设置' }}
             </div>
           </div>
 
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-success">创建时间</div>
-            <div class="el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">创建时间</div>
+            <div class="text-gray-700 dark:text-gray-300">
               {{ comicDetail.createdAt }}
             </div>
           </div>
 
-          <div class="p-4 border rounded el-border-light">
-            <div class="text-sm font-medium mb-2 el-text-info">更新时间</div>
-            <div class="el-text-primary">
+          <div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <div class="text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">更新时间</div>
+            <div class="text-gray-700 dark:text-gray-300">
               {{ comicDetail.updatedAt }}
             </div>
           </div>
 
           <div
             v-if="comicDetail.deletedAt"
-            class="p-4 border rounded el-border-light"
+            class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
           >
-            <div class="text-sm font-medium mb-2 el-text-danger">删除时间</div>
-            <div class="el-text-primary">
+            <div class="text-sm font-medium text-red-600 dark:text-red-400 mb-2">删除时间</div>
+            <div class="text-gray-700 dark:text-gray-300">
               {{ comicDetail.deletedAt }}
             </div>
           </div>
@@ -493,32 +484,33 @@
       <!-- 作品描述与备注 -->
       <el-card v-loading="loading">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div class="w-1 h-4 rounded el-bg-primary" />
-            <h3 class="text-lg font-semibold m-0 el-text-primary">
-              作品描述与备注
-            </h3>
-          </div>
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 m-0">
+            作品描述与备注
+          </h3>
         </template>
 
         <div class="space-y-6">
           <div>
-            <h4 class="text-base font-medium mb-3 el-text-primary">作品描述</h4>
+            <h4 class="text-base font-medium text-gray-900 dark:text-gray-100 mb-3 m-0">作品描述</h4>
             <div
-              class="p-4 border rounded text-sm leading-relaxed el-border-light el-text-regular"
+              class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg text-sm leading-relaxed"
             >
-              {{ comicDetail.description || '暂无描述' }}
+              <div class="text-gray-700 dark:text-gray-300">
+                {{ comicDetail.description || '暂无描述' }}
+              </div>
             </div>
           </div>
 
           <div v-if="comicDetail.remark">
-            <h4 class="text-base font-medium mb-3 el-text-primary">
+            <h4 class="text-base font-medium text-gray-900 dark:text-gray-100 mb-3 m-0">
               管理员备注
             </h4>
             <div
-              class="p-4 border rounded text-sm leading-relaxed el-border-warning el-bg-warning-light el-text-primary"
+              class="p-4 border border-orange-200 dark:border-orange-700 rounded-lg text-sm leading-relaxed bg-orange-50 dark:bg-orange-900/20"
             >
-              {{ comicDetail.remark }}
+              <div class="text-gray-700 dark:text-gray-300">
+                {{ comicDetail.remark }}
+              </div>
             </div>
           </div>
         </div>
@@ -535,58 +527,5 @@
 </template>
 
 <style scoped lang="scss">
-  /* Element Plus 颜色类 */
-  .el-text-primary {
-    color: var(--el-color-primary);
-  }
-
-  .el-text-warning {
-    color: var(--el-color-warning);
-  }
-
-  .el-text-success {
-    color: var(--el-color-success);
-  }
-
-  .el-text-info {
-    color: var(--el-color-info);
-  }
-
-  .el-text-danger {
-    color: var(--el-color-danger);
-  }
-
-  .el-text-regular {
-    color: var(--el-text-color-regular);
-  }
-
-  /* Element Plus 背景色类 */
-  .el-bg-primary {
-    background-color: var(--el-color-primary);
-  }
-
-  .el-bg-warning {
-    background-color: var(--el-color-warning);
-  }
-
-  .el-bg-success {
-    background-color: var(--el-color-success);
-  }
-
-  .el-bg-regular {
-    background-color: var(--el-text-color-regular);
-  }
-
-  .el-bg-warning-light {
-    background-color: var(--el-color-warning-light-9);
-  }
-
-  /* Element Plus 边框色类 */
-  .el-border-light {
-    border-color: var(--el-border-color-light);
-  }
-
-  .el-border-warning {
-    border-color: var(--el-color-warning);
-  }
+  // 组件样式已优化，使用 Tailwind CSS 类进行样式控制
 </style>

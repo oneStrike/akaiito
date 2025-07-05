@@ -85,19 +85,16 @@
           </div>
 
           <div class="flex-1 min-w-0">
-            <div class="flex items-center justify-between mb-3">
-              <h3
-                class="text-lg font-semibold m-0"
-                :style="{ color: 'var(--el-text-color-primary)' }"
-              >
+            <div class="flex flex-col gap-2 mb-3">
+              <h3 class="text-lg font-semibold m-0 text-gray-900 dark:text-gray-100">
                 {{ authorDetail.name || '未知作者' }}
               </h3>
-              <el-tag
-                :type="authorDetail.isEnabled ? 'success' : 'danger'"
-                size="small"
-              >
-                {{ authorDetail.isEnabled ? '已启用' : '已禁用' }}
-              </el-tag>
+              <div class="flex items-center gap-2">
+                <span class="text-sm text-gray-500 dark:text-gray-400">状态:</span>
+                <span :class="authorDetail.isEnabled ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'" class="text-sm font-medium">
+                  {{ authorDetail.isEnabled ? '已启用' : '已禁用' }}
+                </span>
+              </div>
             </div>
 
             <div class="mb-4">
@@ -157,8 +154,7 @@
 
             <p
               v-if="authorDetail.description"
-              class="m-0"
-              :style="{ color: 'var(--el-text-color-regular)' }"
+              class="m-0 text-gray-700 dark:text-gray-300 text-sm leading-relaxed"
             >
               {{ authorDetail.description }}
             </p>
@@ -169,30 +165,18 @@
       <!-- 统计数据 -->
       <div class="grid grid-cols-2 gap-4 mb-5">
         <el-card class="text-center">
-          <div
-            class="text-2xl mb-1 font-semibold"
-            :style="{ color: 'var(--el-color-primary)' }"
-          >
+          <div class="text-3xl mb-2 font-bold text-blue-600 dark:text-blue-400">
             {{ authorDetail.followersCount || 0 }}
           </div>
-          <div
-            class="text-sm"
-            :style="{ color: 'var(--el-text-color-regular)' }"
-          >
+          <div class="text-sm text-gray-500 dark:text-gray-400">
             关注者
           </div>
         </el-card>
         <el-card class="text-center">
-          <div
-            class="text-2xl font-semibold mb-1"
-            :style="{ color: 'var(--el-color-primary)' }"
-          >
+          <div class="text-3xl mb-2 font-bold text-purple-600 dark:text-purple-400">
             {{ authorDetail.worksCount || 0 }}
           </div>
-          <div
-            class="text-sm"
-            :style="{ color: 'var(--el-text-color-regular)' }"
-          >
+          <div class="text-sm text-gray-500 dark:text-gray-400">
             作品数量
           </div>
         </el-card>
@@ -201,50 +185,27 @@
       <!-- 社交链接 -->
       <el-card v-if="socialLinks?.length" class="mb-4">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div
-              class="w-1 h-4 rounded"
-              :style="{ backgroundColor: 'var(--el-color-primary)' }"
-            ></div>
-            <h3
-              class="text-base font-semibold m-0"
-              :style="{ color: 'var(--el-text-color-primary)' }"
-            >
-              社交媒体
-            </h3>
-          </div>
+          <h3 class="text-base font-semibold m-0 text-gray-900 dark:text-gray-100">
+            社交媒体
+          </h3>
         </template>
         <div class="space-y-2">
           <div
             v-for="(item, idx) in socialLinks"
             :key="idx"
-            class="flex items-center justify-between p-3 rounded cursor-pointer transition-colors"
-            :style="{ border: '1px solid var(--el-border-color-light)' }"
+            class="flex items-center justify-between p-3 rounded cursor-pointer transition-colors border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
             @click="openLink(item.value)"
-            @mouseenter="
-              $event.target.style.backgroundColor = 'var(--el-fill-color-light)'
-            "
-            @mouseleave="$event.target.style.backgroundColor = 'transparent'"
           >
             <div class="flex-1 min-w-0">
-              <div
-                class="text-sm font-medium mb-1"
-                :style="{ color: 'var(--el-text-color-primary)' }"
-              >
+              <div class="text-sm font-medium mb-1 text-gray-900 dark:text-gray-100">
                 {{ item.label }}
               </div>
-              <div
-                class="text-xs truncate"
-                :style="{ color: 'var(--el-text-color-regular)' }"
-              >
+              <div class="text-xs truncate text-gray-600 dark:text-gray-400">
                 {{ item.value }}
               </div>
             </div>
             <div class="w-5 h-5 flex items-center justify-center opacity-50">
-              <i
-                class="text-xs el-icon-arrow-right"
-                :style="{ color: 'var(--el-text-color-placeholder)' }"
-              />
+              <i class="text-xs el-icon-arrow-right text-gray-400 dark:text-gray-500" />
             </div>
           </div>
         </div>
@@ -253,31 +214,16 @@
       <!-- 系统信息 -->
       <el-card class="mb-4">
         <template #header>
-          <div class="flex items-center gap-2">
-            <div
-              class="w-1 h-4 rounded"
-              :style="{ backgroundColor: 'var(--el-color-success)' }"
-            ></div>
-            <h3
-              class="text-base font-semibold m-0"
-              :style="{ color: 'var(--el-text-color-primary)' }"
-            >
-              系统信息
-            </h3>
-          </div>
+          <h3 class="text-base font-semibold m-0 text-gray-900 dark:text-gray-100">
+            系统信息
+          </h3>
         </template>
         <div class="grid grid-cols-2 gap-4">
           <div class="space-y-1">
-            <div
-              class="text-sm font-medium"
-              :style="{ color: 'var(--el-text-color-regular)' }"
-            >
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
               创建时间
             </div>
-            <div
-              class="text-sm"
-              :style="{ color: 'var(--el-text-color-primary)' }"
-            >
+            <div class="text-sm text-gray-900 dark:text-gray-100">
               {{
                 $dayjs
                   .utc(authorDetail.createdAt)
@@ -286,16 +232,10 @@
             </div>
           </div>
           <div class="space-y-1">
-            <div
-              class="text-sm font-medium"
-              :style="{ color: 'var(--el-text-color-regular)' }"
-            >
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
               更新时间
             </div>
-            <div
-              class="text-sm"
-              :style="{ color: 'var(--el-text-color-primary)' }"
-            >
+            <div class="text-sm text-gray-900 dark:text-gray-100">
               {{
                 $dayjs
                   .utc(authorDetail.updatedAt)
@@ -304,16 +244,10 @@
             </div>
           </div>
           <div v-if="authorDetail.remark" class="col-span-2 space-y-1">
-            <div
-              class="text-sm font-medium"
-              :style="{ color: 'var(--el-text-color-regular)' }"
-            >
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
               备注
             </div>
-            <div
-              class="text-sm"
-              :style="{ color: 'var(--el-text-color-primary)' }"
-            >
+            <div class="text-sm p-3 rounded border border-orange-200 dark:border-orange-700 bg-orange-50 dark:bg-orange-900/20 text-gray-700 dark:text-gray-300">
               {{ authorDetail.remark }}
             </div>
           </div>
@@ -324,5 +258,5 @@
 </template>
 
 <style scoped>
-  /* 设计系统样式已内置响应式支持 */
+  /* 样式已优化，使用 Tailwind CSS 类进行控制 */
 </style>
