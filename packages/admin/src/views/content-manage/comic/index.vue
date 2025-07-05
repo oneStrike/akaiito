@@ -11,6 +11,7 @@
     updateComicApi,
   } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
+  import AuthorDetailModal from '@/views/content-manage/author/AuthorDetail.vue'
   import ComicDetail from '@/views/content-manage/comic/ComicDetail.vue'
   import {
     filter,
@@ -39,7 +40,6 @@
     authorId: null,
   })
 
-  const dataDict = ref<IterateObject>({})
   const tableRef = useTemplateRef('tableRef')
   const formTool = useFormTool(formOptions)
   formTool.fillDict([
@@ -166,7 +166,7 @@
             size="small"
             class="ml-1 cursor-pointer"
             :type="comicAuthor.isPrimary ? 'primary' : 'info'"
-            @click="openAuthorDetail(row)"
+            @click="openAuthorDetail(comicAuthor)"
           >
             {{ comicAuthor?.name }}
           </el-tag>
@@ -243,6 +243,13 @@
       :comic-id="currentComic!.id"
       :data-dict="formTool.getDictItem()"
       @close="detailModal = false"
+    />
+
+    <AuthorDetailModal
+      v-if="authorModal.show && authorModal.authorId"
+      :visible="authorModal.show"
+      :author-id="authorModal.authorId"
+      @close="authorModal.show = false"
     />
   </div>
 </template>

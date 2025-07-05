@@ -63,35 +63,34 @@
               fit="cover"
               :src="authorDetail.avatar ?? ''"
               class="w-20 h-20 rounded-full"
-            >
-              <template #error>
-                <div
-                  class="w-20 h-20 rounded-full flex items-center justify-center text-2xl"
-                  :style="{
-                    backgroundColor: 'var(--el-fill-color-light)',
-                    color: 'var(--el-text-color-placeholder)',
-                  }"
-                >
-                  <i class="el-icon-user" />
-                </div>
-              </template>
-            </el-image>
+            />
             <div
               v-if="authorDetail.featured"
               class="rounded-full flex items-center justify-center shadow-sm absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 text-white text-xs"
             >
-              <i class="el-icon-star-on" />
+              荐
             </div>
           </div>
 
           <div class="flex-1 min-w-0">
             <div class="flex flex-col gap-2 mb-3">
-              <h3 class="text-lg font-semibold m-0 text-gray-900 dark:text-gray-100">
+              <h3
+                class="text-lg font-semibold m-0 text-gray-900 dark:text-gray-100"
+              >
                 {{ authorDetail.name || '未知作者' }}
               </h3>
               <div class="flex items-center gap-2">
-                <span class="text-sm text-gray-500 dark:text-gray-400">状态:</span>
-                <span :class="authorDetail.isEnabled ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'" class="text-sm font-medium">
+                <span class="text-sm text-gray-500 dark:text-gray-400">
+                  状态:
+                </span>
+                <span
+                  :class="
+                    authorDetail.isEnabled
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-red-600 dark:text-red-400'
+                  "
+                  class="text-sm font-medium"
+                >
                   {{ authorDetail.isEnabled ? '已启用' : '已禁用' }}
                 </span>
               </div>
@@ -168,24 +167,24 @@
           <div class="text-3xl mb-2 font-bold text-blue-600 dark:text-blue-400">
             {{ authorDetail.followersCount || 0 }}
           </div>
-          <div class="text-sm text-gray-500 dark:text-gray-400">
-            关注者
-          </div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">关注者</div>
         </el-card>
         <el-card class="text-center">
-          <div class="text-3xl mb-2 font-bold text-purple-600 dark:text-purple-400">
+          <div
+            class="text-3xl mb-2 font-bold text-purple-600 dark:text-purple-400"
+          >
             {{ authorDetail.worksCount || 0 }}
           </div>
-          <div class="text-sm text-gray-500 dark:text-gray-400">
-            作品数量
-          </div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">作品数量</div>
         </el-card>
       </div>
 
       <!-- 社交链接 -->
       <el-card v-if="socialLinks?.length" class="mb-4">
         <template #header>
-          <h3 class="text-base font-semibold m-0 text-gray-900 dark:text-gray-100">
+          <h3
+            class="text-base font-semibold m-0 text-gray-900 dark:text-gray-100"
+          >
             社交媒体
           </h3>
         </template>
@@ -197,7 +196,9 @@
             @click="openLink(item.value)"
           >
             <div class="flex-1 min-w-0">
-              <div class="text-sm font-medium mb-1 text-gray-900 dark:text-gray-100">
+              <div
+                class="text-sm font-medium mb-1 text-gray-900 dark:text-gray-100"
+              >
                 {{ item.label }}
               </div>
               <div class="text-xs truncate text-gray-600 dark:text-gray-400">
@@ -205,7 +206,9 @@
               </div>
             </div>
             <div class="w-5 h-5 flex items-center justify-center opacity-50">
-              <i class="text-xs el-icon-arrow-right text-gray-400 dark:text-gray-500" />
+              <i
+                class="text-xs el-icon-arrow-right text-gray-400 dark:text-gray-500"
+              />
             </div>
           </div>
         </div>
@@ -214,7 +217,9 @@
       <!-- 系统信息 -->
       <el-card class="mb-4">
         <template #header>
-          <h3 class="text-base font-semibold m-0 text-gray-900 dark:text-gray-100">
+          <h3
+            class="text-base font-semibold m-0 text-gray-900 dark:text-gray-100"
+          >
             系统信息
           </h3>
         </template>
@@ -247,7 +252,9 @@
             <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
               备注
             </div>
-            <div class="text-sm p-3 rounded border border-orange-200 dark:border-orange-700 bg-orange-50 dark:bg-orange-900/20 text-gray-700 dark:text-gray-300">
+            <div
+              class="text-sm p-3 rounded border border-orange-200 dark:border-orange-700 bg-orange-50 dark:bg-orange-900/20 text-gray-700 dark:text-gray-300"
+            >
               {{ authorDetail.remark }}
             </div>
           </div>
@@ -256,7 +263,3 @@
     </div>
   </EsModal>
 </template>
-
-<style scoped>
-  /* 样式已优化，使用 Tailwind CSS 类进行控制 */
-</style>
