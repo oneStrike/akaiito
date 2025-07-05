@@ -2,8 +2,9 @@ import * as process from 'node:process'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '../client/client'
 import { createInitialAdminAccount } from './adminUser'
+import { createInitialAuthors } from './author'
+import { createInitialComics } from './comic'
 import { createInitialDataDictionary } from './dataDictionary'
-
 import { createInitialWorkCategory } from './workCategory'
 
 const adapter = new PrismaPg({
@@ -15,6 +16,8 @@ Promise.all([
   createInitialAdminAccount(prisma),
   createInitialDataDictionary(prisma),
   createInitialWorkCategory(prisma),
+  createInitialAuthors(prisma),
+  createInitialComics(prisma),
 ])
   .catch((err) => {
     console.log(err)
