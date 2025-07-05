@@ -214,12 +214,6 @@ export async function createInitialComics(prisma: any) {
       await prisma.workComic.create({
         data: item,
       })
-    } else {
-      // 如果已存在，则更新记录
-      await prisma.workComic.update({
-        where: { id: existingComic.id },
-        data: item,
-      })
     }
   }
 
