@@ -413,7 +413,6 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
   ],
   {
     cover: {
-      columnType: 'image',
       index: 0,
     },
     publishAt: {

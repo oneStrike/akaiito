@@ -154,6 +154,17 @@
           {{ row.isFinished ? '已完结' : '连载中' }}
         </el-text>
       </template>
+      <template #cover="{ row }">
+        <el-image
+          fit="cover"
+          class="align-middle w-8 h-12"
+          :src="row.cover"
+          :preview-src-list="row.cover ? [row.cover] : []"
+          :z-index="999999"
+          preview-teleported
+        >
+        </el-image>
+      </template>
 
       <template #authorIds="{ row }">
         <div

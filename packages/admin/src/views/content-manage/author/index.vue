@@ -92,7 +92,16 @@
       <template #isEnabled="{ row }">
         <EsSwitch :request="switchStatus" ids :row="row" />
       </template>
-
+      <template #avatar="{ row }">
+        <el-image
+          fit="cover"
+          class="align-middle w-8 h-12"
+          :src="row.avatar"
+          :preview-src-list="row.avatar ? [row.avatar] : []"
+          :z-index="999999"
+          preview-teleported
+        />
+      </template>
       <template #action="{ row }">
         <el-button type="primary" link @click="openFormModal(row)">
           编辑

@@ -183,7 +183,7 @@
       <el-card v-if="socialLinks?.length" class="mb-4">
         <template #header>
           <h3
-            class="text-base font-semibold m-0 text-gray-900 dark:text-gray-100"
+            class="font-semibold m-0 text-gray-900 dark:text-gray-100 text-base"
           >
             社交媒体
           </h3>
