@@ -648,7 +648,9 @@
               </div>
               <div class="text-gray-700 dark:text-gray-300">
                 {{
-                  $dayjs.utc(comicDetail?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+                  $dayjs
+                    .utc(comicDetail?.createdAt)
+                    .format('YYYY-MM-DD HH:mm:ss')
                 }}
               </div>
             </div>
@@ -663,7 +665,9 @@
               </div>
               <div class="text-gray-700 dark:text-gray-300">
                 {{
-                  $dayjs.utc(comicDetail.updatedAt).format('YYYY-MM-DD HH:mm:ss')
+                  $dayjs
+                    .utc(comicDetail.updatedAt)
+                    .format('YYYY-MM-DD HH:mm:ss')
                 }}
               </div>
             </div>
@@ -695,7 +699,9 @@
                 删除时间
               </div>
               <div class="text-gray-700 dark:text-gray-300">
-                {{ $dayjs(comicDetail.deletedAt).format('YYYY-MM-DD HH:mm:ss') }}
+                {{
+                  $dayjs(comicDetail.deletedAt).format('YYYY-MM-DD HH:mm:ss')
+                }}
               </div>
             </div>
           </div>
