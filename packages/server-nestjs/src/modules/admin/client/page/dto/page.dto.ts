@@ -17,7 +17,7 @@ import { PageRuleEnum, PageStatusEnum } from '../page.constant'
 /**
  * 页面配置基础字段DTO
  */
-export class BasePageConfigFieldsDto extends IdDto {
+export class BasePageConfigFieldsDto {
   @ValidateString({
     description: '页面编码（唯一标识）',
     example: 'home',

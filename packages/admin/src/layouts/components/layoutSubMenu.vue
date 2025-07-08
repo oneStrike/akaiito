@@ -29,3 +29,9 @@
     </template>
   </el-sub-menu>
 </template>
+
+<style scoped lang="scss">
+  ::v-deep(.is-active) {
+    background-color: rgba(var(--el-color-primary-rgb), .1)
+  }
+</style>
