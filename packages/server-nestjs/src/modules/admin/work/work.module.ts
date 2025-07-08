@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common'
 import { WorkAuthorModule } from './author/author.module'
 import { WorkCategoryModule } from './category/category.module'
-import { WorkComicChapterModule } from './comic-chapter/comic-chapter.module'
-import { WorkComicVersionModule } from './comic-version/comic-version.module'
-import { WorkComicModule } from './comic/comic.module'
+import { ComicModule } from './comic/comic.module'
 
 /**
  * 作品管理主模块
@@ -13,16 +11,12 @@ import { WorkComicModule } from './comic/comic.module'
   imports: [
     WorkAuthorModule,
     WorkCategoryModule,
-    WorkComicModule,
-    WorkComicChapterModule,
-    WorkComicVersionModule,
+    ComicModule,
   ],
   exports: [
     WorkAuthorModule,
     WorkCategoryModule,
-    WorkComicModule,
-    WorkComicChapterModule,
-    WorkComicVersionModule,
+    ComicModule,
   ],
 })
 export class WorkModule {}

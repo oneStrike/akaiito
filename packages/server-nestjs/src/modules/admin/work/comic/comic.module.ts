@@ -1,14 +1,18 @@
 import { Module } from '@nestjs/common'
-import { WorkComicController } from './comic.controller'
-import { WorkComicService } from './comic.service'
+import { WorkComicChapterModule } from './chapter/comic-chapter.module'
+import { WorkComicModule } from './core/comic.module'
+import { WorkComicVersionModule } from './version/comic-version.module'
 
 /**
- * 漫画模块
- * 提供漫画管理的完整功能
+ * 漫画管理模块
+ * 统一管理漫画相关的所有子模块
  */
 @Module({
-  controllers: [WorkComicController],
-  providers: [WorkComicService],
-  exports: [WorkComicService],
+  imports: [
+    WorkComicModule, // 漫画核心模块
+    WorkComicChapterModule, // 漫画章节模块
+    WorkComicVersionModule, // 漫画版本模块
+  ],
+  exports: [WorkComicModule, WorkComicChapterModule, WorkComicVersionModule],
 })
-export class WorkComicModule {}
+export class ComicModule {}

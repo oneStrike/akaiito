@@ -61,7 +61,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     if (versionId) {
       whereCondition.versionId = versionId
     }
-    
+
     const existingChapter = await this.findFirst({
       where: whereCondition,
     })
@@ -138,11 +138,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
         remark: true,
         deletedAt: true,
       },
-      orderBy: [
-        { comicId: 'asc' },
-        { sortOrder: 'asc' },
-        { chapterNumber: 'asc' },
-      ],
+      orderBy: [{ comicId: 'asc' }, { chapterNumber: 'asc' }],
     })
   }
 
@@ -166,7 +162,6 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
             id: true,
             versionName: true,
             language: true,
-            translationGroup: true,
           },
         },
       },
@@ -220,13 +215,16 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
         chapterNumber: updateData.chapterNumber,
         id: { not: id },
       }
-      
+
       // 使用更新后的版本ID或现有的版本ID进行重复检查
-      const targetVersionId = updateData.versionId !== undefined ? updateData.versionId : existingChapter.versionId
+      const targetVersionId =
+        updateData.versionId !== undefined
+          ? updateData.versionId
+          : existingChapter.versionId
       if (targetVersionId) {
         whereCondition.versionId = targetVersionId
       }
-      
+
       const duplicateChapter = await this.findFirst({
         where: whereCondition,
       })
@@ -349,7 +347,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
 
     return this.findMany({
       where,
-      orderBy: [{ sortOrder: 'asc' }, { chapterNumber: 'asc' }],
+      orderBy: [{ chapterNumber: 'asc' }],
       omit: {
         contents: true,
         remark: true,
