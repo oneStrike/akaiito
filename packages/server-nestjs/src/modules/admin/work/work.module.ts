@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common'
 import { WorkAuthorModule } from './author/author.module'
 import { WorkCategoryModule } from './category/category.module'
 import { WorkComicChapterModule } from './comic-chapter/comic-chapter.module'
+import { WorkComicVersionModule } from './comic-version/comic-version.module'
 import { WorkComicModule } from './comic/comic.module'
 
 /**
@@ -14,12 +15,14 @@ import { WorkComicModule } from './comic/comic.module'
     WorkCategoryModule,
     WorkComicModule,
     WorkComicChapterModule,
+    WorkComicVersionModule,
   ],
   exports: [
     WorkAuthorModule,
     WorkCategoryModule,
     WorkComicModule,
     WorkComicChapterModule,
+    WorkComicVersionModule,
   ],
 })
 export class WorkModule {}

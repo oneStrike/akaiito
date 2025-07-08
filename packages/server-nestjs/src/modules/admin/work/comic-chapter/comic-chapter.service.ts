@@ -30,7 +30,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
    * @returns 创建的章节信息
    */
   async createComicChapter(createComicChapterDto: CreateComicChapterDto) {
-    const { comicId, chapterNumber } = createComicChapterDto
+    const { comicId, versionId, chapterNumber } = createComicChapterDto
 
     // 验证漫画是否存在
     const comic = await this.prisma.workComic.findUnique({
@@ -40,12 +40,30 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('关联的漫画不存在')
     }
 
-    // 验证同一漫画下章节号是否已存在
+    // 如果提供了版本ID，验证版本是否存在且属于该漫画
+    if (versionId) {
+      const version = await this.prisma.workComicVersion.findUnique({
+        where: { id: versionId },
+      })
+      if (!version) {
+        throw new BadRequestException('关联的漫画版本不存在')
+      }
+      if (version.comicId !== comicId) {
+        throw new BadRequestException('漫画版本与漫画不匹配')
+      }
+    }
+
+    // 验证同一漫画下章节号是否已存在（考虑版本）
+    const whereCondition: any = {
+      comicId,
+      chapterNumber,
+    }
+    if (versionId) {
+      whereCondition.versionId = versionId
+    }
+    
     const existingChapter = await this.findFirst({
-      where: {
-        comicId,
-        chapterNumber,
-      },
+      where: whereCondition,
     })
     if (existingChapter) {
       throw new BadRequestException('该漫画下章节号已存在')
@@ -74,7 +92,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
    * @returns 分页章节列表
    */
   async getComicChapterPage(queryComicChapterDto: QueryComicChapterDto) {
-    const { title, isPublished, comicId, readRule, isPreview } =
+    const { title, isPublished, comicId, versionId, readRule, isPreview } =
       queryComicChapterDto
 
     // 构建查询条件
@@ -96,6 +114,11 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     // 漫画ID筛选
     if (comicId) {
       where.comicId = comicId
+    }
+
+    // 版本ID筛选
+    if (versionId) {
+      where.versionId = versionId
     }
 
     // 查看规则筛选
@@ -138,6 +161,14 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
             name: true,
           },
         },
+        relatedVersion: {
+          select: {
+            id: true,
+            versionName: true,
+            language: true,
+            translationGroup: true,
+          },
+        },
       },
     })
 
@@ -164,17 +195,40 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('章节不存在')
     }
 
-    // 如果更新章节号，验证是否与同漫画下其他章节重复
+    // 如果更新版本ID，验证版本是否存在且属于该漫画
+    if (updateData.versionId !== undefined) {
+      if (updateData.versionId) {
+        const version = await this.prisma.workComicVersion.findUnique({
+          where: { id: updateData.versionId },
+        })
+        if (!version) {
+          throw new BadRequestException('关联的漫画版本不存在')
+        }
+        if (version.comicId !== existingChapter.comicId) {
+          throw new BadRequestException('漫画版本与漫画不匹配')
+        }
+      }
+    }
+
+    // 如果更新章节号，验证是否与同漫画下其他章节重复（考虑版本）
     if (
       updateData.chapterNumber !== undefined &&
       updateData.chapterNumber !== existingChapter.chapterNumber
     ) {
+      const whereCondition: any = {
+        comicId: existingChapter.comicId,
+        chapterNumber: updateData.chapterNumber,
+        id: { not: id },
+      }
+      
+      // 使用更新后的版本ID或现有的版本ID进行重复检查
+      const targetVersionId = updateData.versionId !== undefined ? updateData.versionId : existingChapter.versionId
+      if (targetVersionId) {
+        whereCondition.versionId = targetVersionId
+      }
+      
       const duplicateChapter = await this.findFirst({
-        where: {
-          comicId: existingChapter.comicId,
-          chapterNumber: updateData.chapterNumber,
-          id: { not: id },
-        },
+        where: whereCondition,
       })
       if (duplicateChapter) {
         throw new BadRequestException('该漫画下章节号已存在')
@@ -279,14 +333,22 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
   /**
    * 获取指定漫画的章节列表（按章节号排序）
    * @param comicId 漫画ID
+   * @param versionId 可选的版本ID
    * @returns 章节列表
    */
-  async getChaptersByComicId(comicId: number) {
+  async getChaptersByComicId(comicId: number, versionId?: number) {
+    const where: any = {
+      comicId,
+      isPublished: true,
+    }
+
+    // 如果指定了版本ID，添加版本筛选条件
+    if (versionId) {
+      where.versionId = versionId
+    }
+
     return this.findMany({
-      where: {
-        comicId,
-        isPublished: true,
-      },
+      where,
       orderBy: [{ sortOrder: 'asc' }, { chapterNumber: 'asc' }],
       omit: {
         contents: true,

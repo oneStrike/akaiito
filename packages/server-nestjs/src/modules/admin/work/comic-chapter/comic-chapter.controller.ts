@@ -102,7 +102,7 @@ export class WorkComicChapterController {
     summary: '获取指定漫画的章节列表',
     model: [ComicChapterPageResponseDto],
   })
-  async getChaptersByComic(@Query() query: { comicId: number }) {
-    return this.comicChapterService.getChaptersByComicId(query.comicId)
+  async getChaptersByComic(@Query() query: { comicId: number; versionId?: number }) {
+    return this.comicChapterService.getChaptersByComicId(query.comicId, query.versionId)
   }
 }

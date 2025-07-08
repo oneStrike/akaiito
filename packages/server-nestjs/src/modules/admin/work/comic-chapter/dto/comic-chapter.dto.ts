@@ -61,6 +61,14 @@ export class BaseComicChapterDto {
   comicId!: number
 
   @ValidateNumber({
+    description: '关联的漫画版本ID',
+    example: 1,
+    required: false,
+    min: 1,
+  })
+  versionId?: number
+
+  @ValidateNumber({
     description: '章节序号（用于排序）',
     example: 1.0,
     required: true,
@@ -215,6 +223,7 @@ export class QueryComicChapterDto extends IntersectionType(
     'title',
     'isPublished',
     'comicId',
+    'versionId',
     'readRule',
     'isPreview',
   ]),
