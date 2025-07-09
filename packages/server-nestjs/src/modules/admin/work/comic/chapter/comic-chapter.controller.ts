@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
+import { WorkComicVersionService } from '../version/comic-version.service'
 import { WorkComicChapterService } from './comic-chapter.service'
 import {
   ComicChapterDetailResponseDto,
@@ -20,7 +21,10 @@ import {
 @ApiTags('漫画章节管理模块')
 @Controller('admin/work/comic-chapter')
 export class WorkComicChapterController {
-  constructor(private readonly comicChapterService: WorkComicChapterService) {}
+  constructor(
+    private readonly comicChapterService: WorkComicChapterService,
+    private readonly comicVersionService: WorkComicVersionService,
+  ) {}
 
   /**
    * 创建漫画章节
@@ -102,7 +106,58 @@ export class WorkComicChapterController {
     summary: '获取指定漫画的章节列表',
     model: [ComicChapterPageResponseDto],
   })
-  async getChaptersByComic(@Query() query: { comicId: number; versionId?: number }) {
-    return this.comicChapterService.getChaptersByComicId(query.comicId, query.versionId)
+  async getChaptersByComic(
+    @Query() query: { comicId: number; versionId?: number },
+  ) {
+    return this.comicChapterService.getChaptersByComicId(
+      query.comicId,
+      query.versionId,
+    )
+  }
+
+  /**
+   * 获取指定版本的章节列表
+   */
+  @Get('/chapters-by-version')
+  @ApiDoc({
+    summary: '获取指定版本的章节列表',
+    model: [ComicChapterPageResponseDto],
+  })
+  async getChaptersByVersion(@Query() query: { versionId: number }) {
+    return this.comicChapterService.getChaptersByVersionId(query.versionId)
+  }
+
+  /**
+   * 批量移动章节到指定版本
+   */
+  @Post('/batch-move-chapters-to-version')
+  @ApiDoc({
+    summary: '批量移动章节到指定版本',
+    model: CountDto,
+  })
+  async batchMoveChaptersToVersion(
+    @Body() body: { chapterIds: number[]; targetVersionId: number },
+  ) {
+    return this.comicChapterService.batchMoveChaptersToVersion(
+      body.chapterIds,
+      body.targetVersionId,
+    )
+  }
+
+  /**
+   * 复制章节到指定版本
+   */
+  @Post('/copy-chapter-to-version')
+  @ApiDoc({
+    summary: '复制章节到指定版本',
+    model: IdDto,
+  })
+  async copyChapterToVersion(
+    @Body() body: { chapterId: number; targetVersionId: number },
+  ) {
+    return this.comicChapterService.copyChapterToVersion(
+      body.chapterId,
+      body.targetVersionId,
+    )
   }
 }

@@ -3,7 +3,7 @@
  *  @标签 客户端通知模块/创建通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/create-notice
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface CreateNoticeRequest {
@@ -45,9 +45,6 @@ export interface CreateNoticeRequest {
 
   /* 通知所关联的客户端页面信息 */
   clientPage: {
-    /* 主键id */
-    id: number
-
     /* 页面编码（唯一标识） */
     pageCode: string
 
@@ -73,7 +70,7 @@ export type CreateNoticeResponse = {
  *  @标签 客户端通知模块/分页查询通知列表
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-page
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface NoticePageRequest {
@@ -171,9 +168,6 @@ export interface NoticePageResponse {
 
     /* 通知所关联的客户端页面信息 */
     clientPage: {
-      /* 主键id */
-      id: number
-
       /* 页面编码（唯一标识） */
       pageCode: string
 
@@ -196,7 +190,7 @@ export interface NoticePageResponse {
  *  @标签 客户端通知模块/根据ID查询通知详情
  *  @方式 GET
  *  @地址 /api/admin/notice/notice-detail
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface NoticeDetailRequest {
@@ -259,9 +253,6 @@ export type NoticeDetailResponse = {
 
   /* 通知所关联的客户端页面信息 */
   clientPage: {
-    /* 主键id */
-    id: number
-
     /* 页面编码（唯一标识） */
     pageCode: string
 
@@ -281,7 +272,7 @@ export type NoticeDetailResponse = {
  *  @标签 客户端通知模块/更新通知消息
  *  @方式 POST
  *  @地址 /api/admin/notice/update-notice
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface UpdateNoticeRequest {
@@ -323,9 +314,6 @@ export interface UpdateNoticeRequest {
 
   /* 通知所关联的客户端页面信息 */
   clientPage?: {
-    /* 主键id */
-    id: number
-
     /* 页面编码（唯一标识） */
     pageCode: string
 
@@ -354,7 +342,7 @@ export type UpdateNoticeResponse = {
  *  @标签 客户端通知模块/批量更新通知状态
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-update-notice-status
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface BatchUpdateNoticeStatusRequest {
@@ -379,7 +367,7 @@ export type BatchUpdateNoticeStatusResponse = {
  *  @标签 客户端通知模块/批量删除通知
  *  @方式 POST
  *  @地址 /api/admin/notice/batch-delete-notice
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface BatchDeleteNoticeRequest {

@@ -340,6 +340,15 @@ export class BaseComicDto {
   })
   ratingCount!: number
 
+  @ValidateNumber({
+    description: '版本数量',
+    example: 3,
+    required: true,
+    min: 0,
+    default: 0,
+  })
+  versionCount!: number
+
   @ValidateString({
     description: 'SEO标题',
     example: '进击的巨人 - 热门漫画在线阅读',
@@ -457,6 +466,7 @@ export class CreateComicDto extends OmitType(BaseComicDto, [
   'commentCount',
   'likeCount',
   'ratingCount',
+  'versionCount',
   'isRecommended',
   'isHot',
   'isNew',
@@ -493,6 +503,7 @@ export class UpdateComicDto extends IntersectionType(
       'commentCount',
       'likeCount',
       'ratingCount',
+      'versionCount',
       'comicCategories',
       'comicAuthors',
     ]),

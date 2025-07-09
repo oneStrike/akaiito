@@ -3,13 +3,10 @@
  *  @标签 客户端页面配置模块/创建页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/create-client-page
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface CreateClientPageRequest {
-  /* 主键id */
-  id: number
-
   /* 页面编码（唯一标识） */
   pageCode: string
 
@@ -46,7 +43,7 @@ export type CreateClientPageResponse = {
  *  @标签 客户端页面配置模块/分页查询页面配置列表
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-page
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface ClientPagePageRequest {
@@ -88,9 +85,6 @@ export interface ClientPagePageResponse {
   /* 总条数 */
   total: number
   list: {
-    /* 主键id */
-    id: number
-
     /* 页面编码（唯一标识） */
     pageCode: string
 
@@ -108,6 +102,9 @@ export interface ClientPagePageResponse {
 
     /* 页面状态 */
     pageStatus: number
+
+    /* 主键id */
+    id: number
 
     /* 访问次数统计 */
     viewCount: number
@@ -130,7 +127,7 @@ export interface ClientPagePageResponse {
  *  @标签 客户端页面配置模块/根据ID查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-id
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface ClientPageDetailByIdRequest {
@@ -140,9 +137,6 @@ export interface ClientPageDetailByIdRequest {
 
 /*  */
 export type ClientPageDetailByIdResponse = {
-  /* 主键id */
-  id: number
-
   /* 页面编码（唯一标识） */
   pageCode: string
 
@@ -163,6 +157,9 @@ export type ClientPageDetailByIdResponse = {
 
   /* 页面描述信息 */
   description?: string | null
+
+  /* 主键id */
+  id: number
 
   /* 访问次数统计 */
   viewCount: number
@@ -182,7 +179,7 @@ export type ClientPageDetailByIdResponse = {
  *  @标签 客户端页面配置模块/根据页面编码查询页面配置详情
  *  @方式 GET
  *  @地址 /api/admin/client-page/client-page-detail-by-code
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface ClientPageDetailByCodeRequest {
@@ -192,9 +189,6 @@ export interface ClientPageDetailByCodeRequest {
 
 /*  */
 export type ClientPageDetailByCodeResponse = {
-  /* 主键id */
-  id: number
-
   /* 页面编码（唯一标识） */
   pageCode: string
 
@@ -216,6 +210,9 @@ export type ClientPageDetailByCodeResponse = {
   /* 页面描述信息 */
   description?: string | null
 
+  /* 主键id */
+  id: number
+
   /* 访问次数统计 */
   viewCount: number
 
@@ -234,13 +231,10 @@ export type ClientPageDetailByCodeResponse = {
  *  @标签 客户端页面配置模块/更新页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/update-client-page
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface UpdateClientPageRequest {
-  /* 页面ID */
-  id: number
-
   /* 页面编码（唯一标识） */
   pageCode?: string
 
@@ -261,6 +255,9 @@ export interface UpdateClientPageRequest {
 
   /* 页面描述信息 */
   description?: string | null
+
+  /* 页面ID */
+  id: number
 }
 
 /*  */
@@ -277,7 +274,7 @@ export type UpdateClientPageResponse = {
  *  @标签 客户端页面配置模块/批量软删除页面配置
  *  @方式 POST
  *  @地址 /api/admin/client-page/batch-delete-client-page
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export interface BatchDeleteClientPageRequest {

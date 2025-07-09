@@ -1,7 +1,7 @@
 import {
   ComicReadRuleEnum,
   ComicSerialStatusEnum,
-} from '../../modules/admin/work/comic/comic.constant'
+} from '../../modules/admin/work/comic/core/comic.constant'
 
 export async function createInitialComics(prisma: any) {
   const initData = [

@@ -29,7 +29,7 @@ import type {
  *  @标签 字典管理/分页查询字典
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-page
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const dictionaryPageApi = (params: DictionaryPageRequest): Promise<DictionaryPageResponse> => {
@@ -46,7 +46,7 @@ export const dictionaryPageApi = (params: DictionaryPageRequest): Promise<Dictio
  *  @标签 字典管理/获取字典详情
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-detail
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const dictionaryDetailApi = (params: DictionaryDetailRequest): Promise<DictionaryDetailResponse> => {
@@ -63,7 +63,7 @@ export const dictionaryDetailApi = (params: DictionaryDetailRequest): Promise<Di
  *  @标签 字典管理/创建字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const createDictionaryApi = (data: CreateDictionaryRequest): Promise<CreateDictionaryResponse> => {
@@ -82,7 +82,7 @@ export const createDictionaryApi = (data: CreateDictionaryRequest): Promise<Crea
  *  @标签 字典管理/更新字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const updateDictionaryApi = (data: UpdateDictionaryRequest): Promise<UpdateDictionaryResponse> => {
@@ -101,7 +101,7 @@ export const updateDictionaryApi = (data: UpdateDictionaryRequest): Promise<Upda
  *  @标签 字典管理/删除字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const deleteDictionaryApi = (data: DeleteDictionaryRequest): Promise<DeleteDictionaryResponse> => {
@@ -120,7 +120,7 @@ export const deleteDictionaryApi = (data: DeleteDictionaryRequest): Promise<Dele
  *  @标签 字典管理/批量启用禁用字典
  *  @方式 POST
  *  @地址 /api/admin/dictionary/batch-update-dictionary-status
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const batchUpdateDictionaryStatusApi = (
@@ -141,7 +141,7 @@ export const batchUpdateDictionaryStatusApi = (
  *  @标签 字典管理/获取字典项
  *  @方式 GET
  *  @地址 /api/admin/dictionary/dictionary-items
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const dictionaryItemsApi = (params: DictionaryItemsRequest): Promise<DictionaryItemsResponse> => {
@@ -158,7 +158,7 @@ export const dictionaryItemsApi = (params: DictionaryItemsRequest): Promise<Dict
  *  @标签 字典管理/创建字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/create-dictionary-item
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const createDictionaryItemApi = (data: CreateDictionaryItemRequest): Promise<CreateDictionaryItemResponse> => {
@@ -177,7 +177,7 @@ export const createDictionaryItemApi = (data: CreateDictionaryItemRequest): Prom
  *  @标签 字典管理/更新字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const updateDictionaryItemApi = (data: UpdateDictionaryItemRequest): Promise<UpdateDictionaryItemResponse> => {
@@ -196,7 +196,7 @@ export const updateDictionaryItemApi = (data: UpdateDictionaryItemRequest): Prom
  *  @标签 字典管理/删除字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/delete-dictionary-item
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const deleteDictionaryItemApi = (data: DeleteDictionaryItemRequest): Promise<DeleteDictionaryItemResponse> => {
@@ -215,7 +215,7 @@ export const deleteDictionaryItemApi = (data: DeleteDictionaryItemRequest): Prom
  *  @标签 字典管理/启用禁用字典项
  *  @方式 POST
  *  @地址 /api/admin/dictionary/update-dictionary-item-status
- *  @更新时间 2025-07-04 16:24:21
+ *  @更新时间 2025-07-09 23:33:51
  */
 
 export const updateDictionaryItemStatusApi = (

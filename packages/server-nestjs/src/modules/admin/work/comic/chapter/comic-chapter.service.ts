@@ -355,4 +355,117 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       },
     })
   }
+
+  /**
+   * 根据版本ID获取章节列表
+   * @param versionId 版本ID
+   * @returns 章节列表
+   */
+  async getChaptersByVersionId(versionId: number) {
+    const chapters = await this.prisma.workComicChapter.findMany({
+      where: { versionId },
+      orderBy: { chapterNumber: 'asc' },
+      select: {
+        id: true,
+        chapterNumber: true,
+        title: true,
+        isPublished: true,
+        readRule: true,
+        createdAt: true,
+        updatedAt: true,
+        versionId: true,
+        relatedVersion: {
+          select: {
+            id: true,
+            versionName: true,
+          },
+        },
+      },
+    })
+
+    return chapters.map((chapter) => ({
+      id: chapter.id,
+      chapterNumber: chapter.chapterNumber,
+      title: chapter.title,
+      isPublished: chapter.isPublished,
+      readRule: chapter.readRule,
+      createdAt: chapter.createdAt,
+      updatedAt: chapter.updatedAt,
+      version: chapter.relatedVersion
+        ? {
+            id: chapter.relatedVersion.id,
+            versionName: chapter.relatedVersion.versionName,
+          }
+        : null,
+    }))
+  }
+
+  /**
+   * 批量移动章节到指定版本
+   * @param chapterIds 章节ID列表
+   * @param targetVersionId 目标版本ID
+   * @returns 更新数量
+   */
+  async batchMoveChaptersToVersion(
+    chapterIds: number[],
+    targetVersionId: number,
+  ) {
+    const result = await this.prisma.workComicChapter.updateMany({
+      where: {
+        id: { in: chapterIds },
+      },
+      data: {
+        versionId: targetVersionId,
+      },
+    })
+
+    return { count: result.count }
+  }
+
+  /**
+   * 复制章节到指定版本
+   * @param chapterId 章节ID
+   * @param targetVersionId 目标版本ID
+   * @returns 新章节ID
+   */
+  async copyChapterToVersion(chapterId: number, targetVersionId: number) {
+    // 获取原章节信息
+    const originalChapter = await this.prisma.workComicChapter.findUnique({
+      where: { id: chapterId },
+    })
+
+    if (!originalChapter) {
+      throw new BadRequestException('章节不存在')
+    }
+
+    // 检查目标版本中是否已存在相同章节号
+    const existingChapter = await this.prisma.workComicChapter.findFirst({
+      where: {
+        comicId: originalChapter.comicId,
+        versionId: targetVersionId,
+        chapterNumber: originalChapter.chapterNumber,
+      },
+    })
+
+    if (existingChapter) {
+      throw new BadRequestException('目标版本中已存在相同章节号的章节')
+    }
+
+    // 创建新章节
+    const newChapter = await this.prisma.workComicChapter.create({
+      data: {
+        comicId: originalChapter.comicId,
+        versionId: targetVersionId,
+        chapterNumber: originalChapter.chapterNumber,
+        title: originalChapter.title,
+        contents: originalChapter.contents,
+        isPublished: originalChapter.isPublished,
+        readRule: originalChapter.readRule,
+        isPreview: originalChapter.isPreview,
+        remark: originalChapter.remark,
+      },
+    })
+
+    return { id: newChapter.id }
+  }
 }

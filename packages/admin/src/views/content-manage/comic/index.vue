@@ -19,10 +19,12 @@
     tableColumn,
     toolbar,
   } from '@/views/content-manage/comic/shared'
+  import Version from '@/views/content-manage/comic/Version.vue'
 
   defineOptions({
     name: 'ContentMgmtPage',
   })
+
   const formModal = reactive({
     show: false,
     loading: false,
@@ -38,6 +40,14 @@
   const authorModal = reactive({
     show: false,
     authorId: null,
+  })
+
+  const versionModal: {
+    show: boolean
+    comic: ComicDetailResponse | null
+  } = reactive({
+    show: false,
+    comic: null,
   })
 
   const tableRef = useTemplateRef('tableRef')
@@ -128,6 +138,13 @@
     authorModal.authorId = author.id
     authorModal.show = true
   }
+
+  function tableLink({ row, field }: any) {
+    if (field === 'versionCount') {
+      versionModal.comic = row
+      versionModal.show = true
+    }
+  }
 </script>
 
 <template>
@@ -139,6 +156,7 @@
       :columns="tableColumn"
       :request-api="comicPageApi"
       @toolbar-handler="toolbarHandler"
+      @link="tableLink"
     >
       <template #name="{ row }">
         <el-button
@@ -162,8 +180,7 @@
           :preview-src-list="row.cover ? [row.cover] : []"
           :z-index="999999"
           preview-teleported
-        >
-        </el-image>
+        />
       </template>
 
       <template #authorIds="{ row }">
@@ -212,28 +229,11 @@
       <template #action="{ row }">
         <el-button link type="primary" @click="editRow(row)">编辑</el-button>
         <el-divider direction="vertical" />
-        <el-button
-          link
-          type="primary"
-          @click="((currentComic = row), (chapterModal.show = true))"
-        >
-          章节
-        </el-button>
-        <el-divider direction="vertical" />
-        <el-dropdown class="contents!">
-          <el-button type="primary" link>更多</el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>
-                <es-pop-confirm
-                  :request="deleteComicApi"
-                  :row="row"
-                  @success="tableRef?.refresh()"
-                />
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <es-pop-confirm
+          :request="deleteComicApi"
+          :row="row"
+          @success="tableRef?.refresh()"
+        />
       </template>
     </EsTable>
 
@@ -261,6 +261,12 @@
       :visible="authorModal.show"
       :author-id="authorModal.authorId"
       @close="authorModal.show = false"
+    />
+
+    <Version
+      v-if="versionModal.show && versionModal.comic !== null"
+      v-model="versionModal.show"
+      :comic="versionModal.comic"
     />
   </div>
 </template>

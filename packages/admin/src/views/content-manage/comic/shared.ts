@@ -420,8 +420,13 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
         return row.publishAt ? row.publishAt.split('T')[0] : '-'
       },
     },
+    versionCount: {
+      label: '版本',
+      columnType: 'link',
+      align: 'center',
+    },
     action: {
-      width: 200,
+      width: 120,
     },
   },
 )
@@ -596,3 +601,28 @@ export const filter: EsFormOptions[] = formOptionsToFilterOptions(formOptions, {
   serialStatus: 4,
   name: 4,
 })
+
+export const versionForm: EsFormOptions[] = [
+  {
+    field: 'name',
+    component: 'Input',
+    props: {
+      label: '版本名称',
+      rules: useValidate.required('版本名称'),
+    },
+    componentProps: {
+      placeholder: '请输入版本名称',
+      maxlength: 50,
+    },
+  },
+  {
+    field: 'description',
+    component: 'Textarea',
+    props: {
+      label: '版本描述',
+    },
+    componentProps: {
+      placeholder: '请输入版本描述',
+    },
+  },
+]

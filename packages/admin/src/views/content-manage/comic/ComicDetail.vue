@@ -694,7 +694,7 @@
               class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
             >
               <div
-                class="text-sm font-medium text-red-600 dark:text-red-400 mb-2"
+                class="text-sm font-medium mb-2 text-red-600 dark:text-red-400"
               >
                 删除时间
               </div>
