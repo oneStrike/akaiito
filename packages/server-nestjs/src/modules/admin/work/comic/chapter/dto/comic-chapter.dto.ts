@@ -291,8 +291,3 @@ export class ComicChapterPageResponseDto extends OmitType(BaseComicChapterDto, [
   'contents',
   'remark',
 ]) {}
-
-/**
- * 漫画章节详情响应DTO
- */
-export class ComicChapterDetailResponseDto extends BaseComicChapterDto {}

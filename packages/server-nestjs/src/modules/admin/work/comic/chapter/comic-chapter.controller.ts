@@ -7,7 +7,7 @@ import { OrderDto } from '@/common/dto/order.dto'
 import { WorkComicVersionService } from '../version/comic-version.service'
 import { WorkComicChapterService } from './comic-chapter.service'
 import {
-  ComicChapterDetailResponseDto,
+  BaseComicChapterDto,
   ComicChapterPageResponseDto,
   CreateComicChapterDto,
   QueryComicChapterDto,
@@ -57,7 +57,7 @@ export class WorkComicChapterController {
   @Get('/comic-chapter-detail')
   @ApiDoc({
     summary: '获取漫画章节详情',
-    model: ComicChapterDetailResponseDto,
+    model: BaseComicChapterDto,
   })
   async getDetail(@Query() query: IdDto) {
     return this.comicChapterService.getComicChapterDetail(query.id)
@@ -73,18 +73,6 @@ export class WorkComicChapterController {
   })
   async update(@Body() body: UpdateComicChapterDto) {
     return this.comicChapterService.updateComicChapter(body)
-  }
-
-  /**
-   * 批量更新章节发布状态
-   */
-  @Post('/batch-update-chapter-publish-status')
-  @ApiDoc({
-    summary: '批量更新章节发布状态',
-    model: CountDto,
-  })
-  async updatePublishStatus(@Body() body: UpdateChapterPublishStatusDto) {
-    return this.comicChapterService.updateChapterPublishStatus(body)
   }
 
   /**
@@ -129,6 +117,27 @@ export class WorkComicChapterController {
   }
 
   /**
+   * 批量更新章节发布状态
+   */
+  @Post('/batch-update-chapter-publish-status')
+  @ApiDoc({
+    summary: '批量更新章节发布状态',
+    model: CountDto,
+  })
+  async updatePublishStatus(@Body() body: UpdateChapterPublishStatusDto) {
+    return this.comicChapterService.updateChapterPublishStatus(body)
+  }
+
+  /**
+   * 交换两个章节的章节号
+   */
+  @Post('swap-chapter-numbers')
+  @ApiDoc({ summary: '交换两个章节的章节号' })
+  async swapChapterNumbers(@Body() swapChapterNumberDto: OrderDto) {
+    return this.comicChapterService.swapChapterNumbers(swapChapterNumberDto)
+  }
+
+  /**
    * 批量移动章节到指定版本
    */
   @Post('/batch-move-chapters-to-version')
@@ -160,14 +169,5 @@ export class WorkComicChapterController {
       body.chapterId,
       body.targetVersionId,
     )
-  }
-
-  /**
-   * 交换两个章节的章节号
-   */
-  @Post('swap-chapter-numbers')
-  @ApiDoc({ summary: '交换两个章节的章节号' })
-  async swapChapterNumbers(@Body() swapChapterNumberDto: OrderDto) {
-    return this.comicChapterService.swapChapterNumbers(swapChapterNumberDto)
   }
 }

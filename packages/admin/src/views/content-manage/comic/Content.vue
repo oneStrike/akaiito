@@ -1,11 +1,5 @@
 <script setup lang="ts" async>
   import type { UploadFile } from 'element-plus'
-  import {
-    clearComicChapterContentApi,
-    deleteComicChapterContentApi,
-    getComicChapterContentApi,
-    updateComicChapterContentOrderApi,
-  } from '@/apis/chapter'
   import { PromptsEnum } from '@/enum/prompts.ts'
   import { useImageInfo } from '@/hooks/useImageInfo'
   import { contentColumn } from './shared'
