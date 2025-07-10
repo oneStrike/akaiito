@@ -222,7 +222,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     pageData.list = pageData.list.map((item) => {
       const result = {
         ...item,
-        versionCount: item._count.comicVersions,
         comicAuthors: item.comicAuthors.map((author) => ({
           ...author.author,
           roleType: author.roleType,
@@ -287,10 +286,9 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     if (!comic) {
       throw new BadRequestException('漫画不存在')
     }
-    
+
     const result = {
       ...comic,
-      versionCount: comic._count.comicVersions,
       comicAuthors: comic.comicAuthors!.map((author) => ({
         ...author.author,
         isPrimary: author.isPrimary,
@@ -300,10 +298,10 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         ...category.category,
       })),
     }
-    
+
     // 删除_count字段，因为它不应该暴露给前端
     delete (result as any)._count
-    
+
     return result
   }
 
