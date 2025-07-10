@@ -1,20 +1,14 @@
 <script setup lang="ts">
-  import type {
-    GetChapterTypesRes,
-    UpdateChapterOrderTypesReq,
-  } from '@/apis/types/chapter'
-  import type { GetComicDetailTypesRes } from '@/apis/types/comic'
+  import type { ComicDetailResponse } from '@/apis/types/comic'
+  import type { ComicChapterDetailResponse } from '@/apis/types/comic-chapter'
   import {
-    createChapterApi,
-    deleteChapterApi,
-    getChapterApi,
-    getChapterPageApi,
-    updateChapterApi,
-    updateChapterOrderApi,
-    updateChapterPublishApi,
-  } from '@/apis/chapter'
+    batchDeleteComicChapterApi,
+    comicChapterDetailApi,
+    comicChapterPageApi,
+    createComicChapterApi,
+    updateComicChapterApi,
+  } from '@/apis/comic-chapter'
   import { PromptsEnum } from '@/enum/prompts'
-  import ComicContent from '@/views/content-manage/comic/content.vue'
   import {
     chapterColumn,
     chapterFilter,
@@ -22,7 +16,7 @@
     toolbar,
   } from '@/views/content-manage/comic/shared'
 
-  type TableItem = ResolveListItem<typeof requestData.value>
+  type Row = ComicChapterDetailResponse
 
   defineOptions({
     name: 'ComicChapter',
@@ -30,30 +24,25 @@
 
   const props = withDefaults(
     defineProps<{
-      comic: GetComicDetailTypesRes
+      comic: ComicDetailResponse
     }>(),
     {},
   )
   const formTool = useFormTool(chapterFormOptions)
 
-  const { request, requestData, loading, params, sortChange } = useRequest(
-    getChapterPageApi,
-    {
-      defaultParams: {
-        comicId: props.comic?.id,
-      },
-    },
-  )
-
   const formModal = reactive({
     show: false,
     loading: false,
-    data: {} as GetChapterTypesRes,
+    data: {} as Row,
   })
 
   const showContentModal = ref(false)
 
-  const currentRecord = ref<TableItem | null>()
+  const currentRecord = ref<Row | null>()
+  const tableRef = useTemplateRef('tableRef')
+  const tableParams = reactive({
+    comicId: props.comic?.id,
+  })
 
   const modalShow = defineModel('show', {
     type: Boolean,
@@ -64,35 +53,28 @@
     val.comicId = props.comic?.id
     if (currentRecord.value?.id) {
       val.id = currentRecord.value.id
-      await updateChapterApi(val)
+      await updateComicChapterApi(val)
       useMessage.success(PromptsEnum.UPDATED)
     } else {
-      await createChapterApi(val)
+      await createComicChapterApi(val)
       useMessage.success(PromptsEnum.CREATED)
     }
     formModal.show = false
     formModal.loading = false
-    request()
   }
 
-  async function editContent(row: TableItem) {
+  async function editContent(row: Row) {
     currentRecord.value = row
     showContentModal.value = true
   }
 
-  async function sortChapter(val: UpdateChapterOrderTypesReq) {
-    await updateChapterOrderApi(val)
-    useMessage.success(PromptsEnum.UPDATED)
-    await request()
-  }
-
-  async function openForm(row: TableItem) {
+  async function openForm(row: Row) {
     currentRecord.value = row
-    formModal.data = await getChapterApi({ id: row.id })
+    formModal.data = await comicChapterDetailApi({ id: row.id })
     formModal.show = true
   }
 
-  function formChange(val: TableItem) {
+  function formChange(val: Row) {
     formTool.toggleDisplay('purchaseAmount', val.viewRule === 3)
   }
 </script>
@@ -100,25 +82,20 @@
 <template>
   <EsModal v-model="modalShow" :title="`【${comic.name}】`" width="900">
     <EsTable
-      v-model:params="params"
-      v-loading="loading"
+      ref="tableRef"
+      v-model:params="tableParams"
       :toolbar="[toolbar![0]]"
       :filter="chapterFilter"
       :columns="chapterColumn"
-      :data="requestData?.list ?? []"
-      :total="requestData?.total"
+      :request-api="comicChapterPageApi"
       drag
-      @query="request"
-      @toolbar-handler="formModal.show = true"
-      @sort-change="sortChange"
-      @drag-end="sortChapter"
     >
       <template #isPublish="{ row }">
         <EsSwitch
           :row="row"
-          :request="updateChapterPublishApi"
+          :request="updateComicChapterApi"
           field="isPublish"
-          @success="request"
+          @success="tableRef?.refresh()"
         />
       </template>
       <template #action="{ row }">
@@ -129,10 +106,10 @@
         <el-button link type="primary" @click="openForm(row)">编辑</el-button>
         <el-divider direction="vertical" />
         <EsPopConfirm
-          v-model:loading="loading"
-          :request="deleteChapterApi"
+          :request="batchDeleteComicChapterApi"
+          ids
           :row="row"
-          @success="request"
+          @success="tableRef?.refresh()"
         />
       </template>
     </EsTable>
@@ -147,15 +124,6 @@
       width="800"
       :options="formTool.options"
       @update:model-value="formChange"
-      @submit="submit"
-      @closed="currentRecord = null"
-    />
-    <ComicContent
-      v-if="showContentModal && currentRecord"
-      v-model:show="showContentModal"
-      title="内容"
-      :comic-id="comic!.id"
-      :chapter-id="currentRecord!.id"
       @submit="submit"
       @closed="currentRecord = null"
     />

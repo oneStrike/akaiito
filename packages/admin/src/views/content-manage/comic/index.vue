@@ -32,10 +32,6 @@
   })
   const detailModal = ref(false)
 
-  const chapterModal = reactive({
-    show: false,
-  })
-
   const currentComic = ref<ComicDetailResponse | null>(null)
   const authorModal = reactive({
     show: false,
@@ -139,11 +135,9 @@
     authorModal.show = true
   }
 
-  function tableLink({ row, field }: any) {
-    if (field === 'versionCount') {
-      versionModal.comic = row
-      versionModal.show = true
-    }
+  function openVersion(row: ComicDetailResponse) {
+    versionModal.comic = row
+    versionModal.show = true
   }
 </script>
 
@@ -156,7 +150,6 @@
       :columns="tableColumn"
       :request-api="comicPageApi"
       @toolbar-handler="toolbarHandler"
-      @link="tableLink"
     >
       <template #name="{ row }">
         <el-button
@@ -227,6 +220,10 @@
         />
       </template>
       <template #action="{ row }">
+        <el-button link type="primary" @click="openVersion(row)">
+          版本
+        </el-button>
+        <el-divider direction="vertical" />
         <el-button link type="primary" @click="editRow(row)">编辑</el-button>
         <el-divider direction="vertical" />
         <es-pop-confirm

@@ -75,6 +75,9 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
    * @returns 分页版本列表
    */
   async getComicVersionPage(queryComicVersionDto: QueryComicVersionDto) {
+    if (!queryComicVersionDto.comicId) {
+      throw new BadRequestException('comicId不能为空')
+    }
     const {
       versionName,
       comicId,
@@ -206,8 +209,8 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
     if (
       (updateData.versionName !== undefined &&
         updateData.versionName !== existingVersion.versionName) ||
-        (updateData.language !== undefined &&
-          updateData.language !== existingVersion.language)
+      (updateData.language !== undefined &&
+        updateData.language !== existingVersion.language)
     ) {
       const duplicateVersion = await this.findFirst({
         where: {

@@ -2,6 +2,7 @@ import type { EsFormOptions } from '@/components/es-form/types'
 import type { EsTableColumn } from '@/components/es-table/types'
 import type { EsToolbarProps } from '@/components/es-toolbar/types'
 import { useFormTool } from '@/hooks/useForm'
+import { useValidate } from '@/hooks/useValidate'
 import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
 import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 
@@ -421,7 +422,7 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
       },
     },
     action: {
-      width: 120,
+      width: 160,
     },
   },
 )
@@ -431,6 +432,7 @@ export const chapterFormOptions: EsFormOptions[] = [
     field: 'title',
     component: 'Input',
     props: {
+      span: 2,
       label: '章节标题',
       rules: useValidate.required('章节标题'),
     },
@@ -443,6 +445,7 @@ export const chapterFormOptions: EsFormOptions[] = [
     field: 'subtitle',
     component: 'Input',
     props: {
+      span: 2,
       label: '副标题',
     },
     componentProps: {
@@ -454,11 +457,25 @@ export const chapterFormOptions: EsFormOptions[] = [
     field: 'chapterNumber',
     component: 'InputNumber',
     props: {
+      span: 2,
       label: '章节序号',
       rules: useValidate.required('章节序号'),
     },
     componentProps: {
       placeholder: '请输入章节序号',
+    },
+  },
+  {
+    field: 'publishAt',
+    component: 'Date',
+    props: {
+      span: 2,
+      label: '发布时间',
+      rules: useValidate.required('发布时间'),
+    },
+    componentProps: {
+      placeholder: '请选择作品发布时间',
+      disabledDate: useFormTool().disableFutureDate,
     },
   },
   {
@@ -501,21 +518,19 @@ export const chapterFormOptions: EsFormOptions[] = [
     },
     componentProps: {
       placeholder: '请选择是否为试读章节',
+      options: [
+        {
+          label: '是',
+          value: true,
+        },
+        {
+          label: '否',
+          value: false,
+        },
+      ],
     },
   },
-  {
-    field: 'publishAt',
-    component: 'Date',
-    props: {
-      span: 2,
-      label: '发布时间',
-      rules: useValidate.required('发布时间'),
-    },
-    componentProps: {
-      placeholder: '请选择作品发布时间',
-      disabledDate: useFormTool().disableFutureDate,
-    },
-  },
+
   {
     field: 'remark',
     component: 'Textarea',
@@ -531,7 +546,21 @@ export const chapterFormOptions: EsFormOptions[] = [
 
 export const chapterColumn: EsTableColumn = formOptionsToTableColumn(
   chapterFormOptions,
-  [],
+  ['remark'],
+  {
+    isPreview: {
+      label: '试读章节',
+    },
+    publishAt: {
+      width: 120,
+      formatter: (row: any) => {
+        return row.publishAt ? row.publishAt.split('T')[0] : '-'
+      },
+    },
+    action: {
+      width: 160,
+    },
+  },
 )
 
 export const contentColumn: EsTableColumn = [
@@ -722,4 +751,9 @@ export const versionForm: EsFormOptions[] = [
 export const versionColumn: EsTableColumn = formOptionsToTableColumn(
   versionForm,
   ['remark', 'disclaimer', 'copyright', 'purchaseAmount', 'description'],
+  {
+    action: {
+      width: 160,
+    },
+  },
 )
