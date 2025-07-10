@@ -198,7 +198,7 @@
           <div>
             <div
               v-if="detail.content"
-              class="rounded-lg border border-gray-200 p-4 bg-gray-50 min-h-24"
+              class="rounded-lg border border-gray-200 p-4 min-h-24"
               v-html="detail.content"
             />
             <el-empty v-else description="暂无内容" />
