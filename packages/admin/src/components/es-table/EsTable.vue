@@ -14,6 +14,7 @@
     drag: false, // 默认不启用拖拽排序
     loading: false, // 默认不显示加载状态
   })
+
   // ==================== 事件定义 ====================
   const emits = defineEmits<{
     /** 链接列点击事件 */
@@ -27,6 +28,16 @@
     /** 拖拽结束事件 */
     (event: 'dragEnd', data: dragEndEvent): void
   }>()
+  // ==================== 属性验证 ====================
+  // 验证 requestApi 和 tableData 必须传递其中一个
+  if (!props.requestApi && !props.tableData) {
+    throw new Error('EsTable: requestApi 和 tableData 必须传递其中一个')
+  }
+  if (props.requestApi && props.tableData) {
+    console.warn(
+      'EsTable: 同时传递了 requestApi 和 tableData，将优先使用 tableData',
+    )
+  }
   // ==================== 响应式数据状态 ====================
   /** 表格数据列表 */
   const tableData = ref<any[]>([])
@@ -34,6 +45,8 @@
   const total = ref(0)
   /** 内部加载状态 */
   const internalLoading = ref(false)
+  /** 原始静态数据（用于前端分页） */
+  const originalStaticData = ref<any[]>([])
 
   /** 外部传入的查询参数（双向绑定） */
   const params = defineModel('params', {
@@ -52,12 +65,32 @@
 
   // ==================== 核心业务方法 ====================
   /**
-   * 调用API获取表格数据
-   * 合并内部分页参数和外部查询参数，调用API获取数据
+   * 获取表格数据
+   * 如果传入了静态数据则直接使用，否则调用API获取数据
    */
   const fetchTableData = async () => {
     try {
       internalLoading.value = true
+
+      // 如果传入了静态数据，进行前端分页处理
+      if (props.tableData) {
+        originalStaticData.value = props.tableData
+        total.value = props.tableData.length
+
+        // 前端分页逻辑
+        const startIndex =
+          otherParams.value.pageIndex * otherParams.value.pageSize
+        const endIndex = startIndex + otherParams.value.pageSize
+        tableData.value = props.tableData.slice(startIndex, endIndex)
+        return
+      }
+
+      // 如果没有传入API函数，则不执行请求
+      if (!props.requestApi) {
+        tableData.value = []
+        total.value = 0
+        return
+      }
 
       // 如果外部传入了分页参数，则使用外部参数
       if (typeof params.value.pageSize === 'number') {
@@ -97,7 +130,7 @@
     },
     set(newVal: number) {
       otherParams.value.pageIndex = newVal - 1
-      fetchTableData()
+      // 分页变化会通过监听器自动处理，无需手动调用fetchTableData
     },
   })
 
@@ -113,8 +146,15 @@
         ...subParams,
       }
     } else {
-      // 直接刷新数据
-      fetchTableData()
+      // 如果使用静态数据，重新分页；否则调用API
+      if (props.tableData && originalStaticData.value.length > 0) {
+        const startIndex =
+          otherParams.value.pageIndex * otherParams.value.pageSize
+        const endIndex = startIndex + otherParams.value.pageSize
+        tableData.value = originalStaticData.value.slice(startIndex, endIndex)
+      } else {
+        fetchTableData()
+      }
     }
   }
   // ==================== 模板引用和高度计算 ====================
@@ -219,6 +259,13 @@
     if (toolbarRef.value?.resetFilter) {
       toolbarRef.value.resetFilter()
     }
+
+    // 如果使用静态数据，重新分页；否则会通过监听器自动调用fetchTableData
+    if (props.tableData && originalStaticData.value.length > 0) {
+      const startIndex = 0
+      const endIndex = otherParams.value.pageSize
+      tableData.value = originalStaticData.value.slice(startIndex, endIndex)
+    }
   }
 
   /**
@@ -306,7 +353,14 @@
       if (otherParams.value.pageIndex) {
         otherParams.value.pageIndex = 0
       } else {
-        fetchTableData()
+        // 如果使用静态数据，重新分页；否则调用API
+        if (props.tableData && originalStaticData.value.length > 0) {
+          const startIndex = 0 // 重置到第一页
+          const endIndex = otherParams.value.pageSize
+          tableData.value = originalStaticData.value.slice(startIndex, endIndex)
+        } else {
+          fetchTableData()
+        }
       }
     },
     { deep: true },
@@ -320,6 +374,47 @@
     () => props.requestApi,
     () => {
       fetchTableData()
+    },
+  )
+
+  /**
+   * 监听静态数据变化，更新表格数据
+   * 当传入的tableData发生变化时，更新内部数据并重新分页
+   */
+  watch(
+    () => props.tableData,
+    (newData) => {
+      if (newData) {
+        originalStaticData.value = newData
+        total.value = newData.length
+
+        // 重新进行前端分页
+        const startIndex =
+          otherParams.value.pageIndex * otherParams.value.pageSize
+        const endIndex = startIndex + otherParams.value.pageSize
+        tableData.value = newData.slice(startIndex, endIndex)
+      }
+    },
+    { deep: true },
+  )
+
+  /**
+   * 监听分页参数变化，重新获取数据
+   * 当分页参数发生变化时，重新获取数据或重新分页
+   */
+  watch(
+    () => [otherParams.value.pageIndex, otherParams.value.pageSize],
+    () => {
+      // 如果使用静态数据，进行前端分页
+      if (props.tableData && originalStaticData.value.length > 0) {
+        const startIndex =
+          otherParams.value.pageIndex * otherParams.value.pageSize
+        const endIndex = startIndex + otherParams.value.pageSize
+        tableData.value = originalStaticData.value.slice(startIndex, endIndex)
+      } else {
+        // 否则调用API获取数据
+        fetchTableData()
+      }
     },
   )
 

@@ -8,7 +8,7 @@ export type UseConfirm = (
   callback?: () => void,
 ) => void
 
-export const useConfirm: UseConfirm = (type, handler, callback) => {
+export const useConfirm: UseConfirm = (type, handler, callback?) => {
   let message = ''
   let prompt = ''
   switch (type) {

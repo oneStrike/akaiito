@@ -8,6 +8,7 @@ import {
   ValidateBoolean,
   ValidateDate,
   ValidateEnum,
+  ValidateJson,
   ValidateNumber,
   ValidateNumberArray,
   ValidateString,
@@ -206,16 +207,10 @@ export class CreateComicChapterDto extends OmitType(BaseComicChapterDto, [
  * 获取章节内容响应DTO
  */
 export class ChapterContentsResponseDto {
-  @ValidateNumber({
-    description: '章节ID',
-    example: 1,
-    required: true,
-  })
-  id!: number
-
   @ValidateString({
     description: '章节内容数组（JSON格式）',
-    example: '["https://example.com/page1.jpg", "https://example.com/page2.jpg"]',
+    example:
+      '["https://example.com/page1.jpg", "https://example.com/page2.jpg"]',
     required: true,
   })
   contents!: string
@@ -225,11 +220,10 @@ export class ChapterContentsResponseDto {
  * 添加章节内容DTO
  */
 export class AddChapterContentDto extends IdDto {
-  @ValidateString({
+  @ValidateJson({
     description: '要添加的内容（图片URL）',
     example: 'https://example.com/new-page.jpg',
     required: true,
-    maxLength: 500,
   })
   content!: string
 
@@ -303,7 +297,8 @@ export class MoveChapterContentDto extends IdDto {
 export class BatchUpdateChapterContentsDto extends IdDto {
   @ValidateString({
     description: '新的内容数组（JSON格式）',
-    example: '["https://example.com/page1.jpg", "https://example.com/page2.jpg", "https://example.com/page3.jpg"]',
+    example:
+      '["https://example.com/page1.jpg", "https://example.com/page2.jpg", "https://example.com/page3.jpg"]',
     required: true,
   })
   contents!: string

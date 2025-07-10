@@ -52,8 +52,10 @@ export type DragApiFunction = (params: DragApiParams) => Promise<any>
 export interface EsTableProps<T = IterateObject> {
   /* 表格列配置 */
   columns: EsTableColumn
-  /* 异步请求函数，用于获取表格数据 */
-  requestApi: RequestApiFunction<T>
+  /* 异步请求函数，用于获取表格数据（与 tableData 二选一） */
+  requestApi?: RequestApiFunction<T>
+  /* 静态表格数据（与 requestApi 二选一） */
+  tableData?: T[]
   /* 是否显示序号列 */
   tableIndex?: boolean
   /* 是否启用拖拽排序 */

@@ -1,193 +1,315 @@
-<script setup lang="ts" async>
+<script setup lang="ts">
   import type { UploadFile } from 'element-plus'
-  import { PromptsEnum } from '@/enum/prompts.ts'
-  import { useImageInfo } from '@/hooks/useImageInfo'
+  import type {
+    AddChapterContentRequest,
+    ChapterContentsRequest,
+    DeleteChapterContentRequest,
+    MoveChapterContentRequest,
+  } from '@/apis/types/comic-chapter'
+  import { computed, onMounted, ref } from 'vue'
+  import {
+    addChapterContentApi,
+    batchUpdateChapterContentsApi,
+    chapterContentsApi,
+    deleteChapterContentApi,
+    moveChapterContentApi,
+  } from '@/apis/comic-chapter'
+  import { useUpload } from '@/hooks/useUpload'
   import { contentColumn } from './shared'
 
   defineOptions({
-    name: 'ComicContent',
+    name: 'Content',
   })
 
-  const props = withDefaults(
-    defineProps<{
-      comicId: number
-      chapterId: number
-    }>(),
-    {},
-  )
-  const showModel = defineModel('show', { default: false })
-  const fileList = ref<IterateObject[]>([])
-  const isLoading = ref(false)
-  const selected = ref<IterateObject[]>([])
+  const props = defineProps<Props>()
 
+  interface Props {
+    chapterId: number
+  }
+
+  const showModel = defineModel('show', { default: false })
+  const fileList = ref<any[]>([])
+  const isLoading = ref(false)
+  const selected = ref<any[]>([])
+  const showModal = ref(false)
+  const currentImage = ref<any>(null)
+
+  // 获取章节内容
   async function getContent() {
+    if (!props.chapterId) return
+
     isLoading.value = true
     try {
-      const data = (await getComicChapterContentApi({
+      const res = await chapterContentsApi({
         id: props.chapterId,
-      })) as IterateObject[]
-      fileList.value = []
-      nextTick(() => {
-        fileList.value = data
       })
+      const contents = res?.contents ? res.contents : []
+      fileList.value = contents.map((item: any, index: number) => ({
+        ...item,
+        index: index + 1,
+        imagePreview: item.url,
+        imageInfo: `${item.width || 0} x ${item.height || 0}`,
+        createdAt: new Date().toLocaleString(),
+      }))
     } catch (error) {
+      console.error('获取章节内容失败:', error)
+      useMessage.error('获取章节内容失败')
     } finally {
       isLoading.value = false
     }
   }
 
-  getContent()
-
   // 拖拽排序
-  async function drag(drag: IterateObject) {
-    isLoading.value = true
-    await updateComicChapterContentOrderApi({
-      id: props.chapterId,
-      originId: drag.originId,
-      targetId: drag.targetId,
-    })
-    await getContent()
-    useMessage.success(PromptsEnum.UPDATED)
-    isLoading.value = false
+  async function drag(drag: any) {
+    try {
+      const params: MoveChapterContentRequest = {
+        id: props.chapterId,
+        fromIndex: drag.oldIndex,
+        toIndex: drag.newIndex,
+      }
+
+      const res = await moveChapterContentApi(params)
+      if (res.code === 200) {
+        // 重新获取数据以确保同步
+        await getContent()
+        useMessage.success('排序成功')
+      }
+    } catch (error) {
+      console.error('排序失败:', error)
+      useMessage.error('排序失败')
+      // 刷新数据以恢复原始状态
+      await getContent()
+    }
   }
 
   // 删除内容
-  async function deleteContent(params?: IterateObject) {
-    if (!params?.id && selected.value.length === 0) {
+  async function deleteContent(params?: any) {
+    if (!params && selected.value.length === 0) {
       useMessage.error('请选择要删除的内容')
       return
     }
-    useConfirm('delete', async () => {
-      isLoading.value = true
-      await deleteComicChapterContentApi({
-        chapterId: props.chapterId,
-        ids: params?.id ? [params?.id] : selected.value.map((item) => item.id),
-      })
-      await getContent()
-      isLoading.value = false
-    })
+
+    try {
+      const index = params
+        ? fileList.value.findIndex((item) => item === params)
+        : selected.value[0]
+      const deleteParams: DeleteChapterContentRequest = {
+        id: props.chapterId,
+        index: typeof index === 'number' ? index : 0,
+      }
+
+      useConfirm(
+        'delete',
+        () => deleteChapterContentApi(deleteParams),
+        getContent,
+      )
+      useMessage.success('删除成功')
+    } catch (error) {
+      if (error !== 'cancel') {
+        console.error('删除失败:', error)
+        useMessage.error('删除失败')
+      }
+    }
   }
 
   // 显示详细信息
-  async function showDetail() {
-    isLoading.value = true
-    for (const item of fileList.value) {
-      try {
-        const imageInfo = await useImageInfo(item.url)
-        Object.assign(item, imageInfo)
-      } catch (error) {
-        console.error('获取图片信息失败:', error)
-      }
-    }
-    isLoading.value = false
+  function showDetail(item: any) {
+    currentImage.value = item
+    showModal.value = true
   }
 
   // 清空内容
   async function clearContent() {
-    useConfirm('clear', async () => {
-      await clearComicChapterContentApi({
+    try {
+      const params = {
         id: props.chapterId,
-      })
-      await getContent()
-    })
+        contents: '[]',
+      }
+
+      useConfirm(
+        'clear',
+        () => batchUpdateChapterContentsApi(params),
+        () => (fileList.value = []),
+      )
+    } catch (error) {
+      if (error !== 'cancel') {
+        console.error('清空失败:', error)
+        useMessage.error('清空失败')
+      }
+    }
+  }
+
+  // 格式化文件大小
+  function formatFileSize(bytes: number): string {
+    if (bytes === 0) return '0 B'
+    const k = 1024
+    const sizes = ['B', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return `${Number.parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`
   }
 
   // 上传文件
   let timer: number | null = null
-  let waitFiles: any[] = []
-  async function handleFileChange(uploadFile: UploadFile) {
+  let waitFiles: UploadFile[] = []
+  function handleFileChange(file: UploadFile) {
+    if (!file.raw) return
+
+    waitFiles.push(file)
     isLoading.value = true
-    waitFiles.push(uploadFile)
+
     if (timer) {
       clearTimeout(timer)
     }
     timer = window.setTimeout(async () => {
-      await useUpload(waitFiles, { id: props.chapterId }, 'comic')
-      await getContent()
-      waitFiles = []
-      isLoading.value = false
+      try {
+        const uploadResult = await useUpload(waitFiles, {}, 'common')
+
+        if (uploadResult.success && Array.isArray(uploadResult.success)) {
+          for (const result of uploadResult.success) {
+            const params: AddChapterContentRequest = {
+              id: props.chapterId,
+              content: result.filePath,
+            }
+
+            await addChapterContentApi(params)
+          }
+        }
+
+        // 重新获取数据以确保同步
+        await getContent()
+        useMessage.success('上传成功')
+      } catch (error) {
+        console.error('上传失败:', error)
+        useMessage.error('上传失败')
+      } finally {
+        waitFiles = []
+        isLoading.value = false
+      }
     }, 100)
   }
+
+  // 计算属性
+  const hasContent = computed(() => fileList.value.length > 0)
+
+  onMounted(() => {
+    getContent()
+  })
 </script>
 
 <template>
-  <EsModal v-model="showModel" :width="1020">
-    <div class="p-5">
-      <!-- 工具栏 -->
-      <div class="w-full flex justify-between">
-        <div class="flex">
-          <el-upload
-            action=""
-            :auto-upload="false"
-            :on-change="handleFileChange"
-            :multiple="true"
-            :show-file-list="false"
-            accept="image/*"
-          >
-            <el-button type="primary" :disabled="isLoading">
-              <template #icon>
-                <es-icon name="uploading" :size="20" />
-              </template>
-              上传
-            </el-button>
-          </el-upload>
-
+  <EsModal v-model="showModel" title="章节内容">
+    <div class="flex flex-col gap-4 h-full">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-sm text-gray-600">
+            共 {{ fileList.length }} 张图片
+          </span>
           <el-button
-            v-if="selected.length"
-            class="ml-4"
-            @click="deleteContent()"
+            v-if="fileList.length > 0"
+            type="danger"
+            size="small"
+            @click="clearContent"
           >
-            批量删除
+            清空内容
           </el-button>
         </div>
-        <div>
-          <el-link
-            v-if="fileList.length"
-            class="mr-4"
-            type="primary"
-            @click="showDetail"
+        <div class="flex items-center gap-2">
+          <el-upload
+            :show-file-list="false"
+            :before-upload="() => false"
+            :on-change="handleFileChange"
+            multiple
+            accept="image/*"
           >
-            详细信息
-          </el-link>
-          <el-button @click="clearContent">清空内容</el-button>
+            <el-button type="primary" size="small">上传图片</el-button>
+          </el-upload>
         </div>
       </div>
-    </div>
-    <!-- 漫画内容列表 -->
-    <EsTable
-      v-model:selected="selected"
-      :data="fileList"
-      :columns="contentColumn"
-      drag
-      selection
-      :loading="isLoading"
-      @drag-end="drag"
-    >
-      <template #imagePreview="{ row }">
-        <el-image :src="row.url" fit="contain" class="max-h-16 max-w-12" />
-      </template>
-      <template #imageInfo="{ row }">
-        <div class="flex flex-col">
-          <template v-if="row.size">
-            <span :class="row.size > 1 ? 'text-error' : 'text-success'">
-              大小：{{ row.size }}MB
-            </span>
-            <span>尺寸：{{ `${row.width}X${row.height}` }}</span>
+
+      <div class="flex-1 overflow-hidden">
+        <EsTable
+          v-model:selected="selected"
+          :table-data="fileList"
+          :columns="contentColumn"
+          :loading="isLoading"
+          drag
+          selection
+          class="h-full"
+          @drag-end="drag"
+        >
+          <template #imagePreview="{ row }">
+            <div class="flex justify-center">
+              <el-image
+                :src="row.url"
+                :preview-src-list="[row.url]"
+                class="w-16 h-16 object-cover rounded cursor-pointer"
+                fit="cover"
+                @click="showDetail(row)"
+              />
+            </div>
           </template>
-          <span v-else>-</span>
-        </div>
-      </template>
-      <template #createdAt="{ row }">
-        <span v-if="row.uploadTime">{{ row.uploadTime }}</span>
-        <span v-else>-</span>
-      </template>
-      <template #action="{ row }">
-        <EsPopConfirm
-          v-model:loading="isLoading"
-          :request="deleteContent"
-          :row="row"
+
+          <template #imageInfo="{ row }">
+            <div class="text-center">
+              <div class="text-sm">
+                {{ row.width || 0 }} × {{ row.height || 0 }}
+              </div>
+              <div class="text-xs text-gray-500">
+                {{ formatFileSize(row.size || 0) }}
+              </div>
+            </div>
+          </template>
+
+          <template #createdAt="{ row }">
+            <div class="text-center text-sm">
+              {{ row.createdAt || '-' }}
+            </div>
+          </template>
+
+          <template #action="{ row }">
+            <div class="flex justify-center gap-2">
+              <el-button type="primary" size="small" @click="showDetail(row)">
+                查看
+              </el-button>
+              <el-button type="danger" size="small" @click="deleteContent(row)">
+                删除
+              </el-button>
+            </div>
+          </template>
+        </EsTable>
+      </div>
+    </div>
+
+    <!-- 图片详情弹窗 -->
+    <EsModal v-model="showModal" title="图片详情" width="80%">
+      <div v-if="currentImage" class="flex flex-col items-center gap-4">
+        <el-image
+          :src="currentImage.url"
+          :preview-src-list="[currentImage.url]"
+          class="max-w-full max-h-96 object-contain"
+          fit="contain"
         />
-      </template>
-    </EsTable>
+        <div class="grid grid-cols-2 gap-4 w-full max-w-md">
+          <div class="text-center">
+            <div class="text-sm text-gray-600">尺寸</div>
+            <div class="font-medium">
+              {{ currentImage.width || 0 }} × {{ currentImage.height || 0 }}
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-sm text-gray-600">文件大小</div>
+            <div class="font-medium">
+              {{ formatFileSize(currentImage.size || 0) }}
+            </div>
+          </div>
+          <div class="text-center col-span-2">
+            <div class="text-sm text-gray-600">URL</div>
+            <div class="font-medium text-xs break-all">
+              {{ currentImage.url }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </EsModal>
   </EsModal>
 </template>

@@ -5,6 +5,8 @@ import { BaseRepositoryService } from '@/global/services/base-repository.service
 import { PrismaService } from '@/global/services/prisma.service'
 import { WorkComicChapterWhereInput } from '@/prisma/client/models/WorkComicChapter'
 import {
+  AddChapterContentDto,
+  BatchUpdateChapterContentsDto,
   CreateComicChapterDto,
   QueryComicChapterDto,
   UpdateChapterPublishStatusDto,
@@ -470,10 +472,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       contents = []
     }
 
-    return {
-      id: chapter.id,
-      contents,
-    }
+    return contents
   }
 
   /**
@@ -483,9 +482,10 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
    * @param index 插入位置（可选）
    * @returns 更新后的章节内容
    */
-  async addChapterContent(chapterId: number, content: string, index?: number) {
+  async addChapterContent(body: AddChapterContentDto) {
+    const { id, content, index } = body
     const chapter = await this.findById({
-      id: chapterId,
+      id,
       select: {
         id: true,
         contents: true,
@@ -515,7 +515,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
 
     // 更新数据库
     await this.updateById({
-      id: chapterId,
+      id,
       data: { contents: JSON.stringify(contents) },
     })
 
@@ -690,13 +690,11 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
 
   /**
    * 批量更新章节内容
-   * @param chapterId 章节ID
-   * @param contents 内容数组
-   * @returns 更新后的章节内容
    */
-  async batchUpdateChapterContents(chapterId: number, contents: string[]) {
+  async batchUpdateChapterContents(body: BatchUpdateChapterContentsDto) {
+    const { id, contents } = body
     const chapter = await this.findById({
-      id: chapterId,
+      id,
       select: {
         id: true,
       },
@@ -712,7 +710,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
 
     // 更新数据库
     await this.updateById({
-      id: chapterId,
+      id,
       data: { contents: JSON.stringify(contents) },
     })
 

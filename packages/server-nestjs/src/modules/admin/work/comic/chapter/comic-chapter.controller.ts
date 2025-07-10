@@ -183,7 +183,12 @@ export class WorkComicChapterController {
   @Get('/chapter-contents')
   @ApiDoc({
     summary: '获取章节内容详情',
-    model: ChapterContentsResponseDto,
+    model: {
+      type: 'array',
+      items: {
+        type: 'string',
+      },
+    },
   })
   async getChapterContents(@Query() query: IdDto) {
     return this.comicChapterService.getChapterContents(query.id)
@@ -198,11 +203,7 @@ export class WorkComicChapterController {
     model: ChapterContentsResponseDto,
   })
   async addChapterContent(@Body() body: AddChapterContentDto) {
-    return this.comicChapterService.addChapterContent(
-      body.id,
-      body.content,
-      body.index,
-    )
+    return this.comicChapterService.addChapterContent(body)
   }
 
   /**
@@ -260,19 +261,6 @@ export class WorkComicChapterController {
   async batchUpdateChapterContents(
     @Body() body: BatchUpdateChapterContentsDto,
   ) {
-    let parsedContents: string[] = []
-    try {
-      parsedContents = JSON.parse(body.contents)
-      if (!Array.isArray(parsedContents)) {
-        throw new TypeError('内容格式必须是字符串数组')
-      }
-    } catch {
-      throw new Error('内容格式无效，必须是有效的JSON数组')
-    }
-
-    return this.comicChapterService.batchUpdateChapterContents(
-      body.id,
-      parsedContents,
-    )
+    return this.comicChapterService.batchUpdateChapterContents(body)
   }
 }

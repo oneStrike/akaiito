@@ -17,6 +17,8 @@
     toolbar,
   } from '@/views/content-manage/comic/shared'
 
+  import Content from './Content.vue'
+
   type Row = ComicChapterDetailResponse
 
   defineOptions({
@@ -115,6 +117,12 @@
         />
       </template>
     </EsTable>
+
+    <Content
+      v-if="showContentModal && currentRecord?.id"
+      v-model:show="showContentModal"
+      :chapter-id="currentRecord.id"
+    />
 
     <EsModalForm
       v-if="formModal.show"

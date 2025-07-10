@@ -278,10 +278,10 @@ export class QueryComicVersionDto extends IntersectionType(
   @ValidateNumber({
     description: '漫画ID（精确匹配）',
     example: 1,
-    required: false,
+    required: true,
     min: 1,
   })
-  comicId?: number
+  comicId!: number
 
   @ValidateString({
     description: '翻译组名称（模糊搜索）',
