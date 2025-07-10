@@ -13,6 +13,7 @@ import {
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
+import { OrderDto } from '@/common/dto/order.dto'
 import { PageDto } from '@/common/dto/page.dto'
 import { ChapterReadRuleEnum } from '../comic-chapter.constant'
 

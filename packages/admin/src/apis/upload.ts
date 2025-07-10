@@ -6,7 +6,7 @@ import type { UploadFileResponse, UploadFileRequest } from './types/upload.d'
  *  @标签 管理端文件上传/上传文件
  *  @方式 POST
  *  @地址 /api/admin/upload/upload-file
- *  @更新时间 2025-07-09 23:33:51
+ *  @更新时间 2025-07-10 23:06:34
  */
 
 export const uploadFileApi = (data: UploadFileRequest): Promise<UploadFileResponse> => {

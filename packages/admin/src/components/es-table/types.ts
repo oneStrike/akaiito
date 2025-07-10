@@ -32,6 +32,23 @@ export type RequestApiFunction<T = any> = (
   params: any,
 ) => Promise<PageResponse<T>>
 
+/**
+ * 拖拽接口参数类型定义
+ */
+export interface DragApiParams {
+  /** 拖拽的目标id */
+  targetId: number
+  /** 当前拖拽数据的id */
+  dragId: number
+}
+
+/**
+ * 拖拽接口函数类型定义
+ * @param params 拖拽参数
+ * @returns Promise<any> 返回拖拽结果
+ */
+export type DragApiFunction = (params: DragApiParams) => Promise<any>
+
 export interface EsTableProps<T = IterateObject> {
   /* 表格列配置 */
   columns: EsTableColumn
@@ -41,6 +58,8 @@ export interface EsTableProps<T = IterateObject> {
   tableIndex?: boolean
   /* 是否启用拖拽排序 */
   drag?: boolean
+  /* 拖拽接口函数，用于处理拖拽排序 */
+  dragApi?: DragApiFunction
   /* 是否显示多选框 */
   selection?: boolean
   /* 是否显示加载状态 */

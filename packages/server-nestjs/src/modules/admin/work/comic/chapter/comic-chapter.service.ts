@@ -1,5 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
+import { OrderDto } from '@/common/dto/order.dto'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { PrismaService } from '@/global/services/prisma.service'
 import { WorkComicChapterWhereInput } from '@/prisma/client/models/WorkComicChapter'
@@ -467,5 +468,83 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     })
 
     return { id: newChapter.id }
+  }
+
+  /**
+   * 交换两个章节的章节号
+   * @param swapChapterNumberDto 交换章节号的数据
+   * @returns 交换结果
+   */
+  async swapChapterNumbers(swapChapterNumberDto: OrderDto) {
+    const { targetId, dragId } = swapChapterNumberDto
+
+    // 验证两个章节ID不能相同
+    if (targetId === dragId) {
+      throw new BadRequestException('不能交换相同的章节')
+    }
+
+    // 获取两个章节的信息
+    const [targetChapter, dragChapter] = await Promise.all([
+      this.findById({ id: targetId }),
+      this.findById({ id: dragId }),
+    ])
+
+    // 验证章节是否存在
+    if (!targetChapter) {
+      throw new BadRequestException(`章节ID ${targetId} 不存在`)
+    }
+    if (!dragChapter) {
+      throw new BadRequestException(`章节ID ${dragId} 不存在`)
+    }
+
+    // 验证两个章节是否属于同一漫画
+    if (targetChapter.comicId !== dragChapter.comicId) {
+      throw new BadRequestException('只能交换同一漫画下的章节号')
+    }
+
+    // 验证两个章节是否属于同一版本（都有版本ID或都没有版本ID）
+    if (targetChapter.versionId !== dragChapter.versionId) {
+      throw new BadRequestException('只能交换同一版本下的章节号')
+    }
+
+    // 使用事务确保数据一致性
+    return this.prisma.$transaction(async (tx) => {
+      // 临时章节号，避免唯一约束冲突
+      const tempChapterNumber = -Math.random() * 1000000
+
+      // 第一步：将拖拽章节的章节号设为临时值
+      await tx.workComicChapter.update({
+        where: { id: dragId },
+        data: { chapterNumber: tempChapterNumber },
+      })
+
+      // 第二步：将目标章节的章节号设为拖拽章节的原章节号
+      await tx.workComicChapter.update({
+        where: { id: targetId },
+        data: { chapterNumber: dragChapter.chapterNumber },
+      })
+
+      // 第三步：将拖拽章节的章节号设为目标章节的原章节号
+      await tx.workComicChapter.update({
+        where: { id: dragId },
+        data: { chapterNumber: targetChapter.chapterNumber },
+      })
+
+      return {
+        message: '章节号交换成功',
+        swappedChapters: {
+          targetChapter: {
+            id: targetId,
+            oldChapterNumber: targetChapter.chapterNumber,
+            newChapterNumber: dragChapter.chapterNumber,
+          },
+          dragChapter: {
+            id: dragId,
+            oldChapterNumber: dragChapter.chapterNumber,
+            newChapterNumber: targetChapter.chapterNumber,
+          },
+        },
+      }
+    })
   }
 }

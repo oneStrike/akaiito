@@ -255,18 +255,41 @@
         },
         animation: 150, // 拖拽动画时长
         async onEnd(e: any) {
-          // 如果拖拽结束后顺序发生了变化，则触发dragEnd事件
+          // 如果拖拽结束后顺序发生了变化，则调用拖拽接口
           const { oldIndex, newIndex } = e
           if (oldIndex !== newIndex) {
             const targetData = tableData.value[newIndex]
             const originData = tableData.value[oldIndex]
-            const dragParams = {
-              originId: originData.id,
-              originOrder: originData.order,
-              targetId: targetData.id,
-              targetOrder: targetData.order,
+
+            // 如果外部传入了拖拽接口，则调用接口
+            if (props.dragApi) {
+              try {
+                internalLoading.value = true
+                await props.dragApi({
+                  targetId: targetData.id,
+                  dragId: originData.id,
+                })
+                useMessage.success('拖拽排序成功')
+                // 拖拽成功后刷新数据
+                await fetchTableData()
+              } catch (error) {
+                console.error('拖拽排序失败:', error)
+                useMessage.error('拖拽排序失败')
+                // 拖拽失败，恢复原始顺序
+                await fetchTableData()
+              } finally {
+                internalLoading.value = false
+              }
+            } else {
+              // 如果没有传入拖拽接口，则触发dragEnd事件（保持向后兼容）
+              const dragParams = {
+                originId: originData.id,
+                originOrder: originData.order,
+                targetId: targetData.id,
+                targetOrder: targetData.order,
+              }
+              emits('dragEnd', dragParams)
             }
-            emits('dragEnd', dragParams)
           }
         },
       },
@@ -311,7 +334,6 @@
     },
   )
 
-  // ==================== 生命周期钩子 ====================
   onMounted(() => {
     // 如果启用拖拽，初始化拖拽功能
     if (props.drag) {
@@ -328,7 +350,6 @@
     observers.forEach((observer) => observer.disconnect())
   })
 
-  // ==================== 组件对外暴露 ====================
   /**
    * 对外暴露的方法和属性
    * 供父组件通过ref调用

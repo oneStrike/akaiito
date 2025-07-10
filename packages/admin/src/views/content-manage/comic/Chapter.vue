@@ -6,6 +6,7 @@
     comicChapterDetailApi,
     comicChapterPageApi,
     createComicChapterApi,
+    swapChapterNumbersApi,
     updateComicChapterApi,
   } from '@/apis/comic-chapter'
   import { PromptsEnum } from '@/enum/prompts'
@@ -84,11 +85,12 @@
     <EsTable
       ref="tableRef"
       v-model:params="tableParams"
+      drag
       :toolbar="[toolbar![0]]"
       :filter="chapterFilter"
       :columns="chapterColumn"
       :request-api="comicChapterPageApi"
-      drag
+      :drag-api="swapChapterNumbersApi"
     >
       <template #isPublish="{ row }">
         <EsSwitch
