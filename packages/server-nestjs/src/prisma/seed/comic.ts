@@ -217,5 +217,5 @@ export async function createInitialComics(prisma: any) {
     }
   }
 
-  console.log('✅ 漫画种子数据创建完成')
+  console.log('✅ 漫画种子数据初始化完成')
 }

@@ -222,7 +222,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     pageData.list = pageData.list.map((item) => {
       const result = {
         ...item,
-        versionCount: item._count.comicVersions,
         comicAuthors: item.comicAuthors.map((author) => ({
           ...author.author,
           roleType: author.roleType,
@@ -290,7 +289,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
 
     const result = {
       ...comic,
-      versionCount: comic._count.comicVersions,
       comicAuthors: comic.comicAuthors!.map((author) => ({
         ...author.author,
         isPrimary: author.isPrimary,

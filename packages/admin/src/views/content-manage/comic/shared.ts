@@ -420,11 +420,6 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
         return row.publishAt ? row.publishAt.split('T')[0] : '-'
       },
     },
-    versionCount: {
-      label: '版本',
-      columnType: 'link',
-      align: 'center',
-    },
     action: {
       width: 120,
     },

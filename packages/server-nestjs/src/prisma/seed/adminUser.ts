@@ -12,4 +12,6 @@ export async function createInitialAdminAccount(prisma: any) {
     update: accountInfo,
     create: accountInfo,
   })
+
+  console.log('✅ 管理端种子数据初始化完成')
 }
