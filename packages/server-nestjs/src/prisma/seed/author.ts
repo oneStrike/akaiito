@@ -95,5 +95,5 @@ export async function createInitialAuthors(prisma: any) {
     })
   }
 
-  console.log('✅ 作者种子数据创建完成')
+  console.log('✅ 作者种子数据初始化完成')
 }
