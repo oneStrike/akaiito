@@ -287,7 +287,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     if (!comic) {
       throw new BadRequestException('漫画不存在')
     }
-    
+
     const result = {
       ...comic,
       versionCount: comic._count.comicVersions,
@@ -300,10 +300,10 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         ...category.category,
       })),
     }
-    
+
     // 删除_count字段，因为它不应该暴露给前端
     delete (result as any)._count
-    
+
     return result
   }
 

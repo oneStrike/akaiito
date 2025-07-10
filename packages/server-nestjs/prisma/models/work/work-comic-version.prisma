@@ -18,8 +18,6 @@ model WorkComicVersion {
   isEnabled       Boolean   @default(true) @map("is_enabled")
   /// 发布状态
   isPublished     Boolean   @default(false) @map("is_published")
-  /// 发布时间
-  publishAt       DateTime? @map("publish_at") @db.Timestamptz
   /// 最后更新时间
   lastUpdated     DateTime? @map("last_updated") @db.Timestamptz
   /// 总阅读次数

@@ -228,6 +228,9 @@ export class CreateComicVersionDto extends OmitType(BaseComicVersionDto, [
   'ratingCount',
   'createdAt',
   'updatedAt',
+  'isEnabled',
+  'isPublished',
+  'sortOrder',
 ]) {}
 
 /**
