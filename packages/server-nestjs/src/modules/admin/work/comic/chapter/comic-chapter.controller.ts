@@ -7,10 +7,16 @@ import { OrderDto } from '@/common/dto/order.dto'
 import { WorkComicVersionService } from '../version/comic-version.service'
 import { WorkComicChapterService } from './comic-chapter.service'
 import {
+  AddChapterContentDto,
   BaseComicChapterDto,
+  BatchUpdateChapterContentsDto,
+  ChapterContentsResponseDto,
   ComicChapterPageResponseDto,
   CreateComicChapterDto,
+  DeleteChapterContentDto,
+  MoveChapterContentDto,
   QueryComicChapterDto,
+  UpdateChapterContentDto,
   UpdateChapterPublishStatusDto,
   UpdateComicChapterDto,
 } from './dto/comic-chapter.dto'
@@ -61,23 +67,6 @@ export class WorkComicChapterController {
   })
   async getDetail(@Query() query: IdDto) {
     return this.comicChapterService.getComicChapterDetail(query.id)
-  }
-
-  /**
-   * 获取漫画章节内容
-   */
-  @Get('/comic-chapter-content')
-  @ApiDoc({
-    summary: '获取漫画章节内容',
-    model: BaseComicChapterDto,
-  })
-  async getContent(@Query() query: IdDto) {
-    return this.comicChapterService.findById({
-      id: query.id,
-      select: {
-        contents: true,
-      },
-    })
   }
 
   /**
@@ -185,6 +174,105 @@ export class WorkComicChapterController {
     return this.comicChapterService.copyChapterToVersion(
       body.chapterId,
       body.targetVersionId,
+    )
+  }
+
+  /**
+   * 获取章节内容详情
+   */
+  @Get('/chapter-contents')
+  @ApiDoc({
+    summary: '获取章节内容详情',
+    model: ChapterContentsResponseDto,
+  })
+  async getChapterContents(@Query() query: IdDto) {
+    return this.comicChapterService.getChapterContents(query.id)
+  }
+
+  /**
+   * 添加章节内容
+   */
+  @Post('/add-chapter-content')
+  @ApiDoc({
+    summary: '添加章节内容',
+    model: ChapterContentsResponseDto,
+  })
+  async addChapterContent(@Body() body: AddChapterContentDto) {
+    return this.comicChapterService.addChapterContent(
+      body.id,
+      body.content,
+      body.index,
+    )
+  }
+
+  /**
+   * 更新章节内容
+   */
+  @Post('/update-chapter-content')
+  @ApiDoc({
+    summary: '更新章节内容',
+    model: ChapterContentsResponseDto,
+  })
+  async updateChapterContent(@Body() body: UpdateChapterContentDto) {
+    return this.comicChapterService.updateChapterContent(
+      body.id,
+      body.index,
+      body.content,
+    )
+  }
+
+  /**
+   * 删除章节内容
+   */
+  @Post('/delete-chapter-content')
+  @ApiDoc({
+    summary: '删除章节内容',
+    model: ChapterContentsResponseDto,
+  })
+  async deleteChapterContent(@Body() body: DeleteChapterContentDto) {
+    return this.comicChapterService.deleteChapterContent(body.id, body.index)
+  }
+
+  /**
+   * 移动章节内容（排序）
+   */
+  @Post('/move-chapter-content')
+  @ApiDoc({
+    summary: '移动章节内容（排序）',
+    model: ChapterContentsResponseDto,
+  })
+  async moveChapterContent(@Body() body: MoveChapterContentDto) {
+    return this.comicChapterService.moveChapterContent(
+      body.id,
+      body.fromIndex,
+      body.toIndex,
+    )
+  }
+
+  /**
+   * 批量更新章节内容
+   */
+  @Post('/batch-update-chapter-contents')
+  @ApiDoc({
+    summary: '批量更新章节内容',
+    model: ChapterContentsResponseDto,
+  })
+  async batchUpdateChapterContents(
+    @Body() body: BatchUpdateChapterContentsDto,
+  ) {
+    let parsedContents: string[] = []
+    try {
+      parsedContents = JSON.parse(body.contents)
+      if (!Array.isArray(parsedContents)) {
+        throw new TypeError('内容格式必须是字符串数组')
+      }
+    } catch {
+      throw new Error('内容格式无效，必须是有效的JSON数组')
+    }
+
+    return this.comicChapterService.batchUpdateChapterContents(
+      body.id,
+      parsedContents,
     )
   }
 }

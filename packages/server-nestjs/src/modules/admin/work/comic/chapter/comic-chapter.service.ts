@@ -70,8 +70,6 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('该漫画下章节号已存在')
     }
 
-
-
     return this.create({ data: createComicChapterDto })
   }
 
@@ -221,8 +219,6 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
         throw new BadRequestException('该漫画下章节号已存在')
       }
     }
-
-
 
     return this.updateById({
       id,
@@ -444,6 +440,286 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     })
 
     return { id: newChapter.id }
+  }
+
+  /**
+   * 获取章节内容
+   * @param chapterId 章节ID
+   * @returns 章节内容数组
+   */
+  async getChapterContents(chapterId: number) {
+    const chapter = await this.findById({
+      id: chapterId,
+      select: {
+        id: true,
+        contents: true,
+      },
+    })
+
+    if (!chapter) {
+      throw new BadRequestException('章节不存在')
+    }
+
+    let contents: string[] = []
+    try {
+      contents = JSON.parse(chapter.contents || '[]')
+      if (!Array.isArray(contents)) {
+        contents = []
+      }
+    } catch {
+      contents = []
+    }
+
+    return {
+      id: chapter.id,
+      contents,
+    }
+  }
+
+  /**
+   * 添加章节内容
+   * @param chapterId 章节ID
+   * @param content 内容
+   * @param index 插入位置（可选）
+   * @returns 更新后的章节内容
+   */
+  async addChapterContent(chapterId: number, content: string, index?: number) {
+    const chapter = await this.findById({
+      id: chapterId,
+      select: {
+        id: true,
+        contents: true,
+      },
+    })
+
+    if (!chapter) {
+      throw new BadRequestException('章节不存在')
+    }
+
+    let contents: string[] = []
+    try {
+      contents = JSON.parse(chapter.contents || '[]')
+      if (!Array.isArray(contents)) {
+        contents = []
+      }
+    } catch {
+      contents = []
+    }
+
+    // 添加内容到指定位置或末尾
+    if (index !== undefined && index >= 0 && index <= contents.length) {
+      contents.splice(index, 0, content)
+    } else {
+      contents.push(content)
+    }
+
+    // 更新数据库
+    await this.updateById({
+      id: chapterId,
+      data: { contents: JSON.stringify(contents) },
+    })
+
+    return {
+      id: chapter.id,
+      contents,
+    }
+  }
+
+  /**
+   * 更新章节内容
+   * @param chapterId 章节ID
+   * @param index 内容索引
+   * @param content 新内容
+   * @returns 更新后的章节内容
+   */
+  async updateChapterContent(
+    chapterId: number,
+    index: number,
+    content: string,
+  ) {
+    const chapter = await this.findById({
+      id: chapterId,
+      select: {
+        id: true,
+        contents: true,
+      },
+    })
+
+    if (!chapter) {
+      throw new BadRequestException('章节不存在')
+    }
+
+    let contents: string[] = []
+    try {
+      contents = JSON.parse(chapter.contents || '[]')
+      if (!Array.isArray(contents)) {
+        contents = []
+      }
+    } catch {
+      contents = []
+    }
+
+    // 验证索引是否有效
+    if (index < 0 || index >= contents.length) {
+      throw new BadRequestException('索引超出范围')
+    }
+
+    // 更新指定位置的内容
+    contents[index] = content
+
+    // 更新数据库
+    await this.updateById({
+      id: chapterId,
+      data: { contents: JSON.stringify(contents) },
+    })
+
+    return {
+      id: chapter.id,
+      contents,
+    }
+  }
+
+  /**
+   * 删除章节内容
+   * @param chapterId 章节ID
+   * @param index 内容索引
+   * @returns 更新后的章节内容
+   */
+  async deleteChapterContent(chapterId: number, index: number) {
+    const chapter = await this.findById({
+      id: chapterId,
+      select: {
+        id: true,
+        contents: true,
+      },
+    })
+
+    if (!chapter) {
+      throw new BadRequestException('章节不存在')
+    }
+
+    let contents: string[] = []
+    try {
+      contents = JSON.parse(chapter.contents || '[]')
+      if (!Array.isArray(contents)) {
+        contents = []
+      }
+    } catch {
+      contents = []
+    }
+
+    // 验证索引是否有效
+    if (index < 0 || index >= contents.length) {
+      throw new BadRequestException('索引超出范围')
+    }
+
+    // 删除指定位置的内容
+    contents.splice(index, 1)
+
+    // 更新数据库
+    await this.updateById({
+      id: chapterId,
+      data: { contents: JSON.stringify(contents) },
+    })
+
+    return {
+      id: chapter.id,
+      contents,
+    }
+  }
+
+  /**
+   * 移动章节内容（用于排序）
+   * @param chapterId 章节ID
+   * @param fromIndex 源位置索引
+   * @param toIndex 目标位置索引
+   * @returns 更新后的章节内容
+   */
+  async moveChapterContent(
+    chapterId: number,
+    fromIndex: number,
+    toIndex: number,
+  ) {
+    const chapter = await this.findById({
+      id: chapterId,
+      select: {
+        id: true,
+        contents: true,
+      },
+    })
+
+    if (!chapter) {
+      throw new BadRequestException('章节不存在')
+    }
+
+    let contents: string[] = []
+    try {
+      contents = JSON.parse(chapter.contents || '[]')
+      if (!Array.isArray(contents)) {
+        contents = []
+      }
+    } catch {
+      contents = []
+    }
+
+    // 验证索引是否有效
+    if (
+      fromIndex < 0 ||
+      fromIndex >= contents.length ||
+      toIndex < 0 ||
+      toIndex >= contents.length
+    ) {
+      throw new BadRequestException('索引超出范围')
+    }
+
+    // 移动内容
+    const [movedContent] = contents.splice(fromIndex, 1)
+    contents.splice(toIndex, 0, movedContent)
+
+    // 更新数据库
+    await this.updateById({
+      id: chapterId,
+      data: { contents: JSON.stringify(contents) },
+    })
+
+    return {
+      id: chapter.id,
+      contents,
+    }
+  }
+
+  /**
+   * 批量更新章节内容
+   * @param chapterId 章节ID
+   * @param contents 内容数组
+   * @returns 更新后的章节内容
+   */
+  async batchUpdateChapterContents(chapterId: number, contents: string[]) {
+    const chapter = await this.findById({
+      id: chapterId,
+      select: {
+        id: true,
+      },
+    })
+
+    if (!chapter) {
+      throw new BadRequestException('章节不存在')
+    }
+
+    if (!Array.isArray(contents)) {
+      throw new BadRequestException('内容格式必须是字符串数组')
+    }
+
+    // 更新数据库
+    await this.updateById({
+      id: chapterId,
+      data: { contents: JSON.stringify(contents) },
+    })
+
+    return {
+      id: chapter.id,
+      contents,
+    }
   }
 
   /**

@@ -3,7 +3,7 @@
  *  @标签 漫画章节管理模块/创建漫画章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/create-comic-chapter
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface CreateComicChapterRequest {
@@ -64,7 +64,7 @@ export type CreateComicChapterResponse = {
  *  @标签 漫画章节管理模块/分页查询漫画章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-page
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface ComicChapterPageRequest {
@@ -178,7 +178,7 @@ export interface ComicChapterPageResponse {
  *  @标签 漫画章节管理模块/获取漫画章节详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-detail
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface ComicChapterDetailRequest {
@@ -257,7 +257,7 @@ export type ComicChapterDetailResponse = {
  *  @标签 漫画章节管理模块/获取漫画章节内容
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-content
- *  @更新时间 2025-07-10 23:20:50
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface ComicChapterContentRequest {
@@ -336,7 +336,7 @@ export type ComicChapterContentResponse = {
  *  @标签 漫画章节管理模块/更新漫画章节信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/update-comic-chapter
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface UpdateComicChapterRequest {
@@ -400,7 +400,7 @@ export type UpdateComicChapterResponse = {
  *  @标签 漫画章节管理模块/批量软删除章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-delete-comic-chapter
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface BatchDeleteComicChapterRequest {
@@ -425,7 +425,7 @@ export type BatchDeleteComicChapterResponse = {
  *  @标签 漫画章节管理模块/获取指定漫画的章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/chapters-by-comic
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
@@ -436,7 +436,7 @@ export type ChaptersByComicResponse = any
  *  @标签 漫画章节管理模块/获取指定版本的章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/chapters-by-version
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
@@ -447,7 +447,7 @@ export type ChaptersByVersionResponse = any
  *  @标签 漫画章节管理模块/批量更新章节发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-publish-status
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface BatchUpdateChapterPublishStatusRequest {
@@ -472,7 +472,7 @@ export type BatchUpdateChapterPublishStatusResponse = {
  *  @标签 漫画章节管理模块/交换两个章节的章节号
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/swap-chapter-numbers
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface SwapChapterNumbersRequest {
@@ -484,14 +484,23 @@ export interface SwapChapterNumbersRequest {
 }
 
 /*  */
-export type SwapChapterNumbersResponse = any
+export type SwapChapterNumbersResponse = {
+  /* 拖拽的目标id */
+  targetId: number
+
+  /* 当前拖拽数据的id */
+  dragId: number
+
+  /** 任意合法数值 */
+  [property: string]: any
+}
 
 /**
  *  接口 [批量移动章节到指定版本](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-319962988)
  *  @标签 漫画章节管理模块/批量移动章节到指定版本
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-move-chapters-to-version
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
@@ -508,13 +517,187 @@ export type BatchMoveChaptersToVersionResponse = {
  *  @标签 漫画章节管理模块/复制章节到指定版本
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/copy-chapter-to-version
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
 export type CopyChapterToVersionResponse = {
   /* 主键id */
   id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
+}
+
+/**
+ *  接口 [获取章节内容详情](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320570768)
+ *  @标签 漫画章节管理模块/获取章节内容详情
+ *  @方式 GET
+ *  @地址 /api/admin/work/comic-chapter/chapter-contents
+ *  @更新时间 2025-07-10 23:34:20
+ */
+
+export interface ChapterContentsRequest {
+  /* 主键id */
+  id: number
+}
+
+/*  */
+export type ChapterContentsResponse = {
+  /* 章节ID */
+  id: number
+
+  /* 章节内容数组（JSON格式） */
+  contents: string
+
+  /** 任意合法数值 */
+  [property: string]: any
+}
+
+/**
+ *  接口 [添加章节内容](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320570769)
+ *  @标签 漫画章节管理模块/添加章节内容
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/add-chapter-content
+ *  @更新时间 2025-07-10 23:34:20
+ */
+
+export interface AddChapterContentRequest {
+  /* 主键id */
+  id: number
+
+  /* 要添加的内容（图片URL） */
+  content: string
+
+  /* 插入位置索引（可选，默认添加到末尾） */
+  index?: number | null
+}
+
+/*  */
+export type AddChapterContentResponse = {
+  /* 章节ID */
+  id: number
+
+  /* 章节内容数组（JSON格式） */
+  contents: string
+
+  /** 任意合法数值 */
+  [property: string]: any
+}
+
+/**
+ *  接口 [更新章节内容](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320570770)
+ *  @标签 漫画章节管理模块/更新章节内容
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/update-chapter-content
+ *  @更新时间 2025-07-10 23:34:20
+ */
+
+export interface UpdateChapterContentRequest {
+  /* 主键id */
+  id: number
+
+  /* 要更新的内容索引 */
+  index: number
+
+  /* 新的内容（图片URL） */
+  content: string
+}
+
+/*  */
+export type UpdateChapterContentResponse = {
+  /* 章节ID */
+  id: number
+
+  /* 章节内容数组（JSON格式） */
+  contents: string
+
+  /** 任意合法数值 */
+  [property: string]: any
+}
+
+/**
+ *  接口 [删除章节内容](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320570771)
+ *  @标签 漫画章节管理模块/删除章节内容
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/delete-chapter-content
+ *  @更新时间 2025-07-10 23:34:20
+ */
+
+export interface DeleteChapterContentRequest {
+  /* 主键id */
+  id: number
+
+  /* 要删除的内容索引 */
+  index: number
+}
+
+/*  */
+export type DeleteChapterContentResponse = {
+  /* 章节ID */
+  id: number
+
+  /* 章节内容数组（JSON格式） */
+  contents: string
+
+  /** 任意合法数值 */
+  [property: string]: any
+}
+
+/**
+ *  接口 [移动章节内容（排序）](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320570772)
+ *  @标签 漫画章节管理模块/移动章节内容（排序）
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/move-chapter-content
+ *  @更新时间 2025-07-10 23:34:20
+ */
+
+export interface MoveChapterContentRequest {
+  /* 主键id */
+  id: number
+
+  /* 源索引位置 */
+  fromIndex: number
+
+  /* 目标索引位置 */
+  toIndex: number
+}
+
+/*  */
+export type MoveChapterContentResponse = {
+  /* 章节ID */
+  id: number
+
+  /* 章节内容数组（JSON格式） */
+  contents: string
+
+  /** 任意合法数值 */
+  [property: string]: any
+}
+
+/**
+ *  接口 [批量更新章节内容](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320570773)
+ *  @标签 漫画章节管理模块/批量更新章节内容
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-contents
+ *  @更新时间 2025-07-10 23:34:20
+ */
+
+export interface BatchUpdateChapterContentsRequest {
+  /* 主键id */
+  id: number
+
+  /* 新的内容数组（JSON格式） */
+  contents: string
+}
+
+/*  */
+export type BatchUpdateChapterContentsResponse = {
+  /* 章节ID */
+  id: number
+
+  /* 章节内容数组（JSON格式） */
+  contents: string
 
   /** 任意合法数值 */
   [property: string]: any

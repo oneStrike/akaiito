@@ -199,6 +199,117 @@ export class CreateComicChapterDto extends OmitType(BaseComicChapterDto, [
 ]) {}
 
 /**
+ * 章节内容操作相关DTO
+ */
+
+/**
+ * 获取章节内容响应DTO
+ */
+export class ChapterContentsResponseDto {
+  @ValidateNumber({
+    description: '章节ID',
+    example: 1,
+    required: true,
+  })
+  id!: number
+
+  @ValidateString({
+    description: '章节内容数组（JSON格式）',
+    example: '["https://example.com/page1.jpg", "https://example.com/page2.jpg"]',
+    required: true,
+  })
+  contents!: string
+}
+
+/**
+ * 添加章节内容DTO
+ */
+export class AddChapterContentDto extends IdDto {
+  @ValidateString({
+    description: '要添加的内容（图片URL）',
+    example: 'https://example.com/new-page.jpg',
+    required: true,
+    maxLength: 500,
+  })
+  content!: string
+
+  @ValidateNumber({
+    description: '插入位置索引（可选，默认添加到末尾）',
+    example: 2,
+    required: false,
+    min: 0,
+  })
+  index?: number
+}
+
+/**
+ * 更新章节内容DTO
+ */
+export class UpdateChapterContentDto extends IdDto {
+  @ValidateNumber({
+    description: '要更新的内容索引',
+    example: 1,
+    required: true,
+    min: 0,
+  })
+  index!: number
+
+  @ValidateString({
+    description: '新的内容（图片URL）',
+    example: 'https://example.com/updated-page.jpg',
+    required: true,
+    maxLength: 500,
+  })
+  content!: string
+}
+
+/**
+ * 删除章节内容DTO
+ */
+export class DeleteChapterContentDto extends IdDto {
+  @ValidateNumber({
+    description: '要删除的内容索引',
+    example: 1,
+    required: true,
+    min: 0,
+  })
+  index!: number
+}
+
+/**
+ * 移动章节内容DTO（用于排序）
+ */
+export class MoveChapterContentDto extends IdDto {
+  @ValidateNumber({
+    description: '源索引位置',
+    example: 2,
+    required: true,
+    min: 0,
+  })
+  fromIndex!: number
+
+  @ValidateNumber({
+    description: '目标索引位置',
+    example: 0,
+    required: true,
+    min: 0,
+  })
+  toIndex!: number
+}
+
+/**
+ * 批量更新章节内容DTO
+ */
+export class BatchUpdateChapterContentsDto extends IdDto {
+  @ValidateString({
+    description: '新的内容数组（JSON格式）',
+    example: '["https://example.com/page1.jpg", "https://example.com/page2.jpg", "https://example.com/page3.jpg"]',
+    required: true,
+  })
+  contents!: string
+}
+
+/**
  * 更新漫画章节DTO
  */
 export class UpdateComicChapterDto extends IntersectionType(

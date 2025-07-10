@@ -3,7 +3,7 @@
  *  @标签 漫画版本管理模块/创建漫画版本
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/create-comic-version
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface CreateComicVersionRequest {
@@ -61,7 +61,7 @@ export type CreateComicVersionResponse = {
  *  @标签 漫画版本管理模块/分页查询漫画版本列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-version/comic-version-page
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface ComicVersionPageRequest {
@@ -190,7 +190,7 @@ export interface ComicVersionPageResponse {
  *  @标签 漫画版本管理模块/获取漫画版本详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic-version/comic-version-detail
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface ComicVersionDetailRequest {
@@ -281,7 +281,7 @@ export type ComicVersionDetailResponse = {
  *  @标签 漫画版本管理模块/更新漫画版本信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/update-comic-version
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface UpdateComicVersionRequest {
@@ -348,7 +348,7 @@ export type UpdateComicVersionResponse = {
  *  @标签 漫画版本管理模块/批量更新版本发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/batch-update-version-publish-status
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface BatchUpdateVersionPublishStatusRequest {
@@ -376,7 +376,7 @@ export type BatchUpdateVersionPublishStatusResponse = {
  *  @标签 漫画版本管理模块/批量更新版本推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/batch-update-version-recommended-status
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface BatchUpdateVersionRecommendedStatusRequest {
@@ -404,7 +404,7 @@ export type BatchUpdateVersionRecommendedStatusResponse = {
  *  @标签 漫画版本管理模块/批量更新版本启用状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/batch-update-version-enabled-status
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface BatchUpdateVersionEnabledStatusRequest {
@@ -429,7 +429,7 @@ export type BatchUpdateVersionEnabledStatusResponse = {
  *  @标签 漫画版本管理模块/批量更新版本查看规则
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/batch-update-version-read-rule
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface BatchUpdateVersionReadRuleRequest {
@@ -454,7 +454,7 @@ export type BatchUpdateVersionReadRuleResponse = {
  *  @标签 漫画版本管理模块/获取指定漫画的版本列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-version/versions-by-comic
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
@@ -465,7 +465,7 @@ export type VersionsByComicResponse = any
  *  @标签 漫画版本管理模块/软删除版本
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/delete-comic-version
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 export interface DeleteComicVersionRequest {
@@ -487,7 +487,7 @@ export type DeleteComicVersionResponse = {
  *  @标签 漫画版本管理模块/增加版本阅读次数
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/increment-view-count
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
@@ -504,7 +504,7 @@ export type IncrementViewCountResponse = {
  *  @标签 漫画版本管理模块/增加版本收藏数
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/increment-favorite-count
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
@@ -521,7 +521,7 @@ export type IncrementFavoriteCountResponse = {
  *  @标签 漫画版本管理模块/增加版本点赞数
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/increment-like-count
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
@@ -538,7 +538,7 @@ export type IncrementLikeCountResponse = {
  *  @标签 漫画版本管理模块/更新版本评分
  *  @方式 POST
  *  @地址 /api/admin/work/comic-version/update-version-rating
- *  @更新时间 2025-07-10 23:20:49
+ *  @更新时间 2025-07-10 23:34:17
  */
 
 /*  */
