@@ -6,18 +6,20 @@ import type {
   ComicChapterPageRequest,
   ComicChapterDetailResponse,
   ComicChapterDetailRequest,
+  ComicChapterContentResponse,
+  ComicChapterContentRequest,
   UpdateComicChapterResponse,
   UpdateComicChapterRequest,
-  BatchUpdateChapterPublishStatusResponse,
-  BatchUpdateChapterPublishStatusRequest,
   BatchDeleteComicChapterResponse,
   BatchDeleteComicChapterRequest,
   ChaptersByComicResponse,
   ChaptersByVersionResponse,
-  BatchMoveChaptersToVersionResponse,
-  CopyChapterToVersionResponse,
+  BatchUpdateChapterPublishStatusResponse,
+  BatchUpdateChapterPublishStatusRequest,
   SwapChapterNumbersResponse,
   SwapChapterNumbersRequest,
+  BatchMoveChaptersToVersionResponse,
+  CopyChapterToVersionResponse,
 } from './types/comic-chapter.d'
 
 /**
@@ -25,7 +27,7 @@ import type {
  *  @标签 漫画章节管理模块/创建漫画章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/create-comic-chapter
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const createComicChapterApi = (data: CreateComicChapterRequest): Promise<CreateComicChapterResponse> => {
@@ -44,7 +46,7 @@ export const createComicChapterApi = (data: CreateComicChapterRequest): Promise<
  *  @标签 漫画章节管理模块/分页查询漫画章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-page
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const comicChapterPageApi = (params: ComicChapterPageRequest): Promise<ComicChapterPageResponse> => {
@@ -61,7 +63,7 @@ export const comicChapterPageApi = (params: ComicChapterPageRequest): Promise<Co
  *  @标签 漫画章节管理模块/获取漫画章节详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-detail
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const comicChapterDetailApi = (params: ComicChapterDetailRequest): Promise<ComicChapterDetailResponse> => {
@@ -74,11 +76,28 @@ export const comicChapterDetailApi = (params: ComicChapterDetailRequest): Promis
 }
 
 /**
+ *  接口 [获取漫画章节内容](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320568922)
+ *  @标签 漫画章节管理模块/获取漫画章节内容
+ *  @方式 GET
+ *  @地址 /api/admin/work/comic-chapter/comic-chapter-content
+ *  @更新时间 2025-07-10 23:20:50
+ */
+
+export const comicChapterContentApi = (params: ComicChapterContentRequest): Promise<ComicChapterContentResponse> => {
+  return httpHandler({
+    method: 'GET',
+    url: '/api/admin/work/comic-chapter/comic-chapter-content',
+    headers: {},
+    params,
+  })
+}
+
+/**
  *  接口 [更新漫画章节信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836384)
  *  @标签 漫画章节管理模块/更新漫画章节信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/update-comic-chapter
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const updateComicChapterApi = (data: UpdateComicChapterRequest): Promise<UpdateComicChapterResponse> => {
@@ -93,32 +112,11 @@ export const updateComicChapterApi = (data: UpdateComicChapterRequest): Promise<
 }
 
 /**
- *  接口 [批量更新章节发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836385)
- *  @标签 漫画章节管理模块/批量更新章节发布状态
- *  @方式 POST
- *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-publish-status
- *  @更新时间 2025-07-10 23:06:34
- */
-
-export const batchUpdateChapterPublishStatusApi = (
-  data: BatchUpdateChapterPublishStatusRequest,
-): Promise<BatchUpdateChapterPublishStatusResponse> => {
-  return httpHandler({
-    method: 'POST',
-    url: '/api/admin/work/comic-chapter/batch-update-chapter-publish-status',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data,
-  })
-}
-
-/**
  *  接口 [批量软删除章节](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836386)
  *  @标签 漫画章节管理模块/批量软删除章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-delete-comic-chapter
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const batchDeleteComicChapterApi = (
@@ -139,7 +137,7 @@ export const batchDeleteComicChapterApi = (
  *  @标签 漫画章节管理模块/获取指定漫画的章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/chapters-by-comic
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const chaptersByComicApi = (): Promise<ChaptersByComicResponse> => {
@@ -155,7 +153,7 @@ export const chaptersByComicApi = (): Promise<ChaptersByComicResponse> => {
  *  @标签 漫画章节管理模块/获取指定版本的章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/chapters-by-version
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const chaptersByVersionApi = (): Promise<ChaptersByVersionResponse> => {
@@ -167,11 +165,51 @@ export const chaptersByVersionApi = (): Promise<ChaptersByVersionResponse> => {
 }
 
 /**
+ *  接口 [批量更新章节发布状态](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-317836385)
+ *  @标签 漫画章节管理模块/批量更新章节发布状态
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-publish-status
+ *  @更新时间 2025-07-10 23:20:49
+ */
+
+export const batchUpdateChapterPublishStatusApi = (
+  data: BatchUpdateChapterPublishStatusRequest,
+): Promise<BatchUpdateChapterPublishStatusResponse> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/api/admin/work/comic-chapter/batch-update-chapter-publish-status',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
+ *  接口 [交换两个章节的章节号](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320567794)
+ *  @标签 漫画章节管理模块/交换两个章节的章节号
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/swap-chapter-numbers
+ *  @更新时间 2025-07-10 23:20:49
+ */
+
+export const swapChapterNumbersApi = (data: SwapChapterNumbersRequest): Promise<SwapChapterNumbersResponse> => {
+  return httpHandler({
+    method: 'POST',
+    url: '/api/admin/work/comic-chapter/swap-chapter-numbers',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data,
+  })
+}
+
+/**
  *  接口 [批量移动章节到指定版本](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-319962988)
  *  @标签 漫画章节管理模块/批量移动章节到指定版本
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-move-chapters-to-version
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const batchMoveChaptersToVersionApi = (): Promise<BatchMoveChaptersToVersionResponse> => {
@@ -187,7 +225,7 @@ export const batchMoveChaptersToVersionApi = (): Promise<BatchMoveChaptersToVers
  *  @标签 漫画章节管理模块/复制章节到指定版本
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/copy-chapter-to-version
- *  @更新时间 2025-07-10 23:06:34
+ *  @更新时间 2025-07-10 23:20:49
  */
 
 export const copyChapterToVersionApi = (): Promise<CopyChapterToVersionResponse> => {
@@ -195,24 +233,5 @@ export const copyChapterToVersionApi = (): Promise<CopyChapterToVersionResponse>
     method: 'POST',
     url: '/api/admin/work/comic-chapter/copy-chapter-to-version',
     headers: {},
-  })
-}
-
-/**
- *  接口 [交换两个章节的章节号](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-320567794)
- *  @标签 漫画章节管理模块/交换两个章节的章节号
- *  @方式 POST
- *  @地址 /api/admin/work/comic-chapter/swap-chapter-numbers
- *  @更新时间 2025-07-10 23:06:40
- */
-
-export const swapChapterNumbersApi = (data: SwapChapterNumbersRequest): Promise<SwapChapterNumbersResponse> => {
-  return httpHandler({
-    method: 'POST',
-    url: '/api/admin/work/comic-chapter/swap-chapter-numbers',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    data,
   })
 }

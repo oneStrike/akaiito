@@ -64,6 +64,23 @@ export class WorkComicChapterController {
   }
 
   /**
+   * 获取漫画章节内容
+   */
+  @Get('/comic-chapter-content')
+  @ApiDoc({
+    summary: '获取漫画章节内容',
+    model: BaseComicChapterDto,
+  })
+  async getContent(@Query() query: IdDto) {
+    return this.comicChapterService.findById({
+      id: query.id,
+      select: {
+        contents: true,
+      },
+    })
+  }
+
+  /**
    * 更新漫画章节信息
    */
   @Post('/update-comic-chapter')
@@ -132,7 +149,7 @@ export class WorkComicChapterController {
    * 交换两个章节的章节号
    */
   @Post('swap-chapter-numbers')
-  @ApiDoc({ summary: '交换两个章节的章节号' })
+  @ApiDoc({ summary: '交换两个章节的章节号', model: OrderDto })
   async swapChapterNumbers(@Body() swapChapterNumberDto: OrderDto) {
     return this.comicChapterService.swapChapterNumbers(swapChapterNumberDto)
   }

@@ -70,19 +70,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('该漫画下章节号已存在')
     }
 
-    // 验证漫画内容格式
-    if (createComicChapterDto.contents) {
-      try {
-        const contents = JSON.parse(createComicChapterDto.contents)
-        if (!Array.isArray(contents)) {
-          throw new TypeError('内容必须是数组格式')
-        }
-      } catch {
-        throw new BadRequestException(
-          '漫画内容格式不正确，请使用有效的JSON数组格式',
-        )
-      }
-    }
+
 
     return this.create({ data: createComicChapterDto })
   }
@@ -234,19 +222,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       }
     }
 
-    // 验证漫画内容格式
-    if (updateData.contents) {
-      try {
-        const contents = JSON.parse(updateData.contents)
-        if (!Array.isArray(contents)) {
-          throw new TypeError('内容必须是数组格式')
-        }
-      } catch {
-        throw new BadRequestException(
-          '漫画内容格式不正确，请使用有效的JSON数组格式',
-        )
-      }
-    }
+
 
     return this.updateById({
       id,
