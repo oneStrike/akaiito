@@ -4,11 +4,7 @@ import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { WorkComicVersionService } from '../version/comic-version.service'
-import {
-  ComicVersionDetailResponseDto,
-  CreateComicVersionDto,
-  UpdateComicVersionDto,
-} from '../version/dto/comic-version.dto'
+
 import { WorkComicService } from './comic.service'
 import {
   BaseComicDto,
@@ -30,7 +26,6 @@ import {
 export class WorkComicController {
   constructor(
     private readonly comicService: WorkComicService,
-    private readonly comicVersionService: WorkComicVersionService,
   ) {}
 
   /**
@@ -90,7 +85,12 @@ export class WorkComicController {
     model: CountDto,
   })
   async updateStatus(@Body() body: UpdateComicStatusDto) {
-    return this.comicService.updateComicStatus(body)
+    return this.comicService.updateMany({
+      where: { id: { in: body.ids } },
+      data: {
+        isPublished: body.isPublished,
+      },
+    })
   }
 
   /**
@@ -102,7 +102,12 @@ export class WorkComicController {
     model: CountDto,
   })
   async updateRecommended(@Body() body: UpdateComicRecommendedDto) {
-    return this.comicService.updateComicRecommended(body)
+    return this.comicService.updateMany({
+      where: { id: { in: body.ids } },
+      data: {
+        isRecommended: body.isRecommended,
+      },
+    })
   }
 
   /**
@@ -114,7 +119,12 @@ export class WorkComicController {
     model: CountDto,
   })
   async updateHot(@Body() body: UpdateComicHotDto) {
-    return this.comicService.updateComicHot(body)
+    return this.comicService.updateMany({
+      where: { id: { in: body.ids } },
+      data: {
+        isHot: body.isHot,
+      },
+    })
   }
 
   /**
@@ -126,7 +136,12 @@ export class WorkComicController {
     model: CountDto,
   })
   async updateNew(@Body() body: UpdateComicNewDto) {
-    return this.comicService.updateComicNew(body)
+    return this.comicService.updateMany({
+      where: { id: { in: body.ids } },
+      data: {
+        isNew: body.isNew,
+      },
+    })
   }
 
   /**
@@ -139,53 +154,5 @@ export class WorkComicController {
   })
   async delete(@Body() body: IdDto) {
     return this.comicService.deleteComic(body.id)
-  }
-
-  /**
-   * 获取指定漫画的版本列表
-   */
-  @Get('/versions')
-  @ApiDoc({
-    summary: '获取指定漫画的版本列表',
-    model: [ComicVersionDetailResponseDto],
-  })
-  async getVersionsByComic(@Query() query: { comicId: number }) {
-    return this.comicVersionService.getVersionsByComicId(query.comicId)
-  }
-
-  /**
-   * 为漫画创建版本
-   */
-  @Post('/create-version')
-  @ApiDoc({
-    summary: '为漫画创建版本',
-    model: IdDto,
-  })
-  async createVersion(@Body() body: CreateComicVersionDto) {
-    return this.comicVersionService.createComicVersion(body)
-  }
-
-  /**
-   * 更新漫画版本信息
-   */
-  @Post('/update-version')
-  @ApiDoc({
-    summary: '更新漫画版本信息',
-    model: IdDto,
-  })
-  async updateVersion(@Body() body: UpdateComicVersionDto) {
-    return this.comicVersionService.updateComicVersion(body)
-  }
-
-  /**
-   * 删除漫画版本
-   */
-  @Post('/delete-version')
-  @ApiDoc({
-    summary: '删除漫画版本',
-    model: IdDto,
-  })
-  async deleteVersion(@Body() body: IdDto) {
-    return this.comicVersionService.deleteComicVersion(body.id)
   }
 }

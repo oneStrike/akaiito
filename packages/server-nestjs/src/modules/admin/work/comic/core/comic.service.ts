@@ -6,7 +6,6 @@ import {
   UpdateComicVersionDto,
 } from '../version/dto/comic-version.dto'
 import {
-  BatchOperationStatusIdsDto,
   CreateComicDto,
   QueryComicDto,
   UpdateComicDto,
@@ -207,32 +206,17 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
             },
           },
         },
-        // 版本数量统计
-        _count: {
-          select: {
-            comicVersions: {
-              where: {
-                deletedAt: null,
-              },
-            },
-          },
-        },
       },
     })
-    pageData.list = pageData.list.map((item) => {
-      const result = {
-        ...item,
-        comicAuthors: item.comicAuthors.map((author) => ({
-          ...author.author,
-          roleType: author.roleType,
-          isPrimary: author.isPrimary,
-          sortOrder: author.sortOrder,
-        })),
-      }
-      // 删除_count字段，因为它不应该暴露给前端
-      delete (result as any)._count
-      return result
-    })
+    pageData.list = pageData.list.map((item) => ({
+      ...item,
+      comicAuthors: item.comicAuthors.map((author) => ({
+        ...author.author,
+        roleType: author.roleType,
+        isPrimary: author.isPrimary,
+        sortOrder: author.sortOrder,
+      })),
+    }))
     return pageData
   }
 
@@ -270,16 +254,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
             weight: 'desc',
           },
         },
-        // 版本数量统计
-        _count: {
-          select: {
-            comicVersions: {
-              where: {
-                deletedAt: null,
-              },
-            },
-          },
-        },
       },
     })
 
@@ -287,7 +261,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       throw new BadRequestException('漫画不存在')
     }
 
-    const result = {
+    return {
       ...comic,
       comicAuthors: comic.comicAuthors!.map((author) => ({
         ...author.author,
@@ -298,11 +272,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         ...category.category,
       })),
     }
-
-    // 删除_count字段，因为它不应该暴露给前端
-    delete (result as any)._count
-
-    return result
   }
 
   /**
@@ -414,80 +383,6 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
   }
 
   /**
-   * 批量更新漫画发布状态
-   * @param updateStatusDto 批量更新状态的数据
-   * @returns 更新结果
-   */
-  async updateComicStatus(updateStatusDto: BatchOperationStatusIdsDto) {
-    const { ids, isPublished } = updateStatusDto
-
-    return this.updateMany({
-      where: {
-        id: { in: ids },
-      },
-      data: {
-        isPublished,
-      },
-    })
-  }
-
-  /**
-   * 批量更新漫画推荐状态
-   * @param updateRecommendedDto 批量更新推荐状态的数据
-   * @returns 更新结果
-   */
-  async updateComicRecommended(
-    updateRecommendedDto: UpdateComicRecommendedDto,
-  ) {
-    const { ids, isRecommended } = updateRecommendedDto
-
-    return this.updateMany({
-      where: {
-        id: { in: ids },
-      },
-      data: {
-        isRecommended,
-      },
-    })
-  }
-
-  /**
-   * 批量更新漫画热门状态
-   * @param updateHotDto 批量更新热门状态的数据
-   * @returns 更新结果
-   */
-  async updateComicHot(updateHotDto: UpdateComicHotDto) {
-    const { ids, isHot } = updateHotDto
-
-    return this.updateMany({
-      where: {
-        id: { in: ids },
-      },
-      data: {
-        isHot,
-      },
-    })
-  }
-
-  /**
-   * 批量更新漫画新作状态
-   * @param updateNewDto 批量更新新作状态的数据
-   * @returns 更新结果
-   */
-  async updateComicNew(updateNewDto: UpdateComicNewDto) {
-    const { ids, isNew } = updateNewDto
-
-    return this.updateMany({
-      where: {
-        id: { in: ids },
-      },
-      data: {
-        isNew,
-      },
-    })
-  }
-
-  /**
    * 软删除漫画
    * @param id 漫画ID
    * @returns 删除结果
@@ -508,167 +403,5 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
     }
 
     return this.softDelete(id)
-  }
-
-  /**
-   * 获取指定漫画的版本列表
-   * @param comicId 漫画ID
-   * @returns 版本列表
-   */
-  async getVersionsByComicId(comicId: number) {
-    // 验证漫画是否存在
-    const comic = await this.findById({ id: comicId })
-    if (!comic) {
-      throw new BadRequestException('漫画不存在')
-    }
-
-    return this.prisma.workComicVersion.findMany({
-      where: {
-        comicId,
-        deletedAt: null,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      select: {
-        id: true,
-        versionName: true,
-        isPublished: true,
-        isRecommended: true,
-        isEnabled: true,
-        readRule: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    })
-  }
-
-  /**
-   * 创建漫画版本
-   * @param comicId 漫画ID
-   * @param createVersionDto 创建版本的数据
-   * @returns 创建的版本信息
-   */
-  async createComicVersion(
-    comicId: number,
-    createVersionDto: CreateComicVersionDto,
-  ) {
-    // 验证漫画是否存在
-    const comic = await this.findById({ id: comicId })
-    if (!comic) {
-      throw new BadRequestException('漫画不存在')
-    }
-
-    // 验证版本名称是否已存在
-    const existingVersion = await this.prisma.workComicVersion.findFirst({
-      where: {
-        comicId,
-        versionName: createVersionDto.versionName,
-        deletedAt: null,
-      },
-    })
-
-    if (existingVersion) {
-      throw new BadRequestException('版本名称已存在')
-    }
-
-    return this.prisma.workComicVersion.create({
-      data: {
-        ...createVersionDto,
-        comicId,
-      },
-    })
-  }
-
-  /**
-   * 更新漫画版本
-   * @param comicId 漫画ID
-   * @param versionId 版本ID
-   * @param updateVersionDto 更新版本的数据
-   * @returns 更新后的版本信息
-   */
-  async updateComicVersion(
-    comicId: number,
-    versionId: number,
-    updateVersionDto: UpdateComicVersionDto,
-  ) {
-    // 验证版本是否存在且属于指定漫画
-    const existingVersion = await this.prisma.workComicVersion.findFirst({
-      where: {
-        id: versionId,
-        comicId,
-        deletedAt: null,
-      },
-    })
-
-    if (!existingVersion) {
-      throw new BadRequestException('版本不存在')
-    }
-
-    // 如果更新版本名称，验证是否与其他版本重复
-    if (
-      updateVersionDto.versionName &&
-      updateVersionDto.versionName !== existingVersion.versionName
-    ) {
-      const duplicateVersion = await this.prisma.workComicVersion.findFirst({
-        where: {
-          comicId,
-          versionName: updateVersionDto.versionName,
-          id: { not: versionId },
-          deletedAt: null,
-        },
-      })
-
-      if (duplicateVersion) {
-        throw new BadRequestException('版本名称已存在')
-      }
-    }
-
-    return this.prisma.workComicVersion.update({
-      where: { id: versionId },
-      data: updateVersionDto,
-    })
-  }
-
-  /**
-   * 删除漫画版本
-   * @param comicId 漫画ID
-   * @param versionId 版本ID
-   * @returns 删除结果
-   */
-  async deleteComicVersion(comicId: number, versionId: number) {
-    // 验证版本是否存在且属于指定漫画
-    const existingVersion = await this.prisma.workComicVersion.findFirst({
-      where: {
-        id: versionId,
-        comicId,
-        deletedAt: null,
-      },
-    })
-
-    if (!existingVersion) {
-      throw new BadRequestException('版本不存在')
-    }
-
-    // 检查是否有关联的章节
-    const chapterCount = await this.prisma.workComicChapter.count({
-      where: {
-        versionId,
-        deletedAt: null,
-      },
-    })
-
-    if (chapterCount > 0) {
-      throw new BadRequestException(
-        `该版本还有 ${chapterCount} 个关联章节，无法删除`,
-      )
-    }
-
-    return this.prisma.workComicVersion.update({
-      where: { id: versionId },
-      data: {
-        deletedAt: new Date(),
-      },
-    })
   }
 }

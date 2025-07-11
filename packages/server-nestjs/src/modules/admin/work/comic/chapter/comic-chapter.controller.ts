@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
-import { IdDto } from '@/common/dto/id.dto'
+import { CountDto } from '@/common/dto/batch.dto'
+import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import { OrderDto } from '@/common/dto/order.dto'
 import { ComicChapterDetailDto } from '@/modules/admin/work/comic/chapter/dto/comic-chapter-response'
 import { WorkComicVersionService } from '../version/comic-version.service'
@@ -88,37 +88,10 @@ export class WorkComicChapterController {
     summary: '批量软删除章节',
     model: CountDto,
   })
-  async batchDelete(@Body() body: BatchOperationStatusIdsDto) {
-    return this.comicChapterService.batchDeleteComicChapter(body)
-  }
-
-  /**
-   * 获取指定漫画的章节列表
-   */
-  @Get('/chapters-by-comic')
-  @ApiDoc({
-    summary: '获取指定漫画的章节列表',
-    model: [ComicChapterPageResponseDto],
-  })
-  async getChaptersByComic(
-    @Query() query: { comicId: number; versionId?: number },
-  ) {
-    return this.comicChapterService.getChaptersByComicId(
-      query.comicId,
-      query.versionId,
-    )
-  }
-
-  /**
-   * 获取指定版本的章节列表
-   */
-  @Get('/chapters-by-version')
-  @ApiDoc({
-    summary: '获取指定版本的章节列表',
-    model: [ComicChapterPageResponseDto],
-  })
-  async getChaptersByVersion(@Query() query: { versionId: number }) {
-    return this.comicChapterService.getChaptersByVersionId(query.versionId)
+  async batchDelete(@Body() body: IdsDto) {
+    return this.comicChapterService.deleteMany({
+      id: { in: body.ids },
+    })
   }
 
   /**
@@ -130,7 +103,14 @@ export class WorkComicChapterController {
     model: CountDto,
   })
   async updatePublishStatus(@Body() body: UpdateChapterPublishStatusDto) {
-    return this.comicChapterService.updateChapterPublishStatus(body)
+    return this.comicChapterService.updateMany({
+      where: {
+        id: { in: body.ids },
+      },
+      data: {
+        isPublished: body.isPublished,
+      },
+    })
   }
 
   /**
@@ -140,40 +120,6 @@ export class WorkComicChapterController {
   @ApiDoc({ summary: '交换两个章节的章节号', model: OrderDto })
   async swapChapterNumbers(@Body() swapChapterNumberDto: OrderDto) {
     return this.comicChapterService.swapChapterNumbers(swapChapterNumberDto)
-  }
-
-  /**
-   * 批量移动章节到指定版本
-   */
-  @Post('/batch-move-chapters-to-version')
-  @ApiDoc({
-    summary: '批量移动章节到指定版本',
-    model: CountDto,
-  })
-  async batchMoveChaptersToVersion(
-    @Body() body: { chapterIds: number[]; targetVersionId: number },
-  ) {
-    return this.comicChapterService.batchMoveChaptersToVersion(
-      body.chapterIds,
-      body.targetVersionId,
-    )
-  }
-
-  /**
-   * 复制章节到指定版本
-   */
-  @Post('/copy-chapter-to-version')
-  @ApiDoc({
-    summary: '复制章节到指定版本',
-    model: IdDto,
-  })
-  async copyChapterToVersion(
-    @Body() body: { chapterId: number; targetVersionId: number },
-  ) {
-    return this.comicChapterService.copyChapterToVersion(
-      body.chapterId,
-      body.targetVersionId,
-    )
   }
 
   /**
