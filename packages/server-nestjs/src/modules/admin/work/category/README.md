@@ -82,7 +82,7 @@ interface WorkCategory {
   id: number
   name: string // 分类名称
   description?: string // 分类描述
-  applicableContentTypes: number         // 应用类型
+  applicableContentTypes: number // 应用类型
   status: CategoryStatusEnum // 状态
   order: number // 排序值
   popularity: number // 人气值

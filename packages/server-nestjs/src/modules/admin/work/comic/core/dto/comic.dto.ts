@@ -6,11 +6,11 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import {
+  ValidateArray,
   ValidateBoolean,
   ValidateDate,
   ValidateEnum,
   ValidateNumber,
-  ValidateNumberArray,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
@@ -463,15 +463,17 @@ export class CreateComicDto extends OmitType(BaseComicDto, [
   'comicCategories',
   'comicAuthors',
 ]) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '关联的作者ID列表',
+    itemType: 'number',
     example: [1, 2],
     required: true,
   })
   authorIds!: number[]
 
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '关联的分类ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })
@@ -499,15 +501,17 @@ export class UpdateComicDto extends IntersectionType(
   ),
   IdDto,
 ) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '关联的作者ID列表（可选，传入则更新关联关系）',
+    itemType: 'number',
     example: [1, 2],
     required: false,
   })
   authorIds?: number[]
 
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '关联的分类ID列表（可选，传入则更新关联关系）',
+    itemType: 'number',
     example: [1, 2, 3],
     required: false,
   })
@@ -560,8 +564,9 @@ export class QueryComicDto extends IntersectionType(
 export class UpdateComicRecommendedDto extends PickType(BaseComicDto, [
   'isRecommended',
 ]) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '漫画ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })
@@ -574,8 +579,9 @@ export class UpdateComicRecommendedDto extends PickType(BaseComicDto, [
 export class UpdateComicStatusDto extends PickType(BaseComicDto, [
   'isPublished',
 ]) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '漫画ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })
@@ -586,8 +592,9 @@ export class UpdateComicStatusDto extends PickType(BaseComicDto, [
  * 更新漫画热门状态DTO
  */
 export class UpdateComicHotDto extends PickType(BaseComicDto, ['isHot']) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '漫画ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })
@@ -598,8 +605,9 @@ export class UpdateComicHotDto extends PickType(BaseComicDto, ['isHot']) {
  * 更新漫画新作状态DTO
  */
 export class UpdateComicNewDto extends PickType(BaseComicDto, ['isNew']) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '漫画ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })
@@ -610,8 +618,9 @@ export class UpdateComicNewDto extends PickType(BaseComicDto, ['isNew']) {
  * 批量操作状态DTO
  */
 export class BatchOperationStatusIdsDto {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: 'ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })

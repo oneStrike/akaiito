@@ -5,11 +5,11 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import {
+  ValidateArray,
   ValidateBoolean,
   ValidateDate,
   ValidateEnum,
   ValidateNumber,
-  ValidateNumberArray,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
@@ -194,8 +194,9 @@ export class QueryAuthorDto extends IntersectionType(
 export class UpdateAuthorFeaturedDto extends PickType(BaseAuthorDto, [
   'featured',
 ]) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '作者ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })

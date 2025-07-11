@@ -1,6 +1,6 @@
 import {
+  ValidateArray,
   ValidateNumber,
-  ValidateNumberArray,
 } from '@/common/decorators/validate.decorator'
 
 export class IdDto {
@@ -13,8 +13,9 @@ export class IdDto {
 }
 
 export class IdsDto {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '主键id',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })

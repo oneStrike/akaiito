@@ -5,11 +5,11 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import {
+  ValidateArray,
   ValidateBoolean,
   ValidateDate,
   ValidateEnum,
   ValidateNumber,
-  ValidateNumberArray,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
@@ -324,8 +324,9 @@ export class UpdateVersionEnabledStatusDto extends BatchOperationStatusIdsDto {}
  * 批量更新版本查看规则DTO
  */
 export class UpdateVersionReadRuleDto {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '版本ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })

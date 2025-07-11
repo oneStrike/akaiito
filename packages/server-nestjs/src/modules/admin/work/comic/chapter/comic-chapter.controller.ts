@@ -225,4 +225,16 @@ export class WorkComicChapterController {
   ) {
     return this.comicChapterService.batchUpdateChapterContents(body)
   }
+
+  /**
+   * 清空章节内容
+   */
+  @Post('/clear-chapter-contents')
+  @ApiDoc({
+    summary: '清空章节内容',
+    model: IdDto,
+  })
+  async clearChapterContents(@Body() body: IdDto) {
+    return this.comicChapterService.clearChapterContents(body.id)
+  }
 }

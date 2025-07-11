@@ -20,7 +20,10 @@ export class JwtBlacklistService {
    * @param token JWT令牌
    * @param expiresIn 过期时间（秒），默认为7天
    */
-  async addToAdminBlacklist(token: string, expiresIn: number = 7 * 24 * 60 * 60): Promise<void> {
+  async addToAdminBlacklist(
+    token: string,
+    expiresIn: number = 7 * 24 * 60 * 60,
+  ): Promise<void> {
     await this.cacheManager.set(
       this.ADMIN_BLACKLIST_PREFIX + token,
       true,
@@ -33,7 +36,10 @@ export class JwtBlacklistService {
    * @param token JWT令牌
    * @param expiresIn 过期时间（秒），默认为7天
    */
-  async addToClientBlacklist(token: string, expiresIn: number = 7 * 24 * 60 * 60): Promise<void> {
+  async addToClientBlacklist(
+    token: string,
+    expiresIn: number = 7 * 24 * 60 * 60,
+  ): Promise<void> {
     await this.cacheManager.set(
       this.CLIENT_BLACKLIST_PREFIX + token,
       true,
@@ -47,7 +53,9 @@ export class JwtBlacklistService {
    * @returns 如果令牌在黑名单中，则返回true；否则返回false
    */
   async isInAdminBlacklist(token: string): Promise<boolean> {
-    const result = await this.cacheManager.get(this.ADMIN_BLACKLIST_PREFIX + token)
+    const result = await this.cacheManager.get(
+      this.ADMIN_BLACKLIST_PREFIX + token,
+    )
     return result === true
   }
 
@@ -57,7 +65,9 @@ export class JwtBlacklistService {
    * @returns 如果令牌在黑名单中，则返回true；否则返回false
    */
   async isInClientBlacklist(token: string): Promise<boolean> {
-    const result = await this.cacheManager.get(this.CLIENT_BLACKLIST_PREFIX + token)
+    const result = await this.cacheManager.get(
+      this.CLIENT_BLACKLIST_PREFIX + token,
+    )
     return result === true
   }
 

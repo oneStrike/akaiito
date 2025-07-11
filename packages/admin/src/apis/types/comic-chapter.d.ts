@@ -3,7 +3,7 @@
  *  @标签 漫画章节管理模块/创建漫画章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/create-comic-chapter
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface CreateComicChapterRequest {
@@ -61,7 +61,7 @@ export type CreateComicChapterResponse = {
  *  @标签 漫画章节管理模块/分页查询漫画章节列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-page
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface ComicChapterPageRequest {
@@ -172,7 +172,7 @@ export interface ComicChapterPageResponse {
  *  @标签 漫画章节管理模块/获取漫画章节详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/comic-chapter-detail
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface ComicChapterDetailRequest {
@@ -269,7 +269,7 @@ export type ComicChapterDetailResponse = {
  *  @标签 漫画章节管理模块/更新漫画章节信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/update-comic-chapter
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface UpdateComicChapterRequest {
@@ -330,7 +330,7 @@ export type UpdateComicChapterResponse = {
  *  @标签 漫画章节管理模块/批量软删除章节
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-delete-comic-chapter
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface BatchDeleteComicChapterRequest {
@@ -352,7 +352,7 @@ export type BatchDeleteComicChapterResponse = {
  *  @标签 漫画章节管理模块/批量更新章节发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-publish-status
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface BatchUpdateChapterPublishStatusRequest {
@@ -377,7 +377,7 @@ export type BatchUpdateChapterPublishStatusResponse = {
  *  @标签 漫画章节管理模块/交换两个章节的章节号
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/swap-chapter-numbers
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface SwapChapterNumbersRequest {
@@ -405,7 +405,7 @@ export type SwapChapterNumbersResponse = {
  *  @标签 漫画章节管理模块/获取章节内容详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic-chapter/chapter-contents
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface ChapterContentsRequest {
@@ -424,7 +424,7 @@ export type ChapterContentsResponse = {
  *  @标签 漫画章节管理模块/添加章节内容
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/add-chapter-content
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface AddChapterContentRequest {
@@ -449,7 +449,7 @@ export type AddChapterContentResponse = {
  *  @标签 漫画章节管理模块/更新章节内容
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/update-chapter-content
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface UpdateChapterContentRequest {
@@ -474,7 +474,7 @@ export type UpdateChapterContentResponse = {
  *  @标签 漫画章节管理模块/删除章节内容
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/delete-chapter-content
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface DeleteChapterContentRequest {
@@ -496,7 +496,7 @@ export type DeleteChapterContentResponse = {
  *  @标签 漫画章节管理模块/移动章节内容（排序）
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/move-chapter-content
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface MoveChapterContentRequest {
@@ -521,7 +521,7 @@ export type MoveChapterContentResponse = {
  *  @标签 漫画章节管理模块/批量更新章节内容
  *  @方式 POST
  *  @地址 /api/admin/work/comic-chapter/batch-update-chapter-contents
- *  @更新时间 2025-07-11 11:36:40
+ *  @更新时间 2025-07-12 00:16:35
  */
 
 export interface BatchUpdateChapterContentsRequest {
@@ -537,3 +537,25 @@ export type BatchUpdateChapterContentsResponse = {
   /** 任意合法数值 */
   [property: string]: any
 }[]
+
+/**
+ *  接口 [清空章节内容](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-321098666)
+ *  @标签 漫画章节管理模块/清空章节内容
+ *  @方式 POST
+ *  @地址 /api/admin/work/comic-chapter/clear-chapter-contents
+ *  @更新时间 2025-07-12 00:16:45
+ */
+
+export interface ClearChapterContentsRequest {
+  /* 主键id */
+  id: number
+}
+
+/*  */
+export type ClearChapterContentsResponse = {
+  /* 主键id */
+  id: number
+
+  /** 任意合法数值 */
+  [property: string]: any
+}

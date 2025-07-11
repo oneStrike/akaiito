@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import type { ComicDetailResponse } from '@/apis/types/comic'
+  import type { EsFormOptions } from '@/components/es-form/types'
   import {
     comicVersionPageApi,
     createComicVersionApi,
@@ -65,7 +66,7 @@
 </script>
 
 <template>
-  <EsModal v-model="modalShow" :title="`【${comic.name}】`" width="900">
+  <EsModal v-model="modalShow" :title="`【${comic.name}】`" width="1080">
     <EsTable
       ref="table"
       v-model:params="tableParams"
@@ -105,7 +106,7 @@
       :options="formTool.options"
       @update:model-value="formChange"
       @submit="submitForm"
-      @close="currentRow = null"
+      @closed="currentRow = null"
     />
   </EsModal>
 </template>

@@ -73,7 +73,8 @@ export function ApiDoc<TModel extends Type<any>>(
           schema: {
             ...baseResponse(summary).content['application/json'].schema,
             properties: {
-              ...baseResponse(summary).content['application/json'].schema.properties,
+              ...baseResponse(summary).content['application/json'].schema
+                .properties,
               ...(dataSchema && { data: dataSchema }),
             },
           },
@@ -109,7 +110,8 @@ export function ApiPageDoc<TModel extends Type<any>>(
           schema: {
             ...baseResponse(summary).content['application/json'].schema,
             properties: {
-              ...baseResponse(summary).content['application/json'].schema.properties,
+              ...baseResponse(summary).content['application/json'].schema
+                .properties,
               data: {
                 type: 'object',
                 properties: {

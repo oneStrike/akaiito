@@ -59,7 +59,10 @@ export class MaxMindConfigService {
    * 获取数据目录
    */
   getDataDirectory(): string {
-    return this.configService.get<string>('maxmind.dataDirectory', './data/maxmind')!
+    return this.configService.get<string>(
+      'maxmind.dataDirectory',
+      './data/maxmind',
+    )!
   }
 
   /**
@@ -73,7 +76,10 @@ export class MaxMindConfigService {
    * 获取更新计划
    */
   getUpdateSchedule(): string {
-    return this.configService.get<string>('maxmind.updateSchedule', '0 2 * * *')!
+    return this.configService.get<string>(
+      'maxmind.updateSchedule',
+      '0 2 * * *',
+    )!
   }
 
   /**

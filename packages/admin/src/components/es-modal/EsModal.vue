@@ -1,38 +1,39 @@
 <script setup lang="ts">
-import type { EsModalProps } from '@/components/es-modal/types'
+  import type { EsModalProps } from '@/components/es-modal/types'
 
-const props = withDefaults(defineProps<EsModalProps>(), {
-  modelValue: false,
-  title: '',
-  height: 500,
-  loading: false,
-})
-const emits = defineEmits<{
-  (event: 'handler'): void
-  (event: 'close'): void
-  (event: 'closed'): void
-  (event: 'fullScreen', data: boolean): void
-}>()
-const modelValue = defineModel({ type: Boolean, default: false })
+  const props = withDefaults(defineProps<EsModalProps>(), {
+    modelValue: false,
+    title: '',
+    height: 500,
+    width: 1080,
+    loading: false,
+  })
+  const emits = defineEmits<{
+    (event: 'handler'): void
+    (event: 'close'): void
+    (event: 'closed'): void
+    (event: 'fullScreen', data: boolean): void
+  }>()
+  const modelValue = defineModel({ type: Boolean, default: false })
 
-const fullscreen = ref(false)
+  const fullscreen = ref(false)
 
-const elDialogRef = templateRef('elDialogRef')
+  const elDialogRef = templateRef('elDialogRef')
 
-function close(event: 'close' | 'closed') {
-  // @ts-expect-error ignore
-  emits(event)
-  if (event === 'close') {
-    setTimeout(() => {
-      // modelValue.value = false
-    }, 500)
+  function close(event: 'close' | 'closed') {
+    // @ts-expect-error ignore
+    emits(event)
+    if (event === 'close') {
+      setTimeout(() => {
+        // modelValue.value = false
+      }, 500)
+    }
   }
-}
 
-function toggleFullScreenStatus() {
-  fullscreen.value = !fullscreen.value
-  emits('fullScreen', fullscreen.value)
-}
+  function toggleFullScreenStatus() {
+    fullscreen.value = !fullscreen.value
+    emits('fullScreen', fullscreen.value)
+  }
 </script>
 
 <template>
@@ -72,15 +73,22 @@ function toggleFullScreenStatus() {
 
     <template #footer>
       <div class="dialog-footer border-t pt-4">
-        <el-button :loading="loading" @click="elDialogRef!.visible = false, close('closed')"> 关闭</el-button>
-        <el-button type="primary" :loading="loading" @click="emits('handler')"> 确定</el-button>
+        <el-button
+          :loading="loading"
+          @click="((elDialogRef!.visible = false), close('closed'))"
+        >
+          关闭
+        </el-button>
+        <el-button type="primary" :loading="loading" @click="emits('handler')">
+          确定
+        </el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 
 <style scoped lang="scss">
-:deep(.el-scrollbar__view) {
-  height: 100%;
-}
+  :deep(.el-scrollbar__view) {
+    height: 100%;
+  }
 </style>

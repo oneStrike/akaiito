@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
+  ValidateArray,
   ValidateBoolean,
-  ValidateNumberArray,
 } from '@/common/decorators/validate.decorator'
 
 export class BatchOperationResultDto {
@@ -13,8 +13,9 @@ export class BatchOperationResultDto {
 }
 
 export class BatchOperationStatusIdsDto {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '批量操作的 ID 数组',
+    itemType: 'number',
     example: [1, 2, 3],
   })
   ids!: number[]

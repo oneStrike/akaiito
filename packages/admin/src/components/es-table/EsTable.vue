@@ -141,10 +141,7 @@
   const refresh = (subParams?: IterateObject) => {
     if (subParams) {
       // 如果传入了参数，则合并到查询参数中（会触发watch重新获取数据）
-      params.value = {
-        ...params.value,
-        ...subParams,
-      }
+      Object.assign(params.value, subParams)
     } else {
       // 如果使用静态数据，重新分页；否则调用API
       if (props.tableData && originalStaticData.value.length > 0) {

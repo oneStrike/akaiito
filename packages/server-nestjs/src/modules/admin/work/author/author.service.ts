@@ -57,14 +57,8 @@ export class WorkAuthorService extends BaseRepositoryService<'WorkAuthor'> {
    * @returns 分页作者列表
    */
   async getAuthorPage(queryAuthorDto: QueryAuthorDto) {
-    const {
-      name,
-      isEnabled,
-      roles,
-      nationality,
-      gender,
-      featured,
-    } = queryAuthorDto
+    const { name, isEnabled, roles, nationality, gender, featured } =
+      queryAuthorDto
 
     // 构建查询条件
     const where: WorkAuthorWhereInput = {}

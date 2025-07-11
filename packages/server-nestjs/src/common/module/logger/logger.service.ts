@@ -1,4 +1,8 @@
-import { Injectable, LoggerService as NestLoggerService, Scope } from '@nestjs/common'
+import {
+  Injectable,
+  LoggerService as NestLoggerService,
+  Scope,
+} from '@nestjs/common'
 import { Logger } from 'winston'
 import { LogModule } from '@/config/logger.config'
 
@@ -103,7 +107,13 @@ export class CustomLoggerService implements NestLoggerService {
   /**
    * 记录HTTP请求
    */
-  logRequest(method: string, url: string, statusCode: number, responseTime: number, meta?: any): void {
+  logRequest(
+    method: string,
+    url: string,
+    statusCode: number,
+    responseTime: number,
+    meta?: any,
+  ): void {
     const message = `${method} ${url} ${statusCode} - ${responseTime}ms`
 
     if (statusCode >= 400) {
@@ -116,9 +126,20 @@ export class CustomLoggerService implements NestLoggerService {
   /**
    * 记录数据库操作
    */
-  logDatabase(operation: string, table: string, duration: number, meta?: any): void {
+  logDatabase(
+    operation: string,
+    table: string,
+    duration: number,
+    meta?: any,
+  ): void {
     const message = `DB ${operation} on ${table} - ${duration}ms`
-    this.debug(message, { type: 'DATABASE', operation, table, duration, ...meta })
+    this.debug(message, {
+      type: 'DATABASE',
+      operation,
+      table,
+      duration,
+      ...meta,
+    })
   }
 
   /**
@@ -137,7 +158,11 @@ export class CustomLoggerService implements NestLoggerService {
   /**
    * 记录安全相关事件
    */
-  logSecurity(event: string, level: 'info' | 'warn' | 'error', meta?: any): void {
+  logSecurity(
+    event: string,
+    level: 'info' | 'warn' | 'error',
+    meta?: any,
+  ): void {
     const message = `Security event: ${event}`
     const logMeta = { type: 'SECURITY', event, ...meta }
 
@@ -162,7 +187,13 @@ export class CustomLoggerService implements NestLoggerService {
 
     // 超过1秒的操作记录为警告
     if (duration > 1000) {
-      this.warn(message, { type: 'PERFORMANCE', operation, duration, slow: true, ...meta })
+      this.warn(message, {
+        type: 'PERFORMANCE',
+        operation,
+        duration,
+        slow: true,
+        ...meta,
+      })
     } else {
       this.debug(message, { type: 'PERFORMANCE', operation, duration, ...meta })
     }

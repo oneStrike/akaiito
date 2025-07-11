@@ -3,7 +3,6 @@ import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
-import { WorkComicVersionService } from '../version/comic-version.service'
 
 import { WorkComicService } from './comic.service'
 import {
@@ -24,9 +23,7 @@ import {
 @ApiTags('漫画管理模块')
 @Controller('admin/work/comic')
 export class WorkComicController {
-  constructor(
-    private readonly comicService: WorkComicService,
-  ) {}
+  constructor(private readonly comicService: WorkComicService) {}
 
   /**
    * 创建漫画

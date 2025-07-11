@@ -8,15 +8,7 @@ import { ComicModule } from './comic/comic.module'
  * 统一管理作品相关的子模块
  */
 @Module({
-  imports: [
-    WorkAuthorModule,
-    WorkCategoryModule,
-    ComicModule,
-  ],
-  exports: [
-    WorkAuthorModule,
-    WorkCategoryModule,
-    ComicModule,
-  ],
+  imports: [WorkAuthorModule, WorkCategoryModule, ComicModule],
+  exports: [WorkAuthorModule, WorkCategoryModule, ComicModule],
 })
 export class WorkModule {}

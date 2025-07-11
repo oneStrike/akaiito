@@ -19,10 +19,7 @@ import { RequestLogService } from './request-log.service'
 @Module({
   imports: [MaxMindModule],
   controllers: [RequestLogController],
-  providers: [
-    RequestLogService,
-    AdminRequestLogInterceptor,
-  ],
+  providers: [RequestLogService, AdminRequestLogInterceptor],
   exports: [
     RequestLogService, // 导出服务供其他模块使用
     AdminRequestLogInterceptor,

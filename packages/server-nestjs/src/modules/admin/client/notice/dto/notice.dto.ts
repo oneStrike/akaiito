@@ -6,12 +6,12 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import {
+  ValidateArray,
   ValidateBitmask,
   ValidateBoolean,
   ValidateDate,
   ValidateEnum,
   ValidateNumber,
-  ValidateNumberArray,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
@@ -219,8 +219,9 @@ export class QueryNoticeDto extends IntersectionType(
 export class UpdateNoticeStatusDto extends PickType(BaseNoticeDto, [
   'isPublished',
 ]) {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '通知ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })

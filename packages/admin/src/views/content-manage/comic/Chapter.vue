@@ -36,7 +36,6 @@
   const formModal = reactive({
     show: false,
     loading: false,
-    data: {} as Row,
   })
 
   const showContentModal = ref(false)
@@ -71,9 +70,12 @@
     showContentModal.value = true
   }
 
-  async function openForm(row: Row) {
-    currentRecord.value = row
-    formModal.data = await comicChapterDetailApi({ id: row.id })
+  async function openForm(row?: Row) {
+    if (row) {
+      currentRecord.value = await comicChapterDetailApi({ id: row.id })
+    } else {
+      currentRecord.value = null
+    }
     formModal.show = true
   }
 
@@ -83,7 +85,7 @@
 </script>
 
 <template>
-  <EsModal v-model="modalShow" :title="`【${comic.name}】`" width="900">
+  <EsModal v-model="modalShow" :title="`【${comic.name}】`">
     <EsTable
       ref="tableRef"
       v-model:params="tableParams"
@@ -93,6 +95,7 @@
       :columns="chapterColumn"
       :request-api="comicChapterPageApi"
       :drag-api="swapChapterNumbersApi"
+      @toolbar-handler="openForm()"
     >
       <template #isPublish="{ row }">
         <EsSwitch
@@ -128,7 +131,6 @@
       v-if="formModal.show"
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
-      :model-value="formModal.data"
       :default-value="currentRecord"
       title="章节"
       width="800"

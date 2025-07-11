@@ -11,7 +11,6 @@ import {
   MoveChapterContentDto,
   QueryComicChapterDto,
   UpdateChapterContentDto,
-  UpdateChapterPublishStatusDto,
   UpdateChapterReadRuleDto,
   UpdateComicChapterDto,
 } from './dto/comic-chapter.dto'
@@ -446,6 +445,21 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     })
 
     return contents
+  }
+
+  /**
+   * 清空章节内容
+   */
+  async clearChapterContents(id: number) {
+    if (!(await this.exists({ id }))) {
+      throw new BadRequestException('章节不存在')
+    }
+    // 更新数据库
+    await this.updateById({
+      id,
+      data: { contents: '[]' },
+    })
+    return id
   }
 
   /**

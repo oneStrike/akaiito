@@ -59,6 +59,26 @@ export interface ValidateNumberArrayOptions extends BaseValidateOptions {
 }
 
 /**
+ * 通用数组验证选项
+ */
+export interface ValidateArrayOptions<T = any> extends BaseValidateOptions {
+  /** 示例值 */
+  example?: T[]
+  /** 数组最大长度 */
+  maxLength?: number
+  /** 数组最小长度 */
+  minLength?: number
+  /** 默认值 */
+  default?: T[]
+  /** 数组元素类型 */
+  itemType: 'string' | 'number' | 'boolean' | 'object'
+  /** 数组元素验证器（可选，用于复杂类型验证） */
+  itemValidator?: (value: any) => boolean
+  /** 数组元素验证失败时的错误消息 */
+  itemErrorMessage?: string
+}
+
+/**
  * 日期验证选项
  */
 export interface ValidateDateTimeOptions extends BaseValidateOptions {

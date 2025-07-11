@@ -1,6 +1,7 @@
 import type { EsFormOptions } from '@/components/es-form/types.ts'
 import type { EsTableColumn } from '@/components/es-table/types.ts'
 import { useValidate } from '@/hooks/useValidate.ts'
+import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions'
 import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 import { readRule } from '@/views/content-manage/comic/shared/common.ts'
 
@@ -90,8 +91,8 @@ export const chapterFormOptions: EsFormOptions[] = [
     component: 'Radio',
     props: {
       span: 2,
-      label: '是否为试读章节',
-      rules: useValidate.required('是否为试读章节'),
+      label: '试读章节',
+      rules: useValidate.required('试读章节'),
     },
     componentProps: {
       placeholder: '请选择是否为试读章节',
@@ -140,36 +141,11 @@ export const chapterColumn: EsTableColumn = formOptionsToTableColumn(
   },
 )
 
-export const chapterFilter: EsFormOptions[] = [
+export const chapterFilter: EsFormOptions[] = formOptionsToFilterOptions(
+  chapterFormOptions,
   {
-    field: 'isPublish',
-    component: 'Select',
-    props: {
-      span: 4,
-    },
-    componentProps: {
-      placeholder: '发布状态',
-      options: [
-        {
-          label: '已发布',
-          value: true,
-        },
-        {
-          label: '未发布',
-          value: false,
-        },
-      ],
-    },
+    isPreview: 4,
+    readRule: 4,
+    title: 4,
   },
-  {
-    field: 'title',
-    component: 'Input',
-    props: {
-      span: 4,
-    },
-    componentProps: {
-      placeholder: '章节名称',
-      maxlength: 50,
-    },
-  },
-]
+)

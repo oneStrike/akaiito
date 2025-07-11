@@ -5,12 +5,11 @@ import {
   PickType,
 } from '@nestjs/swagger'
 import {
+  ValidateArray,
   ValidateBoolean,
   ValidateDate,
   ValidateEnum,
-  ValidateJson,
   ValidateNumber,
-  ValidateNumberArray,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
@@ -193,7 +192,7 @@ export class CreateComicChapterDto extends OmitType(BaseComicChapterDto, [
  * 添加章节内容DTO
  */
 export class AddChapterContentDto extends IdDto {
-  @ValidateJson({
+  @ValidateString({
     description: '要添加的内容（图片URL）',
     example: 'https://example.com/new-page.jpg',
     required: true,
@@ -314,8 +313,9 @@ export class QueryComicChapterDto extends IntersectionType(
  * 批量更新章节发布状态DTO
  */
 export class UpdateChapterPublishStatusDto {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '章节ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })
@@ -333,8 +333,9 @@ export class UpdateChapterPublishStatusDto {
  * 批量更新章节查看规则DTO
  */
 export class UpdateChapterReadRuleDto {
-  @ValidateNumberArray({
+  @ValidateArray({
     description: '章节ID列表',
+    itemType: 'number',
     example: [1, 2, 3],
     required: true,
   })

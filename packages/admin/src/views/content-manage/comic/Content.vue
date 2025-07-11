@@ -1,14 +1,11 @@
 <script setup lang="ts">
   import type { UploadFile } from 'element-plus'
-  import type {
-    AddChapterContentRequest,
-    DeleteChapterContentRequest,
-  } from '@/apis/types/comic-chapter'
+  import type { DeleteChapterContentRequest } from '@/apis/types/comic-chapter'
   import { computed, onMounted, ref } from 'vue'
   import {
-    addChapterContentApi,
     batchUpdateChapterContentsApi,
     chapterContentsApi,
+    clearChapterContentsApi,
     deleteChapterContentApi,
   } from '@/apis/comic-chapter'
   import { useUpload } from '@/hooks/useUpload'
@@ -28,8 +25,6 @@
   const fileList = ref<any[]>([])
   const isLoading = ref(false)
   const selected = ref<any[]>([])
-  const showModal = ref(false)
-  const currentImage = ref<any>(null)
 
   // 获取章节内容
   async function getContent() {
@@ -41,12 +36,13 @@
         id: props.chapterId,
       })
       fileList.value = contents.map((item: any, index: number) => ({
-        ...item,
+        path: item,
         index: index + 1,
         imagePreview: item.url,
         imageInfo: `${item.width || 0} x ${item.height || 0}`,
         createdAt: new Date().toLocaleString(),
       }))
+      console.log(fileList.value)
     } catch (error) {
       console.error('获取章节内容失败:', error)
       useMessage.error('获取章节内容失败')
@@ -61,54 +57,28 @@
       return
     }
 
-    try {
-      const index = params
-        ? fileList.value.findIndex((item) => item === params)
-        : selected.value[0]
-      const deleteParams: DeleteChapterContentRequest = {
-        id: props.chapterId,
-        index: typeof index === 'number' ? index : 0,
-      }
-
-      useConfirm(
-        'delete',
-        () => deleteChapterContentApi(deleteParams),
-        getContent,
-      )
-      useMessage.success('删除成功')
-    } catch (error) {
-      if (error !== 'cancel') {
-        console.error('删除失败:', error)
-        useMessage.error('删除失败')
-      }
+    const index = params
+      ? fileList.value.findIndex((item) => item === params)
+      : selected.value[0]
+    const deleteParams: DeleteChapterContentRequest = {
+      id: props.chapterId,
+      index: typeof index === 'number' ? index : 0,
     }
-  }
 
-  // 显示详细信息
-  function showDetail(item: any) {
-    currentImage.value = item
-    showModal.value = true
+    useConfirm(
+      'delete',
+      () => deleteChapterContentApi(deleteParams),
+      getContent,
+    )
   }
 
   // 清空内容
   async function clearContent() {
-    try {
-      const params = {
-        id: props.chapterId,
-        contents: '[]',
-      }
-
-      useConfirm(
-        'clear',
-        () => batchUpdateChapterContentsApi(params),
-        () => (fileList.value = []),
-      )
-    } catch (error) {
-      if (error !== 'cancel') {
-        console.error('清空失败:', error)
-        useMessage.error('清空失败')
-      }
-    }
+    useConfirm(
+      'clear',
+      () => clearChapterContentsApi({ id: props.chapterId }),
+      getContent,
+    )
   }
 
   // 格式化文件大小
@@ -135,20 +105,18 @@
     timer = window.setTimeout(async () => {
       try {
         const uploadResult = await useUpload(waitFiles, {}, 'common')
+        const files: string[] = []
 
         if (uploadResult.success && Array.isArray(uploadResult.success)) {
           for (const result of uploadResult.success) {
-            const params: AddChapterContentRequest = {
-              id: props.chapterId,
-              content: result.filePath,
-            }
-
-            await addChapterContentApi(params)
+            files.push(result.filePath)
           }
         }
-
-        // 重新获取数据以确保同步
-        await getContent()
+        files.unshift(...fileList.value.map((item) => item.paht))
+        await batchUpdateChapterContentsApi({
+          id: props.chapterId,
+          contents: JSON.stringify(files),
+        })
         useMessage.success('上传成功')
       } catch (error) {
         console.error('上传失败:', error)
@@ -239,9 +207,6 @@
 
           <template #action="{ row }">
             <div class="flex justify-center gap-2">
-              <el-button type="primary" size="small" @click="showDetail(row)">
-                查看
-              </el-button>
               <el-button type="danger" size="small" @click="deleteContent(row)">
                 删除
               </el-button>
@@ -250,37 +215,5 @@
         </EsTable>
       </div>
     </div>
-
-    <!-- 图片详情弹窗 -->
-    <EsModal v-model="showModal" title="图片详情" width="80%">
-      <div v-if="currentImage" class="flex flex-col items-center gap-4">
-        <el-image
-          :src="currentImage.url"
-          :preview-src-list="[currentImage.url]"
-          class="max-w-full max-h-96 object-contain"
-          fit="contain"
-        />
-        <div class="gap-4 grid grid-cols-2 w-full max-w-md">
-          <div class="text-center">
-            <div class="text-sm text-gray-600">尺寸</div>
-            <div class="font-medium">
-              {{ currentImage.width || 0 }} × {{ currentImage.height || 0 }}
-            </div>
-          </div>
-          <div class="text-center">
-            <div class="text-sm text-gray-600">文件大小</div>
-            <div class="font-medium">
-              {{ formatFileSize(currentImage.size || 0) }}
-            </div>
-          </div>
-          <div class="text-center col-span-2">
-            <div class="text-sm text-gray-600">URL</div>
-            <div class="font-medium text-xs break-all">
-              {{ currentImage.url }}
-            </div>
-          </div>
-        </div>
-      </div>
-    </EsModal>
   </EsModal>
 </template>
