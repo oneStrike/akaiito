@@ -206,8 +206,8 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
     if (
       (updateData.versionName !== undefined &&
         updateData.versionName !== existingVersion.versionName) ||
-        (updateData.language !== undefined &&
-          updateData.language !== existingVersion.language)
+      (updateData.language !== undefined &&
+        updateData.language !== existingVersion.language)
     ) {
       const duplicateVersion = await this.findFirst({
         where: {
@@ -239,27 +239,6 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
     return this.updateById({
       id,
       data: updateData,
-    })
-  }
-
-  /**
-   * 批量更新版本发布状态
-   * @param updateStatusDto 批量更新状态的数据
-   * @returns 更新结果
-   */
-  async updateVersionPublishStatus(
-    updateStatusDto: UpdateVersionPublishStatusDto,
-  ) {
-    const { ids, isPublished } = updateStatusDto
-
-    return this.updateMany({
-      where: {
-        id: { in: ids },
-      },
-      data: {
-        isPublished,
-        publishAt: isPublished ? new Date() : null,
-      },
     })
   }
 
@@ -301,26 +280,6 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
       },
       data: {
         isRecommended,
-      },
-    })
-  }
-
-  /**
-   * 批量更新版本启用状态
-   * @param updateEnabledDto 批量更新启用状态的数据
-   * @returns 更新结果
-   */
-  async updateVersionEnabledStatus(
-    updateEnabledDto: UpdateVersionEnabledStatusDto,
-  ) {
-    const { ids, isEnabled } = updateEnabledDto
-
-    return this.updateMany({
-      where: {
-        id: { in: ids },
-      },
-      data: {
-        isEnabled,
       },
     })
   }
@@ -380,7 +339,7 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
       throw new BadRequestException('版本不存在')
     }
 
-    return this.deleteById({ id })
+    return this.deleteB   yId({ id })
   }
 
   /**

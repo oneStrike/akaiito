@@ -12,7 +12,6 @@ import {
   UpdateComicVersionDto,
   UpdateVersionEnabledStatusDto,
   UpdateVersionPublishStatusDto,
-  UpdateVersionReadRuleDto,
   UpdateVersionRecommendedStatusDto,
 } from './dto/comic-version.dto'
 
@@ -82,7 +81,14 @@ export class WorkComicVersionController {
     model: CountDto,
   })
   async updatePublishStatus(@Body() body: UpdateVersionPublishStatusDto) {
-    return this.comicVersionService.updateVersionPublishStatus(body)
+    return this.comicVersionService.updateMany({
+      where: {
+        id: { in: body.ids },
+      },
+      data: {
+        isPublished: body.isPublished,
+      },
+    })
   }
 
   /**
@@ -108,31 +114,14 @@ export class WorkComicVersionController {
     model: CountDto,
   })
   async updateEnabledStatus(@Body() body: UpdateVersionEnabledStatusDto) {
-    return this.comicVersionService.updateVersionEnabledStatus(body)
-  }
-
-  /**
-   * 批量更新版本查看规则
-   */
-  @Post('/batch-update-version-read-rule')
-  @ApiDoc({
-    summary: '批量更新版本查看规则',
-    model: CountDto,
-  })
-  async updateReadRule(@Body() body: UpdateVersionReadRuleDto) {
-    return this.comicVersionService.updateVersionReadRule(body)
-  }
-
-  /**
-   * 获取指定漫画的版本列表
-   */
-  @Get('/versions-by-comic')
-  @ApiDoc({
-    summary: '获取指定漫画的版本列表',
-    model: [ComicVersionPageResponseDto],
-  })
-  async getVersionsByComic(@Query() query: { comicId: number }) {
-    return this.comicVersionService.getVersionsByComicId(query.comicId)
+    return this.comicVersionService.updateMany({
+      where: {
+        id: { in: body.ids },
+      },
+      data: {
+        isEnabled: body.isEnabled,
+      },
+    })
   }
 
   /**
