@@ -168,7 +168,6 @@ export async function createInitialDataDictionary(prisma: any) {
       },
     ],
   }
-  console.log('开始初始化数据字典种子数据...')
 
   for (const item of initData) {
     // 检查数据字典是否已存在
@@ -180,9 +179,6 @@ export async function createInitialDataDictionary(prisma: any) {
       await prisma.dictionary.create({
         data: item,
       })
-      console.log(`✓ 创建数据字典: ${item.name} (${item.code})`)
-    } else {
-      console.log(`- 数据字典已存在，跳过: ${item.name} (${item.code})`)
     }
 
     // 处理字典项数据
@@ -206,9 +202,6 @@ export async function createInitialDataDictionary(prisma: any) {
             },
           },
         })
-        console.log(`  ✓ 创建字典项: ${subItem.name} (${subItem.code})`)
-      } else {
-        console.log(`  - 字典项已存在，跳过: ${subItem.name} (${subItem.code})`)
       }
     }
   }

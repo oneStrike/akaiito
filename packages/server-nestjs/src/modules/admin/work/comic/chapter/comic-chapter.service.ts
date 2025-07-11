@@ -8,7 +8,10 @@ import {
   AddChapterContentDto,
   BatchUpdateChapterContentsDto,
   CreateComicChapterDto,
+  DeleteChapterContentDto,
+  MoveChapterContentDto,
   QueryComicChapterDto,
+  UpdateChapterContentDto,
   UpdateChapterPublishStatusDto,
   UpdateChapterReadRuleDto,
   UpdateComicChapterDto,
@@ -35,11 +38,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
   async createComicChapter(createComicChapterDto: CreateComicChapterDto) {
     const { comicId, versionId, chapterNumber } = createComicChapterDto
 
-    // 验证漫画是否存在
-    const comic = await this.prisma.workComic.findUnique({
-      where: { id: comicId },
-    })
-    if (!comic) {
+    if (!(await this.exists({ id: comicId }))) {
       throw new BadRequestException('关联的漫画不存在')
     }
 
@@ -101,9 +100,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     }
 
     // 漫画ID筛选
-    if (comicId) {
-      where.comicId = comicId
-    }
+    where.comicId = comicId
 
     // 版本ID筛选
     if (versionId) {
@@ -152,6 +149,9 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
             versionName: true,
             language: true,
           },
+          where: {
+            deletedAt: null, // 过滤软删除的版本
+          },
         },
       },
     })
@@ -160,9 +160,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('章节不存在')
     }
 
-    return {
-      ...chapter,
-    }
+    return chapter
   }
 
   /**
@@ -453,7 +451,6 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
     const chapter = await this.findById({
       id: chapterId,
       select: {
-        id: true,
         contents: true,
       },
     })
@@ -462,32 +459,17 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('章节不存在')
     }
 
-    let contents: string[] = []
-    try {
-      contents = JSON.parse(chapter.contents || '[]')
-      if (!Array.isArray(contents)) {
-        contents = []
-      }
-    } catch {
-      contents = []
-    }
-
-    return contents
+    return JSON.parse(chapter.contents!)
   }
 
   /**
    * 添加章节内容
-   * @param chapterId 章节ID
-   * @param content 内容
-   * @param index 插入位置（可选）
-   * @returns 更新后的章节内容
    */
   async addChapterContent(body: AddChapterContentDto) {
     const { id, content, index } = body
     const chapter = await this.findById({
       id,
       select: {
-        id: true,
         contents: true,
       },
     })
@@ -496,15 +478,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('章节不存在')
     }
 
-    let contents: string[] = []
-    try {
-      contents = JSON.parse(chapter.contents || '[]')
-      if (!Array.isArray(contents)) {
-        contents = []
-      }
-    } catch {
-      contents = []
-    }
+    const contents: string[] = JSON.parse(chapter.contents!)
 
     // 添加内容到指定位置或末尾
     if (index !== undefined && index >= 0 && index <= contents.length) {
@@ -519,28 +493,17 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       data: { contents: JSON.stringify(contents) },
     })
 
-    return {
-      id: chapter.id,
-      contents,
-    }
+    return contents
   }
 
   /**
    * 更新章节内容
-   * @param chapterId 章节ID
-   * @param index 内容索引
-   * @param content 新内容
-   * @returns 更新后的章节内容
    */
-  async updateChapterContent(
-    chapterId: number,
-    index: number,
-    content: string,
-  ) {
+  async updateChapterContent(body: UpdateChapterContentDto) {
+    const { id, index, content } = body
     const chapter = await this.findById({
-      id: chapterId,
+      id,
       select: {
-        id: true,
         contents: true,
       },
     })
@@ -549,15 +512,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('章节不存在')
     }
 
-    let contents: string[] = []
-    try {
-      contents = JSON.parse(chapter.contents || '[]')
-      if (!Array.isArray(contents)) {
-        contents = []
-      }
-    } catch {
-      contents = []
-    }
+    const contents: string[] = JSON.parse(chapter.contents!)
 
     // 验证索引是否有效
     if (index < 0 || index >= contents.length) {
@@ -569,27 +524,21 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
 
     // 更新数据库
     await this.updateById({
-      id: chapterId,
+      id,
       data: { contents: JSON.stringify(contents) },
     })
 
-    return {
-      id: chapter.id,
-      contents,
-    }
+    return contents
   }
 
   /**
    * 删除章节内容
-   * @param chapterId 章节ID
-   * @param index 内容索引
-   * @returns 更新后的章节内容
    */
-  async deleteChapterContent(chapterId: number, index: number) {
+  async deleteChapterContent(body: DeleteChapterContentDto) {
+    const { id, index } = body
     const chapter = await this.findById({
-      id: chapterId,
+      id,
       select: {
-        id: true,
         contents: true,
       },
     })
@@ -598,15 +547,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('章节不存在')
     }
 
-    let contents: string[] = []
-    try {
-      contents = JSON.parse(chapter.contents || '[]')
-      if (!Array.isArray(contents)) {
-        contents = []
-      }
-    } catch {
-      contents = []
-    }
+    const contents: string[] = JSON.parse(chapter.contents!)
 
     // 验证索引是否有效
     if (index < 0 || index >= contents.length) {
@@ -618,32 +559,21 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
 
     // 更新数据库
     await this.updateById({
-      id: chapterId,
+      id,
       data: { contents: JSON.stringify(contents) },
     })
 
-    return {
-      id: chapter.id,
-      contents,
-    }
+    return contents
   }
 
   /**
    * 移动章节内容（用于排序）
-   * @param chapterId 章节ID
-   * @param fromIndex 源位置索引
-   * @param toIndex 目标位置索引
-   * @returns 更新后的章节内容
    */
-  async moveChapterContent(
-    chapterId: number,
-    fromIndex: number,
-    toIndex: number,
-  ) {
+  async moveChapterContent(body: MoveChapterContentDto) {
+    const { id, fromIndex, toIndex } = body
     const chapter = await this.findById({
-      id: chapterId,
+      id,
       select: {
-        id: true,
         contents: true,
       },
     })
@@ -652,15 +582,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       throw new BadRequestException('章节不存在')
     }
 
-    let contents: string[] = []
-    try {
-      contents = JSON.parse(chapter.contents || '[]')
-      if (!Array.isArray(contents)) {
-        contents = []
-      }
-    } catch {
-      contents = []
-    }
+    const contents: string[] = JSON.parse(chapter.contents!)
 
     // 验证索引是否有效
     if (
@@ -678,14 +600,11 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
 
     // 更新数据库
     await this.updateById({
-      id: chapterId,
+      id,
       data: { contents: JSON.stringify(contents) },
     })
 
-    return {
-      id: chapter.id,
-      contents,
-    }
+    return contents
   }
 
   /**
@@ -693,19 +612,13 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
    */
   async batchUpdateChapterContents(body: BatchUpdateChapterContentsDto) {
     const { id, contents } = body
-    const chapter = await this.findById({
-      id,
-      select: {
-        id: true,
-      },
-    })
 
-    if (!chapter) {
+    if (!(await this.exists({ id }))) {
       throw new BadRequestException('章节不存在')
     }
 
     if (!Array.isArray(contents)) {
-      throw new BadRequestException('内容格式必须是字符串数组')
+      throw new BadRequestException('contents数据格式不正确')
     }
 
     // 更新数据库
@@ -714,10 +627,7 @@ export class WorkComicChapterService extends BaseRepositoryService<'WorkComicCha
       data: { contents: JSON.stringify(contents) },
     })
 
-    return {
-      id: chapter.id,
-      contents,
-    }
+    return contents
   }
 
   /**

@@ -78,15 +78,6 @@ export class BaseComicChapterDto {
   })
   chapterNumber!: number
 
-  @ValidateNumber({
-    description: '排序权重（用于精确控制显示顺序）',
-    example: 100,
-    required: true,
-    min: 0,
-    default: 0,
-  })
-  sortOrder!: number
-
   @ValidateEnum({
     description: '查看规则（0: 公开, 1: 登录, 2: 会员, 3: 购买）',
     example: ChapterReadRuleEnum.PUBLIC,
@@ -329,7 +320,6 @@ export class QueryComicChapterDto extends IntersectionType(
   PickType(PartialType(BaseComicChapterDto), [
     'title',
     'isPublished',
-    'comicId',
     'versionId',
     'readRule',
     'isPreview',
@@ -345,10 +335,10 @@ export class QueryComicChapterDto extends IntersectionType(
   @ValidateNumber({
     description: '漫画ID（精确匹配）',
     example: 1,
-    required: false,
+    required: true,
     min: 1,
   })
-  comicId?: number
+  comicId: number
 }
 
 /**

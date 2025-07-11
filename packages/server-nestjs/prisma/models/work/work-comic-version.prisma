@@ -18,6 +18,8 @@ model WorkComicVersion {
   isEnabled       Boolean   @default(true) @map("is_enabled")
   /// 发布状态
   isPublished     Boolean   @default(false) @map("is_published")
+  /// 发布时间
+  publishAt       DateTime? @map("publish_at") @db.Timestamptz
   /// 最后更新时间
   lastUpdated     DateTime? @map("last_updated") @db.Timestamptz
   /// 总阅读次数
@@ -60,7 +62,7 @@ model WorkComicVersion {
   /// 索引优化
   @@index([comicId]) // 外键索引
   @@index([language]) // 按语言和地区查询
-  @@index([isPublished]) // 查询已发布版本
+  @@index([isPublished, publishAt]) // 查询已发布版本
   @@index([isEnabled, isRecommended]) // 查询推荐版本
   @@index([totalViews]) // 按阅读量排序
   @@index([favoriteCount]) // 按收藏数排序
