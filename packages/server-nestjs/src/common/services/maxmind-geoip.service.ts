@@ -159,7 +159,7 @@ export class MaxMindGeoIPService implements OnModuleInit {
 
         if (daysSinceModified > 7) {
           this.logger.log('MaxMind数据库文件已过期，开始更新...')
-          await this.downloadDatabase()
+         //                                                                                                                              await this.downloadDatabase()
         }
       }
 

@@ -4,11 +4,11 @@ import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
 import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { OrderDto } from '@/common/dto/order.dto'
+import { ComicChapterDetailDto } from '@/modules/admin/work/comic/chapter/dto/comic-chapter-response'
 import { WorkComicVersionService } from '../version/comic-version.service'
 import { WorkComicChapterService } from './comic-chapter.service'
 import {
   AddChapterContentDto,
-  BaseComicChapterDto,
   BatchUpdateChapterContentsDto,
   ComicChapterPageResponseDto,
   CreateComicChapterDto,
@@ -62,7 +62,7 @@ export class WorkComicChapterController {
   @Get('/comic-chapter-detail')
   @ApiDoc({
     summary: '获取漫画章节详情',
-    model: BaseComicChapterDto,
+    model: ComicChapterDetailDto,
   })
   async getDetail(@Query() query: IdDto) {
     return this.comicChapterService.getComicChapterDetail(query.id)

@@ -21,7 +21,7 @@ import type {
  *  @标签 作者管理模块/创建作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/create-author
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export const createAuthorApi = (data: CreateAuthorRequest): Promise<CreateAuthorResponse> => {
@@ -40,7 +40,7 @@ export const createAuthorApi = (data: CreateAuthorRequest): Promise<CreateAuthor
  *  @标签 作者管理模块/分页查询作者列表
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-page
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export const authorPageApi = (params: AuthorPageRequest): Promise<AuthorPageResponse> => {
@@ -57,7 +57,7 @@ export const authorPageApi = (params: AuthorPageRequest): Promise<AuthorPageResp
  *  @标签 作者管理模块/获取作者详情
  *  @方式 GET
  *  @地址 /api/admin/work/author/author-detail
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export const authorDetailApi = (params: AuthorDetailRequest): Promise<AuthorDetailResponse> => {
@@ -74,7 +74,7 @@ export const authorDetailApi = (params: AuthorDetailRequest): Promise<AuthorDeta
  *  @标签 作者管理模块/更新作者信息
  *  @方式 POST
  *  @地址 /api/admin/work/author/update-author
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export const updateAuthorApi = (data: UpdateAuthorRequest): Promise<UpdateAuthorResponse> => {
@@ -93,7 +93,7 @@ export const updateAuthorApi = (data: UpdateAuthorRequest): Promise<UpdateAuthor
  *  @标签 作者管理模块/批量更新作者状态
  *  @方式 POST
  *  @地址 /api/admin/work/author/batch-update-author-status
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export const batchUpdateAuthorStatusApi = (
@@ -114,7 +114,7 @@ export const batchUpdateAuthorStatusApi = (
  *  @标签 作者管理模块/批量更新作者推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/author/batch-update-author-featured
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export const batchUpdateAuthorFeaturedApi = (
@@ -135,7 +135,7 @@ export const batchUpdateAuthorFeaturedApi = (
  *  @标签 作者管理模块/软删除作者
  *  @方式 POST
  *  @地址 /api/admin/work/author/delete-author
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export const deleteAuthorApi = (data: DeleteAuthorRequest): Promise<DeleteAuthorResponse> => {

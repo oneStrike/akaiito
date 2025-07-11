@@ -14,7 +14,6 @@ import {
   ValidateString,
 } from '@/common/decorators/validate.decorator'
 import { IdDto } from '@/common/dto/id.dto'
-import { OrderDto } from '@/common/dto/order.dto'
 import { PageDto } from '@/common/dto/page.dto'
 import { ChapterReadRuleEnum } from '../comic-chapter.constant'
 
@@ -191,23 +190,6 @@ export class CreateComicChapterDto extends OmitType(BaseComicChapterDto, [
 ]) {}
 
 /**
- * 章节内容操作相关DTO
- */
-
-/**
- * 获取章节内容响应DTO
- */
-export class ChapterContentsResponseDto {
-  @ValidateString({
-    description: '章节内容数组（JSON格式）',
-    example:
-      '["https://example.com/page1.jpg", "https://example.com/page2.jpg"]',
-    required: true,
-  })
-  contents!: string
-}
-
-/**
  * 添加章节内容DTO
  */
 export class AddChapterContentDto extends IdDto {
@@ -230,36 +212,24 @@ export class AddChapterContentDto extends IdDto {
 /**
  * 更新章节内容DTO
  */
-export class UpdateChapterContentDto extends IdDto {
+export class UpdateChapterContentDto extends OmitType(AddChapterContentDto, [
+  'index',
+]) {
   @ValidateNumber({
-    description: '要更新的内容索引',
-    example: 1,
+    description: '插入位置索引（可选，默认添加到末尾）',
+    example: 2,
     required: true,
     min: 0,
   })
   index!: number
-
-  @ValidateString({
-    description: '新的内容（图片URL）',
-    example: 'https://example.com/updated-page.jpg',
-    required: true,
-    maxLength: 500,
-  })
-  content!: string
 }
 
 /**
  * 删除章节内容DTO
  */
-export class DeleteChapterContentDto extends IdDto {
-  @ValidateNumber({
-    description: '要删除的内容索引',
-    example: 1,
-    required: true,
-    min: 0,
-  })
-  index!: number
-}
+export class DeleteChapterContentDto extends OmitType(UpdateChapterContentDto, [
+  'content',
+]) {}
 
 /**
  * 移动章节内容DTO（用于排序）
@@ -288,8 +258,7 @@ export class MoveChapterContentDto extends IdDto {
 export class BatchUpdateChapterContentsDto extends IdDto {
   @ValidateString({
     description: '新的内容数组（JSON格式）',
-    example:
-      '["https://example.com/page1.jpg", "https://example.com/page2.jpg", "https://example.com/page3.jpg"]',
+    example: '["https://example.com/page1.jpg"]',
     required: true,
   })
   contents!: string

@@ -3,7 +3,7 @@
  *  @标签 管理端请求日志模块/分页查询请求日志
  *  @方式 GET
  *  @地址 /api/admin/request-log/request-log-page
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export interface RequestLogPageRequest {
@@ -102,7 +102,7 @@ export interface RequestLogPageResponse {
  *  @标签 管理端请求日志模块/查询请求日志详情
  *  @方式 GET
  *  @地址 /api/admin/request-log/request-log-detail
- *  @更新时间 2025-07-10 23:34:17
+ *  @更新时间 2025-07-11 09:58:40
  */
 
 export interface RequestLogDetailRequest {
