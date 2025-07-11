@@ -3,7 +3,7 @@
  *  @标签 漫画管理模块/创建漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/create-comic
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface CreateComicRequest {
@@ -103,7 +103,7 @@ export type CreateComicResponse = {
  *  @标签 漫画管理模块/分页查询漫画列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-page
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface ComicPageRequest {
@@ -322,7 +322,7 @@ export interface ComicPageResponse {
  *  @标签 漫画管理模块/获取漫画详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-detail
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface ComicDetailRequest {
@@ -485,7 +485,7 @@ export type ComicDetailResponse = {
  *  @标签 漫画管理模块/更新漫画信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic/update-comic
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface UpdateComicRequest {
@@ -606,7 +606,7 @@ export type UpdateComicResponse = {
  *  @标签 漫画管理模块/批量更新漫画发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-status
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface BatchUpdateComicStatusRequest {
@@ -631,7 +631,7 @@ export type BatchUpdateComicStatusResponse = {
  *  @标签 漫画管理模块/批量更新漫画推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-recommended
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface BatchUpdateComicRecommendedRequest {
@@ -656,7 +656,7 @@ export type BatchUpdateComicRecommendedResponse = {
  *  @标签 漫画管理模块/批量更新漫画热门状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-hot
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface BatchUpdateComicHotRequest {
@@ -681,7 +681,7 @@ export type BatchUpdateComicHotResponse = {
  *  @标签 漫画管理模块/批量更新漫画新作状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-new
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface BatchUpdateComicNewRequest {
@@ -706,7 +706,7 @@ export type BatchUpdateComicNewResponse = {
  *  @标签 漫画管理模块/软删除漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/delete-comic
- *  @更新时间 2025-07-11 09:58:40
+ *  @更新时间 2025-07-11 11:36:40
  */
 
 export interface DeleteComicRequest {
@@ -716,164 +716,6 @@ export interface DeleteComicRequest {
 
 /*  */
 export type DeleteComicResponse = {
-  /* 主键id */
-  id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
-}
-
-/**
- *  接口 [获取指定漫画的版本列表](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-319962983)
- *  @标签 漫画管理模块/获取指定漫画的版本列表
- *  @方式 GET
- *  @地址 /api/admin/work/comic/versions
- *  @更新时间 2025-07-11 09:58:40
- */
-
-/*  */
-export type VersionsResponse = any
-
-/**
- *  接口 [为漫画创建版本](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-319962984)
- *  @标签 漫画管理模块/为漫画创建版本
- *  @方式 POST
- *  @地址 /api/admin/work/comic/create-version
- *  @更新时间 2025-07-11 09:58:40
- */
-
-export interface CreateVersionRequest {
-  /* 关联的原始漫画ID */
-  comicId: number
-
-  /* 版本名称（如：英语版、日语版、XX汉化组等） */
-  versionName: string
-
-  /* 语言代码（如：zh-CN, en-US, ja-JP） */
-  language: string
-
-  /* 翻译组/汉化组名称 */
-  translatorGroup?: string | null
-
-  /* 版本描述 */
-  description?: string | null
-
-  /* 是否为推荐版本 */
-  isRecommended: boolean
-
-  /* 发布时间 */
-  publishAt?: string | null
-
-  /* 最后更新时间 */
-  lastUpdated?: string | null
-
-  /* 查看规则（0=所有人, 1=登录用户, 2=会员, 3=积分购买） */
-  readRule: number
-
-  /* 购买需要消耗的金额（分为单位） */
-  purchaseAmount: number
-
-  /* 版权信息 */
-  copyright?: string | null
-
-  /* 免责声明 */
-  disclaimer?: string | null
-
-  /* 备注（内部使用） */
-  remark?: string | null
-}
-
-/*  */
-export type CreateVersionResponse = {
-  /* 主键id */
-  id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
-}
-
-/**
- *  接口 [更新漫画版本信息](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-319962985)
- *  @标签 漫画管理模块/更新漫画版本信息
- *  @方式 POST
- *  @地址 /api/admin/work/comic/update-version
- *  @更新时间 2025-07-11 09:58:40
- */
-
-export interface UpdateVersionRequest {
-  /* 版本名称（如：英语版、日语版、XX汉化组等） */
-  versionName?: string
-
-  /* 语言代码（如：zh-CN, en-US, ja-JP） */
-  language?: string
-
-  /* 翻译组/汉化组名称 */
-  translatorGroup?: string | null
-
-  /* 版本描述 */
-  description?: string | null
-
-  /* 是否为推荐版本 */
-  isRecommended?: boolean
-
-  /* 是否启用 */
-  isEnabled?: boolean
-
-  /* 发布状态 */
-  isPublished?: boolean
-
-  /* 发布时间 */
-  publishAt?: string | null
-
-  /* 最后更新时间 */
-  lastUpdated?: string | null
-
-  /* 查看规则（0=所有人, 1=登录用户, 2=会员, 3=积分购买） */
-  readRule?: number
-
-  /* 购买需要消耗的金额（分为单位） */
-  purchaseAmount?: number
-
-  /* 版权信息 */
-  copyright?: string | null
-
-  /* 免责声明 */
-  disclaimer?: string | null
-
-  /* 备注（内部使用） */
-  remark?: string | null
-
-  /* 排序权重（用于版本列表排序） */
-  sortOrder?: number
-
-  /* 主键id */
-  id: number
-}
-
-/*  */
-export type UpdateVersionResponse = {
-  /* 主键id */
-  id: number
-
-  /** 任意合法数值 */
-  [property: string]: any
-}
-
-/**
- *  接口 [删除漫画版本](https://apifox.com/apidoc/shared-a9f24650-7b1c-4172-9ff7-bab4a525e590/api-319962986)
- *  @标签 漫画管理模块/删除漫画版本
- *  @方式 POST
- *  @地址 /api/admin/work/comic/delete-version
- *  @更新时间 2025-07-11 09:58:40
- */
-
-export interface DeleteVersionRequest {
-  /* 主键id */
-  id: number
-}
-
-/*  */
-export type DeleteVersionResponse = {
   /* 主键id */
   id: number
 

@@ -2,9 +2,7 @@
   import type { UploadFile } from 'element-plus'
   import type {
     AddChapterContentRequest,
-    ChapterContentsRequest,
     DeleteChapterContentRequest,
-    MoveChapterContentRequest,
   } from '@/apis/types/comic-chapter'
   import { computed, onMounted, ref } from 'vue'
   import {
@@ -12,7 +10,6 @@
     batchUpdateChapterContentsApi,
     chapterContentsApi,
     deleteChapterContentApi,
-    moveChapterContentApi,
   } from '@/apis/comic-chapter'
   import { useUpload } from '@/hooks/useUpload'
   import { contentColumn } from './shared'
@@ -40,10 +37,9 @@
 
     isLoading.value = true
     try {
-      const res = await chapterContentsApi({
+      const contents = await chapterContentsApi({
         id: props.chapterId,
       })
-      const contents = res?.contents ? res.contents : []
       fileList.value = contents.map((item: any, index: number) => ({
         ...item,
         index: index + 1,
@@ -58,30 +54,6 @@
       isLoading.value = false
     }
   }
-
-  // 拖拽排序
-  async function drag(drag: any) {
-    try {
-      const params: MoveChapterContentRequest = {
-        id: props.chapterId,
-        fromIndex: drag.oldIndex,
-        toIndex: drag.newIndex,
-      }
-
-      const res = await moveChapterContentApi(params)
-      if (res.code === 200) {
-        // 重新获取数据以确保同步
-        await getContent()
-        useMessage.success('排序成功')
-      }
-    } catch (error) {
-      console.error('排序失败:', error)
-      useMessage.error('排序失败')
-      // 刷新数据以恢复原始状态
-      await getContent()
-    }
-  }
-
   // 删除内容
   async function deleteContent(params?: any) {
     if (!params && selected.value.length === 0) {
@@ -235,7 +207,6 @@
           drag
           selection
           class="h-full"
-          @drag-end="drag"
         >
           <template #imagePreview="{ row }">
             <div class="flex justify-center">
@@ -289,7 +260,7 @@
           class="max-w-full max-h-96 object-contain"
           fit="contain"
         />
-        <div class="grid grid-cols-2 gap-4 w-full max-w-md">
+        <div class="gap-4 grid grid-cols-2 w-full max-w-md">
           <div class="text-center">
             <div class="text-sm text-gray-600">尺寸</div>
             <div class="font-medium">
