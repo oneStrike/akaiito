@@ -339,7 +339,7 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
       throw new BadRequestException('版本不存在')
     }
 
-    return this.deleteB   yId({ id })
+    return this.deleteById({ id })
   }
 
   /**
