@@ -22,6 +22,7 @@ export function formOptionsToFilterOptions<T extends EsFormOptions>(
       // 初始化 componentProps 并设置 placeholder
       item.componentProps = item.componentProps ?? {}
       item.componentProps.placeholder = item.props?.label
+      delete item.componentProps.defaultValue
 
       // 如果是 Radio 组件，替换为 Select 组件
       if (item.component === 'Radio') {

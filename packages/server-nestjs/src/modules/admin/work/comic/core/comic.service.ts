@@ -1,18 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { WorkComicWhereInput } from '@/prisma/client/models/WorkComic'
-import {
-  CreateComicVersionDto,
-  UpdateComicVersionDto,
-} from '../version/dto/comic-version.dto'
-import {
-  CreateComicDto,
-  QueryComicDto,
-  UpdateComicDto,
-  UpdateComicHotDto,
-  UpdateComicNewDto,
-  UpdateComicRecommendedDto,
-} from './dto/comic.dto'
+
+import { CreateComicDto, QueryComicDto, UpdateComicDto } from './dto/comic.dto'
 
 /**
  * 漫画服务类
@@ -111,6 +101,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       isHot,
       isNew,
       publisher,
+      author,
     } = queryComicDto
 
     // 构建查询条件
@@ -174,6 +165,20 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
       where.publisher = {
         contains: publisher,
         mode: 'insensitive',
+      }
+    }
+
+    // 作者名称模糊搜索
+    if (author) {
+      where.comicAuthors = {
+        some: {
+          author: {
+            name: {
+              contains: author,
+              mode: 'insensitive',
+            },
+          },
+        },
       }
     }
 

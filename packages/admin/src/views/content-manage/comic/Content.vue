@@ -12,7 +12,7 @@
     deleteChapterContentApi,
   } from '@/apis/comic-chapter'
   import { useUpload } from '@/hooks/useUpload'
-  import { contentColumn } from './shared'
+  import { contentColumn } from './shared/content'
 
   defineOptions({
     name: 'Content',

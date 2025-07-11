@@ -533,6 +533,13 @@ export class QueryComicDto extends IntersectionType(
   ]),
 ) {
   @ValidateString({
+    description: '作者名称',
+    example: '村',
+    required: false,
+  })
+  author?: string
+
+  @ValidateString({
     description: '漫画名称（模糊搜索）',
     example: '进击',
     required: false,

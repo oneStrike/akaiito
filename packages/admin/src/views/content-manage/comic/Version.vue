@@ -6,11 +6,11 @@
     deleteComicVersionApi,
   } from '@/apis/comic-version.ts'
   import { PromptsEnum } from '@/enum/prompts.ts'
+  import { toolbar } from '@/views/content-manage/comic/shared/comic.ts'
   import {
-    toolbar,
     versionColumn,
     versionForm,
-  } from '@/views/content-manage/comic/shared.ts'
+  } from '@/views/content-manage/comic/shared/version.ts'
   import Chapter from './Chapter.vue'
 
   defineOptions({
@@ -29,7 +29,7 @@
     comicId: props.comic.id,
   })
   const chapterModal = ref(false)
-  const currentRow = ref<ComicDetailResponse>()
+  const currentRow = ref<ComicDetailResponse | null>(null)
   const formTool = useFormTool(versionForm)
   formTool.fillDict([{ field: 'language', code: 'work_language' }])
   function formChange(val: ComicDetailResponse) {
@@ -101,10 +101,11 @@
       v-model:show="formModal.show"
       v-model:loading="formModal.loading"
       title="漫画"
-      :default-value="currentRow"
+      :default-value="currentRow ? currentRow : formModal.defaultValue"
       :options="formTool.options"
       @update:model-value="formChange"
       @submit="submitForm"
+      @close="currentRow = null"
     />
   </EsModal>
 </template>

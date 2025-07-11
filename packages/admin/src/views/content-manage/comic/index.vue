@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import type { ComicDetailResponse } from '@/apis/types/comic'
+  import type { EsFormOptions } from '@/components/es-form/types.ts'
   import { authorPageApi } from '@/apis/author'
   import { categoryPageApi } from '@/apis/category'
   import {
@@ -11,14 +12,14 @@
     updateComicApi,
   } from '@/apis/comic'
   import { PromptsEnum } from '@/enum/prompts'
+  import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions.ts'
   import AuthorDetailModal from '@/views/content-manage/author/AuthorDetail.vue'
   import ComicDetail from '@/views/content-manage/comic/ComicDetail.vue'
   import {
-    filter,
     formOptions,
     tableColumn,
     toolbar,
-  } from '@/views/content-manage/comic/shared'
+  } from '@/views/content-manage/comic/shared/comic.ts'
   import Version from '@/views/content-manage/comic/Version.vue'
 
   defineOptions({
@@ -46,14 +47,40 @@
     comic: null,
   })
 
+  const filter = ref<EsFormOptions[]>([])
   const tableRef = useTemplateRef('tableRef')
   const formTool = useFormTool(formOptions)
-  formTool.fillDict([
-    { field: 'language', code: 'work_language' },
-    { field: 'region', code: 'work_region' },
-    { field: 'publisher', code: 'work_publisher' },
-    { field: 'ageRating', code: 'work_age_rating' },
-  ])
+  formTool
+    .fillDict([
+      { field: 'language', code: 'work_language' },
+      { field: 'region', code: 'work_region' },
+      { field: 'publisher', code: 'work_publisher' },
+      { field: 'ageRating', code: 'work_age_rating' },
+    ])
+    .then(() => {
+      filter.value = [
+        ...formOptionsToFilterOptions(formTool.options, {
+          isNew: 9,
+          isHot: 9,
+          isRecommended: 9,
+          readRule: 9,
+          language: 9,
+          ageRating: 9,
+          serialStatus: 9,
+          name: 9,
+        }),
+        {
+          field: 'author',
+          component: 'Input',
+          props: {
+            span: 9,
+          },
+          componentProps: {
+            placeholder: '作者',
+          },
+        },
+      ]
+    })
   formTool.specificItem('authorIds', (item) => {
     item.componentProps!.remoteMethod = async (val: string) => {
       if (val) {
@@ -179,7 +206,7 @@
       <template #authorIds="{ row }">
         <div
           v-if="row.comicAuthors && row.comicAuthors.length > 0"
-          class="flex flex-wrap gap-1 justify-center"
+          class="flex justify-center flex-wrap gap-1"
         >
           <el-tag
             v-for="comicAuthor in row.comicAuthors"

@@ -14,8 +14,8 @@
     chapterColumn,
     chapterFilter,
     chapterFormOptions,
-    toolbar,
-  } from '@/views/content-manage/comic/shared'
+  } from '@/views/content-manage/comic/shared/chapter'
+  import { toolbar } from '@/views/content-manage/comic/shared/comic'
 
   import Content from './Content.vue'
 
