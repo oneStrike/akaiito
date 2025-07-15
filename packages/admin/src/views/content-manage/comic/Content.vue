@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import type { UploadFile } from 'element-plus'
   import type { DeleteChapterContentRequest } from '@/apis/types/comic-chapter'
-  import { computed, onMounted, ref } from 'vue'
+  import { onMounted, ref } from 'vue'
   import {
     batchUpdateChapterContentsApi,
     chapterContentsApi,
@@ -35,13 +35,8 @@
       const contents = await chapterContentsApi({
         id: props.chapterId,
       })
-      fileList.value = contents.map((item: any, index: number) => ({
-        path: item,
-        index: index + 1,
-        imagePreview: item.url,
-        imageInfo: `${item.width || 0} x ${item.height || 0}`,
-        createdAt: new Date().toLocaleString(),
-      }))
+      formatFileList(contents)
+
       console.log(fileList.value)
     } catch (error) {
       console.error('获取章节内容失败:', error)
@@ -113,11 +108,11 @@
           }
         }
         files.unshift(...fileList.value.map((item) => item.paht))
-        await batchUpdateChapterContentsApi({
+        const contents = await batchUpdateChapterContentsApi({
           id: props.chapterId,
-          contents: JSON.stringify(files),
+          contents: files,
         })
-        useMessage.success('上传成功')
+        formatFileList(contents)
       } catch (error) {
         console.error('上传失败:', error)
         useMessage.error('上传失败')
@@ -128,8 +123,11 @@
     }, 100)
   }
 
-  // 计算属性
-  const hasContent = computed(() => fileList.value.length > 0)
+  function formatFileList(files: string[]) {
+    fileList.value = files.map((item: any, index: number) => ({
+      path: item,
+    }))
+  }
 
   onMounted(() => {
     getContent()

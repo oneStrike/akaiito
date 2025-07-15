@@ -255,10 +255,11 @@ export class MoveChapterContentDto extends IdDto {
  * 批量更新章节内容DTO
  */
 export class BatchUpdateChapterContentsDto extends IdDto {
-  @ValidateString({
+  @ValidateArray({
     description: '新的内容数组（JSON格式）',
-    example: '["https://example.com/page1.jpg"]',
+    example: ['https://example.com/page1.jpg'],
     required: true,
+    itemType: 'string',
   })
   contents!: string
 }

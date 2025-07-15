@@ -3,7 +3,7 @@
  *  @标签 漫画管理模块/创建漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/create-comic
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface CreateComicRequest {
@@ -103,7 +103,7 @@ export type CreateComicResponse = {
  *  @标签 漫画管理模块/分页查询漫画列表
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-page
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface ComicPageRequest {
@@ -325,7 +325,7 @@ export interface ComicPageResponse {
  *  @标签 漫画管理模块/获取漫画详情
  *  @方式 GET
  *  @地址 /api/admin/work/comic/comic-detail
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface ComicDetailRequest {
@@ -488,7 +488,7 @@ export type ComicDetailResponse = {
  *  @标签 漫画管理模块/更新漫画信息
  *  @方式 POST
  *  @地址 /api/admin/work/comic/update-comic
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface UpdateComicRequest {
@@ -609,7 +609,7 @@ export type UpdateComicResponse = {
  *  @标签 漫画管理模块/批量更新漫画发布状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-status
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface BatchUpdateComicStatusRequest {
@@ -634,7 +634,7 @@ export type BatchUpdateComicStatusResponse = {
  *  @标签 漫画管理模块/批量更新漫画推荐状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-recommended
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface BatchUpdateComicRecommendedRequest {
@@ -659,7 +659,7 @@ export type BatchUpdateComicRecommendedResponse = {
  *  @标签 漫画管理模块/批量更新漫画热门状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-hot
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface BatchUpdateComicHotRequest {
@@ -684,7 +684,7 @@ export type BatchUpdateComicHotResponse = {
  *  @标签 漫画管理模块/批量更新漫画新作状态
  *  @方式 POST
  *  @地址 /api/admin/work/comic/batch-update-comic-new
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface BatchUpdateComicNewRequest {
@@ -709,7 +709,7 @@ export type BatchUpdateComicNewResponse = {
  *  @标签 漫画管理模块/软删除漫画
  *  @方式 POST
  *  @地址 /api/admin/work/comic/delete-comic
- *  @更新时间 2025-07-12 00:16:35
+ *  @更新时间 2025-07-12 00:43:28
  */
 
 export interface DeleteComicRequest {
