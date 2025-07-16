@@ -6,4 +6,5 @@ export const iconMapping = {
   watch: 'majesticons:eye-line',
   watchOff: 'majesticons:eye-off-line',
   left: 'line-md:chevron-small-left',
+  menu: 'majesticons:menu',
 }

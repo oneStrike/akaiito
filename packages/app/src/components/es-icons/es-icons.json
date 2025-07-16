@@ -54,5 +54,12 @@
     "sourceName": "line-md:chevron-small-left",
     "data": "url(\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='currentColor' stroke-dasharray='10' stroke-dashoffset='10' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l5 -5M9 12l5 5'%3E%3Canimate fill='freeze' attributeName='stroke-dashoffset' dur='0.3s' values='10;0'/%3E%3C/path%3E%3C/svg%3E\")",
     "url": "https://api.iconify.design/line-md:chevron-small-left.svg"
+  },
+  "menu": {
+    "local": false,
+    "name": "menu",
+    "sourceName": "majesticons:menu",
+    "data": "url(\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 8h12M6 12h12M6 16h12'/%3E%3C/svg%3E\")",
+    "url": "https://api.iconify.design/majesticons:menu.svg"
   }
 }

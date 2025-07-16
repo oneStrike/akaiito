@@ -1,5 +1,7 @@
-import type { GetPageConfigTypesRes, GetSystemConfigTypesRes } from '@/apis/types/appManage'
-import { getPageConfigApi, getSystemConfigApi } from '@/apis/appManage'
+import type {
+  GetPageConfigTypesRes,
+  GetSystemConfigTypesRes,
+} from '@/apis/types/appManage'
 
 export interface UseSystemStoreState {
   systemStatus: 'normal' | 'disable' | 'crash'
@@ -26,11 +28,5 @@ export const useSystemStore = defineStore('useSystemStore', {
     },
   },
 
-  actions: {
-    async initSystem() {
-      const [system, pages] = await Promise.all([getSystemConfigApi(), getPageConfigApi()])
-      this.pageConfig = pages
-      this.systemConfig = system
-    },
-  },
+  actions: {},
 })
