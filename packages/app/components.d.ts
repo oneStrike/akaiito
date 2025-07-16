@@ -7,14 +7,24 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    EsBackTop: typeof import('./src/components/ls-back-top/es-back-top.vue')['default']
-    EsButton: typeof import('./src/components/ls-button/es-button.vue')['default']
-    EsEmpty: typeof import('./src/components/ls-empty/es-empty.vue')['default']
-    EsForm: typeof import('./src/components/ls-form/es-form.vue')['default']
-    EsIcons: typeof import('./src/components/ls-icons/es-icons.vue')['default']
-    EsList: typeof import('./src/components/ls-list/es-list.vue')['default']
-    EsPage: typeof import('./src/components/ls-page/es-page.vue')['default']
-    EsText: typeof import('./src/components/ls-text/es-text.vue')['default']
-    EsUpload: typeof import('./src/components/ls-upload/es-upload.vue')['default']
+    EsBackTop: typeof import('./src/components/es-back-top/es-back-top.vue')['default']
+    EsButton: typeof import('./src/components/es-button/es-button.vue')['default']
+    EsCell: typeof import('./src/components/es-cell/es-cell.vue')['default']
+    EsEmpty: typeof import('./src/components/es-empty/es-empty.vue')['default']
+    EsIcons: typeof import('./src/components/es-icons/es-icons.vue')['default']
+    EsList: typeof import('./src/components/es-list/es-list.vue')['default']
+    EsLoading: typeof import('./src/components/es-loading/es-loading.vue')['default']
+    EsNavBar: typeof import('./src/components/es-nav-bar/es-nav-bar.vue')['default']
+    EsPage: typeof import('./src/components/es-page/es-page.vue')['default']
+    EsPicker: typeof import('./src/components/es-picker/es-picker.vue')['default']
+    EsPreviewVideo: typeof import('./src/components/es-preview-video/es-preview-video.vue')['default']
+    EsSearch: typeof import('./src/components/es-search/es-search.vue')['default']
+    EsSwiper: typeof import('./src/components/es-swiper/es-swiper.vue')['default']
+    EsSwiperIndicator: typeof import('./src/components/es-swiper-indicator/es-swiper-indicator.vue')['default']
+    EsTabs: typeof import('./src/components/es-tabs/es-tabs.vue')['default']
+    EsTag: typeof import('./src/components/es-tag/es-tag.vue')['default']
+    EsText: typeof import('./src/components/es-text/es-text.vue')['default']
+    EsToast: typeof import('./src/components/es-toast/es-toast.vue')['default']
+    EsUpload: typeof import('./src/components/es-upload/es-upload.vue')['default']
   }
 }

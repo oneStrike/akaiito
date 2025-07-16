@@ -13,6 +13,8 @@
     "MaybeRefOrGetter": "readonly",
     "PropType": "readonly",
     "Ref": "readonly",
+    "Slot": "readonly",
+    "Slots": "readonly",
     "VNode": "readonly",
     "WritableComputedRef": "readonly",
     "acceptHMRUpdate": "readonly",
@@ -95,6 +97,7 @@
     "toValue": "readonly",
     "triggerRef": "readonly",
     "unref": "readonly",
+    "useAppLaunchEventBus": "readonly",
     "useAttrs": "readonly",
     "useCookies": "readonly",
     "useCssModule": "readonly",
@@ -111,8 +114,6 @@
     "watch": "readonly",
     "watchEffect": "readonly",
     "watchPostEffect": "readonly",
-    "watchSyncEffect": "readonly",
-    "AppLanunch": "readonly",
-    "useAppLaunchEventBus": "readonly"
+    "watchSyncEffect": "readonly"
   }
 }
