@@ -1,44 +1,44 @@
 <script setup lang="ts">
-import type { EsSwiperIndicatorProps } from '@/components/es-swiper-indicator/types'
-import { useConfig } from '@/components/libs/hooks/useConfig'
+  import type { EsSwiperIndicatorProps } from '@/components/es-swiper-indicator/types'
+  import { useConfig } from '@/components/libs/hooks/useConfig'
 
-defineOptions({
-  name: 'EsSwiperIndicator',
-  options: {
-    addGlobalClass: true,
-    virtualHost: true,
-    styleIsolation: 'shared',
-  },
-})
+  defineOptions({
+    name: 'EsSwiperIndicator',
+    options: {
+      addGlobalClass: true,
+      virtualHost: true,
+      styleIsolation: 'shared',
+    },
+  })
 
-const props = withDefaults(defineProps<EsSwiperIndicatorProps>(), {
-  mode: 1,
-  color: '#ffffff',
-  position: 'center',
-  activeColor: 'primary',
-})
-const modelValue = defineModel({
-  type: Number,
-  default: 0,
-})
-console.log(props)
-const getBackgroundColor = (target: number) => {
-  return target - 1 === modelValue.value
-    ? useConfig.getColor(props.activeColor)
-    : useConfig.getColor(props.color)
-}
-const positionClassName = computed(() => {
-  switch (props.position) {
-    case 'left':
-      return 'justify-start'
-    case 'center':
-      return 'justify-center'
-    case 'right':
-      return 'justify-end'
-    default:
-      return ''
+  const props = withDefaults(defineProps<EsSwiperIndicatorProps>(), {
+    mode: 1,
+    color: '#ffffff',
+    position: 'center',
+    activeColor: 'primary',
+  })
+  const modelValue = defineModel({
+    type: Number,
+    default: 0,
+  })
+  console.log(props)
+  const getBackgroundColor = (target: number) => {
+    return target - 1 === modelValue.value
+      ? useConfig.getColor(props.activeColor)
+      : useConfig.getColor(props.color)
   }
-})
+  const positionClassName = computed(() => {
+    switch (props.position) {
+      case 'left':
+        return 'justify-start'
+      case 'center':
+        return 'justify-center'
+      case 'right':
+        return 'justify-end'
+      default:
+        return ''
+    }
+  })
 </script>
 
 <template>
@@ -62,7 +62,7 @@ const positionClassName = computed(() => {
             :style="{
               background: getBackgroundColor(item),
             }"
-          ></view>
+          />
         </template>
 
         <template v-if="mode === 2">
@@ -71,20 +71,20 @@ const positionClassName = computed(() => {
             :style="{
               background: getBackgroundColor(item),
             }"
-          ></view>
+          />
         </template>
         <template v-if="mode === 3">
           <view
-            class="ml-1 h-1 w-7 transition-all"
+            class="ml-2 h-2 w-7 transition-all rounded-full shrink-0"
             :style="{
               background: getBackgroundColor(item),
-              width: modelValue === item - 1 ? '30rpx' : '14rpx',
+              width: modelValue === item - 1 ? '38rpx' : '16rpx',
             }"
-          ></view>
+          />
         </template>
         <template v-if="mode === 4">
           <view
-            class="ml-1 h-4 w-4 rounded-full bg-gray-300 text-align-center text-sm leading-4 transition-all"
+            class="ml-1 rounded-full text-align-center text-sm leading-4 transition-all h-4 w-4 bg-gray-300"
           >
             <es-text
               :text="item"

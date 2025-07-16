@@ -103,7 +103,7 @@
       v-model="modelValue"
       :color="indicatorColor"
       :mode="indicatorMode"
-      :actice-color="indicatorActiveColor"
+      :active-color="indicatorActiveColor"
       :position="indicatorPosition"
       :length="options.length"
     />

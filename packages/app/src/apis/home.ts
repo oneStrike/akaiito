@@ -3,7 +3,7 @@ import { httpHandler } from '@/utils/request'
 /**
  * 获取app的logo
  */
-export const getAppLogoApi = () => {
+export const getAppLogoApi = (): Promise<any> => {
   return httpHandler({
     method: 'GET',
     url: '/wp-json/zib-app/v1/home_logo',
@@ -13,7 +13,7 @@ export const getAppLogoApi = () => {
 /**
  * 获取首页轮播图
  */
-export const getAppSwiperApi = () => {
+export const getAppSwiperApi = (): Promise<any> => {
   return httpHandler({
     method: 'GET',
     url: '/wp-json/zib-app/v1/home_banner',
