@@ -1,7 +1,7 @@
 import { basicConfig } from '@/config/basic.config'
 import { utils } from '@/utils/index'
 
-const { BASIC_URL, FILE_PATH_PREFIX, APPID } = basicConfig
+const { BASIC_URL } = basicConfig
 
 const illegalPrefixes = [
   'http://',
@@ -15,17 +15,10 @@ export function filePath(path: string) {
   if (!path || illegalPrefixes.some((item) => path.indexOf(item) === 0)) {
     return path
   }
-  path = utils.getJson(path)
+  path = utils.parseJson(path)
   if (Array.isArray(path)) {
     path = path[0].path
   }
 
-  const prefix =
-    path.includes(APPID) || path.includes('/file/dv-bucket')
-      ? BASIC_URL
-      : `${FILE_PATH_PREFIX}/`
-  // #ifndef MP
-  return window.location.origin + prefix + path
-  // #endif
-  return prefix + path
+  return BASIC_URL + path
 }

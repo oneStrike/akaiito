@@ -1,41 +1,41 @@
 <script setup lang="ts">
-import type { EsSwiperProps } from '@/components/es-swiper/types'
-import type { SwiperOnChangeEvent } from '@uni-helper/uni-types'
-import { useConfig } from '@/components/libs/hooks/useConfig'
+  import type { SwiperOnChangeEvent } from '@uni-helper/uni-types'
+  import type { EsSwiperProps } from '@/components/es-swiper/types'
+  import { useConfig } from '@/components/libs/hooks/useConfig'
 
-defineOptions({
-  name: 'EsSwiper',
-  options: {
-    addGlobalClass: true,
-    virtualHost: true,
-    styleIsolation: 'shared',
-  },
-})
+  defineOptions({
+    name: 'EsSwiper',
+    options: {
+      addGlobalClass: true,
+      virtualHost: true,
+      styleIsolation: 'shared',
+    },
+  })
 
-withDefaults(defineProps<EsSwiperProps>(), {
-  mode: 'text',
-  field: 'path',
-  height: 360,
-  autoPlay: true,
-  textSize: 'base',
-  textColor: 'base',
-  indicator: true,
-  indicatorMode: 1,
-})
+  withDefaults(defineProps<EsSwiperProps>(), {
+    mode: 'default',
+    field: 'path',
+    height: 360,
+    autoPlay: true,
+    textSize: 'base',
+    textColor: 'base',
+    indicator: true,
+    indicatorMode: 1,
+  })
 
-const emits = defineEmits<{
-  (event: 'change', data: number): void
-}>()
+  const emits = defineEmits<{
+    (event: 'change', data: number): void
+  }>()
 
-const modelValue = defineModel({
-  type: Number,
-  default: 0,
-})
+  const modelValue = defineModel({
+    type: Number,
+    default: 0,
+  })
 
-const swiperChange = (e: SwiperOnChangeEvent) => {
-  modelValue.value = e.detail.current
-  emits('change', e.detail.current)
-}
+  const swiperChange = (e: SwiperOnChangeEvent) => {
+    modelValue.value = e.detail.current
+    emits('change', e.detail.current)
+  }
 </script>
 
 <template>
@@ -53,7 +53,7 @@ const swiperChange = (e: SwiperOnChangeEvent) => {
           class="h-full w-full"
           :src="$filePath(item[field])"
           mode="scaleToFill"
-        ></image>
+        />
       </swiper-item>
     </swiper>
     <swiper
@@ -76,7 +76,7 @@ const swiperChange = (e: SwiperOnChangeEvent) => {
           :class="modelValue === idx ? '' : 'scale-90'"
           :src="$filePath(item[field])"
           mode="scaleToFill"
-        ></image>
+        />
 
         <es-text :text="item[field]" :size="textSize" :color="textColor" />
       </swiper-item>

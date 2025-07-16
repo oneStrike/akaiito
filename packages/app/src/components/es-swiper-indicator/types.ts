@@ -3,5 +3,5 @@ export interface EsSwiperIndicatorProps {
   color?: string
   length: number
   position?: 'left' | 'center' | 'right'
-  activeColor?: 'primary'
+  activeColor?: 'primary' | string
 }

@@ -2,8 +2,6 @@
 import type { EsSwiperIndicatorProps } from '@/components/es-swiper-indicator/types'
 // 导入文本组件的属性类型
 import type { EsTextProps } from '@/components/es-text/types'
-// 导入全局的迭代对象类型
-import type { IterateObject } from '@/types/global'
 
 /**
  * 轮播组件的属性接口

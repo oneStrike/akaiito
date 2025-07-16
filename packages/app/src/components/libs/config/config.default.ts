@@ -8,7 +8,7 @@ export const config: Config = {
   enlarge: 0,
 
   colorScheme: {
-    primary: '#e87949',
+    primary: '#fb7299',
     light: '#ffbd81',
     success: '#72c348',
     warning: '#f17f42',
@@ -28,9 +28,9 @@ export const config: Config = {
   },
 
   sizeScheme: {
-    'xs': 24,
-    'sm': 28,
-    'base': 32,
+    'xs': 20,
+    'sm': 24,
+    'base': 28,
     'lg': 36,
     'xl': 40,
     '2xl': 44,
