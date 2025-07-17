@@ -88,7 +88,6 @@
     "@dcloudio/uni-cli-shared": "3.0.0-4070520250711001",
     "@dcloudio/uni-stacktracey": "3.0.0-4070520250711001",
     "@dcloudio/vite-plugin-uni": "3.0.0-4070520250711001",
-    "@hey-api/openapi-ts": "^0.78.3",
     "@types/opencc-js": "^1.0.3",
     "@uni-helper/uni-types": "1.0.0-alpha.6",
     "@uni-helper/unocss-preset-uni": "^0.2.11",
