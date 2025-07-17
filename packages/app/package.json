@@ -9,6 +9,8 @@
   },
   "scripts": {
     "att": "att",
+    "generate-api": "orval",
+    "generate-api:old": "node scripts/generate-api.js",
     "preinstall": "npx only-allow pnpm",
     "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install",
     "dev": "pnpm run dev:h5",
@@ -99,6 +101,7 @@
     "miniprogram-api-typings": "^4.1.0",
     "miniprogram-ci": "^2.1.14",
     "opencc-js": "^1.0.5",
+    "orval": "^7.9.0",
     "rollup-plugin-visualizer": "^6.0.3",
     "sass": "1.89.2",
     "typescript": "^5.8.3",

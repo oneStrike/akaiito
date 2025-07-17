@@ -1,20 +1,14 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
     "target": "ESNext",
     "jsx": "preserve",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
+    "lib": ["esnext", "dom"],
     "useDefineForClassFields": true,
     "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
     "types": [
@@ -35,13 +29,8 @@
     "src/**/*.vue",
     "src/**/*.nvue"
   ],
-  "exclude": [
-    "src/pages/obsolete/**",
-    "src/obsolete-components/**"
-  ],
+  "exclude": ["src/pages/obsolete/**", "src/obsolete-components/**"],
   "vueCompilerOptions": {
-    "plugins": [
-      "@uni-helper/uni-types/volar-plugin"
-    ]
+    "plugins": ["@uni-helper/uni-types/volar-plugin"]
   }
 }

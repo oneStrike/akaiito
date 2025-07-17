@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
-    "att": "att"
+    "att": "att",
+    "generate-api": "node scripts/generate-api.js"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
