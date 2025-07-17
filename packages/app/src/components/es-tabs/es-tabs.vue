@@ -19,7 +19,7 @@
     scrollable: 4,
     activeColor: 'primary',
     inactiveColor: 'base',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     lineHeight: 6,
     mapNum: 7,
   })
@@ -210,7 +210,7 @@
         <es-button
           v-for="(item, idx) in tabs"
           :key="item.value"
-          :text="item.text"
+          :text="item.label"
           class="mb-3 ml-3"
           :type="idx === currentIdx ? 'primary' : 'default'"
           @click="change(item, idx)"

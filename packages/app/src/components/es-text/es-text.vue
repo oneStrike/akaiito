@@ -1,40 +1,40 @@
 <script setup lang="ts">
-import type { EsTextProps } from '@/components/es-text/types'
-import { useConfig } from '@/components/libs/hooks/useConfig'
-import * as OpenCC from 'opencc-js'
+  import type { EsTextProps } from '@/components/es-text/types'
+  import * as OpenCC from 'opencc-js'
+  import { useConfig } from '@/components/libs/hooks/useConfig'
 
-defineOptions({
-  name: 'EsText',
-  options: {
-    virtualHost: true,
-  },
-})
+  defineOptions({
+    name: 'EsText',
+    options: {
+      virtualHost: true,
+    },
+  })
 
-const props = withDefaults(defineProps<EsTextProps>(), {
-  color: 'base',
-  size: 'base',
-  cn: false,
-})
-const emits = defineEmits<{
-  (event: 'click'): void
-}>()
+  const props = withDefaults(defineProps<EsTextProps>(), {
+    color: 'base',
+    size: 'base',
+    cn: false,
+  })
+  const emits = defineEmits<{
+    (event: 'click'): void
+  }>()
 
-const converter = OpenCC.Converter({ from: 'twp', to: 'cn' })
+  const converter = OpenCC.Converter({ from: 'twp', to: 'cn' })
 
-const textStyle = computed(() => {
-  const style = [
-    `color: ${useConfig.getColor(props.color)}`,
-    `font-size:${useConfig.getSize(props.size)}`,
-  ]
+  const textStyle = computed(() => {
+    const style = [
+      `color: ${useConfig.getColor(props.color)}`,
+      `font-size:${useConfig.getSize(props.size)}`,
+    ]
 
-  if (props.lineClamp) {
-    style.push(
-      `display: -webkit-box;-webkit-box-orient: vertical; -webkit-line-clamp: ${props.lineClamp};overflow: hidden;text-overflow: ellipsis`,
-    )
-  }
+    if (props.lineClamp) {
+      style.push(
+        `display: -webkit-box;-webkit-box-orient: vertical; -webkit-line-clamp: ${props.lineClamp};overflow: hidden;text-overflow: ellipsis`,
+      )
+    }
 
-  return style.join(';')
-})
+    return style.join(';')
+  })
 </script>
 
 <template>
@@ -43,6 +43,8 @@ const textStyle = computed(() => {
     :style="textStyle"
     @click="emits('click')"
   >
-    {{ cn && typeof text === 'string' ? converter(text) : text }}
+    <slot>
+      {{ cn && typeof text === 'string' ? converter(text) : text }}
+    </slot>
   </text>
 </template>

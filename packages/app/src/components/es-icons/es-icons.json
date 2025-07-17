@@ -55,6 +55,13 @@
     "data": "url(\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='currentColor' stroke-dasharray='10' stroke-dashoffset='10' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9 12l5 -5M9 12l5 5'%3E%3Canimate fill='freeze' attributeName='stroke-dashoffset' dur='0.3s' values='10;0'/%3E%3C/path%3E%3C/svg%3E\")",
     "url": "https://api.iconify.design/line-md:chevron-small-left.svg"
   },
+  "right": {
+    "local": false,
+    "name": "right",
+    "sourceName": "line-md:chevron-small-right",
+    "data": "url(\"data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='currentColor' stroke-dasharray='10' stroke-dashoffset='10' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 12l-5 -5M15 12l-5 5'%3E%3Canimate fill='freeze' attributeName='stroke-dashoffset' dur='0.3s' values='10;0'/%3E%3C/path%3E%3C/svg%3E\")",
+    "url": "https://api.iconify.design/line-md:chevron-small-right.svg"
+  },
   "menu": {
     "local": false,
     "name": "menu",

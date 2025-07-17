@@ -20,8 +20,14 @@ export interface EsSwiperProps {
   height?: number
   // 是否自动播放，默认为false
   autoPlay?: boolean
+  // 底部蒙层的颜色
+  maskField?: string
   // 是否显示指示器，默认为false
   indicator?: boolean
+  // 是否显示箭头按钮，默认为false
+  arrows?: boolean
+  // 图片间隙，以像素为单位，默认为0
+  gap?: number
   // 文本大小，参照文本组件的大小属性
   textSize?: EsTextProps['size']
   // 文本颜色，参照文本组件的颜色属性
