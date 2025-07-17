@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { getAppLogoApi, getAppSwiperApi } from '@/apis/home.ts'
+  import { indexLogoApi, indexSliderApi } from '@/apis/indexApi'
 
   defineOptions({
     name: 'HomePage',
@@ -30,7 +30,7 @@
   }
 
   // 获取数据
-  Promise.all([getAppLogoApi(), getAppSwiperApi()]).then((res) => {
+  Promise.all([indexLogoApi(), indexSliderApi()]).then((res) => {
     const [logo, swiper] = res
     swiperOptions.value = swiper
   })

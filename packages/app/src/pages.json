@@ -49,22 +49,6 @@
       }
     },
     {
-      "path": "pages/register/index",
-      "name": "register",
-      "style": {
-        "navigationBarTitleText": "",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/login/index",
-      "name": "login",
-      "style": {
-        "navigationBarTitleText": "",
-        "navigationStyle": "custom"
-      }
-    },
-    {
       "path": "pages/word-detail/index",
       "name": "wordDetail",
       "style": {

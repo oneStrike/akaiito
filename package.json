@@ -30,9 +30,9 @@
     "@prisma/adapter-pg": "^6.8.2",
     "@prisma/client": "^6.8.2",
     "@types/node": "^22.15.17",
-    "@unocss/autocomplete": "66.1.1",
-    "@unocss/eslint-plugin": "66.1.1",
-    "@unocss/reset": "66.1.1",
+    "@unocss/autocomplete": "0.59.4",
+    "@unocss/eslint-plugin": "0.59.4",
+    "@unocss/reset": "0.59.4",
     "@vue/language-server": "^2.2.10",
     "add": "^2.0.6",
     "eslint": "^9.26.0",
@@ -44,7 +44,7 @@
     "prisma": "^6.8.2",
     "simple-git-hooks": "^2.13.0",
     "typescript": "~5.8.3",
-    "unocss": "66.1.1"
+    "unocss": "0.59.4"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

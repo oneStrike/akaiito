@@ -18,7 +18,7 @@
   - 工具仓库（utils/types/att）使用 TypeScript + pkgroll构建
 - **统一规范**：
   - 代码风格：`@antfu/eslint-config@4.13.0` + Prettier 3.5.3
-  - CSS框架：UnoCSS 66.1.1（全项目统一）
+  - CSS框架：UnoCSS 0.59.4（全项目统一）
   - Git提交：Conventional Commits（`<type>(<scope>): <subject>`）
   - Git钩子：simple-git-hooks + lint-staged（提交前自动格式化）
   - 测试覆盖率：前端≥80% / 后端≥70%
@@ -36,7 +36,7 @@
 - **路由管理**：Vue Router 4.5.1
 - **HTTP客户端**：axios 1.9.0
 - **工具库**：@vueuse/core 13.1.0, lodash（继承自根目录）
-- **CSS预处理**：Sass 1.88.0 + UnoCSS 66.1.1
+- **CSS预处理**：Sass 1.88.0 + UnoCSS 0.59.4
 - **富文本编辑**：TinyMCE 7.8.0 + @tinymce/tinymce-vue 6.1.0
 - **拖拽排序**：sortablejs 1.15.6, vuedraggable 2.24.3
 - **进度条**：nprogress 0.2.0
@@ -107,7 +107,7 @@ src/
   - 快应用：@dcloudio/uni-quickapp-webview
 - **UI组件库**：@dcloudio/uni-ui 1.5.7
 - **国际化**：vue-i18n 9.14.4
-- **CSS框架**：UnoCSS 66.1.1 + unocss-applet 0.8.5
+- **CSS框架**：UnoCSS 0.59.4 + unocss-applet 0.8.5
 - **工具库**：
   - 数据处理：destr 2.0.5, deep-pick-omit 1.2.1
   - 中文转换：opencc-js 1.0.5（简繁转换）

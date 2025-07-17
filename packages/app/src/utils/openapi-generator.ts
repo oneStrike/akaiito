@@ -70,7 +70,7 @@ export class OpenAPIGenerator {
   /**
    * 按模块分组路径
    */
-  private groupPathsByModule(): Record<
+  groupPathsByModule(): Record<
     string,
     Array<{ path: string; method: string; operation: any }>
   > {
@@ -111,9 +111,10 @@ export class OpenAPIGenerator {
   /**
    * 生成模块代码
    */
-  private generateModuleCode(
+  generateModuleCode(
     moduleName: string,
     paths: Array<{ path: string; method: string; operation: any }>,
+    finalFileName?: string,
   ) {
     const imports = new Set<string>()
     const apiMethods: string[] = []
@@ -187,10 +188,15 @@ export class OpenAPIGenerator {
       }
     }
 
+    // 使用最终文件名（去掉.ts扩展名）来生成正确的类型导入路径
+    const typeFileName = finalFileName
+      ? finalFileName.replace('.ts', '')
+      : moduleName
+
     // 生成导入语句
     const importStatements =
       Array.from(imports).length > 0
-        ? `import type {\n  ${Array.from(imports).join(',\n  ')}\n} from './types/${moduleName}.d'\n\n`
+        ? `import type {\n  ${Array.from(imports).join(',\n  ')}\n} from './types/${typeFileName}.d'\n\n`
         : ''
 
     const apiContent = `import { httpHandler } from '@/utils/request'\n${importStatements}${apiMethods.join('\n\n')}\n`
@@ -251,7 +257,10 @@ export type ${typeName} = ${itemType}[]`
     }
 
     // 检查是否是基础类型
-    if (schema.type && ['string', 'number', 'integer', 'boolean'].includes(schema.type)) {
+    if (
+      schema.type &&
+      ['string', 'number', 'integer', 'boolean'].includes(schema.type)
+    ) {
       const baseType = this.mapSchemaToType(schema)
       const comment = `/**
  *  类型定义 [${typeName}]
@@ -470,7 +479,10 @@ ${properties.join('\n\n')}
     }
 
     // 检查是否是基础类型
-    if (dataSchema.type && ['string', 'number', 'integer', 'boolean'].includes(dataSchema.type)) {
+    if (
+      dataSchema.type &&
+      ['string', 'number', 'integer', 'boolean'].includes(dataSchema.type)
+    ) {
       const baseType = this.mapSchemaToType(dataSchema)
       return `export type ${typeName} = ${baseType}`
     }
@@ -681,7 +693,7 @@ export async function generateAPIFromOpenAPI(
  * 生成API代码的主函数
  */
 export async function generateAPI(): Promise<void> {
-  const openApiUrl = 'http://127.0.0.1:4523/export/openapi/3?version=3.0'
+  const openApiUrl = 'http://127.0.0.1:4523/export/openapi/2?version=3.0'
   const outputDir = path.resolve(process.cwd(), 'src/apis')
   const typesDir = path.join(outputDir, 'types')
 
@@ -696,7 +708,49 @@ export async function generateAPI(): Promise<void> {
     await ensureDirectory(typesDir)
 
     // 生成代码
-    const files = await generateAPIFromOpenAPI(openApiUrl, outputDir)
+    const generator = new OpenAPIGenerator()
+
+    // 获取OpenAPI文档
+    console.log('正在获取OpenAPI文档...')
+    await generator.fetchOpenAPISpec(openApiUrl)
+
+    // 生成代码
+    console.log('正在生成API代码...')
+    const originalFiles = generator.generateAPICode()
+
+    // 检查是否有文件名为 index.ts 的冲突
+    const hasIndexConflict = originalFiles.some(
+      (file) => file.fileName === 'index.ts',
+    )
+
+    // 处理文件名冲突并重新生成内容
+    const files: GeneratedFile[] = []
+    const groupedPaths = generator.groupPathsByModule()
+
+    for (const [moduleName, paths] of Object.entries(groupedPaths)) {
+      let finalFileName = `${moduleName}.ts`
+
+      // 如果存在 index.ts 冲突，将其重命名为 indexApi.ts
+      if (hasIndexConflict && finalFileName === 'index.ts') {
+        finalFileName = 'indexApi.ts'
+        console.log(
+          `⚠️  检测到文件名冲突，将 ${finalFileName.replace('Api', '')} 重命名为 ${finalFileName}`,
+        )
+      }
+
+      // 使用正确的最终文件名重新生成内容
+      const { apiContent, typesContent } = generator.generateModuleCode(
+        moduleName,
+        paths,
+        finalFileName,
+      )
+
+      files.push({
+        fileName: finalFileName,
+        content: apiContent,
+        types: typesContent,
+      })
+    }
 
     // 写入文件
     for (const file of files) {
@@ -712,9 +766,13 @@ export async function generateAPI(): Promise<void> {
       }
     }
 
-    // 生成索引文件
-    const indexContent = `${files
-      .map((file) => `export * from './${file.fileName.replace('.ts', '')}'`)
+    // 生成索引文件，排除与索引文件同名的API文件
+    const exportFiles = files
+      .map((file) => file.fileName)
+      .filter((fileName) => fileName !== 'index.ts') // 排除与索引文件同名的文件
+
+    const indexContent = `${exportFiles
+      .map((fileName) => `export * from './${fileName.replace('.ts', '')}'`)
       .join('\n')}\n`
 
     await writeFile(path.join(outputDir, 'index.ts'), indexContent)
