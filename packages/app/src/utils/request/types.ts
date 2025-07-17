@@ -17,6 +17,7 @@ export interface RequestConfig {
   errorPropagation?: boolean
   errorModal?: boolean
   consoleInfo?: boolean
+  headers?: IterateObject
   interceptor?: {
     request?: AsyncFn<RequestOptions>
     response?: (data: any, url: string) => RequestResponse

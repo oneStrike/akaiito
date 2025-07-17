@@ -21,7 +21,8 @@
   "dependencies": {
     "@types/lodash": "^4.17.16",
     "dayjs": "^1.11.13",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "tsx": "^4.19.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.0",
@@ -50,6 +51,8 @@
   },
   "lint-staged": {
     "*": "eslint --fix",
-    "ignore": ["packages/server-nestjs"]
+    "ignore": [
+      "packages/server-nestjs"
+    ]
   }
 }
