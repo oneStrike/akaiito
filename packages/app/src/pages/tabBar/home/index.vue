@@ -1,5 +1,10 @@
 <script setup lang="ts">
-  import { indexLogoApi, indexSliderApi } from '@/apis/indexApi'
+  import {
+    indexCategoriesApi,
+    indexLogoApi,
+    indexPostApi,
+    indexSliderApi,
+  } from '@/apis/indexApi'
 
   defineOptions({
     name: 'HomePage',
@@ -10,6 +15,17 @@
 
   // 当前轮播索引
   const currentSwiperIndex = ref(0)
+  const currentTab = ref(0)
+
+  // 分类数据
+  const categories = ref()
+
+  // 文章数据
+  const listParams = ref({
+    id: '',
+  })
+  const listData = ref()
+  const listRef = ref()
 
   // 背景图片切换状态
   const isTransitioning = ref(false)
@@ -30,29 +46,22 @@
   }
 
   // 获取数据
-  Promise.all([indexLogoApi(), indexSliderApi()]).then((res) => {
-    const [logo, swiper] = res
-    swiperOptions.value = swiper
-  })
-
-  const tabs = [
-    {
-      label: '最新发布',
-      value: '1',
+  Promise.all([indexLogoApi(), indexSliderApi(), indexCategoriesApi()]).then(
+    async (res) => {
+      const [logo, swiper, category] = res
+      swiperOptions.value = swiper
+      categories.value = category.map((item) => {
+        return {
+          label: item.name,
+          value: item.id,
+        }
+      })
+      listParams.value = {
+        id: String(category[0].id),
+      }
+      listRef.value.refresh()
     },
-    {
-      label: 'Pixiv插画',
-      value: '2',
-    },
-    {
-      label: 'AI国漫',
-      value: '3',
-    },
-    {
-      label: '拍摄写真',
-      value: '4',
-    },
-  ]
+  )
 </script>
 
 <template>
@@ -65,11 +74,11 @@
 
     <!-- 动态背景图片容器 -->
     <view
-      v-if="swiperOptions[currentSwiperIndex]?.image_url"
+      v-if="swiperOptions[currentSwiperIndex]?.image"
       class="fixed top-0 left-0 right-0 h-400rpx overflow-hidden z-1"
     >
       <image
-        :src="$filePath(swiperOptions[currentSwiperIndex]?.image_url)"
+        :src="$filePath(swiperOptions[currentSwiperIndex]?.image)"
         class="w-full h-full blur-10px transition-all duration-300 ease-out transform-origin-center"
         :class="[
           isTransitioning ? 'opacity-30 scale-100' : 'opacity-100 scale-105',
@@ -92,18 +101,27 @@
     <es-swiper
       v-model="currentSwiperIndex"
       :options="swiperOptions"
-      field="image_url"
+      field="image"
       :height="400"
       :indicator-mode="3"
       indicator-color="rgba(255,255,255,0.7)"
       indicator-active-color="white"
-      class="relative z-10 rounded-xl mx-3 overflow-hidden mt-6"
+      class="relative overflow-hidden z-10 rounded-xl mx-3 mt-6"
       @change="handleSwiperChange"
     />
 
     <!-- 标签页 -->
-    <view class="relative z-10 px-5 mt-5">
-      <es-tabs :tabs="tabs" />
+    <view v-if="categories" class="relative z-10 px-5 mt-5">
+      <es-tabs v-model="currentTab" :scrollable="1" :tabs="categories" />
     </view>
+
+    <!--  文章  -->
+    <es-list
+      ref="listRef"
+      v-model:params="listParams"
+      v-model:list="listData"
+      :api="indexPostApi"
+      :auto-load="false"
+    />
   </es-page>
 </template>

@@ -12,11 +12,11 @@ export default defineConfig({
   rules: [
     [
       // 正则表达式匹配 'border-' 后面的方向词或为空
-      /^border-(left|right|top|bottom)?$/,
+      /^border(-left|-right|-top|-bottom)?$/,
       // 根据匹配结果生成对应的 CSS 样式
       ([, direction]) => {
         if (direction) {
-          return { [`border-${direction}`]: `2rpx solid rgb(229 231 235)` }
+          return { [`border${direction}`]: `2rpx solid rgb(229 231 235)` }
         } else {
           return { border: `2rpx solid rgb(229 231 235)` }
         }

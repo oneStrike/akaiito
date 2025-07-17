@@ -1,13 +1,6 @@
 <script setup lang="ts">
   import type { EsTabsProps } from '@/components/es-tabs/types'
-  import {
-    getCurrentInstance,
-    nextTick,
-    onMounted,
-    reactive,
-    ref,
-    watch,
-  } from 'vue'
+  import { getCurrentInstance } from 'vue'
   import { useConfig } from '@/components/libs/hooks/useConfig'
   import { useRect } from '@/components/libs/hooks/useRect'
 
@@ -32,206 +25,162 @@
   })
 
   const emits = defineEmits<{
-    change: [data: { idx: number; value?: string | number }]
+    (event: 'change', data: { idx: number; value?: string | number }): void
   }>()
+  const { proxy } = getCurrentInstance() as any
 
-  const { proxy } = getCurrentInstance()!
-
-  // 响应式状态
-  const currentIdx = defineModel<number>({ default: 0 })
-  const popup = ref()
-  const showMap = ref(false)
-  const scrollLeft = ref(0)
   const mapTop = ref(0)
   const stickyTop = ref('0px')
-
-  // 矩形信息
-  const rectInfo = reactive({
-    container: {} as UniApp.NodeInfo,
-    allItem: [] as UniApp.NodeInfo[],
-  })
-
-  // 下划线样式
-  const lineStyle = reactive({
-    width: '0px',
-    left: '0px',
-  })
-
-  // 计算粘性定位顶部距离
-  const calculateStickyTop = (top: number) => {
+  const getStickyTop = (top: number) => {
     if (props.positionTop !== undefined) {
       stickyTop.value = useConfig.addUnit(props.positionTop)
-      return
     }
-
     const currentPage = uni.$es.router.getRoute()
     const customNavigation = currentPage?.style?.navigationStyle === 'custom'
-
     if (customNavigation) {
       stickyTop.value = `${top}px`
     }
   }
 
-  // 处理下划线位置和滚动
-  const updateLinePosition = () => {
-    if (!rectInfo.allItem[currentIdx.value] || !rectInfo.container.width) return
+  onMounted(async () => {
+    const { height, top } = await useRect('.tabs-container', false, proxy)
+    mapTop.value = height! + top! + 10
+    getStickyTop(top!)
+  })
 
-    const halfway = rectInfo.container.width / 2
-    const { width = 0, left = 0 } = rectInfo.allItem[currentIdx.value]
-    const lineLeft = left - (rectInfo.container.left || 0)
+  const currentIdx = defineModel({
+    type: Number,
+    default: 0,
+  })
+  const popup = ref()
+  const showMap = ref(false)
+  const scrollLeft = ref(0)
+  const rectInfo = reactive({
+    container: {} as UniApp.NodeInfo,
+    allItem: [] as UniApp.NodeInfo[],
+  })
 
-    lineStyle.width = `${width - 16}px`
-    lineStyle.left = `${lineLeft + 8}px`
-
-    // 计算滚动位置
+  const lineStyle = reactive({
+    width: '',
+    left: '',
+  })
+  const handlerLine = () => {
+    const halfway = rectInfo.container.width! / 2
+    const { width, left } = rectInfo.allItem[currentIdx.value]
+    const lineLeft = left! - rectInfo.container.left!
+    lineStyle.width = `${width! - 18}px`
+    lineStyle.left = `${lineLeft + 9}px`
     if (lineLeft > halfway) {
-      scrollLeft.value = lineLeft - halfway + width / 2
+      scrollLeft.value = lineLeft - halfway + width! / 2
     } else {
       scrollLeft.value = 0
     }
   }
 
-  // 设置激活标签
   const setActiveTab = () => {
     showMap.value = false
-    updateLinePosition()
+    handlerLine()
   }
 
-  // 更新矩形信息
-  const updateRectInfo = async () => {
-    if (!Array.isArray(props.tabs) || !props.tabs.length) return
-
-    try {
-      rectInfo.container = (await useRect(
-        '.tabs-container',
-        false,
-        proxy,
-      )) as UniApp.NodeInfo
-      rectInfo.allItem = (await useRect(
-        '.tabs-item',
-        true,
-        proxy,
-      )) as UniApp.NodeInfo[]
-      updateLinePosition()
-    } catch (error) {
-      console.warn('Failed to get rect info:', error)
-    }
-  }
-
-  // 标签切换处理
-  const handleTabChange = (item: EsTabsProps['tabs'][number], idx: number) => {
-    currentIdx.value = idx
-    emits('change', { idx, value: item.value })
-  }
-
-  // 生命周期
-  onMounted(async () => {
-    try {
-      const { height = 0, top = 0 } = (await useRect(
-        '.tabs-container',
-        false,
-        proxy,
-      )) as UniApp.NodeInfo
-      mapTop.value = height + top + 10
-      calculateStickyTop(top)
-    } catch (error) {
-      console.warn('Failed to initialize tabs:', error)
-    }
-  })
-
-  // 监听器
-  watch(showMap, (newVal) => {
-    if (newVal) {
-      popup.value?.open()
+  watch(showMap, () => {
+    if (showMap.value) {
+      popup.value.open()
     } else {
-      popup.value?.close()
+      popup.value.close()
     }
   })
-
-  watch(currentIdx, setActiveTab)
+  watch(currentIdx, () => {
+    setActiveTab()
+  })
 
   watch(
     () => props.tabs,
     () => {
-      nextTick(updateRectInfo)
+      if (Array.isArray(props.tabs) && props.tabs.length) {
+        nextTick(async () => {
+          rectInfo.container = (await useRect(
+            '.tabs-container',
+            false,
+            proxy,
+          )) as UniApp.NodeInfo
+          rectInfo.allItem = (await useRect(
+            '.tabs-item',
+            true,
+            proxy,
+          )) as UniApp.NodeInfo[]
+          handlerLine()
+          currentIdx.value = currentIdx.value || 0
+        })
+      }
     },
     { deep: true, immediate: true },
   )
+
+  const change = (item: EsTabsProps['tabs'][number], idx: number) => {
+    currentIdx.value = idx
+    emits('change', { idx, value: item.value })
+  }
 </script>
 
 <template>
   <view
-    class="relative z-50"
+    class="es-tabs z-50"
     :style="{
-      position: sticky ? 'sticky' : 'static',
+      position: sticky ? 'sticky' : '',
       top: stickyTop,
     }"
   >
-    <!-- 主容器 -->
     <view
-      class="relative z-10 h-full w-full flex overflow-hidden"
+      class="relative z-999 h-full w-full flex overflow-hidden"
       :style="{
-        backgroundColor: useConfig.getColor(backgroundColor),
+        background: useConfig.getColor(backgroundColor),
       }"
     >
-      <!-- 滚动容器 -->
       <scroll-view
-        class="flex-1 h-full"
+        class="h-full"
         :scroll-x="scrollable <= tabs.length"
         scroll-with-animation
         :scroll-left="scrollLeft"
         :show-scrollbar="false"
         enhanced
       >
-        <view
-          class="tabs-container relative h-full flex items-center min-w-full"
-        >
-          <!-- 标签项 -->
+        <view class="tabs-container relative h-full flex flex items-center">
           <view
             v-for="(item, idx) in tabs"
-            :key="`tab-${idx}-${item.value || item.label}`"
-            class="tabs-item-wrapper relative flex shrink-0 items-center justify-center px-3 py-1 cursor-pointer transition-all duration-200"
-            :class="{
-              'flex-1': scrollable > tabs.length,
-              'min-w-20': scrollable <= tabs.length,
-            }"
-            @click="handleTabChange(item, idx)"
+            :key="idx"
+            class="relative flex shrink-0 items-center justify-center px-3 py-1"
+            :class="scrollable > tabs.length ? 'flex-1' : ''"
+            @click="change(item, idx)"
           >
-            <view class="tabs-item flex items-center justify-center">
-              <!-- 标签文本 -->
+            <view class="tabs-item">
               <es-text
                 :text="item.label"
-                :size="fontSize"
                 :color="
                   useConfig.getColor(
                     currentIdx === idx ? activeColor : inactiveColor,
                   )
                 "
-                class="transition-all duration-200"
               />
-
-              <!-- 徽章点 -->
               <es-icons
                 v-if="item.badge?.dot"
                 type="uni"
                 name="smallcircle-filled"
-                size="12"
+                size="18"
                 color="error"
-                class="ml-1 flex-shrink-0"
+                class="ml-1"
               />
 
-              <!-- 徽章数字 -->
-              <view
+              <es-text
                 v-if="item.badge?.value"
-                class="ml-1 flex items-center justify-center min-w-4 h-4 px-1 rounded-full text-white text-xs leading-none flex-shrink-0"
-                :style="{ backgroundColor: useConfig.getColor('error') }"
-              >
-                {{ item.badge.value }}
-              </view>
+                :text="item.badge.value"
+                color="white"
+                size="20"
+                :style="{ background: useConfig.getColor('error') }"
+                class="ml-1 inline-block h-4 rounded-full text-align-center leading-4 w-4!"
+              />
             </view>
           </view>
 
-          <!-- 下划线指示器 -->
           <view
             v-if="lineStyle.width !== '0px'"
             class="tabs-line absolute bottom-0 rounded-full transition-all duration-300 ease-out"
@@ -244,44 +193,27 @@
           />
         </view>
       </scroll-view>
-
-      <!-- 展开按钮 -->
       <view
         v-if="mapNum <= tabs.length"
-        class="flex items-center justify-center px-3 border-l border-gray-100 cursor-pointer transition-all duration-200 hover:bg-gray-50"
-        :class="{
-          'rotate-180': showMap,
-        }"
+        class="flex items-center justify-center px-1 transition-transform"
+        :style="`transform: rotate(${showMap ? 180 : 0}deg);`"
         @click="showMap = !showMap"
       >
-        <es-icons
-          name="down"
-          type="uni"
-          size="16"
-          :color="useConfig.getColor(inactiveColor)"
-        />
+        <es-icons name="down" type="uni" size="xl" />
       </view>
     </view>
-
-    <!-- 下拉弹窗 -->
-    <uni-popup
-      ref="popup"
-      type="top"
-      :safe-area="false"
-      @mask-click="showMap = false"
-    >
+    <uni-popup ref="popup" type="top" @mask-click="showMap = false">
       <view
-        class="flex flex-wrap bg-white p-4 shadow-lg"
-        :style="{ paddingTop: `${mapTop}px` }"
+        class="flex flex-wrap bg-white p-4"
+        :style="`padding-top:${mapTop}px;`"
       >
         <es-button
           v-for="(item, idx) in tabs"
-          :key="`popup-tab-${idx}-${item.value || item.label}`"
-          :text="item.label"
-          class="mb-2 mr-2"
-          size="small"
+          :key="item.value"
+          :text="item.text"
+          class="mb-3 ml-3"
           :type="idx === currentIdx ? 'primary' : 'default'"
-          @click="handleTabChange(item, idx)"
+          @click="change(item, idx)"
         />
       </view>
     </uni-popup>
@@ -289,9 +221,10 @@
 </template>
 
 <style lang="scss" scoped>
-  /* 展开按钮旋转动画 */
-  .es-tabs view[class*='rotate-180'] {
-    transform: rotate(180deg);
-    transition: transform 0.3s ease;
+  /* #ifdef H5*/
+  :deep(.uni-scroll-view)::-webkit-scrollbar {
+    display: none;
   }
+
+  /* #endif */
 </style>

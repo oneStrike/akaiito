@@ -53,6 +53,9 @@ export interface EsTabsProps {
 
   /** 开启下拉展开所需的最小标签数量 */
   mapNum?: number
+
+  /** 是否居中显示标签 */
+  center?: boolean
 }
 
 /**
