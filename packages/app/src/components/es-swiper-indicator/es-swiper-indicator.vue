@@ -75,7 +75,7 @@
         </template>
         <template v-if="mode === 3">
           <view
-            class="ml-2 h-2 w-7 transition-all rounded-full shrink-0"
+            class="h-2 w-7 rounded-full ml-2 transition-all shrink-0"
             :style="{
               background: getBackgroundColor(item),
               width: modelValue === item - 1 ? '38rpx' : '16rpx',
