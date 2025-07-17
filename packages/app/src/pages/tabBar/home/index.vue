@@ -141,7 +141,7 @@
       <view class="absolute inset-0 bg-white/30 pointer-events-none" />
       <!-- 渐变遮罩 -->
       <view
-        class="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40 pointer-events-none"
+        class="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/20 via-transparent to-black/40"
       />
       <!-- 底部虚化效果 -->
       <view
