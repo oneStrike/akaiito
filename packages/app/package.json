@@ -9,8 +9,6 @@
   },
   "scripts": {
     "att": "att",
-    "generate-api": "orval",
-    "generate-api:old": "node scripts/generate-api.js",
     "preinstall": "npx only-allow pnpm",
     "reinstall": "rimraf node_modules **/*/node_modules --glob && pnpm install",
     "dev": "pnpm run dev:h5",
