@@ -1,4 +1,3 @@
-import type { IterateObject } from '@/types/global'
 import type dayjs from 'dayjs'
 
 declare module '*.vue' {

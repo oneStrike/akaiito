@@ -8,4 +8,5 @@ export const iconMapping = {
   left: 'line-md:chevron-small-left',
   right: 'line-md:chevron-small-right',
   menu: 'line-md:close-to-menu-transition',
+  thumb: 'majesticons:thumb-up-line',
 }

@@ -20,5 +20,6 @@ export function filePath(path: string) {
     path = path[0].path
   }
 
+  console.log('🚀 ~ filePath ~ BASIC_URL + path:', BASIC_URL + path)
   return BASIC_URL + path
 }

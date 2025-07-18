@@ -5,7 +5,7 @@
     indexPostApi,
     indexSliderApi,
   } from '@/apis/indexApi'
-  import EsTag from '@/components/es-tag/es-tag.vue'
+  import { useConfig } from '@/components/libs/hooks/useConfig'
 
   defineOptions({
     name: 'HomePage',
@@ -145,7 +145,7 @@
       />
       <!-- 底部虚化效果 -->
       <view
-        class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white via-white/80 to-transparent backdrop-blur-sm pointer-events-none"
+        class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#f2f3f4] via-[#f2f3f4cc] to-transparent backdrop-blur-sm pointer-events-none"
       />
     </view>
 
@@ -189,7 +189,7 @@
             waterfallData.rightColumn,
           ]"
           :key="`column-${columnIndex}`"
-          class="flex-1 flex flex-col gap-3"
+          class="flex gap-3 flex-1 flex-col"
         >
           <view
             v-for="item in column"
@@ -213,23 +213,43 @@
             <view class="p-4">
               <view class="inline-flex">
                 <es-text :line-clamp="2">
-                  <EsTag
-                    :text="item.categories[0]"
-                    type="primary"
-                    plain
-                    size="mini"
-                    class="mt-0.5"
-                  />
+                  <es-text
+                    class="border rounded-6rpx px-1.5 relative bottom-0.5 font-medium"
+                    color="primary"
+                    size="xs"
+                    :style="{ borderColor: useConfig.getColor('primary') }"
+                  >
+                    {{ item.categories[0] }}
+                  </es-text>
                   {{ item.title }}
                 </es-text>
               </view>
               <!-- 底部信息栏 -->
-              <view class="flex justify-between items-center p-2" />
+              <view class="flex justify-between items-center mt-2">
+                <image
+                  :src="$filePath(item.author.avatar)"
+                  mode="scaleToFill"
+                  class="w-5 h-5 rounded-full mr-1 bg-red"
+                />
+                <view class="flex items-center justify-between flex-1">
+                  <es-text color="minor" size="sm">
+                    {{ item.author.name }}
+                  </es-text>
+                  <view class="flex items-center">
+                    <es-icons color="minor" name="thumb" size="sm" />
+                    <es-text color="minor" size="sm" class="ml-1">
+                      {{ item.like_count }}
+                    </es-text>
+                  </view>
+                </view>
+              </view>
             </view>
           </view>
         </view>
       </view>
     </es-list>
+    <!-- 页面底部虚化背景 -->
+    <view class="page-bottom-blur" />
   </es-page>
 </template>
 
@@ -239,4 +259,19 @@
     padding-top: 60rpx;
   }
   /* #endif */
+  .page-bottom-blur {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    pointer-events: none;
+    z-index: 10;
+    background: linear-gradient(
+      to top,
+      #f2f3f4 80%,
+      rgba(242, 243, 244, 0.6) 100%
+    );
+    backdrop-filter: blur(12px);
+  }
 </style>
