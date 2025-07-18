@@ -1,23 +1,23 @@
 <script setup lang="ts">
-export interface EsEmptyProps {
-  text?: string
-}
+  export interface EsEmptyProps {
+    text?: string
+  }
 
-defineOptions({
-  name: 'EsEmpty',
-  options: {
-    virtualHost: true,
-  },
-})
+  defineOptions({
+    name: 'EsEmpty',
+    options: {
+      virtualHost: true,
+    },
+  })
 
-withDefaults(defineProps<EsEmptyProps>(), {
-  text: '暂无数据',
-})
+  withDefaults(defineProps<EsEmptyProps>(), {
+    text: '未找到相关内容',
+  })
 </script>
 
 <template>
-  <view class="mt-36 w-full flex flex-col items-center">
-    <es-icons name="empty" :size="188" color="info" />
+  <view class="w-full flex flex-col items-center">
+    <image src="@/static/icons/empty.svg" class="w-40 h-40" />
     <es-text :text="text" class="mt" color="info" />
   </view>
 </template>

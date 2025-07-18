@@ -16,26 +16,18 @@
       }
     },
     {
-      "path": "pages/tabBar/novel/index",
-      "name": "novel",
+      "path": "pages/tabBar/community/index",
+      "name": "community",
       "style": {
-        "navigationBarTitleText": "轻小说",
+        "navigationBarTitleText": "社区",
         "navigationStyle": "custom"
       }
     },
     {
-      "path": "pages/tabBar/portrait/index",
+      "path": "pages/tabBar/message/index",
       "name": "portrait",
       "style": {
-        "navigationBarTitleText": "写真",
-        "navigationStyle": "custom"
-      }
-    },
-    {
-      "path": "pages/tabBar/book-shelf/index",
-      "name": "bookShelf",
-      "style": {
-        "navigationBarTitleText": "书架",
+        "navigationBarTitleText": "消息",
         "navigationStyle": "custom"
       }
     },
@@ -67,31 +59,25 @@
         "pagePath": "pages/tabBar/home/index",
         "iconPath": "static/tabBar/home.png",
         "selectedIconPath": "static/tabBar/home-active.png",
-        "text": "精选"
+        "text": ""
       },
       {
-        "pagePath": "pages/tabBar/novel/index",
-        "iconPath": "static/tabBar/novel.png",
-        "selectedIconPath": "static/tabBar/novel-active.png",
-        "text": "轻小说"
+        "pagePath": "pages/tabBar/community/index",
+        "iconPath": "static/tabBar/community.png",
+        "selectedIconPath": "static/tabBar/community-active.png",
+        "text": ""
       },
       {
-        "pagePath": "pages/tabBar/portrait/index",
-        "iconPath": "static/tabBar/portrait.png",
-        "selectedIconPath": "static/tabBar/portrait-active.png",
-        "text": "写真"
-      },
-      {
-        "pagePath": "pages/tabBar/book-shelf/index",
-        "iconPath": "static/tabBar/bookshelf.png",
-        "selectedIconPath": "static/tabBar/bookshelf-active.png",
-        "text": "书架"
+        "pagePath": "pages/tabBar/message/index",
+        "iconPath": "static/tabBar/message.png",
+        "selectedIconPath": "static/tabBar/message-active.png",
+        "text": ""
       },
       {
         "pagePath": "pages/tabBar/profile/index",
         "iconPath": "static/tabBar/profile.png",
         "selectedIconPath": "static/tabBar/profile-active.png",
-        "text": "我的"
+        "text": ""
       }
     ]
   },

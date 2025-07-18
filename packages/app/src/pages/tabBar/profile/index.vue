@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/modules/user'
-
-defineOptions({
-  name: 'ProfilePage',
-})
-
-useUserStore().getUserInfo()
+  defineOptions({
+    name: 'ProfilePage',
+  })
 </script>
 
 <template>
-  <view>我是用户中心</view>
+  <es-page>
+    <es-empty />
+  </es-page>
 </template>
 
 <style scoped lang="scss"></style>

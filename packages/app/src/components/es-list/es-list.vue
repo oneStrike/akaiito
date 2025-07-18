@@ -32,10 +32,10 @@
     if (p) {
       params.value = Object.assign(params.value, p)
     }
-    if (typeof params.value.pageIndex !== 'number') {
-      params.value.pageIndex = 0
+    if (typeof params.value.page !== 'number') {
+      params.value.page = 0
     } else {
-      params.value.pageIndex++
+      params.value.page++
     }
     if (!params.value.pageSize) {
       params.value.pageSize = 15
@@ -43,10 +43,9 @@
 
     const data = await props.api({
       ...params.value,
-      limit: params.value.pageSize,
-      offset: (params.value.pageIndex + 1) * params.value.pageSize,
     })
-    if (params.value.pageIndex === 0) {
+    console.log(data)
+    if (params.value.page === 0) {
       listData.value = {
         ...data.pagination,
         data: data.posts,
@@ -71,7 +70,7 @@
   const refresh = async () => {
     listData.value = {}
     await sendRequest({
-      pageIndex: -1,
+      page: -1,
       pageSize: params.value.pageSize || 15,
     })
   }
@@ -86,7 +85,7 @@
   )
 
   const loadMoreStatus = computed(() => {
-    if (listData.value?.data?.length >= listData.value?.total) {
+    if (listData.value?.data?.length >= listData.value?.total_posts) {
       return 'noMore'
     } else if (loading.value) {
       return 'loading'
@@ -96,7 +95,7 @@
   })
   useRefresh(refresh)
   onReachBottom(() => {
-    if (listData.value?.total > listData.value?.data?.length) {
+    if (listData.value?.total_posts > listData.value?.data?.length) {
       sendRequest()
     }
   })

@@ -1,11 +1,13 @@
 <script setup lang="ts">
-defineOptions({
-  name: 'NovelPage',
-})
+  defineOptions({
+    name: 'NovelPage',
+  })
 </script>
 
 <template>
-  <view>我是轻小说</view>
+  <es-page>
+    <es-empty />
+  </es-page>
 </template>
 
 <style scoped lang="scss"></style>

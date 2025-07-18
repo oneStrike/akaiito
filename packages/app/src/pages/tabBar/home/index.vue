@@ -18,6 +18,33 @@
   const currentSwiperIndex = ref(0)
   const currentTab = ref(0)
 
+  // logo
+  const appLogo = ref('')
+
+  // 顶部 logo 透明度
+  const logoOpacity = ref(0)
+
+  // 监听页面滚动，渐显 logo
+  function handleScroll(e: any) {
+    // 兼容 uni-app/web，e.scrollTop 或 e.target.scrollTop
+    const scrollTop =
+      e?.scrollTop ?? e?.target?.scrollTop ?? window.scrollY ?? 0
+    // 200px 内渐变，超出则完全显示
+    logoOpacity.value = Math.min(scrollTop / 200, 1)
+  }
+
+  // 挂载时添加监听
+  onMounted(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', handleScroll, { passive: true })
+    }
+  })
+  onUnmounted(() => {
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  })
+
   // 分类数据
   const categories = ref()
 
@@ -95,6 +122,7 @@
   Promise.all([indexLogoApi(), indexSliderApi(), indexCategoriesApi()]).then(
     async (res) => {
       const [logo, swiper, category] = res
+      appLogo.value = logo.src
       swiperOptions.value = swiper
       categories.value = [
         {
@@ -111,13 +139,31 @@
       listParams.value = {
         id: 'new',
       }
-      listRef.value.refresh()
+      nextTick(() => {
+        listRef.value.refresh()
+      })
     },
   )
+
+  watch(currentTab, (val) => {
+    listParams.value = {
+      id: categories.value[val].value,
+    }
+  })
 </script>
 
 <template>
   <es-page :nav-bar="false" background-color="#f2f3f4">
+    <view
+      class="fixed top-0 z-999 flex justify-center w-full p-14rpx logo-fade"
+      :style="{ opacity: logoOpacity }"
+    >
+      <image
+        class="w-252rpx h-72rpx"
+        :src="$filePath(appLogo)"
+        mode="aspectFill"
+      />
+    </view>
     <!-- 顶部导航 -->
     <view class="px-4 pt-4 flex justify-between relative z-99">
       <es-icons name="menu" />
@@ -173,6 +219,7 @@
 
     <!--  文章瀑布流  -->
     <es-list
+      v-if="listParams.id"
       ref="listRef"
       v-model:params="listParams"
       v-model:list="listData"
@@ -214,7 +261,7 @@
               <view class="inline-flex">
                 <es-text :line-clamp="2">
                   <es-text
-                    class="border rounded-6rpx px-1.5 relative bottom-0.5 font-medium"
+                    class="border relative rounded-6rpx px-1.5 bottom-0.5 font-medium"
                     color="primary"
                     size="xs"
                     :style="{ borderColor: useConfig.getColor('primary') }"
@@ -254,6 +301,9 @@
 </template>
 
 <style scoped lang="scss">
+  .logo-fade {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
   /* #ifdef APP */
   .es-page {
     padding-top: 60rpx;

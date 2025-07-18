@@ -1,8 +1,8 @@
-import type { IterateObject } from '@/types/global'
 import * as fs from 'node:fs'
 import * as https from 'node:https'
-
 import * as path from 'node:path'
+
+import * as process from 'node:process'
 import { iconMapping } from '../../../static/icons/icon-mapping'
 
 const svgList: {
@@ -13,23 +13,29 @@ const svgList: {
   url: string
 }[] = []
 
-function encodeSvg(svg: string) {
-  const res = svg
-    .replace(
-      '<svg',
-      ~svg.indexOf('xmlns')
-        ? '<svg'
-        : '<svg xmlns="http://www.w3.org/2000/svg"',
-    )
-    .replace(/"/g, "'")
-    .replace(/%/g, '%25')
-    .replace(/#/g, '%23')
-    .replace(/\{/g, '%7B')
-    .replace(/\}/g, '%7D')
-    .replace(/</g, '%3C')
-    .replace(/>/g, '%3E')
-    .replace(/\s{2,}/g, '')
-  return `url("data:image/svg+xml;utf8,${res}")`
+/**
+ * 编码 SVG
+ * @param svg
+ */
+export function encodeSvg(svg: string): string {
+  // 确保SVG有xmlns属性
+  const svgWithNamespace = svg.includes('xmlns')
+    ? svg
+    : svg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"')
+
+  // 只编码必要的字符，保持颜色和其他属性完整
+  const encoded = svgWithNamespace
+    .replace(/"/g, '\'') // 双引号转单引号
+    .replace(/%/g, '%25') // 百分号
+    .replace(/#/g, '%23') // 井号（颜色值）
+    .replace(/\{/g, '%7B') // 左大括号
+    .replace(/\}/g, '%7D') // 右大括号
+    .replace(/</g, '%3C') // 小于号
+    .replace(/>/g, '%3E') // 大于号
+    .replace(/\s+/g, ' ') // 压缩空白字符
+    .trim()
+
+  return `url("data:image/svg+xml;utf8,${encoded}")`
 }
 
 // 下载svg数据
