@@ -1,15 +1,17 @@
 <script setup lang="ts">
   import {
     indexCategoriesApi,
-    indexLogoApi,
     indexPostApi,
     indexSliderApi,
   } from '@/apis/indexApi'
   import { useConfig } from '@/components/libs/hooks/useConfig'
+  import { useSystemStore } from '@/stores/modules/system'
 
   defineOptions({
     name: 'HomePage',
   })
+
+  const systemStore = useSystemStore()
 
   // 轮播数据
   const swiperOptions = ref<any[]>([])
@@ -18,31 +20,42 @@
   const currentSwiperIndex = ref(0)
   const currentTab = ref(0)
 
-  // logo
-  const appLogo = ref('')
-
   // 顶部 logo 透明度
   const logoOpacity = ref(0)
 
-  // 监听页面滚动，渐显 logo
-  function handleScroll(e: any) {
-    // 兼容 uni-app/web，e.scrollTop 或 e.target.scrollTop
-    const scrollTop =
-      e?.scrollTop ?? e?.target?.scrollTop ?? window.scrollY ?? 0
-    // 200px 内渐变，超出则完全显示
-    logoOpacity.value = Math.min(scrollTop / 200, 1)
+  // 节流函数 - 更适合滚动场景
+  function throttle<T extends (...args: any[]) => any>(
+    func: T,
+    wait: number,
+  ): (this: ThisParameterType<T>, ...args: Parameters<T>) => void {
+    let inThrottle: boolean
+    return function executedFunction(
+      this: ThisParameterType<T>,
+      ...args: Parameters<T>
+    ) {
+      if (!inThrottle) {
+        func.apply(this, args)
+        inThrottle = true
+        setTimeout(() => (inThrottle = false), wait)
+      }
+    }
   }
 
-  // 挂载时添加监听
-  onMounted(() => {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('scroll', handleScroll, { passive: true })
-    }
-  })
-  onUnmounted(() => {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('scroll', handleScroll)
-    }
+  // 监听页面滚动，渐显 logo
+  function handleScroll(scrollTop: number) {
+    // 在 100px 内渐变，超出则完全显示，使用更平滑的缓动函数
+    const maxScroll = 100
+    const progress = Math.min(scrollTop / maxScroll, 1)
+    // 使用 ease-out 缓动函数让过渡更自然
+    logoOpacity.value = progress * progress * (3 - 2 * progress)
+  }
+
+  // 使用节流优化性能，保持滚动跟手
+  const throttledHandleScroll = throttle(handleScroll, 8) // 约120fps，更跟手
+
+  // 使用 UniApp 的页面滚动监听
+  onPageScroll((e) => {
+    throttledHandleScroll(e.scrollTop)
   })
 
   // 分类数据
@@ -119,31 +132,28 @@
   }
 
   // 获取数据
-  Promise.all([indexLogoApi(), indexSliderApi(), indexCategoriesApi()]).then(
-    async (res) => {
-      const [logo, swiper, category] = res
-      appLogo.value = logo.src
-      swiperOptions.value = swiper
-      categories.value = [
-        {
-          label: '最新文章',
-          value: 'new',
-        },
-        ...category.map((item) => {
-          return {
-            label: item.name,
-            value: item.id,
-          }
-        }),
-      ]
-      listParams.value = {
-        id: 'new',
-      }
-      nextTick(() => {
-        listRef.value.refresh()
-      })
-    },
-  )
+  Promise.all([indexSliderApi(), indexCategoriesApi()]).then(async (res) => {
+    const [swiper, category] = res
+    swiperOptions.value = swiper
+    categories.value = [
+      {
+        label: '最新文章',
+        value: 'new',
+      },
+      ...category.map((item) => {
+        return {
+          label: item.name,
+          value: item.id,
+        }
+      }),
+    ]
+    listParams.value = {
+      id: 'new',
+    }
+    nextTick(() => {
+      listRef.value.refresh()
+    })
+  })
 
   watch(currentTab, (val) => {
     listParams.value = {
@@ -155,17 +165,19 @@
 <template>
   <es-page :nav-bar="false" background-color="#f2f3f4">
     <view
-      class="fixed top-0 z-999 flex justify-center w-full p-14rpx logo-fade"
+      class="fixed top-0 z-999 flex justify-center w-full flex items-center logo-fade bg-white h-12.5"
       :style="{ opacity: logoOpacity }"
     >
       <image
         class="w-252rpx h-72rpx"
-        :src="$filePath(appLogo)"
+        :src="$filePath(systemStore.appConfig.logo)"
         mode="aspectFill"
       />
     </view>
     <!-- 顶部导航 -->
-    <view class="px-4 pt-4 flex justify-between relative z-99">
+    <view
+      class="px-4 pt-4 flex justify-between relative z-99 relative z-99999 sticky top-0"
+    >
       <es-icons name="menu" />
       <es-icons name="search" />
     </view>
@@ -296,27 +308,14 @@
       </view>
     </es-list>
     <!-- 页面底部虚化背景 -->
-    <view class="page-bottom-blur" />
+    <view class="h-200" />
   </es-page>
 </template>
 
 <style scoped lang="scss">
   .logo-fade {
-    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .page-bottom-blur {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 60px;
-    pointer-events: none;
-    z-index: 10;
-    background: linear-gradient(
-      to top,
-      #f2f3f4 80%,
-      rgba(242, 243, 244, 0.6) 100%
-    );
-    backdrop-filter: blur(12px);
+    transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: opacity;
+    transform: translateZ(0); // 启用硬件加速
   }
 </style>

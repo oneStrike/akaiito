@@ -58,7 +58,7 @@
       <view class="flex mt-4">
         <view
           hover-class="opacity-70"
-          class="flex login-btn px-7 py-2 rounded-md flex items-center"
+          class="flex flex items-center login-btn px-7 py-2 rounded-md"
         >
           <es-icons class="mr-1" size="lg" name="login" color="white" />
           <es-text color="white">登录</es-text>

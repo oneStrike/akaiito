@@ -1,20 +1,17 @@
-import type {
-  GetPageConfigTypesRes,
-  GetSystemConfigTypesRes,
-} from '@/apis/types/appManage'
+import { indexLogoApi } from '@/apis'
 
 export interface UseSystemStoreState {
-  systemStatus: 'normal' | 'disable' | 'crash'
-  systemConfig: GetSystemConfigTypesRes | null
-  pageConfig: GetPageConfigTypesRes
+  appConfig: {
+    logo: string
+  }
 }
 
 export const useSystemStore = defineStore('useSystemStore', {
   state() {
     return {
-      systemStatus: 'normal',
-      systemConfig: null,
-      pageConfig: [],
+      appConfig: {
+        logo: '',
+      },
     } as UseSystemStoreState
   },
   persist: {
@@ -28,5 +25,10 @@ export const useSystemStore = defineStore('useSystemStore', {
     },
   },
 
-  actions: {},
+  actions: {
+    async getAppConfig() {
+      const [logoRes] = await Promise.all([indexLogoApi()])
+      this.appConfig.logo = logoRes.src
+    },
+  },
 })

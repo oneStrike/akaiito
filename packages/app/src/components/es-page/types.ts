@@ -39,4 +39,16 @@ export interface EsPageProps {
    * 是否占位底部tabBar位置,仅H5生效，padding-bottom:50rpx
    */
   tabBar?: boolean
+
+  /**
+   * 是否启用安全区域适配（顶部）
+   * 自动适配各种手机的水滴屏、刘海屏等异形屏
+   */
+  safeAreaTop?: boolean
+
+  /**
+   * 是否启用安全区域适配（底部）
+   * 自动适配底部指示器（如iPhone的Home Indicator）
+   */
+  safeAreaBottom?: boolean
 }

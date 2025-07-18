@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { EsPageProps } from '@/components/es-page/types'
   import { useConfig } from '@/components/libs/hooks/useConfig'
+  import { getSafeAreaBottomRpx, getSafeAreaTopRpx } from '@/utils/safeArea'
 
   defineOptions({
     name: 'EsPage',
@@ -16,12 +17,17 @@
     borderTop: true,
     tabBar: false,
     fixedButton: false,
+    safeAreaTop: false,
+    safeAreaBottom: false,
   })
+
   const currentPage = uni.$es.router.getRoute()
   const navigationBarTitleText = currentPage?.style?.navigationBarTitleText
   const customNavigation = currentPage?.style?.navigationStyle === 'custom'
+
   const pageStyle = computed(() => {
     let paddingBottom = props.fixedButton ? '200rpx' : '0'
+    let paddingTop = '0'
 
     // #ifdef H5
     if (props.tabBar) {
@@ -29,15 +35,29 @@
     }
     // #endif
 
+    // 安全区域适配 - 仅在APP平台生效
+    // #ifdef APP-PLUS
+    if (props.safeAreaTop) {
+      paddingTop = `${getSafeAreaTopRpx()}rpx`
+    }
+
+    if (props.safeAreaBottom) {
+      const safeAreaBottomHeight = getSafeAreaBottomRpx()
+      const currentPaddingBottom = props.fixedButton ? 200 : 0
+      paddingBottom = `${currentPaddingBottom + safeAreaBottomHeight}rpx`
+    }
+    // #endif
+
     return {
       backgroundColor: useConfig.getColor(props.backgroundColor),
       paddingBottom,
+      paddingTop,
     }
   })
 </script>
 
 <template>
-  <view class="es-page" :style="pageStyle">
+  <view class="es-page relative" :style="pageStyle">
     <template v-if="!customNavigation">
       <!-- #ifdef MP -->
       <view
@@ -64,7 +84,6 @@
     /* #ifndef H5*/
     width: 100vw;
     min-height: 100vh;
-    padding-top: 60rpx;
     /* #endif*/
     /* #ifdef H5*/
     width: 100%;
