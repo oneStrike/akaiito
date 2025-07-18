@@ -6,6 +6,7 @@
   } from '@/apis/indexApi'
   import { useConfig } from '@/components/libs/hooks/useConfig'
   import { useSystemStore } from '@/stores/modules/system'
+  import { getSafeAreaTopRpx } from '@/utils/safeArea'
 
   defineOptions({
     name: 'HomePage',
@@ -20,42 +21,29 @@
   const currentSwiperIndex = ref(0)
   const currentTab = ref(0)
 
-  // 顶部 logo 透明度
+  // Logo透明度
   const logoOpacity = ref(0)
 
-  // 节流函数 - 更适合滚动场景
-  function throttle<T extends (...args: any[]) => any>(
-    func: T,
-    wait: number,
-  ): (this: ThisParameterType<T>, ...args: Parameters<T>) => void {
-    let inThrottle: boolean
-    return function executedFunction(
-      this: ThisParameterType<T>,
-      ...args: Parameters<T>
-    ) {
-      if (!inThrottle) {
-        func.apply(this, args)
-        inThrottle = true
-        setTimeout(() => (inThrottle = false), wait)
-      }
-    }
-  }
+  // 标签页背景透明度（用于平滑过渡）
+  const tabsBgOpacity = ref(0)
 
-  // 监听页面滚动，渐显 logo
-  function handleScroll(scrollTop: number) {
-    // 在 100px 内渐变，超出则完全显示，使用更平滑的缓动函数
-    const maxScroll = 100
-    const progress = Math.min(scrollTop / maxScroll, 1)
-    // 使用 ease-out 缓动函数让过渡更自然
-    logoOpacity.value = progress * progress * (3 - 2 * progress)
-  }
-
-  // 使用节流优化性能，保持滚动跟手
-  const throttledHandleScroll = throttle(handleScroll, 8) // 约120fps，更跟手
-
-  // 使用 UniApp 的页面滚动监听
+  // 页面滚动监听
   onPageScroll((e) => {
-    throttledHandleScroll(e.scrollTop)
+    const scrollTop = e.scrollTop
+
+    // 计算透明度 (0-100px范围内渐变)
+    logoOpacity.value = Math.min(scrollTop / 100, 1)
+
+    // 计算标签页背景透明度（180-220px范围内渐变）
+    const bgStartThreshold = 180
+    const bgEndThreshold = 220
+    tabsBgOpacity.value = Math.max(
+      0,
+      Math.min(
+        (scrollTop - bgStartThreshold) / (bgEndThreshold - bgStartThreshold),
+        1,
+      ),
+    )
   })
 
   // 分类数据
@@ -165,27 +153,28 @@
 <template>
   <es-page :nav-bar="false" background-color="#f2f3f4">
     <view
-      class="fixed top-0 z-999 flex justify-center w-full flex items-center logo-fade bg-white h-12.5"
-      :style="{ opacity: logoOpacity }"
+      class="fixed top-0 z-999 flex justify-center w-full flex justify-between items-center logo-fade h-14 px-4"
+      :style="{
+        paddingTop: `${getSafeAreaTopRpx()}rpx`,
+        background: `rgba(255,255,255,${logoOpacity})`,
+      }"
     >
+      <es-icons name="menu" />
       <image
         class="w-252rpx h-72rpx"
         :src="$filePath(systemStore.appConfig.logo)"
         mode="aspectFill"
+        :style="{
+          opacity: logoOpacity,
+        }"
       />
-    </view>
-    <!-- 顶部导航 -->
-    <view
-      class="px-4 pt-4 flex justify-between relative z-99 relative z-99999 sticky top-0"
-    >
-      <es-icons name="menu" />
       <es-icons name="search" />
     </view>
 
     <!-- 动态背景图片容器 -->
     <view
       v-if="swiperOptions[currentSwiperIndex]?.image"
-      class="absolute top-0 left-0 right-0 h-400rpx overflow-hidden z-1"
+      class="absolute top-0 left-0 right-0 h-500rpx overflow-hidden z-1"
     >
       <image
         :src="$filePath(swiperOptions[currentSwiperIndex]?.image)"
@@ -203,9 +192,10 @@
       />
       <!-- 底部虚化效果 -->
       <view
-        class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-[#f2f3f4] via-[#f2f3f4cc] to-transparent backdrop-blur-sm pointer-events-none"
+        class="absolute left-0 right-0 pointer-events-none bottom-0 h-20 bg-gradient-to-t from-[#f2f3f4] via-[#f2f3f4cc] to-transparent backdrop-blur-sm"
       />
     </view>
+    <view class="h-14" />
 
     <!-- 轮播图 -->
     <es-swiper
@@ -218,14 +208,32 @@
       :auto-play="false"
       indicator-color="rgba(255,255,255,0.7)"
       indicator-active-color="white"
-      class="relative overflow-hidden z-10 rounded-xl mx-3 mt-6"
+      class="relative overflow-hidden z-10 rounded-xl mx-3"
       :arrows="true"
       :gap="30"
       @change="handleSwiperChange"
     />
 
     <!-- 标签页 -->
-    <view v-if="categories" class="relative z-10 px-5 mt-5">
+    <view
+      v-if="categories"
+      class="relative z-10 px-5 sticky top-14 py-2 mt-5 transition-all duration-200"
+      :class="{
+        'shadow-sm border-b border-gray-100': tabsBgOpacity > 0.5,
+      }"
+      :style="{
+        backgroundColor: `rgba(255, 255, 255, ${tabsBgOpacity})`,
+        backdropFilter: tabsBgOpacity > 0 ? 'blur(8px)' : 'none',
+      }"
+    >
+      <!-- 背景层 -->
+      <view
+        class="absolute inset-0 -z-1"
+        :style="{
+          backgroundColor: '#f2f3f4',
+          opacity: 1 - tabsBgOpacity,
+        }"
+      />
       <es-tabs v-model="currentTab" :scrollable="1" :tabs="categories" />
     </view>
 

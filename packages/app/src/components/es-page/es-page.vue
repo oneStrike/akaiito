@@ -18,11 +18,10 @@
     tabBar: false,
     fixedButton: false,
     safeAreaTop: false,
-    safeAreaBottom: false,
+    safeAreaBottom: true,
   })
 
   const currentPage = uni.$es.router.getRoute()
-  const navigationBarTitleText = currentPage?.style?.navigationBarTitleText
   const customNavigation = currentPage?.style?.navigationStyle === 'custom'
 
   const pageStyle = computed(() => {

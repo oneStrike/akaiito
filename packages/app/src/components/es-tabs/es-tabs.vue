@@ -22,6 +22,7 @@
     backgroundColor: 'transparent',
     lineHeight: 6,
     mapNum: 7,
+    f2f3f4,
   })
 
   const emits = defineEmits<{
@@ -148,7 +149,7 @@
           <view
             v-for="(item, idx) in tabs"
             :key="idx"
-            class="relative flex shrink-0 items-center justify-center px-3 py-1"
+            class="relative flex shrink-0 items-center justify-center px-3 pb-1"
             :class="scrollable > tabs.length ? 'flex-1' : ''"
             @click="change(item, idx)"
           >
