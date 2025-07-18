@@ -9,4 +9,6 @@ export const iconMapping = {
   right: 'line-md:chevron-small-right',
   menu: 'line-md:close-to-menu-transition',
   thumb: 'majesticons:thumb-up-line',
+  login: 'line-md:login',
+  register: 'line-md:account-add',
 }

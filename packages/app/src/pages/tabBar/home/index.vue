@@ -304,11 +304,6 @@
   .logo-fade {
     transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  /* #ifdef APP */
-  .es-page {
-    padding-top: 60rpx;
-  }
-  /* #endif */
   .page-bottom-blur {
     position: fixed;
     left: 0;

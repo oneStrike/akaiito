@@ -1,54 +1,43 @@
 <script setup lang="ts">
-import type { EsPageProps } from '@/components/es-page/types'
-import { useConfig } from '@/components/libs/hooks/useConfig'
+  import type { EsPageProps } from '@/components/es-page/types'
+  import { useConfig } from '@/components/libs/hooks/useConfig'
 
-defineOptions({
-  name: 'EsPage',
-  options: {
-    virtualHost: true,
-  },
-})
+  defineOptions({
+    name: 'EsPage',
+    options: {
+      virtualHost: true,
+    },
+  })
 
-const props = withDefaults(defineProps<EsPageProps>(), {
-  backgroundColor: '#ffffff',
-  padding: false,
-  empty: false,
-  navBar: true,
-  borderTop: true,
-  tabBar: false,
-  fixedButton: false,
-})
-const currentPage = uni.$es.router.getRoute()
-const navigationBarTitleText = currentPage?.style?.navigationBarTitleText
-const customNavigation = currentPage?.style?.navigationStyle === 'custom'
-const pageStyle = computed(() => {
-  let paddingBottom = props.fixedButton ? '200rpx' : '0'
+  const props = withDefaults(defineProps<EsPageProps>(), {
+    backgroundColor: '#ffffff',
+    padding: false,
+    empty: false,
+    borderTop: true,
+    tabBar: false,
+    fixedButton: false,
+  })
+  const currentPage = uni.$es.router.getRoute()
+  const navigationBarTitleText = currentPage?.style?.navigationBarTitleText
+  const customNavigation = currentPage?.style?.navigationStyle === 'custom'
+  const pageStyle = computed(() => {
+    let paddingBottom = props.fixedButton ? '200rpx' : '0'
 
-  // #ifdef H5
-  if (props.tabBar) {
-    paddingBottom = '50px'
-  }
-  // #endif
+    // #ifdef H5
+    if (props.tabBar) {
+      paddingBottom = '50px'
+    }
+    // #endif
 
-  return {
-    backgroundColor: useConfig.getColor(props.backgroundColor),
-    paddingBottom,
-  }
-})
+    return {
+      backgroundColor: useConfig.getColor(props.backgroundColor),
+      paddingBottom,
+    }
+  })
 </script>
 
 <template>
   <view class="es-page" :style="pageStyle">
-    <slot v-if="navBar" name="nabBar">
-      <es-nav-bar
-        v-if="customNavigation"
-        :left="!currentPage?.tabBar"
-        :title="navigationBarTitleText || title"
-        :back="!currentPage?.tabBar"
-        :border-bottom="borderTop"
-        :background="navBarBackground"
-      />
-    </slot>
     <template v-if="!customNavigation">
       <!-- #ifdef MP -->
       <view
@@ -71,15 +60,16 @@ const pageStyle = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.es-page {
-  /* #ifndef H5*/
-  width: 100vw;
-  min-height: 100vh;
-  /* #endif*/
-  /* #ifdef H5*/
-  width: 100%;
-  min-height: 100%;
-  box-sizing: border-box;
-  /* #endif*/
-}
+  .es-page {
+    /* #ifndef H5*/
+    width: 100vw;
+    min-height: 100vh;
+    padding-top: 60rpx;
+    /* #endif*/
+    /* #ifdef H5*/
+    width: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+    /* #endif*/
+  }
 </style>

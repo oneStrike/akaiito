@@ -3,10 +3,6 @@
  */
 export interface EsPageProps {
   /**
-   * 是否展示导航栏
-   */
-  navBar?: boolean
-  /**
    * 导航栏背景色
    */
   navBarBackground?: string
