@@ -1,9 +1,11 @@
 <script setup lang="ts">
+  import type { EsWaterfallInstance } from '@/components/es-waterfall'
   import {
     indexCategoriesApi,
     indexPostApi,
     indexSliderApi,
   } from '@/apis/indexApi'
+  import { EsWaterfall } from '@/components/es-waterfall'
   import { useConfig } from '@/components/libs/hooks/useConfig'
   import { useSystemStore } from '@/stores/modules/system'
   import { getSafeAreaTopRpx } from '@/utils/safeArea'
@@ -34,76 +36,22 @@
     // 计算透明度 (0-100px范围内渐变)
     logoOpacity.value = Math.min(scrollTop / 100, 1)
 
-    // 计算标签页背景透明度（180-220px范围内渐变）
-    const bgStartThreshold = 180
-    const bgEndThreshold = 220
-    tabsBgOpacity.value = Math.max(
-      0,
-      Math.min(
-        (scrollTop - bgStartThreshold) / (bgEndThreshold - bgStartThreshold),
-        1,
-      ),
-    )
+    tabsBgOpacity.value = Math.max(0, Math.min(scrollTop - 200, 1))
   })
 
   // 分类数据
   const categories = ref()
 
-  // 文章数据
+  // 文章数据参数
   const listParams = ref({
     id: '',
   })
-  const listData = ref()
-  const listRef = ref()
+
+  // 瀑布流组件引用
+  const waterfallRef = ref<EsWaterfallInstance>()
 
   // 背景图片切换状态
   const isTransitioning = ref(false)
-
-  // 瀑布流数据分组 - 将数据分成左右两列
-  const waterfallData = computed(() => {
-    if (!listData.value?.data) {
-      return { leftColumn: [], rightColumn: [] }
-    }
-
-    const leftColumn: any[] = []
-    const rightColumn: any[] = []
-    let leftHeight = 0
-    let rightHeight = 0
-
-    // 智能分配策略：根据内容长度和图片估算高度
-    listData.value.data.forEach((item: any) => {
-      // 估算卡片高度（基础高度 + 标题长度 + 图片高度估算）
-      let estimatedHeight = 100 // 基础padding和边距
-
-      // 标题高度估算（假设每行约20px，最多2行）
-      if (item.title) {
-        const titleLines = Math.min(Math.ceil(item.title.length / 15), 2)
-        estimatedHeight += titleLines * 20
-      }
-
-      // 图片高度估算（如果有图片，假设平均高度150px）
-      if (item.thumbnail) {
-        estimatedHeight += 150
-      }
-
-      // 时间信息高度
-      if (item.created_at) {
-        estimatedHeight += 20
-      }
-
-      // 选择高度较小的列
-      if (leftHeight <= rightHeight) {
-        leftColumn.push(item)
-        leftHeight += estimatedHeight
-      } else {
-        rightColumn.push(item)
-        rightHeight += estimatedHeight
-      }
-    })
-
-    return { leftColumn, rightColumn }
-  })
-
   // 处理轮播切换
   const handleSwiperChange = (index: number) => {
     if (index !== currentSwiperIndex.value) {
@@ -117,6 +65,12 @@
         }, 150) // 淡入时间
       }, 150) // 淡出时间
     }
+  }
+
+  // 处理瀑布流项目点击
+  const handleItemClick = (item: any) => {
+    console.log('点击了文章:', item)
+    // 这里可以添加跳转到文章详情的逻辑
   }
 
   // 获取数据
@@ -138,39 +92,47 @@
     listParams.value = {
       id: 'new',
     }
+    // 触发瀑布流组件刷新
     nextTick(() => {
-      listRef.value.refresh()
+      waterfallRef.value?.refresh()
     })
   })
 
+  // 监听标签页切换
   watch(currentTab, (val) => {
     listParams.value = {
       id: categories.value[val].value,
     }
+    // 切换标签时刷新瀑布流
+    nextTick(() => {
+      waterfallRef.value?.refresh()
+    })
   })
 </script>
 
 <template>
   <es-page :nav-bar="false" background-color="#f2f3f4">
     <view
-      class="fixed top-0 z-999 flex justify-center w-full flex justify-between items-center logo-fade h-14 px-4"
+      class="fixed top-0 z-999 flex w-full flex items-center logo-fade h-14 box-content"
       :style="{
         paddingTop: `${getSafeAreaTopRpx()}rpx`,
         background: `rgba(255,255,255,${logoOpacity})`,
       }"
     >
-      <es-icons name="menu" />
+      <es-icons name="menu" class="absolute left-4" />
       <image
-        class="w-252rpx h-72rpx"
+        class="w-252rpx h-72rpx absolute left-1/2 -translate-x-1/2"
         :src="$filePath(systemStore.appConfig.logo)"
         mode="aspectFill"
         :style="{
           opacity: logoOpacity,
         }"
       />
-      <es-icons name="search" />
+      <es-icons name="search" class="absolute right-4" />
     </view>
-
+    <!--  #ifndef APP   -->
+    <view class="h-14" />
+    <!--  #endif   -->
     <!-- 动态背景图片容器 -->
     <view
       v-if="swiperOptions[currentSwiperIndex]?.image"
@@ -195,7 +157,6 @@
         class="absolute left-0 right-0 pointer-events-none bottom-0 h-20 bg-gradient-to-t from-[#f2f3f4] via-[#f2f3f4cc] to-transparent backdrop-blur-sm"
       />
     </view>
-    <view class="h-14" />
 
     <!-- 轮播图 -->
     <es-swiper
@@ -237,84 +198,86 @@
       <es-tabs v-model="currentTab" :scrollable="1" :tabs="categories" />
     </view>
 
-    <!--  文章瀑布流  -->
-    <es-list
+    <!-- 瀑布流组件 -->
+    <EsWaterfall
       v-if="listParams.id"
-      ref="listRef"
-      v-model:params="listParams"
-      v-model:list="listData"
+      ref="waterfallRef"
       :api="indexPostApi"
+      :params="listParams"
       :auto-load="false"
-      class="p-3"
+      :column-gap="12"
+      :row-gap="12"
+      :padding="12"
+      :default-image-height="120"
+      :title-chars-per-line="12"
+      :title-max-lines="2"
+      :title-line-height="20"
+      :card-base-height="80"
+      :debounce-delay="100"
+      class="mt-3"
+      @item-click="handleItemClick"
     >
-      <!-- 瀑布流容器 -->
-      <view class="flex gap-3">
-        <!-- 动态渲染左右两列 -->
+      <!-- 自定义卡片内容 -->
+      <template #item="{ item }">
         <view
-          v-for="(column, columnIndex) in [
-            waterfallData.leftColumn,
-            waterfallData.rightColumn,
-          ]"
-          :key="`column-${columnIndex}`"
-          class="flex gap-3 flex-1 flex-col"
+          class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
         >
+          <!-- 图片容器 -->
           <view
-            v-for="item in column"
-            :key="`${columnIndex}-${item.id}`"
-            class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
+            v-if="item.thumbnail && typeof item.thumbnail === 'string'"
+            class="relative overflow-hidden"
           >
-            <!-- 图片容器 -->
-            <view v-if="item.thumbnail" class="relative overflow-hidden">
-              <image
-                :src="$filePath(item.thumbnail)"
-                class="w-full duration-300 transition-transform hover:scale-105"
-                mode="widthFix"
-                :style="{ height: 'auto' }"
-              />
-              <!-- 图片遮罩渐变 -->
-              <view
-                class="absolute inset-0 bg-gradient-to-t to-transparent from-black/10 opacity-0"
-              />
-            </view>
-            <!-- 内容区域 -->
-            <view class="p-4">
-              <view class="inline-flex">
-                <es-text :line-clamp="2">
-                  <es-text
-                    class="border relative rounded-6rpx px-1.5 bottom-0.5 font-medium"
-                    color="primary"
-                    size="xs"
-                    :style="{ borderColor: useConfig.getColor('primary') }"
-                  >
-                    {{ item.categories[0] }}
-                  </es-text>
-                  {{ item.title }}
+            <image
+              :src="$filePath(item.thumbnail)"
+              class="w-full duration-300 transition-transform hover:scale-105"
+              mode="widthFix"
+              :style="{ height: 'auto' }"
+              :lazy-load="true"
+            />
+            <!-- 图片遮罩渐变 -->
+            <view
+              class="absolute inset-0 bg-gradient-to-t to-transparent from-black/10 opacity-0"
+            />
+          </view>
+          <!-- 内容区域 -->
+          <view class="p-4">
+            <view class="inline-flex">
+              <es-text :line-clamp="2">
+                <es-text
+                  class="border relative rounded-6rpx px-1.5 bottom-0.5 font-medium"
+                  color="primary"
+                  size="xs"
+                  :style="{ borderColor: useConfig.getColor('primary') }"
+                >
+                  {{ item.categories[0] }}
                 </es-text>
-              </view>
-              <!-- 底部信息栏 -->
-              <view class="flex justify-between items-center mt-2">
-                <image
-                  :src="$filePath(item.author.avatar)"
-                  mode="scaleToFill"
-                  class="w-5 h-5 rounded-full mr-1 bg-red"
-                />
-                <view class="flex items-center justify-between flex-1">
-                  <es-text color="minor" size="sm">
-                    {{ item.author.name }}
+                {{ item.title }}
+              </es-text>
+            </view>
+            <!-- 底部信息栏 -->
+            <view class="flex justify-between items-center mt-2">
+              <image
+                :src="$filePath(item.author.avatar)"
+                mode="scaleToFill"
+                class="w-5 h-5 rounded-full mr-1 bg-red"
+              />
+              <view class="flex items-center justify-between flex-1">
+                <es-text color="minor" size="sm">
+                  {{ item.author.name }}
+                </es-text>
+                <view class="flex items-center">
+                  <es-icons color="minor" name="thumb" size="sm" />
+                  <es-text color="minor" size="sm" class="ml-1">
+                    {{ item.like_count }}
                   </es-text>
-                  <view class="flex items-center">
-                    <es-icons color="minor" name="thumb" size="sm" />
-                    <es-text color="minor" size="sm" class="ml-1">
-                      {{ item.like_count }}
-                    </es-text>
-                  </view>
                 </view>
               </view>
             </view>
           </view>
         </view>
-      </view>
-    </es-list>
+      </template>
+    </EsWaterfall>
+
     <!-- 页面底部虚化背景 -->
     <view class="h-200" />
   </es-page>

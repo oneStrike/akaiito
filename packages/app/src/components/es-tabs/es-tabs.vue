@@ -145,7 +145,7 @@
         :show-scrollbar="false"
         enhanced
       >
-        <view class="tabs-container relative h-full flex flex items-center">
+        <view class="relative h-full flex flex items-center tabs-container">
           <view
             v-for="(item, idx) in tabs"
             :key="idx"

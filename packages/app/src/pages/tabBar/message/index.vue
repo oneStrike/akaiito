@@ -43,7 +43,7 @@
         class="flex flex-col justify-center items-center"
         @click="currentMessageType = item.value"
       >
-        <image class="w-88rpx h-88rpx mb-1 roun" :src="item.icon" />
+        <image class="w-88rpx h-88rpx mb-1 rounded-full" :src="item.icon" />
         <es-text :color="currentMessageType === item.value ? 'primary' : ''">
           {{ item.label }}
         </es-text>
@@ -58,7 +58,7 @@
       <view class="flex mt-4">
         <view
           hover-class="opacity-70"
-          class="flex flex items-center login-btn px-7 py-2 rounded-md"
+          class="flex flex items-center py-2 login-btn px-7 rounded-md"
         >
           <es-icons class="mr-1" size="lg" name="login" color="white" />
           <es-text color="white">登录</es-text>
@@ -67,7 +67,7 @@
           hover-class="opacity-70"
           class="flex px-7 py-2 rounded-md flex items-center ml-4 register-btn"
         >
-          <es-icons class="mr-1" size="lg" name="register" color="white" />
+          <es-icons class="mr-1" size="lg" name="register" color="hite" />
           <es-text color="white">注册</es-text>
         </view>
       </view>

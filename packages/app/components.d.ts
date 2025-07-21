@@ -26,5 +26,6 @@ declare module 'vue' {
     EsText: typeof import('./src/components/es-text/es-text.vue')['default']
     EsToast: typeof import('./src/components/es-toast/es-toast.vue')['default']
     EsUpload: typeof import('./src/components/es-upload/es-upload.vue')['default']
+    EsWaterfall: typeof import('./src/components/es-waterfall/es-waterfall.vue')['default']
   }
 }
