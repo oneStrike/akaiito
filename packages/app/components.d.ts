@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     EsBackTop: typeof import('./src/components/es-back-top/es-back-top.vue')['default']
     EsButton: typeof import('./src/components/es-button/es-button.vue')['default']
+    EsCard: typeof import('./src/components/es-card/es-card.vue')['default']
     EsCell: typeof import('./src/components/es-cell/es-cell.vue')['default']
     EsEmpty: typeof import('./src/components/es-empty/es-empty.vue')['default']
     EsIcons: typeof import('./src/components/es-icons/es-icons.vue')['default']

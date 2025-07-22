@@ -48,6 +48,12 @@ export interface EsWaterfallProps {
    * @default 'id'
    */
   idField?: string
+
+  /**
+   * 展示模式
+   * @default 'image'
+   */
+  mode?: 'card' | 'image'
 }
 
 /**
@@ -62,17 +68,22 @@ export interface EsWaterfallInstance {
   /**
    * 瀑布流数据状态
    */
-  waterfallData: {
-    /**
-     * 左列数据
-     */
-    leftColumn: any[]
+  waterfallData: WaterfallData
+}
 
-    /**
-     * 右列数据
-     */
-    rightColumn: any[]
-  }
+/**
+ * 瀑布流数据接口
+ */
+export interface WaterfallData {
+  /**
+   * 左列数据
+   */
+  leftColumn: any[]
+
+  /**
+   * 右列数据
+   */
+  rightColumn: any[]
 }
 
 /**

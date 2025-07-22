@@ -1,5 +1,11 @@
 <script setup lang="ts">
-  import { indexCategoriesApi, indexSliderApi } from '@/apis/indexApi'
+  import {
+    indexCategoriesApi,
+    indexPostApi,
+    indexSliderApi,
+  } from '@/apis/indexApi'
+  import { EsWaterfall } from '@/components/es-waterfall'
+  import { useConfig } from '@/components/libs/hooks/useConfig'
   import { useSystemStore } from '@/stores/modules/system'
   import { getSafeAreaTopRpx } from '@/utils/safeArea'
 
@@ -39,6 +45,8 @@
   const listParams = ref({
     id: '',
   })
+  const listData = ref()
+  const listRef = ref()
 
   // 背景图片切换状态
   const isTransitioning = ref(false)
@@ -82,6 +90,9 @@
     listParams.value = {
       id: 'new',
     }
+    nextTick(() => {
+      listRef.value.refresh()
+    })
   })
 
   // 监听标签页切换
@@ -89,13 +100,17 @@
     listParams.value = {
       id: categories.value[val].value,
     }
+
+    nextTick(() => {
+      listRef.value.refresh()
+    })
   })
 </script>
 
 <template>
   <es-page :nav-bar="false" background-color="#f2f3f4">
     <view
-      class="fixed top-0 z-999 flex w-full flex items-center logo-fade h-14 box-content"
+      class="flex w-full flex items-center fixed top-0 z-999 logo-fade h-14 box-content"
       :style="{
         paddingTop: `${getSafeAreaTopRpx()}rpx`,
         background: `rgba(255,255,255,${logoOpacity})`,
@@ -160,7 +175,7 @@
     <!-- 标签页 -->
     <view
       v-if="categories"
-      class="relative z-10 transition-all px-5 sticky top-14 py-2 mt-5 duration-200"
+      class="relative z-10 transition-all duration-200 px-5 sticky top-14 py-2 mt-5"
       :class="{
         'shadow-sm border-b border-gray-100': tabsBgOpacity > 0.5,
       }"
@@ -179,6 +194,56 @@
       />
       <es-tabs v-model="currentTab" :scrollable="1" :tabs="categories" />
     </view>
+
+    <es-list
+      ref="listRef"
+      v-model:list="listData"
+      v-model:params="listParams"
+      :api="indexPostApi"
+      :auto-load="false"
+    >
+      <EsWaterfall
+        v-if="listData?.data"
+        :data="listData?.data"
+        image-field="thumbnail"
+        mode="card"
+      >
+        <template #item="{ item }">
+          <view class="inline-flex">
+            <es-text :line-clamp="2">
+              <es-text
+                class="relative border rounded-6rpx px-1.5 bottom-0.5 font-medium"
+                color="primary"
+                size="xs"
+                :style="{ borderColor: useConfig.getColor('primary') }"
+              >
+                {{ item.categories[0] }}
+              </es-text>
+              {{ item.title }}
+            </es-text>
+          </view>
+
+          <view class="flex items-center justify-between mt-2">
+            <image
+              :src="$filePath(item.author.avatar)"
+              mode="scaleToFill"
+              class="w-5 h-5 rounded-full mr-1 bg-red"
+            />
+            <view class="flex items-center justify-between flex-1">
+              <es-text color="minor" size="sm">
+                {{ item.author.name }}
+              </es-text>
+              <view class="flex items-center">
+                <es-icons color="minor" name="thumb" size="sm" />
+                <es-text color="minor" size="sm" class="ml-1">
+                  {{ item.like_count }}
+                </es-text>
+              </view>
+            </view>
+          </view>
+        </template>
+      </EsWaterfall>
+    </es-list>
   </es-page>
 </template>
 

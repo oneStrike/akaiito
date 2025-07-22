@@ -28,6 +28,7 @@
     defaultImageHeight: 240,
     debounceDelay: 100,
     idField: 'id',
+    mode: 'card',
   })
 
   // 组件事件定义
@@ -81,11 +82,23 @@
           uni.getImageInfo({
             src,
             success: (res) => {
-              const size: ImageSize = { width: res.width, height: res.height }
-              imageSizeCache.value.set(src, size)
-              resolve({ src, size })
+              // 验证图片尺寸的有效性
+              if (res.width > 0 && res.height > 0) {
+                const size: ImageSize = { width: res.width, height: res.height }
+                imageSizeCache.value.set(src, size)
+                resolve({ src, size })
+              } else {
+                // 图片尺寸无效时使用默认尺寸
+                const defaultSize: ImageSize = {
+                  width: 300,
+                  height: props.defaultImageHeight,
+                }
+                imageSizeCache.value.set(src, defaultSize)
+                resolve({ src, size: defaultSize })
+              }
             },
-            fail: () => {
+            fail: (error) => {
+              console.warn(`图片加载失败: ${src}`, error)
               // 图片加载失败时使用默认尺寸
               const defaultSize: ImageSize = {
                 width: 300,
@@ -129,17 +142,23 @@
 
     // 图片高度计算
     const imageUrl = get(item, props.imageField)
-    if (imageUrl && typeof imageUrl === 'string' && imageSize) {
-      const cardWidth =
-        (uni.getSystemInfoSync().windowWidth -
-          props.padding * 2 -
-          props.columnGap) /
-          2
-      const imageHeight = (imageSize.height / imageSize.width) * cardWidth
-      height += imageHeight
-    } else if (imageUrl) {
-      // 没有图片尺寸信息时使用默认高度
-      height += props.defaultImageHeight
+    if (imageUrl && typeof imageUrl === 'string') {
+      if (imageSize && imageSize.width > 0 && imageSize.height > 0) {
+        // 有有效的图片尺寸信息
+        const cardWidth =
+          (uni.getSystemInfoSync().windowWidth -
+            props.padding * 2 -
+            props.columnGap) /
+            2
+        const imageHeight = (imageSize.height / imageSize.width) * cardWidth
+        height += imageHeight
+      } else {
+        // 没有图片尺寸信息或尺寸无效时使用默认高度
+        height += props.defaultImageHeight
+      }
+    } else {
+      // 没有图片时也使用一个基础高度，避免高度为0
+      height += props.defaultImageHeight * 0.6 // 使用较小的默认高度
     }
 
     return height
@@ -188,13 +207,20 @@
     const imageSizes = await preloadImages(imageUrls)
 
     // 批量计算高度并分配
-    newItems.forEach((item) => {
+    newItems.forEach((item, itemIndex) => {
       const imageUrl = get(item, props.imageField)
       const imageSize = imageUrl ? imageSizes.get(imageUrl) : undefined
       const cardHeight = calculateCardHeight(item, imageSize)
 
-      // 选择高度较小的列
-      if (columnHeights.value.left <= columnHeights.value.right) {
+      // 选择高度较小的列，如果高度相同则交替分配
+      const heightDiff = Math.abs(
+        columnHeights.value.left - columnHeights.value.right,
+      )
+      const shouldUseLeft =
+        columnHeights.value.left < columnHeights.value.right ||
+        (heightDiff < 10 && itemIndex % 2 === 0) // 高度差小于10时交替分配
+
+      if (shouldUseLeft) {
         waterfallData.value.leftColumn.push(item)
         columnHeights.value.left += cardHeight
       } else {
@@ -257,118 +283,56 @@
 </script>
 
 <template>
-  <view class="es-waterfall">
+  <view class="w-full">
     <!-- 瀑布流容器 -->
     <view
-      class="waterfall-container"
+      class="w-full flex box-border"
       :style="{
         padding: `0 ${padding}rpx`,
         gap: `${columnGap}rpx`,
       }"
     >
-      <!-- 左列 -->
-      <view class="waterfall-column">
+      <!-- 使用 v-for 渲染列 -->
+      <view
+        v-for="(columnData, columnKey) in waterfallData"
+        :key="columnKey"
+        class="flex flex-1 flex-col"
+      >
         <view
-          v-for="(item, index) in waterfallData.leftColumn"
+          v-for="(item, index) in columnData"
           :key="get(item, idField) || index"
-          class="waterfall-item"
+          class="w-full cursor-pointer transition-transform duration-200 hover:translate-y-[-1rpx]"
+          :class="
+            mode === 'card'
+              ? 'rounded-2 overflow-hidden shadow-sm bg-white p-3'
+              : ''
+          "
           :style="{ marginBottom: `${rowGap}rpx` }"
           @click="handleItemClick(item, index)"
         >
-          <slot name="item" :item="item" :index="index">
-            <!-- 默认只显示图片 -->
-            <view v-if="get(item, imageField)" class="default-image">
-              <image :src="get(item, imageField)" mode="widthFix" lazy-load />
-            </view>
-          </slot>
-        </view>
-      </view>
-
-      <!-- 右列 -->
-      <view class="waterfall-column">
-        <view
-          v-for="(item, index) in waterfallData.rightColumn"
-          :key="get(item, idField) || index"
-          class="waterfall-item"
-          :style="{ marginBottom: `${rowGap}rpx` }"
-          @click="handleItemClick(item, index)"
-        >
-          <slot name="item" :item="item" :index="index">
-            <!-- 默认只显示图片 -->
-            <view v-if="get(item, imageField)" class="default-image">
-              <image :src="get(item, imageField)" mode="widthFix" lazy-load />
-            </view>
-          </slot>
+          <view class="w-full">
+            <slot name="image" :item="item">
+              <image
+                :src="get(item, imageField)"
+                mode="widthFix"
+                lazy-load
+                class="w-full h-auto block"
+              />
+            </slot>
+            <slot name="item" :item="item" />
+          </view>
         </view>
       </view>
     </view>
 
     <!-- 空状态 -->
-    <view v-if="!data || data.length === 0" class="empty-state">
+    <view
+      v-if="!data || data.length === 0"
+      class="flex justify-center items-center min-h-100"
+    >
       <slot name="empty">
-        <view class="default-empty">暂无数据</view>
+        <view class="text-gray-400 text-7">暂无数据</view>
       </slot>
     </view>
   </view>
 </template>
-
-<style lang="scss" scoped>
-  .es-waterfall {
-    width: 100%;
-
-    .waterfall-container {
-      display: flex;
-      width: 100%;
-      box-sizing: border-box;
-
-      .waterfall-column {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-
-        &:first-child {
-          margin-right: calc(var(--column-gap, 24rpx) / 2);
-        }
-
-        &:last-child {
-          margin-left: calc(var(--column-gap, 24rpx) / 2);
-        }
-
-        .waterfall-item {
-          width: 100%;
-          cursor: pointer;
-          transition: transform 0.2s ease;
-
-          &:hover {
-            transform: translateY(-2rpx);
-          }
-
-          .default-image {
-            width: 100%;
-            border-radius: 16rpx;
-            overflow: hidden;
-            box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
-
-            :deep(image) {
-              width: 100%;
-              height: auto;
-              display: block;
-            }
-          }
-        }
-      }
-    }
-
-    .empty-state {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 400rpx;
-
-      .default-empty {
-        color: #999;
-        font-size: 28rpx;
-      }
-    }
-  }
-</style>
