@@ -50,7 +50,6 @@
     "crypto-js": "^4.2.0",
     "fs-extra": "^11.3.0",
     "ip2region": "^2.3.0",
-    "lodash": "^4.17.21",
     "yaml": "^2.7.1"
   },
   "devDependencies": {
@@ -62,7 +61,6 @@
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/koa": "^2.15.0",
-    "@types/lodash": "^4.17.16",
     "@types/node": "^22.15.14",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^8.0.0",
