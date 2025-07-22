@@ -11,7 +11,7 @@ import type {
  *  @标签 首页部分/LOGO
  *  @方式 GET
  *  @地址 /wp-json/zib-app/v1/index/logo
- *  @更新时间 2025-07-17 21:47:34
+ *  @更新时间 2025-07-22 08:26:37
  */
 export const indexLogoApi = (): Promise<IndexLogoResponse> => {
   return httpHandler({
@@ -25,7 +25,7 @@ export const indexLogoApi = (): Promise<IndexLogoResponse> => {
  *  @标签 首页部分/幻灯片
  *  @方式 GET
  *  @地址 /wp-json/zib-app/v1/index/slider
- *  @更新时间 2025-07-17 21:47:34
+ *  @更新时间 2025-07-22 08:26:37
  */
 export const indexSliderApi = (): Promise<IndexSliderResponse> => {
   return httpHandler({
@@ -39,7 +39,7 @@ export const indexSliderApi = (): Promise<IndexSliderResponse> => {
  *  @标签 首页部分/分类
  *  @方式 GET
  *  @地址 /wp-json/zib-app/v1/index/categories
- *  @更新时间 2025-07-17 21:47:34
+ *  @更新时间 2025-07-22 08:26:37
  */
 export const indexCategoriesApi = (): Promise<IndexCategoriesResponse> => {
   return httpHandler({
@@ -53,7 +53,7 @@ export const indexCategoriesApi = (): Promise<IndexCategoriesResponse> => {
  *  @标签 首页部分/文章
  *  @方式 GET
  *  @地址 /wp-json/zib-app/v1/index/post
- *  @更新时间 2025-07-17 21:47:34
+ *  @更新时间 2025-07-22 08:26:37
  */
 export const indexPostApi = (params: IndexPostRequest): Promise<IndexPostResponse> => {
   return httpHandler({

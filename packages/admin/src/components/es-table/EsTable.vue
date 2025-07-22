@@ -510,7 +510,7 @@
             <template v-if="item.columnType === 'image'">
               <el-image
                 fit="contain"
-                class="w-10 align-middle"
+                class="align-middle w-10"
                 :src="row[item.prop!] || defaultImage"
                 :preview-src-list="row[item!.prop!] ? [row[item.prop!]] : []"
                 :z-index="999999"
@@ -573,7 +573,7 @@
     </el-table>
 
     <!-- 分页组件 -->
-    <div ref="paginationRef" class="flex justify-end pt-3 pr-3">
+    <div ref="paginationRef" class="pr-3 pt-3 flex justify-end">
       <el-pagination
         v-model:current-page="pageIndex"
         v-model:page-size="otherParams.pageSize"

@@ -29,10 +29,10 @@ export type IndexCategoriesResponse = {
  *  @标签 首页部分/文章
  *  @方式 
  *  @地址 
- *  @更新时间 2025-07-17 21:47:34
+ *  @更新时间 2025-07-22 08:26:37
  */
 export interface IndexPostRequest {
-  /* ID 编号 */
+  /* ID 编号（等于new为获取最新文章） */
   id?: string
 
   /* 文章列表页 */
@@ -49,8 +49,6 @@ export type IndexPostResponse = {
   id: number
   /* 文章标题 */
   title: string
-  /* 发布时间（ISO格式） */
-  date: string
   /* 作者信息对象 */
   author: {
   /* 作者ID */
@@ -62,12 +60,8 @@ export type IndexPostResponse = {
   }
   /* 文章所属分类数组 */
   categories: string[]
-  /* 文章标签数组 */
-  tags: string[]
   /* 文章缩略图URL，false表示无缩略图 */
   thumbnail: boolean
-  /* 文章评论数量 */
-  comments_count: string
   /* 文章点赞数量 */
   like_count: number
   }[]

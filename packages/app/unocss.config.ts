@@ -1,14 +1,23 @@
 import { presetUni } from '@uni-helper/unocss-preset-uni'
-import { defineConfig, transformerVariantGroup } from 'unocss'
+import {
+  defineConfig,
+  presetIcons,
+  transformerDirectives,
+  transformerVariantGroup,
+} from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetUni({
-      attributify: false,
+    presetUni(),
+    presetIcons({
+      scale: 1.2,
+      warn: true,
+      extraProperties: {
+        'display': 'inline-block',
+        'vertical-align': 'middle',
+      },
     }),
   ],
-  transformers: [transformerVariantGroup()],
-  shortcuts: [],
   rules: [
     [
       // 正则表达式匹配 'border-' 后面的方向词或为空
@@ -25,4 +34,5 @@ export default defineConfig({
       { autocomplete: 'border-<left|right|top|bottom>|border-' },
     ],
   ],
+  transformers: [transformerDirectives(), transformerVariantGroup()],
 })

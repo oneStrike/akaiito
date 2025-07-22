@@ -28,14 +28,46 @@ export class OpenAPIGenerator {
    */
   async fetchOpenAPISpec(url: string): Promise<OpenAPISpec | null> {
     try {
+      console.log(`正在请求 OpenAPI 文档: ${url}`)
       const response = await fetch(url)
+
+      console.log(`响应状态: ${response.status} ${response.statusText}`)
+      console.log(`响应头 Content-Type: ${response.headers.get('content-type')}`)
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch OpenAPI spec: ${response.statusText}`)
+        const errorText = await response.text()
+        console.error(`服务器响应错误内容:`, errorText)
+        throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`)
       }
-      this.spec = await response.json()
-      return this.spec
+
+      // 检查响应的 Content-Type
+      const contentType = response.headers.get('content-type')
+      if (!contentType || !contentType.includes('application/json')) {
+        console.warn(`警告: 响应的 Content-Type 不是 JSON: ${contentType}`)
+      }
+
+      // 先获取响应文本，然后尝试解析
+      const responseText = await response.text()
+      console.log(`响应内容长度: ${responseText.length} 字符`)
+
+      if (!responseText.trim()) {
+        throw new Error('服务器返回了空响应')
+      }
+
+      // 显示响应内容的前100个字符用于调试
+      console.log(`响应内容预览: ${responseText.substring(0, 100)}${responseText.length > 100 ? '...' : ''}`)
+
+      try {
+        this.spec = JSON.parse(responseText)
+        console.log('✅ OpenAPI 文档解析成功')
+        return this.spec
+      } catch (parseError) {
+        console.error('❌ JSON 解析失败:', parseError)
+        console.error('响应内容:', responseText)
+        throw new Error(`JSON 解析失败: ${parseError instanceof Error ? parseError.message : String(parseError)}`)
+      }
     } catch (error) {
-      console.error('Error fetching OpenAPI spec:', error)
+      console.error('❌ 获取 OpenAPI 文档失败:', error)
       throw error
     }
   }
