@@ -19,6 +19,7 @@ declare module 'vue' {
     EsPicker: typeof import('./src/components/es-picker/es-picker.vue')['default']
     EsPreviewVideo: typeof import('./src/components/es-preview-video/es-preview-video.vue')['default']
     EsSearch: typeof import('./src/components/es-search/es-search.vue')['default']
+    EsSkeleton: typeof import('./src/components/es-skeleton/es-skeleton.vue')['default']
     EsSwiper: typeof import('./src/components/es-swiper/es-swiper.vue')['default']
     EsSwiperIndicator: typeof import('./src/components/es-swiper-indicator/es-swiper-indicator.vue')['default']
     EsTabs: typeof import('./src/components/es-tabs/es-tabs.vue')['default']
