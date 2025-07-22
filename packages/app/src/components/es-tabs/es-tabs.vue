@@ -22,7 +22,6 @@
     backgroundColor: 'transparent',
     lineHeight: 6,
     mapNum: 7,
-    f2f3f4,
   })
 
   const emits = defineEmits<{
@@ -149,7 +148,7 @@
           <view
             v-for="(item, idx) in tabs"
             :key="idx"
-            class="relative flex shrink-0 items-center justify-center px-3 pb-1"
+            class="relative flex items-center shrink-0 justify-center px-3 pb-1"
             :class="scrollable > tabs.length ? 'flex-1' : ''"
             @click="change(item, idx)"
           >
@@ -184,7 +183,7 @@
 
           <view
             v-if="lineStyle.width !== '0px'"
-            class="tabs-line absolute bottom-0 rounded-full transition-all duration-300 ease-out"
+            class="rounded-full tabs-line absolute bottom-0 transition-all duration-300 ease-out"
             :style="{
               backgroundColor: useConfig.getColor(activeColor),
               height: useConfig.addUnit(lineHeight),

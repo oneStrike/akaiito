@@ -1,16 +1,9 @@
 import type { EsRequest } from '@/utils/request/request'
 import { useCookies } from '@/hooks/useCookies'
 import { useRouter } from '@/hooks/useRouter'
-import { useUserStore } from '@/stores/modules/user'
 
 export const interceptor: EsRequest['interceptor'] = {
   request: async (config) => {
-    config!.header = Object.assign(config?.header ?? {}, {
-      'authorization': useUserStore().token.accessToken,
-      'platform': 'web',
-      'version': '2.2.5',
-      'x-csrf-token': useCookies.get('csrfToken'),
-    })
     return config!
   },
   response: (response, url) => {
