@@ -291,6 +291,7 @@
       v-if="versionModal.show && versionModal.comic !== null"
       v-model="versionModal.show"
       :comic="versionModal.comic"
+      :data-dict="formTool.getDictItem()"
     />
   </div>
 </template>

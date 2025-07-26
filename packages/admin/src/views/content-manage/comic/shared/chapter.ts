@@ -126,6 +126,9 @@ export const chapterColumn: EsTableColumn = formOptionsToTableColumn(
   chapterFormOptions,
   ['remark'],
   {
+    title: {
+      columnType: 'link',
+    },
     isPreview: {
       label: '试读章节',
     },

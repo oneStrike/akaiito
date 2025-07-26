@@ -131,6 +131,9 @@ export const versionColumn: EsTableColumn = formOptionsToTableColumn(
   versionForm,
   ['remark', 'disclaimer', 'copyright', 'purchaseAmount', 'description'],
   {
+    versionName: {
+      columnType: 'link',
+    },
     action: {
       width: 160,
     },
