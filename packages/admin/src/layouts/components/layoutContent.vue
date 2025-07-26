@@ -26,22 +26,28 @@
 </template>
 
 <style scoped lang="scss">
-  /*水平滑动过渡 - SlideX (带虚化效果)*/
+  /*水平滑动过渡 - SlideX (高性能优化版)*/
   .slideX-transform-enter-active,
   .slideX-transform-leave-active {
-    transition: all 0.3s ease-out;
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
   }
 
   .slideX-transform-enter-from {
-    transform: translateX(-20px);
+    transform: translate3d(-15px, 0, 0) scale(0.98);
     opacity: 0;
-    filter: blur(4px);
   }
 
   .slideX-transform-leave-to {
-    transform: translateX(20px);
+    transform: translate3d(15px, 0, 0) scale(0.98);
     opacity: 0;
-    filter: blur(4px);
+  }
+
+  .slideX-transform-enter-to,
+  .slideX-transform-leave-from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
   }
 
   /*渐变过渡*/
@@ -55,248 +61,199 @@
     opacity: 0;
   }
 
-  /*幻灯片过渡*/
-
+  /*幻灯片过渡 (性能优化版)*/
   .slide-transform-enter-active,
   .slide-transform-leave-active {
-    transition: all 0.75s ease-out;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
   }
 
   .slide-transform-enter-to {
     position: absolute;
     right: 0;
+    transform: translate3d(0, 0, 0);
   }
 
   .slide-transform-enter-from {
     position: absolute;
     right: -100%;
+    transform: translate3d(100%, 0, 0);
   }
 
   .slide-transform-leave-to {
     position: absolute;
     left: -100%;
+    transform: translate3d(-100%, 0, 0);
   }
 
   .slide-transform-leave-from {
     position: absolute;
     left: 0;
+    transform: translate3d(0, 0, 0);
   }
 
-  /*缩放过渡*/
+  /*缩放过渡 (性能优化版)*/
   .scale-transform-enter-active,
   .scale-transform-leave-active {
-    transition: all 0.1s ease;
+    transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
   }
 
   .scale-transform-enter-from,
   .scale-transform-leave-to {
     opacity: 0;
-    transform: scale(0.9);
+    transform: translate3d(0, 0, 0) scale(0.9);
   }
 
-  /*组合过渡*/
+  .scale-transform-enter-to,
+  .scale-transform-leave-from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  /*组合过渡 (性能优化版)*/
   .scale-slide-transform-enter-active,
   .scale-slide-transform-leave-active {
     position: absolute;
-    transition: all 0.85s ease;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
   }
 
   .scale-slide-transform-enter-from {
     left: -100%;
+    transform: translate3d(-100%, 0, 0) scale(1);
   }
 
   .scale-slide-transform-enter-to {
     left: 0;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   .scale-slide-transform-leave-from {
-    transform: scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   .scale-slide-transform-leave-to {
-    transform: scale(0.8);
+    transform: translate3d(0, 0, 0) scale(0.8);
   }
-  /*缩放淡入过渡 - ZoomFade*/
+
+  /*缩放淡入过渡 - ZoomFade (性能优化版)*/
   .zoomFade-transform-enter-active,
   .zoomFade-transform-leave-active {
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
   }
 
   .zoomFade-transform-enter-from {
-    transform: scale(1.1);
+    transform: translate3d(0, 0, 0) scale(1.1);
     opacity: 0;
   }
 
   .zoomFade-transform-leave-to {
-    transform: scale(0.9);
+    transform: translate3d(0, 0, 0) scale(0.9);
     opacity: 0;
   }
 
-  /*虚化过渡 - Blur (Vben风格)*/
-  .blur-transform-enter-active,
-  .blur-transform-leave-active {
-    transition: all 0.4s ease;
-    position: relative;
+  .zoomFade-transform-enter-to,
+  .zoomFade-transform-leave-from {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 1;
   }
 
-  .blur-transform-enter-active::before,
-  .blur-transform-leave-active::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(0px);
-    transition: backdrop-filter 0.4s ease;
-    z-index: -1;
+  /*虚化过渡 - Blur (性能优化版)*/
+  .blur-transform-enter-active,
+  .blur-transform-leave-active {
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
   }
 
   .blur-transform-enter-from,
   .blur-transform-leave-to {
     opacity: 0;
-    transform: scale(0.98);
+    transform: translate3d(0, 0, 0) scale(0.96);
   }
 
-  .blur-transform-enter-from::before,
-  .blur-transform-leave-to::before {
-    backdrop-filter: blur(8px);
+  .blur-transform-enter-to,
+  .blur-transform-leave-from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
-  /*毛玻璃过渡 - Glass*/
+  /*毛玻璃过渡 - Glass (性能优化版)*/
   .glass-transform-enter-active,
   .glass-transform-leave-active {
-    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    position: relative;
-  }
-
-  .glass-transform-enter-active::before,
-  .glass-transform-leave-active::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(0px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.5s ease;
-    z-index: -1;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
   }
 
   .glass-transform-enter-from,
   .glass-transform-leave-to {
     opacity: 0;
-    transform: translateY(20px) scale(0.95);
+    transform: translate3d(0, 15px, 0) scale(0.95);
   }
 
-  .glass-transform-enter-from::before,
-  .glass-transform-leave-to::before {
-    backdrop-filter: blur(20px) saturate(180%);
-    background: rgba(255, 255, 255, 0.25);
+  .glass-transform-enter-to,
+  .glass-transform-leave-from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
-  /*深度虚化过渡 - DeepBlur*/
+  /*深度虚化过渡 - DeepBlur (性能优化版)*/
   .deepBlur-transform-enter-active,
   .deepBlur-transform-leave-active {
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .deepBlur-transform-enter-active::before,
-  .deepBlur-transform-leave-active::before {
-    content: '';
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.05)
-    );
-    backdrop-filter: blur(0px) brightness(1.1);
-    transition: all 0.6s ease;
-    z-index: -1;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
   }
 
   .deepBlur-transform-enter-from,
   .deepBlur-transform-leave-to {
     opacity: 0;
-    transform: scale(0.9) rotateX(10deg);
-    filter: blur(2px);
+    transform: translate3d(0, 0, 0) scale(0.9) rotateX(5deg);
   }
 
-  .deepBlur-transform-enter-from::before,
-  .deepBlur-transform-leave-to::before {
-    backdrop-filter: blur(15px) brightness(1.2);
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.2),
-      rgba(255, 255, 255, 0.1)
-    );
+  .deepBlur-transform-enter-to,
+  .deepBlur-transform-leave-from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotateX(0deg);
   }
 
-  /*渐进虚化过渡 - ProgressiveBlur*/
+  /*渐进虚化过渡 - ProgressiveBlur (性能优化版)*/
   .progressiveBlur-transform-enter-active {
-    animation: progressive-blur-in 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-      forwards;
+    animation: progressive-enter 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   .progressiveBlur-transform-leave-active {
-    animation: progressive-blur-out 0.6s cubic-bezier(0.55, 0.085, 0.68, 0.53)
-      forwards;
+    animation: progressive-leave 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
   }
 
-  @keyframes progressive-blur-in {
+  @keyframes progressive-enter {
     0% {
       opacity: 0;
-      transform: scale(1.1);
-      filter: blur(10px);
-      backdrop-filter: blur(20px);
-    }
-    30% {
-      opacity: 0.3;
-      transform: scale(1.05);
-      filter: blur(5px);
-      backdrop-filter: blur(10px);
-    }
-    70% {
-      opacity: 0.8;
-      transform: scale(1.02);
-      filter: blur(2px);
-      backdrop-filter: blur(3px);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-      filter: blur(0px);
-      backdrop-filter: blur(0px);
-    }
-  }
-
-  @keyframes progressive-blur-out {
-    0% {
-      opacity: 1;
-      transform: scale(1);
-      filter: blur(0px);
-      backdrop-filter: blur(0px);
+      transform: translate3d(0, 0, 0) scale(1.05);
     }
     50% {
       opacity: 0.5;
-      transform: scale(0.98);
-      filter: blur(3px);
-      backdrop-filter: blur(8px);
+      transform: translate3d(0, 0, 0) scale(1.02);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes progressive-leave {
+    0% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
     }
     100% {
       opacity: 0;
-      transform: scale(0.95);
-      filter: blur(8px);
-      backdrop-filter: blur(15px);
+      transform: translate3d(0, 0, 0) scale(0.95);
     }
   }
 </style>

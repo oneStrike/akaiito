@@ -14,7 +14,6 @@ declare module 'vue' {
     EsEmpty: typeof import('./src/components/es-empty/es-empty.vue')['default']
     EsIcons: typeof import('./src/components/es-icons/es-icons.vue')['default']
     EsList: typeof import('./src/components/es-list/es-list.vue')['default']
-    EsLoading: typeof import('./src/components/es-loading/es-loading.vue')['default']
     EsNavBar: typeof import('./src/components/es-nav-bar/es-nav-bar.vue')['default']
     EsPage: typeof import('./src/components/es-page/es-page.vue')['default']
     EsPicker: typeof import('./src/components/es-picker/es-picker.vue')['default']
