@@ -214,12 +214,6 @@
             size="small"
             class="px-3 py-1 rounded-full font-medium shadow-sm"
           >
-            <i
-              :class="
-                row.isFinished ? 'i-tabler-check-circle' : 'i-tabler-clock'
-              "
-              class="mr-1 text-xs"
-            />
             {{ row.isFinished ? '已完结' : '连载中' }}
           </el-tag>
         </div>
@@ -244,10 +238,6 @@
           class="cursor-pointer"
           @click="openAuthorDetail(comicAuthor)"
         >
-          <i
-            :class="comicAuthor.isPrimary ? 'i-tabler-crown' : 'i-tabler-user'"
-            class="mr-1 text-xs"
-          />
           {{ comicAuthor?.name }}
         </el-tag>
       </template>
@@ -255,7 +245,7 @@
       <template #categoryIds="{ row }">
         <div
           v-if="row.comicCategories && row.comicCategories.length > 0"
-          class="flex flex-wrap gap-1.5 justify-center items-center"
+          class="flex flex-wrap justify-center items-center gap-1.5"
         >
           <el-tag
             v-for="comicCategory in row.comicCategories"

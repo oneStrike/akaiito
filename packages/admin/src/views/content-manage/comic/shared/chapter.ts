@@ -125,15 +125,12 @@ export const chapterFormOptions: EsFormOptions[] = [
 
 export const chapterColumn: EsTableColumn = formOptionsToTableColumn(
   chapterFormOptions,
-  ['remark', 'purchaseAmount'],
+  ['remark', 'purchaseAmount', 'isPreview'],
   {
     title: {
       columnType: 'link',
     },
 
-    isPreview: {
-      label: '试读章节',
-    },
     publishAt: {
       width: 120,
       formatter: (row: any) => {

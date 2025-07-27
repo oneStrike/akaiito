@@ -155,6 +155,22 @@
       @toolbar-handler="openForm()"
       @link="openChapterDetail"
     >
+      <template #title="{ row }">
+        <div class="flex items-center gap-1">
+          <el-text type="primary" class="cursor-pointer">
+            {{ row.title }}
+          </el-text>
+          <el-tag
+            v-if="row.isPreview"
+            size="small"
+            type="success"
+            effect="dark"
+          >
+            试
+          </el-tag>
+        </div>
+      </template>
+
       <template #isPublished="{ row }">
         <EsSwitch
           :row="row"
