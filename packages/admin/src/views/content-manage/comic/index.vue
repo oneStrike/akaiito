@@ -281,6 +281,38 @@
         </div>
       </template>
 
+      <template #readRule="{ row, value }">
+        <el-tag
+          :type="
+            row.readRule === 0
+              ? 'success'
+              : row.readRule === 1
+                ? 'info'
+                : row.readRule === 2
+                  ? 'warning'
+                  : 'danger'
+          "
+          size="small"
+        >
+          {{ value }}
+        </el-tag>
+      </template>
+
+      <template #serialStatus="{ row, value }">
+        <el-tag
+          :type="
+            row.serialStatus === 1
+              ? 'success'
+              : row.serialStatus === 2
+                ? 'info'
+                : 'warning'
+          "
+          size="small"
+        >
+          {{ value }}
+        </el-tag>
+      </template>
+
       <template #isPublished="{ row }">
         <div class="flex justify-center">
           <div class="relative">

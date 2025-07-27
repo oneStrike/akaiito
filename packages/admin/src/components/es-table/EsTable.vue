@@ -505,7 +505,15 @@
       >
         <template #default="{ row, column, $index }">
           <!-- 自定义插槽列 -->
-          <slot :name="item.prop" :row="row" :column="column" :index="$index">
+          <slot
+            :name="item.prop"
+            :row="row"
+            :column="column"
+            :index="$index"
+            :value="
+              item.options ? item.options.get(row[item.prop!]) : row[item.prop!]
+            "
+          >
             <!-- 图片列：支持预览功能 -->
             <template v-if="item.columnType === 'image'">
               <el-image

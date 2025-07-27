@@ -6,6 +6,7 @@ export type EsTableColumn = (Partial<TableColumnCtx<any>> & {
   defaultValue?: string
   columnType?: 'image' | 'link' | 'date' | 'index'
   index?: number
+  options?: Map<any, any>
 })[]
 /**
  * 分页响应数据的通用接口

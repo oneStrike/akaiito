@@ -73,7 +73,7 @@ export function formOptionsToTableColumn(
         const optionsMap = new Map(
           options.map((option) => [option.value, option.label]),
         )
-
+        column.options = optionsMap
         column.formatter = (row, tableColumn, cellValue) => {
           return optionsMap.get(cellValue) ?? '-'
         }
