@@ -76,13 +76,13 @@ export const chapterFormOptions: EsFormOptions[] = [
     component: 'InputNumber',
     props: {
       span: 2,
-      label: '购买金额',
-      rules: useValidate.required('购买金额'),
+      label: '所需积分',
+      rules: useValidate.required('所需积分'),
     },
     componentProps: {
       min: 1,
       max: 999999,
-      placeholder: '请输入购买金额',
+      placeholder: '请输入所需积分',
       maxlength: 50,
     },
   },

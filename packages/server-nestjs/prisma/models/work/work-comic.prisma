@@ -53,7 +53,7 @@ model WorkComic {
   canComment       Boolean             @default(true) @map("can_comment")
   /// 查看规则（0=所有人, 1=登录用户, 2=会员, 3=积分购买）
   readRule         Int                 @default(0) @map("read_rule") @db.SmallInt
-  /// 购买需要消耗的金额（分为单位）
+  /// 购买需要消耗的积分
   purchaseAmount   Int?                @default(0) @map("purchase_amount")
   /// SEO标题
   seoTitle         String?             @map("seo_title") @db.VarChar(200)

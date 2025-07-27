@@ -179,32 +179,19 @@
       @toolbar-handler="toolbarHandler"
     >
       <template #name="{ row }">
-        <div class="flex items-center justify-center gap-2">
+        <div class="flex items-center justify-center gap-1">
           <el-button
             link
             type="primary"
-            class="font-medium text-left hover:text-blue-600 transition-colors duration-200"
             @click="((currentComic = row), (detailModal = true))"
           >
             <span class="line-clamp-2 max-w-32">{{ row.name }}</span>
           </el-button>
           <div class="flex gap-1">
-            <el-tag
-              v-if="row.isNew"
-              size="small"
-              type="danger"
-              effect="dark"
-              class="text-xs px-1.5 py-0.5 rounded-full"
-            >
+            <el-tag v-if="row.isNew" size="small" type="danger" effect="dark">
               新
             </el-tag>
-            <el-tag
-              v-if="row.isHot"
-              size="small"
-              type="warning"
-              effect="dark"
-              class="text-xs px-1.5 py-0.5 rounded-full"
-            >
+            <el-tag v-if="row.isHot" size="small" type="warning" effect="dark">
               热
             </el-tag>
             <el-tag
@@ -212,7 +199,6 @@
               size="small"
               type="success"
               effect="dark"
-              class="text-xs px-1.5 py-0.5 rounded-full"
             >
               荐
             </el-tag>
@@ -320,20 +306,9 @@
               :row="row"
               :request="batchUpdateComicStatusApi"
               field="isPublished"
-              class="transition-all duration-200 hover:scale-105"
-              @success="tableRef?.reset()"
+              ids
+              @success="tableRef?.refresh()"
             />
-            <div class="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
-              <span
-                :class="{
-                  'text-green-600 font-medium': row.isPublished,
-                  'text-gray-400': !row.isPublished,
-                }"
-                class="text-xs whitespace-nowrap"
-              >
-                {{ row.isPublished ? '已发布' : '未发布' }}
-              </span>
-            </div>
           </div>
         </div>
       </template>

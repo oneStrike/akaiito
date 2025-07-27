@@ -38,7 +38,7 @@ export class ChapterDTO {
   @Rule(validateString)
   remark?: string
 
-  // 购买金额（可选，数字）
+  // 所需积分（可选，数字）
   @Rule(validateNumber)
   purchaseAmount?: number
 

@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
+import { BatchEnabledDto } from '@/common/dto/batch.dto'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { PrismaService } from '@/global/services/prisma.service'
 import { CategoryTypesEnum } from './category.constant'
@@ -143,7 +143,7 @@ export class WorkCategoryService extends BaseRepositoryService<'WorkCategory'> {
    * @param updateStatusDto 状态更新数据
    * @returns 更新结果
    */
-  async updateCategoryStatus(updateStatusDto: BatchOperationStatusIdsDto) {
+  async updateCategoryStatus(updateStatusDto: BatchEnabledDto) {
     const { ids, isEnabled } = updateStatusDto
 
     // 验证所有分类是否存在

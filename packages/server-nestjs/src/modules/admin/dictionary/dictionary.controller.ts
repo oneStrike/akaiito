@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
+import { BatchEnabledDto, CountDto } from '@/common/dto/batch.dto'
 import { IdDto, IdsDto } from '@/common/dto/id.dto'
 import { DictionaryService } from '@/modules/shared/dictionary/dictionary.service'
 import { CreateDictionaryDto } from '@/modules/shared/dictionary/dto/create-dictionary.dto'
@@ -78,7 +78,7 @@ export class DictionaryController {
     summary: '批量启用禁用字典',
     model: CountDto,
   })
-  enable(@Body() query: BatchOperationStatusIdsDto) {
+  enable(@Body() query: BatchEnabledDto) {
     return this.dictionaryService.updateMany({
       where: { id: { in: query.ids } },
       data: { isEnabled: query.isEnabled },
@@ -130,7 +130,7 @@ export class DictionaryController {
     summary: '启用禁用字典项',
     model: CountDto,
   })
-  enableItem(@Body() query: BatchOperationStatusIdsDto) {
+  enableItem(@Body() query: BatchEnabledDto) {
     return this.dictionaryService.updateDictionaryItem(query)
   }
 }

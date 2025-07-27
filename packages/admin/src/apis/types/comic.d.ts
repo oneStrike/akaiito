@@ -55,7 +55,7 @@ export interface CreateComicRequest {
   /* 阅读规则 */
   readRule: number
 
-  /* 购买金额（分为单位） */
+  /* 所需积分（分为单位） */
   purchaseAmount?: number | null
 
   /* 评分（1-10分，保留1位小数） */
@@ -253,7 +253,7 @@ export interface ComicPageResponse {
     /* 阅读规则 */
     readRule: number
 
-    /* 购买金额（分为单位） */
+    /* 所需积分（分为单位） */
     purchaseAmount?: number | null
 
     /* 总章节数 */
@@ -416,7 +416,7 @@ export type ComicDetailResponse = {
   /* 阅读规则 */
   readRule: number
 
-  /* 购买金额（分为单位） */
+  /* 所需积分（分为单位） */
   purchaseAmount?: number | null
 
   /* 总章节数 */
@@ -546,7 +546,7 @@ export interface UpdateComicRequest {
   /* 阅读规则 */
   readRule?: number
 
-  /* 购买金额（分为单位） */
+  /* 所需积分（分为单位） */
   purchaseAmount?: number | null
 
   /* 总章节数 */

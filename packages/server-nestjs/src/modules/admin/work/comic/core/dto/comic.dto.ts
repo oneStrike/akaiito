@@ -270,7 +270,7 @@ export class BaseComicDto {
   readRule!: ComicReadRuleEnum
 
   @ValidateNumber({
-    description: '购买金额（分为单位）',
+    description: '所需积分',
     example: 1000,
     required: false,
     min: 0,
@@ -617,7 +617,7 @@ export class UpdateComicNewDto extends PickType(BaseComicDto, ['isNew']) {
 /**
  * 批量操作状态DTO
  */
-export class BatchOperationStatusIdsDto {
+export class BatchEnabledDto {
   @ValidateArray({
     description: 'ID列表',
     itemType: 'number',

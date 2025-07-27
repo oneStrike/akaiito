@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { BatchOperationStatusIdsDto, CountDto } from '@/common/dto/batch.dto'
+import { BatchEnabledDto, CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { OrderDto } from '@/common/dto/order.dto'
 import { WorkCategoryService } from './category.service'
@@ -77,7 +77,7 @@ export class WorkCategoryController {
     summary: '批量更新分类状态',
     model: CountDto,
   })
-  async updateStatus(@Body() body: BatchOperationStatusIdsDto) {
+  async updateStatus(@Body() body: BatchEnabledDto) {
     return this.categoryService.updateCategoryStatus(body)
   }
 

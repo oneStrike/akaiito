@@ -14,8 +14,6 @@ model WorkComicVersion {
   description     String?   @db.Text
   /// 是否为推荐版本
   isRecommended   Boolean   @default(false) @map("is_recommended")
-  /// 是否启用
-  isEnabled       Boolean   @default(true) @map("is_enabled")
   /// 发布状态
   isPublished     Boolean   @default(false) @map("is_published")
   /// 发布时间
@@ -34,7 +32,7 @@ model WorkComicVersion {
   ratingCount     Int       @default(0) @map("rating_count") @db.Integer
   /// 查看规则（0=所有人, 1=登录用户, 2=会员, 3=积分购买）
   readRule        Int       @default(0) @map("read_rule") @db.SmallInt
-  /// 购买需要消耗的金额（分为单位）
+  /// 购买需要消耗的积分
   purchaseAmount  Int       @default(0) @map("purchase_amount")
   /// 版权信息
   copyright       String?   @db.VarChar(500)
@@ -63,7 +61,7 @@ model WorkComicVersion {
   @@index([comicId]) // 外键索引
   @@index([language]) // 按语言和地区查询
   @@index([isPublished, publishAt]) // 查询已发布版本
-  @@index([isEnabled, isRecommended]) // 查询推荐版本
+  @@index([isRecommended]) // 查询推荐版本
   @@index([totalViews]) // 按阅读量排序
   @@index([favoriteCount]) // 按收藏数排序
   @@index([rating, ratingCount]) // 按评分排序

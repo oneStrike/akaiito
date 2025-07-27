@@ -2,6 +2,7 @@
   import type { ComicDetailResponse } from '@/apis/types/comic'
   import type { ComicVersionDetailResponse } from '@/apis/types/comic-version'
   import {
+    batchUpdateVersionPublishStatusApi,
     comicVersionDetailApi,
     comicVersionPageApi,
     createComicVersionApi,
@@ -83,10 +84,10 @@
   }
 
   // 打开版本详情
-  async function openVersionDetail({ row }: ComicVersionDetailResponse) {
+  async function openVersionDetail(id: number) {
     detailLoading.value = true
     try {
-      versionDetail.value = await comicVersionDetailApi({ id: row.id })
+      versionDetail.value = await comicVersionDetailApi({ id })
       detailModal.value = true
     } catch (error) {
       useMessage.error('获取版本详情失败')
@@ -100,18 +101,13 @@
     return rating ? rating.toFixed(1) : '-'
   }
 
-  // 格式化金额显示（分转元）
-  const formatAmount = (amount?: number | null) => {
-    return amount ? (amount / 100).toFixed(2) : '0.00'
-  }
-
   // 获取阅读规则文本
-  const getReadRuleText = (rule: number, amount?: number | null) => {
+  const getReadRuleText = (rule: number, purchaseAmount?: number | null) => {
     const ruleMap: Record<number, string> = {
       0: '公开',
       1: '登录',
       2: '会员',
-      3: `购买（${formatAmount(amount)}元）`,
+      3: `购买（${purchaseAmount}积分）`,
     }
     return ruleMap[rule] || '未知'
   }
@@ -127,10 +123,62 @@
       :toolbar="[toolbar![0]]"
       :filter="versionFilter"
       @toolbar-handler="openForm()"
-      @link="openVersionDetail"
     >
+      <template #versionName="{ row, value }">
+        <div class="flex items-center justify-center gap-1">
+          <el-text
+            type="primary"
+            class="cursor-pointer"
+            @click="openVersionDetail(row.id)"
+          >
+            {{ value }}
+          </el-text>
+          <el-tag
+            v-if="row.isRecommended"
+            size="small"
+            type="success"
+            effect="dark"
+          >
+            荐
+          </el-tag>
+        </div>
+      </template>
+
       <template #language="{ row }">
         <span>{{ dataDict.work_language[row.language] }}</span>
+      </template>
+
+      <template #isPublished="{ row }">
+        <EsSwitch
+          :request="batchUpdateVersionPublishStatusApi"
+          :row="row"
+          field="isPublished"
+          ids
+          @success="tableRef?.refresh()"
+        />
+      </template>
+
+      <template #rating="{ value }">
+        <el-tag :type="value > 5 ? 'success' : 'warning'" size="small">
+          {{ value }}
+        </el-tag>
+      </template>
+
+      <template #readRule="{ row }">
+        <el-tag
+          :type="
+            row.readRule === 0
+              ? 'success'
+              : row.readRule === 1
+                ? 'info'
+                : row.readRule === 2
+                  ? 'warning'
+                  : 'danger'
+          "
+          size="small"
+        >
+          {{ getReadRuleText(row.readRule, row.purchaseAmount) }}
+        </el-tag>
       </template>
 
       <template #action="{ row }">

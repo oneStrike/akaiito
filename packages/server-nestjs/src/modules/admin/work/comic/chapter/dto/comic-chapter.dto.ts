@@ -86,7 +86,7 @@ export class BaseComicChapterDto {
   readRule!: ChapterReadRuleEnum
 
   @ValidateNumber({
-    description: '购买需要消耗的金额（分为单位）',
+    description: '购买需要消耗的积分',
     example: 100,
     required: false,
     min: 0,

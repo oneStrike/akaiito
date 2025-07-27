@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
+import { BatchEnabledDto } from '@/common/dto/batch.dto'
 import { BaseRepositoryService } from '@/global/services/base-repository.service'
 import { PrismaService } from '@/global/services/prisma.service'
 import { WorkAuthorWhereInput } from '@/prisma/client/models/WorkAuthor'
@@ -178,7 +178,7 @@ export class WorkAuthorService extends BaseRepositoryService<'WorkAuthor'> {
    * @param updateAuthorStatusDto 批量更新状态的数据
    * @returns 更新结果
    */
-  async updateAuthorStatus(updateAuthorStatusDto: BatchOperationStatusIdsDto) {
+  async updateAuthorStatus(updateAuthorStatusDto: BatchEnabledDto) {
     const { ids, isEnabled } = updateAuthorStatusDto
 
     return this.updateMany({

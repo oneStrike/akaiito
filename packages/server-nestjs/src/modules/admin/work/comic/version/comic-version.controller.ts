@@ -1,17 +1,16 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { ApiDoc, ApiPageDoc } from '@/common/decorators/api-doc.decorator'
-import { CountDto } from '@/common/dto/batch.dto'
+import { BatchPublishDto, CountDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { WorkComicVersionService } from './comic-version.service'
 import {
+  BaseComicVersionDto,
   ComicVersionDetailResponseDto,
-  ComicVersionPageResponseDto,
   CreateComicVersionDto,
   QueryComicVersionDto,
   UpdateComicVersionDto,
   UpdateVersionEnabledStatusDto,
-  UpdateVersionPublishStatusDto,
   UpdateVersionRecommendedStatusDto,
 } from './dto/comic-version.dto'
 
@@ -42,7 +41,7 @@ export class WorkComicVersionController {
   @Get('/comic-version-page')
   @ApiPageDoc({
     summary: '分页查询漫画版本列表',
-    model: ComicVersionPageResponseDto,
+    model: BaseComicVersionDto,
   })
   async getPage(@Query() query: QueryComicVersionDto) {
     return this.comicVersionService.getComicVersionPage(query)
@@ -80,7 +79,7 @@ export class WorkComicVersionController {
     summary: '批量更新版本发布状态',
     model: CountDto,
   })
-  async updatePublishStatus(@Body() body: UpdateVersionPublishStatusDto) {
+  async updatePublishStatus(@Body() body: BatchPublishDto) {
     return this.comicVersionService.updateMany({
       where: {
         id: { in: body.ids },

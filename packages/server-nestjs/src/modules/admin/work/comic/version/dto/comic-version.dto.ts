@@ -12,7 +12,7 @@ import {
   ValidateNumber,
   ValidateString,
 } from '@/common/decorators/validate.decorator'
-import { BatchOperationStatusIdsDto } from '@/common/dto/batch.dto'
+import { BatchEnabledDto } from '@/common/dto/batch.dto'
 import { IdDto } from '@/common/dto/id.dto'
 import { PageDto } from '@/common/dto/page.dto'
 import { VersionReadRuleEnum } from '../comic-version.constant'
@@ -75,14 +75,6 @@ export class BaseComicVersionDto {
     default: false,
   })
   isRecommended!: boolean
-
-  @ValidateBoolean({
-    description: '是否启用',
-    example: true,
-    required: true,
-    default: true,
-  })
-  isEnabled!: boolean
 
   @ValidateBoolean({
     description: '发布状态',
@@ -161,7 +153,7 @@ export class BaseComicVersionDto {
   readRule!: VersionReadRuleEnum
 
   @ValidateNumber({
-    description: '购买需要消耗的金额（分为单位）',
+    description: '购买需要消耗的积分',
     example: 100,
     required: true,
     min: 0,
@@ -228,7 +220,6 @@ export class CreateComicVersionDto extends OmitType(BaseComicVersionDto, [
   'ratingCount',
   'createdAt',
   'updatedAt',
-  'isEnabled',
   'isPublished',
   'sortOrder',
 ]) {}
@@ -263,7 +254,6 @@ export class QueryComicVersionDto extends IntersectionType(
     'language',
     'translatorGroup',
     'isRecommended',
-    'isEnabled',
     'isPublished',
     'readRule',
   ]),
@@ -294,7 +284,7 @@ export class QueryComicVersionDto extends IntersectionType(
 /**
  * 批量更新版本发布状态DTO
  */
-export class UpdateVersionPublishStatusDto extends BatchOperationStatusIdsDto {
+export class UpdateVersionPublishStatusDto extends BatchEnabledDto {
   @ValidateBoolean({
     description: '发布状态',
     example: true,
@@ -306,7 +296,7 @@ export class UpdateVersionPublishStatusDto extends BatchOperationStatusIdsDto {
 /**
  * 批量更新版本推荐状态DTO
  */
-export class UpdateVersionRecommendedStatusDto extends BatchOperationStatusIdsDto {
+export class UpdateVersionRecommendedStatusDto extends BatchEnabledDto {
   @ValidateBoolean({
     description: '推荐状态',
     example: true,
@@ -318,7 +308,7 @@ export class UpdateVersionRecommendedStatusDto extends BatchOperationStatusIdsDt
 /**
  * 批量更新版本启用状态DTO
  */
-export class UpdateVersionEnabledStatusDto extends BatchOperationStatusIdsDto {}
+export class UpdateVersionEnabledStatusDto extends BatchEnabledDto {}
 
 /**
  * 批量更新版本查看规则DTO
@@ -340,15 +330,6 @@ export class UpdateVersionReadRuleDto {
   })
   readRule!: VersionReadRuleEnum
 }
-
-/**
- * 漫画版本分页响应DTO
- */
-export class ComicVersionPageResponseDto extends OmitType(BaseComicVersionDto, [
-  'description',
-  'disclaimer',
-  'remark',
-]) {}
 
 /**
  * 漫画版本详情响应DTO

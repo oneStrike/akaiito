@@ -79,7 +79,6 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
       language,
       translatorGroup,
       isRecommended,
-      isEnabled,
       isPublished,
       readRule,
     } = queryComicVersionDto
@@ -118,11 +117,6 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
       where.isRecommended = isRecommended
     }
 
-    // 启用状态筛选
-    if (typeof isEnabled === 'boolean') {
-      where.isEnabled = isEnabled
-    }
-
     // 发布状态筛选
     if (typeof isPublished === 'boolean') {
       where.isPublished = isPublished
@@ -140,6 +134,11 @@ export class WorkComicVersionService extends BaseRepositoryService<'WorkComicVer
         disclaimer: true,
         remark: true,
         deletedAt: true,
+        copyright: true,
+        favoriteCount: true,
+        likeCount: true,
+        ratingCount: true,
+        totalViews: true,
       },
       include: {
         comic: {
