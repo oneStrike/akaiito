@@ -179,47 +179,33 @@
       @toolbar-handler="toolbarHandler"
     >
       <template #name="{ row }">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center justify-center gap-1">
           <el-button
             link
             type="primary"
-            class="font-medium text-left hover:text-blue-600 transition-colors duration-200"
             @click="((currentComic = row), (detailModal = true))"
           >
             <span class="line-clamp-2 max-w-32">{{ row.name }}</span>
           </el-button>
-          <div class="flex flex-col gap-1">
-            <el-tag
-              v-if="row.isNew"
-              size="small"
-              type="danger"
-              effect="dark"
-              class="text-xs px-1.5 py-0.5 rounded-full"
-            >
-              新作
+          <div class="flex gap-1">
+            <el-tag v-if="row.isNew" size="small" type="danger" effect="dark">
+              新
             </el-tag>
-            <el-tag
-              v-if="row.isHot"
-              size="small"
-              type="warning"
-              effect="dark"
-              class="text-xs px-1.5 py-0.5 rounded-full"
-            >
-              热门
+            <el-tag v-if="row.isHot" size="small" type="warning" effect="dark">
+              热
             </el-tag>
             <el-tag
               v-if="row.isRecommended"
               size="small"
               type="success"
               effect="dark"
-              class="text-xs px-1.5 py-0.5 rounded-full"
             >
-              推荐
+              荐
             </el-tag>
           </div>
         </div>
       </template>
-      
+
       <template #isFinished="{ row }">
         <div class="flex items-center justify-center">
           <el-tag
@@ -238,100 +224,79 @@
           </el-tag>
         </div>
       </template>
-      
+
       <template #cover="{ row }">
-        <div class="flex justify-center">
-          <div class="relative group cursor-pointer">
-            <el-image
-              fit="cover"
-              class="w-10 h-14 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:scale-105"
-              :src="row.cover"
-              :preview-src-list="row.cover ? [row.cover] : []"
-              :z-index="999999"
-              preview-teleported
-            >
-              <template #error>
-                <div
-                  class="w-10 h-14 bg-gray-100 rounded-lg flex items-center justify-center"
-                >
-                  <i class="i-tabler-photo text-gray-400 text-lg" />
-                </div>
-              </template>
-            </el-image>
-            <div
-              class="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-lg transition-all duration-300 flex items-center justify-center"
-            >
-              <i
-                class="i-tabler-eye text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              />
-            </div>
-          </div>
-        </div>
+        <el-image
+          fit="cover"
+          class="w-10 h-14 rounded-sm"
+          :src="row.cover"
+          :preview-src-list="row.cover ? [row.cover] : []"
+          :z-index="999999"
+          preview-teleported
+        />
       </template>
 
       <template #authorIds="{ row }">
-        <div
-          v-if="row.comicAuthors && row.comicAuthors.length > 0"
-          class="flex justify-center flex-wrap gap-1.5 max-w-48"
+        <el-tag
+          v-for="comicAuthor in row.comicAuthors"
+          :key="comicAuthor.authorId"
+          size="small"
+          class="cursor-pointer"
+          @click="openAuthorDetail(comicAuthor)"
         >
-          <el-tag
-            v-for="comicAuthor in row.comicAuthors"
-            :key="comicAuthor.authorId"
-            size="small"
-            class="cursor-pointer transition-all duration-200 hover:scale-105 shadow-sm"
-            :class="{
-              'bg-gradient-to-r from-blue-500 to-blue-600 text-white border-blue-500 hover:from-blue-600 hover:to-blue-700':
-                comicAuthor.isPrimary,
-              'bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 border-gray-300 hover:from-gray-200 hover:to-gray-300':
-                !comicAuthor.isPrimary,
-            }"
-            @click="openAuthorDetail(comicAuthor)"
-          >
-            <i
-              :class="
-                comicAuthor.isPrimary ? 'i-tabler-crown' : 'i-tabler-user'
-              "
-              class="mr-1 text-xs"
-            />
-            {{ comicAuthor?.name }}
-          </el-tag>
-        </div>
-        <div v-else class="flex justify-center">
-          <span class="text-gray-400 text-sm italic">暂无作者</span>
-        </div>
+          <i
+            :class="comicAuthor.isPrimary ? 'i-tabler-crown' : 'i-tabler-user'"
+            class="mr-1 text-xs"
+          />
+          {{ comicAuthor?.name }}
+        </el-tag>
       </template>
 
-      <template #categories="{ row }">
+      <template #categoryIds="{ row }">
         <div
           v-if="row.comicCategories && row.comicCategories.length > 0"
-          class="flex flex-wrap gap-1.5 justify-center max-w-48"
+          class="flex flex-wrap gap-1.5 justify-center items-center"
         >
           <el-tag
             v-for="comicCategory in row.comicCategories"
             :key="comicCategory.categoryId"
             size="small"
-            class="transition-all duration-200 hover:scale-105 shadow-sm rounded-full px-2"
-            :class="{
-              'bg-gradient-to-r from-purple-500 to-purple-600 text-white border-purple-500':
-                comicCategory.isPrimary,
-              'bg-gradient-to-r from-indigo-100 to-indigo-200 text-indigo-700 border-indigo-300':
-                !comicCategory.isPrimary,
-            }"
           >
-            <i
-              :class="
-                comicCategory.isPrimary
-                  ? 'i-tabler-star-filled'
-                  : 'i-tabler-tag'
-              "
-              class="mr-1 text-xs"
-            />
-            {{ comicCategory.category?.name }}
+            {{ comicCategory?.name }}
           </el-tag>
         </div>
-        <div v-else class="flex justify-center">
-          <span class="text-gray-400 text-sm italic">暂无分类</span>
-        </div>
+      </template>
+
+      <template #readRule="{ row, value }">
+        <el-tag
+          :type="
+            row.readRule === 0
+              ? 'success'
+              : row.readRule === 1
+                ? 'info'
+                : row.readRule === 2
+                  ? 'warning'
+                  : 'danger'
+          "
+          size="small"
+        >
+          {{ value }}
+        </el-tag>
+      </template>
+
+      <template #serialStatus="{ row, value }">
+        <el-tag
+          :type="
+            row.serialStatus === 1
+              ? 'success'
+              : row.serialStatus === 2
+                ? 'info'
+                : 'warning'
+          "
+          size="small"
+        >
+          {{ value }}
+        </el-tag>
       </template>
 
       <template #isPublished="{ row }">
@@ -341,75 +306,31 @@
               :row="row"
               :request="batchUpdateComicStatusApi"
               field="isPublished"
-              class="transition-all duration-200 hover:scale-105"
-              @success="tableRef?.reset()"
+              ids
+              @success="tableRef?.refresh()"
             />
-            <div class="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
-              <span
-                :class="{
-                  'text-green-600 font-medium': row.isPublished,
-                  'text-gray-400': !row.isPublished,
-                }"
-                class="text-xs whitespace-nowrap"
-              >
-                {{ row.isPublished ? '已发布' : '未发布' }}
-              </span>
-            </div>
           </div>
         </div>
       </template>
-      
+
       <template #action="{ row }">
-        <div class="flex items-center justify-center gap-1">
-          <el-tooltip content="管理版本" placement="top">
-            <el-button
-              link
-              type="primary"
-              size="small"
-              class="hover:bg-blue-50 px-2 py-1 rounded transition-all duration-200"
-              @click="openVersion(row)"
-            >
-              <i class="i-tabler-versions mr-1" />
-              版本
-            </el-button>
-          </el-tooltip>
+        <div class="flex items-center justify-center">
+          <el-button link type="primary" @click="openVersion(row)">
+            版本
+          </el-button>
+          <el-divider direction="vertical" />
 
-          <el-divider direction="vertical" class="mx-1" />
-
-          <el-tooltip content="编辑漫画" placement="top">
-            <el-button
-              link
-              type="primary"
-              size="small"
-              class="hover:bg-blue-50 px-2 py-1 rounded transition-all duration-200"
-              @click="editRow(row)"
-            >
-              <i class="i-tabler-edit mr-1" />
-              编辑
-            </el-button>
-          </el-tooltip>
-
-          <el-divider direction="vertical" class="mx-1" />
-
-          <el-tooltip content="删除漫画" placement="top">
-            <es-pop-confirm
-              :request="deleteComicApi"
-              :row="row"
-              @success="tableRef?.refresh()"
-            >
-              <template #reference>
-                <el-button
-                  link
-                  type="danger"
-                  size="small"
-                  class="hover:bg-red-50 px-2 py-1 rounded transition-all duration-200"
-                >
-                  <i class="i-tabler-trash mr-1" />
-                  删除
-                </el-button>
-              </template>
-            </es-pop-confirm>
-          </el-tooltip>
+          <el-button link type="primary" @click="editRow(row)">编辑</el-button>
+          <el-divider direction="vertical" />
+          <es-pop-confirm
+            :request="deleteComicApi"
+            :row="row"
+            @success="tableRef?.refresh()"
+          >
+            <template #reference>
+              <el-button link type="danger" size="small">删除</el-button>
+            </template>
+          </es-pop-confirm>
         </div>
       </template>
     </EsTable>
