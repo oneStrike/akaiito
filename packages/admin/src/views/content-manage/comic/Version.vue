@@ -29,8 +29,6 @@
     {},
   )
 
-  console.log(props.dataDict)
-
   const tableRef = useTemplateRef('table')
   const tableParams = ref({
     comicId: props.comic.id,

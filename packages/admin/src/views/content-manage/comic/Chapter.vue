@@ -70,12 +70,15 @@
       val.id = currentRecord.value.id
       await updateComicChapterApi(val)
       useMessage.success(PromptsEnum.UPDATED)
+      tableRef.value?.reset()
     } else {
       await createComicChapterApi(val)
       useMessage.success(PromptsEnum.CREATED)
+      tableRef.value?.refresh()
     }
     formModal.show = false
     formModal.loading = false
+    tableRef.value?.refresh()
   }
 
   async function editContent(row: Row) {
@@ -152,13 +155,29 @@
       @toolbar-handler="openForm()"
       @link="openChapterDetail"
     >
-      <template #isPublish="{ row }">
+      <template #isPublished="{ row }">
         <EsSwitch
           :row="row"
           :request="updateComicChapterApi"
-          field="isPublish"
+          field="isPublished"
           @success="tableRef?.refresh()"
         />
+      </template>
+      <template #readRule="{ row }">
+        <el-tag
+          :type="
+            row.readRule === 0
+              ? 'success'
+              : row.readRule === 1
+                ? 'info'
+                : row.readRule === 2
+                  ? 'warning'
+                  : 'danger'
+          "
+          size="small"
+        >
+          {{ getReadRuleText(row.readRule, row.purchaseAmount) }}
+        </el-tag>
       </template>
       <template #action="{ row }">
         <el-button link type="primary" @click="editContent(row)">

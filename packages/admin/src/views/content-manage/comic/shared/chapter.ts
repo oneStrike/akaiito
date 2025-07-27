@@ -95,6 +95,7 @@ export const chapterFormOptions: EsFormOptions[] = [
       rules: useValidate.required('试读章节'),
     },
     componentProps: {
+      defaultValue: false,
       placeholder: '请选择是否为试读章节',
       options: [
         {
@@ -124,11 +125,12 @@ export const chapterFormOptions: EsFormOptions[] = [
 
 export const chapterColumn: EsTableColumn = formOptionsToTableColumn(
   chapterFormOptions,
-  ['remark'],
+  ['remark', 'purchaseAmount'],
   {
     title: {
       columnType: 'link',
     },
+
     isPreview: {
       label: '试读章节',
     },

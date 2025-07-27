@@ -6,6 +6,7 @@
   } from '@/components/es-table/types'
   import Sortable from 'sortablejs'
   import defaultImage from '@/assets/images/image.svg'
+  import { utils } from '@/utils'
 
   // ==================== 组件属性定义 ====================
   const props = withDefaults(defineProps<EsTableProps>(), {
@@ -139,9 +140,10 @@
    * @param subParams 可选的额外查询参数
    */
   const refresh = (subParams?: IterateObject) => {
-    if (subParams && Object.keys(subParams).length > 0) {
+    const validatedSubParams = utils._.omitBy(subParams, utils._.isUndefined)
+    if (!utils._.isEmpty(validatedSubParams)) {
       // 如果传入了参数，则合并到查询参数中（会触发watch重新获取数据）
-      Object.assign(params.value, subParams)
+      Object.assign(params.value, validatedSubParams)
     } else {
       // 如果使用静态数据，重新分页；否则调用API
       if (props.tableData && originalStaticData.value.length > 0) {
@@ -246,14 +248,14 @@
    * 重置表格数据和分页
    * 回到第一页，保留每页条数设置，重置工具栏筛选条件
    */
-  const reset = () => {
+  const reset = (resetFilter = true) => {
     // 重置分页参数，保留pageSize
     otherParams.value = {
       pageIndex: 0,
       pageSize: otherParams.value.pageSize || 15,
     }
     // 重置toolbar的筛选表单
-    if (toolbarRef.value?.resetFilter) {
+    if (toolbarRef.value?.resetFilter && resetFilter) {
       toolbarRef.value.resetFilter()
     }
 
@@ -271,6 +273,7 @@
    * @param values 查询参数
    */
   function filterQuery(values: IterateObject) {
+    console.log('🚀 ~ filterQuery ~ values:', values)
     if (values.dateTimePicker) {
       values.dateTimePicker = [
         (values.startDate = values.dateTimePicker[0]),
@@ -472,7 +475,7 @@
       :toolbar="toolbar"
       :filter="filter"
       :selected="!!selectedRecords?.length"
-      @reset="filterQuery"
+      @reset="reset(false)"
       @query="filterQuery"
       @handler="(val) => emits('toolbarHandler', val)"
     />

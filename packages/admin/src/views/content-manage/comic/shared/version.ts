@@ -139,11 +139,6 @@ export const versionColumn: EsTableColumn = formOptionsToTableColumn(
     'isRecommended',
   ],
   {
-    isPublished: {
-      label: '发布状态',
-      width: 100,
-      align: 'center',
-    },
     rating: {
       label: '评分',
       width: 100,
@@ -151,6 +146,11 @@ export const versionColumn: EsTableColumn = formOptionsToTableColumn(
     },
     versionName: {
       columnType: 'link',
+    },
+    isPublished: {
+      label: '发布状态',
+      width: 100,
+      align: 'center',
     },
     action: {
       width: 160,
