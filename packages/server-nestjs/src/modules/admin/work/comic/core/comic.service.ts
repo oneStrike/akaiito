@@ -194,6 +194,7 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         readRule: true,
         isHot: true,
         isNew: true,
+        isRecommended: true,
         createdAt: true,
         updatedAt: true,
         publishAt: true,
@@ -211,6 +212,16 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
             },
           },
         },
+        comicCategories: {
+          select: {
+            category: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
     })
     pageData.list = pageData.list.map((item) => ({
@@ -220,6 +231,9 @@ export class WorkComicService extends BaseRepositoryService<'WorkComic'> {
         roleType: author.roleType,
         isPrimary: author.isPrimary,
         sortOrder: author.sortOrder,
+      })),
+      comicCategories: item.comicCategories.map((category) => ({
+        ...category.category,
       })),
     }))
     return pageData

@@ -421,7 +421,6 @@ export const formOptions: EsFormOptions[] = [
 export const tableColumn: EsTableColumn = formOptionsToTableColumn(
   formOptions,
   [
-    'categoryIds',
     'publisher',
     'originalSource',
     'ageRating',
@@ -438,15 +437,29 @@ export const tableColumn: EsTableColumn = formOptionsToTableColumn(
     'copyright',
     'description',
     'remark',
+    'isHot',
+    'isNew',
+    'isRecommended',
   ],
   {
     cover: {
+      width: 100,
       index: 0,
     },
     publishAt: {
+      width: 100,
       formatter: (row: any) => {
         return row.publishAt ? row.publishAt.split('T')[0] : '-'
       },
+    },
+    authorIds: {
+      width: 100,
+    },
+    readRule: {
+      width: 100,
+    },
+    serialStatus: {
+      width: 100,
     },
     action: {
       width: 160,

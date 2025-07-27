@@ -190,7 +190,7 @@
                   {{ getSerialStatusText(comicDetail.serialStatus) }}
                 </el-tag>
               </el-descriptions-item>
-              <el-descriptions-item label="阅读规则">
+              <el-descriptions-item label="浏览权限">
                 <el-tag
                   :type="
                     comicDetail.readRule === 0

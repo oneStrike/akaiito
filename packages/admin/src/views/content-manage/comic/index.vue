@@ -179,23 +179,70 @@
       @toolbar-handler="toolbarHandler"
     >
       <template #name="{ row }">
-        <el-button
-          link
-          type="primary"
-          @click="((currentComic = row), (detailModal = true))"
-        >
-          {{ row.name }}
-        </el-button>
+        <div class="flex items-center justify-center gap-2">
+          <el-button
+            link
+            type="primary"
+            class="font-medium text-left hover:text-blue-600 transition-colors duration-200"
+            @click="((currentComic = row), (detailModal = true))"
+          >
+            <span class="line-clamp-2 max-w-32">{{ row.name }}</span>
+          </el-button>
+          <div class="flex gap-1">
+            <el-tag
+              v-if="row.isNew"
+              size="small"
+              type="danger"
+              effect="dark"
+              class="text-xs px-1.5 py-0.5 rounded-full"
+            >
+              新
+            </el-tag>
+            <el-tag
+              v-if="row.isHot"
+              size="small"
+              type="warning"
+              effect="dark"
+              class="text-xs px-1.5 py-0.5 rounded-full"
+            >
+              热
+            </el-tag>
+            <el-tag
+              v-if="row.isRecommended"
+              size="small"
+              type="success"
+              effect="dark"
+              class="text-xs px-1.5 py-0.5 rounded-full"
+            >
+              荐
+            </el-tag>
+          </div>
+        </div>
       </template>
+
       <template #isFinished="{ row }">
-        <el-text :type="row.isFinished ? 'success' : 'danger'">
-          {{ row.isFinished ? '已完结' : '连载中' }}
-        </el-text>
+        <div class="flex items-center justify-center">
+          <el-tag
+            :type="row.isFinished ? 'success' : 'warning'"
+            :effect="row.isFinished ? 'dark' : 'plain'"
+            size="small"
+            class="px-3 py-1 rounded-full font-medium shadow-sm"
+          >
+            <i
+              :class="
+                row.isFinished ? 'i-tabler-check-circle' : 'i-tabler-clock'
+              "
+              class="mr-1 text-xs"
+            />
+            {{ row.isFinished ? '已完结' : '连载中' }}
+          </el-tag>
+        </div>
       </template>
+
       <template #cover="{ row }">
         <el-image
           fit="cover"
-          class="align-middle w-8 h-12"
+          class="w-10 h-14 rounded-sm"
           :src="row.cover"
           :preview-src-list="row.cover ? [row.cover] : []"
           :z-index="999999"
@@ -204,60 +251,80 @@
       </template>
 
       <template #authorIds="{ row }">
-        <div
-          v-if="row.comicAuthors && row.comicAuthors.length > 0"
-          class="flex justify-center flex-wrap gap-1"
+        <el-tag
+          v-for="comicAuthor in row.comicAuthors"
+          :key="comicAuthor.authorId"
+          size="small"
+          class="cursor-pointer"
+          @click="openAuthorDetail(comicAuthor)"
         >
-          <el-tag
-            v-for="comicAuthor in row.comicAuthors"
-            :key="comicAuthor.authorId"
-            size="small"
-            class="ml-1 cursor-pointer"
-            :type="comicAuthor.isPrimary ? 'primary' : 'info'"
-            @click="openAuthorDetail(comicAuthor)"
-          >
-            {{ comicAuthor?.name }}
-          </el-tag>
-        </div>
+          <i
+            :class="comicAuthor.isPrimary ? 'i-tabler-crown' : 'i-tabler-user'"
+            class="mr-1 text-xs"
+          />
+          {{ comicAuthor?.name }}
+        </el-tag>
       </template>
 
-      <template #categories="{ row }">
+      <template #categoryIds="{ row }">
         <div
           v-if="row.comicCategories && row.comicCategories.length > 0"
-          class="flex flex-wrap gap-1"
+          class="flex flex-wrap gap-1.5 justify-center items-center"
         >
           <el-tag
             v-for="comicCategory in row.comicCategories"
             :key="comicCategory.categoryId"
             size="small"
-            :type="comicCategory.isPrimary ? 'primary' : 'info'"
           >
-            {{ comicCategory.category?.name }}
+            {{ comicCategory?.name }}
           </el-tag>
         </div>
-        <span v-else class="text-gray-400">暂无分类</span>
       </template>
 
       <template #isPublished="{ row }">
-        <EsSwitch
-          :row="row"
-          :request="batchUpdateComicStatusApi"
-          field="isPublished"
-          @success="tableRef?.reset()"
-        />
+        <div class="flex justify-center">
+          <div class="relative">
+            <EsSwitch
+              :row="row"
+              :request="batchUpdateComicStatusApi"
+              field="isPublished"
+              class="transition-all duration-200 hover:scale-105"
+              @success="tableRef?.reset()"
+            />
+            <div class="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
+              <span
+                :class="{
+                  'text-green-600 font-medium': row.isPublished,
+                  'text-gray-400': !row.isPublished,
+                }"
+                class="text-xs whitespace-nowrap"
+              >
+                {{ row.isPublished ? '已发布' : '未发布' }}
+              </span>
+            </div>
+          </div>
+        </div>
       </template>
+
       <template #action="{ row }">
-        <el-button link type="primary" @click="openVersion(row)">
-          版本
-        </el-button>
-        <el-divider direction="vertical" />
-        <el-button link type="primary" @click="editRow(row)">编辑</el-button>
-        <el-divider direction="vertical" />
-        <es-pop-confirm
-          :request="deleteComicApi"
-          :row="row"
-          @success="tableRef?.refresh()"
-        />
+        <div class="flex items-center justify-center">
+          <el-button link type="primary" @click="openVersion(row)">
+            版本
+          </el-button>
+          <el-divider direction="vertical" />
+
+          <el-button link type="primary" @click="editRow(row)">编辑</el-button>
+          <el-divider direction="vertical" />
+          <es-pop-confirm
+            :request="deleteComicApi"
+            :row="row"
+            @success="tableRef?.refresh()"
+          >
+            <template #reference>
+              <el-button link type="danger" size="small">删除</el-button>
+            </template>
+          </es-pop-confirm>
+        </div>
       </template>
     </EsTable>
 
@@ -295,5 +362,3 @@
     />
   </div>
 </template>
-
-<style scoped></style>
