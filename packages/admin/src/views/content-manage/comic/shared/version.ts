@@ -1,6 +1,7 @@
 import type { EsFormOptions } from '@/components/es-form/types.ts'
 import type { EsTableColumn } from '@/components/es-table/types.ts'
 import { useValidate } from '@/hooks/useValidate.ts'
+import { formOptionsToFilterOptions } from '@/utils/formOptionsToFilterOptions'
 import { formOptionsToTableColumn } from '@/utils/formOptionsToTableColumn.ts'
 import { readRule } from '@/views/content-manage/comic/shared/common.ts'
 
@@ -139,3 +140,9 @@ export const versionColumn: EsTableColumn = formOptionsToTableColumn(
     },
   },
 )
+
+export const versionFilter = formOptionsToFilterOptions(versionForm, {
+  isRecommended: 4,
+  readRule: 4,
+  versionName: 4,
+})

@@ -12,6 +12,7 @@
   import { toolbar } from '@/views/content-manage/comic/shared/comic.ts'
   import {
     versionColumn,
+    versionFilter,
     versionForm,
   } from '@/views/content-manage/comic/shared/version.ts'
   import Chapter from './Chapter.vue'
@@ -124,6 +125,7 @@
       :request-api="comicVersionPageApi"
       :columns="versionColumn"
       :toolbar="[toolbar![0]]"
+      :filter="versionFilter"
       @toolbar-handler="openForm()"
       @link="openVersionDetail"
     >
@@ -150,7 +152,12 @@
       </template>
     </EsTable>
 
-    <Chapter v-if="chapterModal" v-model:show="chapterModal" :comic="comic" />
+    <Chapter
+      v-if="chapterModal"
+      v-model:show="chapterModal"
+      :comic="comic"
+      :comic-version="currentRow!"
+    />
 
     <EsModalForm
       v-if="formModal.show"

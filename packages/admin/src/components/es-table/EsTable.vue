@@ -139,7 +139,7 @@
    * @param subParams 可选的额外查询参数
    */
   const refresh = (subParams?: IterateObject) => {
-    if (subParams) {
+    if (subParams && Object.keys(subParams).length > 0) {
       // 如果传入了参数，则合并到查询参数中（会触发watch重新获取数据）
       Object.assign(params.value, subParams)
     } else {
@@ -528,13 +528,14 @@
                 :show-after="200"
                 placement="top"
               >
-                <el-button
+                <el-text
                   type="primary"
-                  link
+                  line-clamp="1"
+                  class="cursor-pointer"
                   @click="emits('link', { row, field: item.prop })"
                 >
                   {{ row[item.prop!] }}
-                </el-button>
+                </el-text>
               </el-tooltip>
             </template>
             <!-- 日期列：格式化日期显示 -->

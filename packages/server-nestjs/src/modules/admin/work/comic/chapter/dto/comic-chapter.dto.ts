@@ -88,11 +88,11 @@ export class BaseComicChapterDto {
   @ValidateNumber({
     description: '购买需要消耗的金额（分为单位）',
     example: 100,
-    required: true,
+    required: false,
     min: 0,
     default: 0,
   })
-  purchaseAmount!: number
+  purchaseAmount?: number
 
   @ValidateString({
     description: '漫画内容（JSON格式存储图片URL数组）',
@@ -186,6 +186,8 @@ export class CreateComicChapterDto extends OmitType(BaseComicChapterDto, [
   'viewCount',
   'likeCount',
   'commentCount',
+  'isPublished',
+  'contents',
 ]) {}
 
 /**

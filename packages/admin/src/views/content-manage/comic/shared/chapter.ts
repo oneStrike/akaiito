@@ -139,7 +139,7 @@ export const chapterColumn: EsTableColumn = formOptionsToTableColumn(
       },
     },
     action: {
-      width: 160,
+      width: 200,
     },
   },
 )

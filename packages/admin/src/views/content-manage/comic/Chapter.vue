@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import type { ComicDetailResponse } from '@/apis/types/comic'
   import type { ComicChapterDetailResponse } from '@/apis/types/comic-chapter'
+  import type { ComicVersionDetailResponse } from '@/apis/types/comic-version'
   import {
     batchDeleteComicChapterApi,
     comicChapterDetailApi,
@@ -15,8 +16,8 @@
     chapterFilter,
     chapterFormOptions,
   } from '@/views/content-manage/comic/shared/chapter'
-  import { toolbar } from '@/views/content-manage/comic/shared/comic'
 
+  import { toolbar } from '@/views/content-manage/comic/shared/comic'
   import Content from './Content.vue'
 
   type Row = ComicChapterDetailResponse
@@ -28,6 +29,7 @@
   const props = withDefaults(
     defineProps<{
       comic: ComicDetailResponse
+      comicVersion: ComicVersionDetailResponse
     }>(),
     {},
   )
@@ -53,6 +55,7 @@
   const tableRef = useTemplateRef('tableRef')
   const tableParams = reactive({
     comicId: props.comic?.id,
+    versionId: props.comicVersion?.id,
   })
 
   const modalShow = defineModel('show', {
@@ -62,6 +65,7 @@
 
   async function submit(val: any) {
     val.comicId = props.comic?.id
+    val.versionId = props.comicVersion?.id
     if (currentRecord.value?.id) {
       val.id = currentRecord.value.id
       await updateComicChapterApi(val)
@@ -157,7 +161,6 @@
         />
       </template>
       <template #action="{ row }">
-        <el-divider direction="vertical" />
         <el-button link type="primary" @click="editContent(row)">
           内容
         </el-button>
@@ -268,7 +271,7 @@
                 >
                   {{ chapterDetail.relatedVersion.versionName }}
                   <el-tag size="small" type="success" class="ml-1">
-                    {{ chapterDetail.relatedVersion.language }}
+                    {{ comicVersion.versionName }}
                   </el-tag>
                 </el-link>
                 <span v-else class="text-gray-500">-</span>
